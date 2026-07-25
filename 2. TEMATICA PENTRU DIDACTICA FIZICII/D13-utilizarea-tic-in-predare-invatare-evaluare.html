@@ -1,1 +1,1749 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D13 · Utilizarea TIC în predare-învățare-evaluare — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{
+  color:var(--accent);
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.tic-map,
+.eval-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.tic-map,
+.eval-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.tic-map button,
+.eval-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.tic-map button:hover,
+.eval-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.tic-map button.active,
+.eval-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .tic-map,
+  .eval-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .tic-map,
+  .eval-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.digital-demo{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.demo-slider{
+  width:100%;
+  accent-color:var(--accent);
+}
+
+.demo-readout{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:16px;
+}
+
+.demo-readout div{
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:16px;
+}
+
+@media(max-width:700px){
+  .demo-readout{
+    grid-template-columns:1fr;
+  }
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout,
+  .digital-demo{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D13 — TIC</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3.5" y="5" width="17" height="12" rx="2.5" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 20h8M12 17v3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M7 9h5M7 12h9" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Utilizarea TIC în predare-învățare-evaluare
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce înseamnă TIC la fizică?</h2>
+
+      <p>
+        <span class="key"><b>TIC</b></span> înseamnă utilizarea tehnologiei informației și comunicării pentru
+        <b>predare</b>, <b>învățare</b>, <b>investigare</b>, <b>prelucrare de date</b>,
+        <b>comunicare</b> și <b>evaluare</b>.
+      </p>
+
+      <p>
+        La fizică, TIC este valoros atunci când ajută elevul să observe fenomene greu accesibile,
+        să modifice parametri, să colecteze date, să construiască grafice și să formuleze concluzii.
+        <span class="key"><b>TIC nu înlocuiește automat experimentul real</b></span>, ci îl poate completa,
+        pregăti, extinde sau evalua.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="TIC sprijină predarea prin imagini, animații, simulări, prezentări și organizatori cognitivi.">1. Predare</button>
+        <button data-info="TIC sprijină învățarea activă: elevul explorează, modifică parametri, compară și explică.">2. Învățare</button>
+        <button data-info="TIC permite investigații: simulări, senzori, achiziție de date, tabele și grafice.">3. Investigație</button>
+        <button data-info="TIC susține comunicarea produselor: raport, poster digital, prezentare, portofoliu, filmare.">4. Comunicare</button>
+        <button data-info="TIC permite evaluare formativă rapidă: quiz, feedback, rubrici, portofoliu digital.">5. Evaluare</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Predare</h3>
+        <p>TIC sprijină predarea prin imagini, animații, simulări, prezentări și organizatori cognitivi.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>TIC</span>
+          <span>simulare</span>
+          <span>experiment virtual</span>
+          <span>prelucrare de date</span>
+          <span>evaluare digitală</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Funcții didactice</div>
+      <h2>Funcțiile TIC în lecția de fizică</h2>
+
+      <p>
+        TIC se justifică didactic prin funcția pe care o îndeplinește.
+        La examen, nu este suficient să spui „folosesc calculatorul”; trebuie să precizezi
+        <span class="key"><b>rolul didactic</b></span>, <span class="key"><b>sarcina elevului</b></span>
+        și <span class="key"><b>produsul evaluabil</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Funcție</th>
+          <th>Rol</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>informativă</b></span></td>
+          <td>oferă informații, imagini, explicații, organizatori vizuali</td>
+          <td>prezentare despre spectrul electromagnetic</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>intuitivă</b></span></td>
+          <td>face vizibile fenomene greu observabile direct</td>
+          <td>animație a propagării undelor mecanice</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>experimentală</b></span></td>
+          <td>permite explorarea variabilelor și testarea ipotezelor</td>
+          <td>simulare pentru legea lui Ohm sau mișcare rectilinie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>formativă</b></span></td>
+          <td>dezvoltă competențe de analiză, modelare și interpretare</td>
+          <td>construirea graficului \( I(U) \) într-o foaie de calcul</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>evaluativă</b></span></td>
+          <td>oferă feedback rapid și urmărește progresul</td>
+          <td>quiz digital, portofoliu, rubrică de evaluare</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        TIC eficient = funcție didactică + sarcină clară + activitate elev + feedback
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Tipuri de resurse TIC</div>
+      <h2>Ce resurse digitale pot fi folosite?</h2>
+
+      <p>
+        Resursele TIC se aleg în funcție de competența urmărită, conținut, resursele școlii,
+        nivelul clasei și forma de evaluare.
+      </p>
+
+      <div class="tic-map" id="ticMap">
+        <button class="active" data-title="Simulări" data-info="Permit modificarea parametrilor și observarea efectelor: tensiune, rezistență, frecvență, amplitudine, distanță focală.">Simulări</button>
+        <button data-title="Achiziție de date" data-info="Senzorii și interfețele digitale permit măsurători rapide: temperatură, accelerație, lumină, sunet, tensiune.">Senzori</button>
+        <button data-title="Foi de calcul" data-info="Ajută la organizarea datelor, calcularea mărimilor și reprezentarea grafică a dependențelor.">Foi calcul</button>
+        <button data-title="Platforme" data-info="Sprijină comunicarea, tema, feedbackul, portofoliul, quizurile și resursele pentru studiu individual.">Platforme</button>
+      </div>
+
+      <div class="card" id="ticDetail">
+        <h3><span class="dot"></span>Simulări</h3>
+        <p>Permit modificarea parametrilor și observarea efectelor: tensiune, rezistență, frecvență, amplitudine, distanță focală.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Resursă TIC</th>
+          <th>Utilizare didactică</th>
+          <th>Produs evaluabil</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>simulare interactivă</b></span></td>
+          <td>explorarea relației cauză-efect</td>
+          <td>tabel de observații și concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>senzor digital</b></span></td>
+          <td>colectare rapidă de date experimentale</td>
+          <td>grafic și interpretare</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>foaie de calcul</b></span></td>
+          <td>calcul, tabel, grafic, medii, erori</td>
+          <td>fișier cu date și concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>video / animație</b></span></td>
+          <td>vizualizarea fenomenelor rapide sau invizibile</td>
+          <td>răspuns argumentat</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>quiz digital</b></span></td>
+          <td>evaluare formativă și feedback imediat</td>
+          <td>scor, explicații, remediere</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Integrare</div>
+      <h2>Cum integrezi TIC în predare-învățare-evaluare?</h2>
+
+      <p>
+        TIC nu se adaugă decorativ la lecție. Integrarea corectă pornește de la
+        <span class="key"><b>competența urmărită</b></span>, apoi se alege instrumentul și se stabilește
+        ce face concret elevul.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Competența" data-info="Stabilești ce trebuie să poată face elevul: să explice, să măsoare, să modeleze, să interpreteze, să evalueze.">Competență</button>
+        <span class="arrow">→</span>
+        <button data-title="Conținutul" data-info="Analizezi natura conținutului: experimental, grafic, abstract, aplicativ, interdisciplinar.">Conținut</button>
+        <span class="arrow">→</span>
+        <button data-title="Instrumentul TIC" data-info="Alegi simulare, senzor, foaie de calcul, video, platformă, quiz, portofoliu digital.">TIC</button>
+        <span class="arrow">→</span>
+        <button data-title="Sarcina elevului" data-info="Elevul modifică parametri, colectează date, construiește grafic, formulează concluzie, explică sau prezintă.">Sarcină</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluarea" data-info="Verifici produsul: tabel, grafic, explicație, răspuns, raport, quiz, portofoliu.">Evaluare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Competența</h3>
+        <p>Stabilești ce trebuie să poată face elevul: să explice, să măsoare, să modeleze, să interpreteze, să evalueze.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Competență</th>
+          <th>Instrument TIC</th>
+          <th>Sarcină</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>interpretarea unui grafic</td>
+          <td>foaie de calcul</td>
+          <td>construiește graficul \( I(U) \)</td>
+          <td>axe, unități, scară, concluzie</td>
+        </tr>
+        <tr>
+          <td>modelarea unui fenomen</td>
+          <td>simulare</td>
+          <td>modifică parametri și compară rezultate</td>
+          <td>tabel comparativ și explicație</td>
+        </tr>
+        <tr>
+          <td>evaluare formativă</td>
+          <td>quiz digital</td>
+          <td>răspunde și primește feedback</td>
+          <td>analiza răspunsurilor greșite</td>
+        </tr>
+        <tr>
+          <td>comunicare științifică</td>
+          <td>prezentare / portofoliu</td>
+          <td>explică un fenomen și aplicațiile lui</td>
+          <td>rubrică de evaluare</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Predare</div>
+      <h2>TIC în predare</h2>
+
+      <p>
+        În predare, TIC ajută profesorul să organizeze informația, să vizualizeze fenomene
+        și să creeze situații-problemă. Totuși, profesorul trebuie să evite transformarea lecției
+        într-o simplă proiecție de slide-uri.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Utilizări bune</h3>
+          <ul class="remember-list">
+            <li><b>organizator cognitiv</b> la începutul lecției;</li>
+            <li><b>animație scurtă</b> pentru fenomene greu vizibile;</li>
+            <li><b>simulare demonstrativă</b> cu întrebări dirijate;</li>
+            <li><b>video scurt</b> pentru captarea atenției;</li>
+            <li><b>hartă conceptuală</b> pentru sinteză.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Riscuri</h3>
+          <ul class="remember-list">
+            <li><b>pasivizarea elevilor</b> dacă doar privesc;</li>
+            <li><b>supraîncărcare vizuală</b> cu prea multe efecte;</li>
+            <li><b>confuzie conceptuală</b> dacă animația nu este explicată;</li>
+            <li><b>înlocuirea experimentului real</b> fără justificare;</li>
+            <li><b>lipsa evaluării</b> după utilizarea resursei.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Exemplu:</b> pentru refracția luminii, profesorul poate începe cu o imagine sau animație, apoi cere elevilor să identifice raza incidentă, normala, raza refractată și modificarea direcției.
+      </div>
+
+      <div class="formula">
+        Predare cu TIC = vizualizare + întrebare + activitate elev + concluzie
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Învățare</div>
+      <h2>TIC în învățarea activă</h2>
+
+      <p>
+        În învățare, TIC trebuie să pună elevul în situația de a explora, compara, explica
+        și comunica. Elevul nu doar „se uită” la tehnologie, ci lucrează cu ea.
+      </p>
+
+      <ol class="stepline">
+        <li>
+          <b>Elevul primește o sarcină clară.</b>
+          De exemplu: modifică rezistența și observă intensitatea curentului.
+        </li>
+        <li>
+          <b>Elevul modifică parametri.</b>
+          Se schimbă tensiunea, rezistența, lungimea firului, masa sau distanța focală.
+        </li>
+        <li>
+          <b>Elevul colectează date.</b>
+          Completează tabel, face capturi, notează valori sau compară cazuri.
+        </li>
+        <li>
+          <b>Elevul prelucrează datele.</b>
+          Calculează rapoarte, medii, pante, erori, construiește grafice.
+        </li>
+        <li>
+          <b>Elevul formulează concluzia.</b>
+          Explică relația fizică și limitele modelului digital.
+        </li>
+      </ol>
+
+      <div class="callout">
+        <b>Regulă practică:</b> orice simulare trebuie însoțită de o fișă de lucru: parametri, valori observate, întrebări, concluzie.
+      </div>
+
+      <div class="formula">
+        Învățare activă cu TIC = explorează + măsoară + compară + explică
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Simulări</div>
+      <h2>Simulări și experimente virtuale</h2>
+
+      <p>
+        <span class="key"><b>Simulările</b></span> și <span class="key"><b>experimentele virtuale</b></span>
+        sunt utile când fenomenul este greu de observat, aparatura lipsește, măsurarea este dificilă
+        sau profesorul dorește explorarea rapidă a mai multor cazuri.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Avantaj</th>
+          <th>Explicație</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>controlul parametrilor</b></span></td>
+          <td>elevul modifică o variabilă și observă efectul</td>
+          <td>variază \( R \) și observă \( I \)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>vizualizare</b></span></td>
+          <td>fenomene invizibile devin reprezentabile</td>
+          <td>linii de câmp electric sau magnetic</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>siguranță</b></span></td>
+          <td>se pot studia situații riscante fără pericol</td>
+          <td>circuite cu valori mari sau fenomene nucleare</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>repetabilitate</b></span></td>
+          <td>experimentul poate fi reluat rapid</td>
+          <td>compararea mai multor lentile</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Limite</h3>
+        <ul class="remember-list">
+          <li><b>simularea este model</b>, nu realitatea însăși;</li>
+          <li><b>poate ascunde erorile experimentale reale</b>;</li>
+          <li><b>nu formează complet deprinderile de manipulare a aparaturii</b>;</li>
+          <li><b>trebuie verificată științific</b> și adaptată vârstei elevilor.</li>
+        </ul>
+      </div>
+
+      <div class="formula">
+        Simulare bună = model explicit + parametri modificați + concluzie fizică
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Interactiv</div>
+      <h2>Mini-simulare: legea lui Ohm</h2>
+
+      <p>
+        Exemplul de mai jos arată cum se poate folosi o simulare simplă pentru observarea relației
+        dintre tensiune, rezistență și intensitate.
+      </p>
+
+      <div class="digital-demo">
+        <h3><span class="dot"></span>Modifică tensiunea și rezistența</h3>
+        <p class="small">Model didactic simplificat: \( I = U/R \). Elevii pot observa cum se modifică intensitatea curentului.</p>
+
+        <label for="uRange"><b>Tensiunea U:</b> <span id="uVal">6</span> V</label>
+        <input class="demo-slider" id="uRange" type="range" min="1" max="12" value="6" step="1">
+
+        <label for="rRange"><b>Rezistența R:</b> <span id="rVal">20</span> Ω</label>
+        <input class="demo-slider" id="rRange" type="range" min="5" max="60" value="20" step="5">
+
+        <div class="demo-readout">
+          <div>U = <b id="uOut">6</b> V</div>
+          <div>R = <b id="rOut">20</b> Ω</div>
+          <div>I = <b id="iOut">0.30</b> A</div>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Sarcină pentru elev</th>
+          <th>Produs evaluabil</th>
+        </tr>
+        <tr>
+          <td>modifică tensiunea pentru rezistență constantă</td>
+          <td>concluzie: \( I \) crește proporțional cu \( U \)</td>
+        </tr>
+        <tr>
+          <td>modifică rezistența pentru tensiune constantă</td>
+          <td>concluzie: \( I \) scade când \( R \) crește</td>
+        </tr>
+        <tr>
+          <td>completează un tabel cu trei valori</td>
+          <td>tabel U-R-I și explicație</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> o simulare devine activitate de învățare doar dacă elevul are sarcină, notează date și formulează concluzii.
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Date și grafice</div>
+      <h2>Prelucrarea digitală a datelor experimentale</h2>
+
+      <p>
+        La fizică, TIC este foarte util pentru tabele, grafice, estimarea erorilor, comparații și interpretare.
+        Elevii trebuie să înțeleagă că graficul nu este desen decorativ, ci instrument de analiză.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Instrument</th>
+          <th>Activitate</th>
+          <th>Competență formată</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>foaie de calcul</b></span></td>
+          <td>completează tabelul U-I și construiește graficul</td>
+          <td>prelucrare și interpretare de date</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>senzor digital</b></span></td>
+          <td>colectează valori ale temperaturii în timp</td>
+          <td>măsurare și analiză experimentală</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>software grafic</b></span></td>
+          <td>determină panta unei dependențe liniare</td>
+          <td>interpretarea coeficientului fizic</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>tabel colaborativ</b></span></td>
+          <td>grupe diferite introduc date și compară rezultate</td>
+          <td>cooperare și analiză critică</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Criterii de evaluare a graficului</h3>
+        <ul class="remember-list">
+          <li><b>axele sunt corect notate</b> cu mărimi și unități;</li>
+          <li><b>scara este potrivită</b> și valorile sunt reprezentate corect;</li>
+          <li><b>punctele sunt plasate riguros</b>;</li>
+          <li><b>linia de tendință este justificată</b>;</li>
+          <li><b>concluzia interpretează panta sau forma graficului</b>.</li>
+        </ul>
+      </div>
+
+      <div class="formula">
+        Grafic corect = date + axe + unități + scară + tendință + interpretare
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Evaluare</div>
+      <h2>TIC în evaluarea la fizică</h2>
+
+      <p>
+        TIC poate sprijini evaluarea inițială, formativă și sumativă, dar instrumentul digital trebuie să respecte
+        aceleași cerințe docimologice: <span class="key"><b>validitate</b></span>,
+        <span class="key"><b>fidelitate</b></span>, <span class="key"><b>obiectivitate</b></span> și
+        <span class="key"><b>aplicabilitate</b></span>.
+      </p>
+
+      <div class="eval-map" id="evalMap">
+        <button class="active" data-title="Quiz formativ" data-info="Oferă feedback rapid după o secvență: concepte, unități, interpretări, erori frecvente.">Quiz</button>
+        <button data-title="Portofoliu digital" data-info="Adună produse ale elevului: grafice, fișe, fotografii de montaj, rapoarte, reflecții.">Portofoliu</button>
+        <button data-title="Rubrică digitală" data-info="Clarifică criteriile pentru raport, proiect, prezentare, grafic sau investigație.">Rubrică</button>
+        <button data-title="Feedback online" data-info="Permite comentarii, remedieri, reluarea sarcinilor și urmărirea progresului.">Feedback</button>
+      </div>
+
+      <div class="card" id="evalDetail">
+        <h3><span class="dot"></span>Quiz formativ</h3>
+        <p>Oferă feedback rapid după o secvență: concepte, unități, interpretări, erori frecvente.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip de evaluare</th>
+          <th>Instrument TIC</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td>inițială</td>
+          <td>chestionar digital</td>
+          <td>ce știu elevii despre circuite?</td>
+        </tr>
+        <tr>
+          <td>formativă</td>
+          <td>quiz rapid</td>
+          <td>identificarea unităților corecte pentru \( U, I, R \)</td>
+        </tr>
+        <tr>
+          <td>sumativă</td>
+          <td>test digital / proiect</td>
+          <td>itemi + interpretare de grafic</td>
+        </tr>
+        <tr>
+          <td>autoevaluare</td>
+          <td>rubrică sau checklist</td>
+          <td>verificarea unui raport de laborator</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Atenție:</b> un test digital nu este automat mai bun. Calitatea este dată de itemi, criterii, feedback și corelarea cu obiectivele.
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Exemplu aplicat</div>
+      <h2>Secvență TIC: Legea lui Ohm</h2>
+
+      <p>
+        Exemplu de integrare TIC într-o lecție despre <span class="key"><b>Legea lui Ohm</b></span>.
+        Scopul este ca elevii să observe, să măsoare, să prelucreze și să interpreteze relația
+        \( I = U/R \).
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Moment</th>
+          <th>Instrument TIC</th>
+          <th>Activitatea elevilor</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Captare</b></span></td>
+          <td>simulare scurtă de circuit</td>
+          <td>observă ce se întâmplă când se schimbă rezistența</td>
+          <td>ipoteze orale</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Explorare</b></span></td>
+          <td>simulare / experiment real</td>
+          <td>modifică U, notează I, completează tabel</td>
+          <td>fișă de lucru</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Prelucrare</b></span></td>
+          <td>foaie de calcul</td>
+          <td>construiesc graficul I(U)</td>
+          <td>grafic cu axe și unități</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Explicare</b></span></td>
+          <td>proiecție / tablă digitală</td>
+          <td>interpretează panta și relația de proporționalitate</td>
+          <td>răspuns argumentat</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>quiz digital</td>
+          <td>rezolvă itemi de calcul și interpretare</td>
+          <td>feedback imediat</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Legea lui Ohm cu TIC = simulare + date + grafic + interpretare + feedback
+      </div>
+
+      <div class="callout">
+        <b>Variantă mixtă recomandată:</b> întâi simulare pentru ipoteză, apoi experiment real pentru deprinderi practice, apoi foaie de calcul pentru grafic.
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Limite și greșeli</div>
+      <h2>Riscuri, limite și greșeli frecvente</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Limite reale</h3>
+          <ul class="remember-list">
+            <li><b>acces inegal</b> la dispozitive și internet;</li>
+            <li><b>dependență de infrastructură</b> și timp de pregătire;</li>
+            <li><b>calitate variabilă</b> a resurselor online;</li>
+            <li><b>risc de copiere</b> la teme și teste;</li>
+            <li><b>nevoia de protecție a datelor</b> și comportament digital responsabil.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Greșeli frecvente la examen</h3>
+          <ul class="mistakes">
+            <li><b>Enumerarea aplicațiilor fără funcție didactică.</b></li>
+            <li><b>Folosirea TIC doar pentru prezentare pasivă.</b></li>
+            <li><b>Înlocuirea experimentului real fără justificare.</b></li>
+            <li><b>Lipsa sarcinii pentru elev.</b></li>
+            <li><b>Lipsa produsului evaluabil.</b></li>
+            <li><b>Ignorarea feedbackului și remedierii.</b></li>
+            <li><b>Confundarea mijlocului TIC cu metoda didactică.</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> pentru fiecare resursă TIC menționată, precizează <b>de ce</b> o folosești, <b>ce face elevul</b>, <b>ce produs obține</b> și <b>cum îl evaluezi</b>.
+      </div>
+
+      <div class="keywords">
+        <span>sarcină clară</span>
+        <span>produs observabil</span>
+        <span>feedback</span>
+        <span>siguranță digitală</span>
+        <span>corelare cu obiectivele</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>TIC</b> sprijină predarea, învățarea, comunicarea, investigarea și evaluarea.</li>
+          <li><b>La fizică</b>, TIC este util pentru simulări, experimente virtuale, senzori, grafice, modele și feedback.</li>
+          <li><b>TIC trebuie integrat didactic</b>, nu folosit decorativ.</li>
+          <li><b>Simulările</b> sunt modele și trebuie însoțite de sarcini și concluzii.</li>
+          <li><b>Experimentul real</b> rămâne important pentru deprinderi practice și contact cu fenomenul.</li>
+          <li><b>Foile de calcul</b> dezvoltă competențe de prelucrare și interpretare a datelor.</li>
+          <li><b>Evaluarea digitală</b> trebuie să respecte criterii docimologice și să ofere feedback.</li>
+          <li><b>Profesorul</b> trebuie să urmărească siguranța digitală, accesibilitatea și relevanța resurselor.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>TIC</b> este un ansamblu de resurse digitale integrate în predare-învățare-evaluare.</li>
+          <li><b>În lecția de fizică</b>, TIC ajută la vizualizarea fenomenelor, modelare, simulare și prelucrare de date.</li>
+          <li><b>Utilizarea eficientă</b> presupune sarcină clară, activitate a elevului, produs observabil și feedback.</li>
+          <li><b>Evaluarea cu TIC</b> poate fi inițială, formativă, sumativă sau de autoevaluare, dar trebuie proiectată riguros.</li>
+          <li><b>La examen</b>, răspunsul devine complet când incluzi un exemplu aplicat la fizică și precizezi limitele TIC.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. De ce TIC nu trebuie folosit decorativ?</summary>
+        <p>Pentru că resursa digitală trebuie să servească unui obiectiv didactic: observare, modelare, măsurare, prelucrare, comunicare sau evaluare.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Care este diferența dintre experiment real și simulare?</summary>
+        <p>Experimentul real formează deprinderi practice și pune elevul în contact cu fenomenul. Simularea este un model digital care permite explorarea rapidă și sigură a parametrilor.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. Dă un exemplu de TIC pentru evaluare formativă.</summary>
+        <p>Un quiz digital după lecția despre legea lui Ohm, cu itemi despre unități, relația \( R = U/I \), interpretarea graficului \( I(U) \) și feedback pentru răspunsurile greșite.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Cum integrezi TIC într-o lecție despre mișcarea rectilinie uniformă?</summary>
+        <p>Elevii folosesc o simulare sau date măsurate, completează tabelul \( x(t) \), construiesc graficul, determină panta și interpretează viteza.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D13 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon TIC PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>funcții</b> → <b>tipuri de resurse</b> →
+            <b>integrare în predare</b> → <b>integrare în învățare</b> →
+            <b>evaluare</b> → <b>exemplu la fizică</b> → <b>limite</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = TIC + funcție + sarcină elev + produs + feedback + limite
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează proiectarea unei secvențe TIC pentru „Legea lui Ohm”, „Mișcarea rectilinie uniformă”, „Refracția luminii” sau „Oscilații mecanice”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D14-evaluarea-componenta-fundamentala-a-procesului-de-invatamant.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D13-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D13 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D13 — Utilizarea TIC în predare-învățare-evaluare</h1>
+  <ul>
+    <li><b>Definiție:</b> TIC reprezintă utilizarea resurselor digitale în predare, învățare, comunicare, investigare și evaluare.</li>
+    <li><b>Funcții:</b> informativă, intuitivă, experimentală, formativă, motivațională, colaborativă, evaluativă.</li>
+    <li><b>Tipuri de resurse:</b> simulări, experimente virtuale, senzori, foi de calcul, animații, video, platforme, quizuri, portofolii digitale.</li>
+    <li><b>Integrare:</b> competență → conținut → instrument TIC → sarcină elev → produs evaluabil → feedback.</li>
+    <li><b>Predare:</b> organizatori cognitivi, animații, imagini, simulări demonstrative, captare, sistematizare.</li>
+    <li><b>Învățare:</b> explorare, modificare de parametri, colectare de date, grafic, interpretare, comunicare.</li>
+    <li><b>Evaluare:</b> quiz digital, portofoliu, rubrică, feedback online, autoevaluare.</li>
+    <li><b>Limite:</b> acces, infrastructură, calitatea resurselor, pasivizare, protecția datelor, înlocuirea nejustificată a experimentului real.</li>
+    <li><b>Principiu:</b> TIC este eficient doar dacă activează elevul și produce dovezi ale învățării.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon — Integrarea TIC într-o lecție de fizică</h1>
+  <p><b>Tema lecției:</b> ...</p>
+  <p><b>Clasa:</b> ...</p>
+  <p><b>Competența urmărită:</b> ...</p>
+  <p><b>Instrument TIC:</b> simulare / foaie de calcul / senzor / video / platformă / quiz.</p>
+  <p><b>Funcția didactică:</b> informativă / intuitivă / experimentală / formativă / evaluativă.</p>
+  <p><b>Sarcina elevului:</b> modifică parametri, colectează date, construiește grafic, formulează concluzie.</p>
+  <p><b>Produs evaluabil:</b> tabel, grafic, răspuns argumentat, raport, portofoliu, rezultat la quiz.</p>
+  <p><b>Feedback:</b> oral, scris, automat, rubrică, autoevaluare.</p>
+  <p><b>Limite și măsuri:</b> verificarea resursei, timp alocat, accesibilitate, protecția datelor, corelare cu obiectivele.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#ticMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#ticMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('ticDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#evalMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#evalMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('evalDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  var uRange=document.getElementById('uRange');
+  var rRange=document.getElementById('rRange');
+
+  function updateOhm(){
+    if(!uRange || !rRange) return;
+
+    var U=parseFloat(uRange.value);
+    var R=parseFloat(rRange.value);
+    var I=U/R;
+
+    document.getElementById('uVal').textContent=U;
+    document.getElementById('rVal').textContent=R;
+    document.getElementById('uOut').textContent=U;
+    document.getElementById('rOut').textContent=R;
+    document.getElementById('iOut').textContent=I.toFixed(2);
+  }
+
+  if(uRange && rRange){
+    uRange.addEventListener('input',updateOhm);
+    rRange.addEventListener('input',updateOhm);
+    updateOhm();
+  }
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D13</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
