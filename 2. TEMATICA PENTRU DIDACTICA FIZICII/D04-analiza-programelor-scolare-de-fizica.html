@@ -4,142 +4,793 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D04 · Analiza programelor școlare de fizică — Didactica Fizicii</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --bg:#eef1f0; --bg-grid:#e2e8e6; --paper:#fff; --ink:#182322; --ink-soft:#4b5a58;
-  --accent:#1f6f6b; --accent-2:#b8862e; --accent-ink:#fff; --line:#d3dbd8;
-  --shadow:rgba(24,35,34,.08); --code-bg:#eef4f3; --bad:#b94d42; --good:#2f7d52;
-  --radius:14px; color-scheme:light;
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
 }
+
 html.dark{
-  --bg:#0e1615; --bg-grid:#131e1c; --paper:#131e1d; --ink:#e8efed; --ink-soft:#a9bab6;
-  --accent:#5fc9c1; --accent-2:#e0ab54; --accent-ink:#0e1615; --line:#24322f;
-  --shadow:rgba(0,0,0,.35); --code-bg:#0f1b19; --bad:#ff8b7f; --good:#7fdea8;
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
   color-scheme:dark;
 }
+
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
 body{
   background:
-    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 34px,
-    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/34px 100%,
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
     var(--bg);
   color:var(--ink);
   font-family:"Source Sans 3",system-ui,sans-serif;
-  font-size:17px; line-height:1.6; min-height:100vh;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
 }
-h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
 a{color:var(--accent)}
-.mono{font-family:"JetBrains Mono",monospace}
-.shell{max-width:980px;margin:0 auto;padding:18px 20px 40px}
-header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:22px}
-.crumb{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;line-height:1.7}
-.crumb b{color:var(--accent)}
-.lesson-title{margin:4px 0 0;font-size:clamp(22px,4.4vw,31px);line-height:1.15}
-.lesson-title .instrument{display:inline-flex;width:30px;height:30px;vertical-align:-8px;margin-right:8px}
-.theme-toggle{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 6px;box-shadow:0 2px 6px var(--shadow);cursor:pointer}
-.theme-toggle .icon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;opacity:.55}
-.theme-toggle .track{width:34px;height:18px;border-radius:999px;background:var(--line);position:relative}
-.theme-toggle .knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--accent);transition:transform .25s}
-html.dark .theme-toggle .knob{transform:translateX(16px)}
 
-.ruler{display:flex;gap:4px;margin-bottom:26px}
-.ruler .tick{flex:1;height:6px;border-radius:3px;background:var(--line);position:relative;cursor:pointer}
-.ruler .tick.done{background:var(--accent);opacity:.45}
-.ruler .tick.current{background:var(--accent);opacity:1}
-.ruler .tick::after{content:attr(data-n);position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:"JetBrains Mono";font-size:10.5px;color:var(--ink-soft)}
-
-.page{display:none;animation:fade .35s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.eyebrow{font-family:"JetBrains Mono";font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:6px}
-.page h2{font-size:clamp(22px,4vw,30px);margin:0 0 14px}
-.page p{margin:0 0 14px}
-.page ul,.page ol{margin:0 0 16px;padding-left:22px}
-.page li{margin-bottom:7px}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin:0 0 18px;box-shadow:0 2px 10px var(--shadow)}
-.card h3{font-size:17px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
-table.compare{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:15px}
-table.compare th,table.compare td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
-table.compare th{background:var(--code-bg);font-family:"JetBrains Mono";font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft)}
-.callout{border-left:3px solid var(--accent-2);background:var(--code-bg);border-radius:0 10px 10px 0;padding:12px 16px;margin:0 0 18px;font-size:15.5px}
-.callout b{color:var(--accent-2)}
-.keywords{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 18px}
-.keywords span{font-family:"JetBrains Mono";font-size:12px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 9px;color:var(--ink-soft)}
-.tooltip{border-bottom:1px dotted var(--accent);cursor:help;position:relative}
-.tooltip:hover::after{content:attr(data-tip);position:absolute;left:0;top:1.8em;width:min(310px,75vw);background:var(--ink);color:var(--paper);padding:9px 11px;border-radius:9px;font-size:13px;z-index:20;box-shadow:0 6px 18px var(--shadow)}
-.stepline{list-style:none;margin:0 0 18px;padding:0;counter-reset:step}
-.stepline li{counter-increment:step;position:relative;padding-left:38px;margin-bottom:14px}
-.stepline li::before{content:counter(step);font-family:"JetBrains Mono";font-weight:600;position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:13px}
-
-.mindmap{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:8px 0 18px}
-.mindmap button,.flow button,.hotspot-btn{
-  border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:12px 10px;cursor:pointer;
-  box-shadow:0 2px 8px var(--shadow);font-weight:700
+.mono{
+  font-family:"JetBrains Mono",monospace;
 }
-.mindmap button:hover,.flow button:hover,.hotspot-btn:hover{outline:2px solid var(--accent)}
-.mindmap button.active,.flow button.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-@media(max-width:760px){.mindmap{grid-template-columns:1fr 1fr}.mindmap button:last-child{grid-column:1/-1}}
 
-.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin:8px 0 16px}
-.flow .arrow{font-family:"JetBrains Mono";color:var(--accent-2);font-weight:700}
-@media(max-width:760px){.flow{grid-template-columns:1fr}.flow .arrow{text-align:center;transform:rotate(90deg)}}
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
 
-.component-card{cursor:pointer}
-.component-card.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(31,111,107,.12)}
-.small{font-size:14px;color:var(--ink-soft)}
-.badge{display:inline-block;font-family:"JetBrains Mono";font-size:11px;border-radius:999px;padding:3px 8px;background:var(--code-bg);color:var(--ink-soft);margin-right:5px}
-.mistakes li::marker{color:var(--bad)}
-.good{color:var(--good);font-weight:700}
-.bad{color:var(--bad);font-weight:700}
-.svg-wrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:18px;box-shadow:0 2px 10px var(--shadow)}
-.circuit-part{cursor:pointer;transition:.2s}
-.circuit-part:hover{filter:drop-shadow(0 0 5px var(--accent-2))}
-.formula{font-family:"JetBrains Mono";background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 18px;text-align:center}
-.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-.video-grid iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
-@media(max-width:760px){.video-grid{grid-template-columns:1fr}}
-details.quiz{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;box-shadow:0 2px 8px var(--shadow)}
-details.quiz summary{cursor:pointer;font-weight:700}
-.resource-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px}
-.btn{appearance:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-family:"Source Sans 3";font-weight:700;font-size:15px;padding:10px 16px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:.15s}
-.btn:hover{box-shadow:0 4px 12px var(--shadow);transform:translateY(-1px)}
-.btn:disabled{opacity:.35;cursor:default;box-shadow:none;transform:none}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.ghost{background:transparent}
-.navbar{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.pageinfo{font-family:"JetBrains Mono";font-size:12.5px;color:var(--ink-soft)}
-#final-actions{display:none;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:640px){.actions{grid-template-columns:1fr}}
-.action-card{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:var(--radius);border:1px solid var(--line);background:var(--paper);text-decoration:none;color:var(--ink);box-shadow:0 2px 10px var(--shadow)}
-.action-card .tag{font-family:"JetBrains Mono";font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-2)}
-.action-card .label{font-family:"Fraunces";font-size:18px;font-weight:600}
-.action-card.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-size:11.5px;color:var(--ink-soft);opacity:.75}
-.hidden-print-source{display:none}
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.tooltip{
+  border-bottom:2px dotted var(--accent);
+  cursor:help;
+  position:relative;
+  font-weight:800;
+}
+
+.tooltip:hover::after{
+  content:attr(data-tip);
+  position:absolute;
+  left:0;
+  top:1.9em;
+  width:min(350px,80vw);
+  background:var(--ink);
+  color:var(--paper);
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.45;
+  z-index:20;
+  box-shadow:0 8px 22px var(--shadow);
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap button,
+.flow button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:820px){
+  .flow{
+    grid-template-columns:1fr;
+  }
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.badge{
+  display:inline-block;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  border-radius:999px;
+  padding:4px 9px;
+  background:var(--code-bg);
+  color:var(--ink-soft);
+  margin-right:6px;
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.svg-wrap{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.circuit-part{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.circuit-part:hover{
+  filter:drop-shadow(0 0 6px var(--accent-2));
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.video-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.video-grid iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:14px;
+  background:#000;
+}
+
+@media(max-width:820px){
+  .video-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
 @media print{
-  body{background:white;color:black}
-  .theme-toggle,.ruler,.navbar,#final-actions,.resource-actions,.video-grid{display:none!important}
-  .page{display:block!important;break-after:page}
-  .card,.callout{box-shadow:none}
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions,
+  .video-grid{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
 }
 </style>
 </head>
+
 <body>
 <div class="shell">
   <header class="top">
     <div>
       <div class="crumb">Titularizare · Didactica Fizicii › <b>D04 — Programe școlare</b></div>
       <h1 class="lesson-title">
-        <svg class="instrument" viewBox="0 0 24 24" fill="none">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <rect x="4" y="3.5" width="13" height="17" rx="2" stroke="var(--accent)" stroke-width="1.6"/>
           <path d="M8 8h6M8 11h6M8 14h4" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
           <path d="M17 7l3 3-7.5 7.5H9.5v-3L17 7Z" stroke="var(--accent-2)" stroke-width="1.6" stroke-linejoin="round"/>
@@ -147,18 +798,31 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
         Analiza programelor școlare de fizică
       </h1>
     </div>
+
     <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
-      <span class="icon">☀️</span><span class="track"><span class="knob"></span></span><span class="icon">🌙</span>
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
     </button>
   </header>
 
   <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
 
   <main id="pages">
+
     <section class="page active" data-page="1">
-      <div class="eyebrow">1 / 8 · Hartă mentală</div>
-      <h2>Imaginea de ansamblu: ce verifici când analizezi o programă?</h2>
-      <p><b>Programa școlară</b> este document curricular reglator: de la ea pornesc planificarea, unitățile de învățare, lecțiile, activitățile experimentale și evaluarea. La examen, nu o descrii mecanic, ci verifici relațiile dintre finalități, competențe, conținuturi, activități și evaluare.</p>
+      <div class="eyebrow">1 / 12 · Hartă mentală</div>
+      <h2>Ce verifici când analizezi o programă?</h2>
+
+      <p>
+        <span class="key"><b>Programa școlară</b></span> este documentul curricular care orientează
+        <b>planificarea</b>, <b>predarea</b>, <b>învățarea</b> și <b>evaluarea</b>.
+      </p>
+
+      <p>
+        La examen, nu este suficient să enumeri componentele programei. Trebuie să arăți
+        <span class="key"><b>cum se leagă între ele competențele, conținuturile, activitățile și evaluarea</b></span>.
+      </p>
 
       <div class="mindmap" id="mindmap">
         <button class="active" data-info="Identifici statutul programei: clasă, nivel, arie curriculară, alocare orară, trunchi comun, curriculum diferențiat sau curriculum de specialitate.">1. Context</button>
@@ -167,6 +831,7 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
         <button data-info="Cauți activități de investigare, experiment, modelare, interpretare de date, rezolvare de probleme și aplicații cotidiene.">4. Activități</button>
         <button data-info="Verifici dacă evaluarea măsoară competențele, nu doar memorarea definițiilor.">5. Evaluare</button>
       </div>
+
       <div class="card" id="mindmapDetail">
         <h3><span class="dot"></span>1. Context</h3>
         <p>Identifici statutul programei: clasă, nivel, arie curriculară, alocare orară, trunchi comun, curriculum diferențiat sau curriculum de specialitate.</p>
@@ -175,21 +840,56 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
       <div class="callout">
         <b>Cuvinte-cheie pentru examen:</b>
         <div class="keywords">
-          <span>document reglator</span><span>curriculum centrat pe competențe</span><span>coerență curriculară</span><span>predare–învățare–evaluare</span>
+          <span>document curricular reglator</span>
+          <span>competențe</span>
+          <span>conținuturi</span>
+          <span>activități de învățare</span>
+          <span>evaluare</span>
         </div>
-      </div>
-
-      <div class="card">
-        <h3><span class="dot"></span>Definiție operațională</h3>
-        <p>Analiza programei este o judecată didactică argumentată prin care profesorul stabilește dacă programa este <span class="tooltip" data-tip="Răspunde finalităților educației, profilului de formare și competențelor-cheie.">pertinentă</span>, relevantă, coerentă intern, accesibilă și aplicabilă în condiții reale de clasă.</p>
       </div>
     </section>
 
     <section class="page" data-page="2">
-      <div class="eyebrow">2 / 8 · Flux curricular interactiv</div>
+      <div class="eyebrow">2 / 12 · Ideea centrală</div>
+      <h2>Programa nu este o listă de lecții</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Programa școlară</b> este un <b>document oficial</b> care stabilește competențele și reperele de învățare.</li>
+          <li><b>Conținuturile</b> sunt <b>mijloace</b> pentru formarea competențelor, nu scopuri în sine.</li>
+          <li><b>Activitățile de învățare</b> arată cum pot fi formate competențele în clasă.</li>
+          <li><b>Evaluarea</b> trebuie să verifice ce știe și ce poate face elevul, nu doar ce a memorat.</li>
+        </ul>
+      </div>
+
+      <p>
+        În fizică, o programă este valoroasă dacă favorizează
+        <span class="key"><b>observarea fenomenelor</b></span>,
+        <span class="key"><b>experimentul</b></span>,
+        <span class="key"><b>măsurarea</b></span>,
+        <span class="key"><b>modelarea</b></span>,
+        <span class="key"><b>interpretarea datelor</b></span> și
+        <span class="key"><b>rezolvarea de probleme</b></span>.
+      </p>
+
+      <div class="formula">
+        Programă eficientă = competențe clare + conținuturi relevante + activități adecvate + evaluare coerentă
+      </div>
+
+      <div class="callout">
+        <b>De scris la examen:</b> Programa trebuie analizată ca <b>sistem coerent</b>, nu ca listă de teme.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 12 · Flux curricular interactiv</div>
       <h2>De la programă la evaluare</h2>
 
-      <p>O programă bună permite un flux logic: <b>Programa → Competențe → Activități → Evaluare</b>. Apasă pe fiecare nod pentru detalii.</p>
+      <p>
+        Apasă pe fiecare nod. Fluxul corect este:
+        <span class="key"><b>Programa → Competențe → Activități → Evaluare</b></span>.
+      </p>
 
       <div class="flow" id="flow">
         <button class="active" data-title="Programa" data-info="Documentul stabilește cadrul: notă de prezentare, competențe generale, competențe specifice, conținuturi, activități de învățare, sugestii metodologice.">Programa</button>
@@ -206,131 +906,265 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
         <p>Documentul stabilește cadrul: notă de prezentare, competențe generale, competențe specifice, conținuturi, activități de învățare, sugestii metodologice.</p>
       </div>
 
-      <h3>Componentele programei — cu exemple concrete</h3>
-      <table class="compare">
-        <tr><th>Componentă</th><th>Rol</th><th>Exemple la fizică</th></tr>
-        <tr>
-          <td><b>Nota de prezentare</b></td>
-          <td>Clarifică statutul disciplinei și contribuția la profilul de formare.</td>
-          <td>alfabetizare științifică; legătura fizicii cu tehnologia; rolul experimentului în cunoaștere.</td>
-        </tr>
-        <tr>
-          <td><b>Competențe generale</b></td>
-          <td>Descriu achiziții largi pe ciclu de studiu.</td>
-          <td>investigare științifică; explicarea fenomenelor; rezolvarea de probleme; comunicare științifică.</td>
-        </tr>
-        <tr>
-          <td><b>Competențe specifice</b></td>
-          <td>Operaționalizează competențele generale la nivel de clasă.</td>
-          <td>măsurarea unor mărimi; interpretarea unui grafic; utilizarea unei legi în situații-problemă.</td>
-        </tr>
-        <tr>
-          <td><b>Activități de învățare</b></td>
-          <td>Propun contexte de formare a competențelor.</td>
-          <td>determinarea densității; trasarea caracteristicii I(U); observarea refracției; simulare PhET.</td>
-        </tr>
-        <tr>
-          <td><b>Conținuturi</b></td>
-          <td>Suport conceptual pentru formarea competențelor.</td>
-          <td>mișcare și repaus; interacțiuni; energie; circuite electrice; optică; oscilații.</td>
-        </tr>
-        <tr>
-          <td><b>Sugestii metodologice</b></td>
-          <td>Orientează metodele, resursele și evaluarea.</td>
-          <td>învățare prin investigație; experiment frontal; portofoliu de laborator; evaluare formativă.</td>
-        </tr>
-      </table>
-
       <div class="callout">
         <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>notă de prezentare</span><span>competențe generale</span><span>competențe specifice</span><span>sugestii metodologice</span></div>
-      </div>
-    </section>
-
-    <section class="page" data-page="3">
-      <div class="eyebrow">3 / 8 · Criterii de calitate</div>
-      <h2>Pertinență, relevanță, eficiență internă, accesibilitate</h2>
-
-      <p>În analiza programei trebuie să folosești criterii explicite. Termenii tehnici au tooltip-uri: treci cu mouse-ul peste ei.</p>
-
-      <table class="compare">
-        <tr><th>Criteriu</th><th>Întrebare de analiză</th><th>Exemplu la fizică</th></tr>
-        <tr>
-          <td><b><span class="tooltip" data-tip="Relația dintre programă și finalitățile educației/profilul de formare.">Pertinență</span></b></td>
-          <td>Răspunde programa finalităților educației și competențelor-cheie?</td>
-          <td>Fizica formează gândire cauzală, explicare pe bază de dovezi și atitudine critică față de tehnologie.</td>
-        </tr>
-        <tr>
-          <td><b>Relevanță</b></td>
-          <td>Conținuturile sunt semnificative pentru elev și societate?</td>
-          <td>Circuitele electrice se leagă de siguranță, consum, aparate electrice, energie.</td>
-        </tr>
-        <tr>
-          <td><b><span class="tooltip" data-tip="Coerența dintre competențe, conținuturi, activități, metode și evaluare.">Eficiență internă</span></b></td>
-          <td>Există corespondență între ce se urmărește, ce se predă, cum se lucrează și cum se evaluează?</td>
-          <td>Dacă se cere investigare experimentală, evaluarea trebuie să includă măsurare, date, grafic, concluzie.</td>
-        </tr>
-        <tr>
-          <td><b>Accesibilitate</b></td>
-          <td>Este adecvată vârstei, nivelului de abstractizare și timpului disponibil?</td>
-          <td>Legea lui Ohm se poate construi din date experimentale înaintea formalizării matematice.</td>
-        </tr>
-        <tr>
-          <td><b>Validitate științifică</b></td>
-          <td>Noțiunile, legile, unitățile și modelele sunt corecte?</td>
-          <td>Diferențiere clară între greutate și masă; folosirea corectă a unităților SI.</td>
-        </tr>
-        <tr>
-          <td><b>Flexibilitate</b></td>
-          <td>Permite adaptare la clasă, resurse, ritm și contexte locale?</td>
-          <td>Profesorul alege experimente, aplicații și instrumente digitale, păstrând competențele urmărite.</td>
-        </tr>
-      </table>
-
-      <div class="card">
-        <h3><span class="dot"></span>Greșeli frecvente ale candidaților</h3>
-        <ul class="mistakes">
-          <li><b>Confundarea competenței generale cu cea specifică.</b> Competența generală are grad mare de generalitate; competența specifică se leagă de o clasă/an de studiu.</li>
-          <li><b>Reducerea programei la lista de conținuturi.</b> Conținuturile sunt mijloace, nu scopuri finale.</li>
-          <li><b>Ignorarea legăturii experiment–evaluare.</b> Dacă activitatea este experimentală, evaluarea trebuie să verifice și deprinderi practice.</li>
-          <li><b>Formulări vagi:</b> „programa este bună” fără criterii și exemple.</li>
-          <li><b>Fără exemplu concret la fizică.</b> Baremul valorizează aplicarea didactică, nu doar teoria pedagogică.</li>
-        </ul>
-      </div>
-
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>pertinență</span><span>relevanță</span><span>eficiență internă</span><span>accesibilitate</span><span>validitate</span></div>
+        <div class="keywords">
+          <span>coerență curriculară</span>
+          <span>performanță observabilă</span>
+          <span>învățare activă</span>
+          <span>evaluare prin competențe</span>
+        </div>
       </div>
     </section>
 
     <section class="page" data-page="4">
-      <div class="eyebrow">4 / 8 · Grilă de analiză</div>
-      <h2>Cum redactezi analiza unei programe la proba scrisă?</h2>
+      <div class="eyebrow">4 / 12 · Componentele programei</div>
+      <h2>Ce componente analizezi?</h2>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Ce trebuie reținut</th>
+          <th>Exemple la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Nota de prezentare</b></span></td>
+          <td>Clarifică statutul disciplinei și rolul ei în formarea elevului.</td>
+          <td>alfabetizare științifică; legătura fizicii cu tehnologia; rolul experimentului.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe generale</b></span></td>
+          <td>Descriu achiziții largi, urmărite pe durata unui ciclu de studiu.</td>
+          <td>investigare științifică; explicarea fenomenelor; rezolvarea de probleme.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>Arată ce trebuie să poată face elevul într-un an școlar concret.</td>
+          <td>măsurarea unor mărimi; interpretarea unui grafic; aplicarea unei legi fizice.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Activități de învățare</b></span></td>
+          <td>Transformă competențele în situații concrete de lucru.</td>
+          <td>determinarea densității; trasarea caracteristicii I(U); observarea refracției.</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> În analiză, fiecare componentă trebuie legată de celelalte. Nu analiza izolat.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 12 · Componentele programei</div>
+      <h2>Conținuturi și sugestii metodologice</h2>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Ce trebuie reținut</th>
+          <th>Exemple la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>Sunt suport conceptual pentru formarea competențelor.</td>
+          <td>mișcare și repaus; interacțiuni; energie; circuite electrice; optică; oscilații.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Sugestii metodologice</b></span></td>
+          <td>Orientează metodele, resursele, activitățile și evaluarea.</td>
+          <td>învățare prin investigație; experiment frontal; portofoliu; proiect; simulare digitală.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>Trebuie să fie compatibilă cu tipul de competență vizat.</td>
+          <td>probă practică; problemă de calcul; interpretare de grafic; item de argumentare.</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Exemplu rapid</h3>
+        <p>
+          Dacă o competență cere <span class="key"><b>investigare experimentală</b></span>,
+          atunci programa trebuie să permită activități de laborator, colectare de date și evaluare practică.
+        </p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>conținuturi ca suport</span>
+          <span>sugestii metodologice</span>
+          <span>experiment</span>
+          <span>evaluare practică</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 12 · Criterii de calitate</div>
+      <h2>Pertinență și relevanță</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span><span class="tooltip" data-tip="Relația dintre programă și finalitățile educației/profilul de formare.">Pertinență</span></h3>
+          <p>
+            <span class="key"><b>Pertinența</b></span> arată dacă programa răspunde finalităților educației,
+            profilului de formare și competențelor-cheie.
+          </p>
+          <p><b>Exemplu:</b> fizica formează gândire cauzală, spirit critic și explicare pe bază de dovezi.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Relevanță</h3>
+          <p>
+            <span class="key"><b>Relevanța</b></span> arată dacă ceea ce se învață are semnificație pentru elev,
+            societate, tehnologie și viața cotidiană.
+          </p>
+          <p><b>Exemplu:</b> circuitele electrice se leagă de siguranță, consum energetic și aparate casnice.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Formulare bună:</b> Programa este relevantă când leagă conceptele fizice de fenomene reale și de aplicații tehnologice.
+      </div>
+
+      <div class="keywords">
+        <span>pertinență</span>
+        <span>relevanță</span>
+        <span>profil de formare</span>
+        <span>viață cotidiană</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 12 · Criterii de calitate</div>
+      <h2>Eficiență internă și accesibilitate</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span><span class="tooltip" data-tip="Coerența dintre competențe, conținuturi, activități, metode și evaluare.">Eficiență internă</span></h3>
+          <p>
+            <span class="key"><b>Eficiența internă</b></span> înseamnă coerență între ce se urmărește,
+            ce se predă, cum se lucrează și cum se evaluează.
+          </p>
+          <p><b>Exemplu:</b> dacă se cere măsurare experimentală, trebuie să existe sarcini de măsurare și evaluare practică.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Accesibilitate</h3>
+          <p>
+            <span class="key"><b>Accesibilitatea</b></span> arată dacă programa este adecvată vârstei,
+            nivelului de abstractizare și timpului disponibil.
+          </p>
+          <p><b>Exemplu:</b> legea lui Ohm se poate construi din măsurători și grafic, înainte de formalizarea matematică.</p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Competență → Activitate → Produs observabil → Evaluare
+      </div>
+
+      <div class="keywords">
+        <span>eficiență internă</span>
+        <span>accesibilitate</span>
+        <span>coerență</span>
+        <span>nivel de vârstă</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 12 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Confundarea competenței generale cu competența specifică.</b> Competența generală este largă; competența specifică este legată de un an de studiu.</li>
+          <li><b>Reducerea programei la conținuturi.</b> Conținuturile nu sunt scopul final, ci suportul pentru competențe.</li>
+          <li><b>Ignorarea relației experiment–evaluare.</b> Dacă programa cere investigație, evaluarea trebuie să includă și sarcini practice.</li>
+          <li><b>Folosirea unor formulări vagi.</b> Nu scrie doar „programa este bună”; argumentează prin criterii.</li>
+          <li><b>Lipsa exemplului concret la fizică.</b> Include un exemplu: legea lui Ohm, densitatea, mișcarea, refracția, energia.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> Fiecare afirmație teoretică trebuie urmată de un exemplu didactic din fizică.
+      </div>
+
+      <div class="keywords">
+        <span>competență generală</span>
+        <span>competență specifică</span>
+        <span>exemplu concret</span>
+        <span>argumentare</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 12 · Grilă de analiză</div>
+      <h2>Pașii 1–4 pentru redactarea răspunsului</h2>
 
       <ol class="stepline">
-        <li><b>Identifică documentul analizat.</b> Clasă, nivel, arie curriculară, statut curricular, alocare orară.</li>
-        <li><b>Analizează competențele generale.</b> Sunt legate de investigare, explicație, modelare, rezolvare, comunicare?</li>
-        <li><b>Analizează competențele specifice.</b> Sunt observabile și evaluabile? Au progresie de la simplu la complex?</li>
-        <li><b>Verifică relația competențe–conținuturi.</b> Fiecare conținut trebuie să susțină o achiziție.</li>
-        <li><b>Analizează activitățile de învățare.</b> Caută experiment, investigație, măsurare, grafic, argumentare.</li>
-        <li><b>Verifică evaluarea.</b> Sunt compatibile metodele de evaluare cu competențele urmărite?</li>
-        <li><b>Formulează concluzie critică.</b> Precizează puncte tari, limite și adaptări posibile.</li>
+        <li>
+          <b>Identifică documentul analizat.</b>
+          Precizează clasa, nivelul, aria curriculară, statutul disciplinei și alocarea orară.
+        </li>
+        <li>
+          <b>Analizează competențele generale.</b>
+          Verifică dacă urmăresc investigarea, explicarea, modelarea, rezolvarea de probleme și comunicarea științifică.
+        </li>
+        <li>
+          <b>Analizează competențele specifice.</b>
+          Observă dacă sunt clare, progresive, observabile și evaluabile.
+        </li>
+        <li>
+          <b>Verifică relația competențe–conținuturi.</b>
+          Conținuturile trebuie să susțină formarea competențelor, nu să fie tratate ca scop independent.
+        </li>
+      </ol>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>identificare</span>
+          <span>competențe generale</span>
+          <span>competențe specifice</span>
+          <span>conținuturi</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 12 · Grilă de analiză</div>
+      <h2>Pașii 5–7 pentru redactarea răspunsului</h2>
+
+      <ol class="stepline" start="5">
+        <li>
+          <b>Analizează activitățile de învățare.</b>
+          Caută experiment, investigație, măsurare, reprezentare grafică, argumentare și aplicații cotidiene.
+        </li>
+        <li>
+          <b>Verifică evaluarea.</b>
+          Evaluarea trebuie să fie compatibilă cu performanța cerută de competență.
+        </li>
+        <li>
+          <b>Formulează concluzia critică.</b>
+          Precizează puncte tari, limite și adaptări posibile la clasă.
+        </li>
       </ol>
 
       <div class="grid2">
         <div class="card">
-          <h3><span class="dot"></span>Programe și repere oficiale pentru studiu</h3>
+          <h3><span class="dot"></span>Programe și repere oficiale</h3>
           <ul>
             <li><a target="_blank" rel="noopener" href="https://www.edu.ro/Ordin_ministru_3393_2017">Programe gimnaziu — OMEN 3393/2017</a></li>
-            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/sites/default/files/18_Repere_metodologice_fizica_0.pdf">Repere metodologice fizică — clasele VI–VIII / tranziție IX</a></li>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/sites/default/files/18_Repere_metodologice_fizica_0.pdf">Repere metodologice fizică — VI–VIII / tranziție IX</a></li>
             <li><a target="_blank" rel="noopener" href="https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2023/preuniversitar_root/repere_metodologice_XI/invatamant_liceal/REPERE_METODOLOGICE_FIZICA_2023_2024_CLS_XI.pdf">Repere metodologice fizică — clasa a XI-a</a></li>
-            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2025/programe_scolare_cons_pub/Fizica_TC_CS_IX.pdf">Fizică liceu — document curricular publicat pentru consultare</a></li>
           </ul>
         </div>
+
         <div class="card">
-          <h3><span class="dot"></span>Resurse descărcabile</h3>
-          <p class="small">Butoanele deschid o versiune printabilă. Din dialogul browserului alegi „Save as PDF”.</p>
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
           <div class="resource-actions">
             <button class="btn primary" onclick="printResource('grid')">Grilă de analiză PDF</button>
             <button class="btn" onclick="printResource('template')">Șablon răspuns PDF</button>
@@ -338,60 +1172,67 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
         </div>
       </div>
 
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>planificare calendaristică</span><span>unitate de învățare</span><span>evaluare formativă</span><span>curriculum oficial</span></div>
+      <div class="keywords">
+        <span>activități</span>
+        <span>evaluare</span>
+        <span>concluzie critică</span>
+        <span>adaptare</span>
       </div>
     </section>
 
-    <section class="page" data-page="5">
-      <div class="eyebrow">5 / 8 · Progresie curriculară</div>
-      <h2>Comparație orientativă: clasa a VI-a vs. a VIII-a vs. a XI-a</h2>
-
-      <p>Un criteriu important este progresia. Elevul trece de la explorare dirijată și fenomene perceptibile la modele mai abstracte, calcul, predicție și argumentare.</p>
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 12 · Progresie curriculară</div>
+      <h2>Comparație: VI vs VIII vs XI</h2>
 
       <table class="compare">
-        <tr><th>Aspect analizat</th><th>Clasa a VI-a</th><th>Clasa a VIII-a</th><th>Clasa a XI-a</th></tr>
         <tr>
-          <td><b>Dominantă didactică</b></td>
-          <td>Observare, măsurare, proprietăți fizice, mărimi și unități.</td>
-          <td>Aplicarea unor legi în fenomene mai complexe, inclusiv electricitate și magnetism.</td>
-          <td>Modelare matematică, analiză de sisteme, raționament cantitativ, autonomie mai mare.</td>
+          <th>Aspect</th>
+          <th>Clasa a VI-a</th>
+          <th>Clasa a VIII-a</th>
+          <th>Clasa a XI-a</th>
         </tr>
         <tr>
-          <td><b>Tip de competență urmărită</b></td>
-          <td>Explorarea fenomenelor în investigații simple.</td>
-          <td>Explicarea cauzală și utilizarea modelelor pentru situații-problemă.</td>
-          <td>Corelarea conceptelor, argumentarea soluțiilor, proiectarea și interpretarea unor demersuri complexe.</td>
+          <td><span class="key"><b>Dominantă</b></span></td>
+          <td>Observare, măsurare, fenomene familiare.</td>
+          <td>Legi fizice aplicate în situații mai complexe.</td>
+          <td>Modelare matematică și argumentare cantitativă.</td>
         </tr>
         <tr>
-          <td><b>Exemplu de conținut</b></td>
+          <td><span class="key"><b>Competență</b></span></td>
+          <td>Explorarea fenomenelor prin investigații simple.</td>
+          <td>Explicarea cauzală și rezolvarea de probleme.</td>
+          <td>Corelarea modelelor, analiza datelor și justificarea soluțiilor.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Exemple</b></span></td>
           <td>Mărimi fizice, densitate, mișcare și repaus.</td>
-          <td>Circuite electrice, legea lui Ohm, fenomene optice/electromagnetice.</td>
-          <td>Oscilații, unde, curent alternativ, RLC, teme aplicative în funcție de profil.</td>
+          <td>Circuite electrice, legea lui Ohm, fenomene optice.</td>
+          <td>Oscilații, unde, curent alternativ, circuite RLC.</td>
         </tr>
         <tr>
-          <td><b>Evaluare potrivită</b></td>
-          <td>Fișă de observare, măsurare directă, completare tabel.</td>
-          <td>Problemă de calcul, grafic I(U), montaj simplu, explicație cauză–efect.</td>
-          <td>Problemă complexă, interpretare de model, proiect experimental, analiză de date.</td>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>Fișă de observare, tabel de măsurători.</td>
+          <td>Problemă, grafic I(U), montaj simplu.</td>
+          <td>Problemă complexă, proiect experimental, analiză de model.</td>
         </tr>
       </table>
 
-      <div class="card">
-        <h3><span class="dot"></span>Ce concluzie formulezi la examen?</h3>
-        <p>O programă este coerentă pe verticală dacă reia domeniile fizicii în spirală, crește treptat gradul de abstractizare și menține legătura dintre experiment, model matematic și aplicație.</p>
+      <div class="callout">
+        <b>Concluzie de reținut:</b> O programă este coerentă pe verticală dacă dezvoltă treptat conceptele,
+        metodele și nivelul de abstractizare.
       </div>
 
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>progresie</span><span>abordare în spirală</span><span>continuitate</span><span>nivel de abstractizare</span></div>
+      <div class="keywords">
+        <span>progresie</span>
+        <span>abordare în spirală</span>
+        <span>continuitate</span>
+        <span>nivel de abstractizare</span>
       </div>
     </section>
 
-    <section class="page" data-page="6">
-      <div class="eyebrow">6 / 8 · Exemplu aplicat</div>
-      <h2>Analiza unei secvențe despre circuite electrice</h2>
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 12 · Exemplu aplicat și autoevaluare</div>
+      <h2>Exemplu: circuite electrice</h2>
 
       <div class="svg-wrap">
         <svg viewBox="0 0 760 330" role="img" aria-label="Circuit electric simplu cu baterie, întrerupător, rezistor, ampermetru și voltmetru">
@@ -400,31 +1241,38 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
               <path d="M0,0 L0,6 L9,3 z" fill="var(--accent)"></path>
             </marker>
           </defs>
+
           <path d="M120 160 H240 M300 160 H430 M510 160 H640 M640 160 V260 H120 V160" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
-          <g class="circuit-part" data-title="Bateria" data-info="Sursa furnizează tensiune electromotoare. În analiză didactică: leagă conceptul de sursă de energie de experiențe cotidiene — baterii, acumulatoare, alimentatoare.">
+
+          <g class="circuit-part" data-title="Bateria" data-info="Sursa furnizează tensiune electromotoare. În analiza didactică, leagă conceptul de sursă de energie de exemple cotidiene: baterii, acumulatoare, alimentatoare.">
             <line x1="120" y1="120" x2="120" y2="200" stroke="var(--accent-2)" stroke-width="5"/>
             <line x1="145" y1="140" x2="145" y2="180" stroke="var(--accent-2)" stroke-width="3"/>
             <text x="100" y="105" font-family="JetBrains Mono" font-size="15" fill="var(--ink)">E</text>
           </g>
+
           <g class="circuit-part" data-title="Întrerupătorul" data-info="Întrerupătorul permite discutarea condițiilor de închidere a circuitului și a normelor de securitate electrică.">
             <line x1="240" y1="160" x2="270" y2="130" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
             <circle cx="240" cy="160" r="5" fill="var(--ink)"/>
             <circle cx="300" cy="160" r="5" fill="var(--ink)"/>
             <text x="235" y="105" font-family="JetBrains Mono" font-size="15" fill="var(--ink)">K</text>
           </g>
+
           <g class="circuit-part" data-title="Rezistorul" data-info="Rezistorul este elementul prin care se construiește relația I = U/R. Evaluarea poate cere calcul, grafic I(U) și interpretarea pantei.">
             <path d="M430 160 l12 -22 l24 44 l24 -44 l24 44 l12 -22" fill="none" stroke="var(--bad)" stroke-width="4" stroke-linejoin="round"/>
             <text x="465" y="105" font-family="JetBrains Mono" font-size="15" fill="var(--ink)">R</text>
           </g>
+
           <g class="circuit-part" data-title="Ampermetrul" data-info="Ampermetrul se conectează în serie. Greșeală frecventă: elevul îl conectează în paralel sau nu respectă polaritatea.">
             <circle cx="640" cy="210" r="30" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="4"/>
             <text x="630" y="218" font-family="JetBrains Mono" font-size="24" fill="var(--accent)">A</text>
           </g>
-          <g class="circuit-part" data-title="Voltmetrul" data-info="Voltmetrul se conectează în paralel pe rezistor. Este ideal pentru evaluarea competenței de reprezentare a schemei electrice.">
+
+          <g class="circuit-part" data-title="Voltmetrul" data-info="Voltmetrul se conectează în paralel pe rezistor. Este util pentru evaluarea competenței de reprezentare a schemei electrice.">
             <path d="M430 160 V70 H520 V160" fill="none" stroke="var(--accent)" stroke-width="3"/>
             <circle cx="475" cy="70" r="28" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="4"/>
             <text x="465" y="78" font-family="JetBrains Mono" font-size="23" fill="var(--accent)">V</text>
           </g>
+
           <path d="M170 260 H245" stroke="var(--accent)" stroke-width="3" marker-end="url(#arrow)"/>
           <text x="182" y="286" font-family="JetBrains Mono" font-size="13" fill="var(--ink-soft)">sens convențional</text>
         </svg>
@@ -435,101 +1283,45 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
         <p>Vei vedea ce valoare didactică are în analiza programei și ce tip de evaluare poate susține.</p>
       </div>
 
-      <table class="compare">
-        <tr><th>Criteriu</th><th>Aplicare la unitatea „circuite electrice”</th></tr>
-        <tr><td><b>Pertinență</b></td><td>Unitatea dezvoltă gândire cauzală: elevul explică relația dintre tensiune, intensitate și rezistență.</td></tr>
-        <tr><td><b>Relevanță</b></td><td>Conectare la siguranță electrică, consum energetic, aparate casnice, economie de energie.</td></tr>
-        <tr><td><b>Eficiență internă</b></td><td>Competența de măsurare este susținută de montaj, citirea instrumentelor, tabel de date, grafic I(U).</td></tr>
-        <tr><td><b>Accesibilitate</b></td><td>Relația <span class="mono">I = U/R</span> se construiește experimental, apoi se folosește în calcul.</td></tr>
-        <tr><td><b>Evaluare</b></td><td>Item de calcul + item de interpretare grafică + probă practică de conectare corectă a ampermetrului și voltmetrului.</td></tr>
-      </table>
-
       <div class="card">
-        <h3><span class="dot"></span>Greșeli frecvente în exemplul aplicat</h3>
-        <ul class="mistakes">
-          <li>Se cere „experiment”, dar se propune doar expunere frontală.</li>
-          <li>Se evaluează definiții, deși competența vizează măsurarea și interpretarea datelor.</li>
-          <li>Se ignoră normele de protecție a muncii la circuite electrice.</li>
-          <li>Nu se explică rolul graficului I(U) în deducerea legii lui Ohm.</li>
-        </ul>
+        <h3><span class="dot"></span>Model de concluzie</h3>
+        <p>
+          La unitatea <span class="key"><b>circuite electrice</b></span>, competența de investigare se formează prin
+          <b>montaj experimental</b>, <b>măsurarea tensiunii și intensității</b>, <b>tabel de date</b>,
+          <b>grafic I(U)</b> și <b>formularea concluziei</b>.
+        </p>
       </div>
-
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>circuit electric</span><span>legea lui Ohm</span><span>grafic I(U)</span><span>probă practică</span><span>NTSM</span></div>
-      </div>
-    </section>
-
-    <section class="page" data-page="7">
-      <div class="eyebrow">7 / 8 · Multimedia și sinteză audio</div>
-      <h2>Exemple video și audio-rezumat</h2>
-
-      <p>Videoclipurile sunt incluse ca sprijin multimedia pentru tema aplicată „circuite electrice”. Ele trebuie folosite critic: profesorul le integrează într-o secvență cu sarcină de lucru, nu le proiectează pasiv.</p>
-
-      <div class="video-grid">
-        <iframe src="https://www.youtube.com/embed/vWNCq00IuQw" title="Circuitul electric și componentele sale - Fizică - Clasa a VIII-a" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/14uXuuHznvw" title="Legea lui Ohm pentru întregul circuit - Fizică - Clasa a VIII-a" allowfullscreen></iframe>
-      </div>
-
-      <div class="card">
-        <h3><span class="dot"></span>Audio-rezumat de 2–3 minute</h3>
-        <p class="small">Implementat prin Web Speech API. Funcționează în browserele care permit sinteză vocală.</p>
-        <div class="resource-actions">
-          <button class="btn primary" onclick="speakSummary()">▶ Ascultă rezumatul</button>
-          <button class="btn" onclick="pauseSpeech()">⏸ Pauză/continuă</button>
-          <button class="btn ghost" onclick="stopSpeech()">■ Stop</button>
-        </div>
-        <p id="audioText" class="small">Rezumat: analiza programelor școlare de fizică pornește de la ideea că programa nu este o listă de lecții, ci un document curricular care orientează predarea, învățarea și evaluarea. Profesorul verifică mai întâi contextul: clasa, nivelul, statutul disciplinei și alocarea orară. Apoi analizează competențele generale și specifice, observând dacă ele pot fi transformate în activități concrete și evaluabile. Conținuturile sunt interpretate ca suport pentru competențe, nu ca scop în sine. În fizică, analiza trebuie să acorde atenție experimentului, investigației, măsurării, modelării matematice, reprezentărilor grafice și aplicării legilor în situații reale. O programă este pertinentă dacă răspunde finalităților educației; este relevantă dacă are legătură cu viața elevului și cu societatea; are eficiență internă dacă există coerență între competențe, conținuturi, activități și evaluare; este accesibilă dacă respectă nivelul de vârstă și timpul disponibil. La examen, răspunsul trebuie să includă exemple concrete, cum ar fi legea lui Ohm, determinarea densității sau studiul mișcării, și să evite greșeli precum confundarea competențelor cu obiectivele operaționale sau reducerea programei la conținuturi.</p>
-      </div>
-
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>multimedia cu sarcină</span><span>resurse digitale</span><span>învățare activă</span><span>audio-rezumat</span></div>
-      </div>
-    </section>
-
-    <section class="page" data-page="8">
-      <div class="eyebrow">8 / 8 · Autoevaluare</div>
-      <h2>Quiz scurt și șablon de răspuns</h2>
 
       <details class="quiz">
         <summary>1. De ce nu este corect să reduci programa la lista de conținuturi?</summary>
-        <p>Pentru că programa este centrată pe competențe. Conținuturile sunt suporturi pentru formarea competențelor, iar analiza trebuie să includă activități, metode și evaluare.</p>
-      </details>
-      <details class="quiz">
-        <summary>2. Ce înseamnă eficiență internă a programei?</summary>
-        <p>Înseamnă coerență între competențe, conținuturi, activități de învățare și evaluare. Exemplu: competența de investigare trebuie susținută de experiment și evaluare practică.</p>
-      </details>
-      <details class="quiz">
-        <summary>3. Dă un exemplu de analiză a accesibilității la fizică.</summary>
-        <p>La legea lui Ohm, accesibilitatea crește dacă elevul pornește de la montaj, măsurători și graficul I(U), apoi ajunge la formula I = U/R.</p>
-      </details>
-      <details class="quiz">
-        <summary>4. Ce greșeală apare când evaluarea verifică doar definiții?</summary>
-        <p>Se rupe legătura competență–evaluare. Dacă programa cere investigare, modelare sau rezolvare de probleme, evaluarea trebuie să includă sarcini corespunzătoare.</p>
+        <p>Pentru că programa este centrată pe competențe. Conținuturile sunt suporturi pentru formarea competențelor, nu scopuri finale.</p>
       </details>
 
-      <div class="card">
-        <h3><span class="dot"></span>Șablon de răspuns pentru examen</h3>
-        <p><b>Introducere:</b> Programa școlară este document curricular reglator, reper pentru proiectarea, desfășurarea și evaluarea activității la fizică.</p>
-        <p><b>Analiză:</b> Se verifică structura programei, competențele generale și specifice, relația competențe–conținuturi, activitățile de învățare, sugestiile metodologice și evaluarea.</p>
-        <p><b>Criterii:</b> pertinență, relevanță, eficiență internă, accesibilitate, validitate științifică, flexibilitate.</p>
-        <p><b>Exemplu:</b> La unitatea „circuite electrice”, competența de investigare se formează prin montaj, măsurare, tabel de date, grafic I(U), concluzie și evaluare practică.</p>
-        <p><b>Concluzie:</b> O programă este valoroasă dacă susține formarea competențelor prin activități relevante, accesibile și evaluabile.</p>
-      </div>
+      <details class="quiz">
+        <summary>2. Ce înseamnă eficiență internă?</summary>
+        <p>Înseamnă coerență între competențe, conținuturi, activități de învățare și evaluare.</p>
+      </details>
 
-      <div class="formula">Răspuns bun = criteriu + explicație + exemplu fizic + implicație pentru proiectare/evaluare</div>
+      <details class="quiz">
+        <summary>3. Dă un exemplu de accesibilitate la fizică.</summary>
+        <p>Legea lui Ohm devine accesibilă dacă se construiește din montaj, măsurători și grafic, înainte de formula I = U/R.</p>
+      </details>
 
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords"><span>șablon răspuns</span><span>argument didactic</span><span>exemplu aplicat</span><span>concluzie critică</span></div>
+      <details class="quiz">
+        <summary>4. Ce trebuie să conțină un răspuns bun la examen?</summary>
+        <p>Criteriu, explicație, exemplu fizic și implicație pentru proiectare sau evaluare.</p>
+      </details>
+
+      <div class="formula">
+        Răspuns bun = criteriu + explicație + exemplu fizic + implicație didactică
       </div>
     </section>
+
   </main>
 
   <div class="navbar" id="navbar">
     <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
-    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">8</span></span>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">12</span></span>
     <button class="btn primary" id="nextBtn">Pagina următoare →</button>
   </div>
 
@@ -537,12 +1329,24 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
     <div class="card" style="text-align:center">
       <div class="eyebrow">Lecție parcursă</div>
       <h2 style="margin:0 0 8px">Ce urmează?</h2>
-      <p class="small">Exersează redactarea unei analize de programă pe un conținut concret: „Legea lui Ohm”, „Densitatea corpurilor” sau „Reflexia și refracția luminii”.</p>
+      <p class="small">Exersează o analiză de programă pentru: legea lui Ohm, densitatea corpurilor, mișcarea rectilinie sau refracția luminii.</p>
     </div>
+
     <div class="actions">
-      <a class="action-card" href="D05-proiectarea-activitatii-didactice.html"><span class="tag">Continuă</span><span class="label">Lecția următoare →</span></a>
-      <a class="action-card primary" href="D04-fisa-de-lucru.html"><span class="tag">Aplică</span><span class="label">Fișa de lucru</span></a>
-      <a class="action-card" href="index.html"><span class="tag">Navigare</span><span class="label">Întoarcere la capitol</span></a>
+      <a class="action-card" href="D05-proiectarea-activitatii-didactice.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D04-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
     </div>
   </div>
 
@@ -552,13 +1356,13 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
 <div class="hidden-print-source" id="print-grid">
   <h1>Grilă de analiză a unei programe școlare de fizică</h1>
   <ol>
-    <li>Identificare: clasă, nivel, arie curriculară, statut, alocare orară.</li>
-    <li>Competențe generale: finalități largi, legătura cu profilul de formare.</li>
-    <li>Competențe specifice: formulare observabilă, progresie, evaluabilitate.</li>
-    <li>Conținuturi: relevanță, validitate științifică, accesibilitate.</li>
-    <li>Activități de învățare: experiment, investigație, modelare, aplicații.</li>
-    <li>Evaluare: metode, itemi, probe practice, criterii, feedback.</li>
-    <li>Concluzie: puncte tari, limite, adaptări posibile.</li>
+    <li><b>Identificare:</b> clasă, nivel, arie curriculară, statut, alocare orară.</li>
+    <li><b>Competențe generale:</b> finalități largi, legătura cu profilul de formare.</li>
+    <li><b>Competențe specifice:</b> formulare observabilă, progresie, evaluabilitate.</li>
+    <li><b>Conținuturi:</b> relevanță, validitate științifică, accesibilitate.</li>
+    <li><b>Activități de învățare:</b> experiment, investigație, modelare, aplicații.</li>
+    <li><b>Evaluare:</b> metode, itemi, probe practice, criterii, feedback.</li>
+    <li><b>Concluzie:</b> puncte tari, limite, adaptări posibile.</li>
   </ol>
 </div>
 
@@ -567,46 +1371,87 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
   <p><b>1. Introducere:</b> Programa școlară este document curricular reglator.</p>
   <p><b>2. Structură:</b> notă de prezentare, competențe generale, competențe specifice, activități, conținuturi, sugestii metodologice.</p>
   <p><b>3. Criterii:</b> pertinență, relevanță, eficiență internă, accesibilitate, validitate, flexibilitate.</p>
-  <p><b>4. Exemplu fizic:</b> se alege o unitate — circuite electrice, densitate, mișcare, optică — și se arată legătura competență–activitate–evaluare.</p>
+  <p><b>4. Exemplu fizic:</b> circuite electrice, densitate, mișcare, optică sau energie.</p>
   <p><b>5. Concluzie:</b> programa este analizată ca sistem coerent de formare a competențelor.</p>
 </div>
 
 <script>
 (function(){
   var pages=[].slice.call(document.querySelectorAll('.page'));
-  var total=pages.length,current=1,ruler=document.getElementById('ruler');
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
   for(var i=1;i<=total;i++){
     var t=document.createElement('div');
-    t.className='tick'; t.dataset.n=i; t.dataset.page=i; t.setAttribute('data-n',i);
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
     ruler.appendChild(t);
   }
+
   var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
-  var prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
-  var pageNow=document.getElementById('pageNow'),pageTotal=document.getElementById('pageTotal'),finalActions=document.getElementById('final-actions');
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
   pageTotal.textContent=total;
 
   function render(){
-    pages.forEach(function(p){p.classList.toggle('active',parseInt(p.dataset.page,10)===current)});
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
     ticks.forEach(function(t){
       var n=parseInt(t.dataset.page,10);
       t.classList.toggle('current',n===current);
       t.classList.toggle('done',n<current);
     });
+
     pageNow.textContent=current;
     prevBtn.disabled=current===1;
     nextBtn.style.display=current===total?'none':'inline-flex';
     finalActions.style.display=current===total?'block':'none';
     window.scrollTo({top:0,behavior:'smooth'});
   }
-  prevBtn.onclick=function(){if(current>1){current--;render()}};
-  nextBtn.onclick=function(){if(current<total){current++;render()}};
-  ticks.forEach(function(t){t.onclick=function(){current=parseInt(t.dataset.page,10);render()}});
-  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')nextBtn.click(); if(e.key==='ArrowLeft')prevBtn.click()});
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
   render();
 
   var root=document.documentElement;
   var saved=localStorage.getItem('titularizare-fizica-theme');
-  if(saved==='dark'||(!saved&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)){root.classList.add('dark')}
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
   document.getElementById('themeToggle').onclick=function(){
     root.classList.toggle('dark');
     localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
@@ -614,23 +1459,34 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
 
   document.querySelectorAll('#mindmap button').forEach(function(btn){
     btn.addEventListener('click',function(){
-      document.querySelectorAll('#mindmap button').forEach(function(b){b.classList.remove('active')});
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
       btn.classList.add('active');
-      document.getElementById('mindmapDetail').innerHTML='<h3><span class="dot"></span>'+btn.textContent+'</h3><p>'+btn.dataset.info+'</p>';
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
     });
   });
 
   document.querySelectorAll('#flow button').forEach(function(btn){
     btn.addEventListener('click',function(){
-      document.querySelectorAll('#flow button').forEach(function(b){b.classList.remove('active')});
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
       btn.classList.add('active');
-      document.getElementById('flowDetail').innerHTML='<h3><span class="dot"></span>'+btn.dataset.title+'</h3><p>'+btn.dataset.info+'</p>';
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
     });
   });
 
   document.querySelectorAll('.circuit-part').forEach(function(part){
     part.addEventListener('click',function(){
-      document.getElementById('circuitDetail').innerHTML='<h3><span class="dot"></span>'+part.dataset.title+'</h3><p>'+part.dataset.info+'</p>';
+      document.getElementById('circuitDetail').innerHTML =
+        '<h3><span class="dot"></span>' + part.dataset.title + '</h3><p>' + part.dataset.info + '</p>';
     });
   });
 })();
@@ -638,27 +1494,14 @@ footer.sig{margin-top:30px;text-align:center;font-family:"JetBrains Mono";font-s
 function printResource(type){
   var src=document.getElementById(type==='grid'?'print-grid':'print-template');
   var w=window.open('', '_blank');
-  w.document.write('<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D04</title><style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style></head><body>'+src.innerHTML+'<script>window.onload=function(){window.print()}<\/script></body></html>');
-  w.document.close();
-}
 
-var summaryUtterance=null;
-function speakSummary(){
-  if(!('speechSynthesis' in window)){alert('Browserul nu suportă sinteză vocală.');return;}
-  stopSpeech();
-  var text=document.getElementById('audioText').textContent;
-  summaryUtterance=new SpeechSynthesisUtterance(text);
-  summaryUtterance.lang='ro-RO';
-  summaryUtterance.rate=0.92;
-  window.speechSynthesis.speak(summaryUtterance);
-}
-function pauseSpeech(){
-  if(!('speechSynthesis' in window)) return;
-  if(window.speechSynthesis.paused) window.speechSynthesis.resume();
-  else window.speechSynthesis.pause();
-}
-function stopSpeech(){
-  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D04</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
 }
 </script>
 </body>
