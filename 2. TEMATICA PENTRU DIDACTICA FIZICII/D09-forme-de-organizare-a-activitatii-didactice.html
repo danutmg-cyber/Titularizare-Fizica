@@ -1,1 +1,1650 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D09 · Forme de organizare a activității didactice — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{color:var(--accent)}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.org-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.org-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.org-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.org-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.org-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .org-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .org-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D09 — Organizarea activității</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3.5" y="4" width="17" height="16" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M7 9h10M7 13h4M13 13h4M7 17h10" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="7" cy="9" r="1.3" fill="var(--accent-2)"/>
+        </svg>
+        Forme de organizare a activității didactice
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce înseamnă forma de organizare?</h2>
+
+      <p>
+        <span class="key"><b>Forma de organizare a activității didactice</b></span> arată
+        <b>cum sunt grupați elevii</b>, <b>unde se desfășoară activitatea</b>,
+        <b>ce rol are profesorul</b> și <b>cum se realizează interacțiunea</b> în procesul de predare-învățare-evaluare.
+      </p>
+
+      <p>
+        La fizică, forma de organizare trebuie aleasă în funcție de
+        <span class="key"><b>competența urmărită</b></span>,
+        <span class="key"><b>tipul activității</b></span>,
+        <span class="key"><b>resursele de laborator</b></span> și
+        <span class="key"><b>nivelul clasei</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Activitatea frontală se desfășoară cu întreaga clasă. Este eficientă pentru explicații, demonstrații și organizarea comună a sarcinilor.">1. Frontal</button>
+        <button data-info="Activitatea individuală pune elevul în situația de a lucra autonom: problemă, fișă, grafic, test, reflecție.">2. Individual</button>
+        <button data-info="Activitatea pe grupe valorifică cooperarea, experimentul, proiectul, investigația și distribuirea rolurilor.">3. Grupe</button>
+        <button data-info="Activitatea în perechi este utilă pentru verificare reciprocă, discuții scurte, ipoteze, corectarea problemelor.">4. Perechi</button>
+        <button data-info="Activitățile extraclasă completează lecția: vizite, excursii didactice, proiecte, cercuri, observații și investigații în teren.">5. Extra</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Frontal</h3>
+        <p>Activitatea frontală se desfășoară cu întreaga clasă. Este eficientă pentru explicații, demonstrații și organizarea comună a sarcinilor.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>frontal</span>
+          <span>individual</span>
+          <span>pe grupe</span>
+          <span>în perechi</span>
+          <span>extraclasă</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Clasificare</div>
+      <h2>Clasificarea formelor de organizare</h2>
+
+      <p>
+        Pentru examen, trebuie să prezinți formele de organizare după mai multe criterii.
+        Nu te limita la enumerare: precizează <span class="key"><b>caracterizare</b></span>,
+        <span class="key"><b>avantaje</b></span>, <span class="key"><b>limite</b></span> și
+        <span class="key"><b>exemplu la fizică</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Criteriu</th>
+          <th>Forme</th>
+          <th>Exemple la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>După numărul de elevi</b></span></td>
+          <td>frontal, pe grupe, în perechi, individual</td>
+          <td>demonstrație frontală, laborator pe grupe, problemă individuală</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>După locul desfășurării</b></span></td>
+          <td>în clasă, laborator, cabinet, teren, muzeu, online</td>
+          <td>lucrare de laborator, vizită la planetariu, simulare digitală</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>După durata activității</b></span></td>
+          <td>lecție, secvență, proiect, cerc, activitate de lungă durată</td>
+          <td>proiect despre consumul energetic al locuinței</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>După rolul elevului</b></span></td>
+          <td>receptivă, activă, colaborativă, autonomă</td>
+          <td>observare, experiment, portofoliu, investigație</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Forma de organizare = gruparea elevilor + spațiul de lucru + rolurile + interacțiunea
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Forma principală</div>
+      <h2>Lecția — forma de bază</h2>
+
+      <p>
+        <span class="key"><b>Lecția</b></span> este forma principală de organizare a procesului de învățământ,
+        desfășurată într-un timp determinat, cu o clasă de elevi, sub conducerea profesorului,
+        pentru formarea unor competențe.
+      </p>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>lecția</b> este forma curentă și dominantă a activității școlare;</li>
+          <li><b>lecția</b> are obiective, conținuturi, metode, mijloace și evaluare;</li>
+          <li><b>lecția</b> poate combina activitatea frontală, individuală, în perechi și pe grupe;</li>
+          <li><b>lecția de fizică</b> trebuie să includă, când este posibil, experiment, probleme și interpretare de date;</li>
+          <li><b>lecția nu trebuie confundată</b> cu o simplă expunere a profesorului.</li>
+        </ul>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip de lecție</th>
+          <th>Scop dominant</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td>dobândire de cunoștințe</td>
+          <td>formarea unui concept nou</td>
+          <td>introducerea refracției luminii</td>
+        </tr>
+        <tr>
+          <td>laborator</td>
+          <td>formarea deprinderilor practice</td>
+          <td>determinarea densității unui corp</td>
+        </tr>
+        <tr>
+          <td>consolidare</td>
+          <td>aplicare și fixare</td>
+          <td>probleme cu legea lui Ohm</td>
+        </tr>
+        <tr>
+          <td>evaluare</td>
+          <td>verificarea achizițiilor</td>
+          <td>test cu itemi și problemă aplicativă</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Activitate frontală</div>
+      <h2>Organizarea frontală</h2>
+
+      <p>
+        <span class="key"><b>Activitatea frontală</b></span> presupune lucrul simultan cu întreaga clasă.
+        Profesorul coordonează ritmul, sarcina și comunicarea.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Când este utilă?</h3>
+          <ul class="remember-list">
+            <li><b>captarea atenției</b> și anunțarea obiectivelor;</li>
+            <li><b>explicația</b> unei noțiuni sau legi fizice;</li>
+            <li><b>demonstrația experimentală</b> realizată de profesor;</li>
+            <li><b>sistematizarea</b> sau recapitularea;</li>
+            <li><b>feedback rapid</b> prin întrebări scurte.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Limite</h3>
+          <ul class="remember-list">
+            <li><b>participare redusă</b> pentru unii elevi;</li>
+            <li><b>ritm unic</b>, greu adaptabil tuturor;</li>
+            <li><b>risc de pasivizare</b> dacă domină expunerea;</li>
+            <li><b>feedback limitat</b> asupra fiecărui elev.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Exemplu la fizică:</b> profesorul realizează frontal un experiment demonstrativ despre refracția luminii, apoi solicită elevilor să formuleze observații și ipoteze.
+      </div>
+
+      <div class="formula">
+        Frontal eficient = explicație scurtă + demonstrație + întrebări + implicarea elevilor
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Activitate individuală</div>
+      <h2>Organizarea individuală</h2>
+
+      <p>
+        <span class="key"><b>Activitatea individuală</b></span> presupune ca fiecare elev să lucreze autonom,
+        în ritmul său, pe o sarcină clar formulată.
+      </p>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>dezvoltă autonomia</b> și responsabilitatea elevului;</li>
+          <li><b>permite diferențierea</b> sarcinilor pe niveluri de dificultate;</li>
+          <li><b>este potrivită pentru evaluare</b>, reflecție, aplicații și consolidare;</li>
+          <li><b>oferă profesorului informații</b> despre progresul fiecărui elev.</li>
+        </ul>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Sarcină individuală</th>
+          <th>Exemplu la fizică</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>rezolvare de problemă</td>
+          <td>calculul rezistenței din U și I</td>
+          <td>barem, verificarea unităților, interpretare</td>
+        </tr>
+        <tr>
+          <td>fișă de lucru</td>
+          <td>identificarea elementelor unui circuit</td>
+          <td>corectare rapidă și feedback</td>
+        </tr>
+        <tr>
+          <td>grafic</td>
+          <td>trasarea graficului I(U)</td>
+          <td>axe, scară, puncte, concluzie</td>
+        </tr>
+        <tr>
+          <td>test</td>
+          <td>itemi obiectivi și problemă scurtă</td>
+          <td>notare individuală</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană:</b> activitatea individuală nu înseamnă abandonarea elevului. Profesorul trebuie să ofere sarcini clare, timp, criterii și feedback.
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Activitate în perechi</div>
+      <h2>Organizarea în perechi</h2>
+
+      <p>
+        <span class="key"><b>Activitatea în perechi</b></span> presupune cooperarea a doi elevi pentru
+        rezolvarea unei sarcini scurte, verificarea reciprocă sau formularea unei explicații.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Când se folosește?</h3>
+          <ul class="remember-list">
+            <li><b>discuție rapidă</b> după o întrebare-problemă;</li>
+            <li><b>verificare reciprocă</b> a rezolvării unei probleme;</li>
+            <li><b>formulare de ipoteze</b> înaintea experimentului;</li>
+            <li><b>corectarea graficului</b> sau a fișei de lucru;</li>
+            <li><b>explicarea reciprocă</b> a unei noțiuni.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Avantaje</h3>
+          <ul class="remember-list">
+            <li><b>crește participarea</b> elevilor timizi;</li>
+            <li><b>permite feedback rapid</b> între colegi;</li>
+            <li><b>dezvoltă comunicarea științifică</b>;</li>
+            <li><b>pregătește activitatea pe grupe</b>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Moment al lecției</th>
+          <th>Sarcină în perechi</th>
+          <th>Produs observabil</th>
+        </tr>
+        <tr>
+          <td>captarea atenției</td>
+          <td>formulați o ipoteză despre frecare</td>
+          <td>ipoteză scrisă</td>
+        </tr>
+        <tr>
+          <td>aplicație</td>
+          <td>comparați două rezolvări</td>
+          <td>corectură și argument</td>
+        </tr>
+        <tr>
+          <td>laborator</td>
+          <td>un elev citește aparatul, altul notează datele</td>
+          <td>tabel completat</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Activitate pe grupe</div>
+      <h2>Organizarea pe grupe</h2>
+
+      <p>
+        <span class="key"><b>Activitatea pe grupe</b></span> este foarte potrivită la fizică,
+        deoarece permite lucrul cu aparatură, investigații, proiecte, dezbateri și sarcini diferențiate.
+      </p>
+
+      <div class="org-map" id="orgMap">
+        <button class="active" data-title="Grupe omogene" data-info="Elevii au nivel apropiat. Sunt utile pentru remediere, consolidare sau aprofundare diferențiată.">Omogene</button>
+        <button data-title="Grupe eterogene" data-info="Elevii au niveluri diferite. Sunt utile pentru cooperare, sprijin reciproc și proiecte complexe.">Eterogene</button>
+        <button data-title="Grupe temporare" data-info="Se formează pentru o sarcină scurtă: experiment, problemă, mini-proiect, discuție.">Temporare</button>
+        <button data-title="Grupe cu roluri" data-info="Fiecare elev are rol: coordonator, experimentator, cronometru, raportor, observator, responsabil NTSM.">Cu roluri</button>
+      </div>
+
+      <div class="card" id="orgDetail">
+        <h3><span class="dot"></span>Grupe omogene</h3>
+        <p>Elevii au nivel apropiat. Sunt utile pentru remediere, consolidare sau aprofundare diferențiată.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Rol în grupă</th>
+          <th>Responsabilitate la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>coordonator</b></span></td>
+          <td>distribuie sarcinile și urmărește timpul</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>experimentator</b></span></td>
+          <td>realizează montajul și manipularea aparaturii</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>observator</b></span></td>
+          <td>urmărește fenomenul și notează observațiile</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>raportor</b></span></td>
+          <td>prezintă rezultatele și concluzia grupei</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>responsabil NTSM</b></span></td>
+          <td>verifică respectarea normelor de siguranță</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Laborator</div>
+      <h2>Activitatea de laborator</h2>
+
+      <p>
+        <span class="key"><b>Activitatea de laborator</b></span> este o formă de organizare specifică fizicii,
+        orientată spre observare, măsurare, prelucrare de date și formularea concluziilor.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Tipuri</h3>
+          <ul class="remember-list">
+            <li><b>laborator frontal</b> — toți elevii lucrează aceeași sarcină;</li>
+            <li><b>laborator pe grupe</b> — fiecare grupă realizează montajul și colectează date;</li>
+            <li><b>laborator demonstrativ</b> — profesorul realizează experimentul;</li>
+            <li><b>laborator investigativ</b> — elevii formulează ipoteze și proceduri.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Condiții</h3>
+          <ul class="remember-list">
+            <li><b>fișă de lucru clară</b>;</li>
+            <li><b>aparatură verificată</b>;</li>
+            <li><b>norme NTSM</b> explicate;</li>
+            <li><b>roluri în grupă</b>;</li>
+            <li><b>criterii de evaluare</b> pentru produsul practic.</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Lucrare de laborator</th>
+          <th>Produs al învățării</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>determinarea densității</td>
+          <td>tabel cu masă, volum, densitate</td>
+          <td>corectitudinea măsurărilor și concluzia</td>
+        </tr>
+        <tr>
+          <td>legea lui Ohm</td>
+          <td>tabel U-I, grafic I(U), calcul R</td>
+          <td>fișă practică și interpretarea graficului</td>
+        </tr>
+        <tr>
+          <td>reflexia luminii</td>
+          <td>schemă cu raza incidentă și reflectată</td>
+          <td>respectarea legilor reflexiei</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> la laborator se evaluează atât produsul final, cât și procesul: montaj, măsurare, colaborare, siguranță.
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Alte forme</div>
+      <h2>Proiecte, consultații, cercuri, vizite</h2>
+
+      <p>
+        Pe lângă lecție, procesul didactic poate include forme complementare sau extraclasă.
+        Acestea extind învățarea dincolo de ora obișnuită.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Formă de organizare</th>
+          <th>Caracterizare</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Proiectul</b></span></td>
+          <td>activitate de durată, cu produs final și prezentare</td>
+          <td>audit energetic al clasei sau locuinței</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Consultația</b></span></td>
+          <td>sprijin suplimentar pentru clarificare, remediere sau pregătire</td>
+          <td>pregătire pentru test la electricitate</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Cercul de fizică</b></span></td>
+          <td>activitate opțională, pentru elevi interesați</td>
+          <td>astronomie, experimente, robotică, probleme</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Vizita didactică</b></span></td>
+          <td>învățare în context real, cu sarcini de observare</td>
+          <td>vizită la observator, muzeu tehnic, stație meteo</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Excursia didactică</b></span></td>
+          <td>activitate organizată în teren</td>
+          <td>observarea fenomenelor optice și meteorologice</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Legătură cu examenul:</b> pentru fiecare formă, precizează scopul, organizarea, sarcina elevului, produsul final și evaluarea.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Forme moderne</div>
+      <h2>Organizare hibridă, online și blended learning</h2>
+
+      <p>
+        <span class="key"><b>Organizarea modernă</b></span> poate combina activitatea față în față cu resurse digitale,
+        simulări, platforme, portofolii și teme colaborative.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Blended learning</h3>
+          <p>
+            Combină activitatea din clasă cu învățarea online. La fizică, elevii pot studia o simulare acasă,
+            apoi pot realiza experimentul sau aplicația în laborator.
+          </p>
+          <p><b>Exemplu:</b> simulare pentru legea lui Ohm înaintea lucrării practice.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Flipped classroom</h3>
+          <p>
+            Elevii parcurg un material introductiv înainte de lecție, iar timpul de la clasă este folosit pentru
+            aplicații, probleme, experiment și feedback.
+          </p>
+          <p><b>Exemplu:</b> video scurt despre lentile, apoi activitate aplicativă cu construcții de imagini.</p>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Formă</th>
+          <th>Avantaj</th>
+          <th>Limită</th>
+        </tr>
+        <tr>
+          <td>online</td>
+          <td>acces la simulări, quizuri, colaborare la distanță</td>
+          <td>nu înlocuiește complet experimentul real</td>
+        </tr>
+        <tr>
+          <td>hibrid</td>
+          <td>combină resurse digitale și interacțiune directă</td>
+          <td>necesită planificare atentă</td>
+        </tr>
+        <tr>
+          <td>flipped</td>
+          <td>eliberează timp pentru aplicații în clasă</td>
+          <td>depinde de pregătirea prealabilă a elevilor</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Digitalul este formă de sprijin, nu scop: sarcină clară + activitate + produs + feedback
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Alegerea formei</div>
+      <h2>Cum alegi forma de organizare?</h2>
+
+      <p>
+        Forma de organizare se alege prin raportare la
+        <span class="key"><b>competență</b></span>,
+        <span class="key"><b>conținut</b></span>,
+        <span class="key"><b>metodă</b></span>,
+        <span class="key"><b>resurse</b></span>,
+        <span class="key"><b>timp</b></span> și
+        <span class="key"><b>evaluare</b></span>.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Competența" data-info="Identifici ce trebuie să poată face elevul: să explice, să măsoare, să calculeze, să investigheze, să argumenteze.">Competență</button>
+        <span class="arrow">→</span>
+        <button data-title="Conținutul" data-info="Analizezi natura conținutului: teoretic, experimental, aplicativ, interdisciplinar, de sinteză.">Conținut</button>
+        <span class="arrow">→</span>
+        <button data-title="Metoda" data-info="Alegi metoda dominantă: experiment, problematizare, conversație, exercițiu, proiect, simulare.">Metodă</button>
+        <span class="arrow">→</span>
+        <button data-title="Forma" data-info="Stabilești organizarea: frontal, individual, perechi, grupe, laborator, proiect, extraclasă.">Formă</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluarea" data-info="Verifici produsul: răspuns, problemă, montaj, grafic, portofoliu, prezentare, raport.">Evaluare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Competența</h3>
+        <p>Identifici ce trebuie să poată face elevul: să explice, să măsoare, să calculeze, să investigheze, să argumenteze.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Competență urmărită</th>
+          <th>Formă potrivită</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td>înțelegerea unui concept</td>
+          <td>frontal + conversație</td>
+          <td>explicația presiunii atmosferice</td>
+        </tr>
+        <tr>
+          <td>măsurare experimentală</td>
+          <td>laborator pe grupe</td>
+          <td>determinarea rezistenței electrice</td>
+        </tr>
+        <tr>
+          <td>aplicarea unei formule</td>
+          <td>individual + feedback</td>
+          <td>probleme cu \( R = U/I \)</td>
+        </tr>
+        <tr>
+          <td>comunicare și colaborare</td>
+          <td>proiect pe grupe</td>
+          <td>poster despre energia regenerabilă</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Confundarea formei cu metoda.</b> „Pe grupe” este formă de organizare; „experimentul” este metodă.</li>
+          <li><b>Reducerea lecției la activitate frontală.</b> O lecție bună combină mai multe forme de organizare.</li>
+          <li><b>Alegerea formei fără legătură cu competența.</b> Dacă se urmărește măsurarea, forma trebuie să permită acțiune practică.</li>
+          <li><b>Activitate pe grupe fără roluri.</b> Fără roluri, lucrează doar unii elevi.</li>
+          <li><b>Lipsa evaluării produsului grupului.</b> Trebuie evaluat tabelul, graficul, raportul, prezentarea sau montajul.</li>
+          <li><b>Omiterea NTSM la laborator.</b> La fizică, siguranța este parte a organizării.</li>
+          <li><b>Folosirea TIC fără sarcină clară.</b> Simularea trebuie să producă observații, date sau concluzii.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> în proiectul de lecție, trece explicit forma de organizare pentru fiecare secvență: frontal, individual, perechi, grupe, laborator.
+      </div>
+
+      <div class="keywords">
+        <span>formă ≠ metodă</span>
+        <span>roluri în grupă</span>
+        <span>produs observabil</span>
+        <span>NTSM</span>
+        <span>evaluare</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Forma de organizare</b> arată cum sunt grupați elevii și cum se desfășoară activitatea.</li>
+          <li><b>Lecția</b> este forma principală de organizare a procesului de învățământ.</li>
+          <li><b>Activitatea frontală</b> este utilă pentru explicații, demonstrații și sistematizare.</li>
+          <li><b>Activitatea individuală</b> dezvoltă autonomia și permite evaluarea progresului personal.</li>
+          <li><b>Activitatea în perechi</b> sprijină feedbackul rapid și comunicarea între elevi.</li>
+          <li><b>Activitatea pe grupe</b> este foarte potrivită pentru experimente, proiecte și investigații.</li>
+          <li><b>Laboratorul</b> este formă specifică fizicii, centrată pe măsurare, date și concluzii.</li>
+          <li><b>Activitățile extraclasă</b> extind învățarea prin proiecte, vizite, cercuri și observații.</li>
+          <li><b>Alegerea formei</b> se justifică prin competențe, conținut, metode, resurse și evaluare.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Formele de organizare</b> structurează participarea elevilor în procesul de predare-învățare-evaluare.</li>
+          <li><b>La fizică</b>, organizarea trebuie să permită observarea, experimentul, măsurarea și interpretarea datelor.</li>
+          <li><b>Activitatea frontală</b> este eficientă pentru orientare și explicații, dar trebuie combinată cu forme active.</li>
+          <li><b>Activitatea pe grupe</b> este esențială pentru laborator, investigație și proiecte.</li>
+          <li><b>Evaluarea</b> trebuie să urmărească produsul formei de organizare: răspuns, problemă, grafic, montaj, raport sau portofoliu.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre metodă și formă de organizare?</summary>
+        <p><b>Metoda</b> este calea de lucru: experiment, conversație, problematizare. <b>Forma de organizare</b> arată cum sunt grupați elevii: frontal, individual, perechi, grupe, laborator.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Când este potrivită activitatea frontală?</summary>
+        <p>Este potrivită pentru captarea atenției, explicații, demonstrații, sistematizări și feedback rapid cu întreaga clasă.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. De ce activitatea pe grupe este importantă la fizică?</summary>
+        <p>Pentru că permite realizarea experimentelor, distribuirea rolurilor, cooperarea, colectarea datelor și formularea concluziilor.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Dă un exemplu de corelare formă–metodă–evaluare.</summary>
+        <p>Pentru determinarea rezistenței electrice: forma este activitate pe grupe în laborator, metoda este experimentul, iar evaluarea se face prin fișa de laborator, graficul I(U) și concluzia.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D09 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon răspuns PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>clasificare</b> → <b>caracterizare</b> →
+            <b>avantaje și limite</b> → <b>exemple la fizică</b> → <b>evaluare</b> → <b>NTSM</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = formă + caracterizare + exemplu la fizică + produs observabil + evaluare
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează alegerea formei de organizare pentru o lecție despre „Legea lui Ohm”, „Densitatea corpurilor”, „Reflexia luminii” sau „Energia mecanică”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D10-mijloace-de-invatamant-utilizate-la-fizica.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D09-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D09 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D09 — Forme de organizare a activității didactice</h1>
+  <ul>
+    <li><b>Forma de organizare:</b> modul de grupare și coordonare a elevilor în procesul de predare-învățare-evaluare.</li>
+    <li><b>Forme după numărul de elevi:</b> frontal, individual, în perechi, pe grupe.</li>
+    <li><b>Forme după loc:</b> clasă, laborator, cabinet, teren, muzeu, online.</li>
+    <li><b>Lecția:</b> forma principală de organizare a procesului de învățământ.</li>
+    <li><b>Frontal:</b> util pentru explicații, demonstrații și sistematizare.</li>
+    <li><b>Individual:</b> util pentru aplicații, evaluare, reflecție și diferențiere.</li>
+    <li><b>Perechi:</b> util pentru feedback reciproc, ipoteze și verificări rapide.</li>
+    <li><b>Grupe:</b> util pentru experiment, investigație, proiect și cooperare.</li>
+    <li><b>Laborator:</b> formă specifică fizicii, centrată pe observare, măsurare, date și concluzii.</li>
+    <li><b>Alte forme:</b> proiecte, consultații, cercuri, vizite, excursii didactice, activități online.</li>
+    <li><b>Principiu:</b> forma se alege în funcție de competență, conținut, metodă, resurse, timp și evaluare.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon de răspuns — Forme de organizare a activității didactice</h1>
+  <p><b>1. Definiție:</b> Forma de organizare indică modul în care sunt grupați elevii și coordonată activitatea de predare-învățare-evaluare.</p>
+  <p><b>2. Clasificare:</b> frontal, individual, în perechi, pe grupe; în clasă, laborator, teren, online; lecție, proiect, cerc, vizită, excursie didactică.</p>
+  <p><b>3. Lecția:</b> forma principală de organizare a procesului de învățământ.</p>
+  <p><b>4. Exemple la fizică:</b> demonstrație frontală, problemă individuală, verificare în perechi, experiment pe grupe, laborator, proiect.</p>
+  <p><b>5. Avantaje și limite:</b> fiecare formă are utilitate, dar trebuie corelată cu obiectivele și resursele.</p>
+  <p><b>6. Evaluare:</b> se evaluează produsul activității: răspuns, fișă, grafic, montaj, raport, portofoliu sau prezentare.</p>
+  <p><b>7. NTSM:</b> la activitățile practice și de laborator se menționează normele de protecție a muncii.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#orgMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#orgMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('orgDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D09</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
