@@ -1,1 +1,282 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titularizare-Fizica · Resurse pentru Titularizare / Definitivat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef1f0;
+    --bg-grid: #e2e8e6;
+    --paper: #ffffff;
+    --ink: #182322;
+    --ink-soft: #4b5a58;
+    --accent: #1f6f6b;
+    --accent-2: #b8862e;
+    --accent-ink: #ffffff;
+    --line: #d3dbd8;
+    --shadow: rgba(24,35,34,0.08);
+    --code-bg: #eef4f3;
+    --radius: 14px;
+    color-scheme: light;
+  }
+  html.dark{
+    --bg: #0e1615;
+    --bg-grid: #131e1c;
+    --paper: #131e1d;
+    --ink: #e8efed;
+    --ink-soft: #a9bab6;
+    --accent: #5fc9c1;
+    --accent-2: #e0ab54;
+    --accent-ink: #0e1615;
+    --line: #24322f;
+    --shadow: rgba(0,0,0,0.35);
+    --code-bg: #0f1b19;
+    color-scheme: dark;
+  }
 
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/ 100% 34px,
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/ 34px 100%,
+      var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background-color .35s ease, color .35s ease;
+  }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+  a{ color:var(--accent); }
+  .mono{ font-family:"JetBrains Mono", monospace; }
+
+  .shell{ max-width: 980px; margin: 0 auto; padding: 18px 20px 50px; }
+
+  /* ===== Header ===== */
+  header.top{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding-bottom:14px; border-bottom:1px solid var(--line); margin-bottom: 8px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .instrument{ width: 30px; height:30px; flex:0 0 auto; }
+  .brand .name{ font-family:"Fraunces", serif; font-weight:600; font-size:18px; }
+  .brand .name b{ color: var(--accent); }
+
+  .theme-toggle{
+    flex: 0 0 auto; display:flex; align-items:center; gap:8px;
+    background: var(--paper); border:1px solid var(--line); border-radius: 999px;
+    padding: 5px 6px; box-shadow: 0 2px 6px var(--shadow); cursor:pointer; user-select:none;
+  }
+  .theme-toggle .icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; opacity:.55; }
+  .theme-toggle .icon.on{ opacity:1; color:var(--accent); }
+  .theme-toggle .track{ width:34px; height:18px; border-radius:999px; background: var(--line); position:relative; }
+  .theme-toggle .knob{ position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background: var(--accent); transition: transform .25s ease; }
+  html.dark .theme-toggle .knob{ transform: translateX(16px); }
+
+  /* ===== Hero ===== */
+  .hero{ padding: 46px 0 34px; }
+  .hero .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase;
+    color: var(--accent-2); margin-bottom:10px;
+  }
+  .hero h1{ font-size: clamp(28px, 5.6vw, 44px); line-height:1.12; margin:0 0 16px; max-width: 15ch; }
+  .hero p{ font-size: 17.5px; color: var(--ink-soft); max-width: 56ch; margin:0 0 24px; }
+  .hero .cta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  .btn{
+    appearance:none; border:1px solid var(--line); background: var(--paper); color: var(--ink);
+    font-family:"Source Sans 3", sans-serif; font-weight:600; font-size:15px; padding: 11px 20px;
+    border-radius: 10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ box-shadow: 0 4px 12px var(--shadow); transform: translateY(-1px); }
+  .btn.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  /* ===== Stat strip ===== */
+  .stats{
+    display:grid; grid-template-columns: repeat(3,1fr); gap:1px;
+    background: var(--line); border:1px solid var(--line); border-radius: var(--radius);
+    overflow:hidden; margin-bottom: 40px;
+  }
+  .stats .cell{ background: var(--paper); padding:16px 18px; }
+  .stats .cell .num{ font-family:"Fraunces",serif; font-size:26px; font-weight:600; color: var(--accent); }
+  .stats .cell .lbl{ font-family:"JetBrains Mono",monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color: var(--ink-soft); }
+  @media (max-width:640px){ .stats{ grid-template-columns: 1fr; } }
+
+  /* ===== Section heading ===== */
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin: 0 0 16px; }
+  .section-head h2{ font-size: clamp(20px,3.6vw,25px); margin:0; }
+  .section-head .count{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color: var(--ink-soft); white-space:nowrap; }
+
+  section.block{ margin-bottom: 44px; }
+
+  /* ===== Chapter card (populated) ===== */
+  .chapter{
+    background: var(--paper); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px var(--shadow);
+  }
+  .chapter .chapter-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .chapter .tag{
+    font-family:"JetBrains Mono",monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em;
+    color: var(--accent-2); margin-bottom:6px; display:block;
+  }
+  .chapter h3{ font-size:19px; margin:0 0 6px; }
+  .chapter p.desc{ color: var(--ink-soft); margin:0 0 16px; max-width: 60ch; font-size:15.5px; }
+
+  .lesson-list{ display:flex; flex-direction:column; gap:8px; }
+  .lesson-row{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 12px; border-radius:9px; border:1px solid var(--line);
+    text-decoration:none; color: var(--ink); background: var(--code-bg);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .lesson-row:hover{ transform: translateX(3px); box-shadow: 0 2px 8px var(--shadow); }
+  .lesson-row .idx{
+    font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:600;
+    background: var(--accent); color: var(--accent-ink); border-radius:6px;
+    padding: 2px 7px; flex:0 0 auto;
+  }
+  .lesson-row .ltitle{ font-weight:600; font-size:15px; flex:1; }
+  .lesson-row .arrow{ opacity:.5; font-family:"JetBrains Mono",monospace; }
+
+  /* ===== Placeholder chapter card (de completat) ===== */
+  .chapter.placeholder{
+    background: transparent; border: 1.5px dashed var(--line); box-shadow:none;
+  }
+  .chapter.placeholder h3{ color: var(--ink-soft); }
+  .chapter.placeholder .desc{ font-size:14.5px; }
+
+  .callout{
+    border-left: 3px solid var(--accent-2); background: var(--code-bg); border-radius: 0 10px 10px 0;
+    padding: 12px 16px; margin: 0 0 18px; font-size: 14.5px; color: var(--ink-soft);
+  }
+  .callout b{ color: var(--accent-2); }
+  .callout code{ font-family:"JetBrains Mono",monospace; background: var(--paper); padding:1px 5px; border-radius:4px; }
+
+  footer.sitefoot{
+    margin-top: 30px; padding-top:20px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+    font-family:"JetBrains Mono",monospace; font-size:12px; color: var(--ink-soft);
+  }
+  footer.sitefoot a{ color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="top">
+    <div class="brand">
+      <svg class="instrument" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.6"/>
+        <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M12 12l4-4" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="name">Titularizare<b>-Fizica</b></span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon" id="iconSun">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon" id="iconMoon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Titularizare · Definitivat · Fizică</div>
+    <h1>Resurse și proiecte didactice pentru examenul de Titularizare la Fizică</h1>
+    <p>Lecții structurate, rezolvări de probleme și materiale de proiectare didactică, organizate pe
+    capitolele tematicii oficiale — gândite să se parcurgă direct din browser, pe telefon, tabletă
+    sau calculator.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="2. TEMATICA PENTRU DIDACTICA FIZICII/D01-componentele-curriculumului-national.html">Începe cu D01 →</a>
+      <a class="btn" href="#capitole">Vezi toate capitolele</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="cell"><div class="num">1</div><div class="lbl">Capitol activ</div></div>
+    <div class="cell"><div class="num">2</div><div class="lbl">Lecții publicate</div></div>
+    <div class="cell"><div class="num">E</div><div class="lbl">Secțiune tematică curentă</div></div>
+  </div>
+
+  <section class="block" id="capitole">
+    <div class="section-head">
+      <h2>Capitole</h2>
+      <span class="count">1 activ · restul, în lucru</span>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-top">
+        <div>
+          <span class="tag">Capitol 2 · Secțiunea E din tematica oficială</span>
+          <h3>Tematica pentru Didactica Fizicii</h3>
+        </div>
+      </div>
+      <p class="desc">Proiectarea, organizarea și desfășurarea activității didactice: componentele
+      curriculumului național, curriculumul la decizia școlii, proiectarea programelor pe competențe și a
+      unităților de învățare.</p>
+      <div class="lesson-list">
+        <a class="lesson-row" href="2. TEMATICA PENTRU DIDACTICA FIZICII/D01-componentele-curriculumului-national.html">
+          <span class="idx">D01</span>
+          <span class="ltitle">Componentele curriculumului național</span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="lesson-row" href="2. TEMATICA PENTRU DIDACTICA FIZICII/D02-curriculum-la-decizia-scolii.html">
+          <span class="idx">D02</span>
+          <span class="ltitle">Curriculumul la decizia școlii</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="chapter placeholder">
+      <div class="chapter-top">
+        <div>
+          <span class="tag">Capitol · de completat</span>
+          <h3>Următorul capitol al tematicii</h3>
+        </div>
+      </div>
+      <p class="desc">Acest spațiu este pregătit pentru următorul capitol al repository-ului (de exemplu
+      un capitol dedicat rezolvărilor de probleme sau proiectelor didactice). Duplică blocul <code
+      class="mono">.chapter</code> de mai sus și completează-l cu titlul, descrierea și lecțiile reale.</p>
+    </div>
+  </section>
+
+  <div class="callout">
+    <b>Notă:</b> pagina listează, deocamdată, doar ce este confirmat ca publicat în repository
+    (<code>2. TEMATICA PENTRU DIDACTICA FIZICII</code> → D01, D02). Dacă mai există alte foldere sau lecții,
+    spune-mi numele lor exacte și adaug cardurile corespunzătoare.
+  </div>
+
+  <footer class="sitefoot">
+    <span>Titularizare-Fizica · resurse pentru examenul de Titularizare / Definitivat</span>
+    <a href="https://github.com/danutmg-cyber/Titularizare-Fizica">github.com/danutmg-cyber/Titularizare-Fizica</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('titularizare-fizica-theme');
+  if (saved === 'dark'){ root.classList.add('dark'); }
+  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    root.classList.add('dark');
+  }
+  toggle.addEventListener('click', function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+})();
+</script>
+</body>
+</html>
