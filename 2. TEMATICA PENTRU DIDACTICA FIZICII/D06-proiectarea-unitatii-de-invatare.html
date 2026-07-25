@@ -1,1 +1,1594 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D06 · Proiectarea unității de învățare — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{color:var(--accent)}
+
+.mono{
+  font-family:"JetBrains Mono",monospace;
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.tooltip{
+  border-bottom:2px dotted var(--accent);
+  cursor:help;
+  position:relative;
+  font-weight:800;
+}
+
+.tooltip:hover::after{
+  content:attr(data-tip);
+  position:absolute;
+  left:0;
+  top:1.9em;
+  width:min(380px,80vw);
+  background:var(--ink);
+  color:var(--paper);
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.45;
+  z-index:20;
+  box-shadow:0 8px 22px var(--shadow);
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.unit-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.unit-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.unit-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.unit-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.unit-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .unit-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .unit-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,
+  .flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.svg-wrap{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.svg-node{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.svg-node:hover{
+  filter:drop-shadow(0 0 6px var(--accent-2));
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D06 — Unitatea de învățare</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 8h8M8 12h8M8 16h5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M17 15l2 2 3-4" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Proiectarea unității de învățare
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce este unitatea de învățare?</h2>
+
+      <p>
+        <span class="key"><b>Unitatea de învățare</b></span> este o structură didactică mai amplă decât lecția,
+        care grupează coerent <b>competențe specifice</b>, <b>conținuturi</b>, <b>activități de învățare</b>,
+        <b>resurse</b> și <b>evaluare</b>, într-un interval de mai multe ore.
+      </p>
+
+      <p>
+        La examen, ideea centrală este:
+        <span class="key"><b>unitatea de învățare transformă programa într-un parcurs didactic coerent</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Unitatea de învățare se desprinde din planificarea calendaristică și grupează mai multe lecții sub o temă coerentă.">1. Temă</button>
+        <button data-info="Competențele specifice sunt selectate din programă și ghidează întreaga proiectare.">2. Competențe</button>
+        <button data-info="Conținuturile sunt suporturi pentru formarea competențelor, nu simple capitole de memorat.">3. Conținuturi</button>
+        <button data-info="Activitățile de învățare includ experiment, investigație, probleme, grafice, aplicații și proiecte.">4. Activități</button>
+        <button data-info="Evaluarea verifică progresul elevilor și produsul observabil: explicație, calcul, grafic, montaj, concluzie.">5. Evaluare</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Temă</h3>
+        <p>Unitatea de învățare se desprinde din planificarea calendaristică și grupează mai multe lecții sub o temă coerentă.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>unitate de învățare</span>
+          <span>competențe specifice</span>
+          <span>conținuturi</span>
+          <span>activități de învățare</span>
+          <span>evaluare</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Locul în proiectare</div>
+      <h2>Unde se află unitatea de învățare?</h2>
+
+      <p>
+        <span class="key"><b>Unitatea de învățare</b></span> face legătura dintre
+        <b>planificarea calendaristică</b> și <b>proiectul de lecție</b>.
+      </p>
+
+      <div class="flow" id="flow">
+        <button class="active" data-title="Programa școlară" data-info="Stabilește competențele specifice, conținuturile și sugestiile metodologice. Este reperul principal.">Programă</button>
+        <span class="arrow">→</span>
+        <button data-title="Planificarea calendaristică" data-info="Distribuie unitățile de învățare pe durata anului sau a modulelor.">Planificare</button>
+        <span class="arrow">→</span>
+        <button data-title="Unitatea de învățare" data-info="Organizează un parcurs de mai multe lecții, cu activități, resurse și evaluare coerentă.">Unitate</button>
+        <span class="arrow">→</span>
+        <button data-title="Proiectul de lecție" data-info="Detaliază o singură activitate didactică: evenimentele lecției, metodele, sarcinile și evaluarea punctuală.">Lecție</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Programa școlară</h3>
+        <p>Stabilește competențele specifice, conținuturile și sugestiile metodologice. Este reperul principal.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Document</th>
+          <th>Întrebare la care răspunde</th>
+          <th>Rol</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Planificarea calendaristică</b></span></td>
+          <td>Când parcurg unitățile?</td>
+          <td>Distribuie unitățile, orele și evaluările în timp.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Unitatea de învățare</b></span></td>
+          <td>Cum formez competențele într-un parcurs coerent?</td>
+          <td>Organizează mai multe lecții în jurul competențelor.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Proiectul de lecție</b></span></td>
+          <td>Ce fac într-o oră concretă?</td>
+          <td>Detaliază scenariul didactic al lecției.</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> <b>unitatea de învățare nu este o lecție</b>, ci un ansamblu de lecții orientate spre formarea unor competențe.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Noțiuni esențiale</div>
+      <h2>Ce trebuie să reții?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Unitatea de învățare</b> are coerență tematică și finalitate didactică.</li>
+          <li><b>Competențele specifice</b> sunt punctul de plecare al proiectării.</li>
+          <li><b>Conținuturile</b> sunt selectate ca suport pentru competențe.</li>
+          <li><b>Activitățile</b> trebuie să permită elevului să manifeste competența.</li>
+          <li><b>Resursele</b> includ manual, laborator, fișe, instrumente, simulări, materiale video.</li>
+          <li><b>Evaluarea</b> se planifică de la început, nu se adaugă la final.</li>
+        </ul>
+      </div>
+
+      <p>
+        În fizică, o unitate de învățare bună trebuie să combine
+        <span class="key"><b>experimentul</b></span>,
+        <span class="key"><b>modelarea matematică</b></span>,
+        <span class="key"><b>rezolvarea de probleme</b></span>,
+        <span class="key"><b>interpretarea graficelor</b></span> și
+        <span class="key"><b>explicarea fenomenelor reale</b></span>.
+      </p>
+
+      <div class="formula">
+        Unitate de învățare = competențe + conținuturi + activități + resurse + evaluare + timp
+      </div>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Structură</div>
+      <h2>Ce rubrici are proiectarea unității?</h2>
+
+      <table class="compare">
+        <tr>
+          <th>Rubrică</th>
+          <th>Ce se trece?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Titlul unității</b></span></td>
+          <td>Tema majoră, formulată clar.</td>
+          <td>„Curentul electric continuu”.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>Competențe selectate din programă.</td>
+          <td>investigare, măsurare, interpretare de date, aplicare în probleme.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>Noțiuni și teme-suport.</td>
+          <td>circuit, intensitate, tensiune, rezistență, legea lui Ohm.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Activități de învățare</b></span></td>
+          <td>Sarcini concrete pentru elevi.</td>
+          <td>montaj experimental, tabel de date, grafic I(U), problemă aplicativă.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Resurse</b></span></td>
+          <td>Mijloace, materiale, instrumente, timp.</td>
+          <td>sursă, rezistor, ampermetru, voltmetru, fișă de laborator, simulare.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>Metode și instrumente de verificare.</td>
+          <td>observare, fișă practică, itemi de calcul, interpretare de grafic.</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Regulă practică:</b> fiecare rubrică trebuie să se lege de celelalte. Nu trece activități care nu susțin competențele.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Proiectare inversă</div>
+      <h2>Proiectarea se face de la rezultat spre activități</h2>
+
+      <p>
+        O unitate de învățare se proiectează eficient prin logica:
+        <span class="key"><b>ce trebuie să poată face elevul la final?</b></span>
+      </p>
+
+      <div class="flow wide" id="backwardFlow">
+        <button class="active" data-title="Rezultatul așteptat" data-info="Se stabilește performanța vizibilă: elevul explică, măsoară, calculează, interpretează sau proiectează.">Rezultat</button>
+        <span class="arrow">→</span>
+        <button data-title="Dovada învățării" data-info="Se stabilește produsul observabil: grafic, tabel, răspuns argumentat, montaj, portofoliu, test.">Dovadă</button>
+        <span class="arrow">→</span>
+        <button data-title="Activități" data-info="Se aleg activitățile prin care elevul poate ajunge la rezultat: experiment, problemă, investigație.">Activități</button>
+        <span class="arrow">→</span>
+        <button data-title="Conținuturi" data-info="Se selectează conținuturile care susțin activitățile și competențele, fără încărcare inutilă.">Conținuturi</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluare" data-info="Se proiectează evaluarea formativă și sumativă, cu criterii clare.">Evaluare</button>
+      </div>
+
+      <div class="card" id="backwardDetail">
+        <h3><span class="dot"></span>Rezultatul așteptat</h3>
+        <p>Se stabilește performanța vizibilă: elevul explică, măsoară, calculează, interpretează sau proiectează.</p>
+      </div>
+
+      <div class="formula">
+        Rezultat final → dovezi de învățare → activități → conținuturi → evaluare
+      </div>
+
+      <div class="callout">
+        <b>Exemplu:</b> dacă rezultatul este „elevul interpretează graficul I(U)”, atunci unitatea trebuie să includă măsurători, tabel, grafic și criterii de evaluare pentru interpretare.
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Pași de lucru</div>
+      <h2>Pașii 1–4 pentru proiectarea unității</h2>
+
+      <ol class="stepline">
+        <li>
+          <b>Identifică unitatea în planificarea calendaristică.</b>
+          Stabilește titlul, numărul de ore și perioada aproximativă.
+        </li>
+        <li>
+          <b>Selectează competențele specifice din programă.</b>
+          Alege competențele care pot fi formate prin conținuturile unității.
+        </li>
+        <li>
+          <b>Stabilește conținuturile-suport.</b>
+          Selectează noțiunile, legile, relațiile, experimentele și aplicațiile relevante.
+        </li>
+        <li>
+          <b>Formulează rezultatele așteptate.</b>
+          Precizează ce va putea face elevul la final: explică, măsoară, rezolvă, interpretează, argumentează.
+        </li>
+      </ol>
+
+      <div class="callout">
+        <b>De reținut:</b> competențele specifice se iau din programă, iar conținuturile se aleg ca suport pentru formarea lor.
+      </div>
+
+      <div class="keywords">
+        <span>titlul unității</span>
+        <span>competențe specifice</span>
+        <span>conținuturi-suport</span>
+        <span>rezultate așteptate</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Pași de lucru</div>
+      <h2>Pașii 5–8 pentru proiectarea unității</h2>
+
+      <ol class="stepline">
+        <li>
+          <b>Proiectează activitățile de învățare.</b>
+          Include activități variate: experiment, conversație euristică, rezolvare de probleme, simulare, proiect.
+        </li>
+        <li>
+          <b>Alege resursele.</b>
+          Include mijloace de laborator, manual, auxiliare, fișe, TIC, instrumente de măsură și materiale de protecție.
+        </li>
+        <li>
+          <b>Planifică evaluarea.</b>
+          Combină evaluare inițială, formativă, sumativă, autoevaluare și feedback.
+        </li>
+        <li>
+          <b>Prevede diferențiere și remediere.</b>
+          Adaptează sarcinile pentru elevi cu ritmuri diferite și include activități de consolidare.
+        </li>
+      </ol>
+
+      <div class="formula">
+        Activitate bună = sarcină clară + resurse adecvate + produs observabil + feedback
+      </div>
+
+      <div class="callout">
+        <b>Specific fizicii:</b> o unitate de învățare trebuie să includă, când este posibil, <b>activitate experimentală</b>, <b>analiză de date</b> și <b>interpretare fizică</b>.
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Coerența internă</div>
+      <h2>Competență → Activitate → Evaluare</h2>
+
+      <p>
+        Cea mai importantă calitate a unei unități de învățare este
+        <span class="key"><b>coerența internă</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Competență urmărită</th>
+          <th>Activitate potrivită</th>
+          <th>Evaluare potrivită</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>măsurarea unei mărimi fizice</b></span></td>
+          <td>activitate de laborator cu instrumente reale</td>
+          <td>fișă practică, observație sistematică, corectitudinea măsurării</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>interpretarea unui grafic</b></span></td>
+          <td>construirea graficului din date experimentale</td>
+          <td>item de interpretare, explicarea pantei, concluzie argumentată</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>aplicarea unei legi fizice</b></span></td>
+          <td>rezolvare de probleme și situații reale</td>
+          <td>problemă cu barem, verificarea unităților, interpretarea rezultatului</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>explicarea unui fenomen</b></span></td>
+          <td>observare, demonstrație, conversație euristică</td>
+          <td>răspuns argumentat, schemă, explicație cauzală</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> competența cere investigație, dar evaluarea verifică doar definiții. Aceasta rupe coerența unității de învățare.
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Exemplu aplicat</div>
+      <h2>Unitate de învățare: Curentul electric continuu</h2>
+
+      <p>
+        Exemplul de mai jos este potrivit pentru examen deoarece leagă clar
+        <span class="key"><b>experimentul</b></span>,
+        <span class="key"><b>legea lui Ohm</b></span>,
+        <span class="key"><b>reprezentarea grafică</b></span> și
+        <span class="key"><b>evaluarea practică</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Element</th>
+          <th>Completare posibilă</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Titlul unității</b></span></td>
+          <td>Curentul electric continuu</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Clasa</b></span></td>
+          <td>a VIII-a</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Număr de ore</b></span></td>
+          <td>8–10 ore</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>investigarea circuitelor simple; măsurarea tensiunii și intensității; interpretarea datelor; rezolvarea de probleme.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>circuit electric, surse, consumatori, intensitate, tensiune, rezistență, legea lui Ohm, grupări simple.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Produse ale învățării</b></span></td>
+          <td>schemă de circuit, tabel de măsurători, grafic I(U), rezolvare de probleme, concluzie experimentală.</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Legea lui Ohm devine competență când elevul măsoară, reprezintă, interpretează și aplică.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Model tabelar</div>
+      <h2>Model de proiectare a unității</h2>
+
+      <table class="compare">
+        <tr>
+          <th>Competențe specifice</th>
+          <th>Conținuturi</th>
+          <th>Activități de învățare</th>
+          <th>Resurse</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>Investigarea circuitelor electrice simple</td>
+          <td>circuit electric, sursă, consumator, întrerupător</td>
+          <td>realizarea unui circuit simplu; identificarea condițiilor de funcționare</td>
+          <td>baterie, bec, fire, întrerupător, fișă de lucru</td>
+          <td>observare sistematică; verificarea montajului</td>
+        </tr>
+        <tr>
+          <td>Măsurarea mărimilor electrice</td>
+          <td>intensitate, tensiune, aparate de măsură</td>
+          <td>conectarea ampermetrului și voltmetrului; citirea valorilor</td>
+          <td>ampermetru, voltmetru, rezistor, sursă</td>
+          <td>fișă practică; corectitudinea conectării</td>
+        </tr>
+        <tr>
+          <td>Interpretarea datelor experimentale</td>
+          <td>legea lui Ohm, graficul I(U)</td>
+          <td>completarea tabelului; trasarea graficului; interpretarea pantei</td>
+          <td>hârtie milimetrică sau foaie de calcul</td>
+          <td>item de interpretare; concluzie argumentată</td>
+        </tr>
+        <tr>
+          <td>Aplicarea relațiilor fizice</td>
+          <td>R = U/I; unități SI; probleme aplicative</td>
+          <td>rezolvare de probleme; verificarea unităților; estimarea rezultatului</td>
+          <td>manual, culegere, fișă diferențiată</td>
+          <td>test scurt; problemă cu barem</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> modelul tabelar trebuie să arate relația dintre <b>competență</b>, <b>conținut</b>, <b>activitate</b> și <b>evaluare</b>.
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Experiment și siguranță</div>
+      <h2>Specificul fizicii: experiment, TIC și NTSM</h2>
+
+      <p>
+        În proiectarea unității de învățare la fizică, profesorul trebuie să integreze
+        <span class="key"><b>activități practice</b></span>,
+        <span class="key"><b>instrumente de măsură</b></span>,
+        <span class="key"><b>resurse digitale</b></span> și
+        <span class="key"><b>norme de protecție a muncii</b></span>.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Integrarea experimentului</h3>
+          <ul class="remember-list">
+            <li><b>experiment demonstrativ</b> realizat de profesor;</li>
+            <li><b>experiment frontal</b> realizat simultan de elevi;</li>
+            <li><b>lucrare de laborator</b> cu fișă și concluzii;</li>
+            <li><b>investigație</b> cu ipoteză, date și interpretare.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>NTSM în unitate</h3>
+          <ul class="remember-list">
+            <li><b>verificarea aparaturii</b> înainte de lucru;</li>
+            <li><b>tensiuni electrice mici</b> în activități cu elevii;</li>
+            <li><b>respectarea instrucțiunilor</b> de conectare;</li>
+            <li><b>supravegherea permanentă</b> a grupelor de lucru.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>La examen:</b> pentru o unitate experimentală, menționează explicit <b>normele de protecție a muncii</b> și modul de evaluare a activității practice.
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Confundarea unității de învățare cu lecția.</b> Unitatea include mai multe lecții, nu o singură oră.</li>
+          <li><b>Începerea proiectării de la manual.</b> Corect: se pornește de la programa școlară și de la competențe.</li>
+          <li><b>Omiterea competențelor specifice.</b> Fără competențe, proiectarea devine listă de conținuturi.</li>
+          <li><b>Activități necorelate cu evaluarea.</b> Dacă elevii fac experiment, evaluarea trebuie să includă produs experimental.</li>
+          <li><b>Lipsa resurselor și a timpului.</b> O unitate trebuie să precizeze resursele și numărul de ore.</li>
+          <li><b>Ignorarea diferențierii.</b> Elevii au ritmuri diferite; proiectarea trebuie să includă remediere și aprofundare.</li>
+          <li><b>Omiterea NTSM.</b> La fizică, siguranța în laborator este parte a proiectării.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> pentru fiecare competență, scrie o activitate și o formă de evaluare corespunzătoare.
+      </div>
+
+      <div class="keywords">
+        <span>unitate ≠ lecție</span>
+        <span>competențe specifice</span>
+        <span>coerență internă</span>
+        <span>evaluare practică</span>
+        <span>NTSM</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Unitatea de învățare</b> este un ansamblu coerent de lecții, centrat pe competențe.</li>
+          <li><b>Se pornește de la programa școlară</b> și de la competențele specifice.</li>
+          <li><b>Conținuturile</b> sunt suporturi pentru formarea competențelor.</li>
+          <li><b>Activitățile</b> trebuie să fie variate: experiment, investigație, problemă, simulare, proiect.</li>
+          <li><b>Resursele</b> includ mijloace de laborator, manual, fișe, TIC și materiale de protecție.</li>
+          <li><b>Evaluarea</b> trebuie să verifice produsul observabil al învățării.</li>
+          <li><b>Diferențierea</b> presupune sarcini de remediere, consolidare și aprofundare.</li>
+          <li><b>NTSM</b> trebuie menționate când unitatea include activități experimentale.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Proiectarea unității de învățare</b> este nivelul intermediar dintre planificarea calendaristică și proiectul de lecție.</li>
+          <li><b>Competențele specifice</b> sunt nucleul proiectării și se selectează din programa școlară.</li>
+          <li><b>Conținuturile</b> nu se predau izolat, ci susțin activități prin care elevul investighează, aplică și explică.</li>
+          <li><b>Evaluarea</b> se proiectează odată cu activitățile, pentru a verifica progresul real al elevilor.</li>
+          <li><b>La fizică</b>, o unitate bine proiectată include experiment, rezolvare de probleme, interpretare de date, aplicații și norme de siguranță.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre unitatea de învățare și lecție?</summary>
+        <p><b>Unitatea de învățare</b> include mai multe lecții și urmărește formarea unor competențe pe o perioadă mai lungă. <b>Lecția</b> este o activitate didactică punctuală.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Care sunt rubricile esențiale ale proiectării unității?</summary>
+        <p>Titlul unității, competențe specifice, conținuturi, activități de învățare, resurse, evaluare, număr de ore și observații/adaptări.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. De ce evaluarea trebuie planificată de la început?</summary>
+        <p>Pentru că evaluarea trebuie să verifice competențele urmărite și produsele activităților de învățare, nu să fie adăugată formal la final.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Dă un exemplu de coerență competență–activitate–evaluare la fizică.</summary>
+        <p>Dacă se urmărește interpretarea graficului I(U), elevii trebuie să măsoare U și I, să completeze tabelul, să traseze graficul și să explice relația dintre mărimi.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D06 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon unitate PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>loc în proiectare</b> → <b>rubrici</b> → <b>pași</b> →
+            <b>exemplu la fizică</b> → <b>evaluare</b> → <b>NTSM</b> → <b>sinteză</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = competență + conținut-suport + activitate + resurse + evaluare + adaptare
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează proiectarea unei unități de învățare pentru: „Mărimi fizice”, „Forțe”, „Curentul electric” sau „Reflexia și refracția luminii”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D07-proiectul-de-lectie.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D06-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D06 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D06 — Proiectarea unității de învățare</h1>
+  <ul>
+    <li><b>Definiție:</b> unitatea de învățare este un ansamblu coerent de lecții, centrat pe formarea unor competențe specifice.</li>
+    <li><b>Loc în proiectare:</b> între planificarea calendaristică și proiectul de lecție.</li>
+    <li><b>Rubrici:</b> titlul unității, competențe specifice, conținuturi, activități de învățare, resurse, evaluare, timp, observații.</li>
+    <li><b>Pași:</b> identificarea unității, selectarea competențelor, alegerea conținuturilor, formularea rezultatelor, proiectarea activităților, alegerea resurselor, evaluarea, diferențierea.</li>
+    <li><b>Specific fizicii:</b> experiment, investigație, măsurare, grafic, problemă, aplicație, TIC, NTSM.</li>
+    <li><b>Principiu:</b> competențele conduc proiectarea; conținuturile sunt suporturi.</li>
+    <li><b>Sinteză:</b> activitățile și evaluarea trebuie să fie coerente cu competențele urmărite.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon — Proiectarea unității de învățare la fizică</h1>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%">
+    <tr>
+      <th>Unitatea de învățare</th>
+      <th>Competențe specifice</th>
+      <th>Conținuturi</th>
+      <th>Activități de învățare</th>
+      <th>Resurse</th>
+      <th>Evaluare</th>
+      <th>Nr. ore</th>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>experiment / problemă / investigație / proiect</td>
+      <td>laborator / manual / TIC / fișe</td>
+      <td>fișă practică / test / portofoliu / observație</td>
+      <td>...</td>
+    </tr>
+  </table>
+  <p><b>Model de completare:</b> Curentul electric continuu — competențe de investigare, măsurare și interpretare — circuit, intensitate, tensiune, rezistență, legea lui Ohm — montaj, tabel, grafic I(U), probleme — 8–10 ore.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#backwardFlow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#backwardFlow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('backwardDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D06</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}table{font-size:12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
