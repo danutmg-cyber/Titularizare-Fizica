@@ -1,1 +1,530 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D01 · Componentele curriculumului național — Didactica Fizicii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef1f0;
+    --bg-grid: #e2e8e6;
+    --paper: #ffffff;
+    --ink: #182322;
+    --ink-soft: #4b5a58;
+    --accent: #1f6f6b;
+    --accent-2: #b8862e;
+    --accent-ink: #ffffff;
+    --line: #d3dbd8;
+    --shadow: rgba(24,35,34,0.08);
+    --code-bg: #eef4f3;
+    --radius: 14px;
+    color-scheme: light;
+  }
+  html.dark{
+    --bg: #0e1615;
+    --bg-grid: #131e1c;
+    --paper: #131e1d;
+    --ink: #e8efed;
+    --ink-soft: #a9bab6;
+    --accent: #5fc9c1;
+    --accent-2: #e0ab54;
+    --accent-ink: #0e1615;
+    --line: #24322f;
+    --shadow: rgba(0,0,0,0.35);
+    --code-bg: #0f1b19;
+    color-scheme: dark;
+  }
 
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/ 100% 34px,
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/ 34px 100%,
+      var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background-color .35s ease, color .35s ease;
+  }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+  a{ color:var(--accent); }
+  .mono{ font-family:"JetBrains Mono", monospace; }
+
+  .shell{ max-width: 860px; margin: 0 auto; padding: 18px 20px 40px; }
+
+  header.top{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    padding-bottom:14px; border-bottom:1px solid var(--line); margin-bottom:22px;
+  }
+  .crumb{
+    font-family:"JetBrains Mono", monospace; font-size:12.5px; color: var(--ink-soft);
+    text-transform:uppercase; letter-spacing:.06em; line-height:1.7;
+  }
+  .crumb b{ color: var(--accent); }
+  .lesson-title{ margin: 4px 0 0; font-size: clamp(20px, 4.4vw, 27px); line-height:1.2; }
+  .lesson-title .instrument{ display:inline-flex; width: 30px; height:30px; vertical-align:-8px; margin-right:8px; }
+
+  .theme-toggle{
+    flex: 0 0 auto; display:flex; align-items:center; gap:8px;
+    background: var(--paper); border:1px solid var(--line); border-radius: 999px;
+    padding: 5px 6px; box-shadow: 0 2px 6px var(--shadow); cursor:pointer; user-select:none;
+  }
+  .theme-toggle .icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; opacity:.55; }
+  .theme-toggle .icon.on{ opacity:1; color:var(--accent); }
+  .theme-toggle .track{ width:34px; height:18px; border-radius:999px; background: var(--line); position:relative; }
+  .theme-toggle .knob{ position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background: var(--accent); transition: transform .25s ease; }
+  html.dark .theme-toggle .knob{ transform: translateX(16px); }
+
+  .ruler{ display:flex; gap:4px; margin-bottom:26px; }
+  .ruler .tick{ flex:1; height:6px; border-radius:3px; background: var(--line); position:relative; cursor:pointer; }
+  .ruler .tick.done{ background: var(--accent); opacity:.45; }
+  .ruler .tick.current{ background: var(--accent); opacity:1; }
+  .ruler .tick::after{
+    content: attr(data-n); position:absolute; top:10px; left:50%; transform:translateX(-50%);
+    font-family:"JetBrains Mono",monospace; font-size:10.5px; color: var(--ink-soft);
+  }
+
+  .page{ display:none; animation: fade .35s ease; }
+  .page.active{ display:block; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  .page .eyebrow{
+    font-family:"JetBrains Mono", monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--accent-2); margin-bottom:6px;
+  }
+  .page h2{ font-size: clamp(21px,4vw,27px); margin:0 0 14px; }
+  .page p{ color: var(--ink); margin: 0 0 14px; }
+  .page ul, .page ol{ margin:0 0 16px; padding-left:22px; }
+  .page li{ margin-bottom:8px; }
+
+  .card{
+    background: var(--paper); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 18px; margin: 0 0 18px; box-shadow: 0 2px 10px var(--shadow);
+  }
+  .card h3{ font-size:16px; margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+  .card h3 .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+
+  .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+  .grid3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; }
+  @media (max-width: 640px){ .grid2, .grid3{ grid-template-columns: 1fr; } }
+
+  table.compare{ width:100%; border-collapse: collapse; margin: 0 0 18px; font-size:15px; }
+  table.compare th, table.compare td{ border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top; }
+  table.compare th{
+    background: var(--code-bg); font-family:"JetBrains Mono",monospace; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:.04em; color: var(--ink-soft);
+  }
+
+  .callout{
+    border-left: 3px solid var(--accent-2); background: var(--code-bg); border-radius: 0 10px 10px 0;
+    padding: 12px 16px; margin: 0 0 18px; font-size: 15.5px;
+  }
+  .callout b{ color: var(--accent-2); }
+
+  .stepline{ list-style:none; margin:0 0 18px; padding:0; counter-reset: step; }
+  .stepline li{ counter-increment: step; position:relative; padding-left:38px; margin-bottom:14px; }
+  .stepline li::before{
+    content: counter(step); font-family:"JetBrains Mono",monospace; font-weight:600;
+    position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%;
+    background: var(--accent); color: var(--accent-ink); display:flex; align-items:center; justify-content:center; font-size:13px;
+  }
+
+  .diagram{ display:flex; gap:10px; margin: 6px 0 20px; flex-wrap:wrap; }
+  .diagram .block{
+    flex:1 1 140px; border-radius:10px; padding:14px 12px; text-align:center;
+    font-family:"JetBrains Mono",monospace; font-size:13px; border:1px dashed var(--line); color: var(--ink-soft);
+  }
+  .diagram .block.tc{ border-style:solid; background: var(--code-bg); color:var(--ink); }
+  .diagram .block.cds{ border-style:solid; background: var(--accent); color: var(--accent-ink); }
+  .diagram .block b{ display:block; font-family:"Fraunces",serif; font-size:15px; margin-bottom:4px; }
+
+  .areas{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+  .areas span{
+    font-family:"JetBrains Mono",monospace; font-size:12.5px; background: var(--code-bg);
+    border:1px solid var(--line); border-radius:999px; padding:6px 12px; color: var(--ink);
+  }
+
+  .navbar{
+    margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .navbar .pageinfo{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color: var(--ink-soft); }
+  .btn{
+    appearance:none; border:1px solid var(--line); background: var(--paper); color: var(--ink);
+    font-family:"Source Sans 3", sans-serif; font-weight:600; font-size:15px; padding: 10px 18px;
+    border-radius: 10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ box-shadow: 0 4px 12px var(--shadow); transform: translateY(-1px); }
+  .btn:disabled{ opacity:.35; cursor:default; box-shadow:none; transform:none; }
+  .btn.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.ghost{ background:transparent; }
+
+  #final-actions{ display:none; margin-top:26px; padding-top:18px; border-top:1px solid var(--line); }
+  #final-actions .lead{ text-align:center; margin-bottom:18px; }
+  #final-actions .lead .eyebrow{ text-align:center; }
+  #final-actions .actions{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 640px){ #final-actions .actions{ grid-template-columns: 1fr; } }
+  .action-card{
+    display:flex; flex-direction:column; gap:6px; padding:16px; border-radius: var(--radius);
+    border:1px solid var(--line); background: var(--paper); text-decoration:none; color: var(--ink);
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .action-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px var(--shadow); }
+  .action-card .tag{ font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color: var(--accent-2); }
+  .action-card .label{ font-family:"Fraunces",serif; font-size:18px; font-weight:600; }
+  .action-card.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .action-card.primary .tag{ color: var(--accent-ink); opacity:.75; }
+
+  footer.sig{ margin-top: 30px; text-align:center; font-family:"JetBrains Mono",monospace; font-size:11.5px; color: var(--ink-soft); opacity:.7; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii &nbsp;›&nbsp; <b>D01 — Curriculum</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.6"/>
+          <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M12 12l4-4" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        Componentele curriculumului național
+      </h1>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon" id="iconSun">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon" id="iconMoon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <!-- PAGINA 1 -->
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 5 · Prezentare generală</div>
+      <h2>Cele trei piese ale curriculumului național</h2>
+      <p>Curriculumul național nu este un singur document, ci un sistem alcătuit din trei componente aflate
+      într-o relație strict ierarhică — fiecare o detaliază și o transpune pe cea dinaintea ei.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <h3><span class="dot"></span>1. Planul-cadru</h3>
+          <p style="margin:0">Stabilește <i>ce</i> discipline se studiază și <i>câte ore</i> li se alocă,
+          pe ani de studiu.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>2. Programa școlară</h3>
+          <p style="margin:0">Detaliază, pentru fiecare disciplină, <i>ce</i> competențe și <i>ce</i>
+          conținuturi se predau.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>3. Manualul + auxiliarele</h3>
+          <p style="margin:0">Transpun programa în material de lucru concret, pentru elev și pentru
+          profesor.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Reținem pentru examen:</b> ordinea contează. Planul-cadru precede programa, iar programa precede
+        manualul — un manual bun este cel care servește fidel programa, nu invers. Manualul nu este sursa
+        curriculumului, ci doar unul dintre instrumentele lui.
+      </div>
+
+      <p>Toate cele trei componente sunt elaborate sau avizate la nivel central (Ministerul Educației,
+      prin instituțiile sale de specialitate), ceea ce garantează un nivel unitar de pregătire pentru toți
+      elevii din sistemul public, indiferent de școala la care învață.</p>
+    </section>
+
+    <!-- PAGINA 2 -->
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 5 · Planul-cadru</div>
+      <h2>Planul-cadru de învățământ și ariile curriculare</h2>
+      <p>Planul-cadru este documentul reglator care distribuie resursa de timp școlar pe discipline,
+      pe ani de studiu și pe cicluri curriculare. El este organizat pe <b>șapte arii curriculare</b>, grupări
+      de discipline înrudite prin obiective comune de formare:</p>
+
+      <div class="areas">
+        <span>Limbă și comunicare</span>
+        <span>Matematică și Științe ale naturii</span>
+        <span>Om și societate</span>
+        <span>Arte</span>
+        <span>Educație fizică și sport</span>
+        <span>Tehnologii</span>
+        <span>Consiliere și orientare</span>
+      </div>
+
+      <p>Fizica se regăsește în aria curriculară <b>Matematică și Științe ale naturii</b>, alături de
+      chimie, biologie și, la gimnaziu, disciplina integrată „Științe ale naturii”.</p>
+
+      <p>Din punctul de vedere al orelor alocate, planul-cadru separă:</p>
+      <div class="diagram">
+        <div class="block tc"><b>Trunchi comun</b>ore obligatorii, identice pentru toți elevii unui profil</div>
+        <div class="block tc"><b>Curriculum diferențiat</b>ore specifice unei filiere/profil/specializări</div>
+        <div class="block cds"><b>C.D.S. / C.D.L.</b>ore decise la nivelul școlii sau al comunității locale</div>
+      </div>
+
+      <div class="callout">
+        <b>De reținut:</b> planul-cadru nu spune <i>ce</i> se predă în detaliu la fiecare oră — asta este
+        rolul programei școlare. El spune doar <i>câte</i> ore și <i>pentru cine</i>.
+      </div>
+    </section>
+
+    <!-- PAGINA 3 -->
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 5 · Concepte-cheie</div>
+      <h2>Trunchi comun, curriculum diferențiat, CDS și CDL</h2>
+      <p>Patru termeni apar constant în subiectele de examen legate de planul-cadru — și sunt frecvent
+      confundați între ei. Diferența e dată de <i>cine</i> decide conținutul și <i>pentru cine</i> este
+      identic.</p>
+
+      <table class="compare">
+        <tr><th>Concept</th><th>Cine decide</th><th>Pentru cine este identic</th></tr>
+        <tr>
+          <td><b>Trunchi comun (TC)</b></td>
+          <td>Nivel central (minister)</td>
+          <td>Toți elevii dintr-un anumit profil, în toată țara</td>
+        </tr>
+        <tr>
+          <td><b>Curriculum diferențiat (CD)</b></td>
+          <td>Nivel central, diferențiat pe filieră/profil</td>
+          <td>Elevii aceleiași specializări (ex. mate-info), diferit față de altă specializare</td>
+        </tr>
+        <tr>
+          <td><b>Curriculum la decizia școlii (CDS)</b></td>
+          <td>Unitatea de învățământ, cu avizare instituțională</td>
+          <td>Elevii unei singure școli sau clase — variază de la o școală la alta</td>
+        </tr>
+        <tr>
+          <td><b>Curriculum în dezvoltare locală (CDL)</b></td>
+          <td>Școala, împreună cu agenți economici locali</td>
+          <td>Specific învățământului profesional și tehnic, adaptat pieței muncii locale</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> CDL nu este sinonim cu CDS. CDL apare doar în învățământul profesional și
+        tehnic și presupune, prin definiție, parteneriat cu operatori economici — CDS este mai general și
+        există la orice profil, inclusiv la gimnaziu.
+      </div>
+    </section>
+
+    <!-- PAGINA 4 -->
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 5 · Programa școlară</div>
+      <h2>Ce conține o programă școlară</h2>
+      <p>Programa școlară este documentul care detaliază, pentru o disciplină și un an de studiu,
+      ce anume trebuie să știe și să poată face elevul la finalul perioadei — și cu ce conținuturi se
+      ajunge acolo.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Notă de prezentare</h3>
+          <p style="margin:0">Situează disciplina în planul-cadru, explică structura programei și
+          contribuția ei la profilul de formare al elevului.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Competențe generale</h3>
+          <p style="margin:0">Vizează achizițiile pe termen lung, formulate pentru întreg ciclul de
+          învățământ, nu pentru un singur an.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Competențe specifice</h3>
+          <p style="margin:0">Derivate din cele generale, corelate direct cu exemple de activități de
+          învățare pentru anul de studiu respectiv.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Conținuturi</h3>
+          <p style="margin:0">Organizate pe domenii/unități tematice — mijlocul prin care se ating
+          competențele, nu un scop în sine.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Sugestii metodologice</h3>
+          <p style="margin:0">Recomandări de strategii didactice și de evaluare adecvate specificului
+          disciplinei.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Standarde/repere de evaluare</h3>
+          <p style="margin:0">Unde este cazul, praguri minime de performanță, folosite ca reper pentru
+          evaluările naționale.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Legătură directă:</b> planificarea calendaristică și proiectarea unităților de învățare, pe care
+        profesorul le face la începutul anului, pornesc mereu de la competențele și conținuturile programei —
+        niciodată de la cuprinsul manualului.
+      </div>
+    </section>
+
+    <!-- PAGINA 5 -->
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 5 · Sinteză</div>
+      <h2>Manuale, auxiliare curriculare și recapitulare</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Manualul școlar</h3>
+          <p style="margin:0">Transpune programa în conținut de lucru pentru elev: text explicativ,
+          exerciții, ilustrații. Pentru aceeași programă pot exista mai multe manuale alternative, aprobate de
+          minister — profesorul (sau elevul, la liceu) alege între ele, dar toate respectă aceeași programă.</p>
+        </div>
+        <div class="card">
+          <h3><span class="dot"></span>Auxiliare curriculare</h3>
+          <p style="margin:0">Materiale complementare, neobligatorii: culegeri de probleme, caiete de lucru,
+          softuri educaționale, ghiduri metodologice pentru profesor, seturi de teste. Sprijină aplicarea
+          programei, dar nu o înlocuiesc și nu au forță de reglementare proprie.</p>
+        </div>
+      </div>
+
+      <p>Pe scurt, componentele curriculumului național se leagă astfel:</p>
+      <ul>
+        <li><b>Planul-cadru</b> — decide câte ore și pentru cine, pe arii curriculare;</li>
+        <li><b>Trunchi comun / curriculum diferențiat / CDS / CDL</b> — cele patru zone de ore, cu grade
+        diferite de decizie centrală vs. locală;</li>
+        <li><b>Programa școlară</b> — detaliază competențele și conținuturile fiecărei discipline;</li>
+        <li><b>Manualul</b> — transpune programa în material de lucru pentru elev;</li>
+        <li><b>Auxiliarele curriculare</b> — completează, opțional, manualul și programa.</li>
+      </ul>
+
+      <div class="callout">
+        <b>Pentru examen:</b> comisia verifică des dacă știi să ordonezi corect aceste componente și să
+        explici, cu un exemplu la fizică, cum o competență din programă se regăsește concret într-o lecție din
+        manual sau într-un auxiliar.
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">5</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <!-- Ecran final — apare doar pe ultima pagină -->
+  <div id="final-actions">
+    <div class="lead">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0">Ce urmează?</h2>
+    </div>
+    <div class="actions">
+      <a class="action-card" href="D02-curriculum-la-decizia-scolii.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+      <a class="action-card primary" href="D01-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D01 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<script>
+(function(){
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var total = pages.length;
+  var current = 1;
+
+  var ruler = document.getElementById('ruler');
+  for (var i = 1; i <= total; i++){
+    var t = document.createElement('div');
+    t.className = 'tick';
+    t.setAttribute('data-n', i);
+    t.setAttribute('data-page', i);
+    ruler.appendChild(t);
+  }
+  var ticks = Array.prototype.slice.call(ruler.querySelectorAll('.tick'));
+
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var pageNow = document.getElementById('pageNow');
+  var pageTotal = document.getElementById('pageTotal');
+  var finalActions = document.getElementById('final-actions');
+  pageTotal.textContent = total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active', parseInt(p.getAttribute('data-page'),10) === current);
+    });
+    ticks.forEach(function(t){
+      var n = parseInt(t.getAttribute('data-page'),10);
+      t.classList.toggle('current', n === current);
+      t.classList.toggle('done', n < current);
+    });
+    pageNow.textContent = current;
+    prevBtn.disabled = current === 1;
+
+    if (current === total){
+      nextBtn.style.display = 'none';
+      finalActions.style.display = 'block';
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      nextBtn.textContent = 'Pagina următoare →';
+      finalActions.style.display = 'none';
+    }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  prevBtn.addEventListener('click', function(){ if (current > 1){ current--; render(); } });
+  nextBtn.addEventListener('click', function(){ if (current < total){ current++; render(); } });
+  ticks.forEach(function(t){
+    t.addEventListener('click', function(){ current = parseInt(t.getAttribute('data-page'),10); render(); });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') nextBtn.click();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX = null;
+  document.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 55){
+      if (dx < 0 && current < total){ current++; render(); }
+      if (dx > 0 && current > 1){ current--; render(); }
+    }
+    touchStartX = null;
+  }, {passive:true});
+
+  render();
+
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('titularizare-fizica-theme');
+  if (saved === 'dark'){ root.classList.add('dark'); }
+  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    root.classList.add('dark');
+  }
+  toggle.addEventListener('click', function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+})();
+</script>
+</body>
+</html>
