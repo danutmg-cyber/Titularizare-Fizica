@@ -1,1 +1,1732 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D10 · Mijloace de învățământ la fizică — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{
+  color:var(--accent);
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.means-map,
+.function-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.means-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.function-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.means-map button,
+.function-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.means-map button:hover,
+.function-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.means-map button.active,
+.function-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .means-map,
+  .function-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .means-map,
+  .function-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D10 — Mijloace de învățământ</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3.5" y="5" width="17" height="12" rx="2.5" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 20h8M12 17v3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M7 9h5M7 12h9" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Mijloace de învățământ la fizică
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce sunt mijloacele de învățământ?</h2>
+
+      <p>
+        <span class="key"><b>Mijloacele de învățământ</b></span> sunt resurse materiale, simbolice sau digitale
+        folosite pentru a sprijini <b>predarea</b>, <b>învățarea</b> și <b>evaluarea</b>.
+        La fizică, ele au rol esențial deoarece transformă fenomenele în <b>observații</b>,
+        <b>măsurători</b>, <b>modele</b>, <b>grafice</b> și <b>concluzii</b>.
+      </p>
+
+      <p>
+        Ideea centrală pentru examen:
+        <span class="key"><b>mijlocul de învățământ nu este decor</b></span>, ci trebuie integrat într-o
+        strategie didactică, cu sarcină clară și evaluare corespunzătoare.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Mijloacele concrete sunt obiecte, aparate, dispozitive și materiale reale: dinamometru, ampermetru, prismă, lentilă, pendul, calorimetru.">1. Concrete</button>
+        <button data-info="Mijloacele figurative reprezintă realitatea prin imagini, scheme, grafice, hărți conceptuale, fotografii sau planșe.">2. Figurative</button>
+        <button data-info="Mijloacele simbolice folosesc formule, modele matematice, tabele, diagrame și limbaj științific.">3. Simbolice</button>
+        <button data-info="Mijloacele digitale includ simulări, animații, senzori, foi de calcul, platforme, aplicații și quizuri online.">4. Digitale</button>
+        <button data-info="Mijloacele de evaluare includ teste, fișe, checklisturi, bareme, portofolii, rubrici și instrumente de feedback.">5. Evaluare</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Concrete</h3>
+        <p>Mijloacele concrete sunt obiecte, aparate, dispozitive și materiale reale: dinamometru, ampermetru, prismă, lentilă, pendul, calorimetru.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>mijloace de învățământ</span>
+          <span>funcții didactice</span>
+          <span>aparatură de laborator</span>
+          <span>modele</span>
+          <span>simulări</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Funcții didactice</div>
+      <h2>Funcțiile mijloacelor de învățământ</h2>
+
+      <p>
+        Un mijloc de învățământ se justifică didactic prin funcția pe care o îndeplinește.
+        La fizică, cele mai importante sunt:
+        <span class="key"><b>funcția intuitivă</b></span>,
+        <span class="key"><b>funcția experimentală</b></span>,
+        <span class="key"><b>funcția de modelare</b></span> și
+        <span class="key"><b>funcția evaluativă</b></span>.
+      </p>
+
+      <div class="function-map" id="functionMap">
+        <button class="active" data-title="Funcția informativă" data-info="Mijlocul transmite sau organizează informația: manual, fișă, prezentare, schemă, poster, video.">Informativă</button>
+        <button data-title="Funcția intuitiv-demonstrativă" data-info="Mijlocul face vizibil sau accesibil un fenomen: prismă, pendul, model, planșă, animație.">Intuitivă</button>
+        <button data-title="Funcția formativă" data-info="Mijlocul dezvoltă deprinderi: măsurare, manipulare de aparate, citirea scalei, construirea graficului.">Formativă</button>
+        <button data-title="Funcția evaluativă" data-info="Mijlocul permite verificarea progresului: fișă, test, rubrică, grafic, raport de laborator, quiz digital.">Evaluativă</button>
+      </div>
+
+      <div class="card" id="functionDetail">
+        <h3><span class="dot"></span>Funcția informativă</h3>
+        <p>Mijlocul transmite sau organizează informația: manual, fișă, prezentare, schemă, poster, video.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Funcție</th>
+          <th>Ce produce în învățare?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Informativă</b></span></td>
+          <td>transmiterea și organizarea informației</td>
+          <td>manual, fișă de lucru, prezentare cu schema circuitului</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Intuitivă</b></span></td>
+          <td>concretizarea fenomenului</td>
+          <td>demonstrarea refracției cu prismă sau vas cu apă</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Formativă</b></span></td>
+          <td>formarea deprinderilor practice și intelectuale</td>
+          <td>citirea ampermetrului, trasarea graficului I(U)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Motivațională</b></span></td>
+          <td>captarea interesului și stimularea curiozității</td>
+          <td>film scurt despre fulgere înaintea lecției de electrostatică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluativă</b></span></td>
+          <td>verificarea produsului învățării</td>
+          <td>fișă de laborator, checklist, test, rubrică</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Clasificare</div>
+      <h2>Tipuri de mijloace de învățământ</h2>
+
+      <p>
+        Pentru examen, trebuie să clasifici mijloacele și să le caracterizezi.
+        Nu este suficient să spui „folosesc aparatură”; trebuie să arăți
+        <span class="key"><b>ce mijloc alegi</b></span>,
+        <span class="key"><b>de ce îl alegi</b></span> și
+        <span class="key"><b>cum îl integrezi în lecție</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Tip de mijloc</th>
+          <th>Caracteristici</th>
+          <th>Exemple la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Obiecte reale</b></span></td>
+          <td>permit contact direct cu fenomenul sau materialul</td>
+          <td>arc, bilă, fir, magnet, oglindă, lentilă, conductor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Aparate și instrumente</b></span></td>
+          <td>permit măsurarea și verificarea experimentală</td>
+          <td>dinamometru, balanță, cronometru, ampermetru, voltmetru</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Modele și machete</b></span></td>
+          <td>reprezintă simplificat sisteme greu observabile direct</td>
+          <td>model atomic, model de circuit, model de undă, machetă optică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Materiale grafice</b></span></td>
+          <td>organizează vizual informația</td>
+          <td>scheme, grafice, planșe, tabele, hărți conceptuale</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Materiale scrise</b></span></td>
+          <td>ghidează activitatea și învățarea autonomă</td>
+          <td>manual, culegere, fișă de laborator, fișă de lucru</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Mijloace digitale</b></span></td>
+          <td>permit simulare, vizualizare, achiziție și prelucrare de date</td>
+          <td>simulare, senzor, foaie de calcul, platformă, quiz</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Tipul mijlocului se justifică prin competență, conținut, metodă, siguranță și evaluare.
+      </div>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Aparatură de laborator</div>
+      <h2>Aparate și instrumente de măsură</h2>
+
+      <p>
+        <span class="key"><b>Aparatura de laborator</b></span> este mijlocul cel mai specific predării fizicii,
+        deoarece permite elevilor să observe, să măsoare, să compare și să formuleze concluzii pe baza datelor.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Instrumente mecanice</h3>
+          <ul class="remember-list">
+            <li><b>riglă, ruletă, șubler</b> — măsurarea lungimii;</li>
+            <li><b>cronometru</b> — măsurarea timpului;</li>
+            <li><b>dinamometru</b> — măsurarea forței;</li>
+            <li><b>balanță</b> — măsurarea masei;</li>
+            <li><b>cilindru gradat</b> — măsurarea volumului.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Instrumente electrice și optice</h3>
+          <ul class="remember-list">
+            <li><b>ampermetru</b> — măsurarea intensității curentului;</li>
+            <li><b>voltmetru</b> — măsurarea tensiunii electrice;</li>
+            <li><b>multimetru</b> — măsurări electrice multiple;</li>
+            <li><b>sursă de tensiune</b> — alimentarea circuitelor;</li>
+            <li><b>lentile, oglinzi, prismă</b> — studiul fenomenelor optice.</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Mijloc</th>
+          <th>Competență formată</th>
+          <th>Produs evaluabil</th>
+        </tr>
+        <tr>
+          <td>dinamometru</td>
+          <td>măsurarea forței și citirea scalei</td>
+          <td>valoare numerică + unitate + interpretare</td>
+        </tr>
+        <tr>
+          <td>ampermetru și voltmetru</td>
+          <td>realizarea montajului și măsurarea mărimilor electrice</td>
+          <td>tabel U-I și grafic I(U)</td>
+        </tr>
+        <tr>
+          <td>cronometru</td>
+          <td>determinarea perioadei unei oscilații</td>
+          <td>tabel de valori și medie aritmetică</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> instrumentul de măsură se introduce împreună cu <b>unitatea de măsură</b>, <b>domeniul</b>, <b>eroarea</b>, <b>modul de citire</b> și <b>regulile de siguranță</b>.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Modele</div>
+      <h2>Modele, machete și analogii</h2>
+
+      <p>
+        <span class="key"><b>Modelul didactic</b></span> reprezintă simplificat un sistem fizic,
+        pentru a face posibilă înțelegerea, explicarea, calculul sau predicția.
+      </p>
+
+      <div class="means-map" id="meansMap">
+        <button class="active" data-title="Model material" data-info="Obiect concret sau machetă: model de atom, model de circuit, dispozitiv pentru unde, machetă pentru lentile.">Material</button>
+        <button data-title="Model grafic" data-info="Schemă sau reprezentare vizuală: diagramă de forțe, schemă electrică, diagramă raze, grafic v(t).">Grafic</button>
+        <button data-title="Model matematic" data-info="Relație sau ecuație care descrie fenomenul: F = kx, v = d/t, R = U/I, Q = mcΔt.">Matematic</button>
+        <button data-title="Model analogic" data-info="Comparație controlată între sisteme: curentul electric și curgerea apei, câmpul gravitațional și câmpul electric.">Analogic</button>
+      </div>
+
+      <div class="card" id="meansDetail">
+        <h3><span class="dot"></span>Model material</h3>
+        <p>Obiect concret sau machetă: model de atom, model de circuit, dispozitiv pentru unde, machetă pentru lentile.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Model</th>
+          <th>Utilizare</th>
+          <th>Limită didactică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Modelul atomic</b></span></td>
+          <td>explică structura atomului și nivelurile energetice</td>
+          <td>nu trebuie confundat cu imaginea reală a atomului</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Schema circuitului</b></span></td>
+          <td>clarifică legăturile dintre sursă, rezistor și aparate</td>
+          <td>nu arată întotdeauna poziția reală a elementelor pe banc</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Raza de lumină</b></span></td>
+          <td>simplifică studiul reflexiei și refracției</td>
+          <td>este idealizare geometrică, nu obiect fizic material</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> modelul ajută înțelegerea, dar profesorul trebuie să precizeze <b>ipotezele</b> și <b>limitele modelului</b>.
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Materiale grafice și scrise</div>
+      <h2>Scheme, grafice, fișe și manuale</h2>
+
+      <p>
+        <span class="key"><b>Materialele grafice și scrise</b></span> organizează informația,
+        structurează sarcinile de lucru și ajută elevii să treacă de la fenomen la concept.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Mijloc</th>
+          <th>Funcție didactică</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Schema</b></span></td>
+          <td>selectează elementele esențiale ale fenomenului</td>
+          <td>schema unui circuit electric</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Graficul</b></span></td>
+          <td>arată dependența dintre mărimi</td>
+          <td>graficul I(U), s(t), v(t), T(l)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Tabelul</b></span></td>
+          <td>organizează datele experimentale</td>
+          <td>tabel cu U, I, R pentru legea lui Ohm</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Fișa de lucru</b></span></td>
+          <td>ghidează activitatea elevilor</td>
+          <td>pași pentru determinarea densității unui corp</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Manualul</b></span></td>
+          <td>oferă explicații, exemple, probleme și imagini</td>
+          <td>lecția despre forță, cu aplicații și exerciții</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Culegerea</b></span></td>
+          <td>susține exersarea și diferențierea</td>
+          <td>probleme gradate cu energie mecanică</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>De reținut pentru examen</h3>
+        <ul class="remember-list">
+          <li><b>Manualul</b> este resursă, nu documentul principal de proiectare.</li>
+          <li><b>Fișa de laborator</b> trebuie să includă scop, materiale, mod de lucru, tabel, calcule și concluzii.</li>
+          <li><b>Graficul</b> trebuie evaluat prin criterii clare: axe, unități, scară, puncte, interpretare.</li>
+          <li><b>Schema</b> ajută la esențializare, dar trebuie explicată verbal și aplicată.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · TIC și simulări</div>
+      <h2>Mijloace digitale la fizică</h2>
+
+      <p>
+        <span class="key"><b>Mijloacele digitale</b></span> sprijină vizualizarea, simularea, achiziția de date,
+        prelucrarea rezultatelor și feedbackul rapid. Ele trebuie folosite cu sarcini clare,
+        nu doar pentru spectaculozitate.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Exemple de mijloace digitale</h3>
+          <ul class="remember-list">
+            <li><b>simulări interactive</b> pentru mișcare, circuite, unde, optică;</li>
+            <li><b>foi de calcul</b> pentru tabele, grafice și medii;</li>
+            <li><b>senzori digitali</b> pentru temperatură, lumină, accelerație;</li>
+            <li><b>platforme educaționale</b> pentru teme și feedback;</li>
+            <li><b>quizuri digitale</b> pentru evaluare formativă rapidă.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Condiții de utilizare</h3>
+          <ul class="remember-list">
+            <li><b>sarcină clară</b> pentru elev;</li>
+            <li><b>parametri modificați</b> și observații notate;</li>
+            <li><b>date interpretate</b>, nu doar vizualizate;</li>
+            <li><b>concluzie fizică</b> formulată de elev;</li>
+            <li><b>evaluare</b> prin produs: grafic, răspuns, raport, test.</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Mijloc digital</th>
+          <th>Utilizare didactică</th>
+          <th>Produs evaluabil</th>
+        </tr>
+        <tr>
+          <td>simulare de circuit</td>
+          <td>modificarea rezistenței și observarea intensității</td>
+          <td>tabel comparativ și concluzie</td>
+        </tr>
+        <tr>
+          <td>foaie de calcul</td>
+          <td>reprezentarea graficului I(U)</td>
+          <td>grafic și interpretarea pantei</td>
+        </tr>
+        <tr>
+          <td>senzor de temperatură</td>
+          <td>monitorizarea răcirii unui lichid</td>
+          <td>curbă T(t) și explicație</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Digital eficient = simulare + sarcină + date + interpretare + feedback
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Integrare în lecție</div>
+      <h2>Cum integrezi mijloacele în predare-învățare-evaluare?</h2>
+
+      <p>
+        Mijloacele nu se aleg izolat. Ele se corelează cu
+        <span class="key"><b>obiectivul operațional</b></span>,
+        <span class="key"><b>metoda didactică</b></span>,
+        <span class="key"><b>forma de organizare</b></span> și
+        <span class="key"><b>evaluarea</b></span>.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Competența" data-info="Stabilești ce trebuie să poată face elevul: să măsoare, să explice, să calculeze, să interpreteze, să investigheze.">Competență</button>
+        <span class="arrow">→</span>
+        <button data-title="Metoda" data-info="Alegi metoda: experiment, demonstrație, problematizare, conversație euristică, exercițiu, proiect.">Metodă</button>
+        <span class="arrow">→</span>
+        <button data-title="Mijlocul" data-info="Alegi resursa potrivită: aparat, model, fișă, grafic, simulare, platformă, video, instrument de evaluare.">Mijloc</button>
+        <span class="arrow">→</span>
+        <button data-title="Activitatea elevului" data-info="Elevul folosește mijlocul pentru a produce ceva observabil: măsurare, tabel, grafic, schemă, concluzie, problemă.">Activitate</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluarea" data-info="Profesorul evaluează produsul activității: fișă, grafic, montaj, calcul, raport, explicație, test.">Evaluare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Competența</h3>
+        <p>Stabilești ce trebuie să poată face elevul: să măsoare, să explice, să calculeze, să interpreteze, să investigheze.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Competență</th>
+          <th>Mijloc potrivit</th>
+          <th>Activitate</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>măsurarea unei mărimi</td>
+          <td>instrument de măsură</td>
+          <td>citire, notare, calcul</td>
+          <td>fișă practică</td>
+        </tr>
+        <tr>
+          <td>interpretarea unei dependențe</td>
+          <td>tabel + grafic</td>
+          <td>reprezentare și concluzie</td>
+          <td>item de interpretare</td>
+        </tr>
+        <tr>
+          <td>explicarea unui fenomen</td>
+          <td>model + demonstrație</td>
+          <td>observare și argumentare</td>
+          <td>răspuns oral/scris</td>
+        </tr>
+        <tr>
+          <td>investigare experimentală</td>
+          <td>trusă de laborator</td>
+          <td>ipoteză, date, concluzie</td>
+          <td>raport de laborator</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Criterii de alegere</div>
+      <h2>Cum alegi mijlocul potrivit?</h2>
+
+      <p>
+        Alegerea mijloacelor trebuie justificată. La examen, formulează criterii clare și oferă exemple.
+      </p>
+
+      <ol class="stepline">
+        <li>
+          <b>Adecvarea la competență.</b>
+          Dacă urmărești măsurarea, alegi instrumente reale sau senzori, nu doar o imagine.
+        </li>
+        <li>
+          <b>Adecvarea la conținut.</b>
+          Pentru optică alegi oglinzi, lentile, laser, banc optic, diagrame cu raze.
+        </li>
+        <li>
+          <b>Accesibilitatea pentru elevi.</b>
+          Mijlocul trebuie să fie potrivit vârstei, nivelului clasei și limbajului științific.
+        </li>
+        <li>
+          <b>Corectitudinea științifică.</b>
+          Mijlocul nu trebuie să inducă reprezentări greșite sau analogii abuzive.
+        </li>
+        <li>
+          <b>Siguranța.</b>
+          La electricitate, optică, căldură sau mecanică se respectă norme clare de protecție.
+        </li>
+        <li>
+          <b>Eficiența și disponibilitatea.</b>
+          Mijlocul trebuie să fie disponibil, ușor de pregătit și util în timpul real al lecției.
+        </li>
+      </ol>
+
+      <div class="callout">
+        <b>Formulare bună:</b> „Aleg ampermetrul și voltmetrul deoarece obiectivul lecției vizează măsurarea lui I și U, iar produsul evaluabil este tabelul de date și graficul I(U).”
+      </div>
+
+      <div class="keywords">
+        <span>adecvare</span>
+        <span>accesibilitate</span>
+        <span>corectitudine</span>
+        <span>siguranță</span>
+        <span>eficiență</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Exemplu aplicat</div>
+      <h2>Exemplu: Legea lui Ohm</h2>
+
+      <p>
+        Pentru lecția <span class="key"><b>Legea lui Ohm</b></span>, mijloacele se aleg astfel încât elevul
+        să poată măsura, reprezenta grafic și interpreta relația dintre tensiune și intensitate.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Mijloc</th>
+          <th>Rol didactic</th>
+          <th>Activitatea elevului</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>sursă de tensiune</b></span></td>
+          <td>alimentează circuitul și permite variația tensiunii</td>
+          <td>selectează valori sigure ale tensiunii</td>
+          <td>respectarea indicațiilor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>rezistor</b></span></td>
+          <td>elementul pe care se studiază dependența I(U)</td>
+          <td>îl conectează în circuit</td>
+          <td>montaj corect</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>ampermetru</b></span></td>
+          <td>măsoară intensitatea curentului</td>
+          <td>îl conectează în serie</td>
+          <td>citirea valorilor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>voltmetru</b></span></td>
+          <td>măsoară tensiunea la borne</td>
+          <td>îl conectează în paralel</td>
+          <td>conectare corectă</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>fișă de laborator</b></span></td>
+          <td>ghidează procedura și prelucrarea datelor</td>
+          <td>completează tabelul și graficul</td>
+          <td>raport de laborator</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        R = U/I · Mijloacele sunt corecte dacă duc la tabel, grafic, calcul și concluzie.
+      </div>
+
+      <div class="callout">
+        <b>NTSM:</b> se folosesc tensiuni mici, sursa se conectează la indicația profesorului, iar elevii nu modifică montajul fără verificare.
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Exemplu aplicat</div>
+      <h2>Exemplu: Refracția luminii</h2>
+
+      <p>
+        Pentru lecția <span class="key"><b>Refracția luminii</b></span>, mijloacele trebuie să ajute elevul
+        să observe schimbarea direcției de propagare și să o explice prin trecerea luminii dintr-un mediu în altul.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Mijloc</th>
+          <th>Funcție</th>
+          <th>Sarcină de lucru</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>laser didactic / sursă luminoasă</b></span></td>
+          <td>evidențiază direcția razei</td>
+          <td>observarea razei incidente și refractate</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>semicilindru transparent / prismă</b></span></td>
+          <td>produce refracția la suprafața de separare</td>
+          <td>modificarea unghiului de incidență</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>raportor</b></span></td>
+          <td>permite măsurarea unghiurilor</td>
+          <td>măsurarea lui i și r</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>diagramă cu raze</b></span></td>
+          <td>organizează reprezentarea grafică</td>
+          <td>desenarea normalei, razei incidente și refractate</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>simulare</b></span></td>
+          <td>permite modificarea indicelui de refracție</td>
+          <td>compararea cazurilor aer-apă, aer-sticlă</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Atenție:</b> la folosirea laserului didactic se precizează norma de siguranță: <b>nu se îndreaptă fasciculul spre ochi</b>.
+      </div>
+
+      <div class="formula">
+        Mijlocul bun face vizibil fenomenul și conduce la reprezentare, măsurare și explicație.
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · NTSM și greșeli frecvente</div>
+      <h2>Siguranță, întreținere și erori de evitat</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>NTSM pentru mijloacele de fizică</h3>
+          <ul class="remember-list">
+            <li><b>verificarea aparaturii</b> înainte de lecție;</li>
+            <li><b>folosirea tensiunilor mici</b> în circuitele elevilor;</li>
+            <li><b>respectarea polarității</b> și a domeniilor de măsurare;</li>
+            <li><b>protecție la surse de căldură</b> și corpuri fierbinți;</li>
+            <li><b>laserul nu se îndreaptă spre ochi</b>;</li>
+            <li><b>aparatele se manipulează sub supraveghere</b>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Greșeli frecvente la examen</h3>
+          <ul class="mistakes">
+            <li><b>Confundarea mijlocului cu metoda.</b> Ampermetrul este mijloc; experimentul este metodă.</li>
+            <li><b>Enumerarea fără integrare.</b> Trebuie precizat cum este folosit mijlocul în lecție.</li>
+            <li><b>Folosirea mijlocului doar demonstrativ</b>, fără activitatea elevilor.</li>
+            <li><b>Omiterea produsului evaluabil.</b> Elevul trebuie să producă tabel, grafic, concluzie, raport.</li>
+            <li><b>Folosirea TIC decorativ.</b> Simularea trebuie să ducă la observații și date.</li>
+            <li><b>Omiterea NTSM.</b> La fizică, siguranța este parte a proiectării.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> pentru fiecare mijloc menționat în proiectul de lecție, precizează <b>funcția</b>, <b>sarcina elevului</b> și <b>evaluarea</b>.
+      </div>
+
+      <div class="keywords">
+        <span>mijloc ≠ metodă</span>
+        <span>funcție didactică</span>
+        <span>sarcină elev</span>
+        <span>produs evaluabil</span>
+        <span>NTSM</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Mijloacele de învățământ</b> sunt resurse care sprijină predarea, învățarea și evaluarea.</li>
+          <li><b>La fizică</b>, ele fac posibilă observarea, măsurarea, modelarea și interpretarea fenomenelor.</li>
+          <li><b>Funcțiile principale</b> sunt: informativă, intuitivă, demonstrativă, formativă, motivațională și evaluativă.</li>
+          <li><b>Tipurile principale</b> sunt: obiecte reale, aparate, modele, materiale grafice, materiale scrise, mijloace digitale și instrumente de evaluare.</li>
+          <li><b>Aparatura de laborator</b> trebuie integrată cu fișă, sarcină, tabel de date, grafic și concluzie.</li>
+          <li><b>Modelele</b> ajută înțelegerea, dar trebuie prezentate cu ipoteze și limite.</li>
+          <li><b>TIC</b> este eficient când elevul modifică parametri, colectează date și formulează concluzii.</li>
+          <li><b>NTSM</b> sunt obligatorii pentru activități practice, electrice, optice, termice sau mecanice.</li>
+          <li><b>Evaluarea</b> trebuie să vizeze produsul obținut prin folosirea mijlocului.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Mijloacele de învățământ</b> nu sunt simple accesorii, ci instrumente didactice integrate în strategia lecției.</li>
+          <li><b>La fizică</b>, ele asigură trecerea de la fenomen la observație, măsurare, model și lege.</li>
+          <li><b>Alegerea mijlocului</b> se face în funcție de competență, conținut, metodă, resurse, siguranță și evaluare.</li>
+          <li><b>Un mijloc este eficient</b> dacă activează elevul și produce un rezultat observabil: tabel, grafic, montaj, raport, explicație.</li>
+          <li><b>Profesorul trebuie să evite</b> folosirea decorativă a resurselor și să precizeze clar sarcina, produsul și criteriile de evaluare.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre metodă și mijloc de învățământ?</summary>
+        <p><b>Metoda</b> este calea de lucru: experimentul, conversația, problematizarea. <b>Mijlocul</b> este resursa folosită: ampermetru, voltmetru, fișă, model, simulator.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Dă trei funcții didactice ale mijloacelor de învățământ.</summary>
+        <p>Funcție intuitiv-demonstrativă, funcție formativă, funcție evaluativă. Se pot adăuga funcția informativă, motivațională și de sistematizare.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. Ce mijloace sunt potrivite pentru lecția „Legea lui Ohm”?</summary>
+        <p>Sursă de tensiune, rezistor, conductoare, întrerupător, ampermetru, voltmetru, fișă de laborator, tabel de date, grafic I(U), eventual simulare sau foaie de calcul.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Ce trebuie evaluat când elevii folosesc aparatură de laborator?</summary>
+        <p>Corectitudinea montajului, respectarea NTSM, citirea instrumentelor, completarea tabelului, realizarea graficului, calculul și concluzia fizică.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D10 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon răspuns PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>funcții didactice</b> → <b>tipuri</b> →
+            <b>criterii de alegere</b> → <b>integrare în lecție</b> →
+            <b>exemplu la fizică</b> → <b>NTSM</b> → <b>evaluare</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = mijloc + funcție + activitate elev + produs observabil + evaluare + NTSM
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează alegerea mijloacelor pentru o lecție despre „Legea lui Ohm”, „Refracția luminii”, „Densitatea corpurilor” sau „Pendulul gravitațional”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D11-experimentul-didactic-la-fizica.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D10-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D10 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D10 — Mijloace de învățământ la fizică</h1>
+  <ul>
+    <li><b>Definiție:</b> mijloacele de învățământ sunt resurse materiale, simbolice sau digitale care sprijină predarea, învățarea și evaluarea.</li>
+    <li><b>Funcții:</b> informativă, intuitiv-demonstrativă, formativă, motivațională, aplicativă, evaluativă.</li>
+    <li><b>Tipuri:</b> obiecte reale, aparate și instrumente, modele, materiale grafice, materiale scrise, mijloace digitale, instrumente de evaluare.</li>
+    <li><b>Specific fizicii:</b> observare, măsurare, modelare, reprezentare grafică, experiment, interpretare de date.</li>
+    <li><b>Criterii de alegere:</b> competența, conținutul, metoda, vârsta elevilor, accesibilitatea, corectitudinea științifică, siguranța, disponibilitatea.</li>
+    <li><b>Integrare:</b> competență → metodă → mijloc → activitate elev → produs observabil → evaluare.</li>
+    <li><b>Exemple:</b> legea lui Ohm — sursă, rezistor, ampermetru, voltmetru, fișă, tabel, grafic; refracția — laser didactic, prismă, raportor, diagramă, simulare.</li>
+    <li><b>NTSM:</b> verificarea aparaturii, tensiuni mici, respectarea polarității, protecție la surse de căldură, laserul nu se îndreaptă spre ochi.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon de răspuns — Mijloace de învățământ la fizică</h1>
+  <p><b>1. Definiție:</b> Mijloacele de învățământ sunt resurse utilizate pentru transmiterea, formarea, consolidarea și evaluarea achizițiilor elevilor.</p>
+  <p><b>2. Funcții:</b> informativă, intuitiv-demonstrativă, formativă, motivațională și evaluativă.</p>
+  <p><b>3. Tipuri:</b> obiecte reale, aparate de laborator, instrumente de măsură, modele, scheme, grafice, manuale, fișe, simulări și platforme digitale.</p>
+  <p><b>4. Integrare:</b> mijlocul se alege în funcție de competență, conținut, metodă, forma de organizare și evaluare.</p>
+  <p><b>5. Exemplu:</b> pentru legea lui Ohm se folosesc sursă, rezistor, ampermetru, voltmetru, fișă de laborator și grafic I(U).</p>
+  <p><b>6. Evaluare:</b> se verifică montajul, tabelul de date, graficul, calculul, concluzia și respectarea normelor de siguranță.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#functionMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#functionMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('functionDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#meansMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#meansMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('meansDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D10</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
