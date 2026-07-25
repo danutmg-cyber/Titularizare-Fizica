@@ -1,580 +1,786 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="ro" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <title>C01 – Cinematica punctului material</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>C01 – Cinematica punctului material</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Stil general (adaptat structurii din D04) -->
-    <link rel="stylesheet" href="../../../assets/css/main.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-    <!-- MathJax pentru formule -->
-    <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-            svg: { fontCache: 'global' }
-        };
-    </script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 {
+      font-size: var(--title);
+    }
+
+    h2 {
+      font-size: var(--subtitle);
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid #f59e0b;
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning {
+      background: #33260c;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        line-height: 1.55;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="topbar">
+    <strong>C01 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
 
-<!-- PAGINA 1 – Date generale ale lecției -->
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 1</span>
+        <h1>Cinematica punctului material</h1>
+        <p class="lead">
+          Cinematica studiază <span class="mark">descrierea mișcării</span>, fără a analiza cauzele care o produc.
+          Pentru examen, trebuie să stăpânești simultan limbajul vectorial, interpretarea graficelor și rezolvarea riguroasă a problemelor.
+        </p>
 
-<div id="pagina-1" class="pagina">
-    <header class="banner">
-        <h1>C01 – Cinematica punctului material</h1>
-        <h2>Tematica științifică – Mecanică</h2>
-    </header>
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          mișcarea se descrie numai în raport cu un <strong>sistem de referință</strong>.
+          Nu există poziție, viteză sau repaus absolut în mecanica clasică.
+        </div>
 
-    <section class="info-general">
-        <h3>1. Date de identificare</h3>
-
-        <p><strong>Disciplina:</strong> Fizică</p>
-        <p><strong>Unitatea de învățare:</strong> Mișcarea mecanică</p>
-        <p><strong>Lecția:</strong> Cinematica punctului material</p>
-
-        <p><strong>Nivel:</strong> Gimnaziu / Liceu (adaptabil, în funcție de programă)</p>
-        <p><strong>Durata:</strong> 1–2 ore de curs, în funcție de profunzimea abordării</p>
-
-        <p><strong>Tipul lecției:</strong> Lecție de predare–învățare, cu elemente de sistematizare și aplicare.</p>
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Traiectorie și vectori de poziție">
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+            <line x1="60" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+            <line x1="80" y1="230" x2="80" y2="30" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+            <text x="645" y="215" fill="#64748b" font-size="22">x</text>
+            <text x="65" y="28" fill="#64748b" font-size="22">y</text>
+            <path d="M120 180 C220 80, 320 70, 430 135 S560 180, 610 75" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <circle cx="120" cy="180" r="9" fill="#ef4444"/>
+            <circle cx="430" cy="135" r="9" fill="#ef4444"/>
+            <line x1="80" y1="210" x2="120" y2="180" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
+            <line x1="80" y1="210" x2="430" y2="135" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
+            <line x1="120" y1="180" x2="430" y2="135" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow)"/>
+            <text x="145" y="178" fill="#2563eb" font-size="23">r₁</text>
+            <text x="300" y="118" fill="#2563eb" font-size="23">r₂</text>
+            <text x="250" y="180" fill="#f59e0b" font-size="23">Δr = r₂ − r₁</text>
+            <text x="450" y="90" fill="#0f766e" font-size="23">traiectorie</text>
+          </svg>
+          <p class="caption">Vectorul deplasare unește poziția inițială cu poziția finală; nu este același lucru cu lungimea drumului parcurs.</p>
+        </div>
+      </article>
     </section>
 
-    <section class="context-curricular">
-        <h3>2. Încadrarea în programă</h3>
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Punctul material și sistemul de referință</h2>
 
         <p>
-            Lecția „Cinematica punctului material” se înscrie în capitolul de mecanică, subtema
-            „Mișcarea mecanică”. Conținuturile vizează descrierea mișcării unui punct material
-            folosind mărimi fizice precum poziția, traiectoria, deplasarea, viteza și accelerația.
+          <span class="mark">Punctul material</span> este un model idealizat al unui corp ale cărui dimensiuni pot fi neglijate față de distanțele implicate în problemă.
         </p>
 
         <p>
-            În programele școlare de fizică, aceste conținuturi sunt corelate cu formarea
-            competențelor de observare, descriere și interpretare a fenomenelor de mișcare,
-            precum și cu utilizarea reprezentărilor grafice și a relațiilor matematice simple.
+          Un automobil poate fi tratat ca punct material când studiem deplasarea București–Brașov, dar nu poate fi tratat astfel când analizăm rotația roților sau stabilitatea în curbă.
         </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Sistem de referință</strong>
+            <p>Ansamblu format din corp de referință, axe de coordonate și ceas.</p>
+          </div>
+          <div class="mini">
+            <strong>Poziție</strong>
+            <p>Locul ocupat de punctul material la un moment dat, descris prin vectorul $\vec r(t)$.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\vec r(t)=x(t)\vec i+y(t)\vec j+z(t)\vec k$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          vectorul de poziție este funcția vectorială care asociază fiecărui moment de timp poziția punctului material față de originea sistemului de referință.
+        </div>
+      </article>
     </section>
-</div>
 
-<!-- PAGINA 2 – Competențe și obiective -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Noțiuni fundamentale</span>
+        <h2>Traiectorie, drum parcurs, deplasare</h2>
 
-<div id="pagina-2" class="pagina">
-    <section class="competente">
-        <h3>3. Competențe specifice vizate</h3>
+        <p>
+          <span class="mark">Traiectoria</span> este locul geometric al pozițiilor succesive ocupate de punctul material în timpul mișcării.
+        </p>
+
+        <p>
+          <span class="mark">Drumul parcurs</span> este lungimea traiectoriei între două momente. Este o mărime scalară și se notează frecvent cu $s$ sau $l$.
+        </p>
+
+        <p>
+          <span class="mark">Deplasarea</span> este vectorul care unește poziția inițială cu poziția finală:
+        </p>
+
+        <div class="formula">
+          $$\Delta \vec r=\vec r_2-\vec r_1$$
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          candidații confundă deplasarea cu distanța parcursă.
+          Pentru mișcare curbilinie, în general:
+          $$|\Delta \vec r| < s$$
+        </div>
+
+        <div class="exam">
+          <strong>Caz particular:</strong>
+          dacă mișcarea este rectilinie și nu se schimbă sensul, modulul deplasării este egal cu drumul parcurs.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteza</span>
+        <h2>Viteza medie și viteza instantanee</h2>
+
+        <p>
+          <span class="mark">Viteza medie vectorială</span> pe intervalul $\Delta t$ este raportul dintre deplasare și durata mișcării:
+        </p>
+
+        <div class="formula">
+          $$\vec v_m=\frac{\Delta \vec r}{\Delta t}$$
+        </div>
+
+        <p>
+          <span class="mark">Viteza instantanee</span> este limita vitezei medii când intervalul de timp tinde la zero:
+        </p>
+
+        <div class="formula">
+          $$\vec v(t)=\lim_{\Delta t\to 0}\frac{\Delta \vec r}{\Delta t}=\frac{d\vec r}{dt}$$
+        </div>
+
+        <p>
+          În mișcare rectilinie pe axa $Ox$:
+        </p>
+
+        <div class="formula">
+          $$v(t)=\frac{dx}{dt}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare grafică:</strong>
+          panta graficului $x(t)$ într-un punct reprezintă viteza instantanee.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Accelerația</span>
+        <h2>Accelerația medie și instantanee</h2>
+
+        <p>
+          <span class="mark">Accelerația</span> măsoară variația vitezei în timp.
+        </p>
+
+        <div class="formula">
+          $$\vec a_m=\frac{\Delta \vec v}{\Delta t}$$
+        </div>
+
+        <div class="formula">
+          $$\vec a(t)=\lim_{\Delta t\to 0}\frac{\Delta \vec v}{\Delta t}=\frac{d\vec v}{dt}=\frac{d^2\vec r}{dt^2}$$
+        </div>
+
+        <p>
+          În mișcare rectilinie:
+        </p>
+
+        <div class="formula">
+          $$a(t)=\frac{dv}{dt}=\frac{d^2x}{dt^2}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$a>0$</strong>
+            <p>Viteza crește în sensul pozitiv al axei.</p>
+          </div>
+          <div class="mini">
+            <strong>$a<0$</strong>
+            <p>Viteza scade sau mișcarea este accelerată în sens negativ.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          accelerația negativă nu înseamnă obligatoriu „încetinire”.
+          Sensul vitezei și sensul accelerației trebuie analizate împreună.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mișcare rectilinie uniformă</span>
+        <h2>MRU: $v=\text{constant}$</h2>
+
+        <p>
+          În <span class="mark">mișcarea rectilinie uniformă</span>, traiectoria este o dreaptă, iar viteza rămâne constantă.
+        </p>
+
+        <div class="formula">
+          $$v(t)=v_0=\text{constant}$$
+          $$x(t)=x_0+v_0t$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic x de t pentru MRU">
+            <line x1="70" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3"/>
+            <line x1="90" y1="225" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
+            <line x1="105" y1="185" x2="590" y2="65" stroke="#2563eb" stroke-width="7"/>
+            <text x="620" y="235" fill="#64748b" font-size="22">t</text>
+            <text x="55" y="45" fill="#64748b" font-size="22">x</text>
+            <text x="300" y="105" fill="#2563eb" font-size="24">x(t)=x₀+vt</text>
+          </svg>
+          <p class="caption">Pentru MRU, graficul $x(t)$ este o dreaptă. Panta este viteza.</p>
+        </div>
+
+        <div class="exam">
+          <strong>Întrebare tipică:</strong>
+          „Ce reprezintă panta graficului poziție–timp?”
+          Răspuns: viteza corpului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mișcare rectilinie uniform variată</span>
+        <h2>MRUV: $a=\text{constant}$</h2>
+
+        <p>
+          În <span class="mark">mișcarea rectilinie uniform variată</span>, accelerația este constantă.
+        </p>
+
+        <div class="formula">
+          $$a(t)=a_0=\text{constant}$$
+          $$v(t)=v_0+a_0t$$
+          $$x(t)=x_0+v_0t+\frac{a_0t^2}{2}$$
+        </div>
+
+        <p>
+          Eliminând timpul între relațiile pentru viteză și poziție, se obține relația utilă:
+        </p>
+
+        <div class="formula">
+          $$v^2=v_0^2+2a(x-x_0)$$
+        </div>
+
+        <div class="exam">
+          <strong>Folosește această relație</strong> când problema nu cere explicit timpul sau când timpul nu este dat.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic v de t pentru MRUV">
+            <line x1="70" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3"/>
+            <line x1="90" y1="225" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
+            <line x1="110" y1="185" x2="590" y2="70" stroke="#0f766e" stroke-width="7"/>
+            <polygon points="110,185 590,70 590,210 110,210" fill="rgba(15,118,110,0.22)"/>
+            <text x="620" y="235" fill="#64748b" font-size="22">t</text>
+            <text x="55" y="45" fill="#64748b" font-size="22">v</text>
+            <text x="300" y="120" fill="#0f766e" font-size="24">aria = deplasarea</text>
+          </svg>
+          <p class="caption">În graficul $v(t)$, panta este accelerația, iar aria de sub grafic este deplasarea.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Interpretare grafică</span>
+        <h2>Ce trebuie citit din grafice</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Graficul $x(t)$</strong>
+            <p>Panta dă viteza:</p>
+            <div class="formula">$$v=\frac{\Delta x}{\Delta t}$$</div>
+          </div>
+
+          <div class="mini">
+            <strong>Graficul $v(t)$</strong>
+            <p>Panta dă accelerația:</p>
+            <div class="formula">$$a=\frac{\Delta v}{\Delta t}$$</div>
+          </div>
+        </div>
+
+        <div class="mini">
+          <strong>Aria de sub graficul $v(t)$</strong>
+          <p>Reprezintă deplasarea pe intervalul considerat:</p>
+          <div class="formula">$$\Delta x=\int_{t_1}^{t_2}v(t)\,dt$$</div>
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          panta graficului $x(t)$ nu este accelerația. Panta lui $x(t)$ este viteza.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Model de rezolvare pentru examen</h2>
+
+        <p>
+          Un corp pornește din poziția $x_0=2\,\text{m}$ cu viteza inițială
+          $v_0=4\,\text{m/s}$ și accelerația constantă $a=2\,\text{m/s}^2$.
+          Determinați viteza și poziția după $t=5\,\text{s}$.
+        </p>
+
+        <p><strong>1. Identificarea tipului de mișcare:</strong> accelerația este constantă, deci mișcarea este MRUV.</p>
+
+        <p><strong>2. Viteza la momentul $t$:</strong></p>
+        <div class="formula">
+          $$v=v_0+at=4+2\cdot5=14\,\text{m/s}$$
+        </div>
+
+        <p><strong>3. Poziția la momentul $t$:</strong></p>
+        <div class="formula">
+          $$x=x_0+v_0t+\frac{at^2}{2}$$
+          $$x=2+4\cdot5+\frac{2\cdot5^2}{2}=2+20+25=47\,\text{m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          după $5\,\text{s}$, corpul are viteza $14\,\text{m/s}$ și se află la poziția $47\,\text{m}$ față de origine.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
 
         <ul>
-            <li>
-                <strong>C1:</strong> Descrierea mișcării unui punct material folosind limbajul
-                și mărimile specifice cinematicii.
-            </li>
-            <li>
-                <strong>C2:</strong> Utilizarea relațiilor dintre mărimile cinematice
-                (deplasare, viteză, accelerație) în situații concrete.
-            </li>
-            <li>
-                <strong>C3:</strong> Interpretarea graficelor poziție–timp și viteză–timp
-                pentru mișcări rectilinii.
-            </li>
-            <li>
-                <strong>C4:</strong> Rezolvarea de probleme simple de cinematica punctului
-                material, cu date reale sau idealizate.
-            </li>
+          <li>
+            <strong>Confuzia distanță–deplasare:</strong>
+            distanța este scalară, deplasarea este vectorială.
+          </li>
+          <li>
+            <strong>Neconversia unităților:</strong>
+            $72\,\text{km/h}=20\,\text{m/s}$, nu $72\,\text{m/s}$.
+          </li>
+          <li>
+            <strong>Aplicarea formulelor fără semn:</strong>
+            sensul axei trebuie stabilit înainte de folosirea relațiilor.
+          </li>
+          <li>
+            <strong>Citirea greșită a graficelor:</strong>
+            panta lui $x(t)$ este $v$, panta lui $v(t)$ este $a$.
+          </li>
+          <li>
+            <strong>Omiterea interpretării fizice:</strong>
+            un rezultat numeric trebuie verificat ca ordin de mărime și unitate.
+          </li>
         </ul>
+
+        <div class="exam">
+          <strong>Formulare bună la proba scrisă:</strong>
+          „Aleg axa $Ox$ în sensul mișcării inițiale. Deoarece accelerația este constantă, folosesc ecuațiile cinematice ale mișcării rectilinii uniform variate.”
+        </div>
+      </article>
     </section>
 
-    <section class="obiective">
-        <h3>4. Obiective operaționale</h3>
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
 
-        <ul>
-            <li>
-                <strong>O1:</strong> Să definească noțiunile de punct material, sistem de
-                referință, traiectorie, deplasare.
-            </li>
-            <li>
-                <strong>O2:</strong> Să exprime matematic deplasarea și viteza medie pentru
-                o mișcare rectilinie.
-            </li>
-            <li>
-                <strong>O3:</strong> Să distingă între mișcare rectilinie uniformă și
-                mișcare rectilinie uniform variată.
-            </li>
-            <li>
-                <strong>O4:</strong> Să interpreteze grafic relațiile $x(t)$ și $v(t)$
-                pentru mișcări simple.
-            </li>
-            <li>
-                <strong>O5:</strong> Să rezolve probleme numerice de tip „aplicare directă”
-                și „interpretare grafică”.
-            </li>
-        </ul>
-    </section>
-</div>
-
-<!-- PAGINA 3 – Noțiuni fundamentale de cinematica -->
-
-<div id="pagina-3" class="pagina">
-    <section class="notiuni-fundamentale">
-        <h3>5. Noțiuni de bază în cinematica punctului material</h3>
-
-        <h4>5.1. Punct material</h4>
-        <p>
-            În mecanică, <strong>punctul material</strong> este un model idealizat al unui
-            corp, pentru care dimensiunile sale pot fi neglijate în raport cu distanțele
-            parcurse. Se consideră că întreaga masă a corpului este concentrată într-un
-            singur punct.
-        </p>
-
-        <h4>5.2. Sistem de referință</h4>
-        <p>
-            Pentru a descrie mișcarea, avem nevoie de un <strong>sistem de referință</strong>,
-            format din:
-        </p>
-        <ul>
-            <li><strong>Originea</strong> – un punct ales ca referință;</li>
-            <li><strong>Axe de coordonate</strong> – de obicei, una sau trei axe ortogonale;</li>
-            <li><strong>Ceas</strong> – pentru măsurarea timpului.</li>
-        </ul>
-
-        <p>
-            Poziția punctului material la un moment $t$ se descrie prin coordonatele sale
-            în sistemul de referință ales.
-        </p>
-
-        <h4>5.3. Traiectorie și deplasare</h4>
-        <p>
-            <strong>Traiectoria</strong> este linia pe care o descrie punctul material în
-            timpul mișcării. Ea poate fi:
-        </p>
-        <ul>
-            <li><strong>rectilinie</strong> – o linie dreaptă;</li>
-            <li><strong>curbilinie</strong> – o linie curbă (cerc, parabola etc.).</li>
-        </ul>
-
-        <p>
-            <strong>Deplasarea</strong> este vectorul care unește poziția inițială
-            $\vec{r}_1$ cu poziția finală $\vec{r}_2$:
-        </p>
-        <p>
-            $$\vec{s} = \vec{r}_2 - \vec{r}_1$$
-        </p>
-
-        <p>
-            Modulul deplasării $s$ poate fi mai mic decât lungimea traiectoriei, dacă
-            mișcarea nu este rectilinie.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 4 – Viteza și accelerația -->
-
-<div id="pagina-4" class="pagina">
-    <section class="viteza-acceleratie">
-        <h3>6. Viteza și accelerația punctului material</h3>
-
-        <h4>6.1. Viteza medie</h4>
-        <p>
-            <strong>Viteza medie</strong> pe un interval de timp $\Delta t$ este definită
-            ca raportul dintre deplasarea $\Delta s$ și timpul în care se produce:
-        </p>
-        <p>
-            $$v_{\text{med}} = \frac{\Delta s}{\Delta t}$$
-        </p>
-
-        <p>
-            Dacă mișcarea este rectilinie, iar punctul parcurge distanța $d$ în timpul
-            $t$, atunci:
-        </p>
-        <p>
-            $$v_{\text{med}} = \frac{d}{t}$$
-        </p>
-
-        <h4>6.2. Viteza instantanee</h4>
-        <p>
-            <strong>Viteza instantanee</strong> la momentul $t$ se obține considerând
-            intervale de timp din ce în ce mai mici:
-        </p>
-        <p>
-            $$\vec{v}(t) = \lim_{\Delta t \to 0} \frac{\Delta \vec{s}}{\Delta t}$$
-        </p>
-
-        <p>
-            În cazul mișcării rectilinii, viteza instantanee poate fi reprezentată prin
-            derivata poziției în raport cu timpul:
-        </p>
-        <p>
-            $$v(t) = \frac{dx(t)}{dt}$$
-        </p>
-
-        <h4>6.3. Accelerația</h4>
-        <p>
-            <strong>Accelerația</strong> descrie variația vitezei în timp:
-        </p>
-        <p>
-            $$\vec{a}(t) = \lim_{\Delta t \to 0} \frac{\Delta \vec{v}}{\Delta t}$$
-        </p>
-
-        <p>
-            Pentru mișcarea rectilinie:
-        </p>
-        <p>
-            $$a(t) = \frac{dv(t)}{dt}$$
-        </p>
-
-        <p>
-            Dacă accelerația este constantă, mișcarea se numește <strong>rectilinie
-            uniform variată</strong>.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 5 – Tipuri de mișcare rectilinie -->
-
-<div id="pagina-5" class="pagina">
-    <section class="tipuri-miscare">
-        <h3>7. Mișcarea rectilinie: uniformă și uniform variată</h3>
-
-        <h4>7.1. Mișcarea rectilinie uniformă</h4>
-        <p>
-            În <strong>mișcarea rectilinie uniformă</strong>, viteza este constantă:
-        </p>
-        <p>
-            $$v(t) = v_0 = \text{const.}$$
-        </p>
-
-        <p>
-            Poziția în funcție de timp:
-        </p>
-        <p>
-            $$x(t) = x_0 + v_0 \cdot t$$
-        </p>
-
-        <p>
-            Graficul $x(t)$ este o dreaptă, iar graficul $v(t)$ este o linie orizontală.
-        </p>
-
-        <h4>7.2. Mișcarea rectilinie uniform variată</h4>
-        <p>
-            În <strong>mișcarea rectilinie uniform variată</strong>, accelerația este
-            constantă:
-        </p>
-        <p>
-            $$a(t) = a_0 = \text{const.}$$
-        </p>
-
-        <p>
-            Viteza în funcție de timp:
-        </p>
-        <p>
-            $$v(t) = v_0 + a_0 \cdot t$$
-        </p>
-
-        <p>
-            Poziția în funcție de timp:
-        </p>
-        <p>
-            $$x(t) = x_0 + v_0 \cdot t + \frac{1}{2} a_0 t^2$$
-        </p>
-
-        <p>
-            Graficul $v(t)$ este o dreaptă, iar graficul $x(t)$ este o parabolă.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 6 – Reprezentări grafice și interpretare -->
-
-<div id="pagina-6" class="pagina">
-    <section class="grafice">
-        <h3>8. Reprezentări grafice în cinematica punctului material</h3>
-
-        <h4>8.1. Graficul poziție–timp $x(t)$</h4>
-        <p>
-            Graficul poziției în funcție de timp permite identificarea tipului de mișcare:
-        </p>
-        <ul>
-            <li>
-                <strong>Dreaptă înclinată</strong> – mișcare rectilinie uniformă;
-            </li>
-            <li>
-                <strong>Parabolă</strong> – mișcare rectilinie uniform variată.
-            </li>
-        </ul>
-
-        <p>
-            Panta graficului $x(t)$ reprezintă viteza:
-        </p>
-        <p>
-            $$v = \frac{\Delta x}{\Delta t}$$
-        </p>
-
-        <h4>8.2. Graficul viteză–timp $v(t)$</h4>
-        <p>
-            Graficul vitezei în funcție de timp permite determinarea accelerației și a
-            deplasării:
-        </p>
-        <ul>
-            <li>
-                <strong>Linie orizontală</strong> – mișcare rectilinie uniformă;
-            </li>
-            <li>
-                <strong>Dreaptă înclinată</strong> – mișcare rectilinie uniform variată.
-            </li>
-        </ul>
-
-        <p>
-            Panta graficului $v(t)$ reprezintă accelerația:
-        </p>
-        <p>
-            $$a = \frac{\Delta v}{\Delta t}$$
-        </p>
-
-        <p>
-            Aria de sub graficul $v(t)$ pe un interval de timp reprezintă deplasarea:
-        </p>
-        <p>
-            $$s = \int_{t_1}^{t_2} v(t)\, dt$$
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 7 – Organizarea didactică a lecției -->
-
-<div id="pagina-7" class="pagina">
-    <section class="organizare-didactica">
-        <h3>9. Organizarea lecției (model didactic inspirat din D04)</h3>
-
-        <h4>9.1. Etapele lecției</h4>
-        <ul>
-            <li>
-                <strong>Moment organizatoric:</strong> salut, verificarea prezenței,
-                pregătirea materialelor.
-            </li>
-            <li>
-                <strong>Reactualizarea cunoștințelor:</strong> discuție despre mișcarea
-                mecanică, exemple din viața de zi cu zi.
-            </li>
-            <li>
-                <strong>Anunțarea temei și a obiectivelor:</strong> prezentarea titlului
-                lecției și a competențelor vizate.
-            </li>
-            <li>
-                <strong>Predarea noilor conținuturi:</strong> introducerea noțiunilor de
-                punct material, traiectorie, viteză, accelerație, tipuri de mișcare.
-            </li>
-            <li>
-                <strong>Fixarea cunoștințelor:</strong> exemple numerice, interpretarea
-                graficelor, discuții dirijate.
-            </li>
-            <li>
-                <strong>Aplicarea cunoștințelor:</strong> rezolvarea de probleme în
-                clasă, individual sau pe grupe.
-            </li>
-            <li>
-                <strong>Evaluarea:</strong> întrebări orale, itemi scriși, sarcini de
-                lucru scurte.
-            </li>
-            <li>
-                <strong>Tema pentru acasă:</strong> probleme și exerciții suplimentare.
-            </li>
-        </ul>
-
-        <h4>9.2. Strategii didactice</h4>
-        <ul>
-            <li><strong>Explicația și conversația euristică;</strong></li>
-            <li><strong>Învățarea prin descoperire dirijată;</strong></li>
-            <li><strong>Utilizarea reprezentărilor grafice și a simulărilor;</strong></li>
-            <li><strong>Lucrul pe fișe de lucru și probleme;</strong></li>
-            <li><strong>Învățarea colaborativă (lucru pe grupe);</strong></li>
-        </ul>
-
-        <h4>9.3. Resurse didactice</h4>
-        <ul>
-            <li><strong>Manualul de fizică;</strong></li>
-            <li><strong>Planșe și grafice tipărite;</strong></li>
-            <li><strong>Aplicații digitale / simulări;</strong></li>
-            <li><strong>Fișe de lucru și probleme;</strong></li>
-        </ul>
-    </section>
-</div>
-
-<!-- PAGINA 8 – Probleme rezolvate -->
-
-<div id="pagina-8" class="pagina">
-    <section class="probleme-rezolvate">
-        <h3>10. Probleme și exemple de aplicare</h3>
-
-        <h4>Problema 1 – Mișcare rectilinie uniformă</h4>
-        <p>
-            Un automobil se deplasează rectiliniu cu viteza constantă $v = 72\,\text{km/h}$.
-            Calculați distanța parcursă în $t = 30\,\text{min}$.
-        </p>
-
-        <p><strong>Rezolvare:</strong></p>
-        <p>
-            Transformăm viteza în SI:
-        </p>
-        <p>
-            $$v = 72\,\text{km/h} = 20\,\text{m/s}$$
-        </p>
-        <p>
-            Timpul:
-        </p>
-        <p>
-            $$t = 30\,\text{min} = 1800\,\text{s}$$
-        </p>
-        <p>
-            Distanța parcursă:
-        </p>
-        <p>
-            $$s = v \cdot t = 20 \cdot 1800 = 36000\,\text{m} = 36\,\text{km}$$
-        </p>
-
-        <h4>Problema 2 – Mișcare rectilinie uniform variată</h4>
-        <p>
-            Un corp se deplasează rectiliniu cu accelerație constantă $a = 2\,\text{m/s}^2$,
-            având viteza inițială $v_0 = 4\,\text{m/s}$. Determinați viteza după $t = 5\,\text{s}$
-            și distanța parcursă în acest interval.
-        </p>
-
-        <p><strong>Rezolvare:</strong></p>
-        <p>
-            Viteza după $t$:
-        </p>
-        <p>
-            $$v(t) = v_0 + a \cdot t = 4 + 2 \cdot 5 = 14\,\text{m/s}$$
-        </p>
-
-        <p>
-            Distanța parcursă:
-        </p>
-        <p>
-            $$x(t) = x_0 + v_0 \cdot t + \frac{1}{2} a t^2$$
-        </p>
-        <p>
-            Considerăm $x_0 = 0$:
-        </p>
-        <p>
-            $$x(t) = 0 + 4 \cdot 5 + \frac{1}{2} \cdot 2 \cdot 5^2 = 20 + 25 = 45\,\text{m}$$
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 9 – Greșeli frecvente și dificultăți -->
-
-<div id="pagina-9" class="pagina">
-    <section class="greseli-frecvente">
-        <h3>11. Greșeli frecvente și dificultăți ale elevilor</h3>
-
-        <ul>
-            <li>
-                <strong>Confuzia între distanță și deplasare:</strong> elevii consideră
-                uneori că deplasarea este egală cu lungimea traiectoriei, chiar și în
-                mișcări curbilinii.
-            </li>
-            <li>
-                <strong>Neînțelegerea diferenței între viteza medie și viteza
-                instantanee;</strong>
-            </li>
-            <li>
-                <strong>Interpretarea greșită a graficelor:</strong> confundă panta
-                graficului $x(t)$ cu accelerația, în loc de viteza.
-            </li>
-            <li>
-                <strong>Utilizarea incorectă a unităților de măsură:</strong> nu
-                transformă km/h în m/s sau minute în secunde.
-            </li>
-            <li>
-                <strong>Aplicarea mecanică a formulelor fără analiză fizică:</strong>
-                rezolvă problemele doar matematic, fără a verifica sensul fizic al
-                rezultatului.
-            </li>
-        </ul>
-
-        <p>
-            Profesorul poate preveni aceste dificultăți prin exemple concrete, discuții
-            dirijate și verificarea sistematică a unităților de măsură.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 10 – Evaluare și verificare rapidă -->
-
-<div id="pagina-10" class="pagina">
-    <section class="evaluare">
-        <h3>12. Evaluare – itemi de verificare rapidă</h3>
-
-        <h4>12.1. Întrebări orale / scrise</h4>
         <ol>
-            <li>
-                <strong>Î1:</strong> Definiți noțiunea de punct material.
-            </li>
-            <li>
-                <strong>Î2:</strong> Ce este traiectoria? Dați două exemple de traiectorii
-                rectilinii și două de traiectorii curbilinii.
-            </li>
-            <li>
-                <strong>Î3:</strong> Scrieți formula vitezei medii și explicați fiecare
-                mărime.
-            </li>
-            <li>
-                <strong>Î4:</strong> Cum se definește accelerația? Ce reprezintă accelerația
-                constantă?
-            </li>
-            <li>
-                <strong>Î5:</strong> Cum arată graficul $x(t)$ pentru o mișcare rectilinie
-                uniformă?
-            </li>
+          <li>Definiți vectorul de poziție al unui punct material.</li>
+          <li>Explicați diferența dintre drum parcurs și deplasare.</li>
+          <li>Scrieți relația vitezei instantanee în formă vectorială.</li>
+          <li>Arătați că accelerația este derivata a doua a vectorului de poziție.</li>
+          <li>Ce reprezintă aria de sub graficul $v(t)$?</li>
+          <li>Un corp are $v_0=3\,\text{m/s}$ și $a=4\,\text{m/s}^2$. Calculați viteza după $2\,\text{s}$.</li>
         </ol>
 
-        <h4>12.2. Sarcini de lucru scurte</h4>
-        <ul>
-            <li>
-                <strong>S1:</strong> Desenați graficul $x(t)$ pentru o mișcare rectilinie
-                uniformă și indicați panta.
-            </li>
-            <li>
-                <strong>S2:</strong> Desenați graficul $v(t)$ pentru o mișcare rectilinie
-                uniform variată cu accelerație pozitivă.
-            </li>
-            <li>
-                <strong>S3:</strong> Formulați o problemă de viață reală care implică
-                mișcare rectilinie uniformă și rezolvați-o.
-            </li>
-        </ul>
+        <div class="formula">
+          $$\vec v=\frac{d\vec r}{dt},\qquad \vec a=\frac{d\vec v}{dt}=\frac{d^2\vec r}{dt^2}$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C02-miscarea-rectilinie-si-circulara.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
     </section>
-</div>
+  </main>
 
-<!-- PAGINA 11 – Recapitulare și extensii -->
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
 
-<div id="pagina-11" class="pagina">
-    <section class="recapitulare">
-        <h3>13. Recapitulare și extensii</h3>
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
 
-        <p>
-            Lecția „Cinematica punctului material” oferă baza pentru înțelegerea
-            fenomenelor de mișcare mecanică. Noțiunile de poziție, traiectorie, viteză
-            și accelerație sunt esențiale pentru studiul ulterior al dinamicii și al
-            mișcărilor mai complexe (mișcarea pe verticală, mișcarea circulară etc.).
-        </p>
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
-        <p>
-            Extensii posibile:
-        </p>
-        <ul>
-            <li><strong>Studiul mișcării pe verticală;</strong></li>
-            <li><strong>Mișcarea circulară uniformă;</strong></li>
-            <li><strong>Mișcarea compusă (de exemplu, aruncarea oblică);</strong></li>
-        </ul>
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
 
-        <p>
-            Profesorul poate utiliza această lecție ca punct de plecare pentru activități
-            de proiect, experimente simple sau simulări digitale.
-        </p>
-    </section>
-</div>
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
 
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c01", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c01");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
 </body>
 </html>
-
