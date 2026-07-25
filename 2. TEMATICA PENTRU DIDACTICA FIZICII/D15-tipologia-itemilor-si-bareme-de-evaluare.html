@@ -1,1 +1,1639 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D15 · Tipologia itemilor și bareme de evaluare — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{color:var(--accent)}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{color:var(--accent)}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{transform:translateX(18px)}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{background:var(--accent);opacity:.45}
+.ruler .tick.current{background:var(--accent);opacity:1}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{display:block}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{margin:0 0 20px}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{margin-bottom:12px}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{color:var(--accent-2)}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{font-weight:800}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.item-map,
+.barem-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{grid-template-columns:repeat(5,1fr)}
+.item-map,.barem-map{grid-template-columns:repeat(4,1fr)}
+
+.mindmap button,
+.item-map button,
+.barem-map button,
+.flow button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.item-map button:hover,
+.barem-map button:hover,
+.flow button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.item-map button.active,
+.barem-map button.active,
+.flow button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{grid-template-columns:1fr 1fr}
+  .mindmap button:last-child{grid-column:1/-1}
+  .item-map,.barem-map{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:560px){
+  .item-map,.barem-map{grid-template-columns:1fr}
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{grid-template-columns:1fr}
+  .flow .arrow{text-align:center;transform:rotate(90deg)}
+}
+
+.small{font-size:16px;color:var(--ink-soft)}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{color:var(--good);font-weight:800}
+.bad{color:var(--bad);font-weight:800}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.item-box{
+  background:var(--paper);
+  border:2px dashed var(--accent);
+  border-radius:18px;
+  padding:20px 22px;
+  margin:0 0 24px;
+}
+
+.score-demo{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.score-demo input{
+  width:100%;
+  accent-color:var(--accent);
+}
+
+.score-readout{
+  margin-top:14px;
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 16px;
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{background:transparent}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{grid-template-columns:1fr}
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{display:none}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout,
+  .score-demo{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D15 — Itemi și bareme</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 8h8M8 12h5M8 16h8" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M15 13l2 2 4-5" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Tipologia itemilor și bareme de evaluare
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce este un item?</h2>
+
+      <p>
+        <span class="key"><b>Itemul</b></span> este unitatea de sarcină dintr-un instrument de evaluare.
+        El cere elevului un răspuns, o alegere, o completare, o rezolvare, o explicație sau o acțiune practică.
+      </p>
+
+      <p>
+        La fizică, itemul trebuie să verifice o competență reală:
+        <span class="key"><b>identificare</b></span>,
+        <span class="key"><b>măsurare</b></span>,
+        <span class="key"><b>calcul</b></span>,
+        <span class="key"><b>interpretare de grafic</b></span>,
+        <span class="key"><b>argumentare</b></span> sau
+        <span class="key"><b>rezolvare de problemă</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Itemii obiectivi au răspuns corect unic și corectare rapidă: alegere multiplă, alegere duală, asociere.">1. Obiectivi</button>
+        <button data-info="Itemii semiobiectivi cer răspuns construit scurt: completare, răspuns scurt, întrebare structurată.">2. Semiobiectivi</button>
+        <button data-info="Itemii subiectivi cer răspuns elaborat: problemă, eseu, explicație argumentată, proiect, raport.">3. Subiectivi</button>
+        <button data-info="Itemii practici verifică deprinderi experimentale: montaj, măsurare, tabel, grafic, concluzie, NTSM.">4. Practici</button>
+        <button data-info="Baremul stabilește criteriile, punctajul și modalitatea de corectare și notare.">5. Barem</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Obiectivi</h3>
+        <p>Itemii obiectivi au răspuns corect unic și corectare rapidă: alegere multiplă, alegere duală, asociere.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>item</span>
+          <span>cerință</span>
+          <span>răspuns așteptat</span>
+          <span>criteriu</span>
+          <span>barem</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Structura itemului</div>
+      <h2>Din ce este alcătuit un item?</h2>
+
+      <p>
+        Un item bine proiectat are <span class="key"><b>enunț clar</b></span>,
+        <span class="key"><b>sarcină precisă</b></span>,
+        <span class="key"><b>răspuns așteptat</b></span> și
+        <span class="key"><b>criterii de corectare</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Rol</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Enunț</b></span></td>
+          <td>creează contextul și oferă datele necesare</td>
+          <td>Un rezistor este parcurs de curentul \( I = 0{,}5A \).</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Cerință</b></span></td>
+          <td>spune exact ce trebuie să facă elevul</td>
+          <td>Calculează rezistența electrică.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Răspuns așteptat</b></span></td>
+          <td>modelul răspunsului corect</td>
+          <td>\( R = U/I = 10/0{,}5 = 20\,\Omega \)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Barem</b></span></td>
+          <td>stabilește punctajul pe pași</td>
+          <td>date 1 p, formulă 2 p, calcul 2 p, unitate 1 p</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Item bun = enunț clar + cerință observabilă + răspuns așteptat + barem
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> itemul trebuie să evalueze exact competența declarată. Dacă vrei să evaluezi interpretarea graficului, itemul trebuie să conțină un grafic sau date pentru grafic.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Clasificare</div>
+      <h2>Tipologia itemilor</h2>
+
+      <p>
+        Itemii se clasifică după tipul răspunsului și după gradul de obiectivitate în corectare.
+        Pentru examen, folosește triada:
+        <span class="key"><b>obiectivi</b></span>,
+        <span class="key"><b>semiobiectivi</b></span>,
+        <span class="key"><b>subiectivi</b></span>.
+      </p>
+
+      <div class="item-map" id="itemMap">
+        <button class="active" data-title="Itemi obiectivi" data-info="Răspunsul corect este unic, iar corectarea se face cu obiectivitate ridicată.">Obiectivi</button>
+        <button data-title="Itemi semiobiectivi" data-info="Elevul construiește un răspuns scurt sau structurat; corectarea se face după model de răspuns.">Semiobiectivi</button>
+        <button data-title="Itemi subiectivi" data-info="Elevul formulează un răspuns elaborat, iar baremul trebuie să reducă subiectivitatea corectării.">Subiectivi</button>
+        <button data-title="Itemi practici" data-info="Elevul execută o acțiune experimentală observabilă: montaj, măsurare, citire, grafic, concluzie.">Practici</button>
+      </div>
+
+      <div class="card" id="itemDetail">
+        <h3><span class="dot"></span>Itemi obiectivi</h3>
+        <p>Răspunsul corect este unic, iar corectarea se face cu obiectivitate ridicată.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip</th>
+          <th>Subtipuri</th>
+          <th>Domenii de utilizare la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Obiectivi</b></span></td>
+          <td>alegere multiplă, alegere duală, asociere</td>
+          <td>simboluri, unități, definiții, identificări rapide</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Semiobiectivi</b></span></td>
+          <td>răspuns scurt, completare, întrebare structurată</td>
+          <td>relații fizice, completări, interpretări concise</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Subiectivi</b></span></td>
+          <td>problemă, eseu, explicație argumentată</td>
+          <td>modelare, calcul, argumentare, transfer</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Practici</b></span></td>
+          <td>probă experimentală, fișă, checklist</td>
+          <td>măsurare, montaj, NTSM, concluzie experimentală</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Itemi obiectivi</div>
+      <h2>Itemii obiectivi</h2>
+
+      <p>
+        <span class="key"><b>Itemii obiectivi</b></span> au răspuns corect unic și corectare rapidă.
+        Sunt utili pentru verificarea achizițiilor de bază, dar nu sunt suficienți pentru evaluarea completă a competențelor la fizică.
+      </p>
+
+      <div class="grid3">
+        <div class="card">
+          <h3><span class="dot"></span>Alegere multiplă</h3>
+          <p>Elevul alege varianta corectă din mai multe opțiuni.</p>
+          <p><b>Exemplu:</b> Unitatea rezistenței electrice este: a) V b) A c) Ω d) W.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Alegere duală</h3>
+          <p>Elevul stabilește valoarea de adevăr a unei afirmații.</p>
+          <p><b>Exemplu:</b> Ampermetrul se conectează în serie. A/F.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Asociere</h3>
+          <p>Elevul pune în corespondență mărimi, simboluri, unități sau instrumente.</p>
+          <p><b>Exemplu:</b> \( U \) — voltmetru; \( I \) — ampermetru.</p>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Avantaje</th>
+          <th>Limite</th>
+        </tr>
+        <tr>
+          <td>corectare rapidă, obiectivitate ridicată, acoperire mare de conținut</td>
+          <td>pot încuraja ghicitul, verifică mai ales niveluri cognitive inferioare</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Regulă:</b> distractorii trebuie să fie plauzibili, dar clar greșiți pentru elevul care stăpânește conținutul.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Itemi semiobiectivi</div>
+      <h2>Itemii semiobiectivi</h2>
+
+      <p>
+        <span class="key"><b>Itemii semiobiectivi</b></span> cer elevului să construiască un răspuns scurt.
+        Ei sunt utili pentru formule, completări, interpretări rapide, date experimentale și concluzii concise.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Subtip</th>
+          <th>Caracterizare</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Răspuns scurt</b></span></td>
+          <td>răspuns de câteva cuvinte, simboluri sau relații</td>
+          <td>Scrie formula rezistenței electrice: \( R = \_\_\_ \).</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Completare</b></span></td>
+          <td>elevul completează o afirmație incompletă</td>
+          <td>Unitatea de măsură pentru intensitatea curentului este ______.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Întrebare structurată</b></span></td>
+          <td>mai multe subcerințe legate de același context</td>
+          <td>Analizează un circuit: identifică aparatele, scrie formula, calculează \( R \).</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Interpretare scurtă</b></span></td>
+          <td>elevul explică o relație sau un rezultat</td>
+          <td>Ce arată panta graficului \( I(U) \)?</td>
+        </tr>
+      </table>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Avantaje</h3>
+          <ul class="remember-list">
+            <li><b>elevul construiește răspunsul</b>;</li>
+            <li><b>se reduce probabilitatea ghicitului</b>;</li>
+            <li><b>permit verificarea relațiilor și interpretărilor scurte</b>;</li>
+            <li><b>sunt potriviți pentru feedback rapid</b>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Limite</h3>
+          <ul class="remember-list">
+            <li><b>pot apărea răspunsuri parțial corecte</b>;</li>
+            <li><b>corectarea cere model de răspuns</b>;</li>
+            <li><b>nu verifică întotdeauna raționamente complexe</b>;</li>
+            <li><b>formularea trebuie să evite ambiguitatea</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Itemi subiectivi</div>
+      <h2>Itemii subiectivi</h2>
+
+      <p>
+        <span class="key"><b>Itemii subiectivi</b></span> solicită răspunsuri elaborate și permit evaluarea
+        gândirii fizice: modelare, argumentare, calcul, interpretare și transfer.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Subtip</th>
+          <th>Ce verifică?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Problemă</b></span></td>
+          <td>analiză, model, formulă, calcul, interpretare</td>
+          <td>calculează rezistența unui conductor din \( U \) și \( I \)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Explicație argumentată</b></span></td>
+          <td>relații cauzale și limbaj științific</td>
+          <td>explică de ce becurile din locuințe sunt conectate în paralel</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Eseu structurat</b></span></td>
+          <td>sinteză și organizare logică</td>
+          <td>prezintă rolul experimentului în lecția de fizică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Raport de laborator</b></span></td>
+          <td>demers experimental complet</td>
+          <td>scop, materiale, date, grafic, concluzie, erori</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Important:</b> itemii subiectivi trebuie corectați cu barem analitic. Altfel, crește riscul de subiectivitate.
+      </div>
+
+      <div class="formula">
+        Item subiectiv bun = cerință clară + criterii + punctaj pe pași + model de răspuns
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Reguli de proiectare</div>
+      <h2>Reguli pentru proiectarea itemilor</h2>
+
+      <p>
+        Un item bun trebuie să fie <span class="key"><b>valid</b></span>,
+        <span class="key"><b>clar</b></span>,
+        <span class="key"><b>adecvat vârstei</b></span>,
+        <span class="key"><b>corect științific</b></span> și
+        <span class="key"><b>corelabil cu un barem</b></span>.
+      </p>
+
+      <ol class="stepline">
+        <li><b>Pornește de la competență.</b> Nu scrii itemul înainte să știi ce vrei să evaluezi.</li>
+        <li><b>Formulează cerința observabil.</b> Folosește verbe precum: identifică, calculează, compară, interpretează, argumentează.</li>
+        <li><b>Oferă date suficiente.</b> Elevul trebuie să poată rezolva fără să ghicească intenția profesorului.</li>
+        <li><b>Evită ambiguitățile.</b> Cerința trebuie să aibă sens unic.</li>
+        <li><b>Precizează unitățile.</b> La fizică, unitatea face parte din răspunsul corect.</li>
+        <li><b>Construiește baremul odată cu itemul.</b> Dacă nu poți face barem, itemul nu este suficient de clar.</li>
+      </ol>
+
+      <table class="compare">
+        <tr>
+          <th>Formulare slabă</th>
+          <th>Formulare bună</th>
+        </tr>
+        <tr>
+          <td><span class="bad">Spune tot ce știi despre curent.</span></td>
+          <td><span class="good">Explică, în 4–5 rânduri, de ce ampermetrul se conectează în serie într-un circuit.</span></td>
+        </tr>
+        <tr>
+          <td><span class="bad">Calculează.</span></td>
+          <td><span class="good">Calculează rezistența electrică a rezistorului, folosind \( R = U/I \), și precizează unitatea de măsură.</span></td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Bareme</div>
+      <h2>Ce este baremul?</h2>
+
+      <p>
+        <span class="key"><b>Baremul de evaluare și notare</b></span> este instrumentul care stabilește
+        criteriile de corectare, punctajele, răspunsurile acceptate și modul de transformare a punctajului în notă.
+      </p>
+
+      <div class="barem-map" id="baremMap">
+        <button class="active" data-title="Barem analitic" data-info="Punctează fiecare etapă a rezolvării: date, formulă, calcul, unitate, interpretare.">Analitic</button>
+        <button data-title="Barem holistic" data-info="Apreciază global calitatea răspunsului pe niveluri de performanță. Este util la eseu, proiect, portofoliu.">Holistic</button>
+        <button data-title="Checklist" data-info="Verifică prezența unor elemente: montaj corect, instrument conectat, tabel complet, concluzie.">Checklist</button>
+        <button data-title="Rubrică" data-info="Descrie niveluri de performanță pentru criterii: excelent, bine, suficient, insuficient.">Rubrică</button>
+      </div>
+
+      <div class="card" id="baremDetail">
+        <h3><span class="dot"></span>Barem analitic</h3>
+        <p>Punctează fiecare etapă a rezolvării: date, formulă, calcul, unitate, interpretare.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip barem</th>
+          <th>Utilizare</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Analitic</b></span></td>
+          <td>probleme, calcule, itemi structurați</td>
+          <td>date 1 p; formulă 2 p; calcul 2 p; unitate 1 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Holistic</b></span></td>
+          <td>eseuri, explicații, proiecte</td>
+          <td>răspuns complet / parțial / minimal / absent</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Checklist</b></span></td>
+          <td>probe practice</td>
+          <td>montaj corect, NTSM, citire, tabel, concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Rubrică</b></span></td>
+          <td>portofolii, proiecte, rapoarte</td>
+          <td>criterii pe niveluri de performanță</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Exemplu complet</div>
+      <h2>Item obiectiv + item semiobiectiv + item subiectiv</h2>
+
+      <div class="item-box">
+        <p><b>Context comun:</b> Tema testului este „Legea lui Ohm pentru o porțiune de circuit”, clasa a VIII-a.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip item</th>
+          <th>Item</th>
+          <th>Răspuns / barem</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Obiectiv</b></span></td>
+          <td>Unitatea rezistenței electrice este: a) volt b) amper c) ohm d) watt.</td>
+          <td>c) ohm · 1 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Semiobiectiv</b></span></td>
+          <td>Completează relația: \( R = \_\_\_ / \_\_\_ \).</td>
+          <td>\( R = U/I \) · 2 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Subiectiv</b></span></td>
+          <td>La bornele unui rezistor se aplică \( U = 12V \), iar curentul este \( I = 0{,}4A \). Determină \( R \) și interpretează rezultatul.</td>
+          <td>date 1 p; formulă 2 p; calcul 2 p; unitate 1 p; interpretare 2 p; redactare 1 p</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Observație:</b> același conținut poate fi evaluat prin itemi diferiți, dar fiecare item verifică un nivel diferit de complexitate.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Barem detaliat</div>
+      <h2>Barem analitic pentru o problemă</h2>
+
+      <div class="item-box">
+        <p><b>Problemă.</b> Un rezistor este conectat la tensiunea \( U = 9V \). Intensitatea curentului prin rezistor este \( I = 0{,}3A \). Calculează rezistența electrică și precizează semnificația rezultatului.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Etapă</th>
+          <th>Răspuns așteptat</th>
+          <th>Punctaj</th>
+        </tr>
+        <tr>
+          <td>Identificarea datelor</td>
+          <td>\( U = 9V \), \( I = 0{,}3A \), se cere \( R \)</td>
+          <td>1 p</td>
+        </tr>
+        <tr>
+          <td>Alegerea relației</td>
+          <td>\( R = U/I \)</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>Substituția numerică</td>
+          <td>\( R = 9/0{,}3 \)</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>Calculul</td>
+          <td>\( R = 30 \)</td>
+          <td>1 p</td>
+        </tr>
+        <tr>
+          <td>Unitatea</td>
+          <td>\( R = 30\,\Omega \)</td>
+          <td>1 p</td>
+        </tr>
+        <tr>
+          <td>Interpretarea</td>
+          <td>rezistența arată opoziția conductorului la trecerea curentului</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>Redactarea</td>
+          <td>răspuns coerent, simboluri și unități corecte</td>
+          <td>1 p</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Total = 10 p · Nota poate fi punctajul împărțit la 10 sau transformat după scala stabilită.
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Matrice</div>
+      <h2>Matrice de specificații pentru test</h2>
+
+      <p>
+        <span class="key"><b>Matricea de specificații</b></span> asigură echilibrul dintre conținuturi,
+        competențe și niveluri cognitive. Ea previne testele dezechilibrate.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Conținut / Nivel</th>
+          <th>Cunoaștere</th>
+          <th>Aplicare</th>
+          <th>Raționament</th>
+          <th>Pondere</th>
+        </tr>
+        <tr>
+          <td>Circuit electric simplu</td>
+          <td>item obiectiv</td>
+          <td>item de asociere</td>
+          <td>—</td>
+          <td>20%</td>
+        </tr>
+        <tr>
+          <td>Legea lui Ohm</td>
+          <td>răspuns scurt</td>
+          <td>problemă numerică</td>
+          <td>interpretare de rezultat</td>
+          <td>45%</td>
+        </tr>
+        <tr>
+          <td>Măsurarea U și I</td>
+          <td>item A/F</td>
+          <td>item practic</td>
+          <td>concluzie experimentală</td>
+          <td>35%</td>
+        </tr>
+      </table>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Competențe" data-info="Selectezi competențele evaluate: identificare, calcul, interpretare, măsurare, argumentare.">Competențe</button>
+        <span class="arrow">→</span>
+        <button data-title="Conținuturi" data-info="Stabilești temele: circuit, tensiune, intensitate, rezistență, grafic.">Conținuturi</button>
+        <span class="arrow">→</span>
+        <button data-title="Niveluri" data-info="Distribui sarcinile pe cunoaștere, aplicare și raționament.">Niveluri</button>
+        <span class="arrow">→</span>
+        <button data-title="Itemi" data-info="Alegi tipuri variate de itemi, corelate cu nivelul cognitiv.">Itemi</button>
+        <span class="arrow">→</span>
+        <button data-title="Barem" data-info="Elaborezi punctajul și criteriile de corectare pentru fiecare item.">Barem</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Competențe</h3>
+        <p>Selectezi competențele evaluate: identificare, calcul, interpretare, măsurare, argumentare.</p>
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Item fără competență clară.</b> Nu se știe ce verifică.</li>
+          <li><b>Item ambiguu.</b> Cerința poate fi interpretată în mai multe feluri.</li>
+          <li><b>Distractori absurzi.</b> La alegere multiplă, variantele greșite trebuie să fie plauzibile.</li>
+          <li><b>Barem doar cu răspuns final.</b> La fizică trebuie punctat demersul: date, model, formulă, calcul, unitate, interpretare.</li>
+          <li><b>Evaluare doar reproductivă.</b> Fizica cere și probleme, grafice, experimente, argumentări.</li>
+          <li><b>Item practic fără NTSM.</b> Proba experimentală trebuie să includă siguranța.</li>
+          <li><b>Rubrică neclară.</b> Nivelurile trebuie descrise prin comportamente observabile.</li>
+          <li><b>Matrice absentă.</b> Testul poate deveni dezechilibrat.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> după ce scrii un item, verifică: „Ce competență evaluează?”, „Ce răspuns aștept?”, „Cum punctez?”, „Ce feedback ofer?”
+      </div>
+
+      <div class="keywords">
+        <span>claritate</span>
+        <span>validitate</span>
+        <span>barem analitic</span>
+        <span>răspuns așteptat</span>
+        <span>feedback</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Itemul</b> este sarcina concretă prin care se evaluează o achiziție.</li>
+          <li><b>Itemii obiectivi</b> au răspuns unic: alegere multiplă, adevărat/fals, asociere.</li>
+          <li><b>Itemii semiobiectivi</b> cer răspuns scurt: completare, răspuns scurt, întrebare structurată.</li>
+          <li><b>Itemii subiectivi</b> cer răspuns elaborat: problemă, eseu, explicație, raport.</li>
+          <li><b>Itemii practici</b> verifică montaj, măsurare, grafic, concluzie și NTSM.</li>
+          <li><b>Baremul</b> stabilește criteriile, punctajul și modelul de răspuns.</li>
+          <li><b>Baremul analitic</b> este potrivit pentru probleme și itemi structurați.</li>
+          <li><b>Rubrica</b> este potrivită pentru proiecte, portofolii și rapoarte.</li>
+          <li><b>Matricea de specificații</b> asigură echilibrul testului.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Tipologia itemilor</b> permite alegerea sarcinii potrivite pentru competența evaluată.</li>
+          <li><b>La fizică</b>, itemii trebuie să verifice nu doar definiții, ci și calcul, grafic, experiment și interpretare.</li>
+          <li><b>Un item bun</b> are cerință clară, răspuns așteptat și criterii de corectare.</li>
+          <li><b>Baremul bun</b> punctează demersul, nu doar rezultatul final.</li>
+          <li><b>La examen</b>, răspunsul devine complet dacă incluzi item obiectiv, semiobiectiv, subiectiv și barem detaliat.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre item obiectiv și item subiectiv?</summary>
+        <p><b>Itemul obiectiv</b> are răspuns corect unic și corectare rapidă. <b>Itemul subiectiv</b> cere răspuns elaborat și are nevoie de barem analitic sau rubrică.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Dă un exemplu de item semiobiectiv la fizică.</summary>
+        <p>„Completează relația: \( R = \_\_\_ / \_\_\_ \).” Răspuns: \( R = U/I \).</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. Ce conține baremul unei probleme?</summary>
+        <p>Datele, alegerea relației, substituția numerică, calculul, unitatea, interpretarea și redactarea răspunsului final.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. De ce este utilă matricea de specificații?</summary>
+        <p>Pentru că asigură echilibrul dintre conținuturi, competențe, niveluri cognitive și tipuri de itemi.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D15 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon itemi PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție item</b> → <b>clasificare</b> → <b>caracteristici</b> →
+            <b>domenii de utilizare</b> → <b>reguli de proiectare</b> →
+            <b>exemple la fizică</b> → <b>barem</b> → <b>greșeli de evitat</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = item + competență + răspuns așteptat + barem + feedback
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează construirea unui test complet cu matrice de specificații, itemi obiectivi, semiobiectivi, subiectivi și barem analitic.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="index.html">
+        <span class="tag">Capitol</span>
+        <span class="label">Întoarcere la index</span>
+      </a>
+
+      <a class="action-card primary" href="D15-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="../index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Tematica didactică</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D15 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D15 — Tipologia itemilor și bareme de evaluare</h1>
+  <ul>
+    <li><b>Item:</b> unitatea de sarcină dintr-un instrument de evaluare.</li>
+    <li><b>Structură:</b> enunț, cerință, răspuns așteptat, criterii, punctaj.</li>
+    <li><b>Itemi obiectivi:</b> alegere multiplă, alegere duală, asociere.</li>
+    <li><b>Itemi semiobiectivi:</b> răspuns scurt, completare, întrebare structurată.</li>
+    <li><b>Itemi subiectivi:</b> problemă, eseu, explicație argumentată, raport.</li>
+    <li><b>Itemi practici:</b> montaj, măsurare, tabel, grafic, concluzie, NTSM.</li>
+    <li><b>Barem:</b> criterii de corectare, punctaj, răspunsuri acceptate, notare.</li>
+    <li><b>Tipuri de barem:</b> analitic, holistic, checklist, rubrică.</li>
+    <li><b>Matrice de specificații:</b> echilibrează conținuturi, competențe, niveluri și itemi.</li>
+    <li><b>Specific fizicii:</b> itemii trebuie să verifice definiții, formule, probleme, grafice, experimente și argumentări.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon — Proiectarea itemilor și baremului</h1>
+  <p><b>Tema:</b> ...</p>
+  <p><b>Clasa:</b> ...</p>
+  <p><b>Competența evaluată:</b> ...</p>
+  <p><b>Obiectiv de evaluare:</b> ...</p>
+
+  <h2>Matrice de specificații</h2>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%">
+    <tr>
+      <th>Conținut</th>
+      <th>Cunoaștere</th>
+      <th>Aplicare</th>
+      <th>Raționament</th>
+      <th>Pondere</th>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>item obiectiv</td>
+      <td>item semiobiectiv</td>
+      <td>item subiectiv / practic</td>
+      <td>...</td>
+    </tr>
+  </table>
+
+  <p><b>Item obiectiv:</b> ...</p>
+  <p><b>Răspuns:</b> ...</p>
+  <p><b>Punctaj:</b> ...</p>
+
+  <p><b>Item semiobiectiv:</b> ...</p>
+  <p><b>Răspuns:</b> ...</p>
+  <p><b>Punctaj:</b> ...</p>
+
+  <p><b>Item subiectiv:</b> ...</p>
+  <p><b>Barem analitic:</b> date ... p; formulă ... p; calcul ... p; unitate ... p; interpretare ... p.</p>
+
+  <p><b>Feedback:</b> ...</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#itemMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#itemMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('itemDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#baremMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#baremMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('baremDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D15</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}table{font-size:12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
