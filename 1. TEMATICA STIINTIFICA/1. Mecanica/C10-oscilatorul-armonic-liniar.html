@@ -1,1 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C10 – Oscilatorul armonic liniar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C10 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 10</span>
+        <h1>Oscilatorul armonic liniar</h1>
+
+        <p class="lead">
+          Un <span class="mark">oscilator armonic liniar</span> este un sistem care se mișcă periodic în jurul unei poziții de echilibru stabil,
+          sub acțiunea unei forțe de revenire proporționale cu deplasarea.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          modelul fundamental este sistemul masă–resort:
+          $$F=-kx.$$
+          Din legea a II-a a lui Newton rezultă ecuația diferențială a oscilațiilor libere:
+          $$m\ddot x+kx=0.$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Oscilator masă-resort">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="2" refY="3" orient="auto">
+                <path d="M9,0 L9,6 L0,3 z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <line x1="80" y1="90" x2="80" y2="255" stroke="#64748b" stroke-width="8"/>
+            <path d="M80 172 C120 132, 150 212, 180 172 S240 132, 270 172 S330 212, 360 172 S420 132, 450 172" fill="none" stroke="#0f766e" stroke-width="8"/>
+            <rect x="450" y="135" width="110" height="75" rx="14" fill="#f59e0b"/>
+            <line x1="560" y1="172" x2="660" y2="172" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-blue)"/>
+            <line x1="450" y1="172" x2="345" y2="172" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+            <line x1="560" y1="245" x2="650" y2="245" stroke="#2563eb" stroke-width="4"/>
+            <text x="600" y="150" fill="#2563eb" font-size="25">x</text>
+            <text x="365" y="150" fill="#ef4444" font-size="25">Fe</text>
+            <text x="490" y="182" fill="#122033" font-size="28">m</text>
+            <text x="570" y="280" fill="#64748b" font-size="23">poziție deplasată</text>
+          </svg>
+          <p class="caption">
+            Forța elastică este orientată spre poziția de echilibru și se opune deplasării.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Condiția de oscilație</span>
+        <h2>Forța de revenire</h2>
+
+        <p>
+          Pentru oscilații mici în jurul echilibrului, multe sisteme fizice pot fi aproximative printr-o forță de forma:
+        </p>
+
+        <div class="formula">
+          $$F=-kx$$
+        </div>
+
+        <p>
+          Semnul minus arată că forța este orientată în sens opus deplasării față de echilibru.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$x>0$</strong>
+            <p>Corpul este la dreapta echilibrului, iar forța elastică este spre stânga.</p>
+          </div>
+          <div class="mini">
+            <strong>$x<0$</strong>
+            <p>Corpul este la stânga echilibrului, iar forța elastică este spre dreapta.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu orice mișcare periodică este armonică.
+          Mișcarea este armonică liniară când ecuația are forma $\ddot x+\omega_0^2x=0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Oscilații libere neamortizate</span>
+        <h2>Ecuația fundamentală</h2>
+
+        <p>
+          Aplicăm legea a II-a a lui Newton pentru un corp de masă $m$ legat de un resort ideal:
+        </p>
+
+        <div class="formula">
+          $$\sum F=m\ddot x$$
+          $$-kx=m\ddot x$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$m\ddot x+kx=0$$
+          $$\ddot x+\frac{k}{m}x=0$$
+        </div>
+
+        <p>
+          Notăm:
+        </p>
+
+        <div class="formula">
+          $$\omega_0^2=\frac{k}{m}$$
+        </div>
+
+        <p>
+          Deci ecuația standard este:
+        </p>
+
+        <div class="formula">
+          $$\boxed{\ddot x+\omega_0^2x=0}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          pulsația proprie $\omega_0$ depinde de proprietățile sistemului, nu de amplitudine:
+          $$\omega_0=\sqrt{\frac{k}{m}}.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Soluția ecuației</span>
+        <h2>Elongație, amplitudine, fază</h2>
+
+        <p>
+          Soluția ecuației armonice este sinusoidală:
+        </p>
+
+        <div class="formula">
+          $$x(t)=A\cos(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          Echivalent:
+        </p>
+
+        <div class="formula">
+          $$x(t)=A\sin(\omega_0t+\psi_0)$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Mărime</th>
+              <th>Semnificație</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$x(t)$</td>
+              <td>Elongația, adică deplasarea față de echilibru.</td>
+            </tr>
+            <tr>
+              <td>$A$</td>
+              <td>Amplitudinea, elongația maximă.</td>
+            </tr>
+            <tr>
+              <td>$\omega_0t+\varphi_0$</td>
+              <td>Faza oscilației.</td>
+            </tr>
+            <tr>
+              <td>$\varphi_0$</td>
+              <td>Faza inițială.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          amplitudinea $A$ este pozitivă.
+          Semnul poziției este dat de funcția sinus sau cosinus, nu de amplitudine.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteză și accelerație</span>
+        <h2>Derivarea elongației</h2>
+
+        <p>
+          Dacă:
+        </p>
+
+        <div class="formula">
+          $$x(t)=A\cos(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          atunci viteza este:
+        </p>
+
+        <div class="formula">
+          $$v(t)=\dot x=-A\omega_0\sin(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          iar accelerația este:
+        </p>
+
+        <div class="formula">
+          $$a(t)=\ddot x=-A\omega_0^2\cos(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          Cum $x=A\cos(\omega_0t+\varphi_0)$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$a=-\omega_0^2x$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee-cheie:</strong>
+          accelerația este proporțională cu elongația și orientată spre poziția de echilibru.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Perioadă și frecvență</span>
+        <h2>Timpul unei oscilații complete</h2>
+
+        <p>
+          Perioada oscilației este:
+        </p>
+
+        <div class="formula">
+          $$T=\frac{2\pi}{\omega_0}$$
+        </div>
+
+        <p>
+          Pentru sistemul masă–resort:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{m}{k}}$$
+        </div>
+
+        <p>
+          Frecvența este inversul perioadei:
+        </p>
+
+        <div class="formula">
+          $$f=\frac{1}{T}=\frac{\omega_0}{2\pi}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație importantă:</strong>
+          pentru oscilatorul armonic ideal, perioada nu depinde de amplitudine.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Grafic sinusoidal al elongației">
+            <path d="M80 165 H690" stroke="#64748b" stroke-width="3"/>
+            <path d="M100 285 V55" stroke="#64748b" stroke-width="3"/>
+            <path d="M100 165 C150 65, 230 65, 280 165 S410 265, 460 165 S590 65, 640 165" fill="none" stroke="#2563eb" stroke-width="7"/>
+            <line x1="100" y1="75" x2="100" y2="255" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8 8"/>
+            <line x1="100" y1="75" x2="230" y2="75" stroke="#f59e0b" stroke-width="4"/>
+            <text x="150" y="60" fill="#f59e0b" font-size="25">A</text>
+            <line x1="100" y1="300" x2="460" y2="300" stroke="#0f766e" stroke-width="5"/>
+            <text x="260" y="322" fill="#0f766e" font-size="25">T</text>
+            <text x="675" y="190" fill="#64748b" font-size="24">t</text>
+            <text x="72" y="65" fill="#64748b" font-size="24">x</text>
+          </svg>
+          <p class="caption">
+            Amplitudinea este valoarea maximă a elongației, iar perioada este durata unei oscilații complete.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie mecanică</span>
+        <h2>Transformarea energiei în oscilații libere</h2>
+
+        <p>
+          Energia cinetică este:
+        </p>
+
+        <div class="formula">
+          $$E_c=\frac{1}{2}mv^2$$
+        </div>
+
+        <p>
+          Energia potențială elastică este:
+        </p>
+
+        <div class="formula">
+          $$E_p=\frac{1}{2}kx^2$$
+        </div>
+
+        <p>
+          În absența frecărilor, energia mecanică se conservă:
+        </p>
+
+        <div class="formula">
+          $$E=E_c+E_p=\frac{1}{2}mv^2+\frac{1}{2}kx^2=\text{constant}$$
+        </div>
+
+        <p>
+          La elongația maximă, $v=0$ și $x=A$:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{1}{2}kA^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia se transformă periodic între energie cinetică și energie potențială elastică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteza în funcție de poziție</span>
+        <h2>Relație utilă în probleme</h2>
+
+        <p>
+          Din conservarea energiei:
+        </p>
+
+        <div class="formula">
+          $$\frac{1}{2}mv^2+\frac{1}{2}kx^2=\frac{1}{2}kA^2$$
+        </div>
+
+        <p>
+          Deoarece $\omega_0^2=\frac{k}{m}$:
+        </p>
+
+        <div class="formula">
+          $$v^2=\omega_0^2(A^2-x^2)$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$v=\pm \omega_0\sqrt{A^2-x^2}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Poziție</th>
+              <th>Viteză</th>
+              <th>Energie dominantă</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$x=0$</td>
+              <td>$v_{max}=\omega_0A$</td>
+              <td>Cinetică</td>
+            </tr>
+            <tr>
+              <td>$x=\pm A$</td>
+              <td>$v=0$</td>
+              <td>Potențială elastică</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          viteza maximă nu apare la elongația maximă, ci la trecerea prin poziția de echilibru.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Oscilații amortizate</span>
+        <h2>Forța rezistentă proporțională cu viteza</h2>
+
+        <p>
+          În realitate, oscilațiile se sting din cauza frecărilor sau rezistenței mediului.
+          Un model uzual presupune o forță rezistentă proporțională cu viteza:
+        </p>
+
+        <div class="formula">
+          $$F_r=-b\dot x$$
+        </div>
+
+        <p>
+          Ecuația mișcării devine:
+        </p>
+
+        <div class="formula">
+          $$m\ddot x+b\dot x+kx=0$$
+        </div>
+
+        <p>
+          Împărțind la $m$:
+        </p>
+
+        <div class="formula">
+          $$\ddot x+2\beta\dot x+\omega_0^2x=0$$
+        </div>
+
+        <p>
+          unde:
+        </p>
+
+        <div class="formula">
+          $$\beta=\frac{b}{2m},\qquad \omega_0=\sqrt{\frac{k}{m}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee-cheie:</strong>
+          amortizarea scade amplitudinea oscilației în timp prin disiparea energiei mecanice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Regimuri de amortizare</span>
+        <h2>Subamortizat, critic, supraamortizat</h2>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Condiție</th>
+              <th>Regim</th>
+              <th>Comportament</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$\beta<\omega_0$</td>
+              <td>Subamortizat</td>
+              <td>Sistemul oscilează cu amplitudine descrescătoare.</td>
+            </tr>
+            <tr>
+              <td>$\beta=\omega_0$</td>
+              <td>Amortizare critică</td>
+              <td>Revine cel mai rapid la echilibru fără oscilații.</td>
+            </tr>
+            <tr>
+              <td>$\beta>\omega_0$</td>
+              <td>Supraamortizat</td>
+              <td>Revine lent la echilibru, fără oscilații.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="formula">
+          $$x(t)=A_0e^{-\beta t}\cos(\omega t+\varphi_0),\qquad \omega=\sqrt{\omega_0^2-\beta^2}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Oscilație amortizată">
+            <path d="M80 165 H690" stroke="#64748b" stroke-width="3"/>
+            <path d="M100 290 V60" stroke="#64748b" stroke-width="3"/>
+            <path d="M100 165 C140 70, 190 70, 230 165 S315 245, 355 165 S435 105, 470 165 S545 215, 575 165 S640 125, 665 165" fill="none" stroke="#2563eb" stroke-width="6"/>
+            <path d="M100 70 C250 105, 420 125, 670 150" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="8 8"/>
+            <path d="M100 260 C250 225, 420 205, 670 180" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="8 8"/>
+            <text x="675" y="190" fill="#64748b" font-size="24">t</text>
+            <text x="72" y="70" fill="#64748b" font-size="24">x</text>
+            <text x="430" y="92" fill="#ef4444" font-size="24">anvelopă exponențială</text>
+          </svg>
+          <p class="caption">
+            În regimul subamortizat, amplitudinea scade după o lege exponențială.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          frecvența oscilației amortizate $\omega$ este mai mică decât frecvența proprie neamortizată $\omega_0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Factor de calitate</span>
+        <h2>Cât de puțin se pierde energia?</h2>
+
+        <p>
+          <span class="mark">Factorul de calitate</span> $Q$ caracterizează cât de slab este amortizat un oscilator.
+          Un $Q$ mare înseamnă pierderi mici de energie pe ciclu.
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{\omega_0}{2\beta}$$
+        </div>
+
+        <p>
+          Deoarece $\beta=\frac{b}{2m}$:
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{m\omega_0}{b}$$
+        </div>
+
+        <p>
+          O interpretare energetică uzuală este:
+        </p>
+
+        <div class="formula">
+          $$Q=2\pi\frac{E}{|\Delta E|_{\text{pe ciclu}}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          dacă $Q$ este mare, sistemul oscilează mult timp înainte ca amplitudinea să devină neglijabilă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Oscilații forțate</span>
+        <h2>Forță periodică externă</h2>
+
+        <p>
+          Dacă asupra oscilatorului acționează o forță periodică externă:
+        </p>
+
+        <div class="formula">
+          $$F(t)=F_0\cos(\Omega t)$$
+        </div>
+
+        <p>
+          ecuația mișcării este:
+        </p>
+
+        <div class="formula">
+          $$m\ddot x+b\dot x+kx=F_0\cos(\Omega t)$$
+        </div>
+
+        <p>
+          După stingerea regimului tranzitoriu, rămâne regimul staționar:
+        </p>
+
+        <div class="formula">
+          $$x(t)=A(\Omega)\cos(\Omega t-\delta)$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee-cheie:</strong>
+          în regim forțat staționar, oscilatorul se mișcă cu frecvența forței exterioare, nu cu frecvența proprie.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Amplitudinea forțată</span>
+        <h2>Dependența de frecvența excitatoare</h2>
+
+        <p>
+          Amplitudinea oscilației forțate depinde de pulsația excitatoare $\Omega$:
+        </p>
+
+        <div class="formula">
+          $$A(\Omega)=
+          \frac{F_0/m}{\sqrt{(\omega_0^2-\Omega^2)^2+(2\beta\Omega)^2}}$$
+        </div>
+
+        <p>
+          Defazajul față de forța exterioară este dat de:
+        </p>
+
+        <div class="formula">
+          $$\tan\delta=\frac{2\beta\Omega}{\omega_0^2-\Omega^2}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Curba de rezonanță">
+            <path d="M80 270 H690" stroke="#64748b" stroke-width="4"/>
+            <path d="M105 290 V60" stroke="#64748b" stroke-width="4"/>
+            <path d="M115 260 C210 245, 300 220, 380 80 C420 25, 455 110, 500 185 S610 245, 670 255" fill="none" stroke="#2563eb" stroke-width="7"/>
+            <line x1="385" y1="270" x2="385" y2="80" stroke="#ef4444" stroke-width="4" stroke-dasharray="8 8"/>
+            <text x="670" y="295" fill="#64748b" font-size="24">Ω</text>
+            <text x="70" y="70" fill="#64748b" font-size="24">A</text>
+            <text x="400" y="85" fill="#ef4444" font-size="25">rezonanță</text>
+          </svg>
+          <p class="caption">
+            Amplitudinea devine maximă când frecvența forței exterioare este apropiată de frecvența proprie.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          fără amortizare, modelul ideal prezice creșterea nelimitată a amplitudinii la rezonanță.
+          În sisteme reale, amortizarea limitează amplitudinea.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rezonanța</span>
+        <h2>Transfer maxim de energie</h2>
+
+        <p>
+          <span class="mark">Rezonanța</span> apare când oscilatorul primește energie foarte eficient de la forța periodică externă.
+        </p>
+
+        <p>
+          Pentru amortizare slabă, rezonanța apare aproximativ la:
+        </p>
+
+        <div class="formula">
+          $$\Omega \approx \omega_0$$
+        </div>
+
+        <p>
+          Mai riguros, pentru amplitudinea deplasării:
+        </p>
+
+        <div class="formula">
+          $$\Omega_r=\sqrt{\omega_0^2-2\beta^2}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Exemple utile</strong>
+            <p>Leagăn împins periodic, instrumente muzicale, circuite RLC, vibrații mecanice.</p>
+          </div>
+          <div class="mini">
+            <strong>Riscuri</strong>
+            <p>Vibrații excesive în poduri, clădiri, motoare, structuri elastice.</p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          rezonanța este fenomenul de creștere accentuată a amplitudinii oscilațiilor forțate când frecvența excitatoare este apropiată de frecvența proprie a sistemului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Oscilator armonic și pendul</span>
+        <h2>Pendulul matematic la unghiuri mici</h2>
+
+        <p>
+          Pentru un pendul matematic de lungime $l$, ecuația exactă este:
+        </p>
+
+        <div class="formula">
+          $$\ddot\theta+\frac{g}{l}\sin\theta=0$$
+        </div>
+
+        <p>
+          Pentru oscilații mici:
+        </p>
+
+        <div class="formula">
+          $$\sin\theta\approx\theta$$
+        </div>
+
+        <p>
+          Ecuația devine:
+        </p>
+
+        <div class="formula">
+          $$\ddot\theta+\frac{g}{l}\theta=0$$
+        </div>
+
+        <p>
+          Prin comparație:
+        </p>
+
+        <div class="formula">
+          $$\omega_0=\sqrt{\frac{g}{l}},\qquad T=2\pi\sqrt{\frac{l}{g}}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula $T=2\pi\sqrt{l/g}$ este valabilă pentru oscilații mici, nu pentru amplitudini mari.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Comparație esențială</span>
+        <h2>Oscilații libere, amortizate, forțate</h2>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Tip de oscilație</th>
+              <th>Ecuație</th>
+              <th>Comportament</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Libere neamortizate</td>
+              <td>$\ddot x+\omega_0^2x=0$</td>
+              <td>Amplitudine constantă, energie mecanică constantă.</td>
+            </tr>
+            <tr>
+              <td>Amortizate</td>
+              <td>$\ddot x+2\beta\dot x+\omega_0^2x=0$</td>
+              <td>Amplitudine descrescătoare, energie disipată.</td>
+            </tr>
+            <tr>
+              <td>Forțate amortizate</td>
+              <td>$m\ddot x+b\dot x+kx=F_0\cos\Omega t$</td>
+              <td>Oscilație cu frecvența forței exterioare; apare rezonanța.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Strategie de examen:</strong>
+          identifică mai întâi tipul oscilației. Ecuația corectă se alege după prezența sau absența amortizării și a forței externe periodice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Perioada sistemului masă–resort</h2>
+
+        <p>
+          Un corp de masă $m=0{,}5\,\text{kg}$ este legat de un resort cu $k=200\,\text{N/m}$.
+          Determinați pulsația proprie și perioada oscilațiilor.
+        </p>
+
+        <p><strong>1. Pulsația proprie:</strong></p>
+        <div class="formula">
+          $$\omega_0=\sqrt{\frac{k}{m}}=\sqrt{\frac{200}{0{,}5}}=\sqrt{400}=20\,\text{rad/s}$$
+        </div>
+
+        <p><strong>2. Perioada:</strong></p>
+        <div class="formula">
+          $$T=\frac{2\pi}{\omega_0}=\frac{2\pi}{20}=\frac{\pi}{10}\,\text{s}\approx0{,}314\,\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $\omega_0=20\,\text{rad/s}$ și $T\approx0{,}314\,\text{s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Viteza maximă și energia totală</h2>
+
+        <p>
+          Un oscilator are amplitudinea $A=4\,\text{cm}$ și pulsația proprie
+          $\omega_0=10\,\text{rad/s}$. Determinați viteza maximă.
+        </p>
+
+        <p><strong>1. Conversia amplitudinii:</strong></p>
+        <div class="formula">
+          $$A=4\,\text{cm}=0{,}04\,\text{m}$$
+        </div>
+
+        <p><strong>2. Relația vitezei maxime:</strong></p>
+        <div class="formula">
+          $$v_{\max}=\omega_0A$$
+          $$v_{\max}=10\cdot0{,}04=0{,}4\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          viteza maximă este $0{,}4\,\text{m/s}$ și apare la trecerea prin poziția de echilibru.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          viteza maximă nu apare la $x=A$, ci la $x=0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Energie elastică maximă</h2>
+
+        <p>
+          Un resort cu $k=150\,\text{N/m}$ oscilează cu amplitudinea $A=0{,}10\,\text{m}$.
+          Determinați energia mecanică totală.
+        </p>
+
+        <p>
+          Energia totală a oscilatorului armonic ideal este:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{1}{2}kA^2$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{1}{2}\cdot150\cdot(0{,}10)^2$$
+          $$E=75\cdot0{,}01=0{,}75\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          energia mecanică totală este $0{,}75\,\text{J}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Oscilator amortizat și factor de calitate</h2>
+
+        <p>
+          Un oscilator are $\omega_0=100\,\text{rad/s}$ și constanta de amortizare
+          $\beta=2\,\text{s}^{-1}$. Determinați factorul de calitate.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{\omega_0}{2\beta}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{100}{2\cdot2}=\frac{100}{4}=25$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          factorul de calitate este $Q=25$.
+          Oscilatorul este slab amortizat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Pendul matematic ca oscilator armonic</h2>
+
+        <p>
+          Un pendul matematic are lungimea $l=1\,\text{m}$.
+          Determinați perioada oscilațiilor mici pentru $g=9{,}8\,\text{m/s}^2$.
+        </p>
+
+        <p>
+          Pentru oscilații mici:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{l}{g}}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{1}{9{,}8}}$$
+          $$T\approx2\pi\cdot0{,}319\approx2{,}00\,\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          perioada pendulului este aproximativ $2\,\text{s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia dintre $\omega$ și $f$:</strong>
+            $\omega=2\pi f$, nu $\omega=f$.
+          </li>
+          <li>
+            <strong>Uitarea conversiei amplitudinii:</strong>
+            centimetrii trebuie transformați în metri.
+          </li>
+          <li>
+            <strong>Plasarea greșită a vitezei maxime:</strong>
+            $v_{\max}$ apare la echilibru, nu la elongația maximă.
+          </li>
+          <li>
+            <strong>Confuzia dintre oscilații amortizate și forțate:</strong>
+            amortizarea disipă energie, forța externă poate introduce energie.
+          </li>
+          <li>
+            <strong>Aplicarea formulei pendulului pentru unghiuri mari:</strong>
+            formula simplă este valabilă pentru oscilații mici.
+          </li>
+          <li>
+            <strong>Definirea vagă a rezonanței:</strong>
+            rezonanța trebuie legată de frecvența excitatoare apropiată de frecvența proprie.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Consider oscilații mici și neamortizate, astfel încât forța de revenire este proporțională cu elongația, iar ecuația mișcării este $\ddot x+\omega_0^2x=0$.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$F=-kx,\qquad m\ddot x+kx=0$$
+          $$\omega_0=\sqrt{\frac{k}{m}},\qquad T=2\pi\sqrt{\frac{m}{k}},\qquad f=\frac{1}{T}$$
+          $$x=A\cos(\omega_0t+\varphi_0)$$
+          $$v=-A\omega_0\sin(\omega_0t+\varphi_0),\qquad a=-\omega_0^2x$$
+          $$E=\frac{1}{2}mv^2+\frac{1}{2}kx^2=\frac{1}{2}kA^2$$
+          $$v=\pm\omega_0\sqrt{A^2-x^2}$$
+          $$\ddot x+2\beta\dot x+\omega_0^2x=0$$
+          $$Q=\frac{\omega_0}{2\beta}=2\pi\frac{E}{|\Delta E|_{\text{pe ciclu}}}$$
+          $$m\ddot x+b\dot x+kx=F_0\cos(\Omega t)$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>Relație de reținut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Oscilație liberă</td>
+              <td>$\ddot x+\omega_0^2x=0$</td>
+            </tr>
+            <tr>
+              <td>Oscilație amortizată</td>
+              <td>$\ddot x+2\beta\dot x+\omega_0^2x=0$</td>
+            </tr>
+            <tr>
+              <td>Oscilație forțată</td>
+              <td>$m\ddot x+b\dot x+kx=F_0\cos\Omega t$</td>
+            </tr>
+            <tr>
+              <td>Rezonanță</td>
+              <td>$\Omega\approx\omega_0$ pentru amortizare slabă</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="C11-unde-elastice-plane.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți oscilatorul armonic liniar.</li>
+          <li>Deduceți ecuația $m\ddot x+kx=0$ pentru sistemul masă–resort.</li>
+          <li>Scrieți soluția generală a ecuației armonice.</li>
+          <li>Definiți amplitudinea, faza și faza inițială.</li>
+          <li>Deduceți expresiile vitezei și accelerației.</li>
+          <li>Arătați că accelerația este orientată spre poziția de echilibru.</li>
+          <li>Scrieți perioada sistemului masă–resort.</li>
+          <li>Scrieți energia mecanică totală a oscilatorului ideal.</li>
+          <li>Explicați transformarea periodică dintre energia cinetică și energia potențială elastică.</li>
+          <li>Scrieți ecuația oscilațiilor amortizate.</li>
+          <li>Comparați regimurile subamortizat, critic și supraamortizat.</li>
+          <li>Definiți factorul de calitate $Q$.</li>
+          <li>Scrieți ecuația oscilațiilor forțate.</li>
+          <li>Explicați fenomenul de rezonanță.</li>
+          <li>Deduceți perioada pendulului matematic pentru oscilații mici.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un corp legat de un resort este scos din echilibru cu amplitudinea $A$ și lăsat liber.
+          Determină $x(t)$, $v(t)$, $a(t)$, energia totală, viteza maximă și viteza la o elongație dată $x$.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C11-unde-elastice-plane.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c10", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c10");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
