@@ -1,1 +1,1385 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C06 – Solidul rigid cu axă fixă</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C06 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 6</span>
+        <h1>Solidul rigid cu axă fixă</h1>
+
+        <p class="lead">
+          Un <span class="mark">solid rigid</span> este un model ideal în care distanțele dintre toate punctele corpului rămân constante.
+          Dacă solidul se rotește în jurul unei axe fixe, toate punctele descriu cercuri cu centrele pe axa de rotație.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          rotația în jurul unei axe fixe este analogă mișcării rectilinii,
+          dar mărimile liniare sunt înlocuite cu mărimi unghiulare:
+          $x \leftrightarrow \varphi$, $v \leftrightarrow \omega$, $a \leftrightarrow \alpha$,
+          $m \leftrightarrow I$.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Solid rigid cu axă fixă">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <line x1="380" y1="45" x2="380" y2="290" stroke="#64748b" stroke-width="6" stroke-dasharray="10 10"/>
+            <ellipse cx="380" cy="170" rx="190" ry="88" fill="rgba(15,118,110,0.16)" stroke="#0f766e" stroke-width="6"/>
+            <circle cx="520" cy="130" r="14" fill="#f59e0b"/>
+            <circle cx="285" cy="205" r="11" fill="#f59e0b"/>
+            <path d="M510 130 A160 75 0 0 1 595 175" fill="none" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-blue)"/>
+            <text x="398" y="70" fill="#64748b" font-size="25">axă fixă</text>
+            <text x="565" y="135" fill="#2563eb" font-size="25">ω</text>
+            <text x="470" y="225" fill="#0f766e" font-size="24">traiectorii circulare</text>
+          </svg>
+          <p class="caption">
+            În rotația cu axă fixă, fiecare punct al solidului are aceeași viteză unghiulară $\omega$, dar viteze liniare diferite.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Ce înseamnă solid rigid?</h2>
+
+        <p>
+          <span class="mark">Solidul rigid</span> este corpul ideal pentru care distanța dintre oricare două puncte rămâne neschimbată în timpul mișcării.
+        </p>
+
+        <div class="formula">
+          $$AB=\text{constant},\qquad \forall A,B \in \text{solid}$$
+        </div>
+
+        <p>
+          În realitate, corpurile se pot deforma, dar aproximația de solid rigid este foarte bună atunci când deformările sunt neglijabile față de dimensiunile corpului.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Exemple potrivite</strong>
+            <p>Roată, disc, bară metalică, scripete ideal, volant.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Exemple nepotrivite</strong>
+            <p>Arc elastic, cauciuc foarte deformabil, fluid, corp care se rupe.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          solidul rigid nu este un corp „care nu se mișcă”, ci un corp care se poate deplasa sau roti fără a-și modifica forma.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Cinematică unghiulară</span>
+        <h2>Unghi, viteză unghiulară, accelerație unghiulară</h2>
+
+        <p>
+          Poziția unui solid care se rotește în jurul unei axe fixe este descrisă prin unghiul de rotație $\varphi(t)$.
+        </p>
+
+        <div class="formula">
+          $$\omega=\frac{d\varphi}{dt}$$
+          $$\alpha=\frac{d\omega}{dt}=\frac{d^2\varphi}{dt^2}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Mărime liniară</th>
+              <th>Mărime unghiulară</th>
+              <th>Unitate SI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Poziție $x$</td>
+              <td>Unghi $\varphi$</td>
+              <td>rad</td>
+            </tr>
+            <tr>
+              <td>Viteză $v$</td>
+              <td>Viteză unghiulară $\omega$</td>
+              <td>rad/s</td>
+            </tr>
+            <tr>
+              <td>Accelerație $a$</td>
+              <td>Accelerație unghiulară $\alpha$</td>
+              <td>rad/s²</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          în rotația cu axă fixă, toate punctele solidului au aceeași $\omega$ și aceeași $\alpha$ la același moment.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legătura liniar–unghiular</span>
+        <h2>De ce punctele mai depărtate se mișcă mai repede?</h2>
+
+        <p>
+          Pentru un punct aflat la distanța $r$ de axa de rotație, lungimea arcului parcurs este:
+        </p>
+
+        <div class="formula">
+          $$s=r\varphi$$
+        </div>
+
+        <p>
+          Prin derivare:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{ds}{dt}=r\frac{d\varphi}{dt}=r\omega$$
+        </div>
+
+        <p>
+          Accelerația tangențială este:
+        </p>
+
+        <div class="formula">
+          $$a_t=r\alpha$$
+        </div>
+
+        <p>
+          Accelerația normală sau centripetă este:
+        </p>
+
+        <div class="formula">
+          $$a_n=\frac{v^2}{r}=\omega^2r$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Viteze diferite pe același disc">
+            <defs>
+              <marker id="arrow-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <circle cx="380" cy="170" r="125" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <circle cx="380" cy="170" r="65" fill="none" stroke="#0f766e" stroke-width="3" stroke-dasharray="8 8"/>
+            <circle cx="445" cy="170" r="10" fill="#f59e0b"/>
+            <circle cx="505" cy="170" r="10" fill="#ef4444"/>
+            <line x1="380" y1="170" x2="445" y2="170" stroke="#64748b" stroke-width="4"/>
+            <line x1="380" y1="170" x2="505" y2="170" stroke="#64748b" stroke-width="4"/>
+            <line x1="445" y1="170" x2="445" y2="105" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-v)"/>
+            <line x1="505" y1="170" x2="505" y2="55" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-v)"/>
+            <text x="455" y="110" fill="#2563eb" font-size="23">v₁</text>
+            <text x="515" y="65" fill="#2563eb" font-size="23">v₂ &gt; v₁</text>
+            <text x="360" y="160" fill="#64748b" font-size="24">O</text>
+          </svg>
+          <p class="caption">
+            Pe același solid rigid, $\omega$ este comună, dar $v=r\omega$ depinde de distanța față de axă.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rotație uniform accelerată</span>
+        <h2>Ecuațiile mișcării de rotație</h2>
+
+        <p>
+          Dacă accelerația unghiulară este constantă, rotația este uniform variată.
+        </p>
+
+        <div class="formula">
+          $$\alpha=\text{constant}$$
+          $$\omega=\omega_0+\alpha t$$
+          $$\varphi=\varphi_0+\omega_0t+\frac{\alpha t^2}{2}$$
+        </div>
+
+        <p>
+          Relația fără timp este:
+        </p>
+
+        <div class="formula">
+          $$\omega^2=\omega_0^2+2\alpha(\varphi-\varphi_0)$$
+        </div>
+
+        <div class="exam">
+          <strong>Analog cinematic:</strong>
+          aceste ecuații sunt corespondentele ecuațiilor MRUV:
+          $$v=v_0+at,\qquad x=x_0+v_0t+\frac{at^2}{2}.$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          unghiul trebuie exprimat în radiani când se folosesc relațiile $s=r\varphi$ sau $\omega^2=\omega_0^2+2\alpha\Delta\varphi$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Momentul forței</span>
+        <h2>Cauza rotației</h2>
+
+        <p>
+          Momentul unei forțe față de axa fixă exprimă capacitatea forței de a produce rotație.
+        </p>
+
+        <div class="formula">
+          $$M=Fd$$
+        </div>
+
+        <p>
+          unde $d$ este brațul forței, adică distanța perpendiculară de la axa de rotație la direcția forței.
+        </p>
+
+        <p>
+          În formă vectorială, față de un punct $O$:
+        </p>
+
+        <div class="formula">
+          $$\vec M_O=\vec r\times \vec F$$
+          $$M=rF\sin\theta$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Momentul forței la o bară">
+            <defs>
+              <marker id="arrow-force" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <circle cx="190" cy="190" r="15" fill="#64748b"/>
+            <line x1="190" y1="190" x2="610" y2="190" stroke="#0f766e" stroke-width="10"/>
+            <line x1="560" y1="190" x2="560" y2="80" stroke="#2563eb" stroke-width="8" marker-end="url(#arrow-force)"/>
+            <line x1="190" y1="220" x2="560" y2="220" stroke="#f59e0b" stroke-width="5"/>
+            <text x="175" y="235" fill="#64748b" font-size="25">O</text>
+            <text x="345" y="250" fill="#f59e0b" font-size="25">d</text>
+            <text x="575" y="115" fill="#2563eb" font-size="25">F</text>
+          </svg>
+          <p class="caption">
+            Aceeași forță produce moment mai mare dacă brațul forței este mai mare.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Moment de inerție</span>
+        <h2>Masa rotației</h2>
+
+        <p>
+          <span class="mark">Momentul de inerție</span> măsoară opoziția solidului la modificarea stării de rotație în jurul unei axe.
+        </p>
+
+        <p>
+          Pentru un sistem discret de puncte materiale:
+        </p>
+
+        <div class="formula">
+          $$I=\sum_i m_ir_i^2$$
+        </div>
+
+        <p>
+          Pentru un corp continuu:
+        </p>
+
+        <div class="formula">
+          $$I=\int r^2\,dm$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          momentul de inerție depinde nu doar de masa corpului, ci și de distribuția masei față de axa de rotație.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          aceeași masă poate avea momente de inerție diferite față de axe diferite.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Momente de inerție uzuale</span>
+        <h2>Formule care trebuie recunoscute rapid</h2>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Corp rigid</th>
+              <th>Axa de rotație</th>
+              <th>Moment de inerție</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Punct material</td>
+              <td>La distanța $r$</td>
+              <td>$I=mr^2$</td>
+            </tr>
+            <tr>
+              <td>Inel subțire</td>
+              <td>Axa centrală perpendiculară pe plan</td>
+              <td>$I=mR^2$</td>
+            </tr>
+            <tr>
+              <td>Disc omogen</td>
+              <td>Axa centrală perpendiculară pe disc</td>
+              <td>$I=\frac{1}{2}mR^2$</td>
+            </tr>
+            <tr>
+              <td>Sferă plină omogenă</td>
+              <td>Diametru</td>
+              <td>$I=\frac{2}{5}mR^2$</td>
+            </tr>
+            <tr>
+              <td>Bară subțire</td>
+              <td>Prin centru, perpendiculară pe bară</td>
+              <td>$I=\frac{1}{12}ml^2$</td>
+            </tr>
+            <tr>
+              <td>Bară subțire</td>
+              <td>Prin capăt, perpendiculară pe bară</td>
+              <td>$I=\frac{1}{3}ml^2$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Strategie:</strong>
+          dacă axa nu trece prin centrul de masă, verifică dacă trebuie aplicată teorema axelor paralele.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Teorema Steiner</span>
+        <h2>Teorema axelor paralele</h2>
+
+        <p>
+          Dacă se cunoaște momentul de inerție $I_C$ față de o axă care trece prin centrul de masă,
+          momentul de inerție față de o axă paralelă aflată la distanța $d$ este:
+        </p>
+
+        <div class="formula">
+          $$I=I_C+md^2$$
+        </div>
+
+        <p>
+          Această relație se numește <span class="mark">teorema Steiner</span> sau teorema axelor paralele.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Teorema axelor paralele">
+            <rect x="260" y="105" width="240" height="120" rx="18" fill="#f59e0b"/>
+            <line x1="380" y1="60" x2="380" y2="270" stroke="#0f766e" stroke-width="6" stroke-dasharray="8 8"/>
+            <line x1="500" y1="60" x2="500" y2="270" stroke="#2563eb" stroke-width="6" stroke-dasharray="8 8"/>
+            <line x1="380" y1="250" x2="500" y2="250" stroke="#ef4444" stroke-width="5"/>
+            <circle cx="380" cy="165" r="8" fill="#0f766e"/>
+            <text x="340" y="55" fill="#0f766e" font-size="24">axa prin C</text>
+            <text x="515" y="55" fill="#2563eb" font-size="24">axa paralelă</text>
+            <text x="430" y="280" fill="#ef4444" font-size="25">d</text>
+            <text x="360" y="160" fill="#0f766e" font-size="25">C</text>
+          </svg>
+          <p class="caption">
+            Mutarea axei de rotație crește momentul de inerție cu termenul $md^2$.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula $I=I_C+md^2$ se aplică numai pentru axe paralele.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Dinamica rotației</span>
+        <h2>Ecuația fundamentală</h2>
+
+        <p>
+          Pentru rotația în jurul unei axe fixe, analogul legii a II-a a lui Newton este:
+        </p>
+
+        <div class="formula">
+          $$\sum M=I\alpha$$
+        </div>
+
+        <p>
+          unde $\sum M$ este suma momentelor forțelor exterioare față de axa de rotație.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Translație</th>
+              <th>Rotație cu axă fixă</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$\sum F=ma$</td>
+              <td>$\sum M=I\alpha$</td>
+            </tr>
+            <tr>
+              <td>$m$ măsoară inerția la translație</td>
+              <td>$I$ măsoară inerția la rotație</td>
+            </tr>
+            <tr>
+              <td>$a$ este accelerație liniară</td>
+              <td>$\alpha$ este accelerație unghiulară</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Formulare de barem:</strong>
+          „Aleg sensul pozitiv de rotație, calculez momentele forțelor față de axa fixă și aplic relația $\sum M=I\alpha$.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie de rotație</span>
+        <h2>Energia cinetică a solidului rigid</h2>
+
+        <p>
+          Pentru un solid rigid care se rotește în jurul unei axe fixe cu viteza unghiulară $\omega$,
+          energia cinetică de rotație este:
+        </p>
+
+        <div class="formula">
+          $$E_c=\frac{1}{2}I\omega^2$$
+        </div>
+
+        <p>
+          Această relație este analogă energiei cinetice de translație:
+        </p>
+
+        <div class="formula">
+          $$E_{c,\text{trans}}=\frac{1}{2}mv^2
+          \qquad \leftrightarrow \qquad
+          E_{c,\text{rot}}=\frac{1}{2}I\omega^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Utilizare:</strong>
+          în problemele cu rotație fără frecare, poți aplica conservarea energiei mecanice:
+          $$E_{m1}=E_{m2}.$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          pentru corpuri care și translatează și se rotesc, energia cinetică totală conține două contribuții:
+          $$E_c=\frac{1}{2}mv_C^2+\frac{1}{2}I_C\omega^2.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Moment cinetic</span>
+        <h2>Impulsul rotației</h2>
+
+        <p>
+          Momentul cinetic al unui solid rigid care se rotește în jurul unei axe fixe este:
+        </p>
+
+        <div class="formula">
+          $$L=I\omega$$
+        </div>
+
+        <p>
+          Teorema momentului cinetic devine:
+        </p>
+
+        <div class="formula">
+          $$\frac{dL}{dt}=\sum M$$
+        </div>
+
+        <p>
+          Dacă $I$ este constant:
+        </p>
+
+        <div class="formula">
+          $$\frac{d(I\omega)}{dt}=I\alpha=\sum M$$
+        </div>
+
+        <div class="exam">
+          <strong>Lege de conservare:</strong>
+          dacă momentul rezultant al forțelor exterioare este nul, momentul cinetic se conservă:
+          $$\sum M_{\text{ext}}=0 \Rightarrow L=\text{constant}.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Pendul fizic</span>
+        <h2>Definiție și model</h2>
+
+        <p>
+          <span class="mark">Pendulul fizic</span> este un solid rigid care poate oscila sub acțiunea greutății în jurul unei axe orizontale fixe care nu trece prin centrul său de masă.
+        </p>
+
+        <p>
+          Notăm cu $d$ distanța dintre axa de rotație și centrul de masă $C$.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Pendul fizic">
+            <defs>
+              <marker id="arrow-g" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <circle cx="380" cy="70" r="12" fill="#64748b"/>
+            <line x1="380" y1="70" x2="470" y2="250" stroke="#0f766e" stroke-width="10"/>
+            <circle cx="470" cy="250" r="34" fill="#f59e0b"/>
+            <circle cx="430" cy="170" r="8" fill="#2563eb"/>
+            <line x1="380" y1="70" x2="430" y2="170" stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
+            <line x1="430" y1="170" x2="430" y2="300" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-g)"/>
+            <path d="M380 105 A55 55 0 0 1 405 120" fill="none" stroke="#f59e0b" stroke-width="5"/>
+            <text x="350" y="55" fill="#64748b" font-size="25">O</text>
+            <text x="442" y="170" fill="#2563eb" font-size="25">C</text>
+            <text x="440" y="245" fill="#122033" font-size="25">corp</text>
+            <text x="445" y="245" fill="#ef4444" font-size="25">mg</text>
+            <text x="407" y="115" fill="#f59e0b" font-size="25">θ</text>
+            <text x="390" y="160" fill="#2563eb" font-size="25">d</text>
+          </svg>
+          <p class="caption">
+            Greutatea produce un moment de revenire față de axa de rotație.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          pendulul fizic nu este același lucru cu pendulul matematic. Masa nu este concentrată într-un singur punct.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ecuația pendulului fizic</span>
+        <h2>Momentul greutății și oscilațiile mici</h2>
+
+        <p>
+          Momentul greutății față de axa de rotație este:
+        </p>
+
+        <div class="formula">
+          $$M=-mgd\sin\theta$$
+        </div>
+
+        <p>
+          Ecuația dinamicii rotației este:
+        </p>
+
+        <div class="formula">
+          $$I_O\alpha=-mgd\sin\theta$$
+        </div>
+
+        <p>
+          Deoarece $\alpha=\frac{d^2\theta}{dt^2}$:
+        </p>
+
+        <div class="formula">
+          $$I_O\frac{d^2\theta}{dt^2}+mgd\sin\theta=0$$
+        </div>
+
+        <p>
+          Pentru oscilații mici, $\sin\theta\approx\theta$, deci:
+        </p>
+
+        <div class="formula">
+          $$I_O\frac{d^2\theta}{dt^2}+mgd\theta=0$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație de examen:</strong>
+          aproximația $\sin\theta\approx\theta$ este valabilă numai pentru unghiuri mici exprimate în radiani.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Perioada pendulului fizic</span>
+        <h2>Formula fundamentală</h2>
+
+        <p>
+          Ecuația pentru oscilații mici are forma oscilatorului armonic:
+        </p>
+
+        <div class="formula">
+          $$\frac{d^2\theta}{dt^2}+\omega_0^2\theta=0$$
+        </div>
+
+        <p>
+          Prin comparație:
+        </p>
+
+        <div class="formula">
+          $$\omega_0^2=\frac{mgd}{I_O}$$
+        </div>
+
+        <p>
+          Perioada pendulului fizic este:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{I_O}{mgd}}$$
+        </div>
+
+        <p>
+          Lungimea redusă a pendulului fizic este:
+        </p>
+
+        <div class="formula">
+          $$l_{\text{red}}=\frac{I_O}{md}$$
+        </div>
+
+        <p>
+          Atunci perioada se poate scrie:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{l_{\text{red}}}{g}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu pendulul matematic:</strong>
+          pendulul fizic se comportă ca un pendul matematic de lungime $l_{\text{red}}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Bară ca pendul fizic</span>
+        <h2>Exemplu important</h2>
+
+        <p>
+          O bară omogenă de lungime $l$, suspendată de un capăt, poate oscila ca pendul fizic.
+        </p>
+
+        <p>
+          Pentru bară:
+        </p>
+
+        <div class="formula">
+          $$I_O=\frac{1}{3}ml^2,\qquad d=\frac{l}{2}$$
+        </div>
+
+        <p>
+          Perioada este:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{I_O}{mgd}}$$
+          $$T=2\pi\sqrt{\frac{\frac{1}{3}ml^2}{mg\frac{l}{2}}}$$
+          $$T=2\pi\sqrt{\frac{2l}{3g}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Rezultat de reținut:</strong>
+          pentru o bară omogenă suspendată de un capăt:
+          $$\boxed{T=2\pi\sqrt{\frac{2l}{3g}}}.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Moment de inerție prin teorema Steiner</h2>
+
+        <p>
+          O bară omogenă de masă $m=2\,\text{kg}$ și lungime $l=1{,}2\,\text{m}$
+          se rotește în jurul unei axe care trece printr-un capăt, perpendicular pe bară.
+          Determinați momentul de inerție.
+        </p>
+
+        <p>
+          Momentul de inerție față de axa centrală este:
+        </p>
+
+        <div class="formula">
+          $$I_C=\frac{1}{12}ml^2$$
+        </div>
+
+        <p>
+          Distanța dintre axa centrală și axa prin capăt este:
+        </p>
+
+        <div class="formula">
+          $$d=\frac{l}{2}=0{,}6\,\text{m}$$
+        </div>
+
+        <p>
+          Aplicăm teorema Steiner:
+        </p>
+
+        <div class="formula">
+          $$I=I_C+md^2$$
+          $$I=\frac{1}{12}\cdot2\cdot1{,}2^2+2\cdot0{,}6^2$$
+          $$I=0{,}24+0{,}72=0{,}96\,\text{kg}\cdot\text{m}^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $I=0{,}96\,\text{kg}\cdot\text{m}^2$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Accelerația unghiulară a unui disc</h2>
+
+        <p>
+          Un disc omogen de masă $m=4\,\text{kg}$ și rază $R=0{,}5\,\text{m}$
+          este acționat de o forță tangențială $F=10\,\text{N}$ aplicată la margine.
+          Determinați accelerația unghiulară.
+        </p>
+
+        <p>
+          Momentul forței este:
+        </p>
+
+        <div class="formula">
+          $$M=FR=10\cdot0{,}5=5\,\text{N}\cdot\text{m}$$
+        </div>
+
+        <p>
+          Momentul de inerție al discului este:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{1}{2}mR^2=\frac{1}{2}\cdot4\cdot0{,}5^2=0{,}5\,\text{kg}\cdot\text{m}^2$$
+        </div>
+
+        <p>
+          Aplicăm dinamica rotației:
+        </p>
+
+        <div class="formula">
+          $$M=I\alpha$$
+          $$\alpha=\frac{M}{I}=\frac{5}{0{,}5}=10\,\text{rad/s}^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          accelerația unghiulară este $10\,\text{rad/s}^2$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Energia de rotație</h2>
+
+        <p>
+          Un volant are momentul de inerție $I=3\,\text{kg}\cdot\text{m}^2$
+          și viteza unghiulară $\omega=20\,\text{rad/s}$.
+          Determinați energia cinetică de rotație.
+        </p>
+
+        <div class="formula">
+          $$E_c=\frac{1}{2}I\omega^2$$
+          $$E_c=\frac{1}{2}\cdot3\cdot20^2$$
+          $$E_c=1{,}5\cdot400=600\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          energia cinetică de rotație este $600\,\text{J}$.
+        </div>
+
+        <div class="warning">
+          <strong>Verificare:</strong>
+          unitatea trebuie să fie joule, deoarece
+          $\text{kg}\cdot\text{m}^2\cdot\text{s}^{-2}=\text{J}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Perioada unui pendul fizic</h2>
+
+        <p>
+          O bară omogenă de lungime $l=1{,}5\,\text{m}$ este suspendată de un capăt.
+          Determinați perioada oscilațiilor mici. Se ia $g=9{,}8\,\text{m/s}^2$.
+        </p>
+
+        <p>
+          Pentru bară suspendată de un capăt:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{2l}{3g}}$$
+        </div>
+
+        <p>
+          Înlocuim numeric:
+        </p>
+
+        <div class="formula">
+          $$T=2\pi\sqrt{\frac{2\cdot1{,}5}{3\cdot9{,}8}}$$
+          $$T=2\pi\sqrt{\frac{3}{29{,}4}}$$
+          $$T=2\pi\sqrt{0{,}102}$$
+          $$T\approx2{,}01\,\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          perioada oscilațiilor mici este aproximativ $2{,}01\,\text{s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia dintre masă și moment de inerție:</strong>
+            masa caracterizează inerția la translație, momentul de inerție caracterizează inerția la rotație.
+          </li>
+          <li>
+            <strong>Aplicarea greșită a formulelor pentru $I$:</strong>
+            momentul de inerție depinde de axă, nu doar de forma corpului.
+          </li>
+          <li>
+            <strong>Uitarea teoremei Steiner:</strong>
+            dacă axa nu trece prin centrul de masă, verifică dacă trebuie adăugat termenul $md^2$.
+          </li>
+          <li>
+            <strong>Confuzia dintre $v$ și $\omega$:</strong>
+            $v=r\omega$, deci punctele aflate la raze diferite au viteze liniare diferite.
+          </li>
+          <li>
+            <strong>Omiterea momentelor forțelor:</strong>
+            pentru rotație nu se aplică direct $\sum F=ma$, ci $\sum M=I\alpha$.
+          </li>
+          <li>
+            <strong>Aplicarea formulei pendulului matematic la pendulul fizic:</strong>
+            pentru pendulul fizic se folosește $T=2\pi\sqrt{\frac{I_O}{mgd}}$.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Aleg axa de rotație, determin momentul de inerție față de această axă, calculez momentele forțelor și aplic ecuația fundamentală a dinamicii rotației.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$\omega=\frac{d\varphi}{dt},\qquad \alpha=\frac{d\omega}{dt}$$
+          $$v=r\omega,\qquad a_t=r\alpha,\qquad a_n=\omega^2r$$
+          $$I=\sum_i m_ir_i^2,\qquad I=\int r^2\,dm$$
+          $$I=I_C+md^2$$
+          $$\sum M=I\alpha$$
+          $$E_c=\frac{1}{2}I\omega^2,\qquad L=I\omega$$
+          $$T=2\pi\sqrt{\frac{I_O}{mgd}}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Translație</th>
+              <th>Rotație</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$x$</td>
+              <td>$\varphi$</td>
+            </tr>
+            <tr>
+              <td>$v$</td>
+              <td>$\omega$</td>
+            </tr>
+            <tr>
+              <td>$a$</td>
+              <td>$\alpha$</td>
+            </tr>
+            <tr>
+              <td>$m$</td>
+              <td>$I$</td>
+            </tr>
+            <tr>
+              <td>$F$</td>
+              <td>$M$</td>
+            </tr>
+            <tr>
+              <td>$\sum F=ma$</td>
+              <td>$\sum M=I\alpha$</td>
+            </tr>
+            <tr>
+              <td>$E_c=\frac{1}{2}mv^2$</td>
+              <td>$E_c=\frac{1}{2}I\omega^2$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="C07-ciocniri-elastice-si-inelastice.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți solidul rigid.</li>
+          <li>Explicați ce înseamnă rotație în jurul unei axe fixe.</li>
+          <li>Scrieți relațiile dintre $v$, $\omega$, $a_t$, $\alpha$ și $a_n$.</li>
+          <li>Definiți momentul unei forțe față de o axă.</li>
+          <li>Definiți momentul de inerție pentru un sistem discret de puncte materiale.</li>
+          <li>Enunțați teorema Steiner.</li>
+          <li>Scrieți ecuația fundamentală a dinamicii rotației.</li>
+          <li>Scrieți energia cinetică de rotație.</li>
+          <li>Scrieți momentul cinetic al unui solid rigid cu axă fixă.</li>
+          <li>Definiți pendulul fizic.</li>
+          <li>Demonstrați formula perioadei pendulului fizic pentru oscilații mici.</li>
+          <li>Determinați perioada unei bare omogene suspendate de un capăt.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o bară omogenă este suspendată într-un punct aflat la distanța $d$ de centrul de masă.
+          Determină perioada oscilațiilor mici folosind:
+          $$T=2\pi\sqrt{\frac{I_C+md^2}{mgd}}.$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C07-ciocniri-elastice-si-inelastice.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c06", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c06");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
