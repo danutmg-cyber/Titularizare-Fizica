@@ -1,1 +1,1280 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C09 – Deformări elastice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C09 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 9</span>
+        <h1>Deformări elastice</h1>
+
+        <p class="lead">
+          O <span class="mark">deformare elastică</span> este modificarea reversibilă a formei sau dimensiunilor unui corp sub acțiunea forțelor.
+          După încetarea acțiunii forței, corpul revine la forma inițială.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          în domeniul elastic liniar, deformația este proporțională cu solicitarea.
+          Această proporționalitate exprimă <strong>legea lui Hooke</strong>.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Deformarea elastică a unui resort">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <line x1="80" y1="90" x2="80" y2="250" stroke="#64748b" stroke-width="8"/>
+            <path d="M80 170 C120 130, 150 210, 180 170 S240 130, 270 170 S330 210, 360 170 S420 130, 450 170" fill="none" stroke="#0f766e" stroke-width="8"/>
+            <rect x="450" y="135" width="90" height="70" rx="12" fill="#f59e0b"/>
+            <line x1="540" y1="170" x2="660" y2="170" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-blue)"/>
+            <text x="585" y="145" fill="#2563eb" font-size="26">F</text>
+            <text x="270" y="230" fill="#0f766e" font-size="25">alungire elastică Δl</text>
+          </svg>
+          <p class="caption">
+            Resortul se deformează sub acțiunea forței și revine la lungimea inițială dacă limita elastică nu este depășită.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Clasificare</span>
+        <h2>Deformări elastice și plastice</h2>
+
+        <p>
+          Corpurile reale pot suferi deformări de mai multe tipuri. Pentru mecanica de bază, diferența esențială este între deformarea elastică și deformarea plastică.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Tip de deformare</th>
+              <th>Comportament</th>
+              <th>Exemplu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Elastică</td>
+              <td>Corpul revine la forma inițială după încetarea forței.</td>
+              <td>Alungirea mică a unui resort.</td>
+            </tr>
+            <tr>
+              <td>Plastică</td>
+              <td>Corpul rămâne deformat permanent.</td>
+              <td>Îndoirea permanentă a unei sârme.</td>
+            </tr>
+            <tr>
+              <td>Rupere</td>
+              <td>Structura corpului cedează.</td>
+              <td>Ruperea unui fir întins excesiv.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          legea lui Hooke nu este valabilă pentru orice deformare, ci numai în domeniul elastic liniar.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea lui Hooke</span>
+        <h2>Resort elastic ideal</h2>
+
+        <p>
+          Pentru un resort ideal, forța elastică este proporțională cu deformarea și are sens opus acesteia.
+        </p>
+
+        <div class="formula">
+          $$\vec F_e=-k\vec x$$
+        </div>
+
+        <p>
+          În modul:
+        </p>
+
+        <div class="formula">
+          $$F_e=kx$$
+        </div>
+
+        <p>
+          unde $k$ este <span class="mark">constanta elastică</span> a resortului.
+        </p>
+
+        <div class="formula">
+          $$[k]_{SI}=\text{N/m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          constanta elastică $k$ arată cât de greu se deformează resortul.
+          Cu cât $k$ este mai mare, cu atât resortul este mai rigid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Grafic forță–deformare</span>
+        <h2>Domeniul elastic liniar</h2>
+
+        <p>
+          În domeniul elastic liniar, graficul $F(x)$ este o dreaptă care trece prin origine.
+          Panta dreptei este constanta elastică $k$.
+        </p>
+
+        <div class="formula">
+          $$k=\frac{\Delta F}{\Delta x}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Graficul forță deformare">
+            <line x1="90" y1="270" x2="680" y2="270" stroke="#64748b" stroke-width="4"/>
+            <line x1="110" y1="290" x2="110" y2="55" stroke="#64748b" stroke-width="4"/>
+            <line x1="125" y1="260" x2="520" y2="90" stroke="#2563eb" stroke-width="7"/>
+            <path d="M520 90 C570 70, 625 95, 650 150" fill="none" stroke="#ef4444" stroke-width="6" stroke-dasharray="9 9"/>
+            <text x="675" y="292" fill="#64748b" font-size="24">x</text>
+            <text x="75" y="65" fill="#64748b" font-size="24">F</text>
+            <text x="245" y="155" fill="#2563eb" font-size="25">domeniu Hooke</text>
+            <text x="540" y="80" fill="#ef4444" font-size="25">limită elastică</text>
+          </svg>
+          <p class="caption">
+            După depășirea limitei elastice, relația forță–deformare nu mai este liniară și pot apărea deformări permanente.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          folosirea relației $F=kx$ după ce corpul a depășit limita de elasticitate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Tensiune mecanică</span>
+        <h2>Solicitarea internă a materialului</h2>
+
+        <p>
+          Pentru o bară solicitată axial, tensiunea normală este raportul dintre forța aplicată și aria secțiunii transversale.
+        </p>
+
+        <div class="formula">
+          $$\sigma=\frac{F}{S}$$
+        </div>
+
+        <p>
+          Unitatea de măsură este pascalul:
+        </p>
+
+        <div class="formula">
+          $$[\sigma]_{SI}=\text{Pa}=\text{N/m}^2$$
+        </div>
+
+        <p>
+          Tensiunea mecanică arată cât de intens este solicitat materialul, nu doar cât de mare este forța totală.
+        </p>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          aceeași forță produce tensiune mai mare într-un fir subțire decât într-o bară groasă, deoarece aria secțiunii este mai mică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deformație relativă</span>
+        <h2>Alungirea raportată la lungimea inițială</h2>
+
+        <p>
+          Deformația relativă longitudinală este raportul dintre alungire și lungimea inițială.
+        </p>
+
+        <div class="formula">
+          $$\varepsilon=\frac{\Delta l}{l_0}$$
+        </div>
+
+        <p>
+          Această mărime este adimensională.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Alungirea unei bare">
+            <defs>
+              <marker id="arrow-force-left" markerWidth="10" markerHeight="10" refX="2" refY="3" orient="auto">
+                <path d="M9,0 L9,6 L0,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-force-right" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="210" y="145" width="330" height="70" rx="12" fill="#f59e0b"/>
+            <line x1="210" y1="180" x2="100" y2="180" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-force-left)"/>
+            <line x1="540" y1="180" x2="660" y2="180" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-force-right)"/>
+            <line x1="210" y1="245" x2="540" y2="245" stroke="#0f766e" stroke-width="5"/>
+            <line x1="210" y1="230" x2="210" y2="260" stroke="#0f766e" stroke-width="4"/>
+            <line x1="540" y1="230" x2="540" y2="260" stroke="#0f766e" stroke-width="4"/>
+            <text x="340" y="282" fill="#0f766e" font-size="25">l₀ + Δl</text>
+            <text x="115" y="160" fill="#2563eb" font-size="25">F</text>
+            <text x="625" y="160" fill="#2563eb" font-size="25">F</text>
+          </svg>
+          <p class="caption">
+            Deformația relativă compară modificarea lungimii cu lungimea inițială a corpului.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $\Delta l$ se măsoară în metri, dar $\varepsilon=\Delta l/l_0$ nu are unitate de măsură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Modulul lui Young</span>
+        <h2>Legea lui Hooke pentru întindere</h2>
+
+        <p>
+          În domeniul elastic liniar, tensiunea normală este proporțională cu deformația relativă:
+        </p>
+
+        <div class="formula">
+          $$\sigma=E\varepsilon$$
+        </div>
+
+        <p>
+          unde $E$ este <span class="mark">modulul lui Young</span>.
+        </p>
+
+        <div class="formula">
+          $$E=\frac{\sigma}{\varepsilon}$$
+        </div>
+
+        <p>
+          Folosind $\sigma=\frac{F}{S}$ și $\varepsilon=\frac{\Delta l}{l_0}$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$\frac{F}{S}=E\frac{\Delta l}{l_0}$$
+          $$\Delta l=\frac{Fl_0}{ES}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulă importantă:</strong>
+          $$\boxed{\Delta l=\frac{Fl_0}{ES}}$$
+          Alungirea crește cu forța și lungimea inițială, dar scade cu aria secțiunii și cu modulul lui Young.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Constanta elastică a unei bare</span>
+        <h2>Legătura dintre $k$ și proprietățile materialului</h2>
+
+        <p>
+          Pentru o bară solicitată axial, relația $F=k\Delta l$ poate fi comparată cu:
+        </p>
+
+        <div class="formula">
+          $$\Delta l=\frac{Fl_0}{ES}$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$F=\frac{ES}{l_0}\Delta l$$
+        </div>
+
+        <p>
+          Prin urmare, constanta elastică echivalentă a barei este:
+        </p>
+
+        <div class="formula">
+          $$k=\frac{ES}{l_0}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          o bară este mai rigidă dacă are secțiune mare, modul Young mare și lungime mică.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $k$ nu este doar o proprietate a materialului; depinde și de geometria corpului.
+          $E$ este proprietate de material, $k$ este proprietate a corpului elastic concret.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia potențială elastică</span>
+        <h2>Lucrul mecanic stocat în deformare</h2>
+
+        <p>
+          Energia potențială elastică a unui resort deformat cu $x$ este:
+        </p>
+
+        <div class="formula">
+          $$E_p=\frac{1}{2}kx^2$$
+        </div>
+
+        <p>
+          Această energie este egală cu lucrul mecanic necesar pentru deformarea lentă a resortului.
+        </p>
+
+        <div class="formula">
+          $$L=\int_0^x kx'\,dx'=\frac{1}{2}kx^2$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Aria de sub graficul F de x">
+            <line x1="90" y1="270" x2="680" y2="270" stroke="#64748b" stroke-width="4"/>
+            <line x1="110" y1="290" x2="110" y2="60" stroke="#64748b" stroke-width="4"/>
+            <polygon points="120,265 570,95 570,265" fill="rgba(15,118,110,0.25)"/>
+            <line x1="120" y1="265" x2="570" y2="95" stroke="#2563eb" stroke-width="7"/>
+            <text x="680" y="292" fill="#64748b" font-size="24">x</text>
+            <text x="78" y="70" fill="#64748b" font-size="24">F</text>
+            <text x="340" y="225" fill="#0f766e" font-size="27">aria = Ep</text>
+          </svg>
+          <p class="caption">
+            Energia elastică este aria de sub graficul $F(x)$ pentru deformarea de la $0$ la $x$.
+          </p>
+        </div>
+
+        <div class="exam">
+          <strong>De reținut:</strong>
+          dependența este pătratică. Dacă deformarea se dublează, energia elastică devine de patru ori mai mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forță conservativă</span>
+        <h2>Forța elastică și energia</h2>
+
+        <p>
+          Forța elastică ideală este o forță conservativă.
+          Lucrul mecanic al forței elastice este opus variației energiei potențiale elastice:
+        </p>
+
+        <div class="formula">
+          $$L_e=-\Delta E_p$$
+        </div>
+
+        <p>
+          Pentru trecerea de la deformarea $x_1$ la $x_2$:
+        </p>
+
+        <div class="formula">
+          $$L_e=\frac{1}{2}kx_1^2-\frac{1}{2}kx_2^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          când resortul revine spre poziția nedeformată, forța elastică efectuează lucru mecanic pozitiv și energia potențială elastică scade.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Asocieri de resorturi</span>
+        <h2>Resorturi în serie și în paralel</h2>
+
+        <p>
+          Resorturile se pot înlocui printr-un resort echivalent, cu o constantă elastică $k_{eq}$.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Asociere</th>
+              <th>Relație</th>
+              <th>Interpretare</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Paralel</td>
+              <td>$k_{eq}=k_1+k_2+\cdots$</td>
+              <td>Sistemul devine mai rigid.</td>
+            </tr>
+            <tr>
+              <td>Serie</td>
+              <td>$\frac{1}{k_{eq}}=\frac{1}{k_1}+\frac{1}{k_2}+\cdots$</td>
+              <td>Sistemul devine mai ușor deformabil.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          la resorturi în serie, constanta echivalentă este mai mică decât fiecare constantă individuală, dacă resorturile au constante pozitive.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deformări izotrope</span>
+        <h2>Ce înseamnă material izotrop?</h2>
+
+        <p>
+          Un material este <span class="mark">izotrop</span> dacă proprietățile sale elastice sunt aceleași în toate direcțiile.
+        </p>
+
+        <p>
+          Pentru materialele elastice izotrope, comportarea la solicitări mici poate fi descrisă prin constante elastice precum:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Modulul lui Young $E$</strong>
+            <p>Caracterizează întinderea sau comprimarea longitudinală.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Coeficientul lui Poisson $\nu$</strong>
+            <p>Leagă contracția transversală de alungirea longitudinală.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Modulul de forfecare $G$</strong>
+            <p>Caracterizează deformarea prin alunecare a straturilor.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Modulul de compresibilitate $K$</strong>
+            <p>Caracterizează variația de volum la presiune.</p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Idee importantă:</strong>
+          izotropia simplifică descrierea elasticității, deoarece răspunsul materialului nu depinde de direcția solicitării.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Coeficientul lui Poisson</span>
+        <h2>Contracția transversală</h2>
+
+        <p>
+          Când o bară este întinsă, ea se alungește longitudinal, dar se contractă transversal.
+          Coeficientul lui Poisson este:
+        </p>
+
+        <div class="formula">
+          $$\nu=-\frac{\varepsilon_t}{\varepsilon_l}$$
+        </div>
+
+        <p>
+          unde $\varepsilon_l$ este deformația longitudinală, iar $\varepsilon_t$ este deformația transversală.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 320" role="img" aria-label="Contracție transversală la întindere">
+            <defs>
+              <marker id="arrow-left" markerWidth="10" markerHeight="10" refX="2" refY="3" orient="auto">
+                <path d="M9,0 L9,6 L0,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-right" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="190" y="125" width="380" height="80" rx="14" fill="#f59e0b"/>
+            <rect x="160" y="145" width="440" height="40" rx="10" fill="rgba(15,118,110,0.55)"/>
+            <line x1="160" y1="165" x2="65" y2="165" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-left)"/>
+            <line x1="600" y1="165" x2="700" y2="165" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-right)"/>
+            <text x="275" y="240" fill="#0f766e" font-size="25">mai lungă, mai subțire</text>
+          </svg>
+          <p class="caption">
+            La întindere longitudinală, secțiunea transversală se micșorează.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          semnul minus din definiția lui $\nu$ apare deoarece la întindere longitudinală pozitivă, deformația transversală este negativă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forfecare</span>
+        <h2>Modulul de forfecare</h2>
+
+        <p>
+          La deformarea prin forfecare, straturile corpului alunecă unele față de altele.
+          Tensiunea tangențială este:
+        </p>
+
+        <div class="formula">
+          $$\tau=\frac{F_t}{S}$$
+        </div>
+
+        <p>
+          Pentru unghiuri mici de forfecare:
+        </p>
+
+        <div class="formula">
+          $$\tau=G\gamma$$
+        </div>
+
+        <p>
+          unde $G$ este <span class="mark">modulul de forfecare</span>, iar $\gamma$ este deformația unghiulară.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 320" role="img" aria-label="Deformare prin forfecare">
+            <defs>
+              <marker id="arrow-shear" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <polygon points="270,220 530,220 480,100 220,100" fill="#f59e0b" stroke="#0f766e" stroke-width="5"/>
+            <line x1="480" y1="100" x2="620" y2="100" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-shear)"/>
+            <line x1="270" y1="220" x2="160" y2="220" stroke="#2563eb" stroke-width="7"/>
+            <text x="560" y="80" fill="#2563eb" font-size="25">Ft</text>
+            <text x="345" y="260" fill="#0f766e" font-size="25">deformare prin forfecare</text>
+          </svg>
+          <p class="caption">
+            Forfecarea schimbă forma corpului, fără a modifica neapărat volumul în mod semnificativ.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Compresibilitate</span>
+        <h2>Modulul volumic</h2>
+
+        <p>
+          La comprimare uniformă, presiunea produce o variație relativă de volum.
+        </p>
+
+        <div class="formula">
+          $$K=-\frac{\Delta p}{\Delta V/V}$$
+        </div>
+
+        <p>
+          Semnul minus apare deoarece o creștere a presiunii produce o scădere a volumului.
+        </p>
+
+        <div class="formula">
+          $$\frac{\Delta V}{V}<0\quad \text{când}\quad \Delta p>0$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          un modul volumic mare înseamnă că materialul este greu de comprimat.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          compresibilitatea nu trebuie confundată cu comprimarea longitudinală a unei bare.
+          Modulul volumic descrie variația volumului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Relații între constante</span>
+        <h2>Material elastic izotrop</h2>
+
+        <p>
+          Pentru un material elastic, omogen și izotrop, constantele elastice nu sunt independente.
+          Relațiile uzuale sunt:
+        </p>
+
+        <div class="formula">
+          $$E=2G(1+\nu)$$
+        </div>
+
+        <div class="formula">
+          $$E=3K(1-2\nu)$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$G=\frac{E}{2(1+\nu)}$$
+          $$K=\frac{E}{3(1-2\nu)}$$
+        </div>
+
+        <div class="exam">
+          <strong>Strategie de examen:</strong>
+          dacă problema menționează material izotrop și oferă $E$ și $\nu$, poți determina $G$ sau $K$ folosind aceste relații.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Alungirea unui fir</h2>
+
+        <p>
+          Un fir metalic are lungimea $l_0=2\,\text{m}$, aria secțiunii
+          $S=1\,\text{mm}^2$ și modulul lui Young $E=2\cdot10^{11}\,\text{Pa}$.
+          Firul este întins cu forța $F=100\,\text{N}$.
+          Determinați alungirea.
+        </p>
+
+        <p><strong>1. Conversia ariei:</strong></p>
+        <div class="formula">
+          $$1\,\text{mm}^2=10^{-6}\,\text{m}^2$$
+        </div>
+
+        <p><strong>2. Formula alungirii:</strong></p>
+        <div class="formula">
+          $$\Delta l=\frac{Fl_0}{ES}$$
+        </div>
+
+        <p><strong>3. Calcul numeric:</strong></p>
+        <div class="formula">
+          $$\Delta l=\frac{100\cdot2}{2\cdot10^{11}\cdot10^{-6}}$$
+          $$\Delta l=\frac{200}{2\cdot10^5}=10^{-3}\,\text{m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          alungirea firului este $1\,\text{mm}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Energia elastică a unui resort</h2>
+
+        <p>
+          Un resort cu $k=200\,\text{N/m}$ este comprimat cu $x=5\,\text{cm}$.
+          Determinați energia potențială elastică.
+        </p>
+
+        <p><strong>1. Conversia deformării:</strong></p>
+        <div class="formula">
+          $$5\,\text{cm}=0{,}05\,\text{m}$$
+        </div>
+
+        <p><strong>2. Energia elastică:</strong></p>
+        <div class="formula">
+          $$E_p=\frac{1}{2}kx^2$$
+          $$E_p=\frac{1}{2}\cdot200\cdot(0{,}05)^2$$
+          $$E_p=100\cdot0{,}0025=0{,}25\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          energia potențială elastică este $0{,}25\,\text{J}$.
+        </div>
+
+        <div class="warning">
+          <strong>Verificare:</strong>
+          deformarea trebuie introdusă în metri, nu în centimetri.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Constanta elastică a unei bare</h2>
+
+        <p>
+          O bară are $E=7\cdot10^{10}\,\text{Pa}$, aria secțiunii
+          $S=2\cdot10^{-4}\,\text{m}^2$ și lungimea $l_0=1\,\text{m}$.
+          Determinați constanta elastică echivalentă.
+        </p>
+
+        <div class="formula">
+          $$k=\frac{ES}{l_0}$$
+          $$k=\frac{7\cdot10^{10}\cdot2\cdot10^{-4}}{1}$$
+          $$k=14\cdot10^6=1{,}4\cdot10^7\,\text{N/m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          constanta elastică echivalentă este $1{,}4\cdot10^7\,\text{N/m}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Resorturi în serie</h2>
+
+        <p>
+          Două resorturi cu constantele $k_1=100\,\text{N/m}$ și
+          $k_2=300\,\text{N/m}$ sunt legate în serie.
+          Determinați constanta echivalentă.
+        </p>
+
+        <div class="formula">
+          $$\frac{1}{k_{eq}}=\frac{1}{k_1}+\frac{1}{k_2}$$
+          $$\frac{1}{k_{eq}}=\frac{1}{100}+\frac{1}{300}=\frac{3+1}{300}=\frac{4}{300}$$
+        </div>
+
+        <div class="formula">
+          $$k_{eq}=\frac{300}{4}=75\,\text{N/m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          constanta echivalentă este $75\,\text{N/m}$.
+        </div>
+
+        <div class="warning">
+          <strong>Interpretare:</strong>
+          sistemul în serie este mai ușor deformabil decât fiecare resort luat separat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia dintre $E$ și $k$:</strong>
+            $E$ este proprietate de material, iar $k$ depinde de material și geometrie.
+          </li>
+          <li>
+            <strong>Omiterea conversiilor:</strong>
+            $1\,\text{mm}^2=10^{-6}\,\text{m}^2$, nu $10^{-3}\,\text{m}^2$.
+          </li>
+          <li>
+            <strong>Folosirea lui $F=kx$ în afara domeniului elastic:</strong>
+            legea lui Hooke este valabilă doar până la limita elastică.
+          </li>
+          <li>
+            <strong>Confuzia dintre alungire și deformație relativă:</strong>
+            $\Delta l$ are unitate de lungime, $\varepsilon$ este adimensională.
+          </li>
+          <li>
+            <strong>Energia elastică calculată fără pătrat:</strong>
+            formula corectă este $E_p=\frac{1}{2}kx^2$.
+          </li>
+          <li>
+            <strong>Asocierea greșită a resorturilor:</strong>
+            paralel: constantele se adună; serie: se adună inversele.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Consider deformarea în domeniul elastic liniar, aplic legea lui Hooke și exprim alungirea în funcție de solicitare și constantele elastice ale materialului.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$\vec F_e=-k\vec x,\qquad F=kx$$
+          $$E_p=\frac{1}{2}kx^2$$
+          $$\sigma=\frac{F}{S},\qquad \varepsilon=\frac{\Delta l}{l_0}$$
+          $$\sigma=E\varepsilon,\qquad \Delta l=\frac{Fl_0}{ES}$$
+          $$k=\frac{ES}{l_0}$$
+          $$\nu=-\frac{\varepsilon_t}{\varepsilon_l}$$
+          $$\tau=G\gamma,\qquad K=-\frac{\Delta p}{\Delta V/V}$$
+          $$E=2G(1+\nu),\qquad E=3K(1-2\nu)$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Mărime</th>
+              <th>Semnificație</th>
+              <th>Unitate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$k$</td>
+              <td>Constanta elastică a corpului</td>
+              <td>N/m</td>
+            </tr>
+            <tr>
+              <td>$E$</td>
+              <td>Modulul lui Young</td>
+              <td>Pa</td>
+            </tr>
+            <tr>
+              <td>$G$</td>
+              <td>Modulul de forfecare</td>
+              <td>Pa</td>
+            </tr>
+            <tr>
+              <td>$K$</td>
+              <td>Modulul volumic</td>
+              <td>Pa</td>
+            </tr>
+            <tr>
+              <td>$\nu$</td>
+              <td>Coeficientul lui Poisson</td>
+              <td>Adimensional</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="C10-oscilatorul-armonic-liniar.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți deformarea elastică.</li>
+          <li>Precizați diferența dintre deformare elastică și deformare plastică.</li>
+          <li>Enunțați legea lui Hooke pentru un resort ideal.</li>
+          <li>Explicați semnul minus din relația $\vec F_e=-k\vec x$.</li>
+          <li>Definiți tensiunea normală $\sigma$.</li>
+          <li>Definiți deformația relativă longitudinală $\varepsilon$.</li>
+          <li>Scrieți legea lui Hooke în forma $\sigma=E\varepsilon$.</li>
+          <li>Demonstrați relația $\Delta l=\frac{Fl_0}{ES}$.</li>
+          <li>Scrieți energia potențială elastică și deduceți-o ca arie sub graficul $F(x)$.</li>
+          <li>Comparați resorturile în serie și în paralel.</li>
+          <li>Definiți materialul izotrop.</li>
+          <li>Explicați rolul coeficientului lui Poisson.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un fir metalic de lungime $l_0$, secțiune $S$ și modul Young $E$ este întins cu o forță $F$.
+          Determină alungirea, tensiunea, deformația relativă și energia elastică stocată.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C10-oscilatorul-armonic-liniar.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c09", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c09");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
