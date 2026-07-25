@@ -4,28 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D05 · Planificarea calendaristică — Didactica Fizicii</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#eef1f0;
   --bg-grid:#e2e8e6;
   --paper:#ffffff;
-  --ink:#182322;
-  --ink-soft:#4b5a58;
+  --ink:#17211f;
+  --ink-soft:#52615d;
   --accent:#1f6f6b;
   --accent-2:#b8862e;
   --accent-ink:#ffffff;
   --line:#d3dbd8;
   --shadow:rgba(24,35,34,.08);
   --code-bg:#eef4f3;
-  --good:#2f7d52;
   --bad:#b94d42;
-  --radius:14px;
+  --good:#2f7d52;
+  --radius:18px;
   color-scheme:light;
 }
+
 html.dark{
   --bg:#0e1615;
   --bg-grid:#131e1c;
@@ -38,66 +40,86 @@ html.dark{
   --line:#24322f;
   --shadow:rgba(0,0,0,.35);
   --code-bg:#0f1b19;
-  --good:#7fdea8;
   --bad:#ff8b7f;
+  --good:#7fdea8;
   color-scheme:dark;
 }
+
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
 body{
   background:
-    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 34px,
-    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/34px 100%,
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
     var(--bg);
   color:var(--ink);
   font-family:"Source Sans 3",system-ui,sans-serif;
-  font-size:17px;
-  line-height:1.6;
+  font-size:20px;
+  line-height:1.72;
   min-height:100vh;
 }
+
 h1,h2,h3{
   font-family:"Fraunces",Georgia,serif;
-  font-weight:600;
+  font-weight:650;
   letter-spacing:-.01em;
   color:var(--ink);
 }
+
 a{color:var(--accent)}
-.mono{font-family:"JetBrains Mono",monospace}
-.shell{
-  max-width:960px;
-  margin:0 auto;
-  padding:18px 20px 40px;
+
+.mono{
+  font-family:"JetBrains Mono",monospace;
 }
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
 header.top{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
-  gap:16px;
-  padding-bottom:14px;
+  gap:18px;
+  padding-bottom:18px;
   border-bottom:1px solid var(--line);
-  margin-bottom:22px;
+  margin-bottom:26px;
 }
+
 .crumb{
   font-family:"JetBrains Mono",monospace;
-  font-size:12.5px;
+  font-size:13px;
   color:var(--ink-soft);
   text-transform:uppercase;
-  letter-spacing:.06em;
+  letter-spacing:.07em;
   line-height:1.7;
 }
-.crumb b{color:var(--accent)}
-.lesson-title{
-  margin:4px 0 0;
-  font-size:clamp(22px,4.4vw,31px);
-  line-height:1.15;
+
+.crumb b{
+  color:var(--accent);
 }
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
 .lesson-title .instrument{
   display:inline-flex;
-  width:30px;
-  height:30px;
-  vertical-align:-8px;
-  margin-right:8px;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
 }
+
 .theme-toggle{
   flex:0 0 auto;
   display:flex;
@@ -106,256 +128,514 @@ header.top{
   background:var(--paper);
   border:1px solid var(--line);
   border-radius:999px;
-  padding:5px 6px;
-  box-shadow:0 2px 6px var(--shadow);
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
   cursor:pointer;
 }
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
 .theme-toggle .track{
-  width:34px;
-  height:18px;
+  width:40px;
+  height:22px;
   border-radius:999px;
   background:var(--line);
   position:relative;
 }
+
 .theme-toggle .knob{
   position:absolute;
-  top:2px;
-  left:2px;
-  width:14px;
-  height:14px;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
   border-radius:50%;
   background:var(--accent);
-  transition:transform .25s ease;
+  transition:transform .25s;
 }
-html.dark .theme-toggle .knob{transform:translateX(16px)}
-.theme-toggle .icon{font-size:14px;opacity:.65}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
 
 .ruler{
   display:flex;
   gap:4px;
-  margin-bottom:26px;
+  margin-bottom:34px;
 }
+
 .ruler .tick{
   flex:1;
-  height:6px;
-  border-radius:3px;
+  height:7px;
+  border-radius:4px;
   background:var(--line);
   position:relative;
   cursor:pointer;
 }
-.ruler .tick.done{background:var(--accent);opacity:.45}
-.ruler .tick.current{background:var(--accent);opacity:1}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
 .ruler .tick::after{
   content:attr(data-n);
   position:absolute;
-  top:10px;
+  top:13px;
   left:50%;
   transform:translateX(-50%);
   font-family:"JetBrains Mono",monospace;
-  font-size:10.5px;
+  font-size:11px;
   color:var(--ink-soft);
 }
 
-.page{display:none;animation:fade .35s ease}
-.page.active{display:block}
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
 @keyframes fade{
-  from{opacity:0;transform:translateY(4px)}
+  from{opacity:0;transform:translateY(5px)}
   to{opacity:1;transform:none}
 }
+
 .eyebrow{
   font-family:"JetBrains Mono",monospace;
-  font-size:12px;
+  font-size:13px;
   letter-spacing:.08em;
   text-transform:uppercase;
   color:var(--accent-2);
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
+
 .page h2{
-  font-size:clamp(22px,4vw,30px);
-  margin:0 0 14px;
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
 }
-.page p{margin:0 0 14px}
-.page ul,.page ol{margin:0 0 16px;padding-left:22px}
-.page li{margin-bottom:7px}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
 
 .card{
   background:var(--paper);
   border:1px solid var(--line);
   border-radius:var(--radius);
-  padding:16px 18px;
-  margin:0 0 18px;
-  box-shadow:0 2px 10px var(--shadow);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
 }
+
 .card h3{
-  font-size:17px;
-  margin:0 0 8px;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
+
 .dot{
-  width:8px;
-  height:8px;
+  width:11px;
+  height:11px;
   border-radius:50%;
   background:var(--accent);
   flex:0 0 auto;
 }
+
 .grid2{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:18px;
 }
+
 .grid3{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:18px;
 }
-@media(max-width:760px){
-  .grid2,.grid3{grid-template-columns:1fr}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
 }
+
 table.compare{
   width:100%;
   border-collapse:collapse;
-  margin:0 0 18px;
-  font-size:15px;
+  margin:0 0 24px;
+  font-size:18px;
 }
-table.compare th,table.compare td{
+
+table.compare th,
+table.compare td{
   border:1px solid var(--line);
-  padding:9px 11px;
+  padding:14px 16px;
   text-align:left;
   vertical-align:top;
 }
+
 table.compare th{
   background:var(--code-bg);
   font-family:"JetBrains Mono",monospace;
-  font-size:12px;
+  font-size:13px;
   text-transform:uppercase;
-  letter-spacing:.04em;
+  letter-spacing:.05em;
   color:var(--ink-soft);
 }
+
 .callout{
-  border-left:3px solid var(--accent-2);
+  border-left:5px solid var(--accent-2);
   background:var(--code-bg);
-  border-radius:0 10px 10px 0;
-  padding:12px 16px;
-  margin:0 0 18px;
-  font-size:15.5px;
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
 }
-.callout b{color:var(--accent-2)}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
 .keywords{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
-  margin:8px 0 18px;
+  gap:10px;
+  margin:12px 0 0;
 }
+
 .keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
   font-family:"JetBrains Mono",monospace;
-  font-size:12px;
+  font-size:14px;
   border:1px solid var(--line);
   background:var(--paper);
   border-radius:999px;
-  padding:5px 9px;
-  color:var(--ink-soft);
-}
-.diagram{
-  display:flex;
-  gap:10px;
-  margin:6px 0 20px;
-  flex-wrap:wrap;
-}
-.diagram .block{
-  flex:1 1 140px;
-  border-radius:10px;
-  padding:14px 12px;
-  text-align:center;
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  border:1px dashed var(--line);
-  color:var(--ink-soft);
-  cursor:pointer;
-}
-.diagram .block strong{
-  display:block;
-  font-family:"Fraunces",serif;
-  font-size:15px;
-  margin-bottom:4px;
+  padding:7px 12px;
   color:var(--ink);
+  font-weight:600;
 }
-.diagram .block.active{
-  border-style:solid;
-  background:var(--accent);
-  color:var(--accent-ink);
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
 }
-.diagram .block.active strong{color:var(--accent-ink)}
+
+.tooltip{
+  border-bottom:2px dotted var(--accent);
+  cursor:help;
+  position:relative;
+  font-weight:800;
+}
+
+.tooltip:hover::after{
+  content:attr(data-tip);
+  position:absolute;
+  left:0;
+  top:1.9em;
+  width:min(380px,80vw);
+  background:var(--ink);
+  color:var(--paper);
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.45;
+  z-index:20;
+  box-shadow:0 8px 22px var(--shadow);
+}
+
 .stepline{
   list-style:none;
-  margin:0 0 18px;
-  padding:0;
+  margin:0 0 24px;
+  padding:0 !important;
   counter-reset:step;
 }
+
 .stepline li{
   counter-increment:step;
   position:relative;
-  padding-left:38px;
-  margin-bottom:14px;
+  padding-left:48px;
+  margin-bottom:18px;
 }
+
 .stepline li::before{
   content:counter(step);
   font-family:"JetBrains Mono",monospace;
-  font-weight:600;
+  font-weight:700;
   position:absolute;
   left:0;
-  top:0;
-  width:26px;
-  height:26px;
+  top:.05em;
+  width:34px;
+  height:34px;
   border-radius:50%;
   background:var(--accent);
   color:var(--accent-ink);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:13px;
+  font-size:15px;
 }
+
+.mindmap{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap button,
+.flow button,
+.planning-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.planning-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.planning-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,
+  .flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.planning-map{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:12px 0 24px;
+}
+
+@media(max-width:920px){
+  .planning-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:620px){
+  .planning-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
 .formula{
   font-family:"JetBrains Mono",monospace;
   background:var(--code-bg);
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-  margin:0 0 18px;
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
   text-align:center;
+  font-size:19px;
 }
-.bad{color:var(--bad);font-weight:700}
-.good{color:var(--good);font-weight:700}
-.small{font-size:14px;color:var(--ink-soft)}
+
+.svg-wrap{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.svg-node{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.svg-node:hover{
+  filter:drop-shadow(0 0 6px var(--accent-2));
+}
+
 details.quiz{
   background:var(--paper);
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-  margin-bottom:10px;
-  box-shadow:0 2px 8px var(--shadow);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
 }
+
 details.quiz summary{
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
 }
+
 .resource-actions{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin:12px 0 18px;
+  gap:12px;
+  margin:14px 0 24px;
 }
+
 .btn{
   appearance:none;
   border:1px solid var(--line);
   background:var(--paper);
   color:var(--ink);
   font-family:"Source Sans 3",sans-serif;
-  font-weight:700;
-  font-size:15px;
-  padding:10px 16px;
-  border-radius:10px;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
@@ -363,101 +643,139 @@ details.quiz summary{
   text-decoration:none;
   transition:.15s;
 }
+
 .btn:hover{
-  box-shadow:0 4px 12px var(--shadow);
+  box-shadow:0 5px 14px var(--shadow);
   transform:translateY(-1px);
 }
+
 .btn:disabled{
   opacity:.35;
   cursor:default;
   box-shadow:none;
   transform:none;
 }
+
 .btn.primary{
   background:var(--accent);
   border-color:var(--accent);
   color:var(--accent-ink);
 }
-.btn.ghost{background:transparent}
+
+.btn.ghost{
+  background:transparent;
+}
+
 .navbar{
-  margin-top:26px;
-  padding-top:18px;
+  margin-top:30px;
+  padding-top:22px;
   border-top:1px solid var(--line);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:14px;
 }
+
 .pageinfo{
   font-family:"JetBrains Mono",monospace;
-  font-size:12.5px;
+  font-size:14px;
   color:var(--ink-soft);
 }
+
 #final-actions{
   display:none;
-  margin-top:26px;
-  padding-top:18px;
+  margin-top:30px;
+  padding-top:22px;
   border-top:1px solid var(--line);
 }
+
 .actions{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:14px;
 }
-@media(max-width:640px){
-  .actions{grid-template-columns:1fr}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
 }
+
 .action-card{
   display:flex;
   flex-direction:column;
-  gap:6px;
-  padding:16px;
+  gap:8px;
+  padding:20px;
   border-radius:var(--radius);
   border:1px solid var(--line);
   background:var(--paper);
   text-decoration:none;
   color:var(--ink);
-  box-shadow:0 2px 10px var(--shadow);
+  box-shadow:0 3px 14px var(--shadow);
 }
-.action-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 16px var(--shadow);
-}
+
 .action-card .tag{
   font-family:"JetBrains Mono",monospace;
-  font-size:11px;
+  font-size:12px;
   text-transform:uppercase;
   letter-spacing:.06em;
   color:var(--accent-2);
 }
+
 .action-card .label{
   font-family:"Fraunces",serif;
-  font-size:18px;
-  font-weight:600;
+  font-size:22px;
+  font-weight:650;
 }
+
 .action-card.primary{
   background:var(--accent);
   border-color:var(--accent);
   color:var(--accent-ink);
 }
+
 .action-card.primary .tag{
   color:var(--accent-ink);
   opacity:.8;
 }
+
 footer.sig{
-  margin-top:30px;
+  margin-top:34px;
   text-align:center;
   font-family:"JetBrains Mono",monospace;
-  font-size:11.5px;
+  font-size:13px;
   color:var(--ink-soft);
   opacity:.75;
 }
-.hidden-print-source{display:none}
+
+.hidden-print-source{
+  display:none;
+}
+
 @media print{
-  body{background:#fff;color:#000}
-  .theme-toggle,.ruler,.navbar,#final-actions,.resource-actions{display:none!important}
-  .page{display:block!important;break-after:page}
-  .card,.callout{box-shadow:none}
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
 }
 </style>
 </head>
@@ -469,9 +787,9 @@ footer.sig{
       <div class="crumb">Titularizare · Didactica Fizicii › <b>D05 — Planificare</b></div>
       <h1 class="lesson-title">
         <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="4" y="4" width="16" height="16" rx="2" stroke="var(--accent)" stroke-width="1.6"/>
-          <path d="M8 2.8v3M16 2.8v3M4 8h16" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M8 12h2M12 12h2M16 12h2M8 16h2M12 16h2" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
+          <rect x="4" y="4" width="16" height="16" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 2.8v3M16 2.8v3M4 8h16" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M8 12h2M12 12h2M16 12h1M8 16h2M12 16h2" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         Planificarea calendaristică
       </h1>
@@ -487,151 +805,325 @@ footer.sig{
   <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
 
   <main id="pages">
-    <!-- PAGINA 1 -->
+
     <section class="page active" data-page="1">
-      <div class="eyebrow">1 / 7 · Rol didactic</div>
+      <div class="eyebrow">1 / 12 · Hartă mentală</div>
       <h2>Ce este planificarea calendaristică?</h2>
 
-      <p><b>Planificarea calendaristică</b> este documentul de proiectare prin care profesorul distribuie, pe parcursul anului școlar, unitățile de învățare, competențele specifice, conținuturile, numărul de ore și momentele de evaluare.</p>
+      <p>
+        <span class="key"><b>Planificarea calendaristică</b></span> este documentul de proiectare anuală sau semestrială
+        prin care profesorul distribuie <b>unitățile de învățare</b>, <b>competențele specifice</b>,
+        <b>conținuturile</b>, <b>numărul de ore</b> și <b>perioadele de desfășurare</b>.
+      </p>
 
-      <div class="formula">
-        Programă școlară + plan-cadru + structura anului școlar + nivelul clasei = planificare calendaristică
+      <p>
+        La examen, ideea centrală este:
+        <span class="key"><b>planificarea calendaristică face legătura dintre programa școlară și activitatea efectivă la clasă</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Profesorul pornește de la programa școlară, nu de la manual. Programa oferă competențele, conținuturile și sugestiile metodologice.">1. Programă</button>
+        <button data-info="Conținuturile sunt grupate în unități de învățare coerente, cu temă, competențe și finalitate didactică.">2. Unități</button>
+        <button data-info="Fiecărei unități i se asociază competențe specifice din programă, nu obiective inventate separat.">3. Competențe</button>
+        <button data-info="Se alocă realist numărul de ore, ținând cont de structura anului școlar, vacanțe, evaluări și recapitulări.">4. Timp</button>
+        <button data-info="Se prevăd evaluări inițiale, formative, sumative, recapitulări și activități de remediere sau aprofundare.">5. Evaluare</button>
       </div>
 
-      <div class="diagram" id="flow">
-        <div class="block active" data-title="Programa școlară" data-info="Oferă competențele specifice, conținuturile și sugestiile metodologice. Profesorul nu inventează competențele, ci le selectează și le distribuie logic."><strong>Programă</strong>competențe și conținuturi</div>
-        <div class="block" data-title="Planul-cadru" data-info="Stabilește numărul de ore pe săptămână. Acest număr determină volumul realist al planificării."><strong>Plan-cadru</strong>ore/săptămână</div>
-        <div class="block" data-title="Calendarul școlar" data-info="Indică perioadele de cursuri, vacanțele și săptămânile speciale. Planificarea trebuie adaptată structurii anului școlar."><strong>Calendar</strong>module și vacanțe</div>
-        <div class="block" data-title="Clasa concretă" data-info="Profesorul adaptează ritmul la nivelul elevilor, resursele laboratorului, nevoile de recapitulare și timpul pentru evaluare."><strong>Clasa</strong>ritm și resurse</div>
-      </div>
-
-      <div class="card" id="flowDetail">
-        <h3><span class="dot"></span>Programa școlară</h3>
-        <p>Oferă competențele specifice, conținuturile și sugestiile metodologice. Profesorul nu inventează competențele, ci le selectează și le distribuie logic.</p>
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Programă</h3>
+        <p>Profesorul pornește de la programa școlară, nu de la manual. Programa oferă competențele, conținuturile și sugestiile metodologice.</p>
       </div>
 
       <div class="callout">
-        <b>Idee-cheie pentru examen:</b> Planificarea calendaristică nu este o simplă împărțire a lecțiilor pe săptămâni. Ea arată cum sunt formate progresiv competențele prin unități de învățare, activități și evaluări.
-      </div>
-
-      <div class="keywords">
-        <span>proiectare anuală</span>
-        <span>unități de învățare</span>
-        <span>competențe specifice</span>
-        <span>alocare orară</span>
-        <span>evaluare</span>
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>planificare calendaristică</span>
+          <span>programă școlară</span>
+          <span>unitate de învățare</span>
+          <span>competențe specifice</span>
+          <span>alocare orară</span>
+        </div>
       </div>
     </section>
 
-    <!-- PAGINA 2 -->
     <section class="page" data-page="2">
-      <div class="eyebrow">2 / 7 · Funcții</div>
+      <div class="eyebrow">2 / 12 · Rol didactic</div>
       <h2>De ce este necesară planificarea?</h2>
 
-      <div class="grid2">
-        <div class="card">
-          <h3><span class="dot"></span>Funcția de organizare</h3>
-          <p>Profesorul stabilește ordinea unităților de învățare, timpul alocat și locul evaluărilor. Astfel se evită aglomerarea conținuturilor la final de an.</p>
-        </div>
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Planificarea calendaristică</b> organizează conținuturile pe durata anului școlar.</li>
+          <li><b>Planificarea</b> asigură coerența dintre competențe, conținuturi, activități și evaluare.</li>
+          <li><b>Planificarea</b> previne aglomerarea materiei la final de modul sau de an.</li>
+          <li><b>Planificarea</b> permite adaptarea la ritmul clasei, resurse și calendarul școlar.</li>
+          <li><b>Planificarea</b> este flexibilă: poate fi ajustată în funcție de progresul elevilor.</li>
+        </ul>
+      </div>
 
-        <div class="card">
-          <h3><span class="dot"></span>Funcția de corelare</h3>
-          <p>Planificarea corelează competențele specifice cu activitățile de învățare, conținuturile și metodele potrivite disciplinei fizică.</p>
-        </div>
+      <p>
+        Pentru fizică, planificarea este importantă deoarece disciplina presupune
+        <span class="key"><b>experimente</b></span>,
+        <span class="key"><b>măsurători</b></span>,
+        <span class="key"><b>rezolvare de probleme</b></span>,
+        <span class="key"><b>interpretare de grafice</b></span> și
+        <span class="key"><b>evaluări aplicative</b></span>.
+      </p>
 
-        <div class="card">
-          <h3><span class="dot"></span>Funcția de reglare</h3>
-          <p>Documentul poate fi ajustat în funcție de ritmul clasei, rezultate la evaluări, perioade de recapitulare, activități practice sau proiecte.</p>
-        </div>
+      <div class="formula">
+        Planificare bună = competențe + unități de învățare + timp realist + evaluare + flexibilitate
+      </div>
 
-        <div class="card">
-          <h3><span class="dot"></span>Funcția de control profesional</h3>
-          <p>Planificarea dovedește că profesorul cunoaște programa, gestionează timpul și proiectează învățarea în acord cu finalitățile disciplinei.</p>
-        </div>
+      <div class="callout">
+        <b>Formulare utilă la examen:</b> Planificarea calendaristică este un document managerial și didactic, care orientează activitatea profesorului pe termen mediu și lung.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 12 · Date de intrare</div>
+      <h2>Din ce pornește profesorul?</h2>
+
+      <p>
+        Planificarea nu se face „din memorie”. Ea se construiește pe baza unor documente și repere clare.
+      </p>
+
+      <div class="planning-map" id="planningMap">
+        <button class="active" data-title="Programa școlară" data-info="Este reperul principal: oferă competențe specifice, conținuturi și sugestii metodologice.">Programă</button>
+        <button data-title="Planul-cadru" data-info="Indică numărul de ore alocat disciplinei fizică pentru clasa/profilul respectiv.">Plan-cadru</button>
+        <button data-title="Structura anului școlar" data-info="Permite repartizarea unităților pe module, săptămâni, vacanțe, perioade de evaluare și activități speciale.">Calendar școlar</button>
+        <button data-title="Resursele clasei" data-info="Profesorul ține cont de laborator, mijloace TIC, manual, auxiliare, nivelul elevilor și ritmul de lucru.">Resurse</button>
+      </div>
+
+      <div class="card" id="planningDetail">
+        <h3><span class="dot"></span>Programa școlară</h3>
+        <p>Este reperul principal: oferă competențe specifice, conținuturi și sugestii metodologice.</p>
       </div>
 
       <table class="compare">
         <tr>
-          <th>Document</th>
-          <th>Întrebare la care răspunde</th>
-          <th>Rol în proiectare</th>
+          <th>Reper</th>
+          <th>Rol în planificare</th>
+          <th>Întrebare de control</th>
         </tr>
         <tr>
-          <td><b>Programa școlară</b></td>
-          <td>Ce competențe și conținuturi sunt prevăzute?</td>
-          <td>Este sursa obligatorie pentru competențe și conținuturi.</td>
+          <td><span class="key"><b>Programa școlară</b></span></td>
+          <td>Stabilește competențele și conținuturile obligatorii.</td>
+          <td>Ce competențe specifice trebuie formate?</td>
         </tr>
         <tr>
-          <td><b>Planificarea calendaristică</b></td>
-          <td>Când și în ce ritm se parcurg unitățile?</td>
-          <td>Distribuie materia pe an școlar.</td>
+          <td><span class="key"><b>Planul-cadru</b></span></td>
+          <td>Stabilește numărul de ore pe săptămână.</td>
+          <td>Câte ore reale am la dispoziție?</td>
         </tr>
         <tr>
-          <td><b>Proiectul unității de învățare</b></td>
-          <td>Cum se formează competențele într-o unitate?</td>
-          <td>Detaliază activitățile, resursele și evaluarea pe o unitate.</td>
+          <td><span class="key"><b>Calendarul școlar</b></span></td>
+          <td>Stabilește module, vacanțe și perioade speciale.</td>
+          <td>Când pot plasa unitățile și evaluările?</td>
         </tr>
         <tr>
-          <td><b>Proiectul de lecție</b></td>
-          <td>Ce se întâmplă concret într-o oră?</td>
-          <td>Organizează secvențele lecției.</td>
+          <td><span class="key"><b>Clasa concretă</b></span></td>
+          <td>Impune adaptare la nivel, ritm și resurse.</td>
+          <td>Ce remedieri sau aprofundări sunt necesare?</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 12 · Flux interactiv</div>
+      <h2>Fluxul corect al planificării calendaristice</h2>
+
+      <p>
+        Apasă pe fiecare nod. Reține ordinea:
+        <span class="key"><b>Programă → Unități → Ore → Perioade → Evaluare</b></span>.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Programa" data-info="Se citesc competențele specifice, conținuturile și sugestiile metodologice. Programa este reperul principal.">Programă</button>
+        <span class="arrow">→</span>
+        <button data-title="Unitățile de învățare" data-info="Conținuturile se grupează în unități coerente: Mișcare, Energie, Electricitate, Optică etc.">Unități</button>
+        <span class="arrow">→</span>
+        <button data-title="Numărul de ore" data-info="Se alocă ore pentru predare, experiment, probleme, recapitulare și evaluare.">Ore</button>
+        <span class="arrow">→</span>
+        <button data-title="Perioada" data-info="Unitățile se plasează în module sau intervale calendaristice, ținând cont de vacanțe și zile libere.">Perioade</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluarea" data-info="Se prevăd evaluări inițiale, formative și sumative, plus activități de remediere.">Evaluare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Programa</h3>
+        <p>Se citesc competențele specifice, conținuturile și sugestiile metodologice. Programa este reperul principal.</p>
+      </div>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> să începi planificarea de la capitolele manualului. Corect: pornești de la <b>programa școlară</b>, apoi folosești manualul ca resursă.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 12 · Structura documentului</div>
+      <h2>Ce rubrici are planificarea calendaristică?</h2>
+
+      <table class="compare">
+        <tr>
+          <th>Rubrică</th>
+          <th>Ce se trece?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Unitatea de învățare</b></span></td>
+          <td>Tema majoră, coerentă didactic.</td>
+          <td>„Curentul electric continuu”.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>Coduri sau formulări din programă.</td>
+          <td>măsurare, interpretare de date, aplicarea legii lui Ohm.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>Detalieri de conținut asociate unității.</td>
+          <td>circuit electric, intensitate, tensiune, rezistență, legea lui Ohm.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Număr de ore</b></span></td>
+          <td>Ore pentru predare, exerciții, laborator, evaluare.</td>
+          <td>8–10 ore, în funcție de clasă și planul-cadru.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Săptămâna / perioada</b></span></td>
+          <td>Intervalul calendaristic estimat.</td>
+          <td>Modulul II, săptămânile 5–8.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Observații</b></span></td>
+          <td>Adaptări, evaluări, activități remediale, modificări.</td>
+          <td>lucrare de laborator; test sumativ; recapitulare.</td>
         </tr>
       </table>
 
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords">
-          <span>organizare</span>
-          <span>corelare</span>
-          <span>reglare</span>
-          <span>proiectare curriculară</span>
-        </div>
+      <div class="formula">
+        Rubrici esențiale = unitate + competențe + conținuturi + ore + perioadă + observații
       </div>
     </section>
 
-    <!-- PAGINA 3 -->
-    <section class="page" data-page="3">
-      <div class="eyebrow">3 / 7 · Algoritm</div>
-      <h2>Etapele elaborării planificării calendaristice</h2>
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 12 · Pași de lucru</div>
+      <h2>Pașii 1–4 pentru realizarea planificării</h2>
 
       <ol class="stepline">
-        <li><b>Studiază programa școlară.</b> Identifică toate competențele specifice, conținuturile și sugestiile metodologice relevante.</li>
-        <li><b>Verifică planul-cadru.</b> Stabilește numărul de ore pe săptămână și numărul aproximativ de ore pe an.</li>
-        <li><b>Consultă structura anului școlar.</b> Notează perioadele de cursuri, vacanțele, săptămânile speciale și zilele fără cursuri.</li>
-        <li><b>Grupează conținuturile în unități de învățare.</b> O unitate trebuie să fie coerentă tematic și orientată spre competențe.</li>
-        <li><b>Asociază fiecărei unități competențele specifice.</b> Nu se copiază mecanic toate competențele la fiecare unitate.</li>
-        <li><b>Alocă ore realist.</b> Include predare, aplicații, experiment, recapitulare și evaluare.</li>
-        <li><b>Plasează evaluările.</b> Evaluarea inițială, formativă, sumativă și activitățile practice trebuie integrate în timp.</li>
-        <li><b>Revizuiește planificarea.</b> Verifică progresia, echilibrul, accesibilitatea și posibilitatea de adaptare.</li>
+        <li>
+          <b>Studiază programa școlară.</b>
+          Identifică toate competențele specifice, conținuturile obligatorii și sugestiile metodologice.
+        </li>
+        <li>
+          <b>Calculează timpul disponibil.</b>
+          Pornește de la numărul de ore pe săptămână și din structura anului școlar.
+        </li>
+        <li>
+          <b>Grupează conținuturile în unități de învățare.</b>
+          O unitate trebuie să aibă coerență tematică și finalitate didactică.
+        </li>
+        <li>
+          <b>Asociază competențele specifice fiecărei unități.</b>
+          Nu inventa competențe în afara programei; le selectezi și le corelezi cu activitățile.
+        </li>
+      </ol>
+
+      <div class="callout">
+        <b>De reținut:</b> În planificare, <b>competențele specifice</b> sunt centrul documentului. Conținuturile sunt suporturi pentru formarea lor.
+      </div>
+
+      <div class="keywords">
+        <span>programă</span>
+        <span>timp disponibil</span>
+        <span>unități de învățare</span>
+        <span>competențe specifice</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 12 · Pași de lucru</div>
+      <h2>Pașii 5–8 pentru realizarea planificării</h2>
+
+      <ol class="stepline">
+        <li>
+          <b>Alocă numărul de ore.</b>
+          Include ore pentru predare, experiment, rezolvare de probleme, recapitulare și evaluare.
+        </li>
+        <li>
+          <b>Plasează unitățile în calendar.</b>
+          Ține cont de module, vacanțe, săptămâni speciale, zile libere și evaluări.
+        </li>
+        <li>
+          <b>Planifică evaluarea.</b>
+          Include evaluare inițială, formativă, sumativă, activități de remediere și feedback.
+        </li>
+        <li>
+          <b>Revizuiește planificarea.</b>
+          Planificarea este flexibilă și se adaptează la ritmul clasei și la progresul elevilor.
+        </li>
       </ol>
 
       <div class="formula">
-        Selectare → Grupare → Corelare → Alocare → Evaluare → Revizuire
-      </div>
-
-      <div class="card">
-        <h3><span class="dot"></span>Întrebare tipică la examen</h3>
-        <p><b>„Prezentați etapele realizării planificării calendaristice la disciplina fizică.”</b></p>
-        <p>Răspunsul trebuie să includă sursele proiectării, algoritmul de lucru, legătura cu programa și un exemplu de unitate de învățare.</p>
+        Ore totale = predare + aplicații + laborator + recapitulare + evaluare + remediere
       </div>
 
       <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords">
-          <span>algoritm</span>
-          <span>unități coerente</span>
-          <span>ore realiste</span>
-          <span>evaluare integrată</span>
-        </div>
+        <b>Specific fizicii:</b> Nu planifica toate orele ca expunere. Rezervă timp pentru <b>experiment</b>, <b>probleme</b>, <b>grafice</b> și <b>evaluare practică</b>.
       </div>
     </section>
 
-    <!-- PAGINA 4 -->
-    <section class="page" data-page="4">
-      <div class="eyebrow">4 / 7 · Structură</div>
-      <h2>Model de tabel pentru planificarea calendaristică</h2>
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 12 · Exemplu aplicat</div>
+      <h2>Exemplu: clasa a VIII-a — Curentul electric</h2>
 
-      <p>Planificarea calendaristică se redactează, de regulă, tabelar. Forma exactă poate varia, dar trebuie să păstreze relația dintre unitate, competențe, conținuturi, număr de ore și perioadă.</p>
+      <p>
+        Exemplul de mai jos arată cum poate fi transpusă o temă de fizică într-o planificare calendaristică.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Rubrică</th>
+          <th>Completare posibilă</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Unitate de învățare</b></span></td>
+          <td>Curentul electric continuu</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>investigarea circuitelor simple; măsurarea mărimilor electrice; interpretarea datelor; rezolvarea de probleme simple.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>circuit electric, surse, consumatori, intensitate, tensiune, rezistență, legea lui Ohm, grupări simple.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Activități dominante</b></span></td>
+          <td>montaj experimental, citirea ampermetrului și voltmetrului, tabel de date, grafic I(U), probleme aplicative.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Număr de ore</b></span></td>
+          <td>8–10 ore, cu cel puțin o oră de laborator și o oră de evaluare.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>observare sistematică, fișă de laborator, itemi de calcul, interpretare de grafic, test sumativ.</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Concluzie didactică</h3>
+        <p>
+          O planificare bună nu pune „Curentul electric” ca simplu capitol, ci îl organizează ca
+          <span class="key"><b>unitate de învățare centrată pe competențe</b></span>.
+        </p>
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 12 · Exemplu de tabel</div>
+      <h2>Model de planificare calendaristică</h2>
 
       <table class="compare">
         <tr>
@@ -643,212 +1135,184 @@ footer.sig{
           <th>Observații</th>
         </tr>
         <tr>
-          <td>Mișcare și repaus</td>
-          <td>CS selectate din programă</td>
-          <td>Traiectorie, distanță, durată, viteză medie</td>
-          <td>5</td>
-          <td>Modulul I</td>
-          <td>Evaluare inițială + aplicații</td>
+          <td><b>Mărimi fizice și măsurare</b></td>
+          <td>măsurare; folosirea unităților; prelucrare de date</td>
+          <td>mărimi, unități, instrumente, erori</td>
+          <td>4</td>
+          <td>Modul I</td>
+          <td>evaluare inițială + fișă practică</td>
         </tr>
         <tr>
-          <td>Interacțiuni</td>
-          <td>CS selectate din programă</td>
-          <td>Forțe, efectele interacțiunilor, reprezentări</td>
+          <td><b>Mișcare și repaus</b></td>
+          <td>descrierea mișcării; interpretare de grafic</td>
+          <td>traiectorie, viteză, mișcare uniformă</td>
           <td>6</td>
-          <td>Modulul I–II</td>
-          <td>Experiment demonstrativ</td>
+          <td>Modul I–II</td>
+          <td>grafic s(t), probleme</td>
         </tr>
         <tr>
-          <td>Energie</td>
-          <td>CS selectate din programă</td>
-          <td>Lucru mecanic, energie, transformări</td>
+          <td><b>Forțe și interacțiuni</b></td>
+          <td>identificarea forțelor; aplicarea relațiilor simple</td>
+          <td>greutate, elasticitate, frecare</td>
           <td>7</td>
-          <td>Modulul II</td>
-          <td>Problem-solving + evaluare</td>
+          <td>Modul II</td>
+          <td>experiment cu dinamometru</td>
+        </tr>
+        <tr>
+          <td><b>Electricitate</b></td>
+          <td>investigare; măsurare; interpretare de date</td>
+          <td>circuit, U, I, R, legea lui Ohm</td>
+          <td>9</td>
+          <td>Modul III</td>
+          <td>lucrare de laborator + test</td>
         </tr>
       </table>
 
-      <div class="grid2">
-        <div class="card">
-          <h3><span class="dot"></span>Ce se scrie la „competențe”?</h3>
-          <p>Se trec codurile competențelor specifice din programă. Profesorul trebuie să aleagă competențele relevante pentru unitatea respectivă, nu să le repete pe toate.</p>
-        </div>
-
-        <div class="card">
-          <h3><span class="dot"></span>Ce se scrie la „observații”?</h3>
-          <p>Se pot nota evaluări, activități de laborator, adaptări, proiecte, recapitulări, activități remediale sau perioade în care ritmul trebuie ajustat.</p>
-        </div>
-      </div>
-
       <div class="callout">
-        <b>Reținem:</b> O planificare bună este clară, realistă și flexibilă. Ea nu trebuie să fie supraîncărcată cu detalii de lecție, deoarece acestea apar în proiectarea unității sau în proiectul de lecție.
+        <b>Observație:</b> Valorile din tabel sunt orientative. În practică, profesorul ajustează numărul de ore în funcție de programa clasei, planul-cadru și structura anului școlar.
       </div>
 
       <div class="keywords">
-        <span>unitate de învățare</span>
-        <span>competențe codificate</span>
-        <span>conținuturi</span>
-        <span>număr de ore</span>
+        <span>model tabelar</span>
+        <span>unități</span>
+        <span>ore</span>
+        <span>perioade</span>
         <span>observații</span>
       </div>
     </section>
 
-    <!-- PAGINA 5 -->
-    <section class="page" data-page="5">
-      <div class="eyebrow">5 / 7 · Exemplu aplicat</div>
-      <h2>Exemplu: planificare pentru o unitate despre circuite electrice</h2>
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 12 · Adaptare și flexibilitate</div>
+      <h2>Planificarea nu este rigidă</h2>
 
-      <p>Exemplul de mai jos este orientativ. Într-un document real, codurile competențelor se preiau exact din programa clasei respective.</p>
+      <p>
+        <span class="key"><b>Planificarea calendaristică este orientativă și flexibilă</b></span>.
+        Ea poate fi ajustată când apar situații reale: ritm lent al clasei, rezultate slabe la evaluare,
+        lipsa resurselor de laborator, activități extracurriculare sau modificări ale calendarului.
+      </p>
 
-      <table class="compare">
-        <tr>
-          <th>Unitate</th>
-          <th>Competențe specifice</th>
-          <th>Conținuturi</th>
-          <th>Activități dominante</th>
-          <th>Ore</th>
-          <th>Evaluare</th>
-        </tr>
-        <tr>
-          <td><b>Circuite electrice simple</b></td>
-          <td>Investigarea experimentală; interpretarea datelor; rezolvarea de probleme simple</td>
-          <td>Curent electric, tensiune, rezistență, legea lui Ohm, grupări simple</td>
-          <td>Montaj, măsurare cu ampermetru și voltmetru, tabel de date, grafic I(U)</td>
-          <td>6</td>
-          <td>Fișă de laborator + problemă de calcul + interpretare grafică</td>
-        </tr>
-      </table>
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Când se modifică?</h3>
+          <ul class="remember-list">
+            <li><b>după evaluarea inițială</b>, dacă apar lacune;</li>
+            <li><b>după evaluări formative</b>, dacă elevii nu ating competențele;</li>
+            <li><b>când timpul real scade</b> prin activități neprevăzute;</li>
+            <li><b>când apar oportunități</b>: proiecte, vizite, experimente suplimentare.</li>
+          </ul>
+        </div>
 
-      <div class="grid3">
         <div class="card">
-          <h3><span class="dot"></span>Ora 1</h3>
-          <p>Actualizare: sarcină electrică, circuit închis, sursă, consumator, conductor. Norme de protecție.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Ora 2</h3>
-          <p>Măsurarea intensității și tensiunii. Conectarea corectă a ampermetrului și voltmetrului.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Ora 3</h3>
-          <p>Determinarea experimentală a relației dintre I și U. Tabel de valori și grafic.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Ora 4</h3>
-          <p>Legea lui Ohm. Aplicații numerice și interpretarea rezistenței electrice.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Ora 5</h3>
-          <p>Rezolvare de probleme: circuite simple, unități de măsură, transformări.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Ora 6</h3>
-          <p>Evaluare sumativă scurtă + feedback + activitate remedială pentru erorile frecvente.</p>
+          <h3><span class="dot"></span>Ce se poate ajusta?</h3>
+          <ul class="remember-list">
+            <li><b>numărul de ore</b> alocat unei unități;</li>
+            <li><b>ordinea unor conținuturi</b>, dacă programa permite;</li>
+            <li><b>activitățile de învățare</b> și resursele;</li>
+            <li><b>momentele de recapitulare și evaluare</b>.</li>
+          </ul>
         </div>
       </div>
 
-      <div class="callout">
-        <b>Observație didactică:</b> În planificarea calendaristică nu detaliezi fiecare moment al lecției, dar arăți că există timp pentru experiment, aplicații și evaluare. La fizică, eliminarea activităților practice slăbește coerența planificării.
-      </div>
-
-      <div class="keywords">
-        <span>circuit electric</span>
-        <span>legea lui Ohm</span>
-        <span>activitate experimentală</span>
-        <span>evaluare practică</span>
+      <div class="formula">
+        Flexibilitate ≠ improvizație · Flexibilitate = adaptare argumentată la progresul elevilor
       </div>
     </section>
 
-    <!-- PAGINA 6 -->
-    <section class="page" data-page="6">
-      <div class="eyebrow">6 / 7 · Erori și autoevaluare</div>
-      <h2>Greșeli frecvente și quiz</h2>
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 12 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
 
       <div class="card">
-        <h3><span class="dot"></span>Greșeli frecvente ale candidaților</h3>
-        <ul>
-          <li><span class="bad">Copierea mecanică</span> a programei, fără gruparea conținuturilor în unități de învățare.</li>
-          <li><span class="bad">Repetarea tuturor competențelor specifice</span> la fiecare unitate, fără selecție logică.</li>
-          <li><span class="bad">Alocarea nerealistă a orelor</span>, fără timp pentru experiment, recapitulare și evaluare.</li>
-          <li><span class="bad">Confundarea planificării calendaristice</span> cu proiectul de lecție.</li>
-          <li><span class="bad">Omiterea evaluării</span> sau plasarea ei doar la final, fără funcție formativă.</li>
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Confundarea planificării calendaristice cu proiectul de lecție.</b> Planificarea este document anual/modular; lecția este proiectare punctuală.</li>
+          <li><b>Începerea planificării de la manual.</b> Corect: se pornește de la programa școlară.</li>
+          <li><b>Omiterea competențelor specifice.</b> Fără competențe, planificarea devine listă de capitole.</li>
+          <li><b>Alocarea nerealistă a timpului.</b> Nu se poate programa totul ca predare frontală; trebuie timp pentru aplicații, laborator și evaluare.</li>
+          <li><b>Lipsa evaluării și remedierii.</b> Evaluarea trebuie planificată, nu adăugată la final.</li>
+          <li><b>Ignorarea specificului fizicii.</b> Fizica cere experiment, reprezentări grafice, probleme și interpretare de date.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> O planificare bună arată <b>ce competențe se formează</b>, <b>prin ce conținuturi</b>, <b>în cât timp</b> și <b>cum se verifică progresul</b>.
+      </div>
+
+      <div class="keywords">
+        <span>planificare ≠ proiect de lecție</span>
+        <span>programă înaintea manualului</span>
+        <span>timp realist</span>
+        <span>evaluare planificată</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 12 · Sinteză și autoevaluare</div>
+      <h2>Recapitulare pentru examen</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema finală de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Planificarea calendaristică</b> este document de proiectare anuală sau modulară.</li>
+          <li><b>Se pornește de la programa școlară</b>, nu de la manual.</li>
+          <li><b>Unitățile de învățare</b> grupează conținuturile coerent.</li>
+          <li><b>Competențele specifice</b> se selectează din programă și se corelează cu unitățile.</li>
+          <li><b>Numărul de ore</b> trebuie să includă predare, laborator, probleme, recapitulare și evaluare.</li>
+          <li><b>Evaluarea</b> se planifică de la început.</li>
+          <li><b>Planificarea este flexibilă</b> și se adaptează la ritmul clasei.</li>
         </ul>
       </div>
 
       <details class="quiz">
-        <summary>1. Care sunt sursele principale ale planificării calendaristice?</summary>
-        <p>Programa școlară, planul-cadru, structura anului școlar, nivelul clasei și resursele disponibile.</p>
+        <summary>1. Care este rolul planificării calendaristice?</summary>
+        <p>Planificarea calendaristică organizează unitățile de învățare, competențele, conținuturile, numărul de ore, perioadele și evaluarea pe durata anului sau a unui modul.</p>
       </details>
 
       <details class="quiz">
-        <summary>2. Ce diferență există între planificarea calendaristică și proiectul unității de învățare?</summary>
-        <p>Planificarea calendaristică distribuie unitățile pe anul școlar. Proiectul unității detaliază activitățile, strategiile, resursele și evaluarea pentru o unitate concretă.</p>
+        <summary>2. De ce nu se pornește de la manual?</summary>
+        <p>Pentru că programa școlară este documentul reglator. Manualul este o resursă care transpune programa, dar nu o înlocuiește.</p>
       </details>
 
       <details class="quiz">
-        <summary>3. De ce nu se trec toate competențele specifice la fiecare unitate?</summary>
-        <p>Pentru că fiecare unitate urmărește anumite achiziții. Selectarea competențelor trebuie să fie coerentă cu activitățile și conținuturile unității.</p>
+        <summary>3. Ce rubrici trebuie să conțină o planificare calendaristică?</summary>
+        <p>Unitatea de învățare, competențele specifice, conținuturile, numărul de ore, perioada/săptămâna și observațiile.</p>
       </details>
 
       <details class="quiz">
-        <summary>4. Ce arată o planificare calendaristică bine realizată la fizică?</summary>
-        <p>Arată progresie, echilibru între teorie și aplicații, timp pentru experiment, recapitulare și evaluare, precum și corelarea competențelor cu unitățile de învățare.</p>
+        <summary>4. Dă un exemplu de adaptare a planificării la fizică.</summary>
+        <p>Dacă evaluarea formativă arată că elevii nu interpretează corect graficul I(U), profesorul poate introduce o oră suplimentară de exerciții și remediere înaintea testului sumativ.</p>
       </details>
-
-      <div class="callout">
-        <b>Cuvinte-cheie pentru examen:</b>
-        <div class="keywords">
-          <span>copiere mecanică</span>
-          <span>selecția competențelor</span>
-          <span>timp realist</span>
-          <span>evaluare formativă</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- PAGINA 7 -->
-    <section class="page" data-page="7">
-      <div class="eyebrow">7 / 7 · Răspuns de examen</div>
-      <h2>Model sintetic de răspuns</h2>
-
-      <div class="card">
-        <h3><span class="dot"></span>Răspuns posibil</h3>
-        <p>Planificarea calendaristică reprezintă documentul de proiectare didactică prin care profesorul organizează parcurgerea programei școlare pe durata anului. Ea se realizează pe baza programei, a planului-cadru, a structurii anului școlar și a particularităților clasei.</p>
-
-        <p>În elaborarea planificării, profesorul identifică unitățile de învățare, selectează competențele specifice corespunzătoare, grupează conținuturile, stabilește numărul de ore și plasează momentele de recapitulare și evaluare. La fizică, planificarea trebuie să includă timp pentru activități experimentale, rezolvări de probleme, interpretări grafice și aplicații practice.</p>
-
-        <p>Un exemplu este unitatea „Circuite electrice simple”, pentru care se pot aloca ore pentru recapitularea conceptelor de bază, realizarea montajelor, măsurarea intensității și tensiunii, deducerea legii lui Ohm pe baza datelor experimentale și evaluarea prin problemă de calcul și fișă de laborator.</p>
-
-        <p>Prin urmare, o planificare calendaristică eficientă este coerentă, realistă, flexibilă și orientată spre formarea competențelor, nu spre simpla parcurgere formală a conținuturilor.</p>
-      </div>
 
       <div class="grid2">
         <div class="card">
-          <h3><span class="dot"></span>Resursă printabilă</h3>
-          <p class="small">Deschide o fișă simplă de planificare. Din dialogul browserului poți alege „Save as PDF”.</p>
-          <div class="resource-actions">
-            <button class="btn primary" onclick="printResource('template')">Șablon planificare PDF</button>
-            <button class="btn" onclick="printResource('exam')">Răspuns de examen PDF</button>
-          </div>
+          <h3><span class="dot"></span>Resurse oficiale</h3>
+          <ul>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/Ordin_ministru_3393_2017">Programe gimnaziu — OMEN 3393/2017</a></li>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/manuale-scolare">Manuale școlare aprobate</a></li>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/ordin-6150-2023-repere-metodologice">Repere metodologice — Ministerul Educației</a></li>
+          </ul>
         </div>
 
         <div class="card">
-          <h3><span class="dot"></span>Aplicație practică</h3>
-          <p>Alege o unitate de învățare, de exemplu „Reflexia și refracția luminii”, și completează un rând de planificare cu: competențe specifice, conținuturi, 4–6 ore, activități și evaluare.</p>
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D05 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon planificare PDF</button>
+          </div>
         </div>
       </div>
 
-      <div class="keywords">
-        <span>răspuns structurat</span>
-        <span>exemplu aplicat</span>
-        <span>coerență</span>
-        <span>flexibilitate</span>
+      <div class="formula">
+        Răspuns bun = definiție + rol + rubrici + pași + exemplu la fizică + greșeli de evitat
       </div>
     </section>
+
   </main>
 
-  <div class="navbar">
+  <div class="navbar" id="navbar">
     <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
-    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">7</span></span>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">12</span></span>
     <button class="btn primary" id="nextBtn">Pagina următoare →</button>
   </div>
 
@@ -856,192 +1320,225 @@ footer.sig{
     <div class="card" style="text-align:center">
       <div class="eyebrow">Lecție parcursă</div>
       <h2 style="margin:0 0 8px">Ce urmează?</h2>
-      <p class="small">Continuă cu proiectarea unității de învățare sau revino la lista lecțiilor.</p>
+      <p class="small">Exersează completarea unei planificări calendaristice pentru o unitate de fizică: „Mărimi fizice”, „Mișcare”, „Electricitate” sau „Optică”.</p>
     </div>
 
     <div class="actions">
-      <a class="action-card" href="D04-analiza-programelor-scolare-de-fizica.html">
-        <span class="tag">Înapoi</span>
-        <span class="label">D04 — Programe școlare</span>
-      </a>
-
-      <a class="action-card primary" href="index.html">
-        <span class="tag">Listă</span>
-        <span class="label">Didactica Fizicii</span>
-      </a>
-
       <a class="action-card" href="D06-proiectarea-unitatii-de-invatare.html">
         <span class="tag">Continuă</span>
-        <span class="label">D06 — Unitatea de învățare</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D05-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
       </a>
     </div>
   </div>
 
-  <footer class="sig">D05 · Planificarea calendaristică · Titularizare-Fizica</footer>
+  <footer class="sig">D05 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D05 — Planificarea calendaristică</h1>
+  <ul>
+    <li><b>Definiție:</b> document de proiectare anuală sau modulară care distribuie unitățile de învățare, competențele, conținuturile, orele și evaluarea.</li>
+    <li><b>Reper principal:</b> programa școlară.</li>
+    <li><b>Alte repere:</b> planul-cadru, structura anului școlar, manualul, auxiliarele, nivelul clasei și resursele.</li>
+    <li><b>Rubrici:</b> unitatea de învățare, competențe specifice, conținuturi, număr de ore, perioada/săptămâna, observații.</li>
+    <li><b>Pași:</b> studierea programei, calculul timpului, gruparea conținuturilor, asocierea competențelor, alocarea orelor, plasarea în calendar, planificarea evaluării, revizuirea.</li>
+    <li><b>Specific fizicii:</b> se planifică timp pentru experiment, probleme, grafice, laborator, evaluare practică și remediere.</li>
+    <li><b>Principiu:</b> planificarea este flexibilă și se adaptează progresului elevilor.</li>
+  </ul>
 </div>
 
 <div class="hidden-print-source" id="print-template">
   <h1>Șablon — Planificare calendaristică la fizică</h1>
-  <table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%">
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%">
     <tr>
       <th>Unitatea de învățare</th>
       <th>Competențe specifice</th>
       <th>Conținuturi</th>
       <th>Nr. ore</th>
       <th>Perioada</th>
-      <th>Observații / evaluare</th>
+      <th>Observații</th>
     </tr>
     <tr>
-      <td>................................</td>
-      <td>................................</td>
-      <td>................................</td>
-      <td>....</td>
-      <td>................................</td>
-      <td>................................</td>
-    </tr>
-    <tr>
-      <td>................................</td>
-      <td>................................</td>
-      <td>................................</td>
-      <td>....</td>
-      <td>................................</td>
-      <td>................................</td>
-    </tr>
-    <tr>
-      <td>................................</td>
-      <td>................................</td>
-      <td>................................</td>
-      <td>....</td>
-      <td>................................</td>
-      <td>................................</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>evaluare / laborator / remediere</td>
     </tr>
   </table>
-</div>
-
-<div class="hidden-print-source" id="print-exam">
-  <h1>Model de răspuns — Planificarea calendaristică</h1>
-  <p><b>Definiție:</b> Planificarea calendaristică este documentul de proiectare care organizează parcurgerea programei pe durata anului școlar.</p>
-  <p><b>Surse:</b> programa școlară, planul-cadru, structura anului școlar, nivelul clasei și resursele disponibile.</p>
-  <p><b>Etape:</b> studierea programei, gruparea conținuturilor în unități, selectarea competențelor, alocarea orelor, stabilirea evaluărilor, revizuirea.</p>
-  <p><b>Specific fizicii:</b> includerea experimentului, a rezolvării de probleme, a interpretării grafice și a aplicațiilor practice.</p>
-  <p><b>Concluzie:</b> o planificare bună este coerentă, realistă, flexibilă și centrată pe competențe.</p>
+  <p><b>Model de completare:</b> Curentul electric continuu — competențe de investigare și măsurare — circuit, intensitate, tensiune, rezistență, legea lui Ohm — 8–10 ore — modulul III — laborator și test sumativ.</p>
 </div>
 
 <script>
 (function(){
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
-  var total = pages.length;
-  var current = 1;
-  var ruler = document.getElementById('ruler');
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
 
-  for(var i = 1; i <= total; i++){
-    var tick = document.createElement('div');
-    tick.className = 'tick';
-    tick.setAttribute('data-n', i);
-    tick.setAttribute('data-page', i);
-    ruler.appendChild(tick);
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
   }
 
-  var ticks = Array.prototype.slice.call(ruler.querySelectorAll('.tick'));
-  var prevBtn = document.getElementById('prevBtn');
-  var nextBtn = document.getElementById('nextBtn');
-  var pageNow = document.getElementById('pageNow');
-  var pageTotal = document.getElementById('pageTotal');
-  var finalActions = document.getElementById('final-actions');
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
 
-  pageTotal.textContent = total;
+  pageTotal.textContent=total;
 
   function render(){
-    pages.forEach(function(page){
-      page.classList.toggle('active', parseInt(page.getAttribute('data-page'), 10) === current);
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
     });
 
-    ticks.forEach(function(tick){
-      var n = parseInt(tick.getAttribute('data-page'), 10);
-      tick.classList.toggle('current', n === current);
-      tick.classList.toggle('done', n < current);
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
     });
 
-    pageNow.textContent = current;
-    prevBtn.disabled = current === 1;
-
-    if(current === total){
-      nextBtn.style.display = 'none';
-      finalActions.style.display = 'block';
-    }else{
-      nextBtn.style.display = 'inline-flex';
-      finalActions.style.display = 'none';
-    }
-
-    window.scrollTo({top:0, behavior:'smooth'});
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  prevBtn.addEventListener('click', function(){
-    if(current > 1){
+  prevBtn.onclick=function(){
+    if(current>1){
       current--;
       render();
     }
-  });
+  };
 
-  nextBtn.addEventListener('click', function(){
-    if(current < total){
+  nextBtn.onclick=function(){
+    if(current<total){
       current++;
       render();
     }
-  });
+  };
 
-  ticks.forEach(function(tick){
-    tick.addEventListener('click', function(){
-      current = parseInt(tick.getAttribute('data-page'), 10);
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
       render();
-    });
+    };
   });
 
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'ArrowRight') nextBtn.click();
-    if(e.key === 'ArrowLeft') prevBtn.click();
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
   });
 
-  var root = document.documentElement;
-  var saved = localStorage.getItem('titularizare-fizica-theme');
+  var touchStartX=null;
 
-  if(saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
     root.classList.add('dark');
   }
 
-  document.getElementById('themeToggle').addEventListener('click', function(){
+  document.getElementById('themeToggle').onclick=function(){
     root.classList.toggle('dark');
-    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
-  });
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
 
-  var flowBlocks = Array.prototype.slice.call(document.querySelectorAll('#flow .block'));
-  var flowDetail = document.getElementById('flowDetail');
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
 
-  flowBlocks.forEach(function(block){
-    block.addEventListener('click', function(){
-      flowBlocks.forEach(function(b){ b.classList.remove('active'); });
-      block.classList.add('active');
-      flowDetail.innerHTML =
-        '<h3><span class="dot"></span>' + block.getAttribute('data-title') + '</h3>' +
-        '<p>' + block.getAttribute('data-info') + '</p>';
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
     });
   });
 
-  render();
+  document.querySelectorAll('#planningMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#planningMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('planningDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
 })();
 
 function printResource(type){
-  var source = document.getElementById(type === 'template' ? 'print-template' : 'print-exam');
-  var win = window.open('', '_blank');
-  win.document.write(
-    '<!doctype html><html lang="ro"><head><meta charset="utf-8">' +
-    '<title>D05 — Resursă printabilă</title>' +
-    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}p{margin:0 0 12px}table{font-size:13px}th{background:#eee}</style>' +
-    '</head><body>' + source.innerHTML +
-    '<script>window.onload=function(){window.print()}<\/script>' +
-    '</body></html>'
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D05</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}table{font-size:12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
   );
-  win.document.close();
+
+  w.document.close();
 }
 </script>
 </body>
