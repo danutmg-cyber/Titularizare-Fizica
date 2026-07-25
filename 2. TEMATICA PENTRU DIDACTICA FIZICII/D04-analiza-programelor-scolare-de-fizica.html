@@ -1,1 +1,726 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D04 · Analiza programelor școlare de fizică — Didactica Fizicii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef1f0;
+    --bg-grid: #e2e8e6;
+    --paper: #ffffff;
+    --ink: #182322;
+    --ink-soft: #4b5a58;
+    --accent: #1f6f6b;
+    --accent-2: #b8862e;
+    --accent-ink: #ffffff;
+    --line: #d3dbd8;
+    --shadow: rgba(24,35,34,0.08);
+    --code-bg: #eef4f3;
+    --radius: 14px;
+    color-scheme: light;
+  }
+  html.dark{
+    --bg: #0e1615;
+    --bg-grid: #131e1c;
+    --paper: #131e1d;
+    --ink: #e8efed;
+    --ink-soft: #a9bab6;
+    --accent: #5fc9c1;
+    --accent-2: #e0ab54;
+    --accent-ink: #0e1615;
+    --line: #24322f;
+    --shadow: rgba(0,0,0,0.35);
+    --code-bg: #0f1b19;
+    color-scheme: dark;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/ 100% 34px,
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/ 34px 100%,
+      var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background-color .35s ease, color .35s ease;
+  }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
+  a{ color:var(--accent); }
+  .mono{ font-family:"JetBrains Mono", monospace; }
 
+  .shell{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 18px 20px 40px;
+  }
+
+  header.top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:22px;
+  }
+  .crumb{
+    font-family:"JetBrains Mono", monospace;
+    font-size:12.5px;
+    color: var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    line-height:1.7;
+  }
+  .crumb b{ color: var(--accent); }
+  .lesson-title{
+    margin: 4px 0 0;
+    font-size: clamp(20px, 4.4vw, 27px);
+    line-height:1.2;
+  }
+  .lesson-title .instrument{
+    display:inline-flex;
+    width: 30px; height:30px;
+    vertical-align:-8px;
+    margin-right:8px;
+  }
+  .theme-toggle{
+    flex: 0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 6px;
+    box-shadow: 0 2px 6px var(--shadow);
+    cursor:pointer;
+    user-select:none;
+  }
+  .theme-toggle .icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; opacity:.55; }
+  .theme-toggle .icon.on{ opacity:1; color:var(--accent); }
+  .theme-toggle .track{
+    width:34px; height:18px; border-radius:999px;
+    background: var(--line);
+    position:relative;
+  }
+  .theme-toggle .knob{
+    position:absolute; top:2px; left:2px;
+    width:14px; height:14px; border-radius:50%;
+    background: var(--accent);
+    transition: transform .25s ease;
+  }
+  html.dark .theme-toggle .knob{ transform: translateX(16px); }
+
+  .ruler{
+    display:flex;
+    gap:4px;
+    margin-bottom:26px;
+  }
+  .ruler .tick{
+    flex:1;
+    height:6px;
+    border-radius:3px;
+    background: var(--line);
+    position:relative;
+    cursor:pointer;
+  }
+  .ruler .tick.done{ background: var(--accent); opacity:.45; }
+  .ruler .tick.current{ background: var(--accent); opacity:1; }
+  .ruler .tick::after{
+    content: attr(data-n);
+    position:absolute; top:10px; left:50%; transform:translateX(-50%);
+    font-family:"JetBrains Mono",monospace; font-size:10.5px; color: var(--ink-soft);
+  }
+
+  .page{ display:none; animation: fade .35s ease; }
+  .page.active{ display:block; }
+  @keyframes fade{ from{ opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+  .page .eyebrow{
+    font-family:"JetBrains Mono", monospace;
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--accent-2);
+    margin-bottom:6px;
+  }
+  .page h2{ font-size: clamp(21px,4vw,28px); margin:0 0 14px; }
+  .page p{ color: var(--ink); margin: 0 0 14px; }
+  .page ul, .page ol{ margin:0 0 16px; padding-left:22px; }
+  .page li{ margin-bottom:8px; }
+
+  .card{
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin: 0 0 18px;
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .card h3{ font-size:16px; margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+  .card h3 .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+  .grid2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width: 680px){ .grid2{ grid-template-columns: 1fr; } }
+
+  table.compare{
+    width:100%;
+    border-collapse: collapse;
+    margin: 0 0 18px;
+    font-size:15px;
+  }
+  table.compare th, table.compare td{
+    border:1px solid var(--line);
+    padding:9px 11px;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.compare th{
+    background: var(--code-bg);
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color: var(--ink-soft);
+  }
+  .callout{
+    border-left: 3px solid var(--accent-2);
+    background: var(--code-bg);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 0 0 18px;
+    font-size: 15.5px;
+  }
+  .callout b{ color: var(--accent-2); }
+  .stepline{ list-style:none; margin:0 0 18px; padding:0; counter-reset: step; }
+  .stepline li{
+    counter-increment: step;
+    position:relative;
+    padding-left:38px;
+    margin-bottom:14px;
+  }
+  .stepline li::before{
+    content: counter(step);
+    font-family:"JetBrains Mono",monospace;
+    font-weight:600;
+    position:absolute; left:0; top:0;
+    width:26px; height:26px;
+    border-radius:50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px;
+  }
+  .diagram{
+    display:flex; gap:10px; margin: 6px 0 20px; flex-wrap:wrap;
+  }
+  .diagram .block{
+    flex:1 1 145px;
+    border-radius:10px;
+    padding:14px 12px;
+    text-align:center;
+    font-family:"JetBrains Mono",monospace;
+    font-size:13px;
+    border:1px dashed var(--line);
+    color: var(--ink-soft);
+  }
+  .diagram .block.main{ border-style:solid; background: var(--accent); color: var(--accent-ink); }
+  .diagram .block.soft{ border-style:solid; background: var(--code-bg); color:var(--ink); }
+  .diagram .block b{ display:block; font-family:"Fraunces",serif; font-size:15px; margin-bottom:4px; }
+
+  .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin: 6px 0 18px; }
+  .pill{
+    border:1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-soft);
+    border-radius:999px;
+    padding:6px 10px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+  }
+  .formula{
+    font-family:"JetBrains Mono",monospace;
+    background: var(--code-bg);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:0 0 18px;
+    text-align:center;
+    color:var(--ink);
+  }
+
+  .navbar{
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .navbar .pageinfo{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color: var(--ink-soft); }
+  .btn{
+    appearance:none;
+    border:1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font-family:"Source Sans 3", sans-serif;
+    font-weight:600;
+    font-size:15px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ box-shadow: 0 4px 12px var(--shadow); transform: translateY(-1px); }
+  .btn:disabled{ opacity:.35; cursor:default; box-shadow:none; transform:none; }
+  .btn.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.ghost{ background:transparent; }
+
+  #final-actions{ display:none; margin-top:26px; padding-top:18px; border-top:1px solid var(--line); }
+  #final-actions .lead{ text-align:center; margin-bottom:18px; }
+  #final-actions .lead .eyebrow{ text-align:center; }
+  #final-actions .actions{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 640px){ #final-actions .actions{ grid-template-columns: 1fr; } }
+  .action-card{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding:16px;
+    border-radius: var(--radius);
+    border:1px solid var(--line);
+    background: var(--paper);
+    text-decoration:none;
+    color: var(--ink);
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .action-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px var(--shadow); }
+  .action-card .tag{ font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color: var(--accent-2); }
+  .action-card .label{ font-family:"Fraunces",serif; font-size:18px; font-weight:600; }
+  .action-card.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .action-card.primary .tag{ color: var(--accent-ink); opacity:.75; }
+  footer.sig{
+    margin-top: 30px;
+    text-align:center;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11.5px;
+    color: var(--ink-soft);
+    opacity:.7;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii &nbsp;›&nbsp; <b>D04 — Programe școlare</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="3.5" width="13" height="17" rx="2" stroke="var(--accent)" stroke-width="1.6"/>
+          <path d="M8 8h6M8 11h6M8 14h4" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M17 7l3 3-7.5 7.5H9.5v-3L17 7Z" stroke="var(--accent-2)" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        Analiza programelor școlare de fizică
+      </h1>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon" id="iconSun">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon" id="iconMoon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+    <!-- PAGINA 1 -->
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 5 · Rol curricular</div>
+      <h2>Programa școlară: documentul care reglează predarea</h2>
+
+      <p><b>Programa școlară de fizică</b> este documentul curricular oficial care stabilește ce competențe
+      trebuie formate, prin ce tipuri de conținuturi și cu ce orientări metodologice. Ea nu este o simplă listă
+      de lecții, ci un instrument de proiectare: profesorul pornește de la programă când construiește
+      planificarea calendaristică, unitățile de învățare, lecțiile, activitățile experimentale și evaluarea.</p>
+
+      <div class="diagram">
+        <div class="block soft"><b>Profil de formare</b>finalități și competențe-cheie</div>
+        <div class="block main"><b>Programă școlară</b>competențe · conținuturi · sugestii</div>
+        <div class="block soft"><b>Proiectare didactică</b>unități · lecții · evaluare</div>
+      </div>
+
+      <div class="callout">
+        <b>Idee-cheie pentru examen:</b> analiza unei programe școlare nu se reduce la verificarea
+        conținuturilor. Candidatul trebuie să arate dacă există coerență între finalități, competențe,
+        activități de învățare, conținuturi, metode și evaluare.
+      </div>
+
+      <p>În didactica fizicii, programa are o funcție dublă. Pe de o parte, asigură <b>unitatea națională</b>
+      a formării elevilor; pe de altă parte, lasă profesorului spațiu de decizie pentru alegerea situațiilor de
+      învățare, a experimentelor, a problemelor, a simulărilor și a contextelor aplicative potrivite clasei.</p>
+
+      <div class="pillrow">
+        <span class="pill">document reglator</span>
+        <span class="pill">curriculum centrat pe competențe</span>
+        <span class="pill">reper pentru evaluare</span>
+        <span class="pill">bază pentru proiectare</span>
+      </div>
+    </section>
+
+    <!-- PAGINA 2 -->
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 5 · Structură</div>
+      <h2>Ce analizăm într-o programă școlară de fizică?</h2>
+
+      <p>O analiză riguroasă pornește de la componentele programei. Fiecare componentă are o funcție
+      distinctă, iar valoarea programei depinde de modul în care aceste componente se susțin reciproc.</p>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Rol didactic</th>
+          <th>Întrebare de analiză</th>
+        </tr>
+        <tr>
+          <td><b>Nota de prezentare</b></td>
+          <td>Explică statutul disciplinei, finalitățile și locul fizicii în aria curriculară.</td>
+          <td>Este clară contribuția fizicii la formarea elevului și la competențele-cheie?</td>
+        </tr>
+        <tr>
+          <td><b>Competențe generale</b></td>
+          <td>Descriu achizițiile majore urmărite pe durata ciclului de studiu.</td>
+          <td>Sunt relevante pentru gândirea științifică, investigație, explicație, rezolvare de probleme și comunicare?</td>
+        </tr>
+        <tr>
+          <td><b>Competențe specifice</b></td>
+          <td>Operaționalizează competențele generale la nivelul unui an școlar.</td>
+          <td>Pot fi transformate în activități observabile și evaluabile?</td>
+        </tr>
+        <tr>
+          <td><b>Activități de învățare</b></td>
+          <td>Orientează profesorul spre situații concrete de predare-învățare-evaluare.</td>
+          <td>Solicită elevul activ: observare, măsurare, modelare, argumentare, rezolvare?</td>
+        </tr>
+        <tr>
+          <td><b>Conținuturi</b></td>
+          <td>Furnizează suportul conceptual pentru formarea competențelor.</td>
+          <td>Sunt selectate logic, esențializate și adecvate nivelului de vârstă?</td>
+        </tr>
+        <tr>
+          <td><b>Sugestii metodologice</b></td>
+          <td>Indică strategii, metode, resurse și direcții de evaluare.</td>
+          <td>Sprijină experimentul, învățarea prin investigație, aplicațiile și diferențierea?</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> a confunda conținuturile cu programa. Conținuturile sunt doar mijloace
+        pentru formarea competențelor; ele nu sunt scopul final al disciplinei.
+      </div>
+    </section>
+
+    <!-- PAGINA 3 -->
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 5 · Criterii de calitate</div>
+      <h2>Pertinență, relevanță, eficiență internă, accesibilitate</h2>
+
+      <p>În programa de concurs apare explicit cerința de analiză a programelor școlare de fizică după criterii
+      precum <b>pertinența</b>, <b>relevanța</b>, <b>eficiența internă</b> și <b>accesibilitatea</b>.
+      Aceste criterii permit evaluarea calității curriculare, nu doar descrierea documentului.</p>
+
+      <table class="compare">
+        <tr>
+          <th>Criteriu</th>
+          <th>Semnificație</th>
+          <th>Aplicare la fizică</th>
+        </tr>
+        <tr>
+          <td><b>Pertinență</b></td>
+          <td>Măsura în care programa răspunde finalităților educației și profilului de formare.</td>
+          <td>Competențele vizează gândire științifică, investigație, explicarea fenomenelor și raportare critică la tehnologie.</td>
+        </tr>
+        <tr>
+          <td><b>Relevanță</b></td>
+          <td>Legătura dintre ceea ce se studiază și nevoile elevului, ale societății și ale culturii științifice.</td>
+          <td>Fenomenele sunt conectate cu situații reale: energie, mișcare, electricitate, optică, comunicații, mediu.</td>
+        </tr>
+        <tr>
+          <td><b>Eficiență internă</b></td>
+          <td>Coerența dintre competențe, conținuturi, activități, metode și evaluare.</td>
+          <td>Dacă se cere competență experimentală, programa trebuie să permită lucrări practice, măsurare și prelucrare de date.</td>
+        </tr>
+        <tr>
+          <td><b>Accesibilitate</b></td>
+          <td>Adecvarea la vârsta elevilor, la nivelul de abstractizare și la timpul disponibil.</td>
+          <td>Noțiunile matematice și modelele fizice trebuie introduse progresiv, prin observații și situații familiare.</td>
+        </tr>
+        <tr>
+          <td><b>Validitate științifică</b></td>
+          <td>Corectitudinea conceptelor, a relațiilor și a limbajului de specialitate.</td>
+          <td>Legile, unitățile de măsură și reprezentările grafice trebuie folosite riguros, fără simplificări deformatoare.</td>
+        </tr>
+        <tr>
+          <td><b>Flexibilitate</b></td>
+          <td>Posibilitatea adaptării la clasă, resurse și contexte locale.</td>
+          <td>Profesorul poate alege experimente, probleme, simulări și proiecte diferite, păstrând competențele urmărite.</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Programă eficientă = competențe clare + conținuturi relevante + activități adecvate + evaluare coerentă
+      </div>
+
+      <div class="callout">
+        <b>Formulare utilă la examen:</b> O programă este coerentă intern dacă există corespondență între
+        ceea ce declară că formează, ceea ce propune ca suport de învățare și ceea ce permite să fie evaluat.
+      </div>
+    </section>
+
+    <!-- PAGINA 4 -->
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 5 · Grilă de analiză</div>
+      <h2>Cum redactezi analiza unei programe la fizică?</h2>
+
+      <p>La proba scrisă, un răspuns bun trebuie să fie organizat. Nu este suficient să enumeri componentele
+      programei; trebuie să formulezi judecăți didactice argumentate și să le legi de practica predării fizicii.</p>
+
+      <ol class="stepline">
+        <li><b>Identifică nivelul și statutul disciplinei.</b> Precizează clasa, ciclul de învățământ, aria curriculară,
+        numărul de ore și raportarea la trunchiul comun, curriculum diferențiat sau curriculum la decizia școlii.</li>
+
+        <li><b>Analizează competențele generale.</b> Verifică dacă acestea exprimă finalități largi: investigarea
+        fenomenelor, explicarea științifică, rezolvarea de probleme, comunicarea în limbajul fizicii.</li>
+
+        <li><b>Analizează competențele specifice.</b> Observă dacă sunt formulate prin comportamente cognitive
+        și acționale: identifică, descrie, măsoară, interpretează, aplică, argumentează, modelează.</li>
+
+        <li><b>Verifică relația competențe — conținuturi.</b> Conținuturile nu trebuie predate izolat, ci selectate
+        pentru a permite formarea competențelor. De exemplu, „legea lui Ohm” devine suport pentru măsurare,
+        reprezentare grafică și interpretarea funcționării unui circuit.</li>
+
+        <li><b>Analizează activitățile de învățare.</b> La fizică, acestea trebuie să includă observare, experiment,
+        măsurare, prelucrare de date, utilizarea graficelor, rezolvarea de probleme și aplicații cotidiene.</li>
+
+        <li><b>Verifică sugestiile metodologice și evaluarea.</b> Caută coerența dintre metodele recomandate și
+        instrumentele de evaluare: probe practice, portofoliu, proiect, itemi de calcul, itemi de interpretare.</li>
+      </ol>
+
+      <div class="callout">
+        <b>De reținut:</b> Într-o analiză matură, programa este evaluată ca sistem. Dacă o competență cere
+        „investigare experimentală”, atunci trebuie să existe conținuturi, activități și evaluări care susțin
+        efectiv această investigație.
+      </div>
+    </section>
+
+    <!-- PAGINA 5 -->
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 5 · Exemplu aplicat</div>
+      <h2>Model de răspuns pentru examen</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Exemplu: analiza unei unități despre circuite electrice</h3>
+        <p><b>Context:</b> clasa a VIII-a, unitate de învățare despre curentul electric, circuite simple,
+        tensiune, intensitate, rezistență și legea lui Ohm.</p>
+
+        <table class="compare">
+          <tr>
+            <th>Criteriu</th>
+            <th>Analiză didactică</th>
+          </tr>
+          <tr>
+            <td><b>Pertinență</b></td>
+            <td>Unitatea contribuie la formarea gândirii cauzale: elevul înțelege relația dintre tensiune,
+            intensitate și rezistență și poate explica funcționarea unor dispozitive electrice simple.</td>
+          </tr>
+          <tr>
+            <td><b>Relevanță</b></td>
+            <td>Conținutul are legătură directă cu viața cotidiană: consumatori, baterii, siguranțe,
+            economie de energie, utilizarea responsabilă a aparatelor electrice.</td>
+          </tr>
+          <tr>
+            <td><b>Eficiență internă</b></td>
+            <td>Competențele de măsurare și interpretare pot fi formate prin montarea circuitelor,
+            citirea ampermetrului și voltmetrului, reprezentarea grafică I(U) și formularea concluziei.</td>
+          </tr>
+          <tr>
+            <td><b>Accesibilitate</b></td>
+            <td>Modelul microscopic al curentului se introduce intuitiv, iar relația matematică
+            <span class="mono">I = U/R</span> se construiește pornind de la date experimentale.</td>
+          </tr>
+          <tr>
+            <td><b>Evaluare</b></td>
+            <td>Evaluarea poate combina itemi obiectivi, problemă de calcul, interpretare de grafic și probă
+            practică de realizare a unui circuit simplu.</td>
+          </tr>
+        </table>
+      </div>
+
+      <p><b>Răspuns sintetic posibil:</b> Programa este pertinentă deoarece urmărește formarea competențelor
+      specifice disciplinei prin raportare la fenomene reale. Este relevantă deoarece selectează conținuturi cu
+      aplicabilitate cotidiană și tehnologică. Eficiența internă este asigurată dacă există corespondență între
+      competența de investigare, activitățile experimentale și evaluarea prin sarcini practice sau prin
+      interpretarea datelor. Accesibilitatea depinde de gradarea demersului: observație, experiment, reprezentare
+      grafică, formulare de lege, aplicații numerice.</p>
+
+      <div class="callout">
+        <b>Pentru examen:</b> folosește minimum un exemplu concret la fizică. Exemplele convingătoare sunt:
+        mișcarea rectilinie, legea lui Hooke, legea lui Ohm, reflexia și refracția, transformări de stare,
+        experimente simple de mecanică sau electricitate.
+      </div>
+    </section>
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">5</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="lead">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0">Ce urmează?</h2>
+    </div>
+    <div class="actions">
+      <a class="action-card" href="D05-proiectarea-activitatii-didactice.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+      <a class="action-card primary" href="D04-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D04 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<script>
+(function(){
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var total = pages.length;
+  var current = 1;
+  var ruler = document.getElementById('ruler');
+
+  for (var i = 1; i <= total; i++){
+    var t = document.createElement('div');
+    t.className = 'tick';
+    t.setAttribute('data-n', i);
+    t.setAttribute('data-page', i);
+    ruler.appendChild(t);
+  }
+
+  var ticks = Array.prototype.slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var pageNow = document.getElementById('pageNow');
+  var pageTotal = document.getElementById('pageTotal');
+  var finalActions = document.getElementById('final-actions');
+
+  pageTotal.textContent = total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active', parseInt(p.getAttribute('data-page'),10) === current);
+    });
+
+    ticks.forEach(function(t){
+      var n = parseInt(t.getAttribute('data-page'),10);
+      t.classList.toggle('current', n === current);
+      t.classList.toggle('done', n < current);
+    });
+
+    pageNow.textContent = current;
+    prevBtn.disabled = current === 1;
+
+    if (current === total){
+      nextBtn.style.display = 'none';
+      finalActions.style.display = 'block';
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      nextBtn.textContent = 'Pagina următoare →';
+      finalActions.style.display = 'none';
+    }
+
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  prevBtn.addEventListener('click', function(){
+    if (current > 1){ current--; render(); }
+  });
+
+  nextBtn.addEventListener('click', function(){
+    if (current < total){ current++; render(); }
+  });
+
+  ticks.forEach(function(t){
+    t.addEventListener('click', function(){
+      current = parseInt(t.getAttribute('data-page'),10);
+      render();
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') nextBtn.click();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX = null;
+  document.addEventListener('touchstart', function(e){
+    touchStartX = e.changedTouches[0].clientX;
+  }, {passive:true});
+
+  document.addEventListener('touchend', function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 55){
+      if (dx < 0 && current < total){ current++; render(); }
+      if (dx > 0 && current > 1){ current--; render(); }
+    }
+    touchStartX = null;
+  }, {passive:true});
+
+  render();
+
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var saved = localStorage.getItem('fizica-galaction-theme') ||
+              localStorage.getItem('titularizare-fizica-theme');
+
+  if (saved === 'dark'){ root.classList.add('dark'); }
+  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+    root.classList.add('dark');
+  }
+
+  toggle.addEventListener('click', function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
+  });
+})();
+</script>
+</body>
+</html>
