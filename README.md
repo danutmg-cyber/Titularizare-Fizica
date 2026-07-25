@@ -1,4 +1,4 @@
-# ⚛️ Pregătire Examen Titularizare & Definitivat — Fizică 2026
+# ⚛️ Pregătire Examen Titularizare & Definitivat — Fizică
 
 Bine ai venit! Acest repository este conceput ca o platformă digitală centralizată pentru structurarea materialelor, rezolvărilor de probleme și proiectelor didactice necesare susținerii examenelor naționale (Titularizare / Definitivat / Suplinire) la disciplina **Fizică**, conform programei oficiale în vigoare.
 
