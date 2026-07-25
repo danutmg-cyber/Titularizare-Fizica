@@ -4,210 +4,816 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D01 · Componentele curriculumului național — Didactica Fizicii</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --bg: #eef1f0;
-    --bg-grid: #e2e8e6;
-    --paper: #ffffff;
-    --ink: #182322;
-    --ink-soft: #4b5a58;
-    --accent: #1f6f6b;
-    --accent-2: #b8862e;
-    --accent-ink: #ffffff;
-    --line: #d3dbd8;
-    --shadow: rgba(24,35,34,0.08);
-    --code-bg: #eef4f3;
-    --radius: 14px;
-    color-scheme: light;
-  }
-  html.dark{
-    --bg: #0e1615;
-    --bg-grid: #131e1c;
-    --paper: #131e1d;
-    --ink: #e8efed;
-    --ink-soft: #a9bab6;
-    --accent: #5fc9c1;
-    --accent-2: #e0ab54;
-    --accent-ink: #0e1615;
-    --line: #24322f;
-    --shadow: rgba(0,0,0,0.35);
-    --code-bg: #0f1b19;
-    color-scheme: dark;
-  }
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
 
-  *{ box-sizing: border-box; }
-  html,body{ margin:0; padding:0; }
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{
+  color:var(--accent);
+}
+
+.mono{
+  font-family:"JetBrains Mono",monospace;
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.tooltip{
+  border-bottom:2px dotted var(--accent);
+  cursor:help;
+  position:relative;
+  font-weight:800;
+}
+
+.tooltip:hover::after{
+  content:attr(data-tip);
+  position:absolute;
+  left:0;
+  top:1.9em;
+  width:min(360px,80vw);
+  background:var(--ink);
+  color:var(--paper);
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:15px;
+  line-height:1.45;
+  z-index:20;
+  box-shadow:0 8px 22px var(--shadow);
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap button,
+.flow button,
+.curriculum-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.curriculum-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.curriculum-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:820px){
+  .flow{
+    grid-template-columns:1fr;
+  }
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.curriculum-map{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin:12px 0 24px;
+}
+
+@media(max-width:820px){
+  .curriculum-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.areas{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:0 0 24px;
+}
+
+.areas span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:15px;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 13px;
+  color:var(--ink);
+  font-weight:700;
+}
+
+.areas span::before{
+  content:"●";
+  color:var(--accent-2);
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.svg-wrap{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.svg-node{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.svg-node:hover{
+  filter:drop-shadow(0 0 6px var(--accent-2));
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
   body{
-    background:
-      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/ 100% 34px,
-      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/ 34px 100%,
-      var(--bg);
-    color: var(--ink);
-    font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-    min-height: 100vh;
-    transition: background-color .35s ease, color .35s ease;
-  }
-  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
-  a{ color:var(--accent); }
-  .mono{ font-family:"JetBrains Mono", monospace; }
-
-  .shell{ max-width: 860px; margin: 0 auto; padding: 18px 20px 40px; }
-
-  header.top{
-    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-    padding-bottom:14px; border-bottom:1px solid var(--line); margin-bottom:22px;
-  }
-  .crumb{
-    font-family:"JetBrains Mono", monospace; font-size:12.5px; color: var(--ink-soft);
-    text-transform:uppercase; letter-spacing:.06em; line-height:1.7;
-  }
-  .crumb b{ color: var(--accent); }
-  .lesson-title{ margin: 4px 0 0; font-size: clamp(20px, 4.4vw, 27px); line-height:1.2; }
-  .lesson-title .instrument{ display:inline-flex; width: 30px; height:30px; vertical-align:-8px; margin-right:8px; }
-
-  .theme-toggle{
-    flex: 0 0 auto; display:flex; align-items:center; gap:8px;
-    background: var(--paper); border:1px solid var(--line); border-radius: 999px;
-    padding: 5px 6px; box-shadow: 0 2px 6px var(--shadow); cursor:pointer; user-select:none;
-  }
-  .theme-toggle .icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; opacity:.55; }
-  .theme-toggle .icon.on{ opacity:1; color:var(--accent); }
-  .theme-toggle .track{ width:34px; height:18px; border-radius:999px; background: var(--line); position:relative; }
-  .theme-toggle .knob{ position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background: var(--accent); transition: transform .25s ease; }
-  html.dark .theme-toggle .knob{ transform: translateX(16px); }
-
-  .ruler{ display:flex; gap:4px; margin-bottom:26px; }
-  .ruler .tick{ flex:1; height:6px; border-radius:3px; background: var(--line); position:relative; cursor:pointer; }
-  .ruler .tick.done{ background: var(--accent); opacity:.45; }
-  .ruler .tick.current{ background: var(--accent); opacity:1; }
-  .ruler .tick::after{
-    content: attr(data-n); position:absolute; top:10px; left:50%; transform:translateX(-50%);
-    font-family:"JetBrains Mono",monospace; font-size:10.5px; color: var(--ink-soft);
+    background:white;
+    color:black;
+    font-size:13pt;
   }
 
-  .page{ display:none; animation: fade .35s ease; }
-  .page.active{ display:block; }
-  @keyframes fade{ from{ opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
-
-  .page .eyebrow{
-    font-family:"JetBrains Mono", monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    color: var(--accent-2); margin-bottom:6px;
-  }
-  .page h2{ font-size: clamp(21px,4vw,27px); margin:0 0 14px; }
-  .page p{ color: var(--ink); margin: 0 0 14px; }
-  .page ul, .page ol{ margin:0 0 16px; padding-left:22px; }
-  .page li{ margin-bottom:8px; }
-
-  .card{
-    background: var(--paper); border:1px solid var(--line); border-radius: var(--radius);
-    padding: 16px 18px; margin: 0 0 18px; box-shadow: 0 2px 10px var(--shadow);
-  }
-  .card h3{ font-size:16px; margin:0 0 8px; display:flex; align-items:center; gap:8px; }
-  .card h3 .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
-
-  .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-  .grid3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; }
-  @media (max-width: 640px){ .grid2, .grid3{ grid-template-columns: 1fr; } }
-
-  table.compare{ width:100%; border-collapse: collapse; margin: 0 0 18px; font-size:15px; }
-  table.compare th, table.compare td{ border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top; }
-  table.compare th{
-    background: var(--code-bg); font-family:"JetBrains Mono",monospace; font-size:12.5px;
-    text-transform:uppercase; letter-spacing:.04em; color: var(--ink-soft);
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
   }
 
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
   .callout{
-    border-left: 3px solid var(--accent-2); background: var(--code-bg); border-radius: 0 10px 10px 0;
-    padding: 12px 16px; margin: 0 0 18px; font-size: 15.5px;
+    box-shadow:none;
   }
-  .callout b{ color: var(--accent-2); }
-
-  .stepline{ list-style:none; margin:0 0 18px; padding:0; counter-reset: step; }
-  .stepline li{ counter-increment: step; position:relative; padding-left:38px; margin-bottom:14px; }
-  .stepline li::before{
-    content: counter(step); font-family:"JetBrains Mono",monospace; font-weight:600;
-    position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%;
-    background: var(--accent); color: var(--accent-ink); display:flex; align-items:center; justify-content:center; font-size:13px;
-  }
-
-  .diagram{ display:flex; gap:10px; margin: 6px 0 20px; flex-wrap:wrap; }
-  .diagram .block{
-    flex:1 1 140px; border-radius:10px; padding:14px 12px; text-align:center;
-    font-family:"JetBrains Mono",monospace; font-size:13px; border:1px dashed var(--line); color: var(--ink-soft);
-  }
-  .diagram .block.tc{ border-style:solid; background: var(--code-bg); color:var(--ink); }
-  .diagram .block.cds{ border-style:solid; background: var(--accent); color: var(--accent-ink); }
-  .diagram .block b{ display:block; font-family:"Fraunces",serif; font-size:15px; margin-bottom:4px; }
-
-  .areas{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
-  .areas span{
-    font-family:"JetBrains Mono",monospace; font-size:12.5px; background: var(--code-bg);
-    border:1px solid var(--line); border-radius:999px; padding:6px 12px; color: var(--ink);
-  }
-
-  .navbar{
-    margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line);
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-  }
-  .navbar .pageinfo{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color: var(--ink-soft); }
-  .btn{
-    appearance:none; border:1px solid var(--line); background: var(--paper); color: var(--ink);
-    font-family:"Source Sans 3", sans-serif; font-weight:600; font-size:15px; padding: 10px 18px;
-    border-radius: 10px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
-    text-decoration:none; transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{ box-shadow: 0 4px 12px var(--shadow); transform: translateY(-1px); }
-  .btn:disabled{ opacity:.35; cursor:default; box-shadow:none; transform:none; }
-  .btn.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .btn.ghost{ background:transparent; }
-
-  #final-actions{ display:none; margin-top:26px; padding-top:18px; border-top:1px solid var(--line); }
-  #final-actions .lead{ text-align:center; margin-bottom:18px; }
-  #final-actions .lead .eyebrow{ text-align:center; }
-  #final-actions .actions{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  @media (max-width: 640px){ #final-actions .actions{ grid-template-columns: 1fr; } }
-  .action-card{
-    display:flex; flex-direction:column; gap:6px; padding:16px; border-radius: var(--radius);
-    border:1px solid var(--line); background: var(--paper); text-decoration:none; color: var(--ink);
-    box-shadow: 0 2px 10px var(--shadow);
-  }
-  .action-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px var(--shadow); }
-  .action-card .tag{ font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color: var(--accent-2); }
-  .action-card .label{ font-family:"Fraunces",serif; font-size:18px; font-weight:600; }
-  .action-card.primary{ background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .action-card.primary .tag{ color: var(--accent-ink); opacity:.75; }
-
-  footer.sig{ margin-top: 30px; text-align:center; font-family:"JetBrains Mono",monospace; font-size:11.5px; color: var(--ink-soft); opacity:.7; }
+}
 </style>
 </head>
+
 <body>
 <div class="shell">
-
   <header class="top">
     <div>
-      <div class="crumb">Titularizare · Didactica Fizicii &nbsp;›&nbsp; <b>D01 — Curriculum</b></div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D01 — Curriculum</b></div>
       <h1 class="lesson-title">
-        <svg class="instrument" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.6"/>
           <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M12 12l4-4" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M12 12l4-4" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         Componentele curriculumului național
       </h1>
     </div>
+
     <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
-      <span class="icon" id="iconSun">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </span>
+      <span class="icon">☀️</span>
       <span class="track"><span class="knob"></span></span>
-      <span class="icon" id="iconMoon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      </span>
+      <span class="icon">🌙</span>
     </button>
   </header>
 
@@ -215,49 +821,161 @@
 
   <main id="pages">
 
-    <!-- PAGINA 1 -->
     <section class="page active" data-page="1">
-      <div class="eyebrow">1 / 5 · Prezentare generală</div>
-      <h2>Cele trei piese ale curriculumului național</h2>
-      <p>Curriculumul național nu este un singur document, ci un sistem alcătuit din trei componente aflate
-      într-o relație strict ierarhică — fiecare o detaliază și o transpune pe cea dinaintea ei.</p>
+      <div class="eyebrow">1 / 12 · Hartă mentală</div>
+      <h2>Ce trebuie să reții despre curriculumul național?</h2>
 
-      <div class="grid3">
-        <div class="card">
-          <h3><span class="dot"></span>1. Planul-cadru</h3>
-          <p style="margin:0">Stabilește <i>ce</i> discipline se studiază și <i>câte ore</i> li se alocă,
-          pe ani de studiu.</p>
+      <p>
+        <span class="key"><b>Curriculumul național</b></span> este sistemul de documente și repere care organizează
+        parcursul școlar: <b>ce se studiază</b>, <b>cât timp se alocă</b>, <b>ce competențe se formează</b> și
+        <b>cu ce resurse se lucrează</b>.
+      </p>
+
+      <p>
+        La examen, trebuie să explici relația dintre
+        <span class="key"><b>planuri-cadru</b></span>,
+        <span class="key"><b>programe școlare</b></span>,
+        <span class="key"><b>manuale școlare</b></span> și
+        <span class="key"><b>auxiliare curriculare</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Planul-cadru stabilește disciplinele, ariile curriculare și numărul de ore. El răspunde la întrebarea: câte ore și pentru cine?">1. Plan-cadru</button>
+        <button data-info="Programa școlară stabilește competențele, conținuturile, activitățile de învățare și sugestiile metodologice. Ea răspunde la întrebarea: ce formăm și prin ce conținuturi?">2. Programă</button>
+        <button data-info="Manualul transpune programa în lecții, texte, imagini, exerciții și aplicații pentru elev. Manualul nu înlocuiește programa.">3. Manual</button>
+        <button data-info="Auxiliarele curriculare completează manualul: culegeri, caiete, ghiduri, softuri, teste, fișe experimentale. Sunt resurse, nu documente reglatorii principale.">4. Auxiliare</button>
+        <button data-info="Trunchiul comun, curriculumul diferențiat, CDS și CDL indică zonele de decizie curriculară: centrală, diferențiată pe profil sau locală.">5. Zone curriculare</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Plan-cadru</h3>
+        <p>Planul-cadru stabilește disciplinele, ariile curriculare și numărul de ore. El răspunde la întrebarea: câte ore și pentru cine?</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>curriculum național</span>
+          <span>plan-cadru</span>
+          <span>programă școlară</span>
+          <span>manual școlar</span>
+          <span>auxiliare curriculare</span>
         </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 12 · Relația dintre documente</div>
+      <h2>Ordinea corectă: plan-cadru → programă → manual</h2>
+
+      <p>
+        <span class="key"><b>Ordinea componentelor contează</b></span>.
+        Profesorul nu pornește proiectarea de la manual, ci de la <b>planul-cadru</b> și de la <b>programa școlară</b>.
+      </p>
+
+      <div class="flow" id="flow">
+        <button class="active" data-title="Planul-cadru" data-info="Stabilește disciplinele, ariile curriculare și alocarea orară. În cazul fizicii, arată locul disciplinei în aria Matematică și Științe ale naturii.">Plan-cadru</button>
+        <span class="arrow">→</span>
+        <button data-title="Programa școlară" data-info="Detaliază competențele, conținuturile, activitățile de învățare și sugestiile metodologice pentru disciplina fizică.">Programă</button>
+        <span class="arrow">→</span>
+        <button data-title="Manualul școlar" data-info="Transpune programa în lecții, explicații, imagini, probleme, experimente și aplicații pentru elev.">Manual</button>
+        <span class="arrow">→</span>
+        <button data-title="Auxiliarele" data-info="Completează procesul didactic: culegeri de probleme, caiete de laborator, softuri educaționale, teste, ghiduri metodologice.">Auxiliare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Planul-cadru</h3>
+        <p>Stabilește disciplinele, ariile curriculare și alocarea orară. În cazul fizicii, arată locul disciplinei în aria Matematică și Științe ale naturii.</p>
+      </div>
+
+      <div class="formula">
+        Plan-cadru = „câte ore?” · Programă = „ce competențe?” · Manual = „cu ce material concret?”
+      </div>
+
+      <div class="callout">
+        <b>De reținut:</b> <b>manualul servește programa</b>, nu invers. Programa este reperul principal pentru proiectare.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 12 · Definiții esențiale</div>
+      <h2>Noțiunile de bază</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Curriculumul național</b> este ansamblul documentelor care reglementează parcursul de învățare.</li>
+          <li><b>Planul-cadru</b> stabilește disciplinele, ariile curriculare și numărul de ore.</li>
+          <li><b>Programa școlară</b> stabilește competențele și conținuturile disciplinei.</li>
+          <li><b>Manualul școlar</b> transpune programa în material de învățare pentru elev.</li>
+          <li><b>Auxiliarele curriculare</b> sunt resurse complementare, nu înlocuitori ai programei.</li>
+        </ul>
+      </div>
+
+      <p>
+        Pentru fizică, aceste componente se văd concret astfel: <b>planul-cadru</b> indică orele de fizică,
+        <b>programa</b> formulează competențele și conținuturile, <b>manualul</b> oferă lecții și aplicații,
+        iar <b>auxiliarele</b> adaugă probleme, experimente și teste.
+      </p>
+
+      <div class="callout">
+        <b>Răspuns scurt pentru examen:</b> curriculumul național este un sistem ierarhic de documente curriculare,
+        în care fiecare componentă are funcție proprie.
+      </div>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 12 · Planul-cadru</div>
+      <h2>Planul-cadru de învățământ</h2>
+
+      <p>
+        <span class="key"><b>Planul-cadru</b></span> este documentul care distribuie <b>resursa de timp școlar</b>
+        pe discipline, ani de studiu, cicluri, filiere, profiluri și specializări.
+      </p>
+
+      <div class="grid2">
         <div class="card">
-          <h3><span class="dot"></span>2. Programa școlară</h3>
-          <p style="margin:0">Detaliază, pentru fiecare disciplină, <i>ce</i> competențe și <i>ce</i>
-          conținuturi se predau.</p>
+          <h3><span class="dot"></span>Ce stabilește?</h3>
+          <ul class="remember-list">
+            <li><b>disciplinele</b> studiate;</li>
+            <li><b>numărul de ore</b> alocat fiecărei discipline;</li>
+            <li><b>ariile curriculare</b>;</li>
+            <li><b>trunchiul comun</b>, curriculumul diferențiat și zona de opțional.</li>
+          </ul>
         </div>
+
         <div class="card">
-          <h3><span class="dot"></span>3. Manualul + auxiliarele</h3>
-          <p style="margin:0">Transpun programa în material de lucru concret, pentru elev și pentru
-          profesor.</p>
+          <h3><span class="dot"></span>Ce nu stabilește?</h3>
+          <ul class="remember-list">
+            <li>nu stabilește lecțiile în detaliu;</li>
+            <li>nu formulează toate competențele specifice;</li>
+            <li>nu înlocuiește programa școlară;</li>
+            <li>nu este manual sau auxiliar.</li>
+          </ul>
         </div>
       </div>
 
       <div class="callout">
-        <b>Reținem pentru examen:</b> ordinea contează. Planul-cadru precede programa, iar programa precede
-        manualul — un manual bun este cel care servește fidel programa, nu invers. Manualul nu este sursa
-        curriculumului, ci doar unul dintre instrumentele lui.
+        <b>Formulare utilă:</b> Planul-cadru răspunde la întrebarea <b>„câte ore și pentru cine?”</b>.
       </div>
 
-      <p>Toate cele trei componente sunt elaborate sau avizate la nivel central (Ministerul Educației,
-      prin instituțiile sale de specialitate), ceea ce garantează un nivel unitar de pregătire pentru toți
-      elevii din sistemul public, indiferent de școala la care învață.</p>
+      <div class="keywords">
+        <span>alocare orară</span>
+        <span>arii curriculare</span>
+        <span>cicluri de învățământ</span>
+        <span>profil</span>
+        <span>specializare</span>
+      </div>
     </section>
 
-    <!-- PAGINA 2 -->
-    <section class="page" data-page="2">
-      <div class="eyebrow">2 / 5 · Planul-cadru</div>
-      <h2>Planul-cadru de învățământ și ariile curriculare</h2>
-      <p>Planul-cadru este documentul reglator care distribuie resursa de timp școlar pe discipline,
-      pe ani de studiu și pe cicluri curriculare. El este organizat pe <b>șapte arii curriculare</b>, grupări
-      de discipline înrudite prin obiective comune de formare:</p>
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 12 · Arii curriculare</div>
+      <h2>Ariile curriculare și locul fizicii</h2>
+
+      <p>
+        <span class="key"><b>Aria curriculară</b></span> grupează discipline înrudite prin finalități comune.
+        Fizica aparține ariei <span class="key"><b>Matematică și Științe ale naturii</b></span>.
+      </p>
 
       <div class="areas">
         <span>Limbă și comunicare</span>
@@ -269,143 +987,336 @@
         <span>Consiliere și orientare</span>
       </div>
 
-      <p>Fizica se regăsește în aria curriculară <b>Matematică și Științe ale naturii</b>, alături de
-      chimie, biologie și, la gimnaziu, disciplina integrată „Științe ale naturii”.</p>
-
-      <p>Din punctul de vedere al orelor alocate, planul-cadru separă:</p>
-      <div class="diagram">
-        <div class="block tc"><b>Trunchi comun</b>ore obligatorii, identice pentru toți elevii unui profil</div>
-        <div class="block tc"><b>Curriculum diferențiat</b>ore specifice unei filiere/profil/specializări</div>
-        <div class="block cds"><b>C.D.S. / C.D.L.</b>ore decise la nivelul școlii sau al comunității locale</div>
+      <div class="card">
+        <h3><span class="dot"></span>Fizica în aria Matematică și Științe ale naturii</h3>
+        <p>
+          Fizica se corelează cu <b>matematica</b>, <b>chimia</b>, <b>biologia</b> și, la nivel gimnazial,
+          cu abordările integrate ale științelor naturii.
+        </p>
+        <p>
+          Această poziționare justifică folosirea de <b>modele matematice</b>, <b>investigații experimentale</b>,
+          <b>prelucrare de date</b> și <b>explicații științifice</b>.
+        </p>
       </div>
 
       <div class="callout">
-        <b>De reținut:</b> planul-cadru nu spune <i>ce</i> se predă în detaliu la fiecare oră — asta este
-        rolul programei școlare. El spune doar <i>câte</i> ore și <i>pentru cine</i>.
+        <b>De reținut:</b> La examen, precizează explicit că <b>fizica aparține ariei Matematică și Științe ale naturii</b>.
       </div>
     </section>
 
-    <!-- PAGINA 3 -->
-    <section class="page" data-page="3">
-      <div class="eyebrow">3 / 5 · Concepte-cheie</div>
-      <h2>Trunchi comun, curriculum diferențiat, CDS și CDL</h2>
-      <p>Patru termeni apar constant în subiectele de examen legate de planul-cadru — și sunt frecvent
-      confundați între ei. Diferența e dată de <i>cine</i> decide conținutul și <i>pentru cine</i> este
-      identic.</p>
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 12 · Zone curriculare</div>
+      <h2>TC, CD, CDS și CDL</h2>
+
+      <p>
+        Termenii <span class="key"><b>trunchi comun</b></span>,
+        <span class="key"><b>curriculum diferențiat</b></span>,
+        <span class="key"><b>curriculum la decizia școlii</b></span> și
+        <span class="key"><b>curriculum în dezvoltare locală</b></span>
+        indică zone diferite de decizie curriculară.
+      </p>
 
       <table class="compare">
-        <tr><th>Concept</th><th>Cine decide</th><th>Pentru cine este identic</th></tr>
         <tr>
-          <td><b>Trunchi comun (TC)</b></td>
-          <td>Nivel central (minister)</td>
-          <td>Toți elevii dintr-un anumit profil, în toată țara</td>
+          <th>Concept</th>
+          <th>Cine decide?</th>
+          <th>Ce trebuie reținut?</th>
         </tr>
         <tr>
-          <td><b>Curriculum diferențiat (CD)</b></td>
-          <td>Nivel central, diferențiat pe filieră/profil</td>
-          <td>Elevii aceleiași specializări (ex. mate-info), diferit față de altă specializare</td>
+          <td><span class="key"><b>Trunchi comun — TC</b></span></td>
+          <td>Nivel central</td>
+          <td>Ore obligatorii, comune pentru elevii unui nivel/profil.</td>
         </tr>
         <tr>
-          <td><b>Curriculum la decizia școlii (CDS)</b></td>
+          <td><span class="key"><b>Curriculum diferențiat — CD</b></span></td>
+          <td>Nivel central, diferențiat pe filieră/profil/specializare</td>
+          <td>Ore care particularizează formarea în funcție de profil.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Curriculum la decizia școlii — CDS</b></span></td>
           <td>Unitatea de învățământ, cu avizare instituțională</td>
-          <td>Elevii unei singure școli sau clase — variază de la o școală la alta</td>
+          <td>Oferta locală a școlii: opționale, extinderi, aprofundări.</td>
         </tr>
         <tr>
-          <td><b>Curriculum în dezvoltare locală (CDL)</b></td>
-          <td>Școala, împreună cu agenți economici locali</td>
-          <td>Specific învățământului profesional și tehnic, adaptat pieței muncii locale</td>
+          <td><span class="key"><b>Curriculum în dezvoltare locală — CDL</b></span></td>
+          <td>Școala, în relație cu nevoi locale și parteneri</td>
+          <td>Specific mai ales învățământului profesional și tehnic.</td>
         </tr>
       </table>
 
       <div class="callout">
-        <b>Capcană frecventă:</b> CDL nu este sinonim cu CDS. CDL apare doar în învățământul profesional și
-        tehnic și presupune, prin definiție, parteneriat cu operatori economici — CDS este mai general și
-        există la orice profil, inclusiv la gimnaziu.
+        <b>Capcană frecventă:</b> <b>CDS</b> și <b>CDL</b> nu sunt sinonime. CDL are o legătură mai accentuată cu specificul local și cu formarea profesională.
       </div>
     </section>
 
-    <!-- PAGINA 4 -->
-    <section class="page" data-page="4">
-      <div class="eyebrow">4 / 5 · Programa școlară</div>
-      <h2>Ce conține o programă școlară</h2>
-      <p>Programa școlară este documentul care detaliază, pentru o disciplină și un an de studiu,
-      ce anume trebuie să știe și să poată face elevul la finalul perioadei — și cu ce conținuturi se
-      ajunge acolo.</p>
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 12 · Diagramă interactivă</div>
+      <h2>Componentele curriculumului ca sistem</h2>
 
-      <div class="grid2">
-        <div class="card">
-          <h3><span class="dot"></span>Notă de prezentare</h3>
-          <p style="margin:0">Situează disciplina în planul-cadru, explică structura programei și
-          contribuția ei la profilul de formare al elevului.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Competențe generale</h3>
-          <p style="margin:0">Vizează achizițiile pe termen lung, formulate pentru întreg ciclul de
-          învățământ, nu pentru un singur an.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Competențe specifice</h3>
-          <p style="margin:0">Derivate din cele generale, corelate direct cu exemple de activități de
-          învățare pentru anul de studiu respectiv.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Conținuturi</h3>
-          <p style="margin:0">Organizate pe domenii/unități tematice — mijlocul prin care se ating
-          competențele, nu un scop în sine.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Sugestii metodologice</h3>
-          <p style="margin:0">Recomandări de strategii didactice și de evaluare adecvate specificului
-          disciplinei.</p>
-        </div>
-        <div class="card">
-          <h3><span class="dot"></span>Standarde/repere de evaluare</h3>
-          <p style="margin:0">Unde este cazul, praguri minime de performanță, folosite ca reper pentru
-          evaluările naționale.</p>
-        </div>
+      <p>
+        Apasă pe fiecare componentă din schemă. Reține:
+        <span class="key"><b>planul-cadru reglează timpul</b></span>,
+        <span class="key"><b>programa reglează competențele</b></span>,
+        <span class="key"><b>manualul oferă suportul de învățare</b></span>.
+      </p>
+
+      <div class="svg-wrap">
+        <svg viewBox="0 0 900 360" role="img" aria-label="Schema componentelor curriculumului național">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L9,3 z" fill="var(--accent)"></path>
+            </marker>
+          </defs>
+
+          <rect x="50" y="120" width="210" height="90" rx="18" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="3" class="svg-node"
+            data-title="Planul-cadru"
+            data-info="Planul-cadru stabilește disciplinele și numărul de ore. Este reperul pentru încadrarea fizicii în aria curriculară și în schema orară."/>
+          <text x="83" y="172" font-family="JetBrains Mono" font-size="20" fill="var(--ink)">PLAN-CADRU</text>
+
+          <path d="M260 165 H350" stroke="var(--accent)" stroke-width="4" marker-end="url(#arrow)"/>
+
+          <rect x="350" y="120" width="210" height="90" rx="18" fill="var(--code-bg)" stroke="var(--accent-2)" stroke-width="3" class="svg-node"
+            data-title="Programa școlară"
+            data-info="Programa stabilește competențele, conținuturile, activitățile de învățare și sugestiile metodologice pentru fizică."/>
+          <text x="386" y="172" font-family="JetBrains Mono" font-size="20" fill="var(--ink)">PROGRAMĂ</text>
+
+          <path d="M560 165 H650" stroke="var(--accent)" stroke-width="4" marker-end="url(#arrow)"/>
+
+          <rect x="650" y="120" width="210" height="90" rx="18" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="3" class="svg-node"
+            data-title="Manuale și auxiliare"
+            data-info="Manualele și auxiliarele transpun programa în materiale de lucru: lecții, probleme, experimente, teste, fișe și aplicații."/>
+          <text x="690" y="158" font-family="JetBrains Mono" font-size="18" fill="var(--ink)">MANUALE</text>
+          <text x="690" y="185" font-family="JetBrains Mono" font-size="18" fill="var(--ink)">AUXILIARE</text>
+
+          <text x="82" y="250" font-family="Source Sans 3" font-size="18" fill="var(--ink-soft)">câte ore?</text>
+          <text x="390" y="250" font-family="Source Sans 3" font-size="18" fill="var(--ink-soft)">ce competențe?</text>
+          <text x="677" y="250" font-family="Source Sans 3" font-size="18" fill="var(--ink-soft)">cu ce lucrăm?</text>
+        </svg>
       </div>
+
+      <div class="card" id="svgDetail">
+        <h3><span class="dot"></span>Apasă pe o componentă din schemă</h3>
+        <p>Vei vedea rolul ei în proiectarea activității didactice la fizică.</p>
+      </div>
+
+      <div class="formula">
+        Curriculum = documente reglatorii + resurse de aplicare + proiectare didactică
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 12 · Programa școlară</div>
+      <h2>Ce conține programa școlară?</h2>
+
+      <p>
+        <span class="key"><b>Programa școlară</b></span> este componenta curriculumului care descrie
+        <b>competențele</b>, <b>conținuturile</b>, <b>activitățile de învățare</b> și <b>sugestiile metodologice</b>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Ce trebuie reținut?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Nota de prezentare</b></span></td>
+          <td>Explică statutul disciplinei și rolul formativ.</td>
+          <td>Fizica dezvoltă gândire științifică și explicarea fenomenelor naturale.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe generale</b></span></td>
+          <td>Achiziții largi, pe termen lung.</td>
+          <td>Investigarea fenomenelor, folosirea modelelor, rezolvarea de probleme.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Competențe specifice</b></span></td>
+          <td>Achiziții concrete pentru anul de studiu.</td>
+          <td>Măsurarea intensității curentului sau interpretarea unui grafic.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conținuturi</b></span></td>
+          <td>Suportul conceptual pentru competențe.</td>
+          <td>Mișcare, energie, densitate, circuite electrice, reflexie, refracție.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Sugestii metodologice</b></span></td>
+          <td>Recomandări pentru metode, activități, resurse și evaluare.</td>
+          <td>Experiment, problematizare, investigație, simulare, portofoliu.</td>
+        </tr>
+      </table>
 
       <div class="callout">
-        <b>Legătură directă:</b> planificarea calendaristică și proiectarea unităților de învățare, pe care
-        profesorul le face la începutul anului, pornesc mereu de la competențele și conținuturile programei —
-        niciodată de la cuprinsul manualului.
+        <b>De reținut:</b> Programa este documentul de bază pentru <b>planificarea calendaristică</b> și pentru <b>proiectarea unității de învățare</b>.
       </div>
     </section>
 
-    <!-- PAGINA 5 -->
-    <section class="page" data-page="5">
-      <div class="eyebrow">5 / 5 · Sinteză</div>
-      <h2>Manuale, auxiliare curriculare și recapitulare</h2>
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 12 · Manuale și auxiliare</div>
+      <h2>Manualul nu este programa</h2>
 
       <div class="grid2">
         <div class="card">
           <h3><span class="dot"></span>Manualul școlar</h3>
-          <p style="margin:0">Transpune programa în conținut de lucru pentru elev: text explicativ,
-          exerciții, ilustrații. Pentru aceeași programă pot exista mai multe manuale alternative, aprobate de
-          minister — profesorul (sau elevul, la liceu) alege între ele, dar toate respectă aceeași programă.</p>
+          <ul class="remember-list">
+            <li><b>transpune programa</b> în lecții și aplicații;</li>
+            <li>oferă <b>texte, imagini, probleme, experimente</b>;</li>
+            <li>poate avea variante alternative;</li>
+            <li>trebuie să respecte programa.</li>
+          </ul>
         </div>
+
         <div class="card">
-          <h3><span class="dot"></span>Auxiliare curriculare</h3>
-          <p style="margin:0">Materiale complementare, neobligatorii: culegeri de probleme, caiete de lucru,
-          softuri educaționale, ghiduri metodologice pentru profesor, seturi de teste. Sprijină aplicarea
-          programei, dar nu o înlocuiesc și nu au forță de reglementare proprie.</p>
+          <h3><span class="dot"></span>Auxiliarele curriculare</h3>
+          <ul class="remember-list">
+            <li><b>completează manualul</b>;</li>
+            <li>pot fi culegeri, caiete, teste, ghiduri, softuri;</li>
+            <li>susțin diferențierea și aprofundarea;</li>
+            <li>nu înlocuiesc programa.</li>
+          </ul>
         </div>
       </div>
 
-      <p>Pe scurt, componentele curriculumului național se leagă astfel:</p>
-      <ul>
-        <li><b>Planul-cadru</b> — decide câte ore și pentru cine, pe arii curriculare;</li>
-        <li><b>Trunchi comun / curriculum diferențiat / CDS / CDL</b> — cele patru zone de ore, cu grade
-        diferite de decizie centrală vs. locală;</li>
-        <li><b>Programa școlară</b> — detaliază competențele și conținuturile fiecărei discipline;</li>
-        <li><b>Manualul</b> — transpune programa în material de lucru pentru elev;</li>
-        <li><b>Auxiliarele curriculare</b> — completează, opțional, manualul și programa.</li>
-      </ul>
+      <p>
+        La fizică, auxiliarele sunt foarte utile pentru <span class="key"><b>rezolvarea de probleme</b></span>,
+        <span class="key"><b>activități de laborator</b></span>,
+        <span class="key"><b>simulări interactive</b></span> și
+        <span class="key"><b>teste formative</b></span>.
+      </p>
 
       <div class="callout">
-        <b>Pentru examen:</b> comisia verifică des dacă știi să ordonezi corect aceste componente și să
-        explici, cu un exemplu la fizică, cum o competență din programă se regăsește concret într-o lecție din
-        manual sau într-un auxiliar.
+        <b>Capcană frecventă:</b> nu spune că profesorul proiectează lecțiile după manual. Corect este:
+        <b>profesorul proiectează după programă și folosește manualul ca resursă</b>.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 12 · Exemplu aplicat la fizică</div>
+      <h2>Cum se vede relația în lecția de fizică?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Exemplu: Legea lui Ohm</h3>
+        <p>
+          Pentru o lecție despre <span class="key"><b>legea lui Ohm</b></span>, profesorul urmărește lanțul curricular:
+        </p>
+        <ol class="stepline">
+          <li><b>Planul-cadru</b> indică faptul că fizica are alocare orară în schema clasei.</li>
+          <li><b>Programa</b> stabilește competențe legate de măsurare, reprezentare grafică și aplicarea legilor fizice.</li>
+          <li><b>Manualul</b> oferă explicații, imagini, exemple și probleme.</li>
+          <li><b>Auxiliarul</b> poate adăuga fișă de laborator, set de probleme sau test de autoevaluare.</li>
+        </ol>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Componentă</th>
+          <th>Rol în lecție</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Programă</b></span></td>
+          <td>Stabilește competența: elevul măsoară, reprezintă grafic și interpretează relația dintre U, I și R.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Manual</b></span></td>
+          <td>Oferă explicația teoretică și exemple de probleme.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Auxiliar</b></span></td>
+          <td>Oferă fișă experimentală, sarcini diferențiate și test de verificare.</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Exemplu bun la examen = componentă curriculară + rol + aplicare concretă la fizică
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 12 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Confundarea planului-cadru cu programa.</b> Planul-cadru stabilește orele; programa stabilește competențele și conținuturile.</li>
+          <li><b>Afirmația că manualul este documentul principal de proiectare.</b> Corect: programa este documentul principal.</li>
+          <li><b>Confundarea CDS cu CDL.</b> CDS este mai general; CDL este legat de dezvoltarea locală, mai ales în contexte profesionale și tehnice.</li>
+          <li><b>Omiterea ariilor curriculare.</b> Fizica trebuie plasată în aria Matematică și Științe ale naturii.</li>
+          <li><b>Lipsa exemplului la fizică.</b> Răspunsul trebuie legat de o lecție, o competență sau o activitate experimentală.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> după fiecare definiție, adaugă <b>un exemplu la fizică</b>.
+      </div>
+
+      <div class="keywords">
+        <span>plan-cadru ≠ programă</span>
+        <span>manual ≠ programă</span>
+        <span>CDS ≠ CDL</span>
+        <span>exemplu la fizică</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 12 · Sinteză și autoevaluare</div>
+      <h2>Recapitulare pentru examen</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema finală de reținut</h3>
+        <ul class="remember-list">
+          <li><b>Planul-cadru</b> stabilește disciplinele și numărul de ore.</li>
+          <li><b>Ariile curriculare</b> grupează discipline cu finalități apropiate.</li>
+          <li><b>Fizica</b> aparține ariei <b>Matematică și Științe ale naturii</b>.</li>
+          <li><b>TC, CD, CDS, CDL</b> exprimă zone diferite de decizie curriculară.</li>
+          <li><b>Programa școlară</b> stabilește competențele, conținuturile și sugestiile metodologice.</li>
+          <li><b>Manualul</b> transpune programa în material de lucru.</li>
+          <li><b>Auxiliarele</b> completează manualul și susțin învățarea.</li>
+        </ul>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre plan-cadru și programă?</summary>
+        <p><b>Planul-cadru</b> stabilește disciplinele și numărul de ore. <b>Programa</b> stabilește competențele, conținuturile, activitățile de învățare și sugestiile metodologice.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. De ce manualul nu este documentul principal de proiectare?</summary>
+        <p>Pentru că manualul transpune programa, dar nu o înlocuiește. Profesorul proiectează activitatea pornind de la competențele și conținuturile programei.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. În ce arie curriculară se află fizica?</summary>
+        <p>Fizica se află în aria curriculară <b>Matematică și Științe ale naturii</b>.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Ce exemplu poți folosi la examen?</summary>
+        <p>Poți folosi o lecție despre <b>legea lui Ohm</b>: programa stabilește competența, manualul oferă explicații și probleme, iar auxiliarul poate adăuga o fișă de laborator.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse oficiale</h3>
+          <ul>
+            <li><a target="_blank" rel="noopener" href="https://edu.ro/OMEC_4350_2025_planuri_cadru_liceu_frecventa_zi">Planuri-cadru liceu — OMEC 4350/2025</a></li>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/Ordin_ministru_3393_2017">Programe gimnaziu — OMEN 3393/2017</a></li>
+            <li><a target="_blank" rel="noopener" href="https://www.edu.ro/manuale-scolare">Manuale școlare aprobate</a></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D01 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon răspuns PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = definiție + rol curricular + exemplu la fizică + diferențiere față de alte componente
       </div>
     </section>
 
@@ -413,25 +1324,28 @@
 
   <div class="navbar" id="navbar">
     <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
-    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">5</span></span>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">12</span></span>
     <button class="btn primary" id="nextBtn">Pagina următoare →</button>
   </div>
 
-  <!-- Ecran final — apare doar pe ultima pagină -->
   <div id="final-actions">
-    <div class="lead">
+    <div class="card" style="text-align:center">
       <div class="eyebrow">Lecție parcursă</div>
-      <h2 style="margin:0">Ce urmează?</h2>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează explicarea diferenței dintre plan-cadru, programă, manual și auxiliar, folosind o lecție de fizică.</p>
     </div>
+
     <div class="actions">
       <a class="action-card" href="D02-curriculum-la-decizia-scolii.html">
         <span class="tag">Continuă</span>
         <span class="label">Lecția următoare →</span>
       </a>
+
       <a class="action-card primary" href="D01-fisa-de-lucru.html">
         <span class="tag">Aplică</span>
         <span class="label">Fișa de lucru</span>
       </a>
+
       <a class="action-card" href="index.html">
         <span class="tag">Navigare</span>
         <span class="label">Întoarcere la capitol</span>
@@ -442,89 +1356,186 @@
   <footer class="sig">D01 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
 </div>
 
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D01 — Componentele curriculumului național</h1>
+  <ul>
+    <li><b>Curriculum național:</b> sistemul documentelor curriculare care organizează parcursul școlar.</li>
+    <li><b>Plan-cadru:</b> stabilește disciplinele, ariile curriculare și numărul de ore.</li>
+    <li><b>Arie curriculară:</b> grupare de discipline cu finalități comune.</li>
+    <li><b>Fizica:</b> aparține ariei Matematică și Științe ale naturii.</li>
+    <li><b>Trunchi comun:</b> ore obligatorii, stabilite central.</li>
+    <li><b>Curriculum diferențiat:</b> ore specifice filierei/profilului/specializării.</li>
+    <li><b>CDS:</b> curriculum la decizia școlii.</li>
+    <li><b>CDL:</b> curriculum în dezvoltare locală.</li>
+    <li><b>Programa școlară:</b> competențe, conținuturi, activități de învățare, sugestii metodologice.</li>
+    <li><b>Manualul:</b> transpune programa în material de lucru pentru elev.</li>
+    <li><b>Auxiliarele:</b> completează manualul și sprijină aplicarea programei.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon de răspuns — Componentele curriculumului național</h1>
+  <p><b>1. Introducere:</b> Curriculumul național este sistemul documentelor care reglementează parcursul școlar.</p>
+  <p><b>2. Planul-cadru:</b> stabilește disciplinele, ariile curriculare și numărul de ore; fizica aparține ariei Matematică și Științe ale naturii.</p>
+  <p><b>3. Zone curriculare:</b> trunchi comun, curriculum diferențiat, curriculum la decizia școlii și curriculum în dezvoltare locală.</p>
+  <p><b>4. Programa școlară:</b> stabilește competențele, conținuturile, activitățile de învățare și sugestiile metodologice.</p>
+  <p><b>5. Manuale și auxiliare:</b> manualul transpune programa, iar auxiliarele o completează prin resurse de lucru.</p>
+  <p><b>6. Exemplu la fizică:</b> la legea lui Ohm, programa stabilește competența, manualul oferă explicații și probleme, iar auxiliarul poate oferi fișă experimentală.</p>
+</div>
+
 <script>
 (function(){
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
-  var total = pages.length;
-  var current = 1;
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
 
-  var ruler = document.getElementById('ruler');
-  for (var i = 1; i <= total; i++){
-    var t = document.createElement('div');
-    t.className = 'tick';
-    t.setAttribute('data-n', i);
-    t.setAttribute('data-page', i);
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
     ruler.appendChild(t);
   }
-  var ticks = Array.prototype.slice.call(ruler.querySelectorAll('.tick'));
 
-  var prevBtn = document.getElementById('prevBtn');
-  var nextBtn = document.getElementById('nextBtn');
-  var pageNow = document.getElementById('pageNow');
-  var pageTotal = document.getElementById('pageTotal');
-  var finalActions = document.getElementById('final-actions');
-  pageTotal.textContent = total;
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
 
   function render(){
     pages.forEach(function(p){
-      p.classList.toggle('active', parseInt(p.getAttribute('data-page'),10) === current);
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
     });
-    ticks.forEach(function(t){
-      var n = parseInt(t.getAttribute('data-page'),10);
-      t.classList.toggle('current', n === current);
-      t.classList.toggle('done', n < current);
-    });
-    pageNow.textContent = current;
-    prevBtn.disabled = current === 1;
 
-    if (current === total){
-      nextBtn.style.display = 'none';
-      finalActions.style.display = 'block';
-    } else {
-      nextBtn.style.display = 'inline-flex';
-      nextBtn.textContent = 'Pagina următoare →';
-      finalActions.style.display = 'none';
-    }
-    window.scrollTo({top:0, behavior:'smooth'});
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  prevBtn.addEventListener('click', function(){ if (current > 1){ current--; render(); } });
-  nextBtn.addEventListener('click', function(){ if (current < total){ current++; render(); } });
-  ticks.forEach(function(t){
-    t.addEventListener('click', function(){ current = parseInt(t.getAttribute('data-page'),10); render(); });
-  });
-
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight') nextBtn.click();
-    if (e.key === 'ArrowLeft') prevBtn.click();
-  });
-
-  var touchStartX = null;
-  document.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend', function(e){
-    if (touchStartX === null) return;
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 55){
-      if (dx < 0 && current < total){ current++; render(); }
-      if (dx > 0 && current > 1){ current--; render(); }
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
     }
-    touchStartX = null;
-  }, {passive:true});
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
 
   render();
 
-  var root = document.documentElement;
-  var toggle = document.getElementById('themeToggle');
-  var saved = localStorage.getItem('titularizare-fizica-theme');
-  if (saved === 'dark'){ root.classList.add('dark'); }
-  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
     root.classList.add('dark');
   }
-  toggle.addEventListener('click', function(){
+
+  document.getElementById('themeToggle').onclick=function(){
     root.classList.toggle('dark');
-    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('.svg-node').forEach(function(node){
+    node.addEventListener('click',function(){
+      document.getElementById('svgDetail').innerHTML =
+        '<h3><span class="dot"></span>' + node.dataset.title + '</h3><p>' + node.dataset.info + '</p>';
+    });
   });
 })();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D01</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
 </script>
 </body>
 </html>
