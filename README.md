@@ -43,14 +43,3 @@ Bine ai venit! Acest repository este conceput ca o platformă digitală centrali
 
 ---
 
-## 📂 Organizarea Repository-ului
-
-```text
-.
-├── 01_Mecanica/          # Cursuri, demonstrații și probleme rezolvate
-├── 02_Termodinamica/     # Fișe de studiu și aplicații calorimetrice
-├── 03_Electromagnetism/  # Probleme RLC, teoria câmpului și ecuații Maxwell
-├── 04_Optica/            # Construcții optice, interferență și difracție
-├── 05_Atmica_Nucleara/   # Modele atomice, semiconductori și fizică nucleară
-├── 06_Didactica/         # Proiecte de lecție, teste docimologice și bareme
-└── README.md             # Ghidul principal și indexul resurselor
