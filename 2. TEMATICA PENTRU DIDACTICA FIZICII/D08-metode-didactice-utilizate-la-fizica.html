@@ -1,1 +1,1554 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D08 · Metode didactice utilizate la fizică — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{color:var(--accent)}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{color:var(--accent)}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{transform:translateX(18px)}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{display:block}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{margin:0 0 20px}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{margin-bottom:12px}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{grid-template-columns:1fr}
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{color:var(--accent-2)}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{font-weight:800}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.method-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{grid-template-columns:repeat(5,1fr)}
+.method-map{grid-template-columns:repeat(4,1fr)}
+
+.mindmap button,
+.flow button,
+.method-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.method-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.method-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{grid-template-columns:1fr 1fr}
+  .mindmap button:last-child{grid-column:1/-1}
+  .method-map{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:560px){
+  .method-map{grid-template-columns:1fr}
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{grid-template-columns:1fr}
+  .flow .arrow{text-align:center;transform:rotate(90deg)}
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{color:var(--good);font-weight:800}
+.bad{color:var(--bad);font-weight:800}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{background:transparent}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{grid-template-columns:1fr}
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{display:none}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{box-shadow:none}
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D08 — Metode didactice</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 12h8M12 8v8" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M7 17c2.8-2 7.2-2 10 0" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Metode didactice utilizate la fizică
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>Ce este metoda didactică?</h2>
+
+      <p>
+        <span class="key"><b>Metoda didactică</b></span> este calea organizată prin care profesorul și elevii
+        acționează pentru formarea competențelor: <b>înțelegere</b>, <b>investigare</b>, <b>aplicare</b>,
+        <b>argumentare</b> și <b>evaluare</b>.
+      </p>
+
+      <p>
+        La fizică, metoda nu se alege formal. Ea trebuie să fie potrivită cu
+        <span class="key"><b>fenomenul studiat</b></span>,
+        <span class="key"><b>competența urmărită</b></span>,
+        <span class="key"><b>resursele disponibile</b></span> și
+        <span class="key"><b>nivelul clasei</b></span>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Metodele expozitive transmit și organizează informația: explicația, descrierea, povestirea, prelegerea scurtă.">1. Expunere</button>
+        <button data-info="Metodele dialogate activează elevul prin întrebări, ipoteze, argumente și concluzii.">2. Dialog</button>
+        <button data-info="Metodele practice pun elevul în situația de a observa, măsura, manipula aparate și interpreta date.">3. Practic</button>
+        <button data-info="Metodele euristice și investigative solicită elevul să descopere relații, să rezolve situații-problemă și să formuleze concluzii.">4. Euristic</button>
+        <button data-info="Metodele moderne combină proiectul, cooperarea, simularea, TIC, portofoliul și investigația interdisciplinară.">5. Modern</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Expunere</h3>
+        <p>Metodele expozitive transmit și organizează informația: explicația, descrierea, povestirea, prelegerea scurtă.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>metodă didactică</span>
+          <span>strategie didactică</span>
+          <span>experiment</span>
+          <span>problematizare</span>
+          <span>investigație</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Clasificare</div>
+      <h2>Clasificarea metodelor didactice</h2>
+
+      <p>
+        Pentru examen, nu este suficient să enumeri metodele. Trebuie să le
+        <span class="key"><b>prezinți</b></span>,
+        <span class="key"><b>caracterizezi</b></span> și
+        <span class="key"><b>arăți utilizarea lor la fizică</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Categorie</th>
+          <th>Metode</th>
+          <th>Utilizare la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Expozitive</b></span></td>
+          <td>explicația, descrierea, demonstrația verbală, prelegerea scurtă</td>
+          <td>introducerea noțiunilor, organizarea conceptelor, clarificarea legilor fizice</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Conversative</b></span></td>
+          <td>conversația euristică, dezbaterea, întrebarea dirijată</td>
+          <td>activarea cunoștințelor, formularea ipotezelor, interpretarea fenomenelor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Practice</b></span></td>
+          <td>experimentul, lucrarea de laborator, exercițiul, rezolvarea de probleme</td>
+          <td>măsurare, calcul, grafic, verificarea legilor, aplicarea relațiilor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Euristice</b></span></td>
+          <td>problematizarea, descoperirea, investigația, modelarea</td>
+          <td>construirea conceptelor prin situații-problemă și dovezi experimentale</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Interactive</b></span></td>
+          <td>învățarea prin cooperare, proiectul, studiul de caz, TIC</td>
+          <td>proiecte STEM, simulări, portofolii, aplicații cotidiene și tehnologice</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Metodă potrivită = competență urmărită + conținut + resurse + activitate a elevului
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Metode expozitive</div>
+      <h2>Explicația și expunerea</h2>
+
+      <p>
+        <span class="key"><b>Explicația</b></span> este metoda prin care profesorul clarifică relații cauzale,
+        legi, concepte și modele. La fizică, ea trebuie susținută de <b>exemple</b>, <b>scheme</b>,
+        <b>grafice</b> și <b>demonstrații</b>.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Când este utilă?</h3>
+          <ul class="remember-list">
+            <li><b>introducerea unui concept nou</b>;</li>
+            <li><b>clarificarea unei legi fizice</b>;</li>
+            <li><b>interpretarea unei formule</b>;</li>
+            <li><b>sistematizarea cunoștințelor</b>;</li>
+            <li><b>corectarea unor concepții greșite</b>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Riscuri</h3>
+          <ul class="remember-list">
+            <li><b>pasivizarea elevilor</b> dacă durează prea mult;</li>
+            <li><b>memorare mecanică</b> fără aplicare;</li>
+            <li><b>abstractizare excesivă</b> fără experiment;</li>
+            <li><b>confuzie</b> dacă nu se folosesc exemple.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Exemplu la fizică:</b> explicația legii lui Ohm trebuie legată de circuit, măsurarea lui U și I, graficul I(U) și relația \( R = U/I \).
+      </div>
+
+      <div class="formula">
+        Explicație eficientă = concept + exemplu + schemă + aplicație + verificare rapidă
+      </div>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Metode dialogate</div>
+      <h2>Conversația euristică</h2>
+
+      <p>
+        <span class="key"><b>Conversația euristică</b></span> este metoda prin care profesorul conduce elevii,
+        prin întrebări succesive, spre descoperirea unei relații, explicații sau concluzii.
+      </p>
+
+      <div class="card">
+        <h3><span class="dot"></span>Noțiuni de reținut</h3>
+        <ul class="remember-list">
+          <li><b>întrebările trebuie să fie gradate</b>, de la simplu la complex;</li>
+          <li><b>răspunsurile elevilor trebuie valorificate</b>, nu doar bifate;</li>
+          <li><b>profesorul nu oferă imediat soluția</b>, ci ghidează raționamentul;</li>
+          <li><b>concluzia se formulează împreună cu elevii</b>.</li>
+        </ul>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Întrebare</th>
+          <th>Rol didactic</th>
+        </tr>
+        <tr>
+          <td>Ce observăm când crește tensiunea la bornele conductorului?</td>
+          <td>dirijează observarea fenomenului</td>
+        </tr>
+        <tr>
+          <td>Cum se modifică intensitatea curentului?</td>
+          <td>orientează spre relația dintre mărimi</td>
+        </tr>
+        <tr>
+          <td>Ce formă are graficul I(U)?</td>
+          <td>leagă datele experimentale de modelul matematic</td>
+        </tr>
+        <tr>
+          <td>Ce semnificație fizică are panta graficului?</td>
+          <td>trece de la observație la interpretare</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> conversația euristică este eficientă când elevii au date, observații sau experiențe pe care le pot analiza.
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Experiment</div>
+      <h2>Experimentul didactic</h2>
+
+      <p>
+        <span class="key"><b>Experimentul</b></span> este metoda specifică fizicii prin care elevii observă fenomene,
+        controlează condiții, măsoară mărimi, prelucrează date și formulează concluzii.
+      </p>
+
+      <div class="method-map" id="methodMap">
+        <button class="active" data-title="Experiment demonstrativ" data-info="Profesorul realizează experimentul în fața clasei. Este util pentru fenomene rapide, aparatură sensibilă sau situații cu risc.">Demonstrativ</button>
+        <button data-title="Experiment frontal" data-info="Elevii lucrează simultan, cu același montaj sau aceeași sarcină. Este eficient pentru formarea deprinderilor practice.">Frontal</button>
+        <button data-title="Lucrare de laborator" data-info="Elevii lucrează pe grupe sau individual, cu fișă, măsurători, tabel, grafic și concluzie.">Laborator</button>
+        <button data-title="Investigație experimentală" data-info="Elevii formulează ipoteze, aleg proceduri, colectează date și interpretează rezultatele. Are grad mai mare de autonomie.">Investigație</button>
+      </div>
+
+      <div class="card" id="methodDetail">
+        <h3><span class="dot"></span>Experiment demonstrativ</h3>
+        <p>Profesorul realizează experimentul în fața clasei. Este util pentru fenomene rapide, aparatură sensibilă sau situații cu risc.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip de experiment</th>
+          <th>Exemplu la fizică</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Demonstrativ</b></span></td>
+          <td>evidențierea inducției electromagnetice</td>
+          <td>întrebări de interpretare</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Frontal</b></span></td>
+          <td>măsurarea forței elastice cu dinamometrul</td>
+          <td>fișă de lucru și observație</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Laborator</b></span></td>
+          <td>determinarea rezistenței electrice</td>
+          <td>tabel, grafic, concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Investigație</b></span></td>
+          <td>factori care influențează perioada pendulului</td>
+          <td>raport de investigație</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Problematizare</div>
+      <h2>Problematizarea</h2>
+
+      <p>
+        <span class="key"><b>Problematizarea</b></span> constă în crearea unei situații-problemă care produce
+        conflict cognitiv și stimulează elevul să caute explicații.
+      </p>
+
+      <div class="card">
+        <h3><span class="dot"></span>Structura unei situații-problemă</h3>
+        <ol class="stepline">
+          <li><b>Observație surprinzătoare.</b> Elevii întâlnesc un fenomen care contrazice așteptările lor.</li>
+          <li><b>Formulare de ipoteze.</b> Elevii propun explicații posibile.</li>
+          <li><b>Testare.</b> Ipotezele sunt verificate prin experiment, calcul sau analiză de date.</li>
+          <li><b>Concluzie.</b> Elevii formulează explicația fizică argumentată.</li>
+        </ol>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Situație-problemă</th>
+          <th>Concept vizat</th>
+        </tr>
+        <tr>
+          <td>De ce două corpuri de mase diferite pot cădea aproape simultan?</td>
+          <td>cădere liberă, rezistența aerului, accelerație gravitațională</td>
+        </tr>
+        <tr>
+          <td>De ce becul luminează mai slab când adăugăm încă un consumator?</td>
+          <td>circuite electrice, rezistență echivalentă, intensitate</td>
+        </tr>
+        <tr>
+          <td>De ce paiul pare frânt într-un pahar cu apă?</td>
+          <td>refracția luminii</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> problematizarea este foarte potrivită pentru lecții de descoperire, introducerea conceptelor și activarea gândirii cauzale.
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Învățare prin descoperire</div>
+      <h2>Descoperirea și investigația</h2>
+
+      <p>
+        <span class="key"><b>Învățarea prin descoperire</b></span> și
+        <span class="key"><b>investigația</b></span> pun elevul în situația de a construi cunoașterea
+        prin explorare, ipoteze, date și concluzii.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Descoperirea</h3>
+          <ul class="remember-list">
+            <li><b>este ghidată de profesor</b> prin sarcini și întrebări;</li>
+            <li><b>are un rezultat așteptat</b>, stabilit didactic;</li>
+            <li><b>este potrivită pentru concepte accesibile</b>;</li>
+            <li><b>dezvoltă înțelegere activă</b>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Investigația</h3>
+          <ul class="remember-list">
+            <li><b>pornește de la o întrebare investigabilă</b>;</li>
+            <li><b>include ipoteză și procedură</b>;</li>
+            <li><b>presupune colectare și interpretare de date</b>;</li>
+            <li><b>se finalizează prin raport sau prezentare</b>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="formula">
+        Investigație = întrebare + ipoteză + metodă + date + concluzie + comunicare
+      </div>
+
+      <div class="callout">
+        <b>Exemplu la fizică:</b> „De ce depinde perioada unui pendul?” Elevii investighează lungimea firului, masa corpului și amplitudinea oscilației.
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Rezolvarea de probleme</div>
+      <h2>Rezolvarea de probleme</h2>
+
+      <p>
+        <span class="key"><b>Rezolvarea de probleme</b></span> este metodă fundamentală la fizică. Ea dezvoltă
+        aplicarea legilor, modelarea situațiilor reale, raționamentul cantitativ și interpretarea rezultatului.
+      </p>
+
+      <ol class="stepline">
+        <li><b>Analiza enunțului.</b> Se identifică datele, necunoscutele și condițiile fizice.</li>
+        <li><b>Modelarea situației.</b> Se alege sistemul fizic, schema, aproximațiile și legea relevantă.</li>
+        <li><b>Scrierea relațiilor.</b> Se aplică formulele și se verifică unitățile de măsură.</li>
+        <li><b>Calculul.</b> Se obține rezultatul numeric sau literal.</li>
+        <li><b>Interpretarea.</b> Se verifică sensul fizic, ordinul de mărime și cazurile limită.</li>
+      </ol>
+
+      <table class="compare">
+        <tr>
+          <th>Tip de problemă</th>
+          <th>Exemplu</th>
+          <th>Competență formată</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>calitativă</b></span></td>
+          <td>explică de ce un corp plutește</td>
+          <td>argumentare fizică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>cantitativă</b></span></td>
+          <td>calculează rezistența din U și I</td>
+          <td>aplicarea formulelor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>experimentală</b></span></td>
+          <td>determină densitatea din măsurători</td>
+          <td>prelucrare de date</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>deschisă</b></span></td>
+          <td>estimează consumul electric lunar al unei locuințe</td>
+          <td>modelare și decizie</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Modelare și demonstrație</div>
+      <h2>Modelarea și demonstrația didactică</h2>
+
+      <p>
+        <span class="key"><b>Modelarea</b></span> este metoda prin care un fenomen real este reprezentat prin
+        modele ideale: punct material, gaz ideal, rază de lumină, circuit ideal, undă plană.
+      </p>
+
+      <p>
+        <span class="key"><b>Demonstrația didactică</b></span> este prezentarea dirijată a unui fenomen,
+        proces sau raționament, pentru evidențierea unei legi sau relații.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Metodă</th>
+          <th>Caracterizare</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Modelarea</b></span></td>
+          <td>simplifică realitatea pentru a putea explica, calcula și prezice</td>
+          <td>corpul punctiform în mecanică; gazul ideal în termodinamică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Demonstrația experimentală</b></span></td>
+          <td>arată direct un fenomen fizic</td>
+          <td>reflexia luminii pe oglindă plană</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Demonstrația teoretică</b></span></td>
+          <td>deduce o relație pe baza unor principii sau legi</td>
+          <td>deducerea relației \( v = \lambda \nu \)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Demonstrația grafică</b></span></td>
+          <td>folosește reprezentări pentru a interpreta dependențe</td>
+          <td>graficul I(U) pentru conductor ohmic</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Capcană:</b> modelul nu este realitatea însăși. Profesorul trebuie să precizeze ipotezele și limitele modelului.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Metode interactive</div>
+      <h2>Cooperarea, proiectul și studiul de caz</h2>
+
+      <p>
+        <span class="key"><b>Metodele interactive</b></span> cresc participarea elevilor și dezvoltă competențe
+        de comunicare, colaborare, argumentare și aplicare a fizicii în contexte reale.
+      </p>
+
+      <div class="grid3">
+        <div class="card">
+          <h3><span class="dot"></span>Învățarea prin cooperare</h3>
+          <p>Elevii lucrează în grupe, cu roluri clare: coordonator, experimentator, observator, raportor.</p>
+          <p><b>Exemplu:</b> realizarea unui circuit și completarea fișei de măsurare.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Proiectul</h3>
+          <p>Elevii realizează un produs pe termen mai lung: poster, machetă, raport, prezentare, dispozitiv.</p>
+          <p><b>Exemplu:</b> audit energetic al clasei.</p>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Studiul de caz</h3>
+          <p>Elevii analizează o situație reală și propun explicații sau soluții.</p>
+          <p><b>Exemplu:</b> consumul de energie al aparatelor casnice.</p>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Metodă</th>
+          <th>Produs observabil</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td>cooperare</td>
+          <td>fișă de grup, montaj, explicație</td>
+          <td>observare + autoevaluare</td>
+        </tr>
+        <tr>
+          <td>proiect</td>
+          <td>poster, raport, machetă, prezentare</td>
+          <td>rubrică de evaluare</td>
+        </tr>
+        <tr>
+          <td>studiu de caz</td>
+          <td>argumentare și soluție propusă</td>
+          <td>criterii de argumentare</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · TIC și simulări</div>
+      <h2>Metode bazate pe TIC</h2>
+
+      <p>
+        <span class="key"><b>TIC</b></span> susține predarea fizicii prin simulări, senzori, achiziție de date,
+        foi de calcul, grafice și vizualizări ale fenomenelor greu observabile direct.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Când este util TIC?</h3>
+          <ul class="remember-list">
+            <li><b>fenomene foarte rapide</b> sau foarte lente;</li>
+            <li><b>fenomene greu accesibile</b> în laborator;</li>
+            <li><b>reprezentări grafice</b> și prelucrare de date;</li>
+            <li><b>simulări cu parametri modificabili</b>;</li>
+            <li><b>feedback rapid</b> prin quizuri digitale.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Limite</h3>
+          <ul class="remember-list">
+            <li><b>nu înlocuiește complet experimentul real</b>;</li>
+            <li><b>poate crea iluzia înțelegerii</b> fără sarcini clare;</li>
+            <li><b>depinde de accesul la resurse</b>;</li>
+            <li><b>trebuie integrat didactic</b>, nu folosit decorativ.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Exemplu la fizică:</b> o simulare a mișcării poate fi folosită pentru modificarea accelerației, colectarea datelor și construirea graficelor \( x(t) \), \( v(t) \), \( a(t) \).
+      </div>
+
+      <div class="formula">
+        TIC eficient = sarcină clară + parametri modificați + date analizate + concluzie fizică
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Alegerea metodei</div>
+      <h2>Cum alegi metoda potrivită?</h2>
+
+      <p>
+        În proiectul de lecție, metoda se justifică prin
+        <span class="key"><b>obiectiv</b></span>,
+        <span class="key"><b>conținut</b></span>,
+        <span class="key"><b>nivelul elevilor</b></span>,
+        <span class="key"><b>resurse</b></span> și
+        <span class="key"><b>forma de evaluare</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Scop didactic</th>
+          <th>Metodă potrivită</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td>introducerea unui concept</td>
+          <td>problematizare + conversație euristică + demonstrație</td>
+          <td>refracția luminii</td>
+        </tr>
+        <tr>
+          <td>formarea deprinderilor practice</td>
+          <td>experiment frontal + lucrare de laborator</td>
+          <td>măsurarea tensiunii și intensității</td>
+        </tr>
+        <tr>
+          <td>aplicarea relațiilor matematice</td>
+          <td>rezolvare de probleme + exercițiu diferențiat</td>
+          <td>calculul rezistenței electrice</td>
+        </tr>
+        <tr>
+          <td>înțelegerea unui fenomen complex</td>
+          <td>modelare + simulare + discuție dirijată</td>
+          <td>oscilații, unde, câmp magnetic</td>
+        </tr>
+        <tr>
+          <td>dezvoltarea competențelor transversale</td>
+          <td>proiect + cooperare + studiu de caz</td>
+          <td>energia și consumul casnic</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli frecvente la examen</h3>
+        <ul class="mistakes">
+          <li><b>Enumerarea metodelor fără caracterizare.</b> Trebuie explicat cum se folosesc.</li>
+          <li><b>Alegerea unei metode fără legătură cu obiectivul.</b> Metoda trebuie justificată.</li>
+          <li><b>Ignorarea experimentului la fizică.</b> Fizica cere contact cu fenomenul, măsurarea și modelarea.</li>
+          <li><b>Folosirea TIC doar decorativ.</b> Simularea trebuie să aibă sarcină și concluzie.</li>
+          <li><b>Confundarea metodei cu mijlocul.</b> Experimentul este metodă; ampermetrul este mijloc.</li>
+          <li><b>Omiterea evaluării.</b> Metoda trebuie corelată cu produsul observabil și feedbackul.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Metoda didactică</b> este calea de formare a competențelor.</li>
+          <li><b>Explicația</b> clarifică noțiuni, legi și modele, dar trebuie susținută de exemple.</li>
+          <li><b>Conversația euristică</b> conduce elevul spre concluzii prin întrebări gradate.</li>
+          <li><b>Experimentul</b> este metoda specifică fizicii: observare, măsurare, date, concluzii.</li>
+          <li><b>Problematizarea</b> creează situații-problemă și stimulează raționamentul cauzal.</li>
+          <li><b>Investigația</b> include întrebare, ipoteză, metodă, date și concluzie.</li>
+          <li><b>Rezolvarea de probleme</b> dezvoltă modelarea și aplicarea legilor fizice.</li>
+          <li><b>TIC</b> completează experimentul, dar nu îl înlocuiește automat.</li>
+          <li><b>Alegerea metodei</b> trebuie justificată prin obiective, conținut, resurse și evaluare.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Metodele didactice</b> organizează activitatea profesorului și a elevilor pentru formarea competențelor.</li>
+          <li><b>La fizică</b>, metodele trebuie să valorifice fenomenul, experimentul, modelarea și rezolvarea de probleme.</li>
+          <li><b>Nicio metodă nu este universală</b>; alegerea depinde de obiectiv, conținut, clasă și resurse.</li>
+          <li><b>Metodele active</b> cresc participarea elevilor și susțin învățarea prin investigație.</li>
+          <li><b>Evaluarea</b> trebuie să verifice produsul metodei: măsurare, grafic, explicație, calcul, proiect sau concluzie.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre metodă și mijloc de învățământ?</summary>
+        <p><b>Metoda</b> este calea de lucru: experimentul, conversația, problematizarea. <b>Mijlocul</b> este resursa folosită: ampermetru, voltmetru, fișă, simulator, tablă.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. De ce experimentul este metodă specifică fizicii?</summary>
+        <p>Pentru că fizica studiază fenomene naturale prin observare, măsurare, controlul variabilelor, prelucrarea datelor și formularea legilor.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. Când este potrivită problematizarea?</summary>
+        <p>Când profesorul dorește să creeze o situație-problemă care să stimuleze ipoteze, explicații și căutarea unei soluții prin raționament sau experiment.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Dă un exemplu de corelare metodă–evaluare.</summary>
+        <p>Dacă metoda este lucrarea de laborator pentru legea lui Ohm, evaluarea trebuie să includă tabelul de măsurători, graficul I(U), calculul rezistenței și concluzia experimentală.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D08 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon răspuns PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>clasificare</b> → <b>caracterizare</b> →
+            <b>utilizare la fizică</b> → <b>avantaje și limite</b> → <b>evaluare</b> → <b>exemplu concret</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = metodă + caracterizare + exemplu la fizică + produs observabil + evaluare
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează alegerea metodelor pentru o lecție despre „Legea lui Ohm”, „Refracția luminii”, „Densitatea corpurilor” sau „Pendulul gravitațional”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D09-forme-de-organizare-a-activitatii-didactice.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D08-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D08 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D08 — Metode didactice utilizate la fizică</h1>
+  <ul>
+    <li><b>Metoda didactică:</b> calea organizată prin care profesorul și elevii acționează pentru formarea competențelor.</li>
+    <li><b>Metode expozitive:</b> explicația, descrierea, prelegerea scurtă; utile pentru clarificarea conceptelor și legilor.</li>
+    <li><b>Metode dialogate:</b> conversația euristică, dezbaterea; utile pentru ipoteze, argumentare și concluzii.</li>
+    <li><b>Metode practice:</b> experimentul, lucrarea de laborator, exercițiul, rezolvarea de probleme.</li>
+    <li><b>Metode euristice:</b> problematizarea, descoperirea, investigația, modelarea.</li>
+    <li><b>Metode interactive:</b> cooperarea, proiectul, studiul de caz, portofoliul, TIC.</li>
+    <li><b>Specific fizicii:</b> experiment, măsurare, prelucrare de date, modelare, grafic, interpretare și aplicare.</li>
+    <li><b>Principiu:</b> metoda se alege în funcție de obiectiv, conținut, nivelul clasei, resurse și evaluare.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon de răspuns — Metode didactice utilizate la fizică</h1>
+  <p><b>1. Definiție:</b> Metoda didactică este calea organizată de acțiune prin care profesorul și elevii realizează predarea, învățarea și evaluarea.</p>
+  <p><b>2. Clasificare:</b> metode expozitive, conversative, practice, euristice, interactive și metode bazate pe TIC.</p>
+  <p><b>3. Caracterizare:</b> fiecare metodă se descrie prin rol, avantaje, limite și condiții de utilizare.</p>
+  <p><b>4. Specific fizicii:</b> metodele trebuie să valorifice experimentul, măsurarea, modelarea, graficul și rezolvarea de probleme.</p>
+  <p><b>5. Exemplu:</b> pentru legea lui Ohm se pot combina problematizarea, experimentul frontal, conversația euristică, reprezentarea grafică și exercițiul.</p>
+  <p><b>6. Evaluare:</b> se verifică produsul activității: tabel, grafic, concluzie, calcul, explicație sau proiect.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#methodMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#methodMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('methodDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D08</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
