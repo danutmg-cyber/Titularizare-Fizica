@@ -1,1 +1,1689 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D11 · Experimentul în lecția de fizică — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{
+  color:var(--accent);
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.exp-map,
+.eval-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.exp-map,
+.eval-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.exp-map button,
+.eval-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.exp-map button:hover,
+.eval-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.exp-map button.active,
+.eval-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .exp-map,
+  .eval-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .exp-map,
+  .eval-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D11 — Experimentul</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 3h6M10 3v6l-5.5 9A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3L14 9V3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 16h8M9.5 19h5" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Experimentul în lecția de fizică
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>De ce experimentul este metoda centrală la fizică?</h2>
+
+      <p>
+        <span class="key"><b>Experimentul didactic</b></span> este metoda specifică fizicii prin care elevii
+        observă fenomene, formulează ipoteze, controlează condiții, măsoară mărimi,
+        prelucrează date și formulează concluzii.
+      </p>
+
+      <p>
+        Ideea centrală pentru examen:
+        <span class="key"><b>experimentul nu este doar demonstrație spectaculoasă</b></span>, ci o secvență de învățare
+        care trebuie proiectată, organizată și evaluată riguros.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Experimentul pornește de la observarea unui fenomen sau de la o situație-problemă care cere explicație.">1. Observare</button>
+        <button data-info="Elevii formulează ipoteze și anticipează rezultatele înainte de măsurare sau verificare.">2. Ipoteză</button>
+        <button data-info="Elevii realizează montajul, controlează variabilele și colectează date experimentale.">3. Măsurare</button>
+        <button data-info="Datele sunt organizate în tabele, grafice, calcule și comparații cu modelul teoretic.">4. Prelucrare</button>
+        <button data-info="Elevii formulează concluzii, precizează limite, surse de eroare și transferă rezultatul în alte situații.">5. Concluzie</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Observare</h3>
+        <p>Experimentul pornește de la observarea unui fenomen sau de la o situație-problemă care cere explicație.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>experiment didactic</span>
+          <span>ipoteză</span>
+          <span>măsurare</span>
+          <span>date experimentale</span>
+          <span>NTSM</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Funcții didactice</div>
+      <h2>Ce funcții are experimentul?</h2>
+
+      <p>
+        Experimentul are valoare didactică atunci când contribuie la formarea competențelor.
+        El poate avea funcție <span class="key"><b>cognitivă</b></span>,
+        <span class="key"><b>formativă</b></span>,
+        <span class="key"><b>motivațională</b></span>,
+        <span class="key"><b>aplicativă</b></span> și
+        <span class="key"><b>evaluativă</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Funcție</th>
+          <th>Rol</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>cognitivă</b></span></td>
+          <td>ajută elevii să descopere sau să înțeleagă o lege</td>
+          <td>determinarea relației dintre U și I</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>formativă</b></span></td>
+          <td>formează deprinderi de măsurare, observare și prelucrare</td>
+          <td>citirea dinamometrului sau a ampermetrului</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>motivațională</b></span></td>
+          <td>creează curiozitate și implicare</td>
+          <td>paiul care pare frânt în apă</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>aplicativă</b></span></td>
+          <td>leagă teoria de situații reale</td>
+          <td>măsurarea consumului electric al unui dispozitiv</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>evaluativă</b></span></td>
+          <td>permite verificarea competențelor practice</td>
+          <td>fișă de laborator cu tabel, grafic și concluzie</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Experiment eficient = fenomen + întrebare + ipoteză + date + concluzie + evaluare
+      </div>
+
+      <div class="callout">
+        <b>De reținut:</b> la fizică, experimentul trebuie să conducă la un produs observabil: montaj, tabel, grafic, calcul, concluzie sau raport.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Tipuri de experiment</div>
+      <h2>Clasificarea experimentului didactic</h2>
+
+      <p>
+        Pentru examen, trebuie să poți caracteriza tipurile de experiment și să alegi forma potrivită
+        în funcție de obiective, resurse, timp și siguranță.
+      </p>
+
+      <div class="exp-map" id="expMap">
+        <button class="active" data-title="Experiment demonstrativ" data-info="Profesorul realizează experimentul în fața clasei. Este potrivit pentru fenomene rapide, aparatură sensibilă sau situații cu risc.">Demonstrativ</button>
+        <button data-title="Experiment frontal" data-info="Elevii realizează simultan aceeași sarcină experimentală, individual sau pe grupe mici. Este eficient pentru formarea deprinderilor practice.">Frontal</button>
+        <button data-title="Lucrare de laborator" data-info="Elevii lucrează pe baza unei fișe, colectează date, fac calcule, construiesc grafice și formulează concluzii.">Laborator</button>
+        <button data-title="Experiment investigativ" data-info="Elevii formulează ipoteze, aleg procedura, controlează variabile și argumentează concluziile. Are grad ridicat de autonomie.">Investigativ</button>
+      </div>
+
+      <div class="card" id="expDetail">
+        <h3><span class="dot"></span>Experiment demonstrativ</h3>
+        <p>Profesorul realizează experimentul în fața clasei. Este potrivit pentru fenomene rapide, aparatură sensibilă sau situații cu risc.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip</th>
+          <th>Avantaj</th>
+          <th>Limită</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Demonstrativ</b></span></td>
+          <td>control bun, vizibilitate, timp redus</td>
+          <td>elevul poate rămâne pasiv</td>
+          <td>dispersia luminii prin prismă</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Frontal</b></span></td>
+          <td>toți elevii experimentează simultan</td>
+          <td>cere multe truse și timp de organizare</td>
+          <td>măsurarea forței elastice</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Laborator</b></span></td>
+          <td>dezvoltă deprinderi practice și autonomie</td>
+          <td>necesită fișă, reguli și supraveghere</td>
+          <td>determinarea rezistenței electrice</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Investigativ</b></span></td>
+          <td>dezvoltă gândirea științifică</td>
+          <td>cere timp și ghidaj diferențiat</td>
+          <td>factorii care influențează perioada pendulului</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Integrare în lecție</div>
+      <h2>Modalități de integrare a experimentului</h2>
+
+      <p>
+        Experimentul poate fi integrat în diferite momente ale lecției. Alegerea depinde de rolul său:
+        <span class="key"><b>captare</b></span>,
+        <span class="key"><b>descoperire</b></span>,
+        <span class="key"><b>verificare</b></span>,
+        <span class="key"><b>aplicare</b></span> sau
+        <span class="key"><b>evaluare</b></span>.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Captare" data-info="Experimentul provoacă interesul și creează o situație-problemă: de ce paiul pare frânt în apă?">Captare</button>
+        <span class="arrow">→</span>
+        <button data-title="Descoperire" data-info="Experimentul conduce elevii spre formularea unei relații sau legi, de exemplu legea lui Ohm.">Descoperire</button>
+        <span class="arrow">→</span>
+        <button data-title="Verificare" data-info="Experimentul confirmă o predicție sau o relație studiată anterior.">Verificare</button>
+        <span class="arrow">→</span>
+        <button data-title="Aplicare" data-info="Elevii folosesc fenomenul sau legea în situații noi: consum electric, echilibru, lentile, densitate.">Aplicare</button>
+        <span class="arrow">→</span>
+        <button data-title="Evaluare" data-info="Experimentul devine probă practică, fișă de laborator, checklist sau raport experimental.">Evaluare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Captare</h3>
+        <p>Experimentul provoacă interesul și creează o situație-problemă: de ce paiul pare frânt în apă?</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Moment al lecției</th>
+          <th>Rolul experimentului</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td>captarea atenției</td>
+          <td>creează curiozitate</td>
+          <td>balonul atras de un corp electrizat</td>
+        </tr>
+        <tr>
+          <td>dirijarea învățării</td>
+          <td>construiește conceptul</td>
+          <td>determinarea relației dintre U și I</td>
+        </tr>
+        <tr>
+          <td>fixarea</td>
+          <td>verifică și consolidează</td>
+          <td>relansarea experimentului cu alte valori</td>
+        </tr>
+        <tr>
+          <td>evaluarea</td>
+          <td>verifică deprinderi practice</td>
+          <td>montaj corect, tabel, grafic, concluzie</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Secvența experimentală</div>
+      <h2>Etapele unei secvențe experimentale</h2>
+
+      <p>
+        O secvență experimentală trebuie proiectată ca un demers științific simplificat.
+        Nu se reduce la „facem experimentul”, ci parcurge etape clare.
+      </p>
+
+      <ol class="stepline">
+        <li>
+          <b>Sesizarea problemei.</b>
+          Profesorul creează o întrebare sau o situație care cere explicație.
+        </li>
+        <li>
+          <b>Formularea ipotezei.</b>
+          Elevii anticipează relații, rezultate sau cauze posibile.
+        </li>
+        <li>
+          <b>Planificarea experimentului.</b>
+          Se stabilesc materialele, variabilele, modul de lucru și regulile NTSM.
+        </li>
+        <li>
+          <b>Realizarea montajului.</b>
+          Elevii lucrează individual, în perechi sau pe grupe, sub supraveghere.
+        </li>
+        <li>
+          <b>Colectarea datelor.</b>
+          Se fac măsurători repetate și se notează valorile în tabel.
+        </li>
+        <li>
+          <b>Prelucrarea și interpretarea.</b>
+          Se calculează, se trasează grafice, se compară datele cu modelul.
+        </li>
+        <li>
+          <b>Formularea concluziei.</b>
+          Elevii răspund la întrebarea inițială și precizează surse de eroare.
+        </li>
+      </ol>
+
+      <div class="formula">
+        Problemă → ipoteză → plan → montaj → date → grafic/calcul → concluzie
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Proiectarea laboratorului</div>
+      <h2>Proiectarea activităților de laborator</h2>
+
+      <p>
+        <span class="key"><b>Activitatea de laborator</b></span> trebuie proiectată înainte de lecție:
+        profesorul stabilește scopul, materialele, sarcinile, timpul, forma de organizare,
+        criteriile de evaluare și normele de protecție.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Element proiectat</th>
+          <th>Întrebare de control</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Scopul lucrării</b></span></td>
+          <td>Ce competență practică urmăresc?</td>
+          <td>determinarea rezistenței electrice</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Materialele</b></span></td>
+          <td>Ce aparatură este necesară și sigură?</td>
+          <td>sursă, rezistor, ampermetru, voltmetru</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Forma de organizare</b></span></td>
+          <td>Lucru frontal, pe grupe, în perechi?</td>
+          <td>grupe de 3–4 elevi</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Fișa de laborator</b></span></td>
+          <td>Ce pași, tabele și întrebări ofer?</td>
+          <td>tabel U-I, grafic I(U), concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluarea</b></span></td>
+          <td>Ce produs verific?</td>
+          <td>montaj, tabel, grafic, calcul, concluzie</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>NTSM</b></span></td>
+          <td>Ce riscuri și reguli precizez?</td>
+          <td>tensiuni mici, conectare corectă, supraveghere</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> laboratorul nu este o activitate improvizată; el cere fișă, materiale pregătite, roluri, timp și criterii de evaluare.
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Fișa de laborator</div>
+      <h2>Ce conține fișa de activitate experimentală?</h2>
+
+      <p>
+        <span class="key"><b>Fișa de laborator</b></span> este instrumentul care ghidează elevii în activitatea practică.
+        Ea trebuie să fie clară, scurtă și orientată spre produsul evaluabil.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Rubrică</th>
+          <th>Ce conține?</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Titlul lucrării</b></span></td>
+          <td>tema experimentală</td>
+          <td>Determinarea rezistenței unui conductor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Scopul</b></span></td>
+          <td>competența urmărită</td>
+          <td>măsurarea U și I și calcularea lui R</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Materiale</b></span></td>
+          <td>aparatura și resursele</td>
+          <td>sursă, rezistor, ampermetru, voltmetru, fire</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Mod de lucru</b></span></td>
+          <td>pașii experimentului</td>
+          <td>realizarea montajului și măsurarea valorilor</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Tabel de date</b></span></td>
+          <td>organizarea măsurătorilor</td>
+          <td>U, I, R</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Prelucrare</b></span></td>
+          <td>calcule, grafic, comparații</td>
+          <td>grafic I(U), calcul R = U/I</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Concluzie</b></span></td>
+          <td>răspuns la ipoteză și surse de eroare</td>
+          <td>relația I ~ U pentru conductor ohmic</td>
+        </tr>
+      </table>
+
+      <div class="card">
+        <h3><span class="dot"></span>Reguli pentru o fișă bună</h3>
+        <ul class="remember-list">
+          <li><b>include spații de completare</b> pentru date, calcule și concluzii;</li>
+          <li><b>nu oferă concluzia gata formulată</b>;</li>
+          <li><b>precizează clar sarcinile fiecărui elev sau grup</b>;</li>
+          <li><b>conține criterii de evaluare</b> sau checklist simplu;</li>
+          <li><b>include norme de siguranță</b> când este cazul.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Exemplu aplicat</div>
+      <h2>Exemplu: Legea lui Ohm</h2>
+
+      <p>
+        Lecția <span class="key"><b>Legea lui Ohm</b></span> este un exemplu foarte potrivit pentru integrarea experimentului,
+        deoarece elevii pot măsura, reprezenta grafic și interpreta relația dintre tensiune și intensitate.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Element</th>
+          <th>Completare posibilă</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Întrebare-problemă</b></span></td>
+          <td>Cum depinde intensitatea curentului printr-un conductor de tensiunea aplicată?</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Ipoteză</b></span></td>
+          <td>Dacă tensiunea crește, intensitatea curentului crește proporțional.</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Materiale</b></span></td>
+          <td>sursă de tensiune, rezistor, ampermetru, voltmetru, întrerupător, fire</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Mod de lucru</b></span></td>
+          <td>se realizează montajul, se variază tensiunea, se măsoară intensitatea, se notează datele</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Prelucrare</b></span></td>
+          <td>tabel U-I, grafic I(U), calcul R = U/I</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Concluzie</b></span></td>
+          <td>pentru conductor ohmic, intensitatea este direct proporțională cu tensiunea</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evaluare</b></span></td>
+          <td>montaj corect, valori notate, grafic corect, calcul, concluzie argumentată</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        R = U/I · Experimentul este complet numai dacă elevul măsoară, calculează, reprezintă și interpretează.
+      </div>
+
+      <div class="callout">
+        <b>NTSM:</b> se folosesc tensiuni mici; circuitul se alimentează numai după verificarea montajului de către profesor.
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Exemplu aplicat</div>
+      <h2>Exemplu: Echilibrul de translație și rotație</h2>
+
+      <p>
+        Un exemplu clasic de investigație experimentală este studiul
+        <span class="key"><b>condițiilor de echilibru</b></span>. Elevii verifică relații între forțe,
+        greutăți, brațe ale forțelor și momente.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Secvență</th>
+          <th>Sarcină pentru elevi</th>
+          <th>Produs evaluabil</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Echilibru de translație</b></span></td>
+          <td>suspendă o masă de dinamometru și compară greutatea cu forța elastică indicată</td>
+          <td>relația G = Fe și explicația rezultantei nule</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Echilibru de rotație</b></span></td>
+          <td>suspendă două mase de o parte și de alta a axului și măsoară brațele forțelor</td>
+          <td>calculul momentelor M1 și M2</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Prelucrare</b></span></td>
+          <td>calculează M = G · b și compară valorile</td>
+          <td>tabel cu G, b, M</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Concluzie</b></span></td>
+          <td>formulează condiția de echilibru de rotație</td>
+          <td>M1 = M2 pentru bara aflată în echilibru</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>Avantaj:</b> experimentul frontal permite tuturor grupelor să observe și să verifice condițiile de echilibru. <b>Limită:</b> cere timp și materiale suficiente pentru fiecare grupă.
+      </div>
+
+      <div class="formula">
+        Echilibru de rotație: M1 = M2, adică G1 · b1 = G2 · b2
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Evaluare practică</div>
+      <h2>Evaluarea activităților experimentale</h2>
+
+      <p>
+        Evaluarea experimentului trebuie să verifice atât
+        <span class="key"><b>procesul</b></span>, cât și
+        <span class="key"><b>produsul final</b></span>.
+        Nu este suficient să notezi concluzia; trebuie observate montajul, măsurarea, datele,
+        prelucrarea și respectarea NTSM.
+      </p>
+
+      <div class="eval-map" id="evalMap">
+        <button class="active" data-title="Observare sistematică" data-info="Profesorul urmărește manipularea aparaturii, cooperarea, respectarea pașilor și a normelor de siguranță.">Observare</button>
+        <button data-title="Fișă de laborator" data-info="Se evaluează completarea tabelului, calculele, graficul, concluzia și sursele de eroare.">Fișă</button>
+        <button data-title="Checklist practic" data-info="Se verifică puncte clare: montaj corect, instrument conectat corect, date notate, unități, concluzie.">Checklist</button>
+        <button data-title="Raport experimental" data-info="Elevii prezintă scop, ipoteză, materiale, procedură, date, prelucrare, concluzie și limite.">Raport</button>
+      </div>
+
+      <div class="card" id="evalDetail">
+        <h3><span class="dot"></span>Observare sistematică</h3>
+        <p>Profesorul urmărește manipularea aparaturii, cooperarea, respectarea pașilor și a normelor de siguranță.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Criteriu</th>
+          <th>Ce se verifică?</th>
+          <th>Punctaj orientativ</th>
+        </tr>
+        <tr>
+          <td>montajul</td>
+          <td>schema, conectarea corectă, stabilitatea montajului</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>măsurarea</td>
+          <td>citirea instrumentelor, unități, valori coerente</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>prelucrarea</td>
+          <td>tabel, calcul, grafic, relații folosite</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>concluzia</td>
+          <td>răspuns la ipoteză, interpretare, surse de eroare</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>NTSM și colaborare</td>
+          <td>siguranță, roluri, ordine, responsabilitate</td>
+          <td>2 p</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · NTSM</div>
+      <h2>Norme de protecție a muncii în laborator</h2>
+
+      <p>
+        În lecția de fizică, <span class="key"><b>NTSM</b></span> trebuie enunțate explicit,
+        mai ales când se lucrează cu electricitate, căldură, laser, corpuri grele, sticlărie sau substanțe.
+      </p>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Reguli generale</h3>
+          <ul class="remember-list">
+            <li><b>aparatura se verifică</b> înainte de lecție;</li>
+            <li><b>elevii primesc instrucțiuni clare</b> înainte de lucru;</li>
+            <li><b>montajul se verifică</b> înainte de alimentare;</li>
+            <li><b>nu se improvizează conexiuni</b> sau proceduri;</li>
+            <li><b>laboratorul se lasă ordonat</b> după activitate.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Riscuri specifice</h3>
+          <ul class="remember-list">
+            <li><b>electricitate:</b> tensiuni mici, polaritate, domenii de măsurare;</li>
+            <li><b>optică:</b> laserul nu se îndreaptă spre ochi;</li>
+            <li><b>termică:</b> atenție la corpuri fierbinți și surse de căldură;</li>
+            <li><b>mecanică:</b> masele se fixează și se manipulează atent;</li>
+            <li><b>sticlărie:</b> se evită lovirea, fisurarea și tăierea.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Formulare pentru proiectul de lecție:</b> „Profesorul prezintă normele de protecție, verifică montajele înainte de alimentare și supraveghează permanent activitatea grupelor.”
+      </div>
+
+      <div class="formula">
+        Siguranță = instrucțiuni clare + aparatură verificată + supraveghere + responsabilitate
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen</h3>
+        <ul class="mistakes">
+          <li><b>Experiment fără obiectiv.</b> Trebuie precizată competența formată.</li>
+          <li><b>Experiment doar spectaculos.</b> Trebuie să ducă la date, explicații sau concluzii.</li>
+          <li><b>Omiterea ipotezei.</b> Elevii trebuie să anticipeze și să compare cu rezultatul.</li>
+          <li><b>Lipsa fișei de laborator.</b> Fără fișă, activitatea devine greu de ghidat și evaluat.</li>
+          <li><b>Evaluare doar prin concluzie.</b> Se evaluează și montajul, măsurarea, tabelul, graficul și NTSM.</li>
+          <li><b>Confundarea experimentului demonstrativ cu experimentul frontal.</b> În primul lucrează profesorul; în al doilea lucrează elevii.</li>
+          <li><b>Omiterea normelor de siguranță.</b> La fizică, NTSM este parte a proiectării didactice.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> pentru orice experiment menționat, scrie: <b>scop</b>, <b>materiale</b>, <b>mod de lucru</b>, <b>date</b>, <b>concluzie</b>, <b>evaluare</b>, <b>NTSM</b>.
+      </div>
+
+      <div class="keywords">
+        <span>scop</span>
+        <span>ipoteză</span>
+        <span>fișă</span>
+        <span>date</span>
+        <span>evaluare</span>
+        <span>NTSM</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Experimentul</b> este metoda specifică fizicii, centrată pe observare, măsurare și interpretare.</li>
+          <li><b>Tipurile principale</b> sunt: demonstrativ, frontal, laborator, investigativ și virtual/simulat.</li>
+          <li><b>Integrarea în lecție</b> poate fi la captare, descoperire, verificare, aplicare sau evaluare.</li>
+          <li><b>Secvența experimentală</b> include problemă, ipoteză, plan, montaj, date, prelucrare și concluzie.</li>
+          <li><b>Laboratorul</b> cere fișă de lucru, materiale pregătite, roluri, timp, criterii și NTSM.</li>
+          <li><b>Evaluarea practică</b> vizează procesul și produsul: montaj, măsurare, tabel, grafic, calcul, concluzie.</li>
+          <li><b>NTSM</b> se precizează explicit și se aplică înainte, în timpul și după experiment.</li>
+          <li><b>Un experiment bun</b> activează elevul și produce dovezi observabile ale învățării.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Experimentul</b> transformă lecția de fizică într-un demers de investigare a fenomenelor.</li>
+          <li><b>Elevul</b> trebuie să observe, să formuleze ipoteze, să măsoare, să prelucreze date și să formuleze concluzii.</li>
+          <li><b>Profesorul</b> proiectează secvența, asigură resursele, ghidează activitatea și garantează siguranța.</li>
+          <li><b>Evaluarea</b> trebuie să includă criterii pentru montaj, date, grafic, calcul, concluzie și respectarea NTSM.</li>
+          <li><b>La examen</b>, răspunsul devine complet numai dacă include un exemplu concret de experiment la fizică.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre experiment demonstrativ și experiment frontal?</summary>
+        <p><b>Experimentul demonstrativ</b> este realizat de profesor în fața clasei. <b>Experimentul frontal</b> este realizat simultan de elevi, individual sau pe grupe.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Ce etape are o secvență experimentală?</summary>
+        <p>Sesizarea problemei, formularea ipotezei, planificarea, realizarea montajului, colectarea datelor, prelucrarea datelor și formularea concluziei.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. Ce se evaluează într-o activitate practică?</summary>
+        <p>Montajul, manipularea aparaturii, măsurarea, tabelul de date, graficul, calculele, concluzia, colaborarea și respectarea normelor de protecție.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Dă un exemplu de integrare a experimentului în lecție.</summary>
+        <p>La lecția „Legea lui Ohm”, elevii realizează un circuit, măsoară U și I, completează tabelul, trasează graficul I(U), calculează rezistența și formulează concluzia.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D11 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon experiment PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>funcții</b> → <b>tipuri</b> →
+            <b>integrare în lecție</b> → <b>fișă de laborator</b> →
+            <b>exemplu</b> → <b>evaluare</b> → <b>NTSM</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = experiment + scop + ipoteză + date + concluzie + evaluare + NTSM
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează proiectarea unei secvențe experimentale pentru „Legea lui Ohm”, „Densitatea corpurilor”, „Refracția luminii” sau „Pendulul gravitațional”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D12-rezolvarea-de-probleme-la-fizica.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D11-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D11 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D11 — Experimentul în lecția de fizică</h1>
+  <ul>
+    <li><b>Definiție:</b> Experimentul didactic este metoda specifică fizicii prin care elevii observă, măsoară, controlează condiții, prelucrează date și formulează concluzii.</li>
+    <li><b>Funcții:</b> cognitivă, formativă, motivațională, aplicativă, evaluativă.</li>
+    <li><b>Tipuri:</b> demonstrativ, frontal, lucrare de laborator, investigativ, virtual/simulat.</li>
+    <li><b>Integrare în lecție:</b> captarea atenției, descoperire, verificare, aplicare, evaluare.</li>
+    <li><b>Etape:</b> problemă, ipoteză, planificare, montaj, date, prelucrare, concluzie.</li>
+    <li><b>Fișa de laborator:</b> titlu, scop, materiale, mod de lucru, tabel, calcule, grafic, concluzie, NTSM.</li>
+    <li><b>Evaluare:</b> montaj, măsurare, tabel, grafic, calcul, concluzie, colaborare, respectarea normelor de siguranță.</li>
+    <li><b>NTSM:</b> aparatură verificată, instrucțiuni clare, tensiuni mici, laserul nu se îndreaptă spre ochi, supraveghere permanentă.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon — Secvență experimentală la fizică</h1>
+  <p><b>Titlul lucrării:</b> ...</p>
+  <p><b>Clasa:</b> ...</p>
+  <p><b>Competența urmărită:</b> ...</p>
+  <p><b>Întrebare-problemă:</b> ...</p>
+  <p><b>Ipoteză:</b> ...</p>
+  <p><b>Materiale:</b> ...</p>
+  <p><b>Forma de organizare:</b> frontal / individual / perechi / grupe</p>
+  <p><b>Mod de lucru:</b> 1. ... 2. ... 3. ...</p>
+  <p><b>Tabel de date:</b> mărimi, unități, valori măsurate.</p>
+  <p><b>Prelucrare:</b> calcule, grafic, comparații, estimarea erorilor.</p>
+  <p><b>Concluzie:</b> răspuns la ipoteză și interpretare fizică.</p>
+  <p><b>Evaluare:</b> montaj, date, grafic, calcul, concluzie, NTSM.</p>
+  <p><b>NTSM:</b> reguli de siguranță specifice experimentului.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#expMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#expMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('expDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#evalMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#evalMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('evalDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D11</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
