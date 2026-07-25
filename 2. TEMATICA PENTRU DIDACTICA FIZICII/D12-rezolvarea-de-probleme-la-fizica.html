@@ -1,1 +1,1708 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D12 · Rezolvarea de probleme la fizică — Didactica Fizicii</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#eef1f0;
+  --bg-grid:#e2e8e6;
+  --paper:#ffffff;
+  --ink:#17211f;
+  --ink-soft:#52615d;
+  --accent:#1f6f6b;
+  --accent-2:#b8862e;
+  --accent-ink:#ffffff;
+  --line:#d3dbd8;
+  --shadow:rgba(24,35,34,.08);
+  --code-bg:#eef4f3;
+  --bad:#b94d42;
+  --good:#2f7d52;
+  --radius:18px;
+  color-scheme:light;
+}
+
+html.dark{
+  --bg:#0e1615;
+  --bg-grid:#131e1c;
+  --paper:#131e1d;
+  --ink:#e8efed;
+  --ink-soft:#a9bab6;
+  --accent:#5fc9c1;
+  --accent-2:#e0ab54;
+  --accent-ink:#0e1615;
+  --line:#24322f;
+  --shadow:rgba(0,0,0,.35);
+  --code-bg:#0f1b19;
+  --bad:#ff8b7f;
+  --good:#7fdea8;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
+    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
+    var(--bg);
+  color:var(--ink);
+  font-family:"Source Sans 3",system-ui,sans-serif;
+  font-size:20px;
+  line-height:1.72;
+  min-height:100vh;
+}
+
+h1,h2,h3{
+  font-family:"Fraunces",Georgia,serif;
+  font-weight:650;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+
+a{
+  color:var(--accent);
+}
+
+.shell{
+  max-width:1040px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+}
+
+header.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:26px;
+}
+
+.crumb{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  line-height:1.7;
+}
+
+.crumb b{
+  color:var(--accent);
+}
+
+.lesson-title{
+  margin:6px 0 0;
+  font-size:clamp(30px,5vw,48px);
+  line-height:1.08;
+}
+
+.lesson-title .instrument{
+  display:inline-flex;
+  width:38px;
+  height:38px;
+  vertical-align:-9px;
+  margin-right:10px;
+}
+
+.theme-toggle{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 8px;
+  box-shadow:0 2px 8px var(--shadow);
+  cursor:pointer;
+}
+
+.theme-toggle .icon{
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:.65;
+}
+
+.theme-toggle .track{
+  width:40px;
+  height:22px;
+  border-radius:999px;
+  background:var(--line);
+  position:relative;
+}
+
+.theme-toggle .knob{
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--accent);
+  transition:transform .25s;
+}
+
+html.dark .theme-toggle .knob{
+  transform:translateX(18px);
+}
+
+.ruler{
+  display:flex;
+  gap:4px;
+  margin-bottom:34px;
+}
+
+.ruler .tick{
+  flex:1;
+  height:7px;
+  border-radius:4px;
+  background:var(--line);
+  position:relative;
+  cursor:pointer;
+}
+
+.ruler .tick.done{
+  background:var(--accent);
+  opacity:.45;
+}
+
+.ruler .tick.current{
+  background:var(--accent);
+  opacity:1;
+}
+
+.ruler .tick::after{
+  content:attr(data-n);
+  position:absolute;
+  top:13px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+}
+
+.page{
+  display:none;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  margin-bottom:8px;
+}
+
+.page h2{
+  font-size:clamp(30px,4.5vw,42px);
+  line-height:1.15;
+  margin:0 0 20px;
+}
+
+.page h3{
+  font-size:clamp(23px,3vw,30px);
+  line-height:1.2;
+  margin:0 0 12px;
+}
+
+.page p{
+  margin:0 0 20px;
+}
+
+.page ul,
+.page ol{
+  margin:0 0 22px;
+  padding-left:26px;
+}
+
+.page li{
+  margin-bottom:12px;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin:0 0 24px;
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.card h3{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+@media(max-width:820px){
+  .grid2,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+table.compare{
+  width:100%;
+  border-collapse:collapse;
+  margin:0 0 24px;
+  font-size:18px;
+}
+
+table.compare th,
+table.compare td{
+  border:1px solid var(--line);
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+}
+
+table.compare th{
+  background:var(--code-bg);
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+}
+
+.callout{
+  border-left:5px solid var(--accent-2);
+  background:var(--code-bg);
+  border-radius:0 14px 14px 0;
+  padding:18px 22px;
+  margin:0 0 24px;
+}
+
+.callout b{
+  color:var(--accent-2);
+}
+
+.key{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.35em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.key::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.72em;
+  line-height:1;
+}
+
+.remember-list{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.remember-list li{
+  position:relative;
+  padding-left:30px;
+}
+
+.remember-list li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:.2em;
+  color:var(--accent-2);
+  font-size:.9em;
+}
+
+.remember-list b{
+  font-weight:800;
+}
+
+.keywords{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:12px 0 0;
+}
+
+.keywords span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  border:1px solid var(--line);
+  background:var(--paper);
+  border-radius:999px;
+  padding:7px 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+
+.keywords span::before{
+  content:"●";
+  color:var(--accent-2);
+  font-size:.75em;
+}
+
+.stepline{
+  list-style:none;
+  margin:0 0 24px;
+  padding:0 !important;
+  counter-reset:step;
+}
+
+.stepline li{
+  counter-increment:step;
+  position:relative;
+  padding-left:48px;
+  margin-bottom:18px;
+}
+
+.stepline li::before{
+  content:counter(step);
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  position:absolute;
+  left:0;
+  top:.05em;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:var(--accent);
+  color:var(--accent-ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.mindmap,
+.problem-map,
+.eval-map{
+  display:grid;
+  gap:12px;
+  margin:10px 0 24px;
+}
+
+.mindmap{
+  grid-template-columns:repeat(5,1fr);
+}
+
+.problem-map,
+.eval-map{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.mindmap button,
+.flow button,
+.problem-map button,
+.eval-map button{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:16px;
+  padding:16px 12px;
+  cursor:pointer;
+  box-shadow:0 3px 10px var(--shadow);
+  font-weight:800;
+  font-size:18px;
+}
+
+.mindmap button:hover,
+.flow button:hover,
+.problem-map button:hover,
+.eval-map button:hover{
+  outline:3px solid var(--accent);
+}
+
+.mindmap button.active,
+.flow button.active,
+.problem-map button.active,
+.eval-map button.active{
+  background:var(--accent);
+  color:var(--accent-ink);
+  border-color:var(--accent);
+}
+
+@media(max-width:820px){
+  .mindmap{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mindmap button:last-child{
+    grid-column:1/-1;
+  }
+
+  .problem-map,
+  .eval-map{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:560px){
+  .problem-map,
+  .eval-map{
+    grid-template-columns:1fr;
+  }
+}
+
+.flow{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin:12px 0 24px;
+}
+
+.flow.wide{
+  grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.flow .arrow{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--accent-2);
+  font-weight:800;
+  font-size:28px;
+}
+
+@media(max-width:900px){
+  .flow,.flow.wide{
+    grid-template-columns:1fr;
+  }
+
+  .flow .arrow{
+    text-align:center;
+    transform:rotate(90deg);
+  }
+}
+
+.small{
+  font-size:16px;
+  color:var(--ink-soft);
+}
+
+.mistakes{
+  list-style:none;
+  padding-left:0 !important;
+}
+
+.mistakes li{
+  position:relative;
+  padding-left:34px;
+}
+
+.mistakes li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:.05em;
+  color:var(--bad);
+  font-weight:900;
+}
+
+.good{
+  color:var(--good);
+  font-weight:800;
+}
+
+.bad{
+  color:var(--bad);
+  font-weight:800;
+}
+
+.formula{
+  font-family:"JetBrains Mono",monospace;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin:0 0 24px;
+  text-align:center;
+  font-size:19px;
+}
+
+.problem-box{
+  background:var(--paper);
+  border:2px dashed var(--accent);
+  border-radius:18px;
+  padding:20px 22px;
+  margin:0 0 24px;
+}
+
+.solution-step{
+  border-left:4px solid var(--accent);
+  background:var(--paper);
+  border-radius:0 14px 14px 0;
+  padding:16px 20px;
+  margin:0 0 14px;
+  box-shadow:0 3px 10px var(--shadow);
+}
+
+details.quiz{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px var(--shadow);
+}
+
+details.quiz summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.resource-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:14px 0 24px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Sans 3",sans-serif;
+  font-weight:800;
+  font-size:17px;
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.btn:hover{
+  box-shadow:0 5px 14px var(--shadow);
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.35;
+  cursor:default;
+  box-shadow:none;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.navbar{
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.pageinfo{
+  font-family:"JetBrains Mono",monospace;
+  font-size:14px;
+  color:var(--ink-soft);
+}
+
+#final-actions{
+  display:none;
+  margin-top:30px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+@media(max-width:700px){
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+
+.action-card{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:20px;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--paper);
+  text-decoration:none;
+  color:var(--ink);
+  box-shadow:0 3px 14px var(--shadow);
+}
+
+.action-card .tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-2);
+}
+
+.action-card .label{
+  font-family:"Fraunces",serif;
+  font-size:22px;
+  font-weight:650;
+}
+
+.action-card.primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+}
+
+.action-card.primary .tag{
+  color:var(--accent-ink);
+  opacity:.8;
+}
+
+footer.sig{
+  margin-top:34px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  color:var(--ink-soft);
+  opacity:.75;
+}
+
+.hidden-print-source{
+  display:none;
+}
+
+@media print{
+  body{
+    background:white;
+    color:black;
+    font-size:13pt;
+  }
+
+  .theme-toggle,
+  .ruler,
+  .navbar,
+  #final-actions,
+  .resource-actions{
+    display:none !important;
+  }
+
+  .page{
+    display:block !important;
+    break-after:page;
+  }
+
+  .card,
+  .callout,
+  .solution-step{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="top">
+    <div>
+      <div class="crumb">Titularizare · Didactica Fizicii › <b>D12 — Probleme</b></div>
+      <h1 class="lesson-title">
+        <svg class="instrument" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
+          <path d="M8 9h8M8 13h5M8 17h8" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16.5 12.5l1.5 1.5 2.8-3.5" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Rezolvarea de probleme la fizică
+      </h1>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
+      <span class="icon">☀️</span>
+      <span class="track"><span class="knob"></span></span>
+      <span class="icon">🌙</span>
+    </button>
+  </header>
+
+  <nav class="ruler" id="ruler" aria-label="Progresul lecției"></nav>
+
+  <main id="pages">
+
+    <section class="page active" data-page="1">
+      <div class="eyebrow">1 / 13 · Hartă mentală</div>
+      <h2>De ce rezolvarea de probleme este metodă specifică fizicii?</h2>
+
+      <p>
+        <span class="key"><b>Rezolvarea de probleme</b></span> este metoda prin care elevul aplică legi,
+        principii și modele fizice pentru a explica, calcula, interpreta și decide în situații concrete.
+      </p>
+
+      <p>
+        Ideea centrală pentru examen:
+        <span class="key"><b>problema de fizică nu este doar exercițiu de calcul</b></span>, ci un demers de
+        <b>modelare</b>, <b>raționament</b>, <b>alegere a legilor</b>, <b>verificare a unităților</b> și
+        <b>interpretare a rezultatului</b>.
+      </p>
+
+      <div class="mindmap" id="mindmap">
+        <button class="active" data-info="Elevul identifică situația fizică, datele, necunoscutele și condițiile de aplicare ale legilor.">1. Analiză</button>
+        <button data-info="Elevul transformă situația reală într-un model: sistem fizic, schemă, aproximații și relații relevante.">2. Model</button>
+        <button data-info="Elevul selectează legile și formulele potrivite, fără a aplica mecanic orice relație memorată.">3. Legi</button>
+        <button data-info="Elevul efectuează calculul literal sau numeric, cu unități de măsură și conversii corecte.">4. Calcul</button>
+        <button data-info="Elevul verifică sensul fizic al rezultatului, ordinul de mărime, cazurile limită și concluzia.">5. Interpretare</button>
+      </div>
+
+      <div class="card" id="mindmapDetail">
+        <h3><span class="dot"></span>1. Analiză</h3>
+        <p>Elevul identifică situația fizică, datele, necunoscutele și condițiile de aplicare ale legilor.</p>
+      </div>
+
+      <div class="callout">
+        <b>Cuvinte-cheie pentru examen:</b>
+        <div class="keywords">
+          <span>problemă de fizică</span>
+          <span>modelare</span>
+          <span>algoritm</span>
+          <span>interpretare</span>
+          <span>barem</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="eyebrow">2 / 13 · Funcții didactice</div>
+      <h2>Ce formează rezolvarea de probleme?</h2>
+
+      <p>
+        Rezolvarea de probleme are funcție <span class="key"><b>cognitivă</b></span>,
+        <span class="key"><b>formativă</b></span>, <span class="key"><b>aplicativă</b></span>,
+        <span class="key"><b>metacognitivă</b></span> și <span class="key"><b>evaluativă</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Funcție</th>
+          <th>Ce dezvoltă?</th>
+          <th>Exemplu la fizică</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>cognitivă</b></span></td>
+          <td>înțelegerea legilor și conceptelor</td>
+          <td>aplicarea legii lui Ohm pentru un circuit simplu</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>formativă</b></span></td>
+          <td>raționament, analiză, sinteză, transfer</td>
+          <td>alegerea corectă a formulei pentru energie mecanică</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>aplicativă</b></span></td>
+          <td>legătura dintre teorie și viața reală</td>
+          <td>estimarea costului energiei consumate de un aparat</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>metacognitivă</b></span></td>
+          <td>autoverificare și corectarea propriului demers</td>
+          <td>verificarea unităților și a ordinului de mărime</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>evaluativă</b></span></td>
+          <td>verificarea competențelor de aplicare și argumentare</td>
+          <td>problemă cu barem pe pași</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Problemă bună = situație fizică + model + lege + calcul + interpretare
+      </div>
+
+      <div class="callout">
+        <b>De reținut:</b> elevul trebuie format să explice <b>de ce</b> folosește o relație, nu doar să o substituie numeric.
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="eyebrow">3 / 13 · Tipuri de probleme</div>
+      <h2>Clasificarea problemelor de fizică</h2>
+
+      <p>
+        La examen, arată că problemele pot avea funcții diferite: înțelegere, exersare,
+        transfer, evaluare, modelare sau investigație.
+      </p>
+
+      <div class="problem-map" id="problemMap">
+        <button class="active" data-title="Probleme calitative" data-info="Solicită explicații, argumente și relații cauzale, fără calcul numeric dominant. Exemplu: de ce se încălzește un conductor parcurs de curent?">Calitative</button>
+        <button data-title="Probleme cantitative" data-info="Solicită aplicarea relațiilor matematice, calcule numerice și verificarea unităților. Exemplu: calculul rezistenței din U și I.">Cantitative</button>
+        <button data-title="Probleme experimentale" data-info="Pornesc de la date măsurate sau cer proiectarea unei proceduri experimentale. Exemplu: determinarea densității unui corp.">Experimentale</button>
+        <button data-title="Probleme grafice" data-info="Solicită citirea, trasarea și interpretarea graficelor. Exemplu: interpretarea pantei graficului I(U).">Grafice</button>
+      </div>
+
+      <div class="card" id="problemDetail">
+        <h3><span class="dot"></span>Probleme calitative</h3>
+        <p>Solicită explicații, argumente și relații cauzale, fără calcul numeric dominant. Exemplu: de ce se încălzește un conductor parcurs de curent?</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Tip</th>
+          <th>Ce solicită?</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>calitativă</b></span></td>
+          <td>explicație și argumentare</td>
+          <td>de ce un corp plutește?</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>cantitativă</b></span></td>
+          <td>calcul și relații matematice</td>
+          <td>determină viteza din distanță și timp</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>experimentală</b></span></td>
+          <td>date, măsurări, prelucrare</td>
+          <td>determină rezistența din valori U-I</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>grafică</b></span></td>
+          <td>citirea sau construirea unui grafic</td>
+          <td>află viteza din panta graficului s(t)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>deschisă</b></span></td>
+          <td>estimare, argumentare, mai multe soluții</td>
+          <td>estimează energia consumată de clasa ta într-o zi</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="4">
+      <div class="eyebrow">4 / 13 · Algoritm</div>
+      <h2>Algoritmul general de rezolvare</h2>
+
+      <p>
+        Algoritmul nu trebuie folosit mecanic, dar îi ajută pe elevi să își organizeze gândirea.
+        O problemă se rezolvă printr-o succesiune logică de pași.
+      </p>
+
+      <ol class="stepline">
+        <li>
+          <b>Citirea și înțelegerea enunțului.</b>
+          Se identifică fenomenul, datele, necunoscutele și condițiile.
+        </li>
+        <li>
+          <b>Reprezentarea situației.</b>
+          Se realizează schemă, desen, diagramă, grafic sau tabel.
+        </li>
+        <li>
+          <b>Alegerea modelului fizic.</b>
+          Se stabilesc ipotezele: corp punctiform, frecare neglijabilă, circuit ideal, mișcare uniformă etc.
+        </li>
+        <li>
+          <b>Selectarea legilor.</b>
+          Se aleg principiile și relațiile potrivite.
+        </li>
+        <li>
+          <b>Rezolvarea simbolică sau numerică.</b>
+          Se efectuează calcule și conversii de unități.
+        </li>
+        <li>
+          <b>Verificarea rezultatului.</b>
+          Se verifică unitățile, semnul, ordinul de mărime și sensul fizic.
+        </li>
+        <li>
+          <b>Formularea răspunsului.</b>
+          Se scrie concluzia cu unitate de măsură și interpretare.
+        </li>
+      </ol>
+
+      <div class="formula">
+        Enunț → schemă → model → legi → calcul → verificare → concluzie
+      </div>
+    </section>
+
+    <section class="page" data-page="5">
+      <div class="eyebrow">5 / 13 · Flux interactiv</div>
+      <h2>Fluxul rezolvării de probleme</h2>
+
+      <p>
+        Apasă pe fiecare nod. Acesta este traseul pe care elevul trebuie să îl învețe și să îl aplice.
+      </p>
+
+      <div class="flow wide" id="flow">
+        <button class="active" data-title="Înțeleg enunțul" data-info="Citesc problema, identific fenomenul și separ datele de necunoscute.">Enunț</button>
+        <span class="arrow">→</span>
+        <button data-title="Reprezint situația" data-info="Fac schemă, desen, tabel sau grafic, pentru a vedea relațiile dintre mărimi.">Schemă</button>
+        <span class="arrow">→</span>
+        <button data-title="Aleg modelul" data-info="Stabilesc ipotezele: idealizări, condiții, aproximații, sistem fizic.">Model</button>
+        <span class="arrow">→</span>
+        <button data-title="Aplic legile" data-info="Scriu relațiile fizice relevante și justific alegerea lor.">Legi</button>
+        <span class="arrow">→</span>
+        <button data-title="Interpretez" data-info="Verific unitățile, rezultatul, ordinul de mărime și concluzia fizică.">Interpretare</button>
+      </div>
+
+      <div class="card" id="flowDetail">
+        <h3><span class="dot"></span>Înțeleg enunțul</h3>
+        <p>Citesc problema, identific fenomenul și separ datele de necunoscute.</p>
+      </div>
+
+      <div class="callout">
+        <b>Capcană frecventă:</b> elevul sare direct la formulă. Corect: întâi analizează situația, apoi alege legea.
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Întrebare de control</th>
+          <th>Rol</th>
+        </tr>
+        <tr>
+          <td>Ce fenomen apare?</td>
+          <td>identificarea domeniului: mecanică, electricitate, termică, optică</td>
+        </tr>
+        <tr>
+          <td>Ce se cunoaște și ce se cere?</td>
+          <td>organizarea datelor</td>
+        </tr>
+        <tr>
+          <td>Ce model este acceptabil?</td>
+          <td>alegerea ipotezelor</td>
+        </tr>
+        <tr>
+          <td>Ce lege se aplică?</td>
+          <td>fundamentarea fizică</td>
+        </tr>
+        <tr>
+          <td>Rezultatul are sens?</td>
+          <td>interpretarea și verificarea</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="eyebrow">6 / 13 · Proiectare didactică</div>
+      <h2>Cum proiectezi o secvență prin rezolvare de probleme?</h2>
+
+      <p>
+        O secvență de învățare prin probleme nu înseamnă doar „dăm exerciții”.
+        Profesorul trebuie să organizeze trecerea de la problemă la model, strategie, rezolvare și reflecție.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Secvență</th>
+          <th>Activitatea profesorului</th>
+          <th>Activitatea elevilor</th>
+          <th>Evaluare</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Evocare</b></span></td>
+          <td>propune o situație-problemă și activează cunoștințe anterioare</td>
+          <td>identifică fenomenul și formulează ipoteze</td>
+          <td>întrebări orale</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Explorare</b></span></td>
+          <td>ghidează analiza datelor și reprezentarea situației</td>
+          <td>realizează schemă, tabel, desen sau grafic</td>
+          <td>observare și feedback</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Rezolvare</b></span></td>
+          <td>dirijează alegerea legilor și justificarea formulelor</td>
+          <td>scriu relații, calculează, verifică unități</td>
+          <td>verificare pe pași</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Reflecție</b></span></td>
+          <td>cere interpretarea rezultatului și analiza erorilor</td>
+          <td>formulează concluzia și compară strategii</td>
+          <td>autoevaluare</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Transfer</b></span></td>
+          <td>propune o problemă nouă sau aplicativă</td>
+          <td>aplică strategia în context diferit</td>
+          <td>problemă individuală</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Secvență bună = problemă autentică + strategie + rezolvare ghidată + reflecție + transfer
+      </div>
+    </section>
+
+    <section class="page" data-page="7">
+      <div class="eyebrow">7 / 13 · Strategii de învățare</div>
+      <h2>Strategii didactice pentru rezolvarea de probleme</h2>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Strategii pentru profesor</h3>
+          <ul class="remember-list">
+            <li><b>modelarea gândirii</b>: profesorul explică de ce alege o lege;</li>
+            <li><b>rezolvarea ghidată</b>: elevii completează pașii lipsă;</li>
+            <li><b>probleme gradate</b>: de la simplu la complex;</li>
+            <li><b>întrebări de control</b>: ce se cere, ce model, ce lege;</li>
+            <li><b>compararea strategiilor</b>: mai multe căi pentru aceeași problemă.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Strategii pentru elev</h3>
+          <ul class="remember-list">
+            <li><b>subliniază datele</b> și necunoscutele;</li>
+            <li><b>face schemă</b> înainte de calcul;</li>
+            <li><b>scrie formulele literal</b> înainte de înlocuire;</li>
+            <li><b>verifică unitățile</b> la fiecare rezultat;</li>
+            <li><b>interpretează</b> rezultatul în limbaj fizic.</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Metodă / procedeu</th>
+          <th>Utilizare</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td>rezolvare demonstrativă</td>
+          <td>profesorul modelează demersul</td>
+          <td>problemă nouă cu energie mecanică</td>
+        </tr>
+        <tr>
+          <td>rezolvare ghidată</td>
+          <td>elevii completează etape</td>
+          <td>alegerea formulei și conversia unităților</td>
+        </tr>
+        <tr>
+          <td>lucru în perechi</td>
+          <td>verificare reciprocă</td>
+          <td>comparați două rezolvări ale aceleiași probleme</td>
+        </tr>
+        <tr>
+          <td>problemă deschisă</td>
+          <td>dezvoltă estimarea și transferul</td>
+          <td>cât consumă electric o clasă într-o zi?</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="page" data-page="8">
+      <div class="eyebrow">8 / 13 · Exemplu rezolvat</div>
+      <h2>Exemplu: Legea lui Ohm</h2>
+
+      <div class="problem-box">
+        <p><b>Problemă.</b> La bornele unui rezistor se aplică tensiunea \( U = 6\,V \). Intensitatea curentului prin rezistor este \( I = 0{,}3\,A \). Determină rezistența electrică a rezistorului și interpretează rezultatul.</p>
+      </div>
+
+      <div class="solution-step">
+        <h3><span class="dot"></span>1. Date și necunoscută</h3>
+        <p>Date: \( U = 6\,V \), \( I = 0{,}3\,A \). Necunoscută: \( R \).</p>
+      </div>
+
+      <div class="solution-step">
+        <h3><span class="dot"></span>2. Model fizic</h3>
+        <p>Considerăm un rezistor ohmic, pentru care se aplică legea lui Ohm pe o porțiune de circuit.</p>
+      </div>
+
+      <div class="solution-step">
+        <h3><span class="dot"></span>3. Relația folosită</h3>
+        <p>\( I = U/R \), deci \( R = U/I \).</p>
+      </div>
+
+      <div class="solution-step">
+        <h3><span class="dot"></span>4. Calcul</h3>
+        <p>\( R = 6\,V / 0{,}3\,A = 20\,\Omega \).</p>
+      </div>
+
+      <div class="solution-step">
+        <h3><span class="dot"></span>5. Interpretare</h3>
+        <p>Rezistența de \( 20\,\Omega \) arată că rezistorul se opune trecerii curentului; pentru aceeași tensiune, o rezistență mai mare ar produce o intensitate mai mică.</p>
+      </div>
+
+      <div class="callout">
+        <b>Model didactic:</b> elevul trebuie să justifice legea folosită, să păstreze unitățile și să interpreteze rezultatul, nu doar să scrie cifra finală.
+      </div>
+    </section>
+
+    <section class="page" data-page="9">
+      <div class="eyebrow">9 / 13 · Exemplu cu barem</div>
+      <h2>Problemă aplicativă: energia electrică</h2>
+
+      <div class="problem-box">
+        <p><b>Problemă.</b> Un consumator electric are puterea \( P = 100\,W \) și funcționează timp de \( t = 3\,h \). Determină energia consumată în \( Wh \) și în jouli. Explică de ce rezultatul este util în viața cotidiană.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Etapă de rezolvare</th>
+          <th>Rezolvare</th>
+          <th>Punctaj orientativ</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Identificarea datelor</b></span></td>
+          <td>\( P = 100\,W \), \( t = 3\,h \), se cere \( E \)</td>
+          <td>1 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Alegerea relației</b></span></td>
+          <td>\( E = P \cdot t \)</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Calcul în Wh</b></span></td>
+          <td>\( E = 100\,W \cdot 3\,h = 300\,Wh \)</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Transformare în jouli</b></span></td>
+          <td>\( 300\,Wh = 300 \cdot 3600\,J = 1\,080\,000\,J \)</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Interpretare</b></span></td>
+          <td>energia consumată permite estimarea consumului și a costului pe factură</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>Unități și redactare</b></span></td>
+          <td>unități corecte, răspuns complet</td>
+          <td>1 p</td>
+        </tr>
+      </table>
+
+      <div class="formula">
+        Barem bun = date + lege + calcul + unități + interpretare
+      </div>
+
+      <div class="callout">
+        <b>La examen:</b> când propui o problemă, atașează un barem pe pași, ca să arăți cum verifici competențele, nu doar răspunsul final.
+      </div>
+    </section>
+
+    <section class="page" data-page="10">
+      <div class="eyebrow">10 / 13 · Evaluare prin probleme</div>
+      <h2>Cum evaluezi prin rezolvare de probleme?</h2>
+
+      <p>
+        <span class="key"><b>Evaluarea prin probleme</b></span> verifică înțelegerea conceptelor,
+        alegerea modelului, aplicarea legilor, calculul, interpretarea și comunicarea răspunsului.
+      </p>
+
+      <div class="eval-map" id="evalMap">
+        <button class="active" data-title="Analiza enunțului" data-info="Se verifică identificarea datelor, necunoscutelor, fenomenului și condițiilor de aplicare.">Analiză</button>
+        <button data-title="Modelarea" data-info="Se verifică schema, ipotezele, reprezentarea și alegerea sistemului fizic.">Modelare</button>
+        <button data-title="Calculul" data-info="Se verifică relațiile, transformările, substituția numerică și unitățile.">Calcul</button>
+        <button data-title="Interpretarea" data-info="Se verifică sensul fizic, concluzia, ordinul de mărime și argumentarea.">Interpretare</button>
+      </div>
+
+      <div class="card" id="evalDetail">
+        <h3><span class="dot"></span>Analiza enunțului</h3>
+        <p>Se verifică identificarea datelor, necunoscutelor, fenomenului și condițiilor de aplicare.</p>
+      </div>
+
+      <table class="compare">
+        <tr>
+          <th>Criteriu</th>
+          <th>Indicatori</th>
+          <th>Punctaj</th>
+        </tr>
+        <tr>
+          <td>înțelegerea problemei</td>
+          <td>date, necunoscute, fenomen, schemă</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>modelarea fizică</td>
+          <td>ipoteze, legi, relații justificate</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>rezolvarea matematică</td>
+          <td>calcul corect, transformări, unități</td>
+          <td>3 p</td>
+        </tr>
+        <tr>
+          <td>interpretarea rezultatului</td>
+          <td>sens fizic, ordin de mărime, concluzie</td>
+          <td>2 p</td>
+        </tr>
+        <tr>
+          <td>redactarea</td>
+          <td>claritate, simboluri, răspuns final</td>
+          <td>1 p</td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <b>De reținut:</b> un barem bun acordă puncte pentru demers, nu doar pentru rezultatul numeric final.
+      </div>
+    </section>
+
+    <section class="page" data-page="11">
+      <div class="eyebrow">11 / 13 · Diferențiere</div>
+      <h2>Probleme gradate și sprijin pentru elevi</h2>
+
+      <p>
+        O secvență bună de rezolvare de probleme trebuie să includă
+        <span class="key"><b>diferențiere</b></span>, <span class="key"><b>remediere</b></span> și
+        <span class="key"><b>aprofundare</b></span>.
+      </p>
+
+      <table class="compare">
+        <tr>
+          <th>Nivel</th>
+          <th>Sarcină</th>
+          <th>Exemplu</th>
+        </tr>
+        <tr>
+          <td><span class="key"><b>remediere</b></span></td>
+          <td>problemă cu date explicite și formulă indicată</td>
+          <td>calculează \( R \) dacă \( U \) și \( I \) sunt date</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>consolidare</b></span></td>
+          <td>problemă standard cu alegerea formulei</td>
+          <td>determină \( I \) din \( U \) și \( R \)</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>aprofundare</b></span></td>
+          <td>problemă cu două relații sau transformări</td>
+          <td>calculează energia consumată și transformă în jouli</td>
+        </tr>
+        <tr>
+          <td><span class="key"><b>performanță</b></span></td>
+          <td>problemă deschisă sau de estimare</td>
+          <td>estimează consumul energetic al clasei într-o zi</td>
+        </tr>
+      </table>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Sprijin pentru elevii cu dificultăți</h3>
+          <ul class="remember-list">
+            <li><b>schemă de rezolvare</b> cu pași;</li>
+            <li><b>listă de formule</b> selectate;</li>
+            <li><b>problemă similară rezolvată</b>;</li>
+            <li><b>întrebări ghidate</b>;</li>
+            <li><b>feedback imediat</b>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Aprofundare</h3>
+          <ul class="remember-list">
+            <li><b>probleme cu date incomplete</b>;</li>
+            <li><b>estimări</b> și ordine de mărime;</li>
+            <li><b>probleme cu mai multe strategii</b>;</li>
+            <li><b>probleme interdisciplinare</b>;</li>
+            <li><b>interpretare de grafice reale</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="12">
+      <div class="eyebrow">12 / 13 · Greșeli frecvente</div>
+      <h2>Ce greșeli trebuie evitate?</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Greșeli comune la examen și la clasă</h3>
+        <ul class="mistakes">
+          <li><b>Reducerea problemei la calcul.</b> Problema cere analiză, model și interpretare.</li>
+          <li><b>Aplicarea mecanică a formulelor.</b> Elevul trebuie să justifice legea folosită.</li>
+          <li><b>Lipsa schemei.</b> Fără reprezentare, elevii confundă mărimile și condițiile.</li>
+          <li><b>Omiterea unităților de măsură.</b> Rezultatul numeric fără unitate este incomplet.</li>
+          <li><b>Transformări greșite.</b> Minute, ore, centimetri, kilowați și jouli trebuie convertite corect.</li>
+          <li><b>Lipsa interpretării.</b> Elevul trebuie să spună ce înseamnă rezultatul fizic.</li>
+          <li><b>Barem doar pe răspuns final.</b> Evaluarea trebuie să puncteze și demersul.</li>
+          <li><b>Probleme prea grele prea devreme.</b> Se recomandă gradare și sprijin.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <b>Regulă practică:</b> orice rezolvare trebuie să conțină: <b>date</b>, <b>schemă/model</b>, <b>lege</b>, <b>calcul</b>, <b>unități</b>, <b>interpretare</b>.
+      </div>
+
+      <div class="keywords">
+        <span>schemă</span>
+        <span>model</span>
+        <span>unități</span>
+        <span>interpretare</span>
+        <span>barem</span>
+      </div>
+    </section>
+
+    <section class="page" data-page="13">
+      <div class="eyebrow">13 / 13 · Sinteză și autoevaluare</div>
+      <h2>Sinteză finală</h2>
+
+      <div class="card">
+        <h3><span class="dot"></span>Schema de memorat</h3>
+        <ul class="remember-list">
+          <li><b>Rezolvarea de probleme</b> este metodă specifică fizicii, centrată pe modelare și aplicarea legilor.</li>
+          <li><b>Problemele pot fi</b> calitative, cantitative, experimentale, grafice, deschise sau interdisciplinare.</li>
+          <li><b>Algoritmul general</b> este: enunț, date, schemă, model, legi, calcul, verificare, concluzie.</li>
+          <li><b>Profesorul</b> trebuie să proiecteze probleme gradate și să ghideze strategia de rezolvare.</li>
+          <li><b>Elevul</b> trebuie să justifice legea folosită, să verifice unitățile și să interpreteze rezultatul.</li>
+          <li><b>Evaluarea prin probleme</b> trebuie să puncteze analiza, modelarea, calculul, interpretarea și redactarea.</li>
+          <li><b>Baremul</b> trebuie să fie detaliat, pe pași, nu doar pe răspunsul final.</li>
+          <li><b>Diferențierea</b> se realizează prin probleme remediale, standard, de aprofundare și de performanță.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot"></span>Sinteză în 5 enunțuri</h3>
+        <ol>
+          <li><b>Rezolvarea de probleme</b> dezvoltă gândirea fizică, nu doar abilitatea de calcul.</li>
+          <li><b>O problemă bine aleasă</b> pornește de la o situație fizică și cere modelare, alegerea legilor și interpretarea rezultatului.</li>
+          <li><b>Secvența didactică</b> trebuie să includă analiză, rezolvare ghidată, reflecție și transfer.</li>
+          <li><b>Evaluarea</b> trebuie să urmărească demersul complet: date, schemă, lege, calcul, unități, concluzie.</li>
+          <li><b>La examen</b>, răspunsul devine complet când incluzi un exemplu concret de problemă cu barem.</li>
+        </ol>
+      </div>
+
+      <details class="quiz">
+        <summary>1. Care este diferența dintre problemă calitativă și cantitativă?</summary>
+        <p><b>Problema calitativă</b> cere explicație și argumentare. <b>Problema cantitativă</b> cere calcul pe baza unor relații matematice.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>2. Care sunt pașii generali ai rezolvării unei probleme?</summary>
+        <p>Înțelegerea enunțului, identificarea datelor, reprezentarea situației, alegerea modelului, selectarea legilor, calculul, verificarea unităților și interpretarea rezultatului.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>3. De ce nu este suficient rezultatul numeric?</summary>
+        <p>Pentru că fizica cere interpretarea rezultatului: unitate, sens fizic, ordin de mărime, legătură cu fenomenul și condițiile de aplicare.</p>
+      </details>
+
+      <details class="quiz">
+        <summary>4. Cum se evaluează corect o problemă?</summary>
+        <p>Prin barem pe pași: analiza enunțului, modelarea, relațiile folosite, calculul, unitățile, interpretarea și redactarea răspunsului.</p>
+      </details>
+
+      <div class="grid2">
+        <div class="card">
+          <h3><span class="dot"></span>Resurse printabile</h3>
+          <p class="small">Butoanele deschid o versiune printabilă. Alege „Save as PDF” din dialogul browserului.</p>
+          <div class="resource-actions">
+            <button class="btn primary" onclick="printResource('schema')">Schema D12 PDF</button>
+            <button class="btn" onclick="printResource('template')">Șablon problemă PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3><span class="dot"></span>Mini-șablon de răspuns</h3>
+          <p>
+            <b>Definiție</b> → <b>funcții</b> → <b>tipuri de probleme</b> →
+            <b>algoritm</b> → <b>secvență didactică</b> →
+            <b>exemplu rezolvat</b> → <b>barem</b> → <b>greșeli de evitat</b>.
+          </p>
+        </div>
+      </div>
+
+      <div class="formula">
+        Răspuns bun = problemă + strategie + model + calcul + interpretare + barem
+      </div>
+    </section>
+
+  </main>
+
+  <div class="navbar" id="navbar">
+    <button class="btn ghost" id="prevBtn">← Pagina anterioară</button>
+    <span class="pageinfo"><span id="pageNow">1</span> / <span id="pageTotal">13</span></span>
+    <button class="btn primary" id="nextBtn">Pagina următoare →</button>
+  </div>
+
+  <div id="final-actions">
+    <div class="card" style="text-align:center">
+      <div class="eyebrow">Lecție parcursă</div>
+      <h2 style="margin:0 0 8px">Ce urmează?</h2>
+      <p class="small">Exersează proiectarea unei secvențe de rezolvare de probleme pentru „Legea lui Ohm”, „Energia mecanică”, „Calorimetrie” sau „Lentile subțiri”.</p>
+    </div>
+
+    <div class="actions">
+      <a class="action-card" href="D13-utilizarea-tic-in-predare-invatare-evaluare.html">
+        <span class="tag">Continuă</span>
+        <span class="label">Lecția următoare →</span>
+      </a>
+
+      <a class="action-card primary" href="D12-fisa-de-lucru.html">
+        <span class="tag">Aplică</span>
+        <span class="label">Fișa de lucru</span>
+      </a>
+
+      <a class="action-card" href="index.html">
+        <span class="tag">Navigare</span>
+        <span class="label">Întoarcere la capitol</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="sig">D12 · Tematica pentru Didactica Fizicii · Titularizare-Fizica</footer>
+</div>
+
+<div class="hidden-print-source" id="print-schema">
+  <h1>Schema D12 — Rezolvarea de probleme la fizică</h1>
+  <ul>
+    <li><b>Definiție:</b> metoda prin care elevul aplică legi și modele fizice pentru a explica, calcula, interpreta și decide în situații concrete.</li>
+    <li><b>Funcții:</b> cognitivă, formativă, aplicativă, metacognitivă, evaluativă.</li>
+    <li><b>Tipuri:</b> probleme calitative, cantitative, experimentale, grafice, deschise, interdisciplinare.</li>
+    <li><b>Algoritm:</b> enunț → date → schemă → model → legi → calcul → verificare → concluzie.</li>
+    <li><b>Secvență didactică:</b> evocare, explorare, rezolvare, reflecție, transfer.</li>
+    <li><b>Strategii:</b> rezolvare demonstrativă, ghidată, individuală, în perechi, pe grupe, probleme gradate.</li>
+    <li><b>Evaluare:</b> analiză, modelare, calcul, unități, interpretare, redactare.</li>
+    <li><b>Barem:</b> se acordă puncte pentru demersul complet, nu numai pentru rezultatul final.</li>
+  </ul>
+</div>
+
+<div class="hidden-print-source" id="print-template">
+  <h1>Șablon — Rezolvarea unei probleme de fizică</h1>
+  <p><b>1. Enunț:</b> ...</p>
+  <p><b>2. Date:</b> ...</p>
+  <p><b>3. Necunoscută:</b> ...</p>
+  <p><b>4. Reprezentare:</b> schemă / desen / tabel / grafic.</p>
+  <p><b>5. Model fizic:</b> ipoteze și condiții de aplicare.</p>
+  <p><b>6. Relații folosite:</b> formule și legi justificate.</p>
+  <p><b>7. Calcul:</b> substituție numerică, transformări, unități.</p>
+  <p><b>8. Verificare:</b> unități, ordin de mărime, semn, sens fizic.</p>
+  <p><b>9. Răspuns final:</b> rezultat cu unitate și interpretare.</p>
+  <p><b>10. Barem:</b> date — 1 p; model — 2 p; relații — 2 p; calcul — 2 p; interpretare — 2 p; redactare — 1 p.</p>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var total=pages.length;
+  var current=1;
+  var ruler=document.getElementById('ruler');
+
+  for(var i=1;i<=total;i++){
+    var t=document.createElement('div');
+    t.className='tick';
+    t.dataset.page=i;
+    t.setAttribute('data-n',i);
+    ruler.appendChild(t);
+  }
+
+  var ticks=[].slice.call(ruler.querySelectorAll('.tick'));
+  var prevBtn=document.getElementById('prevBtn');
+  var nextBtn=document.getElementById('nextBtn');
+  var pageNow=document.getElementById('pageNow');
+  var pageTotal=document.getElementById('pageTotal');
+  var finalActions=document.getElementById('final-actions');
+
+  pageTotal.textContent=total;
+
+  function render(){
+    pages.forEach(function(p){
+      p.classList.toggle('active',parseInt(p.dataset.page,10)===current);
+    });
+
+    ticks.forEach(function(t){
+      var n=parseInt(t.dataset.page,10);
+      t.classList.toggle('current',n===current);
+      t.classList.toggle('done',n<current);
+    });
+
+    pageNow.textContent=current;
+    prevBtn.disabled=current===1;
+    nextBtn.style.display=current===total?'none':'inline-flex';
+    finalActions.style.display=current===total?'block':'none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  prevBtn.onclick=function(){
+    if(current>1){
+      current--;
+      render();
+    }
+  };
+
+  nextBtn.onclick=function(){
+    if(current<total){
+      current++;
+      render();
+    }
+  };
+
+  ticks.forEach(function(t){
+    t.onclick=function(){
+      current=parseInt(t.dataset.page,10);
+      render();
+    };
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight') nextBtn.click();
+    if(e.key==='ArrowLeft') prevBtn.click();
+  });
+
+  var touchStartX=null;
+
+  document.addEventListener('touchstart',function(e){
+    touchStartX=e.changedTouches[0].clientX;
+  },{passive:true});
+
+  document.addEventListener('touchend',function(e){
+    if(touchStartX===null) return;
+
+    var dx=e.changedTouches[0].clientX-touchStartX;
+
+    if(Math.abs(dx)>55){
+      if(dx<0 && current<total){
+        current++;
+        render();
+      }
+
+      if(dx>0 && current>1){
+        current--;
+        render();
+      }
+    }
+
+    touchStartX=null;
+  },{passive:true});
+
+  render();
+
+  var root=document.documentElement;
+  var saved=localStorage.getItem('titularizare-fizica-theme');
+
+  if(saved==='dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+    root.classList.add('dark');
+  }
+
+  document.getElementById('themeToggle').onclick=function(){
+    root.classList.toggle('dark');
+    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
+  };
+
+  document.querySelectorAll('#mindmap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#mindmap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('mindmapDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.textContent + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#problemMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#problemMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('problemDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#evalMap button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#evalMap button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('evalDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+
+  document.querySelectorAll('#flow button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('#flow button').forEach(function(b){
+        b.classList.remove('active');
+      });
+
+      btn.classList.add('active');
+
+      document.getElementById('flowDetail').innerHTML =
+        '<h3><span class="dot"></span>' + btn.dataset.title + '</h3><p>' + btn.dataset.info + '</p>';
+    });
+  });
+})();
+
+function printResource(type){
+  var src=document.getElementById(type==='schema'?'print-schema':'print-template');
+  var w=window.open('', '_blank');
+
+  w.document.write(
+    '<!doctype html><html lang="ro"><head><meta charset="utf-8"><title>Resursă D12</title>' +
+    '<style>body{font-family:Arial,sans-serif;line-height:1.5;margin:34px;color:#111}h1{font-size:22px}li{margin-bottom:8px}p{margin:0 0 12px}</style>' +
+    '</head><body>' + src.innerHTML + '<script>window.onload=function(){window.print()}<\/script></body></html>'
+  );
+
+  w.document.close();
+}
+</script>
+</body>
+</html>
