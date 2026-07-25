@@ -1,1 +1,1482 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C13 – Dinamica fluidelor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C13 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 13</span>
+        <h1>Dinamica fluidelor</h1>
+
+        <p class="lead">
+          <span class="mark">Dinamica fluidelor</span> studiază fluidele aflate în curgere.
+          În această lecție lucrăm mai ales cu modelul de <strong>fluid ideal</strong>,
+          pentru care se pot obține relațiile fundamentale:
+          <strong>ecuația de continuitate</strong> și <strong>ecuația Bernoulli</strong>.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          într-o curgere staționară a unui fluid ideal incompresibil:
+          $$S_1v_1=S_2v_2$$
+          și, pe aceeași linie de curent:
+          $$p+\frac{1}{2}\rho v^2+\rho gh=\text{constant}.$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Curgere prin tub cu secțiune variabilă">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <path d="M95 105 C230 80, 295 115, 380 135 C470 155, 535 120, 665 100 L665 230 C535 210, 470 175, 380 195 C295 215, 230 250, 95 225 Z"
+                  fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="5"/>
+            <line x1="145" y1="165" x2="285" y2="165" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-blue)"/>
+            <line x1="405" y1="165" x2="585" y2="165" stroke="#ef4444" stroke-width="8" marker-end="url(#arrow-blue)"/>
+            <line x1="155" y1="115" x2="155" y2="215" stroke="#f59e0b" stroke-width="5"/>
+            <line x1="505" y1="135" x2="505" y2="195" stroke="#f59e0b" stroke-width="5"/>
+            <text x="135" y="95" fill="#f59e0b" font-size="25">S₁</text>
+            <text x="485" y="125" fill="#f59e0b" font-size="25">S₂</text>
+            <text x="200" y="145" fill="#0f766e" font-size="25">v₁</text>
+            <text x="500" y="145" fill="#ef4444" font-size="25">v₂</text>
+          </svg>
+          <p class="caption">
+            Dacă secțiunea scade, viteza crește pentru un fluid incompresibil aflat în curgere staționară.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Fluid ideal</h2>
+
+        <p>
+          Un <span class="mark">fluid ideal</span> este un model teoretic care simplifică studiul curgerii.
+          El este considerat:
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Ipoteză</th>
+              <th>Semnificație</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Incompresibil</td>
+              <td>Densitatea rămâne constantă: $\rho=\text{constant}$.</td>
+            </tr>
+            <tr>
+              <td>Fără vâscozitate</td>
+              <td>Nu există frecări interne între straturile de fluid.</td>
+            </tr>
+            <tr>
+              <td>Curgere staționară</td>
+              <td>În fiecare punct, viteza fluidului nu se schimbă în timp.</td>
+            </tr>
+            <tr>
+              <td>Curgere irotațională</td>
+              <td>Elementele de fluid nu se rotesc în jurul propriului centru.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          fluidul ideal nu există perfect în natură.
+          Este un model util când vâscozitatea, turbulența și compresibilitatea pot fi neglijate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curgere staționară</span>
+        <h2>Linii de curent</h2>
+
+        <p>
+          O <span class="mark">linie de curent</span> este o curbă tangentă în fiecare punct la vectorul viteză al fluidului.
+        </p>
+
+        <div class="exam">
+          <strong>În curgere staționară:</strong>
+          liniile de curent nu se modifică în timp, iar traiectoriile particulelor coincid cu liniile de curent.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Linii de curent într-un fluid">
+            <defs>
+              <marker id="arrow-flow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="80" y="60" width="600" height="230" rx="25" fill="rgba(37,99,235,0.12)" stroke="#2563eb" stroke-width="4"/>
+            <path d="M120 115 C230 80, 340 145, 470 110 S610 100, 650 130" fill="none" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-flow)"/>
+            <path d="M120 165 C250 130, 330 180, 455 160 S595 145, 650 170" fill="none" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-flow)"/>
+            <path d="M120 215 C260 190, 340 235, 455 220 S590 200, 650 220" fill="none" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-flow)"/>
+            <text x="265" y="55" fill="#0f766e" font-size="25">linii de curent</text>
+          </svg>
+          <p class="caption">
+            Vectorul viteză este tangent la linia de curent în fiecare punct.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          liniile de curent nu se intersectează.
+          Dacă s-ar intersecta, aceeași particulă ar avea două direcții ale vitezei în același punct.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Debit</span>
+        <h2>Cât fluid trece printr-o secțiune?</h2>
+
+        <p>
+          <span class="mark">Debitul volumic</span> este volumul de fluid care trece printr-o secțiune în unitatea de timp.
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{\Delta V}{\Delta t}$$
+        </div>
+
+        <p>
+          Dacă fluidul curge cu viteza medie $v$ printr-o secțiune de arie $S$, atunci:
+        </p>
+
+        <div class="formula">
+          $$Q=Sv$$
+        </div>
+
+        <p>
+          Unitatea în SI este:
+        </p>
+
+        <div class="formula">
+          $$[Q]_{SI}=\text{m}^3/\text{s}$$
+        </div>
+
+        <p>
+          <span class="mark">Debitul masic</span> este masa de fluid care trece prin secțiune în unitatea de timp:
+        </p>
+
+        <div class="formula">
+          $$\dot m=\frac{\Delta m}{\Delta t}=\rho Q=\rho Sv$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          debitul volumic măsoară volumul transportat pe secundă, iar debitul masic măsoară masa transportată pe secundă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conservarea masei</span>
+        <h2>Ecuația de continuitate</h2>
+
+        <p>
+          Pentru o curgere staționară, masa de fluid care intră într-un tub de curent într-un interval de timp este egală cu masa care iese.
+        </p>
+
+        <div class="formula">
+          $$\dot m_1=\dot m_2$$
+        </div>
+
+        <p>
+          Cum $\dot m=\rho Sv$, rezultă forma generală:
+        </p>
+
+        <div class="formula">
+          $$\rho_1S_1v_1=\rho_2S_2v_2$$
+        </div>
+
+        <p>
+          Pentru fluid incompresibil, $\rho_1=\rho_2$, deci:
+        </p>
+
+        <div class="formula">
+          $$\boxed{S_1v_1=S_2v_2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Consecință:</strong>
+          într-o conductă îngustă, fluidul curge mai repede:
+          $$S\downarrow \Rightarrow v\uparrow.$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          viteza nu este aceeași în toate secțiunile conductei.
+          Constant este debitul, nu viteza.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Demonstrație</span>
+        <h2>De unde vine $S_1v_1=S_2v_2$?</h2>
+
+        <p>
+          Într-un timp $\Delta t$, prin secțiunea $S$ trece un cilindru de fluid cu lungimea:
+        </p>
+
+        <div class="formula">
+          $$l=v\Delta t$$
+        </div>
+
+        <p>
+          Volumul trecut prin secțiune este:
+        </p>
+
+        <div class="formula">
+          $$\Delta V=Sl=Sv\Delta t$$
+        </div>
+
+        <p>
+          Deci debitul volumic este:
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{\Delta V}{\Delta t}=Sv$$
+        </div>
+
+        <p>
+          Pentru fluid incompresibil în curgere staționară, debitul se conservă:
+        </p>
+
+        <div class="formula">
+          $$Q_1=Q_2\Rightarrow S_1v_1=S_2v_2$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de barem:</strong>
+          „Aplic conservarea masei pentru un tub de curent în regim staționar.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Presiuni în curgere</span>
+        <h2>Presiune statică, dinamică și hidrostatică</h2>
+
+        <p>
+          În dinamica fluidelor apar trei contribuții energetice pe unitatea de volum:
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Termen</th>
+              <th>Expresie</th>
+              <th>Semnificație</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Presiune statică</td>
+              <td>$p$</td>
+              <td>Presiunea exercitată de fluid asupra pereților.</td>
+            </tr>
+            <tr>
+              <td>Presiune dinamică</td>
+              <td>$\frac{1}{2}\rho v^2$</td>
+              <td>Energia cinetică pe unitatea de volum.</td>
+            </tr>
+            <tr>
+              <td>Presiune hidrostatică</td>
+              <td>$\rho gh$</td>
+              <td>Energia potențială gravitațională pe unitatea de volum.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="formula">
+          $$[p]=\left[\frac{1}{2}\rho v^2\right]=[\rho gh]=\text{Pa}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          termenul $\frac{1}{2}\rho v^2$ nu este o forță.
+          Are unitate de presiune și reprezintă energie cinetică pe unitatea de volum.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conservarea energiei</span>
+        <h2>Ecuația Bernoulli</h2>
+
+        <p>
+          Pentru un fluid ideal, incompresibil, aflat în curgere staționară,
+          de-a lungul aceleiași linii de curent se conservă suma:
+        </p>
+
+        <div class="formula">
+          $$\boxed{p+\frac{1}{2}\rho v^2+\rho gh=\text{constant}}$$
+        </div>
+
+        <p>
+          Între două puncte de pe aceeași linie de curent:
+        </p>
+
+        <div class="formula">
+          $$p_1+\frac{1}{2}\rho v_1^2+\rho gh_1
+          =
+          p_2+\frac{1}{2}\rho v_2^2+\rho gh_2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          ecuația Bernoulli este o formă a conservării energiei mecanice pentru unitatea de volum de fluid.
+        </div>
+
+        <div class="warning">
+          <strong>Condiții de aplicare:</strong>
+          fluid ideal, curgere staționară, incompresibilă, fără pierderi prin vâscozitate și punctele analizate pe aceeași linie de curent.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conductă orizontală</span>
+        <h2>Viteză mare, presiune mică</h2>
+
+        <p>
+          Dacă fluidul curge într-o conductă orizontală, atunci $h_1=h_2$.
+          Ecuația Bernoulli devine:
+        </p>
+
+        <div class="formula">
+          $$p_1+\frac{1}{2}\rho v_1^2
+          =
+          p_2+\frac{1}{2}\rho v_2^2$$
+        </div>
+
+        <p>
+          Dacă secțiunea scade, viteza crește prin continuitate.
+          Atunci presiunea statică scade.
+        </p>
+
+        <div class="formula">
+          $$v_2>v_1 \Rightarrow p_2<p_1$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Efect Bernoulli într-o conductă îngustată">
+            <defs>
+              <marker id="arrow-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <path d="M90 115 C220 115, 290 145, 380 145 C470 145, 540 115, 670 115 L670 215 C540 215, 470 185, 380 185 C290 185, 220 215, 90 215 Z"
+                  fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="5"/>
+            <line x1="135" y1="165" x2="255" y2="165" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-v)"/>
+            <line x1="385" y1="165" x2="560" y2="165" stroke="#ef4444" stroke-width="8" marker-end="url(#arrow-v)"/>
+            <text x="135" y="100" fill="#0f766e" font-size="24">v mică, p mare</text>
+            <text x="390" y="130" fill="#ef4444" font-size="24">v mare, p mică</text>
+          </svg>
+          <p class="caption">
+            În zona îngustă, viteza este mai mare, iar presiunea statică este mai mică.
+          </p>
+        </div>
+
+        <div class="exam">
+          <strong>De reținut:</strong>
+          efectul Bernoulli nu spune că „presiunea este mereu mică unde viteza este mare” în orice situație,
+          ci în condițiile specifice ale curgerii ideale staționare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Teorema lui Torricelli</span>
+        <h2>Viteza de scurgere printr-un orificiu</h2>
+
+        <p>
+          Considerăm un rezervor mare cu un orificiu mic la adâncimea $h$ sub suprafața liberă.
+          Presiunea la suprafață și la ieșire este presiunea atmosferică.
+        </p>
+
+        <p>
+          Aplicând Bernoulli între suprafață și orificiu:
+        </p>
+
+        <div class="formula">
+          $$p_0+\rho gh=p_0+\frac{1}{2}\rho v^2$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\rho gh=\frac{1}{2}\rho v^2$$
+          $$\boxed{v=\sqrt{2gh}}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Teorema Torricelli">
+            <defs>
+              <marker id="arrow-jet" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="170" y="70" width="260" height="220" rx="18" fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M170 110 C230 95, 300 125, 430 110" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <circle cx="430" cy="230" r="10" fill="#ef4444"/>
+            <path d="M440 230 C505 220, 570 240, 645 205" fill="none" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-jet)"/>
+            <line x1="465" y1="110" x2="465" y2="230" stroke="#f59e0b" stroke-width="5"/>
+            <line x1="450" y1="110" x2="480" y2="110" stroke="#f59e0b" stroke-width="4"/>
+            <line x1="450" y1="230" x2="480" y2="230" stroke="#f59e0b" stroke-width="4"/>
+            <text x="485" y="175" fill="#f59e0b" font-size="25">h</text>
+            <text x="570" y="220" fill="#2563eb" font-size="25">v</text>
+          </svg>
+          <p class="caption">
+            Viteza de ieșire este aceeași ca viteza de cădere liberă de la înălțimea $h$, în model ideal.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Tub Venturi</span>
+        <h2>Măsurarea debitului prin diferență de presiune</h2>
+
+        <p>
+          Tubul Venturi are o porțiune îngustată în care viteza crește și presiunea scade.
+          Pentru o conductă orizontală:
+        </p>
+
+        <div class="formula">
+          $$S_1v_1=S_2v_2$$
+        </div>
+
+        <div class="formula">
+          $$p_1+\frac{1}{2}\rho v_1^2=p_2+\frac{1}{2}\rho v_2^2$$
+        </div>
+
+        <p>
+          Din aceste două relații se poate determina viteza sau debitul fluidului.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 350" role="img" aria-label="Tub Venturi">
+            <path d="M90 130 C230 130, 300 155, 385 155 C470 155, 530 130, 670 130 L670 220 C530 220, 470 195, 385 195 C300 195, 230 220, 90 220 Z"
+                  fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="5"/>
+            <line x1="180" y1="130" x2="180" y2="65" stroke="#0f766e" stroke-width="8"/>
+            <line x1="405" y1="155" x2="405" y2="95" stroke="#ef4444" stroke-width="8"/>
+            <rect x="165" y="65" width="30" height="65" fill="rgba(15,118,110,0.25)"/>
+            <rect x="390" y="95" width="30" height="60" fill="rgba(239,68,68,0.25)"/>
+            <text x="145" y="55" fill="#0f766e" font-size="24">p₁ mare</text>
+            <text x="375" y="85" fill="#ef4444" font-size="24">p₂ mică</text>
+            <text x="285" y="260" fill="#64748b" font-size="24">secțiune îngustată</text>
+          </svg>
+          <p class="caption">
+            Diferența de nivel în tuburile piezometrice indică diferența de presiune dintre secțiuni.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu aplica Bernoulli fără ecuația de continuitate.
+          De obicei, cele două relații se folosesc împreună.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Tub Pitot</span>
+        <h2>Măsurarea vitezei curentului</h2>
+
+        <p>
+          Tubul Pitot compară presiunea statică a fluidului cu presiunea de stagnare,
+          obținută într-un punct unde fluidul este adus la repaus.
+        </p>
+
+        <p>
+          Dacă $v$ este viteza fluidului, atunci:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{stag}}=p+\frac{1}{2}\rho v^2$$
+        </div>
+
+        <p>
+          Diferența de presiune este:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=p_{\text{stag}}-p=\frac{1}{2}\rho v^2$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2\Delta p}{\rho}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          tubul Pitot este folosit pentru determinarea vitezei curenților de aer sau a vitezei relative a aeronavelor față de aer.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sustentație</span>
+        <h2>O interpretare simplificată prin Bernoulli</h2>
+
+        <p>
+          Pentru un profil aerodinamic, curgerea aerului poate avea viteze diferite deasupra și dedesubtul profilului.
+          Într-o descriere idealizată:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{sus}}>v_{\text{jos}}
+          \Rightarrow
+          p_{\text{sus}}<p_{\text{jos}}$$
+        </div>
+
+        <p>
+          Diferența de presiune produce o forță rezultantă orientată în sus, numită <span class="mark">forță de sustentație</span>.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Profil aerodinamic și diferență de presiune">
+            <defs>
+              <marker id="arrow-air" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-lift" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <path d="M180 180 C300 95, 500 105, 610 170 C480 205, 315 210, 180 180 Z" fill="#f59e0b" stroke="#64748b" stroke-width="4"/>
+            <path d="M105 120 C260 70, 475 70, 680 105" fill="none" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-air)"/>
+            <path d="M105 245 C260 250, 475 250, 680 220" fill="none" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-air)"/>
+            <line x1="390" y1="170" x2="390" y2="70" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-lift)"/>
+            <text x="410" y="95" fill="#0f766e" font-size="25">sustentație</text>
+            <text x="300" y="63" fill="#2563eb" font-size="24">v mare, p mică</text>
+            <text x="300" y="285" fill="#2563eb" font-size="24">v mai mică, p mai mare</text>
+          </svg>
+          <p class="caption">
+            Modelul Bernoulli oferă o interpretare utilă, dar sustentația reală implică și devierea curentului de aer și efecte vâscoase.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu explica sustentația doar prin afirmația „aerul de sus trebuie să ajungă simultan cu aerul de jos”.
+          Aceasta este o explicație incompletă și greșită.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fluide reale</span>
+        <h2>Vâscozitatea</h2>
+
+        <p>
+          În fluidele reale există frecare internă între straturi.
+          Această proprietate se numește <span class="mark">vâscozitate</span>.
+        </p>
+
+        <p>
+          Pentru curgerea stratificată, tensiunea tangențială poate fi scrisă:
+        </p>
+
+        <div class="formula">
+          $$\tau=\eta\frac{dv}{dy}$$
+        </div>
+
+        <p>
+          unde $\eta$ este coeficientul de vâscozitate dinamică.
+        </p>
+
+        <div class="formula">
+          $$[\eta]_{SI}=\text{Pa}\cdot\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          vâscozitatea măsoară opoziția fluidului la alunecarea relativă a straturilor.
+        </div>
+
+        <div class="warning">
+          <strong>Consecință:</strong>
+          în fluide reale, energia mecanică se disipă, iar ecuația Bernoulli ideală trebuie corectată cu pierderi de energie.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curgere laminară și turbulentă</span>
+        <h2>Numărul Reynolds</h2>
+
+        <p>
+          Curgerea poate fi <strong>laminară</strong>, cu straturi ordonate, sau
+          <strong>turbulentă</strong>, cu vârtejuri și fluctuații neregulate.
+        </p>
+
+        <p>
+          Un criteriu important este numărul Reynolds:
+        </p>
+
+        <div class="formula">
+          $$Re=\frac{\rho vL}{\eta}$$
+        </div>
+
+        <p>
+          unde $L$ este o dimensiune caracteristică.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Regim</th>
+              <th>Caracteristică</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Laminar</td>
+              <td>Straturi ordonate, traiectorii regulate.</td>
+            </tr>
+            <tr>
+              <td>Turbulent</td>
+              <td>Vârtejuri, fluctuații, pierderi mari de energie.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          numărul Reynolds nu este o constantă universală a fluidului.
+          Depinde de densitate, viteză, dimensiune caracteristică și vâscozitate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea Poiseuille</span>
+        <h2>Curgere laminară prin tub capilar</h2>
+
+        <p>
+          Pentru un fluid vâscos care curge laminar printr-un tub cilindric de rază $R$ și lungime $l$,
+          debitul volumic este:
+        </p>
+
+        <div class="formula">
+          $$Q=\frac{\pi R^4}{8\eta l}\Delta p$$
+        </div>
+
+        <p>
+          Relația arată dependența foarte puternică de raza tubului:
+        </p>
+
+        <div class="formula">
+          $$Q\propto R^4$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          dacă raza tubului se dublează, debitul crește de $2^4=16$ ori, pentru aceeași diferență de presiune.
+        </div>
+
+        <div class="warning">
+          <strong>Condiții:</strong>
+          legea Poiseuille se aplică pentru curgere laminară, fluid newtonian, tub cilindric și regim staționar.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Pierderi de energie</span>
+        <h2>Bernoulli pentru fluide reale</h2>
+
+        <p>
+          Într-un fluid real, vâscozitatea transformă o parte din energia mecanică în energie internă.
+          De aceea, suma Bernoulli nu mai rămâne constantă fără corecții.
+        </p>
+
+        <div class="formula">
+          $$p_1+\frac{1}{2}\rho v_1^2+\rho gh_1
+          =
+          p_2+\frac{1}{2}\rho v_2^2+\rho gh_2+\Delta p_{\text{pierderi}}$$
+        </div>
+
+        <p>
+          Termenul $\Delta p_{\text{pierderi}}$ exprimă pierderea de presiune echivalentă cu disiparea energiei.
+        </p>
+
+        <div class="exam">
+          <strong>Răspuns matur la examen:</strong>
+          „În modelul ideal neglijez vâscozitatea; în fluid real, trebuie introduse pierderi de sarcină/presiune.”
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu aplica formula Bernoulli ideală într-o conductă lungă cu frecare mare fără să menționezi ipoteza idealizării.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Ecuația de continuitate</h2>
+
+        <p>
+          Apa curge printr-o conductă orizontală.
+          Într-o secțiune, aria este $S_1=20\,\text{cm}^2$, iar viteza este $v_1=1{,}5\,\text{m/s}$.
+          Într-o zonă îngustă, aria este $S_2=5\,\text{cm}^2$.
+          Determinați viteza $v_2$.
+        </p>
+
+        <p>
+          Pentru fluid incompresibil:
+        </p>
+
+        <div class="formula">
+          $$S_1v_1=S_2v_2$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$v_2=\frac{S_1}{S_2}v_1=\frac{20}{5}\cdot1{,}5=6\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          viteza în secțiunea îngustă este $6\,\text{m/s}$.
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          ariile pot rămâne în $\text{cm}^2$ deoarece apar într-un raport.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Diferența de presiune în conductă orizontală</h2>
+
+        <p>
+          Apa curge orizontal printr-o conductă.
+          În punctul 1 viteza este $v_1=2\,\text{m/s}$, iar în punctul 2 viteza este $v_2=6\,\text{m/s}$.
+          Determinați diferența $p_1-p_2$.
+          Se ia $\rho=1000\,\text{kg/m}^3$.
+        </p>
+
+        <p>
+          Pentru conductă orizontală:
+        </p>
+
+        <div class="formula">
+          $$p_1+\frac{1}{2}\rho v_1^2
+          =
+          p_2+\frac{1}{2}\rho v_2^2$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$p_1-p_2=\frac{1}{2}\rho(v_2^2-v_1^2)$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$p_1-p_2=\frac{1}{2}\cdot1000(6^2-2^2)$$
+          $$p_1-p_2=500(36-4)=500\cdot32=16000\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $p_1-p_2=1{,}6\cdot10^4\,\text{Pa}$.
+          Presiunea este mai mică în zona cu viteză mai mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Viteza de scurgere Torricelli</h2>
+
+        <p>
+          Un rezervor are un orificiu situat la adâncimea $h=1{,}25\,\text{m}$ sub suprafața liberă.
+          Determinați viteza de scurgere.
+          Se ia $g=10\,\text{m/s}^2$.
+        </p>
+
+        <p>
+          Aplicăm teorema lui Torricelli:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{2gh}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{2\cdot10\cdot1{,}25}=\sqrt{25}=5\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          viteza de scurgere este $5\,\text{m/s}$, în model ideal.
+        </div>
+
+        <div class="warning">
+          <strong>În realitate:</strong>
+          viteza poate fi mai mică din cauza contracției jetului și a vâscozității.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Debitul printr-un orificiu</h2>
+
+        <p>
+          Apa iese printr-un orificiu de arie $S=2\cdot10^{-4}\,\text{m}^2$
+          cu viteza $v=5\,\text{m/s}$.
+          Determinați debitul volumic.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$Q=Sv$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$Q=2\cdot10^{-4}\cdot5=10^{-3}\,\text{m}^3/\text{s}$$
+        </div>
+
+        <p>
+          Cum $1\,\text{m}^3=1000\,\text{L}$:
+        </p>
+
+        <div class="formula">
+          $$Q=1\,\text{L/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          debitul este $10^{-3}\,\text{m}^3/\text{s}$, adică $1\,\text{L/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Tub Pitot</h2>
+
+        <p>
+          Un tub Pitot măsoară o diferență de presiune
+          $\Delta p=800\,\text{Pa}$ în aer.
+          Densitatea aerului este $\rho=1{,}25\,\text{kg/m}^3$.
+          Determinați viteza curentului de aer.
+        </p>
+
+        <p>
+          Relația Pitot este:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{1}{2}\rho v^2$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2\Delta p}{\rho}}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2\cdot800}{1{,}25}}=\sqrt{1280}\approx35{,}8\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          viteza curentului de aer este aproximativ $35{,}8\,\text{m/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia debit–viteză:</strong>
+            debitul poate fi constant, dar viteza se schimbă dacă secțiunea se schimbă.
+          </li>
+          <li>
+            <strong>Aplicarea greșită a continuității:</strong>
+            forma $S_1v_1=S_2v_2$ este pentru fluid incompresibil.
+          </li>
+          <li>
+            <strong>Omiterea termenului gravitațional:</strong>
+            dacă punctele sunt la înălțimi diferite, termenul $\rho gh$ trebuie păstrat.
+          </li>
+          <li>
+            <strong>Bernoulli aplicat între puncte care nu sunt pe aceeași linie de curent:</strong>
+            în forma simplă, ecuația se aplică de-a lungul aceleiași linii de curent.
+          </li>
+          <li>
+            <strong>Confuzia între presiunea statică și presiunea dinamică:</strong>
+            $p$ și $\frac12\rho v^2$ au aceeași unitate, dar semnificații diferite.
+          </li>
+          <li>
+            <strong>Ignorarea vâscozității în probleme reale:</strong>
+            în conducte lungi apar pierderi de presiune.
+          </li>
+          <li>
+            <strong>Conversii greșite:</strong>
+            $1\,\text{cm}^2=10^{-4}\,\text{m}^2$, iar $1\,\text{L}=10^{-3}\,\text{m}^3$.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Consider curgere staționară a unui fluid ideal incompresibil. Aplic ecuația de continuitate și ecuația Bernoulli între două puncte de pe aceeași linie de curent.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$Q=\frac{\Delta V}{\Delta t}=Sv$$
+          $$\dot m=\rho Q=\rho Sv$$
+          $$\rho_1S_1v_1=\rho_2S_2v_2$$
+          $$S_1v_1=S_2v_2\quad \text{pentru fluid incompresibil}$$
+          $$p+\frac{1}{2}\rho v^2+\rho gh=\text{constant}$$
+          $$p_1+\frac{1}{2}\rho v_1^2+\rho gh_1
+          =
+          p_2+\frac{1}{2}\rho v_2^2+\rho gh_2$$
+          $$v=\sqrt{2gh}\quad \text{Torricelli}$$
+          $$\Delta p=\frac{1}{2}\rho v^2\quad \text{Pitot}$$
+          $$Re=\frac{\rho vL}{\eta}$$
+          $$Q=\frac{\pi R^4}{8\eta l}\Delta p\quad \text{Poiseuille}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>De reținut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Continuitate</td>
+              <td>Conservarea masei în curgere staționară.</td>
+            </tr>
+            <tr>
+              <td>Bernoulli</td>
+              <td>Conservarea energiei mecanice pe unitatea de volum.</td>
+            </tr>
+            <tr>
+              <td>Torricelli</td>
+              <td>Viteza ideală de scurgere din rezervor: $v=\sqrt{2gh}$.</td>
+            </tr>
+            <tr>
+              <td>Vâscozitate</td>
+              <td>Frecare internă între straturile fluidului.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="C14-bazele-experimentale-ale-teoriei-relativitatii-restranse.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți curgerea staționară.</li>
+          <li>Precizați ipotezele modelului de fluid ideal.</li>
+          <li>Definiți linia de curent.</li>
+          <li>Definiți debitul volumic și debitul masic.</li>
+          <li>Demonstrați relația $Q=Sv$.</li>
+          <li>Deduceți ecuația de continuitate pentru un fluid incompresibil.</li>
+          <li>Explicați de ce viteza crește într-o secțiune îngustă.</li>
+          <li>Scrieți ecuația Bernoulli și precizați condițiile de aplicare.</li>
+          <li>Interpretați termenii $p$, $\frac12\rho v^2$ și $\rho gh$.</li>
+          <li>Deduceți teorema lui Torricelli din ecuația Bernoulli.</li>
+          <li>Explicați funcționarea tubului Venturi.</li>
+          <li>Explicați funcționarea tubului Pitot.</li>
+          <li>Definiți vâscozitatea și unitatea ei în SI.</li>
+          <li>Comparați curgerea laminară și turbulentă.</li>
+          <li>Scrieți legea Poiseuille și interpretați dependența de raza tubului.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          apa curge printr-o conductă orizontală cu două secțiuni diferite.
+          Se cunosc ariile și una dintre viteze. Determină viteza în a doua secțiune cu ecuația de continuitate,
+          apoi diferența de presiune cu ecuația Bernoulli.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C14-bazele-experimentale-ale-teoriei-relativitatii-restranse.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c13", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c13");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
