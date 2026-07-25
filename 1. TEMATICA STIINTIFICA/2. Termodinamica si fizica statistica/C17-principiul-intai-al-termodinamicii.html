@@ -1,1 +1,769 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C17 – Principiul I al termodinamicii</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 {
+      font-size: var(--title);
+    }
+
+    h2 {
+      font-size: var(--subtitle);
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid #f59e0b;
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning {
+      background: #33260c;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        line-height: 1.55;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C17 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 17</span>
+        <h1>Principiul I al termodinamicii</h1>
+        <p class="lead">
+          Principiul I este <span class="mark">legea conservării energiei</span> aplicată sistemelor
+          termodinamice: căldura primită de un sistem se regăsește fie în creșterea energiei sale interne,
+          fie în lucrul mecanic pe care sistemul îl efectuează asupra exteriorului.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          energia nu se pierde și nu apare din nimic — ea doar <strong>se transformă</strong>, între
+          energie internă, căldură și lucru mecanic.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 280" role="img" aria-label="Piston cu gaz care primește căldură și efectuează lucru mecanic">
+            <rect x="120" y="70" width="220" height="160" fill="none" stroke="#64748b" stroke-width="4"/>
+            <rect x="120" y="70" width="220" height="160" fill="rgba(37,99,235,0.10)"/>
+            <rect x="325" y="55" width="20" height="190" fill="#94a3b8"/>
+            <line x1="345" y1="150" x2="430" y2="150" stroke="#64748b" stroke-width="6"/>
+            <path d="M430 120 L470 150 L430 180 Z" fill="#0f766e"/>
+            <text x="440" y="110" fill="#0f766e" font-size="22">L</text>
+            <path d="M170 40 C180 20, 200 20, 210 40" stroke="#ef4444" stroke-width="5" fill="none"/>
+            <path d="M210 40 C220 20, 240 20, 250 40" stroke="#ef4444" stroke-width="5" fill="none"/>
+            <path d="M250 40 C260 20, 280 20, 290 40" stroke="#ef4444" stroke-width="5" fill="none"/>
+            <text x="160" y="20" fill="#ef4444" font-size="22">Q (căldură primită)</text>
+            <text x="200" y="160" fill="#2563eb" font-size="24">gaz, U</text>
+          </svg>
+          <p class="caption">Căldura $Q$ primită de gaz se regăsește parțial în creșterea energiei interne $U$ și parțial în lucrul mecanic $L$ efectuat prin deplasarea pistonului.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Distincție esențială</span>
+        <h2>Mărimi de stare și mărimi de proces</h2>
+
+        <p>
+          Pentru a înțelege principiul I, trebuie distinse clar două categorii de mărimi.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Energia internă $U$ — mărime de stare</strong>
+            <p>Depinde doar de starea sistemului (pentru gazul ideal, doar de temperatură), nu de „drumul” prin care s-a ajuns la ea. Variația ei, $\Delta U$, este aceeași indiferent de transformare.</p>
+          </div>
+          <div class="mini">
+            <strong>Căldura $Q$ și lucrul mecanic $L$ — mărimi de proces</strong>
+            <p>Depind de tipul transformării (drumul urmat), nu doar de starea inițială și finală. Nu are sens să vorbim despre „căldura conținută” într-un sistem.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          un gaz <strong>nu conține</strong> căldură sau lucru mecanic — el conține energie internă.
+          Căldura și lucrul mecanic sunt forme prin care energia se <strong>transferă</strong>, nu mărimi
+          pe care sistemul le „posedă”.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formulare</span>
+        <h2>Enunțul principiului I și convenția de semne</h2>
+
+        <p>
+          <span class="mark">Principiul I al termodinamicii</span> se scrie:
+        </p>
+
+        <div class="formula">
+          $$Q=\Delta U+L$$
+        </div>
+
+        <p>unde:</p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$Q$ — căldura schimbată</strong>
+            <p>$Q>0$ dacă sistemul <em>primește</em> căldură din exterior; $Q<0$ dacă cedează căldură.</p>
+          </div>
+          <div class="mini">
+            <strong>$L$ — lucrul mecanic</strong>
+            <p>$L>0$ dacă sistemul efectuează lucru mecanic <em>asupra</em> exteriorului (se destinde); $L<0$ dacă exteriorul efectuează lucru mecanic asupra sistemului (este comprimat).</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\Delta U=Q-L$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          căldura primită de un sistem se consumă pentru creșterea energiei interne și pentru lucrul
+          mecanic efectuat de sistem asupra mediului exterior.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lucrul mecanic</span>
+        <h2>Lucrul mecanic de dilatare — interpretare grafică</h2>
+
+        <p>
+          Lucrul mecanic elementar efectuat de un gaz la o variație infinitezimală de volum este
+          $\delta L=p\,dV$. Pentru o transformare finită între volumele $V_1$ și $V_2$:
+        </p>
+
+        <div class="formula">
+          $$L=\int_{V_1}^{V_2}p\,dV$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Lucrul mecanic ca arie sub graficul presiune-volum">
+            <line x1="70" y1="220" x2="640" y2="220" stroke="#64748b" stroke-width="3"/>
+            <line x1="90" y1="235" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
+            <path d="M150 90 C 260 100, 400 140, 560 170" fill="none" stroke="#2563eb" stroke-width="6"/>
+            <polygon points="150,90 150,220 560,220 560,170 400,140 260,100" fill="rgba(37,99,235,0.18)"/>
+            <line x1="150" y1="220" x2="150" y2="90" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 4"/>
+            <line x1="560" y1="220" x2="560" y2="170" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 4"/>
+            <text x="630" y="245" fill="#64748b" font-size="22">V</text>
+            <text x="55" y="45" fill="#64748b" font-size="22">p</text>
+            <text x="130" y="245" fill="#64748b" font-size="18">V₁</text>
+            <text x="545" y="245" fill="#64748b" font-size="18">V₂</text>
+            <text x="320" y="200" fill="#2563eb" font-size="22">L = aria hașurată</text>
+          </svg>
+          <p class="caption">În orice diagramă $p$–$V$, lucrul mecanic efectuat de gaz este dat de aria de sub curba transformării, între $V_1$ și $V_2$.</p>
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          forma ariei — deci valoarea lucrului mecanic — depinde de drumul urmat între cele două stări,
+          confirmând că $L$ este o mărime de proces.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformare izocoră</span>
+        <h2>Principiul I la volum constant</h2>
+
+        <p>
+          În transformarea <span class="mark">izocoră</span> ($V=\text{const}$), gazul nu își schimbă
+          volumul, deci nu efectuează lucru mecanic:
+        </p>
+
+        <div class="formula">
+          $$L=0 \quad\Rightarrow\quad Q=\Delta U=\nu C_V\Delta T$$
+        </div>
+
+        <p>
+          unde $C_V$ este <span class="mark">căldura molară la volum constant</span>. Toată căldura primită
+          se regăsește integral în creșterea energiei interne.
+        </p>
+
+        <div class="exam">
+          <strong>Aplicație directă:</strong>
+          acesta este motivul pentru care $C_V$ se definește tocmai prin căldura schimbată la volum
+          constant: $C_V=\left(\dfrac{\delta Q}{\nu\,dT}\right)_V$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformare izobară</span>
+        <h2>Principiul I la presiune constantă. Relația lui Mayer</h2>
+
+        <p>
+          În transformarea <span class="mark">izobară</span> ($p=\text{const}$), lucrul mecanic se
+          calculează direct:
+        </p>
+
+        <div class="formula">
+          $$L=p\,\Delta V=\nu R\Delta T$$
+        </div>
+
+        <p>
+          iar căldura schimbată este $Q=\nu C_p\Delta T$, unde $C_p$ este căldura molară la presiune
+          constantă. Cum $\Delta U=\nu C_V\Delta T$ indiferent de tipul transformării (energia internă a
+          gazului ideal depinde doar de $T$), din principiul I rezultă:
+        </p>
+
+        <div class="formula">
+          $$\nu C_p\Delta T=\nu C_V\Delta T+\nu R\Delta T \quad\Rightarrow\quad C_p-C_V=R$$
+        </div>
+
+        <p>Aceasta este <span class="mark">relația lui Mayer</span>.</p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$C_V=\dfrac{i}{2}R$</strong>
+            <p>Căldura molară la volum constant, dependentă de gradele de libertate $i$.</p>
+          </div>
+          <div class="mini">
+            <strong>$C_p=\dfrac{i+2}{2}R$</strong>
+            <p>Căldura molară la presiune constantă, mereu mai mare decât $C_V$.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          $C_p>C_V$ întotdeauna, deoarece la presiune constantă o parte din căldură se „consumă” pentru
+          lucrul mecanic de dilatare, nu doar pentru încălzirea gazului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformare izotermă</span>
+        <h2>Principiul I la temperatură constantă</h2>
+
+        <p>
+          În transformarea <span class="mark">izotermă</span> ($T=\text{const}$), energia internă a
+          gazului ideal nu se modifică:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=0 \quad\Rightarrow\quad Q=L$$
+        </div>
+
+        <p>
+          Lucrul mecanic izoterm se calculează integrând $p=\dfrac{\nu RT}{V}$:
+        </p>
+
+        <div class="formula">
+          $$L=\int_{V_1}^{V_2}\frac{\nu RT}{V}\,dV=\nu RT\ln\frac{V_2}{V_1}=\nu RT\ln\frac{p_1}{p_2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          la o destindere izotermă, toată căldura primită de gaz se transformă integral în lucru mecanic —
+          nimic nu rămâne „stocat” ca energie internă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformare adiabatică</span>
+        <h2>Principiul I fără schimb de căldură</h2>
+
+        <p>
+          O transformare este <span class="mark">adiabatică</span> atunci când sistemul este izolat termic
+          ($Q=0$) — fie pentru că vasul este perfect izolat, fie pentru că procesul are loc suficient de
+          rapid încât schimbul de căldură cu exteriorul este neglijabil.
+        </p>
+
+        <div class="formula">
+          $$Q=0 \quad\Rightarrow\quad L=-\Delta U=\nu C_V(T_1-T_2)$$
+        </div>
+
+        <p>
+          La destindere adiabatică ($T_2<T_1$), gazul efectuează lucru mecanic pozitiv pe seama propriei
+          energii interne, deci se răcește. Legătura dintre parametrii de stare este dată de
+          <span class="mark">ecuația Poisson</span>:
+        </p>
+
+        <div class="formula">
+          $$pV^{\gamma}=\text{const},\qquad \gamma=\frac{C_p}{C_V}=\frac{i+2}{i}$$
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          la aceeași variație de volum, curba adiabatică este mai „abruptă” decât cea izotermă în
+          diagrama $p$–$V$, deoarece presiunea scade și din cauza răcirii gazului, nu doar din creșterea
+          volumului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Model de rezolvare pentru examen</h2>
+
+        <p>
+          O cantitate de gaz ideal diatomic ($i=5$) suferă o transformare izobară la presiunea
+          $p=2\times10^{5}\,\text{Pa}$, volumul crescând de la $V_1=2\,\text{L}$ la $V_2=5\,\text{L}$.
+          Calculați lucrul mecanic efectuat de gaz, variația energiei interne și căldura primită.
+        </p>
+
+        <p><strong>1. Lucrul mecanic (izobară):</strong></p>
+        <div class="formula">
+          $$L=p\Delta V=2\times10^{5}\cdot(5-2)\times10^{-3}=600\,\text{J}$$
+        </div>
+
+        <p><strong>2. Variația energiei interne:</strong> din $L=\nu R\Delta T$ rezultă $\nu\Delta T=L/R$, deci:</p>
+        <div class="formula">
+          $$\Delta U=\nu C_V\Delta T=\frac{i}{2}\,\nu R\Delta T=\frac{i}{2}L=\frac{5}{2}\cdot600=1500\,\text{J}$$
+        </div>
+
+        <p><strong>3. Căldura primită, din principiul I:</strong></p>
+        <div class="formula">
+          $$Q=\Delta U+L=1500+600=2100\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          gazul primește $2100\,\text{J}$, din care $1500\,\text{J}$ îi cresc energia internă, iar
+          $600\,\text{J}$ sunt cedați ca lucru mecanic asupra exteriorului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia de semn a lucrului mecanic:</strong>
+            la comprimare, $L<0$ (exteriorul efectuează lucru mecanic asupra gazului), nu $L=0$.
+          </li>
+          <li>
+            <strong>Tratarea căldurii ca mărime de stare:</strong>
+            nu există „căldura unui gaz” — există energie internă; $Q$ apare doar în timpul unui proces.
+          </li>
+          <li>
+            <strong>Uitarea faptului că $\Delta U$ nu depinde de tipul transformării:</strong>
+            pentru gazul ideal, $\Delta U=\nu C_V\Delta T$ oricare ar fi drumul, atâta timp cât $T_1$ și
+            $T_2$ sunt aceleași.
+          </li>
+          <li>
+            <strong>Confuzia $C_p$ cu $C_V$:</strong>
+            folosirea căldurii molare greșite schimbă rezultatul cu un factor legat de $R$.
+          </li>
+          <li>
+            <strong>Ignorarea condiției $Q=0$ la transformarea adiabatică:</strong>
+            nu înseamnă că temperatura rămâne constantă — dimpotrivă, ea variază tocmai pentru că nu
+            există schimb de căldură.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare bună la proba scrisă:</strong>
+          „Aplic principiul I al termodinamicii, $Q=\Delta U+L$, identificând mai întâi tipul transformării
+          pentru a stabili ce termen se anulează.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Scrieți enunțul principiului I al termodinamicii și precizați convenția de semne folosită.</li>
+          <li>Explicați de ce energia internă este o mărime de stare, iar căldura și lucrul mecanic nu sunt.</li>
+          <li>Deduceți relația lui Mayer, pornind de la principiul I aplicat transformării izobare.</li>
+          <li>Ce se întâmplă cu temperatura unui gaz care se destinde adiabatic? Justificați cu principiul I.</li>
+          <li>Arătați că, la o transformare izotermă, $Q=L$.</li>
+          <li>Un gaz monoatomic primește $Q=800\,\text{J}$ la volum constant. Calculați $\Delta U$ și $L$.</li>
+        </ol>
+
+        <div class="formula">
+          $$Q=\Delta U+L,\qquad C_p-C_V=R,\qquad L_{izobar}=\nu R\Delta T,\qquad L_{izoterm}=\nu RT\ln\frac{V_2}{V_1}$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C18-principiul-al-doilea-al-termodinamicii.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c17", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c17");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
