@@ -1,1 +1,828 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C16 – Teoria cinetico-moleculară a gazului ideal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 {
+      font-size: var(--title);
+    }
+
+    h2 {
+      font-size: var(--subtitle);
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid #f59e0b;
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning {
+      background: #33260c;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        line-height: 1.55;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C16 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 16</span>
+        <h1>Teoria cinetico-moleculară a gazului ideal</h1>
+        <p class="lead">
+          Teoria cinetico-moleculară explică <span class="mark">proprietățile macroscopice ale gazelor</span>
+          (presiune, temperatură, volum) pornind de la mișcarea haotică a unui număr enorm de molecule.
+          Pentru examen, trebuie să stăpânești atât ipotezele modelului, cât și deducerea riguroasă a
+          ecuației fundamentale.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          presiunea și temperatura nu sunt proprietăți ale unei singure molecule, ci
+          <strong>efecte statistice</strong> ale mișcării unui număr foarte mare de molecule.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 300" role="img" aria-label="Molecule de gaz în agitație termică într-un vas">
+            <rect x="60" y="30" width="580" height="240" rx="14" fill="none" stroke="#64748b" stroke-width="4"/>
+            <circle cx="150" cy="90" r="8" fill="#ef4444"/>
+            <circle cx="260" cy="150" r="8" fill="#2563eb"/>
+            <circle cx="400" cy="80" r="8" fill="#0f766e"/>
+            <circle cx="500" cy="200" r="8" fill="#ef4444"/>
+            <circle cx="330" cy="220" r="8" fill="#2563eb"/>
+            <circle cx="580" cy="120" r="8" fill="#0f766e"/>
+            <circle cx="200" cy="230" r="8" fill="#ef4444"/>
+            <line x1="150" y1="90" x2="200" y2="60" stroke="#ef4444" stroke-width="3"/>
+            <line x1="260" y1="150" x2="310" y2="110" stroke="#2563eb" stroke-width="3"/>
+            <line x1="400" y1="80" x2="440" y2="120" stroke="#0f766e" stroke-width="3"/>
+            <line x1="500" y1="200" x2="560" y2="230" stroke="#ef4444" stroke-width="3"/>
+            <line x1="330" y1="220" x2="290" y2="180" stroke="#2563eb" stroke-width="3"/>
+            <line x1="580" y1="120" x2="610" y2="80" stroke="#0f766e" stroke-width="3"/>
+            <line x1="200" y1="230" x2="150" y2="200" stroke="#ef4444" stroke-width="3"/>
+            <text x="330" y="285" fill="#64748b" font-size="20">agitație termică — mișcare haotică, rectilinie între ciocniri</text>
+          </svg>
+          <p class="caption">Fiecare moleculă se mișcă rectiliniu și uniform între două ciocniri; ciocnirile cu pereții vasului produc, statistic, presiunea gazului.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Ipotezele teoriei cinetico-moleculare</h2>
+
+        <p>
+          <span class="mark">Gazul ideal</span> este un model idealizat, construit pe cinci ipoteze
+          fundamentale, care simplifică suficient realitatea pentru a permite un calcul statistic riguros.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>1. Număr foarte mare de molecule</strong>
+            <p>Gazul conține un număr enorm de molecule (de ordinul $N_A=6{,}02\times10^{23}$), aflate în agitație termică permanentă.</p>
+          </div>
+          <div class="mini">
+            <strong>2. Molecule punctiforme</strong>
+            <p>Dimensiunile proprii ale moleculelor sunt neglijabile față de distanțele dintre ele.</p>
+          </div>
+          <div class="mini">
+            <strong>3. Fără interacțiuni la distanță</strong>
+            <p>Moleculele nu se atrag și nu se resping decât în momentul ciocnirii directe.</p>
+          </div>
+          <div class="mini">
+            <strong>4. Ciocniri perfect elastice</strong>
+            <p>La ciocnire, se conservă atât impulsul, cât și energia cinetică totală a sistemului.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          Între două ciocniri: mișcare rectilinie și uniformă (fără forțe care acționează asupra moleculei)
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          gazul ideal este modelul în care singura interacțiune dintre molecule este ciocnirea perfect
+          elastică, iar energia potențială de interacțiune este neglijabilă în raport cu energia cinetică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mărimi statistice</span>
+        <h2>Concentrația de molecule și presiunea ca efect statistic</h2>
+
+        <p>
+          <span class="mark">Concentrația de molecule</span> este numărul de molecule din unitatea de volum:
+        </p>
+
+        <div class="formula">
+          $$n=\frac{N}{V}$$
+        </div>
+
+        <p>
+          Presiunea unui gaz asupra pereților vasului nu este produsă de o singură ciocnire, ci de
+          <span class="mark">suma statistică</span> a unui număr enorm de ciocniri, repetate de un număr
+          imens de ori pe secundă.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>La nivel microscopic</strong>
+            <p>Fiecare moleculă produce, la ciocnirea cu peretele, o forță instantanee, discontinuă în timp.</p>
+          </div>
+          <div class="mini">
+            <strong>La nivel macroscopic</strong>
+            <p>Suma acestor forțe, mediată pe un număr imens de molecule, apare ca o forță constantă, deci ca o presiune bine definită.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          presiunea unui gaz nu poate fi definită pentru o singură moleculă — este, prin natura ei, o
+          mărime <strong>statistică</strong>, care are sens doar pentru un număr mare de molecule.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere</span>
+        <h2>Ecuația fundamentală a teoriei cinetico-moleculare</h2>
+
+        <p>
+          Considerăm $N$ molecule identice, de masă $m$, într-un vas cubic de latură $L$ ($V=L^3$). O
+          moleculă cu viteza $v_x$ pe direcția $Ox$ ciocnește elastic peretele perpendicular pe $Ox$:
+          variația impulsului ei la o ciocnire este $\Delta p=2mv_x$, iar timpul dintre două ciocniri
+          succesive cu același perete este $\Delta t=\dfrac{2L}{v_x}$.
+        </p>
+
+        <div class="formula">
+          $$F=\frac{\Delta p}{\Delta t}=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$$
+        </div>
+
+        <p>
+          Însumând contribuția tuturor moleculelor și folosind izotropia mișcării
+          ($\langle v_x^2\rangle=\langle v_y^2\rangle=\langle v_z^2\rangle=\tfrac13\langle v^2\rangle$),
+          presiunea pe perete ($p=F_{total}/L^2$) devine:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{1}{3}nm\langle v^2\rangle$$
+        </div>
+
+        <p>
+          Aceasta este <span class="mark">ecuația fundamentală a teoriei cinetico-moleculare</span>, scrisă
+          adesea și în forma echivalentă, folosind energia cinetică medie de translație
+          $\overline{E}_c=\tfrac12 m\langle v^2\rangle$:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{2}{3}n\,\overline{E}_c$$
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          presiunea este proporțională atât cu concentrația de molecule, cât și cu energia lor cinetică
+          medie de translație.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Interpretare microscopică</span>
+        <h2>Temperatura — o măsură a energiei cinetice medii</h2>
+
+        <p>
+          Comparând ecuația fundamentală $p=\tfrac13 nm\langle v^2\rangle$ cu ecuația de stare (dedusă în
+          pagina următoare) $p=nkT$, unde $k=1{,}38\times10^{-23}\,\text{J/K}$ este
+          <span class="mark">constanta lui Boltzmann</span>, obținem relația centrală a teoriei
+          cinetico-moleculare:
+        </p>
+
+        <div class="formula">
+          $$\overline{E}_c=\frac12 m\langle v^2\rangle=\frac{3}{2}kT$$
+        </div>
+
+        <p>
+          De aici rezultă și <span class="mark">viteza pătratică medie</span> a moleculelor:
+        </p>
+
+        <div class="formula">
+          $$v_{pm}=\sqrt{\langle v^2\rangle}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$k$ — constanta lui Boltzmann</strong>
+            <p>$k=1{,}38\times10^{-23}\,\text{J/K}$, legată de constanta gazelor prin $R=N_A k$.</p>
+          </div>
+          <div class="mini">
+            <strong>$M$ — masa molară</strong>
+            <p>Masa unui mol de substanță; $m=M/N_A$ este masa unei singure molecule.</p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          temperatura absolută este, la nivel microscopic, o măsură directă a energiei cinetice medii de
+          translație a moleculelor — nu are sens fizic pentru o singură moleculă, ci doar ca mărime
+          statistică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Distribuția vitezelor</span>
+        <h2>Legea de distribuție Maxwell</h2>
+
+        <p>
+          Nu toate moleculele au aceeași viteză. La o temperatură dată, vitezele moleculelor se distribuie
+          statistic după <span class="mark">legea de distribuție Maxwell</span>: puține molecule au viteze
+          foarte mici sau foarte mari, iar cele mai multe au viteze apropiate de o valoare caracteristică.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Curba de distribuție Maxwell a vitezelor moleculare">
+            <line x1="60" y1="220" x2="650" y2="220" stroke="#64748b" stroke-width="3"/>
+            <line x1="70" y1="230" x2="70" y2="30" stroke="#64748b" stroke-width="3"/>
+            <path d="M70 218 C140 210, 190 40, 260 40 S 380 150, 470 195 S 600 218, 640 219"
+                  fill="none" stroke="#2563eb" stroke-width="6"/>
+            <line x1="260" y1="40" x2="260" y2="220" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 5"/>
+            <line x1="300" y1="70" x2="300" y2="220" stroke="#0f766e" stroke-width="3" stroke-dasharray="6 5"/>
+            <line x1="330" y1="95" x2="330" y2="220" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 5"/>
+            <text x="640" y="240" fill="#64748b" font-size="22">v</text>
+            <text x="45" y="35" fill="#64748b" font-size="22">f(v)</text>
+            <text x="220" y="255" fill="#f59e0b" font-size="19">v_p</text>
+            <text x="290" y="255" fill="#0f766e" font-size="19">v̄</text>
+            <text x="345" y="255" fill="#ef4444" font-size="19">v_pm</text>
+          </svg>
+          <p class="caption">Cele trei viteze caracteristice: $v_p$ (cea mai probabilă), $\bar v$ (viteza medie), $v_{pm}$ (viteza pătratică medie) — mereu în ordinea $v_p<\bar v<v_{pm}$.</p>
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Efectul temperaturii</strong>
+            <p>La creșterea temperaturii, curba se lățește și maximul se deplasează spre viteze mai mari.</p>
+          </div>
+          <div class="mini">
+            <strong>Aria de sub curbă</strong>
+            <p>Rămâne constantă (egală cu 1), deoarece reprezintă totalitatea moleculelor gazului.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          $v_p$, $\bar v$ și $v_{pm}$ sunt trei mărimi diferite, nu sinonime. Confuzia lor este o greșeală
+          frecventă la examen.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Grade de libertate</span>
+        <h2>Energia internă și teorema echipartiției</h2>
+
+        <p>
+          <span class="mark">Teorema echipartiției energiei</span> afirmă că fiecărui grad de libertate al
+          unei molecule îi revine, în medie, aceeași energie: $\tfrac12 kT$ per moleculă, adică
+          $\tfrac12 RT$ per mol.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Gaz monoatomic ($i=3$)</strong>
+            <p>Doar 3 grade de libertate de translație (pe $Ox$, $Oy$, $Oz$) — ex. heliu, argon.</p>
+          </div>
+          <div class="mini">
+            <strong>Gaz diatomic ($i=5$)</strong>
+            <p>3 grade de translație + 2 de rotație — ex. $O_2$, $N_2$, deci și aerul.</p>
+          </div>
+        </div>
+
+        <p>
+          Energia internă a unui gaz ideal, pentru $\nu$ moli, este suma energiilor cinetice ale tuturor
+          moleculelor de pe toate gradele lor de libertate:
+        </p>
+
+        <div class="formula">
+          $$U=\frac{i}{2}\nu RT$$
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          pentru gazul ideal, energia internă depinde <strong>numai</strong> de temperatură, nu și de
+          volum sau presiune — spre deosebire de gazele reale.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legătură cu macroscopicul</span>
+        <h2>Ecuația de stare a gazului ideal</h2>
+
+        <p>
+          Rescriind ecuația fundamentală $p=\tfrac23 n\overline{E}_c$ și înlocuind
+          $\overline{E}_c=\tfrac32 kT$, se obține direct ecuația de stare a gazului ideal, cunoscută și ca
+          <span class="mark">legea Clapeyron–Mendeleev</span>:
+        </p>
+
+        <div class="formula">
+          $$pV=NkT=\nu RT$$
+        </div>
+
+        <p>
+          Aceasta arată că teoria cinetico-moleculară nu este doar o poveste calitativă, ci
+          <strong>deduce</strong> ecuația de stare, în loc să o postuleze.
+        </p>
+
+        <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
+          <tr>
+            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izotermă</strong> ($T=\text{const}$)</td>
+            <td style="border:1px solid var(--border); padding:0.6rem;">$pV=\text{const}$ — legea Boyle–Mariotte</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izobară</strong> ($p=\text{const}$)</td>
+            <td style="border:1px solid var(--border); padding:0.6rem;">$V/T=\text{const}$ — legea Gay-Lussac</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izocoră</strong> ($V=\text{const}$)</td>
+            <td style="border:1px solid var(--border); padding:0.6rem;">$p/T=\text{const}$ — legea lui Charles</td>
+          </tr>
+        </table>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          cele trei legi ale gazelor (Boyle-Mariotte, Gay-Lussac, Charles) sunt cazuri particulare ale
+          ecuației de stare $pV=\nu RT$, obținute prin fixarea unei mărimi de stare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Model de rezolvare pentru examen</h2>
+
+        <p>
+          Calculați viteza pătratică medie a moleculelor de azot ($N_2$, masă molară
+          $M=28\,\text{g/mol}=0{,}028\,\text{kg/mol}$) la temperatura $T=300\,\text{K}$. Se cunoaște
+          $R=8{,}31\,\text{J/(mol·K)}$.
+        </p>
+
+        <p><strong>1. Alegerea formulei:</strong> viteza pătratică medie se calculează din energia cinetică medie de translație, exprimată prin constanta $R$ și masa molară:</p>
+        <div class="formula">
+          $$v_{pm}=\sqrt{\frac{3RT}{M}}$$
+        </div>
+
+        <p><strong>2. Înlocuirea valorilor numerice:</strong></p>
+        <div class="formula">
+          $$v_{pm}=\sqrt{\frac{3\cdot 8{,}31\cdot 300}{0{,}028}}=\sqrt{\frac{7479}{0{,}028}}=\sqrt{267\,107}\approx 517\,\text{m/s}$$
+        </div>
+
+        <p><strong>3. Verificarea ordinului de mărime:</strong> 517 m/s este comparabil cu viteza sunetului în aer (~340 m/s), ceea ce este fizic rezonabil pentru molecule ușoare la temperatura camerei.</p>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          la $T=300\,\text{K}$, moleculele de azot au o viteză pătratică medie de aproximativ
+          $517\,\text{m/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia celor trei viteze caracteristice:</strong>
+            $v_p$ (cea mai probabilă), $\bar v$ (media) și $v_{pm}$ (pătratică medie) sunt distincte, cu
+            $v_p<\bar v<v_{pm}$.
+          </li>
+          <li>
+            <strong>Uitarea conversiei masei molare:</strong>
+            în formulele cu $R$, masa molară trebuie folosită în kg/mol, nu în g/mol.
+          </li>
+          <li>
+            <strong>Atribuirea presiunii/temperaturii unei singure molecule:</strong>
+            ambele sunt mărimi statistice, definite doar pentru un ansamblu mare de molecule.
+          </li>
+          <li>
+            <strong>Confuzia dintre gradele de libertate:</strong>
+            gazele monoatomice au $i=3$, cele diatomice (inclusiv aerul) au $i=5$ la temperaturi uzuale.
+          </li>
+          <li>
+            <strong>Ignorarea faptului că $U$ depinde doar de $T$:</strong>
+            pentru gazul ideal, energia internă nu depinde de presiune sau volum, spre deosebire de gazele
+            reale.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare bună la proba scrisă:</strong>
+          „Aplic teoria cinetico-moleculară: presiunea gazului este efectul statistic al ciocnirilor
+          moleculelor cu pereții vasului, iar temperatura absolută este proporțională cu energia cinetică
+          medie de translație a moleculelor.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Enumerați cele cinci ipoteze ale teoriei cinetico-moleculare a gazului ideal.</li>
+          <li>Scrieți ecuația fundamentală a teoriei cinetico-moleculare, în ambele forme echivalente.</li>
+          <li>Explicați legătura dintre temperatura absolută și energia cinetică medie de translație.</li>
+          <li>Care sunt cele trei viteze caracteristice ale distribuției Maxwell și cum se ordonează ele?</li>
+          <li>Câte grade de libertate au moleculele unui gaz diatomic și ce energie internă rezultă?</li>
+          <li>Calculați energia cinetică medie de translație a unei molecule la $T=400\,\text{K}$.</li>
+        </ol>
+
+        <div class="formula">
+          $$\overline{E}_c=\frac{3}{2}kT,\qquad v_{pm}=\sqrt{\frac{3RT}{M}},\qquad pV=\nu RT$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C17-principiul-intai-al-termodinamicii.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c16", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c16");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
