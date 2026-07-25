@@ -1,1 +1,797 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C18 – Principiul al II-lea al termodinamicii</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 {
+      font-size: var(--title);
+    }
+
+    h2 {
+      font-size: var(--subtitle);
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid #f59e0b;
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning {
+      background: #33260c;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        line-height: 1.55;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C18 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 18</span>
+        <h1>Principiul al II-lea al termodinamicii</h1>
+        <p class="lead">
+          Principiul I spune că energia se conservă, dar nu spune nimic despre
+          <span class="mark">sensul</span> în care se desfășoară procesele naturale. Principiul al II-lea
+          completează acest gol: el arată de ce căldura trece de la sine de la cald spre rece și niciodată
+          invers, și de ce nicio mașină termică nu poate avea randament de 100%.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          principiul I spune <em>ce</em> se conservă; principiul al II-lea spune <em>în ce sens</em> se
+          pot desfășura, de fapt, procesele din natură.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Căldura trece de la sine doar de la sursa caldă spre sursa rece">
+            <circle cx="150" cy="130" r="70" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="4"/>
+            <text x="150" y="135" fill="#ef4444" font-size="24" text-anchor="middle">T₁ (cald)</text>
+            <circle cx="550" cy="130" r="70" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-width="4"/>
+            <text x="550" y="135" fill="#2563eb" font-size="24" text-anchor="middle">T₂ (rece)</text>
+            <line x1="230" y1="110" x2="470" y2="110" stroke="#0f766e" stroke-width="6" marker-end="url(#arrowQ)"/>
+            <defs>
+              <marker id="arrowQ" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L0,8 L10,4 z" fill="#0f766e"/>
+              </marker>
+            </defs>
+            <text x="300" y="95" fill="#0f766e" font-size="22">Q — de la sine</text>
+            <line x1="470" y1="160" x2="230" y2="160" stroke="#94a3b8" stroke-width="4" stroke-dasharray="8 6"/>
+            <text x="300" y="185" fill="#94a3b8" font-size="20">de la sine — imposibil (Clausius)</text>
+          </svg>
+          <p class="caption">Căldura trece spontan doar dinspre corpul cald spre corpul rece; sensul invers nu este niciodată spontan, oricât de mare ar fi diferența de temperatură.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formulări echivalente</span>
+        <h2>Enunțurile Clausius și Kelvin–Planck</h2>
+
+        <p>
+          Principiul al II-lea are mai multe formulări, aparent diferite, dar riguros
+          <span class="mark">echivalente</span> între ele.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Formularea lui Clausius</strong>
+            <p>Căldura nu poate trece de la sine (fără alt efect asupra mediului exterior) de la un corp
+            cu temperatură mai scăzută la un corp cu temperatură mai ridicată.</p>
+          </div>
+          <div class="mini">
+            <strong>Formularea Kelvin–Planck</strong>
+            <p>Este imposibil de construit o mașină termică ce funcționează ciclic și transformă integral,
+            într-un ciclu, căldura primită de la o singură sursă în lucru mecanic, fără niciun alt efect.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          niciuna dintre formulări nu contrazice principiul I. Ambele admit că energia se conservă — ele
+          interzic doar anumite <strong>direcții</strong> de transformare a energiei, nu transformarea în
+          sine.
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          un frigider „încalcă” aparent formularea lui Clausius (scoate căldură din interiorul rece), dar
+          face asta doar cu <strong>consum</strong> de lucru mecanic din exterior — exact ceea ce principiul
+          II permite.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sensul proceselor</span>
+        <h2>Procese reversibile și ireversibile</h2>
+
+        <p>
+          <span class="mark">Procesul reversibil</span> este o idealizare: o transformare cvasistatică, fără
+          frecare și fără diferențe finite de temperatură, care poate fi parcursă în ambele sensuri, prin
+          exact aceleași stări de echilibru intermediare.
+        </p>
+
+        <p>
+          <span class="mark">Procesul ireversibil</span> este orice proces real: are un sens preferat și nu
+          poate reveni spontan la starea inițială fără o intervenție din exterior care lasă urme permanente
+          în mediul înconjurător.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Exemple de ireversibilitate</strong>
+            <p>Frecarea, difuzia unui gaz în vid, amestecarea a două lichide, transferul de căldură între
+            corpuri cu temperaturi diferite.</p>
+          </div>
+          <div class="mini">
+            <strong>De ce contează la examen</strong>
+            <p>Randamentul maxim posibil (Carnot) se atinge <em>numai</em> pentru cicluri complet
+            reversibile — orice ireversibilitate reală scade randamentul sub această limită.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mașina termică</span>
+        <h2>Schema generală și randamentul</h2>
+
+        <p>
+          O <span class="mark">mașină termică</span> funcționează ciclic între o sursă caldă (temperatura
+          $T_1$) și o sursă rece ($T_2$): preia căldura $Q_1$ de la sursa caldă, cedează căldura $Q_2$
+          sursei reci și produce lucrul mecanic net $L$.
+        </p>
+
+        <p>
+          Aplicând principiul I unui ciclu complet ($\Delta U=0$, deoarece sistemul revine la starea
+          inițială):
+        </p>
+
+        <div class="formula">
+          $$L=Q_1-Q_2$$
+        </div>
+
+        <p>
+          <span class="mark">Randamentul</span> mașinii termice este raportul dintre lucrul mecanic produs
+          și căldura primită de la sursa caldă:
+        </p>
+
+        <div class="formula">
+          $$\eta=\frac{L}{Q_1}=1-\frac{Q_2}{Q_1}$$
+        </div>
+
+        <div class="warning">
+          <strong>Consecință directă a principiului II:</strong>
+          deoarece $Q_2>0$ întotdeauna (formularea Kelvin–Planck), rezultă $\eta<1$ pentru orice mașină
+          termică reală — randamentul de 100% este imposibil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciclul ideal</span>
+        <h2>Ciclul Carnot</h2>
+
+        <p>
+          <span class="mark">Ciclul Carnot</span> este ciclul reversibil de referință, alcătuit din patru
+          transformări, între aceleași două temperaturi $T_1$ (cald) și $T_2$ (rece):
+        </p>
+
+        <ol>
+          <li><strong>Destindere izotermă</strong> la $T_1$ — gazul primește căldura $Q_1$.</li>
+          <li><strong>Destindere adiabatică</strong> — temperatura scade de la $T_1$ la $T_2$.</li>
+          <li><strong>Comprimare izotermă</strong> la $T_2$ — gazul cedează căldura $Q_2$.</li>
+          <li><strong>Comprimare adiabatică</strong> — temperatura crește înapoi de la $T_2$ la $T_1$.</li>
+        </ol>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Ciclul Carnot în diagrama presiune-volum">
+            <line x1="70" y1="220" x2="640" y2="220" stroke="#64748b" stroke-width="3"/>
+            <line x1="90" y1="235" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
+            <path d="M140 70 C 220 90, 300 110, 380 130" fill="none" stroke="#ef4444" stroke-width="5"/>
+            <path d="M380 130 C 460 150, 520 175, 570 200" fill="none" stroke="#94a3b8" stroke-width="5"/>
+            <path d="M570 200 C 480 205, 380 195, 300 175" fill="none" stroke="#2563eb" stroke-width="5"/>
+            <path d="M300 175 C 240 150, 180 110, 140 70" fill="none" stroke="#94a3b8" stroke-width="5"/>
+            <text x="640" y="240" fill="#64748b" font-size="22">V</text>
+            <text x="55" y="45" fill="#64748b" font-size="22">p</text>
+            <text x="180" y="65" fill="#ef4444" font-size="18">izotermă T₁ (Q₁)</text>
+            <text x="440" y="230" fill="#2563eb" font-size="18">izotermă T₂ (Q₂)</text>
+            <text x="440" y="150" fill="#94a3b8" font-size="18">adiabatice</text>
+            <text x="330" y="150" fill="#0f766e" font-size="20">L = aria ciclului</text>
+          </svg>
+          <p class="caption">Aria închisă de cele patru curbe reprezintă lucrul mecanic net produs într-un ciclu.</p>
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          toate cele patru transformări sunt reversibile — de aceea ciclul Carnot este ciclul cu cel mai
+          mare randament posibil între două temperaturi date.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Teorema lui Carnot</span>
+        <h2>Randamentul Carnot — limita superioară universală</h2>
+
+        <p>
+          Pentru ciclul Carnot, se poate arăta (folosind entropia, pe pagina următoare) că
+          $\dfrac{Q_2}{Q_1}=\dfrac{T_2}{T_1}$, deci randamentul depinde <strong>doar</strong> de
+          temperaturile absolute ale celor două surse:
+        </p>
+
+        <div class="formula">
+          $$\eta_{Carnot}=1-\frac{T_2}{T_1}$$
+        </div>
+
+        <p><span class="mark">Teorema lui Carnot</span> afirmă că niciun motor termic care funcționează
+        între temperaturile $T_1$ și $T_2$ nu poate avea un randament mai mare decât $\eta_{Carnot}$,
+        indiferent de substanța de lucru folosită.</p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$\eta=1-\dfrac{Q_2}{Q_1}$</strong>
+            <p>Valabil pentru <em>orice</em> mașină termică, reversibilă sau nu.</p>
+          </div>
+          <div class="mini">
+            <strong>$\eta_{Carnot}=1-\dfrac{T_2}{T_1}$</strong>
+            <p>Valabil <em>numai</em> pentru ciclul Carnot (reversibil) — este limita superioară absolută.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană frecventă:</strong>
+          temperaturile din formula randamentului Carnot trebuie exprimate obligatoriu în
+          <strong>kelvin</strong>, niciodată în grade Celsius.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mărime de stare</span>
+        <h2>Entropia — a doua formulare a principiului II</h2>
+
+        <p>
+          <span class="mark">Entropia</span> $S$ este o mărime de stare care măsoară gradul de dezordine
+          (sau numărul de moduri microscopice compatibile cu o stare macroscopică). Variația ei, pentru un
+          proces reversibil, este:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=\int\frac{\delta Q_{rev}}{T}$$
+        </div>
+
+        <p>
+          Principiul al II-lea se poate reformula direct în termeni de entropie:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_{sistem\ izolat}\ge 0$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Proces reversibil</strong>
+            <p>Entropia totală (sistem + mediu) rămâne constantă: $\Delta S_{total}=0$.</p>
+          </div>
+          <div class="mini">
+            <strong>Proces ireversibil</strong>
+            <p>Entropia totală crește mereu: $\Delta S_{total}>0$ — acesta este sensul „săgeții timpului”.</p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          entropia unui sistem izolat nu poate scădea niciodată; ea crește în orice proces real
+          (ireversibil) și rămâne constantă doar în cazul ideal al proceselor reversibile.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Funcționare inversă</span>
+        <h2>Frigidere și pompe de căldură</h2>
+
+        <p>
+          Un <span class="mark">frigider</span> (sau o pompă de căldură) parcurge ciclul Carnot în sens
+          invers: consumă lucru mecanic $L$ din exterior tocmai pentru a transfera căldură de la sursa rece
+          la sursa caldă — exact sensul interzis „de la sine” de formularea lui Clausius.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Frigider — eficiența frigorifică</strong>
+            <p>Interesează căldura extrasă din spațiul rece per unitate de lucru mecanic consumat:</p>
+            <div class="formula">$$\varepsilon=\frac{Q_2}{L}$$</div>
+          </div>
+          <div class="mini">
+            <strong>Pompă de căldură — coeficient de performanță</strong>
+            <p>Interesează căldura cedată spațiului cald per unitate de lucru mecanic consumat:</p>
+            <div class="formula">$$COP=\frac{Q_1}{L}$$</div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Reținem:</strong>
+          spre deosebire de randamentul unei mașini termice (întotdeauna subunitar), eficiența frigorifică
+          $\varepsilon$ poate fi supraunitară — un frigider bun mută mai multă căldură decât lucrul mecanic
+          consumat pentru asta.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Model de rezolvare pentru examen</h2>
+
+        <p>
+          O mașină termică funcționează după ciclul Carnot între temperaturile $T_1=600\,\text{K}$ și
+          $T_2=300\,\text{K}$, primind de la sursa caldă $Q_1=1200\,\text{J}$. Calculați randamentul, lucrul
+          mecanic produs într-un ciclu și căldura cedată sursei reci.
+        </p>
+
+        <p><strong>1. Randamentul Carnot:</strong></p>
+        <div class="formula">
+          $$\eta=1-\frac{T_2}{T_1}=1-\frac{300}{600}=0{,}5=50\%$$
+        </div>
+
+        <p><strong>2. Lucrul mecanic produs:</strong></p>
+        <div class="formula">
+          $$L=\eta\, Q_1=0{,}5\cdot1200=600\,\text{J}$$
+        </div>
+
+        <p><strong>3. Căldura cedată sursei reci, din principiul I:</strong></p>
+        <div class="formula">
+          $$Q_2=Q_1-L=1200-600=600\,\text{J}$$
+        </div>
+
+        <p><strong>4. Verificare:</strong> $\dfrac{Q_2}{T_2}=\dfrac{600}{300}=2$ și $\dfrac{Q_1}{T_1}=\dfrac{1200}{600}=2$ — cele două rapoarte coincid, confirmând că ciclul este reversibil.</p>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          randamentul este $50\%$, mașina produce $600\,\text{J}$ lucru mecanic pe ciclu și cedează
+          $600\,\text{J}$ sursei reci.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia dintre $\eta=1-Q_2/Q_1$ și $\eta_{Carnot}=1-T_2/T_1$:</strong>
+            a doua formulă este valabilă <em>numai</em> pentru ciclul Carnot reversibil.
+          </li>
+          <li>
+            <strong>Folosirea temperaturii în grade Celsius:</strong>
+            formula randamentului Carnot cere obligatoriu temperaturi absolute (kelvin).
+          </li>
+          <li>
+            <strong>Interpretarea greșită „energia se pierde”:</strong>
+            energia se conservă mereu (principiul I); principiul II spune doar că nu toată căldura poate
+            deveni lucru mecanic.
+          </li>
+          <li>
+            <strong>Confuzia dintre randamentul motorului și eficiența frigorifică:</strong>
+            $\eta<1$ mereu, dar $\varepsilon$ poate fi supraunitar.
+          </li>
+          <li>
+            <strong>Ideea că entropia unui sistem <em>oarecare</em> nu poate niciodată scădea:</strong>
+            legea se aplică sistemului <strong>izolat</strong> (sistem + mediu); entropia unei părți poate
+            scădea local, dacă altundeva crește mai mult.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare bună la proba scrisă:</strong>
+          „Conform principiului al II-lea al termodinamicii, randamentul oricărei mașini termice reale care
+          funcționează între $T_1$ și $T_2$ este cel mult egal cu randamentul Carnot corespunzător,
+          $\eta_{Carnot}=1-T_2/T_1$.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Enunțați formulările Clausius și Kelvin–Planck ale principiului al II-lea și arătați că nu contrazic principiul I.</li>
+          <li>Definiți randamentul unei mașini termice și arătați de ce este întotdeauna subunitar.</li>
+          <li>Descrieți cele patru transformări ale ciclului Carnot.</li>
+          <li>Enunțați teorema lui Carnot privind randamentul maxim.</li>
+          <li>Ce se întâmplă cu entropia unui sistem izolat în care are loc un proces ireversibil?</li>
+          <li>O mașină Carnot funcționează între $400\,\text{K}$ și $250\,\text{K}$. Calculați randamentul ei.</li>
+        </ol>
+
+        <div class="formula">
+          $$\eta=1-\frac{Q_2}{Q_1},\qquad \eta_{Carnot}=1-\frac{T_2}{T_1},\qquad \Delta S_{izolat}\ge 0$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C19-gazele-reale-ecuatia-van-der-waals.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c18", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c18");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
