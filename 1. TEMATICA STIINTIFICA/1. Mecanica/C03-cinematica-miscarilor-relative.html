@@ -1,301 +1,1059 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="ro" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <title>C03 – Cinematica mișcărilor relative</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>C03 – Cinematica mișcărilor relative</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="../../../assets/css/main.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-    <!-- MathJax -->
-    <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-            svg: { fontCache: 'global' }
-        };
-    </script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 {
+      font-size: var(--title);
+    }
+
+    h2 {
+      font-size: var(--subtitle);
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid #f59e0b;
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning {
+      background: #33260c;
+    }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: var(--accent-3);
+    }
+
+    @media (max-width: 760px) {
+      body {
+        line-height: 1.55;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="topbar">
+    <strong>C03 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
 
-<!-- PAGINA 1 – Date generale -->
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 3</span>
+        <h1>Cinematica mișcărilor relative</h1>
 
-<div id="pagina-1" class="pagina">
-    <header class="banner">
-        <h1>C03 – Cinematica mișcărilor relative</h1>
-        <h2>Tematica științifică – Mecanică</h2>
-    </header>
+        <p class="lead">
+          Mișcarea unui corp nu este descrisă „în sine”, ci
+          <span class="mark">în raport cu un sistem de referință</span>.
+          Ceea ce pentru un observator este repaus, pentru alt observator poate fi mișcare.
+        </p>
 
-    <section class="info-general">
-        <h3>1. Date de identificare</h3>
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          în mecanica clasică, pozițiile și vitezele se compun vectorial.
+          Pentru sisteme de referință aflate în translație uniformă unul față de altul,
+          accelerația este aceeași în ambele sisteme inerțiale.
+        </div>
 
-        <p><strong>Disciplina:</strong> Fizică</p>
-        <p><strong>Unitatea de învățare:</strong> Mișcarea mecanică</p>
-        <p><strong>Lecția:</strong> Cinematica mișcărilor relative</p>
+        <div class="svgbox">
+          <svg viewBox="0 0 760 320" role="img" aria-label="Două sisteme de referință">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b"></path>
+              </marker>
+            </defs>
 
-        <p><strong>Nivel:</strong> Gimnaziu / Liceu</p>
-        <p><strong>Durata:</strong> 1–2 ore</p>
-        <p><strong>Tipul lecției:</strong> Predare–învățare + aplicare</p>
+            <line x1="70" y1="250" x2="680" y2="250" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-blue)"/>
+            <line x1="90" y1="270" x2="90" y2="60" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-blue)"/>
+            <text x="685" y="255" fill="#64748b" font-size="23">x</text>
+            <text x="70" y="60" fill="#64748b" font-size="23">y</text>
+            <text x="72" y="285" fill="#64748b" font-size="23">S</text>
+
+            <line x1="300" y1="220" x2="300" y2="80" stroke="#64748b" stroke-width="3"/>
+            <line x1="280" y1="220" x2="560" y2="220" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-green)"/>
+            <text x="565" y="225" fill="#64748b" font-size="23">x'</text>
+            <text x="280" y="205" fill="#64748b" font-size="23">S'</text>
+
+            <circle cx="555" cy="130" r="11" fill="#ef4444"/>
+            <line x1="90" y1="250" x2="300" y2="220" stroke="#f59e0b" stroke-width="5" marker-end="url(#arrow-orange)"/>
+            <line x1="300" y1="220" x2="555" y2="130" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-green)"/>
+            <line x1="90" y1="250" x2="555" y2="130" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow-blue)"/>
+
+            <text x="170" y="215" fill="#f59e0b" font-size="24">R</text>
+            <text x="440" y="165" fill="#0f766e" font-size="24">r'</text>
+            <text x="330" y="120" fill="#2563eb" font-size="24">r</text>
+          </svg>
+          <p class="caption">
+            Poziția observată din sistemul fix este suma dintre poziția originii mobile și poziția corpului față de sistemul mobil.
+          </p>
+        </div>
+      </article>
     </section>
 
-    <section class="context-curricular">
-        <h3>2. Încadrarea în programă</h3>
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Principiu de bază</span>
+        <h2>Mișcarea depinde de observator</h2>
 
         <p>
-            Mișcările relative apar atunci când descriem mișcarea unui corp din două
-            sisteme de referință diferite. Conținutul este esențial pentru înțelegerea
-            mișcărilor compuse, a mișcării vehiculelor, a curenților de apă și aer,
-            precum și pentru studiul ulterior al mecanicii vectoriale.
+          Un pasager aflat pe scaun într-un tren este în
+          <span class="mark">repaus față de tren</span>, dar este în
+          <span class="mark">mișcare față de sol</span>.
         </p>
+
+        <p>
+          De aceea, orice afirmație despre repaus sau mișcare trebuie completată cu expresia:
+          <strong>„față de ce sistem de referință?”</strong>
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Față de tren</strong>
+            <p>Pasagerul așezat are viteza $0$.</p>
+          </div>
+          <div class="mini">
+            <strong>Față de sol</strong>
+            <p>Pasagerul are viteza trenului.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          folosirea expresiei „viteza reală” fără precizarea sistemului de referință.
+          În cinematică, viteza trebuie raportată la un observator.
+        </div>
+      </article>
     </section>
-</div>
 
-<!-- PAGINA 2 – Competențe și obiective -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Notație riguroasă</span>
+        <h2>Poziția relativă</h2>
 
-<div id="pagina-2" class="pagina">
-    <section class="competente">
-        <h3>3. Competențe specifice vizate</h3>
+        <p>
+          Considerăm două sisteme de referință:
+          <strong>$S$</strong>, considerat fix, și <strong>$S'$</strong>, aflat în mișcare față de $S$.
+        </p>
+
+        <p>
+          Dacă $\vec R(t)$ este poziția originii lui $S'$ față de $S$, iar $\vec r'(t)$ este poziția punctului material față de $S'$,
+          atunci poziția punctului față de $S$ este:
+        </p>
+
+        <div class="formula">
+          $$\vec r(t)=\vec R(t)+\vec r'(t)$$
+        </div>
+
+        <p>
+          Aceasta este <span class="mark">relația de compunere a vectorilor de poziție</span>.
+        </p>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          vectorul de poziție al punctului față de sistemul fix se obține prin suma dintre vectorul de poziție al sistemului mobil față de sistemul fix și vectorul de poziție al punctului față de sistemul mobil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteze relative</span>
+        <h2>Compunerea vitezelor</h2>
+
+        <p>
+          Derivând relația pozițiilor în raport cu timpul, obținem relația vitezelor:
+        </p>
+
+        <div class="formula">
+          $$\vec r=\vec R+\vec r'$$
+          $$\frac{d\vec r}{dt}=\frac{d\vec R}{dt}+\frac{d\vec r'}{dt}$$
+          $$\vec v=\vec V+\vec v'$$
+        </div>
+
+        <p>
+          Aici:
+        </p>
 
         <ul>
-            <li><strong>C1:</strong> Descrierea mișcărilor din sisteme de referință diferite.</li>
-            <li><strong>C2:</strong> Utilizarea relațiilor vectoriale pentru viteze relative.</li>
-            <li><strong>C3:</strong> Interpretarea grafică a mișcărilor compuse.</li>
-            <li><strong>C4:</strong> Rezolvarea problemelor de mișcare relativă.</li>
+          <li>$\vec v$ este viteza corpului față de sistemul fix $S$;</li>
+          <li>$\vec v'$ este viteza corpului față de sistemul mobil $S'$;</li>
+          <li>$\vec V$ este viteza sistemului mobil $S'$ față de $S$.</li>
         </ul>
+
+        <div class="exam">
+          <strong>Relația fundamentală:</strong>
+          $$\boxed{\vec v_{\text{corp}/S}=\vec v_{\text{corp}/S'}+\vec v_{S'/S}}}$$
+        </div>
+      </article>
     </section>
 
-    <section class="obiective">
-        <h3>4. Obiective operaționale</h3>
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Accelerații</span>
+        <h2>Când se păstrează accelerația?</h2>
+
+        <p>
+          Derivând relația vitezelor, obținem:
+        </p>
+
+        <div class="formula">
+          $$\vec v=\vec V+\vec v'$$
+          $$\vec a=\vec A+\vec a'$$
+        </div>
+
+        <p>
+          Dacă sistemul mobil se deplasează cu <span class="mark">viteză constantă</span> față de sistemul fix, atunci:
+        </p>
+
+        <div class="formula">
+          $$\vec V=\text{constant}\quad \Rightarrow \quad \vec A=0$$
+          $$\vec a=\vec a'$$
+        </div>
+
+        <div class="exam">
+          <strong>Consecință importantă:</strong>
+          în sisteme de referință inerțiale aflate în translație rectilinie uniformă unul față de altul,
+          accelerația are aceeași valoare.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          această afirmație nu mai este suficientă pentru sisteme accelerate sau rotitoare.
+          Acolo apar accelerații suplimentare, studiate la sisteme neinerțiale.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformări Galilei</span>
+        <h2>Cazul axelor paralele</h2>
+
+        <p>
+          Pentru două sisteme cu axe paralele, unde $S'$ se deplasează uniform cu viteza $\vec V$ față de $S$,
+          relațiile clasice se numesc <span class="mark">transformări Galilei</span>.
+        </p>
+
+        <div class="formula">
+          $$x=x'+Vt$$
+          $$y=y'$$
+          $$z=z'$$
+          $$t=t'$$
+        </div>
+
+        <p>
+          Pentru viteze:
+        </p>
+
+        <div class="formula">
+          $$v_x=v_x'+V,\qquad v_y=v_y',\qquad v_z=v_z'$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee de reținut:</strong>
+          în mecanica newtoniană, timpul este același în toate sistemele inerțiale:
+          $$t=t'.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteza unui corp față de alt corp</span>
+        <h2>Viteza relativă între două mobile</h2>
+
+        <p>
+          Dacă două corpuri $A$ și $B$ au vitezele $\vec v_A$ și $\vec v_B$ față de același sistem de referință,
+          viteza lui $A$ față de $B$ este:
+        </p>
+
+        <div class="formula">
+          $$\vec v_{A/B}=\vec v_A-\vec v_B$$
+        </div>
+
+        <p>
+          Analog, poziția relativă este:
+        </p>
+
+        <div class="formula">
+          $$\vec r_{A/B}=\vec r_A-\vec r_B$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Același sens</strong>
+            <p>Dacă $v_A>v_B$, atunci $v_{A/B}=v_A-v_B$.</p>
+          </div>
+          <div class="mini">
+            <strong>Sensuri opuse</strong>
+            <p>Modulele vitezelor se adună: $v_{\text{rel}}=v_A+v_B$.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          vitezele relative nu se adună numeric fără analizarea sensului și direcției vectorilor.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reprezentare vectorială</span>
+        <h2>Compunerea vectorială a vitezelor</h2>
+
+        <p>
+          În problemele cu barcă, avion, vânt sau curent de apă, vitezele pot avea direcții diferite.
+          Atunci relația se aplică vectorial, nu doar algebric.
+        </p>
+
+        <div class="formula">
+          $$\vec v_{\text{rez}}=\vec v_1+\vec v_2$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Compunerea vectorială a vitezelor">
+            <defs>
+              <marker id="arrow-v1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrow-v2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrow-vr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b"></path>
+              </marker>
+            </defs>
+
+            <line x1="150" y1="240" x2="500" y2="240" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-v1)"/>
+            <line x1="500" y1="240" x2="500" y2="90" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-v2)"/>
+            <line x1="150" y1="240" x2="500" y2="90" stroke="#f59e0b" stroke-width="7" marker-end="url(#arrow-vr)"/>
+            <text x="285" y="220" fill="#2563eb" font-size="26">v₁</text>
+            <text x="515" y="165" fill="#0f766e" font-size="26">v₂</text>
+            <text x="300" y="145" fill="#f59e0b" font-size="26">vrez</text>
+          </svg>
+          <p class="caption">
+            Dacă vitezele sunt perpendiculare, modulul rezultantei se calculează cu teorema lui Pitagora.
+          </p>
+        </div>
+
+        <div class="formula">
+          $$v_{\text{rez}}=\sqrt{v_1^2+v_2^2}\quad \text{pentru}\quad \vec v_1\perp \vec v_2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Aplicație clasică</span>
+        <h2>Om care merge într-un tren</h2>
+
+        <p>
+          Un pieton merge în interiorul unui tren cu viteza $v_{p/t}=1{,}5\,\text{m/s}$ față de tren.
+          Trenul se deplasează cu viteza $v_{t/s}=18\,\text{m/s}$ față de sol.
+        </p>
+
+        <p>
+          Dacă pietonul merge în sensul de deplasare al trenului:
+        </p>
+
+        <div class="formula">
+          $$v_{p/s}=v_{p/t}+v_{t/s}$$
+          $$v_{p/s}=1{,}5+18=19{,}5\,\text{m/s}$$
+        </div>
+
+        <p>
+          Dacă pietonul merge în sens opus trenului:
+        </p>
+
+        <div class="formula">
+          $$v_{p/s}=-v_{p/t}+v_{t/s}$$
+          $$v_{p/s}=-1{,}5+18=16{,}5\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație de barem:</strong>
+          semnul vitezei pietonului depinde de sensul ales pentru axa de referință.
+          Este recomandat să precizezi explicit sensul pozitiv.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Barcă pe râu</span>
+        <h2>Viteza față de apă și viteza față de mal</h2>
+
+        <p>
+          O barcă are viteza $v_{b/a}=4\,\text{m/s}$ față de apă.
+          Curentul are viteza $v_{a/m}=1\,\text{m/s}$ față de mal.
+        </p>
+
+        <p>
+          Dacă barca se deplasează în sensul curentului:
+        </p>
+
+        <div class="formula">
+          $$v_{b/m}=v_{b/a}+v_{a/m}=4+1=5\,\text{m/s}$$
+        </div>
+
+        <p>
+          Dacă barca se deplasează împotriva curentului:
+        </p>
+
+        <div class="formula">
+          $$v_{b/m}=v_{b/a}-v_{a/m}=4-1=3\,\text{m/s}$$
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          aceeași barcă poate avea viteze diferite față de apă și față de mal.
+          Întrebarea trebuie citită atent.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Traversarea râului</span>
+        <h2>Viteze perpendiculare</h2>
+
+        <p>
+          O barcă este orientată perpendicular pe mal, cu viteza față de apă
+          $v_{b/a}=3\,\text{m/s}$. Curentul apei are viteza
+          $v_{a/m}=4\,\text{m/s}$ paralel cu malul.
+        </p>
+
+        <p>
+          Viteza bărcii față de mal este rezultanta celor două viteze perpendiculare:
+        </p>
+
+        <div class="formula">
+          $$v_{b/m}=\sqrt{v_{b/a}^2+v_{a/m}^2}$$
+          $$v_{b/m}=\sqrt{3^2+4^2}=5\,\text{m/s}$$
+        </div>
+
+        <p>
+          Direcția rezultantei se obține din:
+        </p>
+
+        <div class="formula">
+          $$\tan\alpha=\frac{v_{a/m}}{v_{b/a}}=\frac{4}{3}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          barca nu ajunge direct în punctul opus de pe celălalt mal, ci este deviată în sensul curentului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Avion și vânt</span>
+        <h2>Viteza față de aer și viteza față de sol</h2>
+
+        <p>
+          În zbor, trebuie distinse două viteze:
+          <span class="mark">viteza avionului față de aer</span> și
+          <span class="mark">viteza avionului față de sol</span>.
+        </p>
+
+        <div class="formula">
+          $$\vec v_{\text{avion/sol}}=
+          \vec v_{\text{avion/aer}}+\vec v_{\text{aer/sol}}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Situație</th>
+              <th>Efect asupra vitezei față de sol</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vânt din spate</td>
+              <td>Viteza față de sol crește.</td>
+            </tr>
+            <tr>
+              <td>Vânt din față</td>
+              <td>Viteza față de sol scade.</td>
+            </tr>
+            <tr>
+              <td>Vânt lateral</td>
+              <td>Traiectoria este deviată lateral.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Răspuns matur la examen:</strong>
+          vitezele se compun vectorial, iar direcția reală de deplasare este direcția vectorului rezultant.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Întâlnirea a două mobile</h2>
+
+        <p>
+          Două automobile se deplasează unul spre celălalt pe același drum.
+          Primul are viteza $v_1=20\,\text{m/s}$, al doilea $v_2=15\,\text{m/s}$.
+          Distanța inițială dintre ele este $d=700\,\text{m}$.
+          Determinați timpul până la întâlnire.
+        </p>
+
+        <p>
+          Deoarece automobilele se deplasează în sensuri opuse, viteza relativă de apropiere este:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{rel}}=v_1+v_2=20+15=35\,\text{m/s}$$
+        </div>
+
+        <p>
+          Timpul de întâlnire este:
+        </p>
+
+        <div class="formula">
+          $$t=\frac{d}{v_{\text{rel}}}=\frac{700}{35}=20\,\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          automobilele se întâlnesc după $20\,\text{s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Depășirea unui mobil</h2>
+
+        <p>
+          Un automobil cu viteza $v_1=25\,\text{m/s}$ ajunge din urmă un camion cu viteza
+          $v_2=15\,\text{m/s}$. Distanța inițială dintre ele este $d=200\,\text{m}$.
+          Determinați timpul necesar automobilului pentru a ajunge camionul.
+        </p>
+
+        <p>
+          Deoarece se deplasează în același sens, viteza relativă este:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{rel}}=v_1-v_2=25-15=10\,\text{m/s}$$
+        </div>
+
+        <p>
+          Timpul este:
+        </p>
+
+        <div class="formula">
+          $$t=\frac{d}{v_{\text{rel}}}=\frac{200}{10}=20\,\text{s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          față de camion, automobilul se apropie cu doar $10\,\text{m/s}$, nu cu $25\,\text{m/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
 
         <ul>
-            <li><strong>O1:</strong> Să definească mișcarea relativă și sistemul de referință.</li>
-            <li><strong>O2:</strong> Să exprime vectorial viteza relativă.</li>
-            <li><strong>O3:</strong> Să aplice relațiile de compunere a vitezelor.</li>
-            <li><strong>O4:</strong> Să rezolve probleme de tip „om pe barcă”, „tren și pieton”, „curent de apă”.</li>
-            <li><strong>O5:</strong> Să interpreteze grafic mișcările relative.</li>
+          <li>
+            <strong>Confuzia între sistemele de referință:</strong>
+            viteza față de tren nu este aceeași cu viteza față de sol.
+          </li>
+          <li>
+            <strong>Adunarea scalară automată:</strong>
+            vitezele se compun vectorial.
+          </li>
+          <li>
+            <strong>Omiterea sensului pozitiv:</strong>
+            fără axă orientată, semnele devin ambigue.
+          </li>
+          <li>
+            <strong>Confuzia între apropiere și depășire:</strong>
+            la sensuri opuse vitezele se adună, iar la același sens se scad.
+          </li>
+          <li>
+            <strong>Folosirea greșită a expresiei „viteză absolută”:</strong>
+            în cinematică se precizează sistemul de referință.
+          </li>
         </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Aleg sistemul de referință legat de sol și axa $Ox$ în sensul mișcării primului mobil.
+          Aplic relația vectorială a vitezelor relative.”
+        </div>
+      </article>
     </section>
-</div>
 
-<!-- PAGINA 3 – Noțiuni fundamentale -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză</span>
+        <h2>Relații esențiale</h2>
 
-<div id="pagina-3" class="pagina">
-    <section class="notiuni-fundamentale">
-        <h3>5. Noțiuni fundamentale</h3>
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Noțiune</th>
+              <th>Relație</th>
+              <th>Interpretare</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Poziție relativă</td>
+              <td>$\vec r=\vec R+\vec r'$</td>
+              <td>Poziția față de sistemul fix.</td>
+            </tr>
+            <tr>
+              <td>Viteză compusă</td>
+              <td>$\vec v=\vec V+\vec v'$</td>
+              <td>Viteza față de sistemul fix.</td>
+            </tr>
+            <tr>
+              <td>Accelerație</td>
+              <td>$\vec a=\vec A+\vec a'$</td>
+              <td>Se păstrează dacă $\vec A=0$.</td>
+            </tr>
+            <tr>
+              <td>Viteză relativă între două corpuri</td>
+              <td>$\vec v_{A/B}=\vec v_A-\vec v_B$</td>
+              <td>Viteza lui $A$ observată din $B$.</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <h4>5.1. Sistem de referință</h4>
-        <p>
-            Mișcarea unui corp este descrisă întotdeauna în raport cu un sistem de referință.
-            Dacă schimbăm sistemul de referință, descrierea mișcării se modifică.
-        </p>
-
-        <h4>5.2. Mișcarea relativă</h4>
-        <p>
-            Mișcarea relativă este mișcarea unui corp observată dintr-un sistem de referință
-            care se află el însuși în mișcare.
-        </p>
-
-        <p>
-            Exemplu: un pasager care merge într-un tren are o mișcare relativă față de tren,
-            dar o mișcare compusă față de sol.
-        </p>
-
-        <h4>5.3. Vectorul poziției relative</h4>
-        <p>
-            Dacă un corp are poziția $\vec{r}_{A}$ față de sistemul $A$, iar sistemul $A$
-            are poziția $\vec{r}_{B}$ față de sistemul $B$, atunci poziția corpului față
-            de $B$ este:
-        </p>
-
-        <p>
-            $$\vec{r}_{B} = \vec{r}_{A} + \vec{r}_{AB}$$
-        </p>
+        <div class="formula">
+          $$\boxed{\vec v_{\text{corp}/S}=\vec v_{\text{corp}/S'}+\vec v_{S'/S}}}$$
+        </div>
+      </article>
     </section>
-</div>
 
-<!-- PAGINA 4 – Viteza relativă -->
-
-<div id="pagina-4" class="pagina">
-    <section class="viteza-relativa">
-        <h3>6. Viteza relativă</h3>
-
-        <h4>6.1. Definiție</h4>
-        <p>
-            Viteza relativă este viteza unui corp observată dintr-un sistem de referință
-            aflat în mișcare.
-        </p>
-
-        <h4>6.2. Relația fundamentală</h4>
-        <p>
-            Dacă un corp are viteza $\vec{v}_{A}$ față de sistemul $A$, iar sistemul $A$
-            are viteza $\vec{v}_{B}$ față de sistemul $B$, atunci viteza corpului față de
-            $B$ este:
-        </p>
-
-        <p>
-            $$\vec{v}_{B} = \vec{v}_{A} + \vec{v}_{AB}$$
-        </p>
-
-        <h4>6.3. Exemple intuitive</h4>
-        <ul>
-            <li>Un om merge în tren cu $2\,\text{m/s}$; trenul merge cu $20\,\text{m/s}$ → față de sol: $22\,\text{m/s}$.</li>
-            <li>O barcă merge cu $5\,\text{m/s}$ față de apă; curentul are $2\,\text{m/s}$ → față de mal: $7\,\text{m/s}$.</li>
-        </ul>
-    </section>
-</div>
-
-<!-- PAGINA 5 – Mișcări compuse -->
-
-<div id="pagina-5" class="pagina">
-    <section class="miscari-compuse">
-        <h3>7. Mișcări compuse</h3>
-
-        <h4>7.1. Mișcarea pe apă (barcă + curent)</h4>
-        <p>
-            Mișcarea bărcii față de mal este compunerea vectorială a vitezei bărcii față
-            de apă și a vitezei curentului.
-        </p>
-
-        <h4>7.2. Mișcarea pe vehicule (tren + pieton)</h4>
-        <p>
-            Mișcarea pietonului față de sol este suma vitezei pietonului față de tren și
-            a vitezei trenului față de sol.
-        </p>
-
-        <h4>7.3. Mișcarea vântului (avion + curent de aer)</h4>
-        <p>
-            Direcția reală de deplasare a avionului este rezultatul compunerii vitezei
-            avionului cu viteza vântului.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 6 – Reprezentări grafice -->
-
-<div id="pagina-6" class="pagina">
-    <section class="grafice">
-        <h3>8. Reprezentări grafice</h3>
-
-        <h4>8.1. Poziție relativă</h4>
-        <p>
-            Graficul poziției relative poate arăta cum se modifică poziția unui corp
-            față de două sisteme de referință diferite.
-        </p>
-
-        <h4>8.2. Viteza relativă</h4>
-        <p>
-            Graficul vitezei relative evidențiază compunerea vectorială a vitezelor.
-        </p>
-
-        <p>
-            Exemplu: dacă trenul are viteză constantă, iar pietonul accelerează, graficul
-            vitezei relative este o dreaptă translatată.
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 7 – Organizare didactică -->
-
-<div id="pagina-7" class="pagina">
-    <section class="organizare-didactica">
-        <h3>9. Organizarea lecției</h3>
-
-        <ul>
-            <li><strong>Moment organizatoric</strong></li>
-            <li><strong>Reactualizarea cunoștințelor:</strong> mișcarea rectilinie, vectori</li>
-            <li><strong>Anunțarea temei</strong></li>
-            <li><strong>Predarea:</strong> definiții, vectori, compunerea vitezelor</li>
-            <li><strong>Fixarea:</strong> exemple intuitive</li>
-            <li><strong>Aplicarea:</strong> probleme</li>
-            <li><strong>Evaluarea:</strong> itemi scurți</li>
-            <li><strong>Tema:</strong> probleme suplimentare</li>
-        </ul>
-    </section>
-</div>
-
-<!-- PAGINA 8 – Probleme rezolvate -->
-
-<div id="pagina-8" class="pagina">
-    <section class="probleme">
-        <h3>10. Probleme rezolvate</h3>
-
-        <h4>Problema 1 – Tren și pieton</h4>
-        <p>
-            Un pieton merge în tren cu $v_p = 1{,}5\,\text{m/s}$ față de tren. Trenul se
-            deplasează cu $v_t = 18\,\text{m/s}$ față de sol. Determinați viteza pietonului
-            față de sol.
-        </p>
-
-        <p><strong>Rezolvare:</strong></p>
-        <p>
-            $$v = v_p + v_t = 1{,}5 + 18 = 19{,}5\,\text{m/s}$$
-        </p>
-
-        <h4>Problema 2 – Barcă pe râu</h4>
-        <p>
-            O barcă are viteza $v_b = 4\,\text{m/s}$ față de apă. Curentul are viteza
-            $v_c = 1\,\text{m/s}$. Determinați viteza bărcii față de mal.
-        </p>
-
-        <p><strong>Rezolvare:</strong></p>
-        <p>
-            $$v = v_b + v_c = 4 + 1 = 5\,\text{m/s}$$
-        </p>
-    </section>
-</div>
-
-<!-- PAGINA 9 – Greșeli frecvente -->
-
-<div id="pagina-9" class="pagina">
-    <section class="greseli">
-        <h3>11. Greșeli frecvente</h3>
-
-        <ul>
-            <li>Confuzia între mișcarea absolută și mișcarea relativă.</li>
-            <li>Neglijarea direcției vectorilor.</li>
-            <li>Adunarea numerică a vitezelor fără analiză vectorială.</li>
-            <li>Confuzia între viteza față de vehicul și viteza față de sol.</li>
-        </ul>
-    </section>
-</div>
-
-<!-- PAGINA 10 – Evaluare -->
-
-<div id="pagina-10" class="pagina">
-    <section class="evaluare">
-        <h3>12. Evaluare</h3>
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
 
         <ol>
-            <li>Definiți mișcarea relativă.</li>
-            <li>Scrieți relația vitezei relative.</li>
-            <li>Dați un exemplu de mișcare compusă.</li>
-            <li>Explicați mișcarea unui pieton într-un tren.</li>
-            <li>Formulați o problemă de mișcare relativă.</li>
+          <li>Explicați de ce mișcarea este relativă.</li>
+          <li>Definiți sistemul de referință mobil $S'$ față de sistemul fix $S$.</li>
+          <li>Scrieți relația de compunere a vectorilor de poziție.</li>
+          <li>Demonstrați relația $\vec v=\vec V+\vec v'$ prin derivare.</li>
+          <li>În ce condiții accelerația are aceeași valoare în două sisteme inerțiale?</li>
+          <li>Scrieți relația vitezei lui $A$ față de $B$.</li>
+          <li>Un om merge în tren cu $2\,\text{m/s}$, iar trenul cu $20\,\text{m/s}$. Determinați viteza omului față de sol în ambele sensuri.</li>
+          <li>O barcă are viteza $6\,\text{m/s}$ față de apă, iar curentul $2\,\text{m/s}$. Determinați viteza față de mal în aval și în amonte.</li>
+          <li>Explicați de ce la traversarea unui râu barca este deviată de curent.</li>
+          <li>Formulați o problemă de întâlnire sau depășire folosind viteza relativă.</li>
         </ol>
+
+        <div class="bottom-links">
+          <a href="C04-principiile-mecanicii-newtoniene.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
     </section>
-</div>
+  </main>
 
-<!-- PAGINA 11 – Recapitulare -->
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
 
-<div id="pagina-11" class="pagina">
-    <section class="recapitulare">
-        <h3>13. Recapitulare și extensii</h3>
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
 
-        <p>
-            Mișcările relative sunt fundamentale în mecanică și apar în numeroase situații
-            reale: vehicule, curenți de apă, vânt, mișcări compuse. Lecția pregătește
-            elevii pentru studiul dinamicii și al mișcărilor complexe.
-        </p>
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
-        <ul>
-            <li>Mișcarea relativă în dinamică</li>
-            <li>Mișcarea compusă în două dimensiuni</li>
-            <li>Aplicații în navigație și aviație</li>
-        </ul>
-    </section>
-</div>
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
 
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c03", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c03");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
 </body>
 </html>
-
