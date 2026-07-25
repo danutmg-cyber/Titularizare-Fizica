@@ -3,331 +3,203 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tematica pentru Didactica Fizicii — Titularizare-Fizica</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Didactica Fizicii</title>
 <style>
-  :root{
-    --bg: #eef1f0;
-    --bg-grid: #e2e8e6;
-    --paper: #ffffff;
-    --ink: #182322;
-    --ink-soft: #4b5a58;
-    --accent: #1f6f6b;
-    --accent-2: #b8862e;
-    --accent-ink: #ffffff;
-    --line: #d3dbd8;
-    --shadow: rgba(24,35,34,0.08);
-    --code-bg: #eef4f3;
-    --radius: 14px;
-    color-scheme: light;
-  }
-  html.dark{
-    --bg: #0e1615;
-    --bg-grid: #131e1c;
-    --paper: #131e1d;
-    --ink: #e8efed;
-    --ink-soft: #a9bab6;
-    --accent: #5fc9c1;
-    --accent-2: #e0ab54;
-    --accent-ink: #0e1615;
-    --line: #24322f;
-    --shadow: rgba(0,0,0,0.35);
-    --code-bg: #0f1b19;
-    color-scheme: dark;
-  }
-
-  *{ box-sizing: border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background:
-      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/ 100% 34px,
-      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/ 34px 100%,
-      var(--bg);
-    color: var(--ink);
-    font-family: "Source Sans 3", system-ui, sans-serif;
-    font-size: 17px;
-    line-height: 1.6;
-    min-height: 100vh;
-    transition: background-color .35s ease, color .35s ease;
-  }
-  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); }
-  a{ color:var(--accent); }
-  .mono{ font-family:"JetBrains Mono", monospace; }
-
-  .shell{ max-width: 900px; margin: 0 auto; padding: 18px 20px 50px; }
-
-  /* ===== Header ===== */
-  header.top{
-    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-    padding-bottom:14px; border-bottom:1px solid var(--line); margin-bottom:22px;
-  }
-  .crumb{
-    font-family:"JetBrains Mono", monospace; font-size:12.5px; color: var(--ink-soft);
-    text-transform:uppercase; letter-spacing:.06em; line-height:1.7;
-  }
-  .crumb a{ color: var(--ink-soft); text-decoration:none; }
-  .crumb a:hover{ color: var(--accent); }
-  .crumb b{ color: var(--accent); }
-  .page-title{ margin: 4px 0 0; font-size: clamp(21px, 4.6vw, 29px); line-height:1.2; }
-  .page-title .instrument{ display:inline-flex; width: 30px; height:30px; vertical-align:-8px; margin-right:8px; }
-
-  .theme-toggle{
-    flex: 0 0 auto; display:flex; align-items:center; gap:8px;
-    background: var(--paper); border:1px solid var(--line); border-radius: 999px;
-    padding: 5px 6px; box-shadow: 0 2px 6px var(--shadow); cursor:pointer; user-select:none;
-  }
-  .theme-toggle .icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; opacity:.55; }
-  .theme-toggle .icon.on{ opacity:1; color:var(--accent); }
-  .theme-toggle .track{ width:34px; height:18px; border-radius:999px; background: var(--line); position:relative; }
-  .theme-toggle .knob{ position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background: var(--accent); transition: transform .25s ease; }
-  html.dark .theme-toggle .knob{ transform: translateX(16px); }
-
-  /* ===== Intro ===== */
-  .intro{ margin-bottom: 30px; }
-  .intro p{ color: var(--ink-soft); max-width: 62ch; margin:0 0 16px; font-size:16px; }
-
-  .progress-strip{
-    display:flex; align-items:center; gap:10px; margin-bottom: 30px;
-  }
-  .progress-strip .bar{
-    flex:1; height:8px; border-radius:999px; background: var(--line); overflow:hidden;
-  }
-  .progress-strip .bar .fill{ height:100%; background: var(--accent); border-radius:999px; }
-  .progress-strip .label{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color: var(--ink-soft); white-space:nowrap; }
-
-  /* ===== Roman section groups ===== */
-  .roman-group{ margin-bottom: 34px; }
-  .roman-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:14px; }
-  .roman-head .numeral{
-    font-family:"Fraunces",serif; font-weight:700; font-size:22px; color: var(--accent);
-    flex:0 0 auto;
-  }
-  .roman-head h2{ font-size: clamp(17px,3.2vw,20px); margin:0; line-height:1.35; }
-
-  .lesson-list{ display:flex; flex-direction:column; gap:8px; }
-  .lesson-row{
-    display:flex; align-items:center; gap:14px;
-    padding:13px 16px; border-radius:11px; border:1px solid var(--line);
-    text-decoration:none; color: var(--ink); background: var(--paper);
-    box-shadow: 0 2px 8px var(--shadow);
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  .lesson-row.available:hover{ transform: translateX(3px); box-shadow: 0 4px 12px var(--shadow); }
-  .lesson-row.upcoming{
-    background: transparent; border-style:dashed; box-shadow:none; cursor:default;
-  }
-  .lesson-row .idx{
-    font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:600;
-    background: var(--accent); color: var(--accent-ink); border-radius:6px;
-    padding: 3px 8px; flex:0 0 auto; min-width: 38px; text-align:center;
-  }
-  .lesson-row.upcoming .idx{ background: var(--code-bg); color: var(--ink-soft); }
-  .lesson-row .ltext{ flex:1; min-width:0; }
-  .lesson-row .ltitle{ font-weight:600; font-size:15.5px; }
-  .lesson-row.upcoming .ltitle{ color: var(--ink-soft); font-weight:600; }
-  .lesson-row .lsub{ font-size:13px; color: var(--ink-soft); margin-top:2px; }
-  .lesson-row .status{
-    font-family:"JetBrains Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
-    flex:0 0 auto; white-space:nowrap;
-  }
-  .lesson-row.available .status{ color: var(--accent); }
-  .lesson-row.upcoming .status{ color: var(--ink-soft); opacity:.7; }
-  .lesson-row .arrow{ opacity:.5; font-family:"JetBrains Mono",monospace; flex:0 0 auto; }
-
-  .callout{
-    border-left: 3px solid var(--accent-2); background: var(--code-bg); border-radius: 0 10px 10px 0;
-    padding: 12px 16px; margin: 8px 0 30px; font-size: 14.5px; color: var(--ink-soft);
-  }
-  .callout b{ color: var(--accent-2); }
-
-  footer.sitefoot{
-    margin-top: 10px; padding-top:20px; border-top:1px solid var(--line);
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
-    font-family:"JetBrains Mono",monospace; font-size:12px; color: var(--ink-soft);
-  }
-  footer.sitefoot a{ color: var(--ink-soft); }
+:root{
+  --bg:#eef1f0;
+  --paper:#fff;
+  --ink:#182322;
+  --muted:#5d6b68;
+  --line:#d3dbd8;
+  --accent:#1f6f6b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.5;
+}
+main{
+  max-width:860px;
+  margin:0 auto;
+  padding:32px 18px 48px;
+}
+header{
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line);
+}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+.back{
+  display:inline-block;
+  margin-bottom:10px;
+  color:var(--muted);
+  font-size:14px;
+}
+h1{
+  margin:0;
+  font-size:clamp(26px,5vw,38px);
+  line-height:1.1;
+}
+h2{
+  margin:28px 0 12px;
+  font-size:18px;
+  color:var(--accent);
+}
+.list{
+  display:grid;
+  gap:8px;
+}
+.lesson{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 15px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+.lesson:hover{
+  border-color:var(--accent);
+}
+.code{
+  min-width:44px;
+  padding:4px 7px;
+  border-radius:6px;
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  text-align:center;
+}
+.title{
+  flex:1;
+  font-weight:600;
+}
+.arrow{
+  color:var(--muted);
+}
+footer{
+  margin-top:30px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:14px;
+}
 </style>
 </head>
-<body>
-<div class="shell">
 
-  <header class="top">
-    <div>
-      <div class="crumb"><a href="../index.html">Titularizare-Fizica</a> &nbsp;›&nbsp; <b>Tematica pentru Didactica Fizicii</b></div>
-      <h1 class="page-title">
-        <svg class="instrument" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.6"/>
-          <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M12 12l4-4" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        Tematica pentru Didactica Fizicii
-      </h1>
-    </div>
-    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
-      <span class="icon" id="iconSun">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </span>
-      <span class="track"><span class="knob"></span></span>
-      <span class="icon" id="iconMoon">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-      </span>
-    </button>
+<body>
+<main>
+  <header>
+    <a class="back" href="../index.html">← Înapoi</a>
+    <h1>Tematica pentru Didactica Fizicii</h1>
   </header>
 
-  <div class="intro">
-    <p>Capitolul E din programa oficială de Titularizare la Fizică: proiectarea, organizarea și
-    desfășurarea activității didactice, împreună cu strategiile didactice folosite în predare-învățare-evaluare.
-    Zece lecții, grupate pe cele două secțiuni ale tematicii.</p>
-  </div>
+  <section>
+    <h2>I. Proiectarea, organizarea și desfășurarea activității didactice</h2>
 
-  <div class="progress-strip">
-    <div class="bar"><div class="fill" style="width:30%"></div></div>
-    <span class="label">3 / 10 lecții publicate</span>
-  </div>
-
-  <!-- SECȚIUNEA I -->
-  <div class="roman-group">
-    <div class="roman-head">
-      <span class="numeral">I.</span>
-      <h2>Proiectarea, organizarea și desfășurarea activității didactice</h2>
-    </div>
-    <div class="lesson-list">
-
-      <a class="lesson-row available" href="D01-componentele-curriculumului-national.html">
-        <span class="idx">D01</span>
-        <span class="ltext">
-          <div class="ltitle">Componentele curriculumului național</div>
-          <div class="lsub">Planuri-cadru, arii curriculare, trunchi comun, curriculum diferențiat, CDS/CDL, programe, manuale, auxiliare</div>
-        </span>
-        <span class="status">Disponibil</span>
+    <div class="list">
+      <a class="lesson" href="D01-componentele-curriculumului-national.html">
+        <span class="code">D01</span>
+        <span class="title">Componentele curriculumului național</span>
         <span class="arrow">→</span>
       </a>
 
-      <a class="lesson-row available" href="D02-curriculum-la-decizia-scolii.html">
-        <span class="idx">D02</span>
-        <span class="ltext">
-          <div class="ltitle">Curriculumul la decizia școlii</div>
-          <div class="lsub">Rolul CDS-ului și etapele proiectării unui opțional</div>
-        </span>
-        <span class="status">Disponibil</span>
+      <a class="lesson" href="D02-curriculum-la-decizia-scolii.html">
+        <span class="code">D02</span>
+        <span class="title">Curriculumul la decizia școlii</span>
         <span class="arrow">→</span>
       </a>
 
-      <a class="lesson-row available" href="D03-competente-cheie-si-proiectarea-programei-scolare.html">
-        <span class="idx">D03</span>
-        <span class="ltext">
-          <div class="ltitle">Domenii de competențe cheie și proiectarea programei pe competențe</div>
-          <div class="lsub">Analiza programelor școlare de fizică: pertinență, relevanță, eficiență internă, accesibilitate</div>
-        </span>
-        <span class="status">Disponibil</span>
+      <a class="lesson" href="D03-competente-cheie-si-proiectarea-programei-scolare.html">
+        <span class="code">D03</span>
+        <span class="title">Domenii de competențe-cheie. Proiectarea programei pe competențe</span>
         <span class="arrow">→</span>
       </a>
 
-      <span class="lesson-row upcoming">
-        <span class="idx">D04</span>
-        <span class="ltext">
-          <div class="ltitle">Proiectarea activității didactice</div>
-          <div class="lsub">Planificare calendaristică, proiectarea unității de învățare, proiecte de lecție, abordări intra-/inter-/transdisciplinare</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
+      <a class="lesson" href="D04-analiza-programelor-scolare-de-fizica.html">
+        <span class="code">D04</span>
+        <span class="title">Analiza programelor școlare de fizică</span>
+        <span class="arrow">→</span>
+      </a>
 
+      <a class="lesson" href="D05-proiectarea-activitatii-didactice.html">
+        <span class="code">D05</span>
+        <span class="title">Proiectarea activității didactice</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
-  </div>
+  </section>
 
-  <!-- SECȚIUNEA II -->
-  <div class="roman-group">
-    <div class="roman-head">
-      <span class="numeral">II.</span>
-      <h2>Strategii didactice în predare–învățare–evaluare. Integrarea activităților practic-aplicative</h2>
+  <section>
+    <h2>II. Strategii didactice și activități practic-aplicative</h2>
+
+    <div class="list">
+      <a class="lesson" href="D06-metode-didactice.html">
+        <span class="code">D06</span>
+        <span class="title">Metode didactice</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D07-forme-de-organizare-a-activitatii-didactice.html">
+        <span class="code">D07</span>
+        <span class="title">Forme de organizare a activității didactice</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D08-mijloacele-de-invatamant.html">
+        <span class="code">D08</span>
+        <span class="title">Mijloacele de învățământ</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D09-experimentul-de-fizica.html">
+        <span class="code">D09</span>
+        <span class="title">Experimentul de fizică</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D10-rezolvarea-de-probleme-la-fizica.html">
+        <span class="code">D10</span>
+        <span class="title">Rezolvarea de probleme la fizică</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D11-utilizarea-tic-in-predare-invatare-evaluare.html">
+        <span class="code">D11</span>
+        <span class="title">Utilizarea TIC în predare–învățare–evaluare</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D12-evaluarea-componenta-fundamentala.html">
+        <span class="code">D12</span>
+        <span class="title">Evaluarea — componentă fundamentală a procesului de învățământ</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D13-metode-de-evaluare.html">
+        <span class="code">D13</span>
+        <span class="title">Metode de evaluare</span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a class="lesson" href="D14-calitatile-instrumentelor-si-tipologia-itemilor.html">
+        <span class="code">D14</span>
+        <span class="title">Calitățile instrumentelor de evaluare. Tipologia itemilor</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
-    <div class="lesson-list">
+  </section>
 
-      <span class="lesson-row upcoming">
-        <span class="idx">D05</span>
-        <span class="ltext">
-          <div class="ltitle">Metode didactice</div>
-          <div class="lsub">Prezentare, caracterizare, utilizare</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-      <span class="lesson-row upcoming">
-        <span class="idx">D06</span>
-        <span class="ltext">
-          <div class="ltitle">Forme de organizare a activității didactice</div>
-          <div class="lsub">Clasificare și caracterizare</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-      <span class="lesson-row upcoming">
-        <span class="idx">D07</span>
-        <span class="ltext">
-          <div class="ltitle">Mijloacele de învățământ</div>
-          <div class="lsub">Funcții didactice, tipuri și integrarea lor în procesul de predare-învățare-evaluare</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-      <span class="lesson-row upcoming">
-        <span class="idx">D08</span>
-        <span class="ltext">
-          <div class="ltitle">Metode specifice demersului didactic la fizică</div>
-          <div class="lsub">Experimentul și rezolvarea de probleme: proiectare, organizare, evaluare</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-      <span class="lesson-row upcoming">
-        <span class="idx">D09</span>
-        <span class="ltext">
-          <div class="ltitle">Tehnologia informației și comunicării în predare-învățare-evaluare</div>
-          <div class="lsub">Integrarea TIC în procesul didactic la fizică</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-      <span class="lesson-row upcoming">
-        <span class="idx">D10</span>
-        <span class="ltext">
-          <div class="ltitle">Evaluarea — componentă fundamentală a procesului de învățământ</div>
-          <div class="lsub">Obiective, funcții, tipuri, metode, calități ale instrumentelor, tipologia itemilor</div>
-        </span>
-        <span class="status">În lucru</span>
-      </span>
-
-    </div>
-  </div>
-
-  <div class="callout">
-    <b>Notă:</b> structura celor 10 lecții urmează exact punctele I și II din secțiunea E a programei oficiale
-    de Titularizare la Fizică. Lecțiile marcate „În lucru” nu au încă fișier propriu — spune-mi pe care vrei
-    să o generez în continuare și îi construiesc conținutul, în același format paginat, cu temă zi/noapte.
-  </div>
-
-  <footer class="sitefoot">
-    <a href="../index.html">← Înapoi la Titularizare-Fizica</a>
-    <span>Secțiunea E · Tematica pentru Didactica Fizicii</span>
+  <footer>
+    Didactica Fizicii · Titularizare
   </footer>
-</div>
-
-<script>
-(function(){
-  var root = document.documentElement;
-  var toggle = document.getElementById('themeToggle');
-  var saved = localStorage.getItem('titularizare-fizica-theme');
-  if (saved === 'dark'){ root.classList.add('dark'); }
-  else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
-    root.classList.add('dark');
-  }
-  toggle.addEventListener('click', function(){
-    root.classList.toggle('dark');
-    localStorage.setItem('titularizare-fizica-theme', root.classList.contains('dark') ? 'dark' : 'light');
-  });
-})();
-</script>
+</main>
 </body>
 </html>
