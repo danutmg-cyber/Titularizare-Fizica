@@ -1,1 +1,1536 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C12 – Statica fluidelor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C12 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 12</span>
+        <h1>Statica fluidelor</h1>
+
+        <p class="lead">
+          <span class="mark">Statica fluidelor</span> studiază fluidele aflate în repaus:
+          lichide și gaze asupra cărora nu există curgere macroscopică.
+          Mărimea centrală este <strong>presiunea</strong>.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          într-un fluid în repaus, presiunea acționează perpendicular pe orice suprafață,
+          iar în lichide crește cu adâncimea:
+          $$p=p_0+\rho gh.$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Presiunea hidrostatică într-un lichid">
+            <defs>
+              <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="190" y="75" width="380" height="210" rx="18" fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M190 120 C260 105, 320 135, 380 120 S500 105, 570 120" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <line x1="610" y1="120" x2="610" y2="245" stroke="#f59e0b" stroke-width="5"/>
+            <line x1="595" y1="120" x2="625" y2="120" stroke="#f59e0b" stroke-width="4"/>
+            <line x1="595" y1="245" x2="625" y2="245" stroke="#f59e0b" stroke-width="4"/>
+            <text x="630" y="190" fill="#f59e0b" font-size="26">h</text>
+            <circle cx="380" cy="245" r="18" fill="#ef4444"/>
+            <line x1="380" y1="245" x2="380" y2="180" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+            <line x1="380" y1="245" x2="445" y2="245" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+            <line x1="380" y1="245" x2="315" y2="245" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+            <text x="445" y="230" fill="#ef4444" font-size="25">p</text>
+            <text x="280" y="228" fill="#ef4444" font-size="25">p</text>
+            <text x="390" y="185" fill="#ef4444" font-size="25">p</text>
+          </svg>
+          <p class="caption">
+            Într-un fluid în repaus, presiunea într-un punct se exercită în toate direcțiile, iar valoarea ei depinde de adâncime.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fluid</span>
+        <h2>Lichide și gaze în repaus</h2>
+
+        <p>
+          Un <span class="mark">fluid</span> este un corp care nu are formă proprie și curge sub acțiunea unei solicitări tangențiale,
+          oricât de mici.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Proprietate</th>
+              <th>Lichide</th>
+              <th>Gaze</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Volum</td>
+              <td>Aproape constant.</td>
+              <td>Variabil, ocupă întregul recipient.</td>
+            </tr>
+            <tr>
+              <td>Compresibilitate</td>
+              <td>Foarte mică.</td>
+              <td>Mare.</td>
+            </tr>
+            <tr>
+              <td>Suprafață liberă</td>
+              <td>Poate exista.</td>
+              <td>Nu are suprafață liberă proprie în recipient.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="exam">
+          <strong>Model folosit în lecție:</strong>
+          pentru multe probleme de hidrostatică, lichidul este considerat incomprimabil,
+          cu densitate constantă $\rho$.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          statica fluidelor nu înseamnă că moleculele nu se mișcă.
+          Înseamnă că fluidul nu are curgere macroscopică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Densitate</span>
+        <h2>Masa unității de volum</h2>
+
+        <p>
+          <span class="mark">Densitatea</span> unui corp sau fluid este raportul dintre masă și volum:
+        </p>
+
+        <div class="formula">
+          $$\rho=\frac{m}{V}$$
+        </div>
+
+        <p>
+          Unitatea în SI este:
+        </p>
+
+        <div class="formula">
+          $$[\rho]_{SI}=\text{kg/m}^3$$
+        </div>
+
+        <p>
+          Pentru un lichid omogen, densitatea are aceeași valoare în toate punctele.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Apă</strong>
+            <p>Valoare uzuală: $\rho \approx 1000\,\text{kg/m}^3$.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Mercur</strong>
+            <p>Valoare uzuală: $\rho \approx 13600\,\text{kg/m}^3$.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $1\,\text{g/cm}^3=1000\,\text{kg/m}^3$, nu $1\,\text{kg/m}^3$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Presiune</span>
+        <h2>Forța normală pe unitatea de suprafață</h2>
+
+        <p>
+          <span class="mark">Presiunea</span> este raportul dintre forța normală exercitată pe o suprafață și aria acelei suprafețe.
+        </p>
+
+        <div class="formula">
+          $$p=\frac{F_n}{S}$$
+        </div>
+
+        <p>
+          Unitatea de măsură în SI este pascalul:
+        </p>
+
+        <div class="formula">
+          $$[p]_{SI}=1\,\text{Pa}=1\,\text{N/m}^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          aceeași forță produce presiune mai mare pe o suprafață mai mică.
+          De aceea un cui pătrunde mai ușor cu vârful decât cu capul.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          presiunea este scalară, dar forța de presiune este vectorială și este perpendiculară pe suprafață.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forța de presiune</span>
+        <h2>Direcția forței exercitate de fluid</h2>
+
+        <p>
+          Într-un fluid în repaus, forța exercitată de fluid asupra unei suprafețe este întotdeauna perpendiculară pe suprafață.
+        </p>
+
+        <div class="formula">
+          $$F=pS$$
+        </div>
+
+        <p>
+          Dacă presiunea este aceeași pe toată suprafața, formula se aplică direct.
+          Dacă presiunea variază, forța totală se obține prin integrare.
+        </p>
+
+        <div class="formula">
+          $$dF=p\,dS$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Forța de presiune perpendiculară pe suprafață">
+            <defs>
+              <marker id="arrow-p" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="165" y="75" width="430" height="210" rx="20" fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="5"/>
+            <rect x="360" y="145" width="115" height="70" rx="10" fill="#f59e0b"/>
+            <line x1="360" y1="180" x2="285" y2="180" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-p)"/>
+            <line x1="475" y1="180" x2="550" y2="180" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-p)"/>
+            <line x1="418" y1="145" x2="418" y2="95" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-p)"/>
+            <line x1="418" y1="215" x2="418" y2="265" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-p)"/>
+            <text x="305" y="160" fill="#ef4444" font-size="24">F</text>
+            <text x="525" y="160" fill="#ef4444" font-size="24">F</text>
+          </svg>
+          <p class="caption">
+            Forța de presiune este normală pe suprafață; în fluidul în repaus nu apar eforturi tangențiale de curgere.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea fundamentală</span>
+        <h2>Presiunea hidrostatică</h2>
+
+        <p>
+          Considerăm un lichid omogen, incomprimabil, aflat în repaus în câmp gravitațional.
+          Presiunea crește cu adâncimea.
+        </p>
+
+        <div class="formula">
+          $$p=p_0+\rho gh$$
+        </div>
+
+        <p>
+          unde:
+        </p>
+
+        <ul>
+          <li>$p_0$ este presiunea la suprafața liberă;</li>
+          <li>$\rho$ este densitatea lichidului;</li>
+          <li>$g$ este accelerația gravitațională;</li>
+          <li>$h$ este adâncimea față de suprafața liberă.</li>
+        </ul>
+
+        <div class="exam">
+          <strong>Presiunea relativă sau manometrică:</strong>
+          $$p_{\text{rel}}=p-p_0=\rho gh.$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          presiunea hidrostatică depinde de adâncime, densitate și $g$,
+          nu de forma vasului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Demonstrație</span>
+        <h2>De ce $p=p_0+\rho gh$?</h2>
+
+        <p>
+          Considerăm o coloană de lichid de înălțime $h$ și secțiune $S$.
+          Greutatea coloanei este:
+        </p>
+
+        <div class="formula">
+          $$G=mg=\rho Vg=\rho Shg$$
+        </div>
+
+        <p>
+          Forța exercitată pe baza coloanei este suma efectului presiunii de la suprafață și a greutății lichidului.
+        </p>
+
+        <div class="formula">
+          $$F=p_0S+\rho Shg$$
+        </div>
+
+        <p>
+          Împărțim la aria $S$:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{F}{S}=p_0+\rho gh$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          presiunea crește liniar cu adâncimea într-un lichid omogen aflat în repaus.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Același nivel</span>
+        <h2>Presiunea în puncte aflate la aceeași adâncime</h2>
+
+        <p>
+          Într-un lichid omogen în repaus, toate punctele aflate la aceeași adâncime au aceeași presiune.
+        </p>
+
+        <div class="formula">
+          $$h_1=h_2 \quad \Rightarrow \quad p_1=p_2$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Aceeași presiune la același nivel">
+            <rect x="170" y="80" width="420" height="210" rx="20" fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M170 125 C230 105, 300 145, 380 125 S520 105, 590 125" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <line x1="210" y1="220" x2="550" y2="220" stroke="#f59e0b" stroke-width="5" stroke-dasharray="9 9"/>
+            <circle cx="280" cy="220" r="13" fill="#ef4444"/>
+            <circle cx="500" cy="220" r="13" fill="#ef4444"/>
+            <text x="260" y="255" fill="#ef4444" font-size="25">p₁</text>
+            <text x="482" y="255" fill="#ef4444" font-size="25">p₂</text>
+            <text x="330" y="205" fill="#f59e0b" font-size="25">același nivel</text>
+          </svg>
+          <p class="caption">
+            În același lichid, presiunea este aceeași în toate punctele unui plan orizontal.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          două puncte aflate la aceeași înălțime geometrică, dar în fluide diferite, nu au neapărat aceeași presiune.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Vase comunicante</span>
+        <h2>Niveluri egale pentru același lichid</h2>
+
+        <p>
+          Vasele comunicante sunt recipiente legate între ele la bază, astfel încât lichidul poate trece dintr-un vas în altul.
+        </p>
+
+        <p>
+          Pentru același lichid, în repaus, suprafețele libere se află la același nivel.
+        </p>
+
+        <div class="formula">
+          $$p_A=p_B \quad \Rightarrow \quad \rho gh_A=\rho gh_B \quad \Rightarrow \quad h_A=h_B$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Vase comunicante">
+            <path d="M190 70 V260 H570 V70" fill="none" stroke="#64748b" stroke-width="12" stroke-linecap="round"/>
+            <path d="M190 135 V260 H570 V135" fill="rgba(37,99,235,0.22)" stroke="#2563eb" stroke-width="4"/>
+            <line x1="155" y1="135" x2="605" y2="135" stroke="#0f766e" stroke-width="5" stroke-dasharray="9 9"/>
+            <text x="300" y="112" fill="#0f766e" font-size="25">același nivel</text>
+          </svg>
+          <p class="caption">
+            În vase comunicante cu același lichid, nivelurile se egalizează.
+          </p>
+        </div>
+
+        <div class="exam">
+          <strong>Aplicații:</strong>
+          nivelă cu furtun, instalații hidraulice, rețele de apă, manometre cu lichid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lichide nemiscibile</span>
+        <h2>Vase comunicante cu densități diferite</h2>
+
+        <p>
+          Dacă în vase comunicante se află două lichide nemiscibile, la același nivel de separație presiunile trebuie să fie egale.
+        </p>
+
+        <div class="formula">
+          $$p_A=p_B$$
+        </div>
+
+        <p>
+          Pentru două coloane deschise la atmosferă:
+        </p>
+
+        <div class="formula">
+          $$p_0+\rho_1gh_1=p_0+\rho_2gh_2$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\rho_1h_1=\rho_2h_2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          lichidul cu densitate mai mare formează o coloană de înălțime mai mică.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          egalitatea se scrie pentru presiuni la același nivel orizontal, nu pentru înălțimi alese arbitrar.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Principiul Pascal</span>
+        <h2>Transmiterea presiunii</h2>
+
+        <p>
+          <span class="mark">Principiul lui Pascal</span> afirmă că variația de presiune produsă într-un fluid închis se transmite integral în toate punctele fluidului și pe pereții vasului.
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\text{constant în fluid}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          presiunea aplicată unui fluid închis se transmite neschimbată în toate direcțiile.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Principiul Pascal">
+            <defs>
+              <marker id="arrow-force" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="180" y="105" width="400" height="160" rx="20" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <circle cx="290" cy="185" r="32" fill="#f59e0b"/>
+            <circle cx="470" cy="185" r="32" fill="#f59e0b"/>
+            <line x1="290" y1="70" x2="290" y2="145" stroke="#ef4444" stroke-width="7" marker-end="url(#arrow-force)"/>
+            <line x1="470" y1="185" x2="545" y2="185" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-force)"/>
+            <line x1="470" y1="185" x2="395" y2="185" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-force)"/>
+            <line x1="470" y1="185" x2="470" y2="120" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-force)"/>
+            <text x="240" y="63" fill="#ef4444" font-size="25">presiune aplicată</text>
+          </svg>
+          <p class="caption">
+            O variație de presiune aplicată local se transmite în întreg fluidul închis.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Presă hidraulică</span>
+        <h2>Multiplicarea forței</h2>
+
+        <p>
+          Presa hidraulică folosește principiul Pascal.
+          Două pistoane de arii diferite comunică printr-un lichid.
+        </p>
+
+        <div class="formula">
+          $$p_1=p_2$$
+        </div>
+
+        <p>
+          Deoarece $p=F/S$:
+        </p>
+
+        <div class="formula">
+          $$\frac{F_1}{S_1}=\frac{F_2}{S_2}$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$F_2=F_1\frac{S_2}{S_1}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Presă hidraulică">
+            <defs>
+              <marker id="arrow-down" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+              <marker id="arrow-up" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <rect x="160" y="175" width="450" height="90" rx="18" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <rect x="190" y="115" width="80" height="65" rx="10" fill="#f59e0b"/>
+            <rect x="430" y="75" width="150" height="105" rx="10" fill="#f59e0b"/>
+            <line x1="230" y1="55" x2="230" y2="112" stroke="#ef4444" stroke-width="7" marker-end="url(#arrow-down)"/>
+            <line x1="505" y1="180" x2="505" y2="45" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-up)"/>
+            <text x="205" y="50" fill="#ef4444" font-size="25">F₁</text>
+            <text x="515" y="55" fill="#0f766e" font-size="25">F₂</text>
+            <text x="195" y="205" fill="#64748b" font-size="23">S₁ mică</text>
+            <text x="455" y="205" fill="#64748b" font-size="23">S₂ mare</text>
+          </svg>
+          <p class="caption">
+            O forță mică aplicată pe un piston mic poate produce o forță mare pe pistonul mare.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          presa hidraulică nu creează energie.
+          Câștigul în forță se plătește printr-o deplasare mai mică a pistonului mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Principiul Arhimede</span>
+        <h2>Forța arhimedică</h2>
+
+        <p>
+          Un corp scufundat total sau parțial într-un fluid este împins de jos în sus cu o forță egală cu greutatea fluidului dezlocuit.
+        </p>
+
+        <div class="formula">
+          $$F_A=\rho_f g V_{\text{dezlocuit}}$$
+        </div>
+
+        <p>
+          unde $\rho_f$ este densitatea fluidului, iar $V_{\text{dezlocuit}}$ este volumul de fluid dezlocuit.
+        </p>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          forța arhimedică este rezultanta forțelor de presiune exercitate de fluid asupra corpului.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Forța arhimedică asupra unui corp scufundat">
+            <defs>
+              <marker id="arrow-up-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrow-down-g" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="190" y="80" width="380" height="220" rx="20" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M190 125 C260 105, 320 145, 380 125 S500 105, 570 125" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <rect x="330" y="180" width="110" height="75" rx="12" fill="#f59e0b"/>
+            <line x1="385" y1="180" x2="385" y2="95" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-up-a)"/>
+            <line x1="385" y1="255" x2="385" y2="315" stroke="#ef4444" stroke-width="7" marker-end="url(#arrow-down-g)"/>
+            <text x="400" y="115" fill="#0f766e" font-size="25">F_A</text>
+            <text x="400" y="300" fill="#ef4444" font-size="25">G</text>
+          </svg>
+          <p class="caption">
+            Forța arhimedică este verticală și orientată în sus, deoarece presiunea este mai mare la partea inferioară a corpului.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Demonstrație</span>
+        <h2>Originea forței arhimedice</h2>
+
+        <p>
+          Considerăm un corp de înălțime $h$ și arie $S$ scufundat într-un lichid.
+          Presiunea la partea superioară este:
+        </p>
+
+        <div class="formula">
+          $$p_1=p_0+\rho g h_1$$
+        </div>
+
+        <p>
+          Presiunea la partea inferioară este:
+        </p>
+
+        <div class="formula">
+          $$p_2=p_0+\rho g h_2$$
+        </div>
+
+        <p>
+          Deoarece $h_2>h_1$, rezultă $p_2>p_1$.
+          Forța rezultantă verticală este:
+        </p>
+
+        <div class="formula">
+          $$F_A=F_2-F_1=p_2S-p_1S=(p_2-p_1)S$$
+        </div>
+
+        <p>
+          Cum $h_2-h_1=h$:
+        </p>
+
+        <div class="formula">
+          $$F_A=\rho ghS=\rho gV$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          forța arhimedică este egală cu greutatea volumului de fluid dezlocuit.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Plutire</span>
+        <h2>Când plutește un corp?</h2>
+
+        <p>
+          Pentru un corp introdus într-un fluid, comparația dintre greutate și forța arhimedică determină comportarea.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Condiție</th>
+              <th>Comportament</th>
+              <th>Interpretare</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$G>F_A$</td>
+              <td>Corpul se scufundă.</td>
+              <td>Densitatea corpului este mai mare decât densitatea fluidului.</td>
+            </tr>
+            <tr>
+              <td>$G=F_A$</td>
+              <td>Corpul este în echilibru.</td>
+              <td>Poate pluti sau rămâne suspendat.</td>
+            </tr>
+            <tr>
+              <td>$G<F_A$</td>
+              <td>Corpul urcă până când plutește parțial.</td>
+              <td>Volumul scufundat se ajustează.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="formula">
+          $$\rho_c V_c g=\rho_f V_{\text{scufundat}}g$$
+        </div>
+
+        <p>
+          Pentru plutire:
+        </p>
+
+        <div class="formula">
+          $$\frac{V_{\text{scufundat}}}{V_c}=\frac{\rho_c}{\rho_f}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          la plutire, volumul dezlocuit este doar volumul scufundat, nu întotdeauna volumul total al corpului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Greutate aparentă</span>
+        <h2>De ce corpul pare mai ușor în apă?</h2>
+
+        <p>
+          Când un corp este scufundat într-un fluid, dinamometrul indică o greutate aparentă mai mică decât greutatea reală.
+        </p>
+
+        <div class="formula">
+          $$G_{\text{aparent}}=G-F_A$$
+        </div>
+
+        <p>
+          Dacă $G=mg$ și $F_A=\rho_f gV$, atunci:
+        </p>
+
+        <div class="formula">
+          $$G_{\text{aparent}}=mg-\rho_f gV$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          fluidul exercită asupra corpului o forță verticală în sus,
+          reducând forța necesară pentru susținerea corpului.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          masa corpului nu scade în apă.
+          Scade doar greutatea aparentă indicată de dinamometru.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Presiune atmosferică</span>
+        <h2>Barometrul cu mercur</h2>
+
+        <p>
+          Presiunea atmosferică este presiunea exercitată de coloana de aer asupra corpurilor.
+          La nivelul mării, valoarea normală este aproximativ:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{atm}}\approx 1{,}013\cdot10^5\,\text{Pa}$$
+        </div>
+
+        <p>
+          În barometrul cu mercur:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{atm}}=\rho_{\text{Hg}}gh$$
+        </div>
+
+        <p>
+          Pentru $h=760\,\text{mm}$, se obține presiunea atmosferică normală.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Barometru cu mercur">
+            <rect x="180" y="265" width="400" height="35" rx="8" fill="#64748b"/>
+            <rect x="350" y="65" width="60" height="220" rx="18" fill="rgba(37,99,235,0.10)" stroke="#2563eb" stroke-width="5"/>
+            <rect x="358" y="105" width="44" height="180" rx="12" fill="#f59e0b"/>
+            <line x1="430" y1="105" x2="430" y2="285" stroke="#0f766e" stroke-width="5"/>
+            <line x1="415" y1="105" x2="445" y2="105" stroke="#0f766e" stroke-width="4"/>
+            <line x1="415" y1="285" x2="445" y2="285" stroke="#0f766e" stroke-width="4"/>
+            <text x="450" y="205" fill="#0f766e" font-size="25">h</text>
+            <text x="300" y="55" fill="#64748b" font-size="24">vid torricellian</text>
+            <text x="278" y="325" fill="#64748b" font-size="24">rezervor cu mercur</text>
+          </svg>
+          <p class="caption">
+            Presiunea atmosferică susține coloana de mercur din tub.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Manometru</span>
+        <h2>Măsurarea diferenței de presiune</h2>
+
+        <p>
+          Un manometru cu lichid măsoară diferența de presiune prin diferența de nivel dintre cele două ramuri.
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\rho gh$$
+        </div>
+
+        <p>
+          Dacă o ramură este deschisă la atmosferă, presiunea gazului este:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{gaz}}=p_{\text{atm}}+\rho gh$$
+        </div>
+
+        <p>
+          sau:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{gaz}}=p_{\text{atm}}-\rho gh$$
+        </div>
+
+        <p>
+          în funcție de sensul denivelării.
+        </p>
+
+        <div class="exam">
+          <strong>Strategie:</strong>
+          desenează nivelurile și stabilește care coloană de lichid este mai sus.
+          Semnul diferenței de presiune se decide din figură, nu din memorare mecanică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Paradox hidrostatic</span>
+        <h2>Presiunea nu depinde de forma vasului</h2>
+
+        <p>
+          Presiunea la adâncimea $h$ într-un lichid omogen este:
+        </p>
+
+        <div class="formula">
+          $$p=p_0+\rho gh$$
+        </div>
+
+        <p>
+          Ea nu depinde de forma vasului sau de cantitatea totală de lichid, ci doar de adâncime.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Paradox hidrostatic">
+            <path d="M130 80 L200 80 L260 275 L90 275 Z" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M330 80 L430 80 L430 275 L330 275 Z" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <path d="M570 80 L650 80 L700 275 L520 275 Z" fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+            <line x1="70" y1="275" x2="720" y2="275" stroke="#f59e0b" stroke-width="5" stroke-dasharray="9 9"/>
+            <text x="300" y="305" fill="#f59e0b" font-size="25">aceeași adâncime → aceeași presiune</text>
+          </svg>
+          <p class="caption">
+            Vase diferite, aceeași înălțime de lichid: presiunea la bază este aceeași dacă lichidul este același.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          forța totală pe fundul vasului poate depinde de aria bazei,
+          dar presiunea la aceeași adâncime este aceeași.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Presiunea la adâncime</h2>
+
+        <p>
+          Determinați presiunea totală la adâncimea $h=5\,\text{m}$ într-un lac.
+          Se iau $\rho=1000\,\text{kg/m}^3$, $g=10\,\text{m/s}^2$ și
+          $p_0=10^5\,\text{Pa}$.
+        </p>
+
+        <p><strong>Formula presiunii hidrostatice:</strong></p>
+        <div class="formula">
+          $$p=p_0+\rho gh$$
+        </div>
+
+        <p><strong>Calcul:</strong></p>
+        <div class="formula">
+          $$p=10^5+1000\cdot10\cdot5$$
+          $$p=10^5+5\cdot10^4=1{,}5\cdot10^5\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          presiunea totală este $1{,}5\cdot10^5\,\text{Pa}$.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          dacă problema cere presiunea relativă, răspunsul este doar $\rho gh=5\cdot10^4\,\text{Pa}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Presa hidraulică</h2>
+
+        <p>
+          Un piston mic are aria $S_1=5\,\text{cm}^2$, iar pistonul mare are aria
+          $S_2=200\,\text{cm}^2$.
+          Pe pistonul mic se aplică forța $F_1=100\,\text{N}$.
+          Determinați forța obținută pe pistonul mare.
+        </p>
+
+        <p>
+          Folosim principiul Pascal:
+        </p>
+
+        <div class="formula">
+          $$\frac{F_1}{S_1}=\frac{F_2}{S_2}$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$F_2=F_1\frac{S_2}{S_1}=100\cdot\frac{200}{5}$$
+          $$F_2=100\cdot40=4000\,\text{N}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          forța pe pistonul mare este $4000\,\text{N}$.
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          ariile pot rămâne în $\text{cm}^2$ deoarece apar într-un raport.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Forța arhimedică</h2>
+
+        <p>
+          Un corp cu volumul $V=2\cdot10^{-3}\,\text{m}^3$ este scufundat complet în apă.
+          Determinați forța arhimedică.
+          Se iau $\rho_{\text{apă}}=1000\,\text{kg/m}^3$ și $g=10\,\text{m/s}^2$.
+        </p>
+
+        <p>
+          Pentru corp complet scufundat, $V_{\text{dezlocuit}}=V$:
+        </p>
+
+        <div class="formula">
+          $$F_A=\rho gV$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$F_A=1000\cdot10\cdot2\cdot10^{-3}$$
+          $$F_A=20\,\text{N}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          forța arhimedică este $20\,\text{N}$, orientată vertical în sus.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Plutirea unui corp</h2>
+
+        <p>
+          Un bloc de lemn cu densitatea $\rho_c=600\,\text{kg/m}^3$ plutește în apă.
+          Determinați fracțiunea din volum care este scufundată.
+          Se consideră $\rho_{\text{apă}}=1000\,\text{kg/m}^3$.
+        </p>
+
+        <p>
+          La plutire:
+        </p>
+
+        <div class="formula">
+          $$G=F_A$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\rho_c Vg=\rho_f V_{\text{scufundat}}g$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\frac{V_{\text{scufundat}}}{V}=\frac{\rho_c}{\rho_f}
+          =\frac{600}{1000}=0{,}6$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $60\%$ din volumul blocului este scufundat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Manometru cu lichid</h2>
+
+        <p>
+          Un manometru cu apă indică o diferență de nivel $h=25\,\text{cm}$.
+          Determinați diferența de presiune.
+          Se iau $\rho=1000\,\text{kg/m}^3$ și $g=10\,\text{m/s}^2$.
+        </p>
+
+        <p><strong>Conversia în SI:</strong></p>
+        <div class="formula">
+          $$h=25\,\text{cm}=0{,}25\,\text{m}$$
+        </div>
+
+        <p><strong>Relația manometrică:</strong></p>
+        <div class="formula">
+          $$\Delta p=\rho gh$$
+        </div>
+
+        <p><strong>Calcul:</strong></p>
+        <div class="formula">
+          $$\Delta p=1000\cdot10\cdot0{,}25=2500\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          diferența de presiune este $2500\,\text{Pa}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia presiune–forță:</strong>
+            presiunea este $p=F/S$, iar forța este $F=pS$.
+          </li>
+          <li>
+            <strong>Omiterea presiunii atmosferice:</strong>
+            $p=p_0+\rho gh$ pentru presiune totală, dar $p_{\text{rel}}=\rho gh$ pentru presiune relativă.
+          </li>
+          <li>
+            <strong>Folosirea formei vasului în calculul presiunii:</strong>
+            presiunea hidrostatică depinde de adâncime, nu de forma recipientului.
+          </li>
+          <li>
+            <strong>Aplicarea greșită a principiului Pascal:</strong>
+            se transmite variația de presiune, nu aceeași forță.
+          </li>
+          <li>
+            <strong>Forța arhimedică calculată cu densitatea corpului:</strong>
+            se folosește densitatea fluidului, $\rho_f$.
+          </li>
+          <li>
+            <strong>Confuzia volum total–volum scufundat:</strong>
+            la plutire, $V_{\text{dezlocuit}}=V_{\text{scufundat}}$.
+          </li>
+          <li>
+            <strong>Conversii greșite:</strong>
+            $1\,\text{cm}^2=10^{-4}\,\text{m}^2$, iar $1\,\text{cm}=10^{-2}\,\text{m}$.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Aleg nivelul de referință, scriu presiunile la același nivel orizontal și aplic legea fundamentală a hidrostaticii.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$\rho=\frac{m}{V}$$
+          $$p=\frac{F_n}{S},\qquad F=pS$$
+          $$p=p_0+\rho gh,\qquad p_{\text{rel}}=\rho gh$$
+          $$h_1=h_2 \Rightarrow p_1=p_2\quad \text{în același lichid}$$
+          $$\rho_1h_1=\rho_2h_2\quad \text{pentru lichide nemiscibile în vase comunicante}$$
+          $$\frac{F_1}{S_1}=\frac{F_2}{S_2}\quad \text{presa hidraulică}$$
+          $$F_A=\rho_f gV_{\text{dezlocuit}}$$
+          $$G_{\text{aparent}}=G-F_A$$
+          $$\frac{V_{\text{scufundat}}}{V_c}=\frac{\rho_c}{\rho_f}\quad \text{la plutire}$$
+          $$\Delta p=\rho gh\quad \text{manometru}$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>De reținut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Presiune</td>
+              <td>Forța normală pe unitatea de suprafață.</td>
+            </tr>
+            <tr>
+              <td>Presiune hidrostatică</td>
+              <td>Crește liniar cu adâncimea.</td>
+            </tr>
+            <tr>
+              <td>Pascal</td>
+              <td>Variația de presiune se transmite integral într-un fluid închis.</td>
+            </tr>
+            <tr>
+              <td>Arhimede</td>
+              <td>Forța de împingere este greutatea fluidului dezlocuit.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="C13-dinamica-fluidelor.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți fluidul și dați exemple de lichide și gaze.</li>
+          <li>Definiți densitatea și unitatea ei în SI.</li>
+          <li>Definiți presiunea și unitatea ei în SI.</li>
+          <li>Explicați de ce forța de presiune este normală pe suprafață.</li>
+          <li>Demonstrați formula $p=p_0+\rho gh$.</li>
+          <li>Precizați diferența dintre presiune totală și presiune relativă.</li>
+          <li>Explicați de ce presiunea într-un lichid nu depinde de forma vasului.</li>
+          <li>Formulați principiul vaselor comunicante.</li>
+          <li>Deduceți relația $\rho_1h_1=\rho_2h_2$ pentru lichide nemiscibile.</li>
+          <li>Enunțați principiul lui Pascal și aplicați-l la presa hidraulică.</li>
+          <li>Enunțați principiul lui Arhimede.</li>
+          <li>Explicați condițiile de plutire, scufundare și echilibru.</li>
+          <li>Calculați greutatea aparentă a unui corp scufundat într-un lichid.</li>
+          <li>Explicați funcționarea barometrului cu mercur.</li>
+          <li>Rezolvați o problemă cu manometru cu lichid.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un corp de densitate $\rho_c$ și volum $V$ este introdus într-un lichid de densitate $\rho_f$.
+          Determină dacă plutește sau se scufundă, forța arhimedică, greutatea aparentă și fracțiunea de volum scufundată, dacă plutește.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C13-dinamica-fluidelor.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c12", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c12");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
