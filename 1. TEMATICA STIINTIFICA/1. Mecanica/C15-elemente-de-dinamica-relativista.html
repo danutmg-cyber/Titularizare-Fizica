@@ -1,1 +1,1337 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C15 – Elemente de dinamică relativistă</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #122033;
+      --muted: #526173;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --accent-3: #7c3aed;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --marker: #fff3a3;
+      --formula-bg: #eef6ff;
+      --border: #dbe4ef;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --font: clamp(18px, 2.2vw, 23px);
+      --title: clamp(30px, 5vw, 52px);
+      --subtitle: clamp(22px, 3.5vw, 34px);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #08111f;
+      --card: #111c2e;
+      --text: #eef5ff;
+      --muted: #b6c3d5;
+      --accent: #60a5fa;
+      --accent-2: #5eead4;
+      --accent-3: #c4b5fd;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --marker: #6b5d12;
+      --formula-bg: #172842;
+      --border: #29415f;
+      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: var(--font);
+      line-height: 1.65;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6rem;
+    }
+
+    .page.active { display: flex; }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 4vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin: 0.35rem 0 1rem;
+    }
+
+    h1 { font-size: var(--title); }
+    h2 { font-size: var(--subtitle); }
+    h3 { font-size: clamp(22px, 3vw, 30px); }
+
+    p { margin: 0.75rem 0; }
+
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .mark {
+      background: linear-gradient(transparent 45%, var(--marker) 45%);
+      padding: 0 0.18rem;
+      border-radius: 0.2rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .formula {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-left: 7px solid var(--accent);
+      border-radius: 16px;
+      overflow-x: auto;
+      font-size: 1.05em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .exam {
+      border-left: 7px solid var(--accent-2);
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    .warning {
+      border-left: 7px solid var(--warn);
+      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+      padding: 1rem;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+
+    html[data-theme="dark"] .warning { background: #33260c; }
+
+    .compare {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+
+    @media (max-width: 760px) {
+      body { line-height: 1.55; }
+
+      .grid,
+      .bottom-links { grid-template-columns: 1fr; }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare { font-size: 0.9em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C15 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 15</span>
+        <h1>Elemente de dinamică relativistă</h1>
+
+        <p class="lead">
+          <span class="mark">Dinamica relativistă</span> extinde legile mecanicii pentru particule care se deplasează cu viteze comparabile cu viteza luminii.
+          În acest domeniu, impulsul, energia și relația dintre forță și accelerație nu mai au forma newtoniană simplă.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          pentru $v\ll c$ se revine la mecanica newtoniană, dar pentru $v\sim c$ se folosesc relațiile:
+          $$\vec p=\gamma m\vec v,\qquad E=\gamma mc^2,\qquad E^2=p^2c^2+m^2c^4.$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Impuls relativist în apropierea vitezei luminii">
+            <defs>
+              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+            <line x1="80" y1="245" x2="690" y2="245" stroke="#64748b" stroke-width="4"/>
+            <circle cx="200" cy="205" r="34" fill="#f59e0b"/>
+            <line x1="235" y1="205" x2="370" y2="205" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-blue)"/>
+            <circle cx="500" cy="205" r="34" fill="#0f766e"/>
+            <line x1="535" y1="205" x2="675" y2="205" stroke="#ef4444" stroke-width="9" marker-end="url(#arrow-blue)"/>
+            <text x="145" y="285" fill="#64748b" font-size="24">v mică: p≈mv</text>
+            <text x="430" y="285" fill="#64748b" font-size="24">v apropiată de c: p=γmv</text>
+          </svg>
+          <p class="caption">
+            La viteze relativiste, creșterea impulsului este controlată de factorul Lorentz $\gamma$.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Factor Lorentz</span>
+        <h2>Mărimea care separă clasicul de relativist</h2>
+
+        <p>
+          Factorul Lorentz este:
+        </p>
+
+        <div class="formula">
+          $$\gamma=\frac{1}{\sqrt{1-\frac{v^2}{c^2}}}$$
+        </div>
+
+        <p>
+          Pentru viteze mici față de $c$, $\gamma\approx1$.
+          Pentru viteze apropiate de $c$, $\gamma$ crește rapid.
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Viteză</th>
+              <th>$\gamma$</th>
+              <th>Regim</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$v\ll c$</td>
+              <td>$\gamma\approx1$</td>
+              <td>Newtonian</td>
+            </tr>
+            <tr>
+              <td>$v=0{,}6c$</td>
+              <td>$\gamma=1{,}25$</td>
+              <td>Relativist moderat</td>
+            </tr>
+            <tr>
+              <td>$v=0{,}8c$</td>
+              <td>$\gamma=\frac{5}{3}$</td>
+              <td>Relativist</td>
+            </tr>
+            <tr>
+              <td>$v\to c$</td>
+              <td>$\gamma\to\infty$</td>
+              <td>Limita vitezei luminii</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          un corp cu masă de repaus nenulă nu poate atinge viteza $c$, deoarece ar necesita energie infinită în modelul relativist.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Impuls relativist</span>
+        <h2>De ce nu mai este suficient $p=mv$?</h2>
+
+        <p>
+          În mecanica newtoniană:
+        </p>
+
+        <div class="formula">
+          $$\vec p=m\vec v$$
+        </div>
+
+        <p>
+          În relativitatea restrânsă, impulsul unei particule de masă de repaus $m$ este:
+        </p>
+
+        <div class="formula">
+          $$\boxed{\vec p=\gamma m\vec v}$$
+        </div>
+
+        <p>
+          Această definiție păstrează conservarea impulsului în toate sistemele inerțiale și se reduce la forma clasică pentru $v\ll c$.
+        </p>
+
+        <div class="exam">
+          <strong>Limită clasică:</strong>
+          dacă $v\ll c$, atunci $\gamma\approx1$ și:
+          $$\vec p=\gamma m\vec v\approx m\vec v.$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în formularea modernă se preferă expresia „masa de repaus $m$ rămâne invariantă”.
+          Nu este nevoie să vorbim despre „masă relativistă”; efectele apar prin factorul $\gamma$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forța relativistă</span>
+        <h2>Forma generală a legii a II-a</h2>
+
+        <p>
+          În dinamică relativistă, legea a II-a se scrie prin impuls:
+        </p>
+
+        <div class="formula">
+          $$\boxed{\vec F=\frac{d\vec p}{dt}}$$
+        </div>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          $$\vec p=\gamma m\vec v$$
+        </div>
+
+        <p>
+          rezultă că relația dintre forță și accelerație nu mai este în general simpla relație $\vec F=m\vec a$.
+        </p>
+
+        <div class="exam">
+          <strong>Formulare corectă:</strong>
+          în regim relativist se păstrează forma $\vec F=\frac{d\vec p}{dt}$, dar impulsul este relativist.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu scrie automat $\vec F=m\vec a$ pentru particule relativiste.
+          Folosește $\vec F=\frac{d}{dt}(\gamma m\vec v)$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forță paralelă cu viteza</span>
+        <h2>Accelerația devine tot mai dificilă</h2>
+
+        <p>
+          Dacă forța este paralelă cu viteza particulei, atunci:
+        </p>
+
+        <div class="formula">
+          $$F=\frac{dp}{dt}=\frac{d(\gamma mv)}{dt}$$
+        </div>
+
+        <p>
+          Se obține:
+        </p>
+
+        <div class="formula">
+          $$F=\gamma^3ma$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$a=\frac{F}{\gamma^3m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          pentru aceeași forță aplicată în sensul mișcării, accelerația scade pe măsură ce viteza se apropie de $c$.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Accelerație relativistă scade la viteze mari">
+            <path d="M90 270 H690" stroke="#64748b" stroke-width="4"/>
+            <path d="M110 290 V55" stroke="#64748b" stroke-width="4"/>
+            <path d="M130 230 C230 150, 350 110, 655 92" fill="none" stroke="#2563eb" stroke-width="7"/>
+            <line x1="120" y1="85" x2="675" y2="85" stroke="#ef4444" stroke-width="5" stroke-dasharray="9 9"/>
+            <text x="660" y="115" fill="#ef4444" font-size="25">c</text>
+            <text x="675" y="295" fill="#64748b" font-size="24">t</text>
+            <text x="75" y="65" fill="#64748b" font-size="24">v</text>
+            <text x="270" y="155" fill="#2563eb" font-size="25">v se apropie asimptotic de c</text>
+          </svg>
+          <p class="caption">
+            O particulă cu masă de repaus nenulă poate fi accelerată spre $c$, dar nu poate atinge $c$.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lucru mecanic relativist</span>
+        <h2>Energia cinetică relativistă</h2>
+
+        <p>
+          Energia cinetică este lucrul mecanic necesar pentru a accelera particula de la repaus la viteza $v$.
+          Rezultatul relativist este:
+        </p>
+
+        <div class="formula">
+          $$\boxed{E_c=(\gamma-1)mc^2}$$
+        </div>
+
+        <p>
+          Pentru viteze mici față de $c$, această expresie trebuie să revină la formula clasică.
+        </p>
+
+        <div class="formula">
+          $$E_{c,\text{clasic}}=\frac{1}{2}mv^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee-cheie:</strong>
+          energia cinetică relativistă crește fără limită când $v\to c$,
+          deoarece $\gamma\to\infty$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Limita clasică</span>
+        <h2>De ce $E_c\approx\frac12mv^2$ pentru $v\ll c$?</h2>
+
+        <p>
+          Pentru viteze mici, dezvoltarea aproximativă a factorului Lorentz este:
+        </p>
+
+        <div class="formula">
+          $$\gamma=\frac{1}{\sqrt{1-\frac{v^2}{c^2}}}
+          \approx 1+\frac{1}{2}\frac{v^2}{c^2}$$
+        </div>
+
+        <p>
+          Atunci:
+        </p>
+
+        <div class="formula">
+          $$E_c=(\gamma-1)mc^2
+          \approx \left(1+\frac{1}{2}\frac{v^2}{c^2}-1\right)mc^2$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$E_c\approx\frac{1}{2}mv^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          mecanica newtoniană este limita de viteze mici a mecanicii relativiste.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia totală</span>
+        <h2>Energia de repaus și energia relativistă</h2>
+
+        <p>
+          Energia totală a unei particule libere este:
+        </p>
+
+        <div class="formula">
+          $$\boxed{E=\gamma mc^2}$$
+        </div>
+
+        <p>
+          Pentru particula aflată în repaus, $v=0$ și $\gamma=1$.
+          Energia devine:
+        </p>
+
+        <div class="formula">
+          $$\boxed{E_0=mc^2}$$
+        </div>
+
+        <p>
+          Energia cinetică este diferența dintre energia totală și energia de repaus:
+        </p>
+
+        <div class="formula">
+          $$E_c=E-E_0=(\gamma-1)mc^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          masa de repaus este o formă de energie.
+          Relația $E_0=mc^2$ exprimă echivalența masă–energie.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $E=mc^2$ este energia de repaus numai dacă $m$ este masa de repaus și particula este în repaus.
+          În mișcare, energia totală este $E=\gamma mc^2$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Relația energie–impuls</span>
+        <h2>Formula invariantă</h2>
+
+        <p>
+          Energia totală și impulsul relativist sunt legate prin relația:
+        </p>
+
+        <div class="formula">
+          $$\boxed{E^2=p^2c^2+m^2c^4}$$
+        </div>
+
+        <p>
+          Această relație este foarte utilă pentru particule relativiste, inclusiv pentru particule fără masă de repaus.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Particulă cu masă</strong>
+            <p>$m\neq0$, deci $E^2=p^2c^2+m^2c^4$.</p>
+          </div>
+          <div class="mini">
+            <strong>Foton</strong>
+            <p>$m=0$, deci $E=pc$.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$m=0\Rightarrow E^2=p^2c^2\Rightarrow E=pc$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          relația energie–impuls este invariantă relativist și înlocuiește relația clasică dintre energie cinetică și impuls.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fotonul</span>
+        <h2>Particulă fără masă de repaus</h2>
+
+        <p>
+          Fotonul are masă de repaus nulă, dar are energie și impuls.
+        </p>
+
+        <div class="formula">
+          $$m_0=0,\qquad E=h\nu,\qquad p=\frac{E}{c}=\frac{h\nu}{c}$$
+        </div>
+
+        <p>
+          Cum $c=\lambda\nu$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{h}{\lambda}$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee-cheie:</strong>
+          fotonul nu poate fi în repaus.
+          El se propagă în vid cu viteza $c$ și transportă energie și impuls.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          „masă de repaus nulă” nu înseamnă „energie nulă”.
+          Pentru foton, energia este $E=h\nu$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conservări relativiste</span>
+        <h2>Ce se conservă în procese relativiste?</h2>
+
+        <p>
+          În orice proces izolat se conservă energia totală și impulsul total.
+        </p>
+
+        <div class="formula">
+          $$E_{\text{total inițial}}=E_{\text{total final}}$$
+          $$\vec p_{\text{total inițial}}=\vec p_{\text{total final}}$$
+        </div>
+
+        <p>
+          Relațiile se aplică la ciocniri, dezintegrări, reacții nucleare și procese între particule.
+        </p>
+
+        <div class="exam">
+          <strong>Important:</strong>
+          în relativitate se conservă energia totală, nu separat energia cinetică.
+          Masa totală de repaus a sistemului poate să se transforme în energie cinetică, radiație sau energie internă.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu aplica formule clasice de ciocniri la particule relativiste fără să înlocuiești impulsul și energia cu formele relativiste.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Defect de masă</span>
+        <h2>Energie de legătură</h2>
+
+        <p>
+          Dacă un sistem legat are masa mai mică decât suma maselor componentelor libere, diferența se numește <span class="mark">defect de masă</span>.
+        </p>
+
+        <div class="formula">
+          $$\Delta m=\sum m_{\text{componente}}-m_{\text{sistem}}$$
+        </div>
+
+        <p>
+          Energia de legătură este:
+        </p>
+
+        <div class="formula">
+          $$E_l=\Delta mc^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia de legătură este energia care trebuie furnizată pentru a separa sistemul în componentele sale.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Defect de masă și energie de legătură">
+            <circle cx="240" cy="165" r="42" fill="#f59e0b"/>
+            <circle cx="320" cy="165" r="42" fill="#0f766e"/>
+            <circle cx="280" cy="225" r="42" fill="#2563eb"/>
+            <text x="238" y="173" fill="#122033" font-size="25">p</text>
+            <text x="318" y="173" fill="#ffffff" font-size="25">n</text>
+            <text x="273" y="233" fill="#ffffff" font-size="25">n</text>
+            <text x="420" y="150" fill="#64748b" font-size="26">masa nucleului</text>
+            <text x="420" y="185" fill="#64748b" font-size="26">este mai mică decât</text>
+            <text x="420" y="220" fill="#64748b" font-size="26">suma maselor libere</text>
+          </svg>
+          <p class="caption">
+            Stabilitatea sistemelor legate este asociată cu energia de legătură.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Unități în fizica particulelor</span>
+        <h2>Electronvoltul</h2>
+
+        <p>
+          În fizica atomică, nucleară și a particulelor se folosește frecvent electronvoltul.
+        </p>
+
+        <div class="formula">
+          $$1\,\text{eV}=1{,}602\cdot10^{-19}\,\text{J}$$
+        </div>
+
+        <p>
+          Multipli uzuali:
+        </p>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Unitate</th>
+              <th>Valoare</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$1\,\text{keV}$</td>
+              <td>$10^3\,\text{eV}$</td>
+            </tr>
+            <tr>
+              <td>$1\,\text{MeV}$</td>
+              <td>$10^6\,\text{eV}$</td>
+            </tr>
+            <tr>
+              <td>$1\,\text{GeV}$</td>
+              <td>$10^9\,\text{eV}$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Masa particulelor se exprimă adesea prin energia de repaus:
+        </p>
+
+        <div class="formula">
+          $$E_0=mc^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Exemplu:</strong>
+          dacă se spune că o particulă are masa $m=0{,}511\,\text{MeV}/c^2$,
+          înseamnă că energia ei de repaus este $0{,}511\,\text{MeV}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciocniri relativiste</span>
+        <h2>Elastic și inelastic în regim relativist</h2>
+
+        <p>
+          Într-o ciocnire relativistă izolată se conservă:
+        </p>
+
+        <div class="formula">
+          $$\sum E_i=\sum E_f$$
+          $$\sum \vec p_i=\sum \vec p_f$$
+        </div>
+
+        <p>
+          Pentru fiecare particulă:
+        </p>
+
+        <div class="formula">
+          $$E=\gamma mc^2,\qquad \vec p=\gamma m\vec v$$
+        </div>
+
+        <p>
+          Uneori este mai convenabilă relația invariantă:
+        </p>
+
+        <div class="formula">
+          $$E^2=p^2c^2+m^2c^4$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          energia cinetică poate fi transformată în masă de repaus a unor particule noi.
+          Acest lucru nu apare în mecanica newtoniană.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Pragul energetic</span>
+        <h2>Crearea de particule</h2>
+
+        <p>
+          Pentru a crea particule noi, energia disponibilă trebuie să acopere cel puțin energia de repaus a acestora.
+        </p>
+
+        <div class="formula">
+          $$E_{\text{minim}}\ge \sum m_ic^2$$
+        </div>
+
+        <p>
+          Într-un proces real, trebuie conservate simultan energia, impulsul și alte mărimi specifice procesului.
+        </p>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia cinetică a particulelor incidente poate fi convertită în masă de repaus a particulelor produse.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu este suficient să verifici doar energia.
+          Conservarea impulsului poate ridica pragul energetic în sistemul laboratorului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Impuls relativist</h2>
+
+        <p>
+          O particulă de masă $m$ se deplasează cu viteza $v=0{,}6c$.
+          Determinați impulsul relativist în funcție de $mc$.
+        </p>
+
+        <p>
+          Factorul Lorentz este:
+        </p>
+
+        <div class="formula">
+          $$\gamma=\frac{1}{\sqrt{1-0{,}6^2}}
+          =\frac{1}{\sqrt{0{,}64}}
+          =1{,}25$$
+        </div>
+
+        <p>
+          Impulsul relativist:
+        </p>
+
+        <div class="formula">
+          $$p=\gamma mv=1{,}25\cdot m\cdot0{,}6c$$
+          $$p=0{,}75mc$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          impulsul particulei este $p=0{,}75mc$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Energia totală și energia cinetică</h2>
+
+        <p>
+          O particulă de masă de repaus $m$ se deplasează cu viteza $v=0{,}8c$.
+          Determinați energia totală și energia cinetică în funcție de $mc^2$.
+        </p>
+
+        <p>
+          Factorul Lorentz:
+        </p>
+
+        <div class="formula">
+          $$\gamma=\frac{1}{\sqrt{1-0{,}8^2}}
+          =\frac{1}{\sqrt{0{,}36}}
+          =\frac{5}{3}$$
+        </div>
+
+        <p>
+          Energia totală:
+        </p>
+
+        <div class="formula">
+          $$E=\gamma mc^2=\frac{5}{3}mc^2$$
+        </div>
+
+        <p>
+          Energia cinetică:
+        </p>
+
+        <div class="formula">
+          $$E_c=(\gamma-1)mc^2=\left(\frac{5}{3}-1\right)mc^2=\frac{2}{3}mc^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $$E=\frac{5}{3}mc^2,\qquad E_c=\frac{2}{3}mc^2.$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Relația energie–impuls</h2>
+
+        <p>
+          O particulă are energia totală $E=5mc^2$.
+          Determinați impulsul în funcție de $mc$.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$E^2=p^2c^2+m^2c^4$$
+        </div>
+
+        <p>
+          Înlocuim $E=5mc^2$:
+        </p>
+
+        <div class="formula">
+          $$(5mc^2)^2=p^2c^2+m^2c^4$$
+          $$25m^2c^4=p^2c^2+m^2c^4$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$p^2c^2=24m^2c^4$$
+          $$p=\sqrt{24}\,mc=2\sqrt6\,mc$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          impulsul este $p=2\sqrt6\,mc$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Impulsul fotonului</h2>
+
+        <p>
+          Un foton are lungimea de undă $\lambda=500\,\text{nm}$.
+          Scrieți impulsul fotonului în funcție de constanta lui Planck $h$.
+        </p>
+
+        <p>
+          Pentru foton:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{h}{\lambda}$$
+        </div>
+
+        <p>
+          Conversia lungimii de undă:
+        </p>
+
+        <div class="formula">
+          $$500\,\text{nm}=500\cdot10^{-9}\,\text{m}=5\cdot10^{-7}\,\text{m}$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{h}{5\cdot10^{-7}}=2\cdot10^6h$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          $$p=2\cdot10^6h.$$
+          Dacă se dorește valoare numerică, se înlocuiește $h=6{,}626\cdot10^{-34}\,\text{J}\cdot\text{s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Defect de masă și energie</h2>
+
+        <p>
+          Un sistem legat are defectul de masă $\Delta m=2\cdot10^{-30}\,\text{kg}$.
+          Determinați energia de legătură. Se ia $c=3\cdot10^8\,\text{m/s}$.
+        </p>
+
+        <p>
+          Energia de legătură este:
+        </p>
+
+        <div class="formula">
+          $$E_l=\Delta mc^2$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$E_l=2\cdot10^{-30}\cdot(3\cdot10^8)^2$$
+          $$E_l=2\cdot10^{-30}\cdot9\cdot10^{16}$$
+          $$E_l=18\cdot10^{-14}=1{,}8\cdot10^{-13}\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          energia de legătură este $1{,}8\cdot10^{-13}\,\text{J}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Folosirea impulsului clasic la viteze relativiste:</strong>
+            relația corectă este $\vec p=\gamma m\vec v$.
+          </li>
+          <li>
+            <strong>Scrierea greșită a energiei cinetice:</strong>
+            relativist, $E_c=(\gamma-1)mc^2$, nu $\frac12mv^2$.
+          </li>
+          <li>
+            <strong>Confuzia dintre energia totală și energia de repaus:</strong>
+            $E=\gamma mc^2$, iar $E_0=mc^2$.
+          </li>
+          <li>
+            <strong>Aplicarea lui $E=mc^2$ în orice situație fără precizare:</strong>
+            formula exprimă energia de repaus pentru masa de repaus $m$.
+          </li>
+          <li>
+            <strong>Ignorarea relației energie–impuls:</strong>
+            pentru particule relativiste, $E^2=p^2c^2+m^2c^4$ este adesea cea mai sigură relație.
+          </li>
+          <li>
+            <strong>Afirmația că fotonul are impuls zero deoarece are masă zero:</strong>
+            fotonul are $m_0=0$, dar $p=E/c=h/\lambda$.
+          </li>
+          <li>
+            <strong>Uitarea limitei clasice:</strong>
+            orice rezultat relativist trebuie să conducă la rezultatul newtonian pentru $v\ll c$.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare recomandată:</strong>
+          „Deoarece viteza particulei este comparabilă cu viteza luminii, folosesc impulsul relativist, energia totală relativistă și relația invariantă energie–impuls.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$\gamma=\frac{1}{\sqrt{1-\frac{v^2}{c^2}}}$$
+          $$\vec p=\gamma m\vec v$$
+          $$\vec F=\frac{d\vec p}{dt}=\frac{d}{dt}(\gamma m\vec v)$$
+          $$E_0=mc^2$$
+          $$E=\gamma mc^2$$
+          $$E_c=E-E_0=(\gamma-1)mc^2$$
+          $$E^2=p^2c^2+m^2c^4$$
+          $$m=0\Rightarrow E=pc$$
+          $$E=h\nu,\qquad p=\frac{h\nu}{c}=\frac{h}{\lambda}$$
+          $$\Delta m=\sum m_{\text{componente}}-m_{\text{sistem}}$$
+          $$E_l=\Delta mc^2$$
+        </div>
+
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>De reținut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Impuls relativist</td>
+              <td>$\vec p=\gamma m\vec v$</td>
+            </tr>
+            <tr>
+              <td>Energie de repaus</td>
+              <td>$E_0=mc^2$</td>
+            </tr>
+            <tr>
+              <td>Energie totală</td>
+              <td>$E=\gamma mc^2$</td>
+            </tr>
+            <tr>
+              <td>Foton</td>
+              <td>$m_0=0$, dar $E=h\nu$ și $p=h/\lambda$</td>
+            </tr>
+            <tr>
+              <td>Limită clasică</td>
+              <td>Pentru $v\ll c$, $\gamma\approx1$ și se revine la Newton.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bottom-links">
+          <a href="index.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți factorul Lorentz $\gamma$ și explicați comportarea lui pentru $v\to c$.</li>
+          <li>Scrieți impulsul relativist al unei particule.</li>
+          <li>Explicați de ce forma $\vec F=m\vec a$ nu mai este general valabilă în regim relativist.</li>
+          <li>Scrieți expresia energiei cinetice relativiste.</li>
+          <li>Demonstrați că pentru $v\ll c$, $E_c\approx\frac12mv^2$.</li>
+          <li>Definiți energia de repaus.</li>
+          <li>Scrieți energia totală relativistă.</li>
+          <li>Scrieți relația invariantă energie–impuls.</li>
+          <li>Deduceți relația $E=pc$ pentru particule fără masă de repaus.</li>
+          <li>Scrieți energia și impulsul fotonului.</li>
+          <li>Explicați conservarea energiei și impulsului în procese relativiste.</li>
+          <li>Definiți defectul de masă și energia de legătură.</li>
+          <li>Explicați de ce o particulă cu masă de repaus nenulă nu poate atinge viteza luminii.</li>
+          <li>Rezolvați o problemă numerică pentru o particulă cu $v=0{,}8c$.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o particulă de masă de repaus $m$ se deplasează cu $v=0{,}8c$.
+          Determină $\gamma$, impulsul relativist, energia totală, energia cinetică și verifică relația
+          $$E^2=p^2c^2+m^2c^4.$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="index.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
+    <button onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    let currentPage = 0;
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c15", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c15");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
