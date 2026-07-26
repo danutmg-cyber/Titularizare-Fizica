@@ -1,1 +1,903 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C37 – Modele atomice (Rutherford, Bohr) și serii spectrale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <!-- Stiluri locale: doar elementele specifice lecției C37 -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 300px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.45rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C37 • Fizică atomică, nucleară și cuantică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <!-- Pagina 1: Introducere -->
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 37</span>
+        <h1>Modele atomice (Rutherford, Bohr) și serii spectrale</h1>
+
+        <p class="lead">
+          Această lecție prezintă evoluția modelului atomic de la experimentul lui Rutherford la
+          modelul cuantic al lui Bohr și explică seriile spectrale ale hidrogenului ca dovezi
+          experimentale ale cuantificării energiei.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          modelul lui Bohr introduce <strong>cuantificarea</strong> — electronii pot ocupa numai
+          anumite orbite staționare, iar emisia/absorbția de lumină are loc la tranziții discrete
+          între aceste nivele.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Tranziții electronice și spectru">
+            <defs>
+              <marker id="axis-arrow-c37-1" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.3 L9,3 L0,4.7 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <!-- Nivele energetice -->
+            <line x1="120" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="2"/>
+            <line x1="120" y1="170" x2="580" y2="170" stroke="#94a3b8" stroke-width="2"/>
+            <line x1="120" y1="120" x2="580" y2="120" stroke="#94a3b8" stroke-width="2"/>
+            <line x1="120" y1="70"  x2="580" y2="70"  stroke="#94a3b8" stroke-width="2"/>
+            <line x1="120" y1="35"  x2="580" y2="35"  stroke="#94a3b8" stroke-width="2"/>
+
+            <!-- Etichete nivele -->
+            <text x="80" y="225" fill="#64748b" font-size="18">n=1</text>
+            <text x="80" y="175" fill="#64748b" font-size="18">n=2</text>
+            <text x="80" y="125" fill="#64748b" font-size="18">n=3</text>
+            <text x="80" y="75"  fill="#64748b" font-size="18">n=4</text>
+            <text x="80" y="40"  fill="#64748b" font-size="18">n=5</text>
+
+            <!-- Tranziții -->
+            <line x1="200" y1="170" x2="200" y2="220" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+            <polygon points="200,220 195,210 205,210" fill="#ef4444"/>
+
+            <line x1="300" y1="120" x2="300" y2="220" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+            <polygon points="300,220 295,210 305,210" fill="#f59e0b"/>
+
+            <line x1="400" y1="70" x2="400" y2="220" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+            <polygon points="400,220 395,210 405,210" fill="#2563eb"/>
+
+            <line x1="500" y1="35" x2="500" y2="170" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+            <polygon points="500,170 495,160 505,160" fill="#10b981"/>
+
+            <!-- Spectru -->
+            <rect x="120" y="240" width="80" height="12" fill="#ef4444" rx="4"/>
+            <rect x="220" y="240" width="80" height="12" fill="#f59e0b" rx="4"/>
+            <rect x="320" y="240" width="80" height="12" fill="#2563eb" rx="4"/>
+            <rect x="420" y="240" width="80" height="12" fill="#10b981" rx="4"/>
+
+            <text x="340" y="235" fill="#64748b" font-size="16" text-anchor="middle">linii spectrale</text>
+          </svg>
+
+          <p class="caption">
+            Tranzițiile electronice de la nivele superioare către nivele inferioare emit fotoni
+            cu energii discrete, observate ca linii spectrale caracteristice.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 2: Structura atomului și modelul Thomson -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Context istoric</span>
+        <h2>De la atomul indivizibil la modelul Thomson</h2>
+
+        <p>
+          Conceptul de <span class="mark">atom</span> (indivizibil) a fost introdus în filozofia
+          greacă antică. Dovezile experimentale moderne au venit odată cu descoperirea electronului
+          (J.J. Thomson, 1897) și a radioactivității.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Modelul Thomson („plum pudding")</strong>
+            <p>Atomul este o sferă uniform pozitivă în care electronii sunt înglobați ca „stafidele în plăcintă".</p>
+          </div>
+
+          <div class="mini">
+            <strong>Problema modelului</strong>
+            <p>Nu explică spectrele discrete și nu poate explica rezultatele experimentului cu particule α.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\frac{e}{m_e}=1{,}76\cdot 10^{11}\,\text{C/kg}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          experimentul lui Thomson cu razele catodice a determinat raportul sarcină–masă al
+          electronului, dovedind că există particule subatomice.
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 3: Experimentul Rutherford -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Modelul Rutherford</span>
+        <h2>Experimentul cu particule α și modelul planetar</h2>
+
+        <p>
+          În 1911, Geiger și Marsden, sub îndrumarea lui Rutherford, au bombardat o foita de aur
+          cu <span class="mark">particule α</span> (nuclee de heliu, $He^{2+}$).
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Experimentul Rutherford">
+            <defs>
+              <marker id="arrow-c37-2" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.3 L9,3 L0,4.7 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <!-- Sursa -->
+            <rect x="30" y="110" width="60" height="40" rx="8" fill="#334155"/>
+            <text x="60" y="135" fill="white" font-size="14" text-anchor="middle">α</text>
+
+            <!-- Fascicul -->
+            <line x1="90" y1="130" x2="280" y2="130" stroke="#ef4444" stroke-width="3" stroke-dasharray="6,4"/>
+
+            <!-- Foiță de aur -->
+            <rect x="280" y="80" width="8" height="100" fill="#fbbf24" rx="2"/>
+            <text x="284" y="195" fill="#64748b" font-size="14" text-anchor="middle">Au</text>
+
+            <!-- Particule deviate -->
+            <line x1="288" y1="130" x2="450" y2="80" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-c37-2)"/>
+            <line x1="288" y1="130" x2="460" y2="130" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-c37-2)"/>
+            <line x1="288" y1="130" x2="450" y2="180" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-c37-2)"/>
+
+            <!-- Nucleu mic -->
+            <circle cx="450" cy="130" r="12" fill="#2563eb"/>
+            <text x="450" y="135" fill="white" font-size="12" text-anchor="middle">+</text>
+
+            <!-- Ecran -->
+            <rect x="560" y="50" width="10" height="160" fill="#94a3b8" rx="2"/>
+            <text x="565" y="225" fill="#64748b" font-size="14" text-anchor="middle">ecran</text>
+
+            <!-- Etichete -->
+            <text x="170" y="120" fill="#ef4444" font-size="16">particule α</text>
+            <text x="480" y="100" fill="#2563eb" font-size="16">nucleu</text>
+          </svg>
+
+          <p class="caption">
+            Majoritatea particulelor α trec prin foiță fără deviere. Câteva sunt deviate la unghiuri
+            mari, ceea ce indică existența unui nucleu mic, masiv și pozitiv.
+          </p>
+        </div>
+
+        <p><strong>Concluziile experimentului:</strong></p>
+        <ul>
+          <li>Atomul are o structură internă; masa și sarcina pozitivă sunt concentrate într-un <strong>nucleu</strong> foarte mic.</li>
+          <li>Nucleul este de circa $10^4–10^5$ ori mai mic decât atomul.</li>
+          <li>Electronii se află în jurul nucleului, într-un spațiu larg, aproape gol.</li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          „Experimentul Rutherford a demonstrat că atomul are un nucleu central, masiv și pozitiv,
+          în care este concentrată aproape toată masa atomului."
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 4: Limitele modelului Rutherford -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Critici și limite</span>
+        <h2>De ce modelul Rutherford nu este suficient</h2>
+
+        <p>
+          Modelul planetar al lui Rutherford contrazice principiile electrodinamicii clasice:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Problema stabilității</strong>
+            <p>Un electron în mișcare circulară ar trebui să emită radiație electromagnetică continuu, să piardă energie și să „cadă" în nucleu în ~10⁻¹¹ s.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Spectre discrete</strong>
+            <p>Modelul clasic prezice un spectru continuu. În realitate, atomii emit/absorb la anumite frecvențe bine determinate.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          modelul Rutherford a descoperit nucleul, dar <strong>nu explică</strong> spectrele de emisie
+          și nici stabilitatea atomului. Acestea sunt rezolvate de modelul Bohr.
+        </div>
+
+        <div class="formula">
+          $$E_{\text{emis}}=\frac{e^2 a^2}{6\pi\varepsilon_0 c^3}$$
+        </div>
+
+        <p class="caption">
+          (Formula Larmor pentru puterea radiată de un electron accelerat — nu se cere la examen,
+          dar ilustrează contradicția cu stabilitatea atomică.)
+        </p>
+      </article>
+    </section>
+
+    <!-- Pagina 5: Modelul Bohr -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Modelul Bohr</span>
+        <h2>Postulatele lui Bohr (1913)</h2>
+
+        <p>
+          Niels Bohr a propus un model hibrid, păstrând nucleul lui Rutherford, dar introducând
+          <span class="mark">cuantificarea</span> pe orbitele electronice:
+        </p>
+
+        <ol>
+          <li>
+            <strong>Postulatul orbitelor staționare:</strong>
+            electronul se poate mișca numai pe anumite orbite circulare discrete, fără să emită radiație.
+          </li>
+          <li>
+            <strong>Postulatul cuantificării momentului cinetic:</strong>
+            momentul cinetic orbital este cuantificat:
+            <div class="formula">
+              $$L_n=m_e v_n r_n=n\frac{h}{2\pi}=n\hbar,\qquad n=1,2,3,\dots$$
+            </div>
+          </li>
+          <li>
+            <strong>Postulatul frecvențelor:</strong>
+            emisia sau absorbția de radiație are loc numai la tranziția dintre două stări staționare,
+            frecvența fiind dată de:
+            <div class="formula">
+              $$h\nu=E_i-E_f$$
+            </div>
+          </li>
+        </ol>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Modelul Bohr al atomului de hidrogen">
+            <!-- Nucleu -->
+            <circle cx="350" cy="130" r="18" fill="#ef4444"/>
+            <text x="350" y="136" fill="white" font-size="16" text-anchor="middle">p⁺</text>
+
+            <!-- Orbite -->
+            <circle cx="350" cy="130" r="45" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+            <circle cx="350" cy="130" r="75" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+            <circle cx="350" cy="130" r="105" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+            <circle cx="350" cy="130" r="135" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4,3"/>
+
+            <!-- Electroni -->
+            <circle cx="395" cy="130" r="6" fill="#2563eb"/>
+            <circle cx="425" cy="130" r="6" fill="#2563eb"/>
+            <circle cx="455" cy="130" r="6" fill="#2563eb"/>
+            <circle cx="485" cy="130" r="6" fill="#2563eb"/>
+
+            <!-- Etichete -->
+            <text x="410" y="125" fill="#64748b" font-size="14">n=1</text>
+            <text x="440" y="125" fill="#64748b" font-size="14">n=2</text>
+            <text x="470" y="125" fill="#64748b" font-size="14">n=3</text>
+            <text x="500" y="125" fill="#64748b" font-size="14">n=4</text>
+
+            <text x="350" y="245" fill="#64748b" font-size="16" text-anchor="middle">orbite cuantificate (raza crește cu n²)</text>
+          </svg>
+
+          <p class="caption">
+            În modelul Bohr, electronii ocupă orbite circulare discrete. Raza orbitei crește cu pătratul
+            numărului cuantic principal $n$.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 6: Formule Bohr -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Consecințe cantitative</span>
+        <h2>Raze, viteze și energii în modelul Bohr</h2>
+
+        <p>
+          Pentru atomul de hidrogen ($Z=1$), combinând postulatele lui Bohr cu forța coulombiană
+          ca forță centripetă, se obțin:
+        </p>
+
+        <div class="formula">
+          $$r_n=n^2\frac{\varepsilon_0 h^2}{\pi m_e e^2}=n^2 r_1$$
+        </div>
+
+        <p>unde <strong>raza Bohr</strong> (prima orbită) este:</p>
+
+        <div class="formula">
+          $$r_1=a_0=0{,}529\,\text{Å}=5{,}29\cdot 10^{-11}\,\text{m}$$
+        </div>
+
+        <div class="formula">
+          $$v_n=\frac{e^2}{2\varepsilon_0 h}\cdot\frac{1}{n}=\frac{v_1}{n}$$
+        </div>
+
+        <p>cu $v_1\approx 2{,}19\cdot 10^6\,\text{m/s}\approx\dfrac{c}{137}$ (constanta de structură fină).</p>
+
+        <div class="formula">
+          $$E_n=-\frac{m_e e^4}{8\varepsilon_0^2 h^2}\cdot\frac{1}{n^2}=\frac{E_1}{n^2}$$
+        </div>
+
+        <p>unde energia de pe primul nivel (energia de ionizare) este:</p>
+
+        <div class="formula">
+          $$E_1=-13{,}6\,\text{eV}$$
+        </div>
+
+        <div class="exam">
+          <strong>De reținut pentru examen:</strong>
+          energiile sunt negative (stare legată) și scad în modul pe măsură ce $n$ crește.
+          Nivelul $n=\infty$ corespunde energiei zero (electron liber).
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 7: Serii spectrale -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Serii spectrale</span>
+        <h2>Formula Rydberg și seriile de linii spectrale</h2>
+
+        <p>
+          Când un electron trece de la nivelul $n_i$ la $n_f$ ($n_i>n_f$), se emite un foton cu
+          numărul de undă:
+        </p>
+
+        <div class="formula">
+          $$\tilde{\nu}=\frac{1}{\lambda}=R_H\left(\frac{1}{n_f^2}-\frac{1}{n_i^2}\right)$$
+        </div>
+
+        <p>unde $R_H=1{,}097\cdot 10^7\,\text{m}^{-1}$ este <strong>constanta Rydberg</strong>.</p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Seria Lyman</strong>
+            <p>$n_f=1$, $n_i\ge 2$</p>
+            <p>Ultraviolet (UV)</p>
+          </div>
+
+          <div class="mini">
+            <strong>Seria Balmer</strong>
+            <p>$n_f=2$, $n_i\ge 3$</p>
+            <p>Vizibil + UV apropiat</p>
+          </div>
+
+          <div class="mini">
+            <strong>Seria Paschen</strong>
+            <p>$n_f=3$, $n_i\ge 4$</p>
+            <p>Infraroșu (IR)</p>
+          </div>
+
+          <div class="mini">
+            <strong>Seria Brackett</strong>
+            <p>$n_f=4$, $n_i\ge 5$</p>
+            <p>Infraroșu îndepărtat</p>
+          </div>
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Seriile spectrale ale hidrogenului">
+            <!-- Axa -->
+            <line x1="60" y1="220" x2="660" y2="220" stroke="#64748b" stroke-width="2" marker-end="url(#axis-arrow-c37-1)"/>
+            <text x="665" y="225" fill="#64748b" font-size="18">λ</text>
+
+            <!-- Lyman -->
+            <rect x="80" y="50" width="20" height="8" fill="#8b5cf6" rx="2"/>
+            <rect x="110" y="50" width="20" height="8" fill="#8b5cf6" rx="2"/>
+            <rect x="140" y="50" width="20" height="8" fill="#8b5cf6" rx="2"/>
+            <text x="100" y="40" fill="#8b5cf6" font-size="16">Lyman (UV)</text>
+
+            <!-- Balmer -->
+            <rect x="220" y="100" width="20" height="8" fill="#ef4444" rx="2"/>
+            <rect x="250" y="100" width="20" height="8" fill="#ef4444" rx="2"/>
+            <rect x="280" y="100" width="20" height="8" fill="#ef4444" rx="2"/>
+            <rect x="310" y="100" width="20" height="8" fill="#ef4444" rx="2"/>
+            <text x="260" y="90" fill="#ef4444" font-size="16">Balmer (vizibil)</text>
+
+            <!-- Paschen -->
+            <rect x="400" y="150" width="20" height="8" fill="#f59e0b" rx="2"/>
+            <rect x="430" y="150" width="20" height="8" fill="#f59e0b" rx="2"/>
+            <rect x="460" y="150" width="20" height="8" fill="#f59e0b" rx="2"/>
+            <text x="430" y="140" fill="#f59e0b" font-size="16">Paschen (IR)</text>
+
+            <!-- Brackett -->
+            <rect x="540" y="190" width="20" height="8" fill="#10b981" rx="2"/>
+            <rect x="570" y="190" width="20" height="8" fill="#10b981" rx="2"/>
+            <text x="560" y="180" fill="#10b981" font-size="16">Brackett</text>
+
+            <text x="350" y="245" fill="#64748b" font-size="16" text-anchor="middle">linii spectrale grupate în serii</text>
+          </svg>
+
+          <p class="caption">
+            Pe măsură ce $n_f$ crește, seriile se deplasează către domeniul infraroșu.
+            Liniile dintr-o serie devin din ce în ce mai apropiate pe măsură ce $n_i$ crește
+            (converg către limita seriei).
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 8: Spectrul de emisie și absorbție -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spectroscopie</span>
+        <h2>Spectre de emisie și de absorbție</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Spectru de emisie</strong>
+            <p>Atomul excitat emite fotoni la tranziții $n_i\to n_f$ ($n_i>n_f$). Apare ca linii luminoase pe fond întunecat.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Spectru de absorbție</strong>
+            <p>Atomul absoarbe fotoni pentru a trece $n_f\to n_i$ ($n_i>n_f$). Apar linii întunecate în spectrul continuu.</p>
+          </div>
+        </div>
+
+        <p>
+          <span class="mark">Regula lui Kirchhoff:</span> liniile de absorbție ale unui gaz rece
+          coincid cu liniile de emisie ale aceluiași gaz încălzit.
+        </p>
+
+        <div class="formula">
+          $$\Delta E=h\nu=\frac{hc}{\lambda}$$
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație practică:</strong>
+          spectroscopia stelară folosește spectrele de absorbție pentru a determina compoziția
+          chimică a atmosferei stelelor.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          în absorbție, electronul trece de la un nivel inferior la unul superior;
+          în emisie, trece de la un nivel superior la unul inferior.
+          Energia fotonului este întotdeauna diferența dintre cele două nivele.
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 9: Problemă rezolvată -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Model de rezolvare pentru examen</h2>
+
+        <p>
+          Un electron din atomul de hidrogen trece de la nivelul $n_i=4$ la nivelul $n_f=2$.
+          Determinați:
+        </p>
+        <ol type="a">
+          <li>energia fotonului emis (în eV);</li>
+          <li>lungimea de undă a radiației emise;</li>
+          <li>seria spectrală căreia îi aparține linia.</li>
+        </ol>
+
+        <p>
+          <strong>1. Energia fotonului:</strong>
+        </p>
+
+        <div class="formula">
+          $$\Delta E=E_4-E_2=\frac{E_1}{4^2}-\frac{E_1}{2^2}=(-0{,}85)-(-3{,}4)=2{,}55\,\text{eV}$$
+        </div>
+
+        <p>
+          <strong>2. Lungimea de undă:</strong>
+        </p>
+
+        <div class="formula">
+          $$\lambda=\frac{hc}{\Delta E}=\frac{4{,}136\cdot 10^{-15}\,\text{eV\cdot s}\cdot 3\cdot 10^8\,\text{m/s}}{2{,}55\,\text{eV}}\approx 486\,\text{nm}$$
+        </div>
+
+        <p>
+          <strong>3. Seria spectrală:</strong>
+          deoarece $n_f=2$, linia aparține <strong>seriei Balmer</strong>.
+          Această linie (tranziția $4\to 2$) este linia $H_\beta$ (albastru-verzui).
+        </p>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          fotonul emis are energia $2{,}55\,\text{eV}$, lungimea de undă $486\,\text{nm}$ și
+          aparține seriei Balmer (domeniul vizibil).
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 10: Capcane de examen -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <ul>
+          <li>
+            <strong>Confuzia între modelul Rutherford și Bohr:</strong>
+            Rutherford a descoperit nucleul; Bohr a introdus cuantificarea orbite și explică spectrele.
+          </li>
+
+          <li>
+            <strong>Semnul energiilor:</strong>
+            energiile din atom sunt negative ($E_n<0$). Cu cât $n$ este mai mic, cu atât energia
+            este mai negativă (stare mai legată).
+          </li>
+
+          <li>
+            <strong>Confundarea emisiei cu absorbția:</strong>
+            la emisie $n_i>n_f$ (foton emis); la absorbție $n_f<n_i$ (foton absorbit).
+          </li>
+
+          <li>
+            <strong>Uitarea constantei Rydberg:</strong>
+            $R_H=1{,}097\cdot 10^7\,\text{m}^{-1}$. Verifică unitățile: $\lambda$ în metri
+            dacă folosești $R_H$ în m⁻¹.
+          </li>
+
+          <li>
+            <strong>Extinderea modelului Bohr la atomi polielectronici:</strong>
+            modelul Bohr se aplică exact doar atomului de hidrogen (și ionilor hidrogenoizi $He^+$, $Li^{2+}$).
+          </li>
+
+          <li>
+            <strong>Confuzia $h\nu$ cu $h/\nu$:</strong>
+            energia fotonului este $E=h\nu$, nu $h/\nu$.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Formulare bună la proba scrisă:</strong>
+          „Aplic postulatele lui Bohr. Energia pe nivelul $n$ este $E_n=-13{,}6/n^2$ eV.
+          La tranziția $n_i\to n_f$ energia fotonului este diferența $\Delta E=E_i-E_f$."
+        </div>
+      </article>
+    </section>
+
+    <!-- Pagina 11: Verificare rapidă -->
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Enumerați cele trei postulate ale modelului Bohr.</li>
+          <li>Explicați de ce modelul Rutherford nu poate explica stabilitatea atomului.</li>
+          <li>Derivați expresia razei orbitei $n$ în modelul Bohr.</li>
+          <li>Calculați raza primei orbite Bohr și energia corespunzătoare.</li>
+          <li>Scrieți formula Rydberg și identificați seriile Lyman, Balmer și Paschen.</li>
+          <li>
+            Un electron trece de la $n=5$ la $n=2$. Calculați lungimea de undă a fotonului emis
+            și precizați seria spectrală.
+          </li>
+        </ol>
+
+        <div class="formula">
+          $$E_n=-\frac{13{,}6}{n^2}\,\text{eV},\qquad
+          \frac{1}{\lambda}=R_H\left(\frac{1}{n_f^2}-\frac{1}{n_i^2}\right)$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C38-efect-fotolectric-compton-de-broglie.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 11</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c37", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c37");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    updatePageStatus();
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
