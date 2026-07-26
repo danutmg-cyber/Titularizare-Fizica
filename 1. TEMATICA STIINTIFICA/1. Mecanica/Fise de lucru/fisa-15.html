@@ -1,1 +1,1366 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 15 – Elemente de dinamică relativistă</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 15 • Dinamică relativistă</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C15-elemente-de-dinamica-relativista.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 15</span>
+        <h1>Elemente de dinamică relativistă</h1>
+
+        <p class="lead">
+          Fișă completă pentru relațiile masă–viteză, forță–accelerație, masă–energie,
+          energie–impuls, impuls relativist, energie cinetică relativistă, fotoni și limita clasică.
+          Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+          În majoritatea exercițiilor se folosește sistemul de unități $c=1$, cu mase în MeV/$c^2$,
+          impulsuri în MeV/$c$ și energii în MeV.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Dinamica relativistă</strong>
+            <p>
+              Dinamica relativistă extinde dinamica newtoniană pentru particule cu viteze apropiate de viteza
+              luminii. Forma fundamentală a legii a II-a rămâne:
+            </p>
+            <div class="formula">
+              $$\vec F=\frac{d\vec p}{dt}$$
+            </div>
+            <p>
+              Diferența esențială este expresia relativistă a impulsului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Factorul Lorentz</strong>
+            <div class="formula">
+              $$\beta=\frac{v}{c}$$
+              $$\gamma=\frac{1}{\sqrt{1-\beta^2}}$$
+            </div>
+            <p>
+              Când $v\to c$, $\gamma\to\infty$, deci o particulă cu masă de repaus nenulă nu poate atinge viteza $c$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Masa de repaus și masa relativistă</strong>
+            <p>
+              În formularea modernă, masa invariantă $m_0$ nu depinde de viteză.
+              În formularea tradițională, folosită frecvent în programa clasică, se introduce:
+            </p>
+            <div class="formula">
+              $$m_{\text{rel}}=\gamma m_0$$
+            </div>
+            <p>
+              Este preferabil să se lucreze cu $m_0$, impuls și energie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Impulsul relativist</strong>
+            <p>
+              Impulsul relativist al unei particule cu masa de repaus $m_0$ este:
+            </p>
+            <div class="formula">
+              $$\vec p=\gamma m_0\vec v$$
+            </div>
+            <p>
+              Pentru $v\ll c$, $\gamma\approx1$ și se obține formula clasică $\vec p\approx m_0\vec v$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Energia de repaus</strong>
+            <p>
+              O particulă aflată în repaus are energia:
+            </p>
+            <div class="formula">
+              $$E_0=m_0c^2$$
+            </div>
+            <p>
+              Aceasta exprimă echivalența masă–energie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Energia totală relativistă</strong>
+            <p>
+              Energia totală a particulei este:
+            </p>
+            <div class="formula">
+              $$E=\gamma m_0c^2$$
+            </div>
+            <p>
+              În unități cu $c=1$, relația devine $E=\gamma m_0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Energia cinetică relativistă</strong>
+            <p>
+              Energia cinetică este diferența dintre energia totală și energia de repaus.
+            </p>
+            <div class="formula">
+              $$K=E-E_0=(\gamma-1)m_0c^2$$
+            </div>
+            <p>
+              Pentru viteze mici:
+            </p>
+            <div class="formula">
+              $$K\approx\frac12m_0v^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>8. Relația energie–impuls</strong>
+            <p>
+              Relația invariantă fundamentală este:
+            </p>
+            <div class="formula">
+              $$E^2=p^2c^2+m_0^2c^4$$
+            </div>
+            <p>
+              În unități cu $c=1$:
+            </p>
+            <div class="formula">
+              $$E^2=p^2+m_0^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Viteza din energie și impuls</strong>
+            <p>
+              Pentru o particulă masivă:
+            </p>
+            <div class="formula">
+              $$\vec v=\frac{\vec p c^2}{E}$$
+            </div>
+            <p>
+              În unități cu $c=1$:
+            </p>
+            <div class="formula">
+              $$\beta=\frac{v}{c}=\frac{pc}{E}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Particula fără masă de repaus</strong>
+            <p>
+              Pentru foton:
+            </p>
+            <div class="formula">
+              $$m_0=0$$
+              $$E=pc$$
+              $$E=h\nu=\frac{hc}{\lambda}$$
+              $$p=\frac{h}{\lambda}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>11. Forța și accelerația longitudinală</strong>
+            <p>
+              Dacă forța este paralelă cu viteza:
+            </p>
+            <div class="formula">
+              $$F_\parallel=\gamma^3m_0a_\parallel$$
+              $$a_\parallel=\frac{F_\parallel}{\gamma^3m_0}$$
+            </div>
+            <p>
+              Accelerația scade puternic când $v$ se apropie de $c$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>12. Forța și accelerația transversală</strong>
+            <p>
+              Dacă forța este perpendiculară pe viteză:
+            </p>
+            <div class="formula">
+              $$F_\perp=\gamma m_0a_\perp$$
+              $$a_\perp=\frac{F_\perp}{\gamma m_0}$$
+            </div>
+            <p>
+              Relația forță–accelerație depinde de direcția forței față de viteză.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Puterea mecanică relativistă</strong>
+            <p>
+              Puterea transferată particulei este:
+            </p>
+            <div class="formula">
+              $$P=\vec F\cdot\vec v=\frac{dE}{dt}$$
+            </div>
+            <p>
+              Forța perpendiculară pe viteză schimbă direcția impulsului, dar nu schimbă energia.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Limita clasică</strong>
+            <p>
+              Pentru $\beta\ll1$:
+            </p>
+            <div class="formula">
+              $$\gamma\approx1+\frac12\beta^2$$
+              $$p\approx m_0v$$
+              $$K=(\gamma-1)m_0c^2\approx\frac12m_0v^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>15. Energie de legătură și defect de masă</strong>
+            <p>
+              Dacă masa unui sistem legat este mai mică decât suma maselor componentelor libere:
+            </p>
+            <div class="formula">
+              $$\Delta E=\Delta mc^2$$
+            </div>
+            <p>
+              Energia eliberată corespunde scăderii masei sistemului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>16. Conversii utile</strong>
+            <div class="formula">
+              $$1\,\text{eV}=1{,}6\cdot10^{-19}\,\text{J}$$
+              $$1\,\text{MeV}=10^6\,\text{eV}$$
+              $$1\,u\,c^2\approx931{,}5\,\text{MeV}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          masa invariantă $m_0$ nu crește cu viteza în formularea modernă; energia totală nu este aceeași
+          cu energia cinetică; relația $E=pc$ este valabilă pentru particule fără masă de repaus; forța și
+          accelerația nu sunt întotdeauna paralele; nu se poate accelera o particulă masivă până la $c$.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Factor Lorentz</td>
+                  <td></td>
+                  <td>Depinde de $v/c$.</td>
+                </tr>
+                <tr>
+                  <td>Masa relativistă</td>
+                  <td></td>
+                  <td>Formulare tradițională.</td>
+                </tr>
+                <tr>
+                  <td>Impuls relativist</td>
+                  <td></td>
+                  <td>Devine $m_0v$ pentru $v\ll c$.</td>
+                </tr>
+                <tr>
+                  <td>Energia de repaus</td>
+                  <td></td>
+                  <td>Masă–energie.</td>
+                </tr>
+                <tr>
+                  <td>Energia totală</td>
+                  <td></td>
+                  <td>Include energia de repaus.</td>
+                </tr>
+                <tr>
+                  <td>Energia cinetică</td>
+                  <td></td>
+                  <td>$K=E-E_0$.</td>
+                </tr>
+                <tr>
+                  <td>Relația energie–impuls</td>
+                  <td></td>
+                  <td>Invariantă relativistă.</td>
+                </tr>
+                <tr>
+                  <td>Foton</td>
+                  <td></td>
+                  <td>$m_0=0$.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Impulsul relativist este $\vec p=\gamma m_0\vec v$.</li>
+            <li>Energia cinetică relativistă este $K=\gamma m_0c^2$.</li>
+            <li>Energia de repaus este $E_0=m_0c^2$.</li>
+            <li>Pentru foton, $E=pc$.</li>
+            <li>O particulă cu masă de repaus nenulă poate atinge viteza $c$ dacă forța este suficient de mare.</li>
+            <li>În limita $v\ll c$, energia cinetică relativistă tinde spre $\frac12m_0v^2$.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\gamma=$ <span class="line"></span></p>
+              <p>$m_{\text{rel}}=$ <span class="line"></span></p>
+              <p>$p=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$E_0=$ <span class="line"></span></p>
+              <p>$K=$ <span class="line"></span></p>
+              <p>$E^2=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Factor Lorentz și masă relativistă. 4 p</h3>
+
+          <p>
+            O particulă are masa de repaus $m_0$ = <span class="var" id="e1m0"></span> MeV/$c^2$
+            și viteza $v$ = <span class="var" id="e1beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$.</li>
+            <li>Calculează masa relativistă $m_{\text{rel}}=\gamma m_0$ în formularea tradițională.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Impuls relativist. 5 p</h3>
+
+          <p>
+            O particulă are masa de repaus $m_0$ = <span class="var" id="e2m0"></span> MeV/$c^2$
+            și viteza $v$ = <span class="var" id="e2beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează factorul Lorentz.</li>
+            <li>Determină impulsul relativist în MeV/$c$.</li>
+            <li>Compară cu impulsul clasic $p_{cl}=m_0v$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Energia totală și energia cinetică. 6 p</h3>
+
+          <p>
+            Un proton este modelat cu energia de repaus $E_0$ =
+            <span class="var" id="e3E0"></span> MeV și viteza $v$ =
+            <span class="var" id="e3beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$.</li>
+            <li>Calculează energia totală $E=\gamma E_0$.</li>
+            <li>Calculează energia cinetică $K=E-E_0$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Energia cinetică din factorul Lorentz. 4 p</h3>
+
+          <p>
+            O particulă are masa de repaus $m_0$ = <span class="var" id="e4m0"></span> MeV/$c^2$.
+            Factorul Lorentz este $\gamma$ = <span class="var" id="e4gamma"></span>.
+          </p>
+
+          <ol type="a">
+            <li>Determină energia totală.</li>
+            <li>Determină energia cinetică.</li>
+            <li>Determină viteza particulei exprimată ca fracție din $c$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Relația energie–impuls. 5 p</h3>
+
+          <p>
+            O particulă are masa de repaus $m_0$ =
+            <span class="var" id="e5m0"></span> MeV/$c^2$
+            și impulsul $p$ = <span class="var" id="e5p"></span> MeV/$c$.
+          </p>
+
+          <ol type="a">
+            <li>Folosește relația $E^2=p^2c^2+m_0^2c^4$.</li>
+            <li>Determină energia totală în MeV.</li>
+            <li>Determină energia cinetică.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Viteza din energie și impuls. 4 p</h3>
+
+          <p>
+            O particulă are energia totală $E$ =
+            <span class="var" id="e6E"></span> MeV și impulsul
+            $p$ = <span class="var" id="e6p"></span> MeV/$c$.
+          </p>
+
+          <ol type="a">
+            <li>Determină $\beta=v/c$ folosind $\beta=pc/E$.</li>
+            <li>Determină factorul Lorentz.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Determinarea masei de repaus. 5 p</h3>
+
+          <p>
+            O particulă are energia totală $E$ =
+            <span class="var" id="e7E"></span> MeV și impulsul
+            $p$ = <span class="var" id="e7p"></span> MeV/$c$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie relația $m_0^2c^4=E^2-p^2c^2$.</li>
+            <li>Determină energia de repaus $E_0=m_0c^2$.</li>
+            <li>Determină masa de repaus în MeV/$c^2$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Foton: energie și impuls. 5 p</h3>
+
+          <p>
+            Un foton are energia $E$ = <span class="var" id="e8E"></span> eV.
+          </p>
+
+          <ol type="a">
+            <li>Determină impulsul fotonului în eV/$c$.</li>
+            <li>Determină lungimea de undă folosind $hc\simeq1240\,\text{eV}\cdot\text{nm}$.</li>
+            <li>Precizează de ce nu se poate folosi $E=\gamma m_0c^2$ cu $m_0\ne0$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Energia eliberată prin defect de masă. 5 p</h3>
+
+          <p>
+            Într-un proces nuclear, defectul de masă este
+            $\Delta m$ = <span class="var" id="e9dm"></span> u.
+            Folosește $1\,u\,c^2=931{,}5\,\text{MeV}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează energia eliberată în MeV.</li>
+            <li>Transformă energia în jouli folosind $1\,\text{MeV}=1{,}6\cdot10^{-13}\,\text{J}$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Forță și accelerație longitudinală. 5 p</h3>
+
+          <p>
+            O particulă cu masa de repaus $m_0$ = <span class="var" id="e10m0"></span> kg
+            are viteza $v$ = <span class="var" id="e10beta"></span>$c$.
+            Asupra ei acționează o forță paralelă cu viteza,
+            $F_\parallel$ = <span class="var" id="e10F"></span> N.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$.</li>
+            <li>Determină accelerația longitudinală $a_\parallel=F_\parallel/(\gamma^3m_0)$.</li>
+            <li>Compară cu accelerația clasică $a=F/m_0$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Forță și accelerație transversală. 4 p</h3>
+
+          <p>
+            O particulă cu masa de repaus $m_0$ = <span class="var" id="e11m0"></span> kg
+            are viteza $v$ = <span class="var" id="e11beta"></span>$c$.
+            O forță transversală $F_\perp$ = <span class="var" id="e11F"></span> N
+            acționează perpendicular pe viteză.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$.</li>
+            <li>Determină accelerația transversală $a_\perp=F_\perp/(\gamma m_0)$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Puterea relativistă. 4 p</h3>
+
+          <p>
+            O forță paralelă cu viteza are modulul $F$ =
+            <span class="var" id="e12F"></span> N.
+            Particula se deplasează cu viteza $v$ =
+            <span class="var" id="e12beta"></span>$c$.
+            Folosește $c=3\cdot10^8\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează puterea $P=Fv$.</li>
+            <li>Interpretează semnificația relației $P=dE/dt$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>16. Limita clasică pentru energia cinetică. 4 p</h3>
+
+          <p>
+            O particulă are energia de repaus $E_0$ =
+            <span class="var" id="e13E0"></span> MeV și viteza
+            $v$ = <span class="var" id="e13beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează energia cinetică relativistă.</li>
+            <li>Calculează aproximația clasică $K_{cl}=\frac12E_0\beta^2$.</li>
+            <li>Compară rezultatele.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>17. Dinamica relativistă: impuls, energie și forță. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat despre elementele de dinamică relativistă.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>de ce formula clasică $\vec p=m\vec v$ trebuie modificată la viteze relativiste;</li>
+            <li>definiția factorului Lorentz;</li>
+            <li>relația $m_{\text{rel}}=\gamma m_0$ ca formulare tradițională și observația privind masa invariantă;</li>
+            <li>deducerea și interpretarea impulsului relativist $\vec p=\gamma m_0\vec v$;</li>
+            <li>relațiile $E_0=m_0c^2$, $E=\gamma m_0c^2$ și $K=(\gamma-1)m_0c^2$;</li>
+            <li>relația energie–impuls $E^2=p^2c^2+m_0^2c^4$;</li>
+            <li>cazul fotonului $E=pc$;</li>
+            <li>două capcane de interpretare frecvente.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–16, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> factor Lorentz și impuls 3 p, masă–energie 3 p, energie cinetică 2 p, energie–impuls 3 p, foton și limită clasică 2 p, capcane și claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C15-elemente-de-dinamica-relativista.html">Înapoi la lecția C15</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c15", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c15");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function gamma(beta) {
+      return 1 / Math.sqrt(1 - beta * beta);
+    }
+
+    function generateValues() {
+      const betaSet = [0.2, 0.4, 0.5, 0.6, 0.8];
+
+      const e1 = {
+        m0: choose([0.511, 105.7, 140, 938]),
+        beta: choose(betaSet)
+      };
+
+      const e2 = {
+        m0: choose([0.511, 105.7, 140, 938]),
+        beta: choose([0.5, 0.6, 0.8])
+      };
+
+      const e3 = {
+        E0: choose([0.511, 105.7, 140, 938]),
+        beta: choose([0.5, 0.6, 0.8])
+      };
+
+      const e4 = {
+        m0: choose([0.511, 105.7, 140, 938]),
+        gamma: choose([1.25, 1.5, 2, 3, 5])
+      };
+
+      const e5m0 = choose([100, 200, 500, 938]);
+      const e5p = choose([100, 200, 300, 500, 800]);
+      const e5 = {
+        m0: e5m0,
+        p: e5p
+      };
+
+      const e6E = choose([500, 800, 1000, 1500, 2000]);
+      const e6beta = choose([0.3, 0.5, 0.6, 0.8]);
+      const e6 = {
+        E: e6E,
+        p: e6E * e6beta
+      };
+
+      const e7m0 = choose([100, 200, 500, 938]);
+      const e7gamma = choose([1.25, 1.5, 2, 3]);
+      const e7E = e7gamma * e7m0;
+      const e7p = Math.sqrt(e7E * e7E - e7m0 * e7m0);
+      const e7 = {
+        E: e7E,
+        p: e7p
+      };
+
+      const e8 = {
+        E: choose([1.5, 2, 3, 4, 5, 6])
+      };
+
+      const e9 = {
+        dm: choose([0.002, 0.005, 0.01, 0.02, 0.05])
+      };
+
+      const e10 = {
+        m0: choose([1e-27, 2e-27, 5e-27]),
+        beta: choose([0.5, 0.6, 0.8]),
+        F: choose([1e-12, 2e-12, 5e-12])
+      };
+
+      const e11 = {
+        m0: choose([1e-27, 2e-27, 5e-27]),
+        beta: choose([0.5, 0.6, 0.8]),
+        F: choose([1e-12, 2e-12, 5e-12])
+      };
+
+      const e12 = {
+        F: choose([1e-12, 2e-12, 5e-12]),
+        beta: choose([0.2, 0.5, 0.8])
+      };
+
+      const e13 = {
+        E0: choose([0.511, 105.7, 140, 938]),
+        beta: choose([0.02, 0.05, 0.1, 0.2, 0.6])
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13 };
+      localStorage.setItem("values-fisa-c15", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1m0", fmt(data.e1.m0, 3));
+      setText("e1beta", fmt(data.e1.beta, 2));
+
+      setText("e2m0", fmt(data.e2.m0, 3));
+      setText("e2beta", fmt(data.e2.beta, 2));
+
+      setText("e3E0", fmt(data.e3.E0, 3));
+      setText("e3beta", fmt(data.e3.beta, 2));
+
+      setText("e4m0", fmt(data.e4.m0, 3));
+      setText("e4gamma", fmt(data.e4.gamma, 2));
+
+      setText("e5m0", fmt(data.e5.m0, 0));
+      setText("e5p", fmt(data.e5.p, 0));
+
+      setText("e6E", fmt(data.e6.E, 0));
+      setText("e6p", fmt(data.e6.p, 3));
+
+      setText("e7E", fmt(data.e7.E, 3));
+      setText("e7p", fmt(data.e7.p, 3));
+
+      setText("e8E", fmt(data.e8.E, 2));
+
+      setText("e9dm", fmt(data.e9.dm, 3));
+
+      setText("e10m0", data.e10.m0.toExponential(1).replace(".", ","));
+      setText("e10beta", fmt(data.e10.beta, 2));
+      setText("e10F", data.e10.F.toExponential(1).replace(".", ","));
+
+      setText("e11m0", data.e11.m0.toExponential(1).replace(".", ","));
+      setText("e11beta", fmt(data.e11.beta, 2));
+      setText("e11F", data.e11.F.toExponential(1).replace(".", ","));
+
+      setText("e12F", data.e12.F.toExponential(1).replace(".", ","));
+      setText("e12beta", fmt(data.e12.beta, 2));
+
+      setText("e13E0", fmt(data.e13.E0, 3));
+      setText("e13beta", fmt(data.e13.beta, 2));
+    }
+
+    function renderSolutions(data) {
+      const e1g = gamma(data.e1.beta);
+      const e1mrel = e1g * data.e1.m0;
+
+      const e2g = gamma(data.e2.beta);
+      const e2p = e2g * data.e2.m0 * data.e2.beta;
+      const e2pcl = data.e2.m0 * data.e2.beta;
+
+      const e3g = gamma(data.e3.beta);
+      const e3E = e3g * data.e3.E0;
+      const e3K = e3E - data.e3.E0;
+
+      const e4E = data.e4.gamma * data.e4.m0;
+      const e4K = (data.e4.gamma - 1) * data.e4.m0;
+      const e4beta = Math.sqrt(1 - 1 / (data.e4.gamma * data.e4.gamma));
+
+      const e5E = Math.sqrt(data.e5.p * data.e5.p + data.e5.m0 * data.e5.m0);
+      const e5K = e5E - data.e5.m0;
+
+      const e6beta = data.e6.p / data.e6.E;
+      const e6g = 1 / Math.sqrt(1 - e6beta * e6beta);
+
+      const e7m0 = Math.sqrt(data.e7.E * data.e7.E - data.e7.p * data.e7.p);
+
+      const e8p = data.e8.E;
+      const e8lambda = 1240 / data.e8.E;
+
+      const e9EMeV = data.e9.dm * 931.5;
+      const e9J = e9EMeV * 1.6e-13;
+
+      const e10g = gamma(data.e10.beta);
+      const e10arel = data.e10.F / (Math.pow(e10g, 3) * data.e10.m0);
+      const e10acl = data.e10.F / data.e10.m0;
+
+      const e11g = gamma(data.e11.beta);
+      const e11a = data.e11.F / (e11g * data.e11.m0);
+
+      const e12v = data.e12.beta * 3e8;
+      const e12P = data.e12.F * e12v;
+
+      const e13g = gamma(data.e13.beta);
+      const e13Krel = (e13g - 1) * data.e13.E0;
+      const e13Kcl = 0.5 * data.e13.E0 * data.e13.beta * data.e13.beta;
+      const e13diff = e13Krel === 0 ? 0 : Math.abs(e13Krel - e13Kcl) / e13Krel * 100;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Factor Lorentz și masă relativistă</h3>
+          <div class="formula">
+            $$\\gamma=\\frac{1}{\\sqrt{1-\\beta^2}}
+            =\\frac{1}{\\sqrt{1-${tex(data.e1.beta, 2)}^2}}
+            =${tex(e1g, 5)}$$
+            $$m_{rel}=\\gamma m_0
+            =${tex(e1g, 5)}\\cdot ${tex(data.e1.m0, 3)}
+            =${tex(e1mrel, 5)}\\,\\text{MeV}/c^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Impuls relativist</h3>
+          <div class="formula">
+            $$\\gamma=${tex(e2g, 5)}$$
+            $$p=\\gamma m_0v$$
+            $$p=\\gamma m_0\\beta c$$
+            $$p=${tex(e2g, 5)}\\cdot ${tex(data.e2.m0, 3)}\\cdot ${tex(data.e2.beta, 2)}
+            =${tex(e2p, 5)}\\,\\text{MeV}/c$$
+            $$p_{cl}=m_0\\beta c
+            =${tex(e2pcl, 5)}\\,\\text{MeV}/c$$
+          </div>
+          <p>Impulsul relativist este mai mare decât impulsul clasic cu factorul $\\gamma$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Energia totală și energia cinetică</h3>
+          <div class="formula">
+            $$\\gamma=${tex(e3g, 5)}$$
+            $$E=\\gamma E_0
+            =${tex(e3g, 5)}\\cdot ${tex(data.e3.E0, 3)}
+            =${tex(e3E, 5)}\\,\\text{MeV}$$
+            $$K=E-E_0
+            =${tex(e3E, 5)}-${tex(data.e3.E0, 3)}
+            =${tex(e3K, 5)}\\,\\text{MeV}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Energia cinetică din factorul Lorentz</h3>
+          <div class="formula">
+            $$E=\\gamma m_0c^2
+            =${tex(data.e4.gamma, 2)}\\cdot ${tex(data.e4.m0, 3)}
+            =${tex(e4E, 5)}\\,\\text{MeV}$$
+            $$K=(\\gamma-1)m_0c^2
+            =(${tex(data.e4.gamma, 2)}-1)${tex(data.e4.m0, 3)}
+            =${tex(e4K, 5)}\\,\\text{MeV}$$
+            $$\\beta=\\sqrt{1-\\frac{1}{\\gamma^2}}
+            =${tex(e4beta, 5)}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Relația energie–impuls</h3>
+          <div class="formula">
+            $$E^2=p^2+m_0^2\\qquad(c=1)$$
+            $$E=\\sqrt{p^2+m_0^2}
+            =\\sqrt{${tex(data.e5.p, 0)}^2+${tex(data.e5.m0, 0)}^2}
+            =${tex(e5E, 5)}\\,\\text{MeV}$$
+            $$K=E-m_0c^2
+            =${tex(e5E, 5)}-${tex(data.e5.m0, 0)}
+            =${tex(e5K, 5)}\\,\\text{MeV}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Viteza din energie și impuls</h3>
+          <div class="formula">
+            $$\\beta=\\frac{pc}{E}$$
+            $$\\beta=\\frac{${tex(data.e6.p, 3)}}{${tex(data.e6.E, 0)}}
+            =${tex(e6beta, 5)}$$
+            $$\\gamma=\\frac{1}{\\sqrt{1-\\beta^2}}
+            =${tex(e6g, 5)}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Determinarea masei de repaus</h3>
+          <div class="formula">
+            $$m_0^2c^4=E^2-p^2c^2$$
+            $$m_0c^2=\\sqrt{E^2-p^2c^2}$$
+            $$m_0c^2=\\sqrt{${tex(data.e7.E, 3)}^2-${tex(data.e7.p, 3)}^2}
+            =${tex(e7m0, 5)}\\,\\text{MeV}$$
+            $$m_0=${tex(e7m0, 5)}\\,\\text{MeV}/c^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Foton: energie și impuls</h3>
+          <div class="formula">
+            $$E=pc\\Rightarrow p=\\frac{E}{c}$$
+            $$p=${tex(e8p, 3)}\\,\\text{eV}/c$$
+            $$\\lambda=\\frac{hc}{E}
+            =\\frac{1240}{${tex(data.e8.E, 2)}}
+            =${tex(e8lambda, 5)}\\,\\text{nm}$$
+          </div>
+          <p>Fotonul are $m_0=0$; pentru el se folosește relația $E=pc$, nu formula pentru particule masive.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Defect de masă</h3>
+          <div class="formula">
+            $$\\Delta E=\\Delta mc^2$$
+            $$\\Delta E=${tex(data.e9.dm, 3)}\\cdot931{,}5
+            =${tex(e9EMeV, 5)}\\,\\text{MeV}$$
+            $$\\Delta E=${tex(e9EMeV, 5)}\\cdot1{,}6\\cdot10^{-13}
+            =${e9J.toExponential(5).replace(".", "{,}")}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Accelerație longitudinală</h3>
+          <div class="formula">
+            $$\\gamma=${tex(e10g, 5)}$$
+            $$a_\\parallel=\\frac{F_\\parallel}{\\gamma^3m_0}$$
+            $$a_\\parallel=\\frac{${data.e10.F.toExponential(1).replace(".", "{,}")}}{
+            ${tex(e10g, 5)}^3\\cdot ${data.e10.m0.toExponential(1).replace(".", "{,}")}}
+            =${e10arel.toExponential(5).replace(".", "{,}")}\\,\\text{m/s}^2$$
+            $$a_{cl}=\\frac{F}{m_0}
+            =${e10acl.toExponential(5).replace(".", "{,}")}\\,\\text{m/s}^2$$
+          </div>
+          <p>Accelerația longitudinală relativistă este mai mică decât cea clasică prin factorul $\\gamma^3$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Accelerație transversală</h3>
+          <div class="formula">
+            $$\\gamma=${tex(e11g, 5)}$$
+            $$a_\\perp=\\frac{F_\\perp}{\\gamma m_0}$$
+            $$a_\\perp=\\frac{${data.e11.F.toExponential(1).replace(".", "{,}")}}{
+            ${tex(e11g, 5)}\\cdot ${data.e11.m0.toExponential(1).replace(".", "{,}")}}
+            =${e11a.toExponential(5).replace(".", "{,}")}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Puterea relativistă</h3>
+          <div class="formula">
+            $$v=\\beta c=${tex(data.e12.beta, 2)}\\cdot3\\cdot10^8
+            =${e12v.toExponential(5).replace(".", "{,}")}\\,\\text{m/s}$$
+            $$P=Fv
+            =${data.e12.F.toExponential(1).replace(".", "{,}")}\\cdot ${e12v.toExponential(5).replace(".", "{,}")}
+            =${e12P.toExponential(5).replace(".", "{,}")}\\,\\text{W}$$
+          </div>
+          <p>Relația $P=dE/dt$ arată ritmul cu care crește energia totală relativistă a particulei.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>16. Limita clasică</h3>
+          <div class="formula">
+            $$\\gamma=\\frac{1}{\\sqrt{1-${tex(data.e13.beta, 2)}^2}}
+            =${tex(e13g, 8)}$$
+            $$K_{rel}=(\\gamma-1)E_0
+            =(${tex(e13g, 8)}-1)${tex(data.e13.E0, 3)}
+            =${tex(e13Krel, 8)}\\,\\text{MeV}$$
+            $$K_{cl}=\\frac12E_0\\beta^2
+            =\\frac12\\cdot ${tex(data.e13.E0, 3)}\\cdot ${tex(data.e13.beta, 2)}^2
+            =${tex(e13Kcl, 8)}\\,\\text{MeV}$$
+            $$\\text{diferență relativă}=${tex(e13diff, 5)}\\%$$
+          </div>
+          <p>Pentru viteze mici, cele două rezultate sunt apropiate; pentru viteze relativiste, diferența crește.</p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c15");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c15");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
