@@ -1,1 +1,1327 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 5 – Teoremele mecanicii clasice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 180px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .grid-3,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 5 • Teoremele mecanicii clasice</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C05-teoremele-mecanicii-clasice.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 5</span>
+        <h1>Teoremele mecanicii clasice: energie, impuls, moment cinetic</h1>
+
+        <p class="lead">
+          Fișă completă pentru teorema energiei cinetice, conservarea energiei mecanice,
+          teorema impulsului, conservarea impulsului, centrul de masă, momentul forței,
+          momentul cinetic și legile de conservare.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 80 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Lucrul mecanic</strong>
+            <p>
+              Lucrul mecanic al unei forțe constante este produsul scalar dintre forță și deplasare.
+            </p>
+            <div class="formula">
+              $$L=\vec F\cdot\Delta\vec r=F\Delta r\cos\alpha$$
+              $$[L]_{SI}=1\,\text{J}=1\,\text{N}\cdot\text{m}$$
+            </div>
+            <p>
+              Dacă forța este în sensul deplasării, lucrul este pozitiv. Dacă este opusă deplasării,
+              lucrul este negativ.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Energia cinetică</strong>
+            <p>
+              Energia cinetică exprimă energia asociată mișcării corpului.
+            </p>
+            <div class="formula">
+              $$E_c=\frac{1}{2}mv^2$$
+            </div>
+            <p>
+              Energia cinetică este scalară și este întotdeauna nenegativă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Teorema energiei cinetice</strong>
+            <p>
+              Lucrul mecanic al rezultantei forțelor este egal cu variația energiei cinetice.
+            </p>
+            <div class="formula">
+              $$L_{\text{rez}}=\Delta E_c=E_{c,f}-E_{c,i}$$
+            </div>
+            <p>
+              Este foarte utilă când nu se cere timpul mișcării.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Forțe conservative și energie potențială</strong>
+            <p>
+              Pentru o forță conservativă, lucrul mecanic nu depinde de drum, ci doar de pozițiile
+              inițială și finală.
+            </p>
+            <div class="formula">
+              $$L_c=-\Delta E_p$$
+              $$E_{p,g}=mgh,\qquad E_{p,e}=\frac{1}{2}kx^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Conservarea energiei mecanice</strong>
+            <p>
+              Dacă acționează numai forțe conservative, energia mecanică se conservă.
+            </p>
+            <div class="formula">
+              $$E_m=E_c+E_p$$
+              $$E_{m,i}=E_{m,f}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>6. Forțe neconservative</strong>
+            <p>
+              Dacă apar forțe de frecare sau rezistențe, energia mecanică nu se conservă.
+            </p>
+            <div class="formula">
+              $$L_{nc}=\Delta E_m$$
+            </div>
+            <p>
+              Frecarea transformă energie mecanică în energie internă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Puterea mecanică</strong>
+            <p>
+              Puterea arată cât lucru mecanic se efectuează în unitatea de timp.
+            </p>
+            <div class="formula">
+              $$P=\frac{L}{\Delta t}$$
+              $$P=\vec F\cdot\vec v=Fv\cos\alpha$$
+              $$[P]_{SI}=1\,\text{W}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>8. Impulsul mecanic</strong>
+            <p>
+              Impulsul mecanic al unui punct material este:
+            </p>
+            <div class="formula">
+              $$\vec p=m\vec v$$
+            </div>
+            <p>
+              Impulsul este mărime vectorială și are aceeași direcție cu viteza.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>9. Teorema impulsului</strong>
+            <p>
+              Impulsul forței rezultante este egal cu variația impulsului mecanic.
+            </p>
+            <div class="formula">
+              $$\vec I=\vec F_{\text{med}}\Delta t$$
+              $$\vec I=\Delta\vec p=\vec p_f-\vec p_i$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Conservarea impulsului</strong>
+            <p>
+              Pentru un sistem izolat, impulsul total se conservă.
+            </p>
+            <div class="formula">
+              $$\sum \vec F_{\text{ext}}=\vec0\Rightarrow \vec P=\text{constant}$$
+              $$\sum_i m_i\vec v_i=\text{constant}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>11. Centrul de masă</strong>
+            <p>
+              Pentru două corpuri pe aceeași axă:
+            </p>
+            <div class="formula">
+              $$x_C=\frac{m_1x_1+m_2x_2}{m_1+m_2}$$
+            </div>
+            <p>
+              Viteza centrului de masă:
+            </p>
+            <div class="formula">
+              $$\vec V_C=\frac{\sum_i m_i\vec v_i}{\sum_i m_i}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>12. Momentul forței</strong>
+            <p>
+              Momentul unei forțe față de un punct este:
+            </p>
+            <div class="formula">
+              $$\vec M=\vec r\times\vec F$$
+              $$M=rF\sin\alpha$$
+            </div>
+            <p>
+              El măsoară tendința forței de a produce rotație.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Momentul cinetic</strong>
+            <p>
+              Momentul cinetic al unui punct material față de un punct este:
+            </p>
+            <div class="formula">
+              $$\vec L=\vec r\times\vec p$$
+              $$L=rmv\sin\alpha$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>14. Teorema momentului cinetic</strong>
+            <p>
+              Derivata momentului cinetic în raport cu timpul este egală cu momentul rezultant al forțelor.
+            </p>
+            <div class="formula">
+              $$\frac{d\vec L}{dt}=\vec M_{\text{rez}}$$
+            </div>
+            <p>
+              Dacă momentul rezultant este nul, momentul cinetic se conservă.
+            </p>
+            <div class="formula">
+              $$\vec M_{\text{rez}}=\vec0\Rightarrow \vec L=\text{constant}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          lucrul mecanic este scalar, impulsul este vectorial; conservarea energiei mecanice nu se aplică
+          dacă frecarea efectuează lucru mecanic; conservarea impulsului cere sistem izolat; momentul forței
+          depinde de brațul forței, nu doar de modulul forței.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mărime / teoremă</th>
+                  <th>Relație</th>
+                  <th>Tip de mărime</th>
+                  <th>Condiție / observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lucru mecanic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Depinde de unghiul dintre forță și deplasare.</td>
+                </tr>
+                <tr>
+                  <td>Energie cinetică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Este nenegativă.</td>
+                </tr>
+                <tr>
+                  <td>Teorema energiei cinetice</td>
+                  <td></td>
+                  <td>relație energetică</td>
+                  <td>Valabilă pentru lucrul rezultantei.</td>
+                </tr>
+                <tr>
+                  <td>Impuls mecanic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Are direcția vitezei.</td>
+                </tr>
+                <tr>
+                  <td>Teorema impulsului</td>
+                  <td></td>
+                  <td>relație vectorială</td>
+                  <td>Leagă impulsul forței de variația impulsului.</td>
+                </tr>
+                <tr>
+                  <td>Momentul forței</td>
+                  <td></td>
+                  <td></td>
+                  <td>Produce rotație.</td>
+                </tr>
+                <tr>
+                  <td>Moment cinetic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Se conservă dacă momentul rezultant este nul.</td>
+                </tr>
+                <tr>
+                  <td>Putere mecanică</td>
+                  <td></td>
+                  <td>scalară</td>
+                  <td>Lucru mecanic pe unitatea de timp.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Lucrul mecanic al forței rezultante este egal cu variația energiei cinetice.</li>
+            <li>Energia cinetică poate fi negativă dacă viteza este negativă.</li>
+            <li>Impulsul mecanic este mărime vectorială.</li>
+            <li>Într-un sistem izolat, impulsul total se conservă.</li>
+            <li>Momentul forței este maxim când forța este paralelă cu brațul forței.</li>
+            <li>Momentul cinetic se conservă dacă momentul rezultant al forțelor exterioare este nul.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$L=$ <span class="line"></span></p>
+              <p>$E_c=$ <span class="line"></span></p>
+              <p>$L_{\text{rez}}=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$\vec p=$ <span class="line"></span></p>
+              <p>$\vec I=$ <span class="line"></span></p>
+              <p>$\vec M=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Lucrul mecanic al unei forțe constante. 5 p</h3>
+
+          <p>
+            O forță constantă de modul
+            $F=<span class="var" id="e1F"></span>\,\text{N}$
+            acționează asupra unui corp pe distanța
+            $s=<span class="var" id="e1s"></span>\,\text{m}$,
+            făcând un unghi
+            $\alpha=<span class="var" id="e1alpha"></span>^\circ$
+            cu direcția deplasării.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula lucrului mecanic.</li>
+            <li>Calculează lucrul mecanic.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Teorema energiei cinetice. 6 p</h3>
+
+          <p>
+            Un corp de masă
+            $m=<span class="var" id="e2m"></span>\,\text{kg}$
+            pornește cu viteza
+            $v_i=<span class="var" id="e2vi"></span>\,\text{m/s}$
+            și ajunge la viteza
+            $v_f=<span class="var" id="e2vf"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează energia cinetică inițială.</li>
+            <li>Calculează energia cinetică finală.</li>
+            <li>Determină lucrul mecanic al rezultantei forțelor.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Plan orizontal cu frecare folosind energia. 7 p</h3>
+
+          <p>
+            Un corp de masă
+            $m=<span class="var" id="e3m"></span>\,\text{kg}$
+            se deplasează pe un plan orizontal cu viteza inițială
+            $v_0=<span class="var" id="e3v0"></span>\,\text{m/s}$.
+            Coeficientul de frecare este
+            $\mu=<span class="var" id="e3mu"></span>$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină forța de frecare.</li>
+            <li>Folosind teorema energiei cinetice, determină distanța de oprire.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Conservarea energiei mecanice la cădere. 6 p</h3>
+
+          <p>
+            Un corp este lăsat liber de la înălțimea
+            $h=<span class="var" id="e4h"></span>\,\text{m}$.
+            Neglijăm frecările și luăm $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea conservării energiei mecanice.</li>
+            <li>Determină viteza corpului înainte de contactul cu solul.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Puterea mecanică. 5 p</h3>
+
+          <p>
+            Un motor efectuează lucrul mecanic
+            $L=<span class="var" id="e5L"></span>\,\text{kJ}$
+            în timpul
+            $t=<span class="var" id="e5t"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă lucrul mecanic în jouli.</li>
+            <li>Calculează puterea medie.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Impulsul mecanic. 5 p</h3>
+
+          <p>
+            Un corp de masă
+            $m=<span class="var" id="e6m"></span>\,\text{kg}$
+            se deplasează cu viteza
+            $v=<span class="var" id="e6v"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină impulsul mecanic.</li>
+            <li>Precizează direcția și sensul impulsului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Teorema impulsului. 6 p</h3>
+
+          <p>
+            O forță constantă
+            $F=<span class="var" id="e7F"></span>\,\text{N}$
+            acționează timp de
+            $\Delta t=<span class="var" id="e7t"></span>\,\text{s}$
+            asupra unui corp de masă
+            $m=<span class="var" id="e7m"></span>\,\text{kg}$
+            aflat inițial în repaus.
+          </p>
+
+          <ol type="a">
+            <li>Determină impulsul forței.</li>
+            <li>Determină viteza finală a corpului.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Conservarea impulsului – lipire după ciocnire. 6 p</h3>
+
+          <p>
+            Două corpuri se deplasează pe aceeași dreaptă. Primul are masa
+            $m_1=<span class="var" id="e8m1"></span>\,\text{kg}$
+            și viteza
+            $v_1=<span class="var" id="e8v1"></span>\,\text{m/s}$.
+            Al doilea are masa
+            $m_2=<span class="var" id="e8m2"></span>\,\text{kg}$
+            și este inițial în repaus. După interacțiune, corpurile rămân lipite.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea conservării impulsului.</li>
+            <li>Determină viteza comună finală.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Centrul de masă pe o axă. 5 p</h3>
+
+          <p>
+            Două corpuri punctiforme sunt așezate pe axa $Ox$.
+            Primul are masa
+            $m_1=<span class="var" id="e9m1"></span>\,\text{kg}$
+            și poziția $x_1=0\,\text{m}$.
+            Al doilea are masa
+            $m_2=<span class="var" id="e9m2"></span>\,\text{kg}$
+            și poziția
+            $x_2=<span class="var" id="e9x2"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula centrului de masă.</li>
+            <li>Calculează poziția centrului de masă.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Momentul unei forțe. 5 p</h3>
+
+          <p>
+            O forță de modul
+            $F=<span class="var" id="e10F"></span>\,\text{N}$
+            acționează la distanța
+            $r=<span class="var" id="e10r"></span>\,\text{m}$
+            față de axa de rotație, sub unghiul
+            $\alpha=<span class="var" id="e10alpha"></span>^\circ$
+            față de brațul forței.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula momentului forței.</li>
+            <li>Calculează modulul momentului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Moment cinetic al unui punct material. 5 p</h3>
+
+          <p>
+            Un punct material de masă
+            $m=<span class="var" id="e11m"></span>\,\text{kg}$
+            se deplasează cu viteza
+            $v=<span class="var" id="e11v"></span>\,\text{m/s}$
+            la distanța
+            $r=<span class="var" id="e11r"></span>\,\text{m}$
+            față de un punct fix. Viteza este perpendiculară pe raza vectoare.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula momentului cinetic.</li>
+            <li>Calculează modulul momentului cinetic.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Conservarea momentului cinetic. 5 p</h3>
+
+          <p>
+            Un sistem aflat în rotație are momentul de inerție inițial
+            $I_1=<span class="var" id="e12I1"></span>\,\text{kg}\cdot\text{m}^2$
+            și viteza unghiulară inițială
+            $\omega_1=<span class="var" id="e12w1"></span>\,\text{rad/s}$.
+            Momentul de inerție scade la
+            $I_2=<span class="var" id="e12I2"></span>\,\text{kg}\cdot\text{m}^2$.
+            Momentul rezultant exterior este nul.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea conservării momentului cinetic.</li>
+            <li>Determină viteza unghiulară finală.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>16. Compară cele trei teoreme fundamentale. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care să compari:
+            <strong>teorema energiei cinetice</strong>, <strong>teorema impulsului</strong>
+            și <strong>teorema momentului cinetic</strong>.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>mărimea mecanică studiată în fiecare teoremă;</li>
+            <li>relația matematică principală;</li>
+            <li>condiția de conservare asociată;</li>
+            <li>un exemplu de problemă unde teorema este mai eficientă decât aplicarea directă a legii a II-a;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–15, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> comparație corectă 5 p, relații matematice 4 p, condiții de conservare 3 p, exemple și capcane 3 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C05-teoremele-mecanicii-clasice.html">Înapoi la lecția C05</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c05", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c05");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    const trig = {
+      0: { sin: 0, cos: 1 },
+      30: { sin: 0.5, cos: 0.866 },
+      45: { sin: 0.707, cos: 0.707 },
+      60: { sin: 0.866, cos: 0.5 },
+      90: { sin: 1, cos: 0 }
+    };
+
+    function generateValues() {
+      const e1alpha = choose([0, 30, 45, 60]);
+      const e1 = {
+        F: randInt(20, 100, 10),
+        s: randInt(2, 12),
+        alpha: e1alpha
+      };
+
+      const e2vi = randInt(0, 6);
+      const e2vf = e2vi + randInt(4, 12);
+      const e2 = {
+        m: randInt(2, 10),
+        vi: e2vi,
+        vf: e2vf
+      };
+
+      const e3 = {
+        m: randInt(2, 12),
+        v0: randInt(6, 18),
+        mu: choose([0.1, 0.15, 0.2, 0.25, 0.3]),
+        g: 10
+      };
+
+      const e4 = {
+        h: choose([5, 10, 15, 20, 25, 30]),
+        g: 10
+      };
+
+      const e5 = {
+        LkJ: randInt(20, 200, 10),
+        t: randInt(4, 20)
+      };
+
+      const e6 = {
+        m: randInt(2, 12),
+        v: randInt(3, 18)
+      };
+
+      const e7 = {
+        F: randInt(10, 80, 10),
+        t: randInt(2, 8),
+        m: randInt(2, 12)
+      };
+
+      const e8 = {
+        m1: randInt(1, 8),
+        v1: randInt(2, 12),
+        m2: randInt(1, 8)
+      };
+
+      const e9 = {
+        m1: randInt(1, 8),
+        m2: randInt(1, 8),
+        x2: randInt(2, 12)
+      };
+
+      const e10alpha = choose([30, 45, 60, 90]);
+      const e10 = {
+        F: randInt(10, 100, 10),
+        r: choose([0.2, 0.3, 0.4, 0.5, 0.8, 1, 1.2]),
+        alpha: e10alpha
+      };
+
+      const e11 = {
+        m: randInt(1, 8),
+        v: randInt(2, 12),
+        r: choose([0.5, 1, 1.5, 2, 2.5, 3])
+      };
+
+      const I2 = choose([1, 2, 3, 4, 5]);
+      const ratio = choose([2, 3, 4]);
+      const e12 = {
+        I2: I2,
+        I1: I2 * ratio,
+        w1: randInt(2, 10)
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 };
+      localStorage.setItem("values-fisa-c05", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1F", fmt(data.e1.F, 0));
+      setText("e1s", fmt(data.e1.s, 0));
+      setText("e1alpha", fmt(data.e1.alpha, 0));
+
+      setText("e2m", fmt(data.e2.m, 0));
+      setText("e2vi", fmt(data.e2.vi, 0));
+      setText("e2vf", fmt(data.e2.vf, 0));
+
+      setText("e3m", fmt(data.e3.m, 0));
+      setText("e3v0", fmt(data.e3.v0, 0));
+      setText("e3mu", fmt(data.e3.mu, 2));
+
+      setText("e4h", fmt(data.e4.h, 0));
+
+      setText("e5L", fmt(data.e5.LkJ, 0));
+      setText("e5t", fmt(data.e5.t, 0));
+
+      setText("e6m", fmt(data.e6.m, 0));
+      setText("e6v", fmt(data.e6.v, 0));
+
+      setText("e7F", fmt(data.e7.F, 0));
+      setText("e7t", fmt(data.e7.t, 0));
+      setText("e7m", fmt(data.e7.m, 0));
+
+      setText("e8m1", fmt(data.e8.m1, 0));
+      setText("e8v1", fmt(data.e8.v1, 0));
+      setText("e8m2", fmt(data.e8.m2, 0));
+
+      setText("e9m1", fmt(data.e9.m1, 0));
+      setText("e9m2", fmt(data.e9.m2, 0));
+      setText("e9x2", fmt(data.e9.x2, 0));
+
+      setText("e10F", fmt(data.e10.F, 0));
+      setText("e10r", fmt(data.e10.r, 2));
+      setText("e10alpha", fmt(data.e10.alpha, 0));
+
+      setText("e11m", fmt(data.e11.m, 0));
+      setText("e11v", fmt(data.e11.v, 0));
+      setText("e11r", fmt(data.e11.r, 2));
+
+      setText("e12I1", fmt(data.e12.I1, 0));
+      setText("e12w1", fmt(data.e12.w1, 0));
+      setText("e12I2", fmt(data.e12.I2, 0));
+    }
+
+    function renderSolutions(data) {
+      const cos1 = trig[data.e1.alpha].cos;
+      const e1L = data.e1.F * data.e1.s * cos1;
+
+      const e2Eci = 0.5 * data.e2.m * data.e2.vi ** 2;
+      const e2Ecf = 0.5 * data.e2.m * data.e2.vf ** 2;
+      const e2Lrez = e2Ecf - e2Eci;
+
+      const e3Ff = data.e3.mu * data.e3.m * data.e3.g;
+      const e3s = data.e3.m * data.e3.v0 ** 2 / (2 * e3Ff);
+
+      const e4v = Math.sqrt(2 * data.e4.g * data.e4.h);
+
+      const e5LJ = data.e5.LkJ * 1000;
+      const e5P = e5LJ / data.e5.t;
+
+      const e6p = data.e6.m * data.e6.v;
+
+      const e7I = data.e7.F * data.e7.t;
+      const e7vf = e7I / data.e7.m;
+
+      const e8vf = data.e8.m1 * data.e8.v1 / (data.e8.m1 + data.e8.m2);
+
+      const e9xC = data.e9.m2 * data.e9.x2 / (data.e9.m1 + data.e9.m2);
+
+      const sin10 = trig[data.e10.alpha].sin;
+      const e10M = data.e10.r * data.e10.F * sin10;
+
+      const e11L = data.e11.r * data.e11.m * data.e11.v;
+
+      const e12w2 = data.e12.I1 * data.e12.w1 / data.e12.I2;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Lucrul mecanic</h3>
+          <div class="formula">
+            $$L=Fs\\cos\\alpha$$
+            $$L=${tex(data.e1.F, 0)}\\cdot ${tex(data.e1.s, 0)}\\cdot \\cos ${tex(data.e1.alpha, 0)}^\\circ$$
+            $$L=${tex(data.e1.F, 0)}\\cdot ${tex(data.e1.s, 0)}\\cdot ${tex(cos1, 3)}
+            =${tex(e1L, 2)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Teorema energiei cinetice</h3>
+          <div class="formula">
+            $$E_{c,i}=\\frac12mv_i^2
+            =\\frac12\\cdot ${tex(data.e2.m, 0)}\\cdot ${tex(data.e2.vi, 0)}^2
+            =${tex(e2Eci, 2)}\\,\\text{J}$$
+            $$E_{c,f}=\\frac12mv_f^2
+            =\\frac12\\cdot ${tex(data.e2.m, 0)}\\cdot ${tex(data.e2.vf, 0)}^2
+            =${tex(e2Ecf, 2)}\\,\\text{J}$$
+            $$L_{rez}=\\Delta E_c=E_{c,f}-E_{c,i}
+            =${tex(e2Lrez, 2)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Oprire prin frecare</h3>
+          <div class="formula">
+            $$F_f=\\mu mg
+            =${tex(data.e3.mu, 2)}\\cdot ${tex(data.e3.m, 0)}\\cdot 10
+            =${tex(e3Ff, 2)}\\,\\text{N}$$
+            $$-F_fs=0-\\frac12mv_0^2$$
+            $$s=\\frac{mv_0^2}{2F_f}
+            =\\frac{${tex(data.e3.m, 0)}\\cdot ${tex(data.e3.v0, 0)}^2}{2\\cdot ${tex(e3Ff, 2)}}
+            =${tex(e3s, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Cădere liberă prin conservarea energiei</h3>
+          <div class="formula">
+            $$mgh=\\frac12mv^2$$
+            $$v=\\sqrt{2gh}=\\sqrt{2\\cdot10\\cdot ${tex(data.e4.h, 0)}}
+            =${tex(e4v, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Puterea mecanică</h3>
+          <div class="formula">
+            $$L=${tex(data.e5.LkJ, 0)}\\,\\text{kJ}
+            =${tex(e5LJ, 0)}\\,\\text{J}$$
+            $$P=\\frac{L}{t}
+            =\\frac{${tex(e5LJ, 0)}}{${tex(data.e5.t, 0)}}
+            =${tex(e5P, 2)}\\,\\text{W}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Impulsul mecanic</h3>
+          <div class="formula">
+            $$p=mv=${tex(data.e6.m, 0)}\\cdot ${tex(data.e6.v, 0)}
+            =${tex(e6p, 0)}\\,\\text{kg}\\cdot\\text{m/s}$$
+          </div>
+          <p>Impulsul are direcția și sensul vitezei.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Teorema impulsului</h3>
+          <div class="formula">
+            $$I=F\\Delta t
+            =${tex(data.e7.F, 0)}\\cdot ${tex(data.e7.t, 0)}
+            =${tex(e7I, 0)}\\,\\text{N}\\cdot\\text{s}$$
+            $$I=\\Delta p=mv_f-0$$
+            $$v_f=\\frac{I}{m}
+            =\\frac{${tex(e7I, 0)}}{${tex(data.e7.m, 0)}}
+            =${tex(e7vf, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Conservarea impulsului</h3>
+          <div class="formula">
+            $$m_1v_1+m_2v_2=(m_1+m_2)v_f$$
+            $$v_2=0$$
+            $$v_f=\\frac{m_1v_1}{m_1+m_2}
+            =\\frac{${tex(data.e8.m1, 0)}\\cdot ${tex(data.e8.v1, 0)}}{${tex(data.e8.m1, 0)}+${tex(data.e8.m2, 0)}}
+            =${tex(e8vf, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Centrul de masă</h3>
+          <div class="formula">
+            $$x_C=\\frac{m_1x_1+m_2x_2}{m_1+m_2}$$
+            $$x_1=0$$
+            $$x_C=\\frac{${tex(data.e9.m2, 0)}\\cdot ${tex(data.e9.x2, 0)}}{${tex(data.e9.m1, 0)}+${tex(data.e9.m2, 0)}}
+            =${tex(e9xC, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Momentul forței</h3>
+          <div class="formula">
+            $$M=rF\\sin\\alpha$$
+            $$M=${tex(data.e10.r, 2)}\\cdot ${tex(data.e10.F, 0)}\\cdot \\sin ${tex(data.e10.alpha, 0)}^\\circ$$
+            $$M=${tex(data.e10.r, 2)}\\cdot ${tex(data.e10.F, 0)}\\cdot ${tex(sin10, 3)}
+            =${tex(e10M, 2)}\\,\\text{N}\\cdot\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Moment cinetic</h3>
+          <div class="formula">
+            $$L=rmv\\sin90^\\circ=rmv$$
+            $$L=${tex(data.e11.r, 2)}\\cdot ${tex(data.e11.m, 0)}\\cdot ${tex(data.e11.v, 0)}
+            =${tex(e11L, 2)}\\,\\text{kg}\\cdot\\text{m}^2/\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Conservarea momentului cinetic</h3>
+          <div class="formula">
+            $$I_1\\omega_1=I_2\\omega_2$$
+            $$\\omega_2=\\frac{I_1\\omega_1}{I_2}
+            =\\frac{${tex(data.e12.I1, 0)}\\cdot ${tex(data.e12.w1, 0)}}{${tex(data.e12.I2, 0)}}
+            =${tex(e12w2, 2)}\\,\\text{rad/s}$$
+          </div>
+          <p>
+            Deoarece momentul de inerție scade, viteza unghiulară crește.
+          </p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c05");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c05");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
