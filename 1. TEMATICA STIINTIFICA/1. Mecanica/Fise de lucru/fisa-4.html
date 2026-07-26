@@ -1,1 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 4 – Principiile mecanicii newtoniene</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 125px; }
+    .answer-space.tall { min-height: 175px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .grid-3,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 115px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 4 • Principiile mecanicii newtoniene</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C04-principiile-mecanicii-newtoniene.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 4</span>
+        <h1>Principiile mecanicii newtoniene</h1>
+
+        <p class="lead">
+          Fișă completă pentru principiul inerției, principiul fundamental al dinamicii,
+          principiul acțiunii și reacțiunii, forțe uzuale, diagrame de corp liber,
+          sisteme inerțiale și sisteme neinerțiale.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 75 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Forța rezultantă</strong>
+            <p>
+              Mișcarea unui corp se schimbă numai dacă asupra lui acționează o forță rezultantă nenulă.
+            </p>
+            <div class="formula">
+              $$\vec F_{\text{rez}}=\sum_i \vec F_i$$
+            </div>
+            <p>
+              Forțele se compun vectorial, nu prin simpla adunare a modulelor în orice situație.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Principiul inerției</strong>
+            <p>
+              Dacă rezultanta forțelor este nulă, corpul își păstrează starea de repaus sau de mișcare
+              rectilinie uniformă.
+            </p>
+            <div class="formula">
+              $$\vec F_{\text{rez}}=\vec0\Rightarrow \vec v=\text{constant}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>3. Principiul fundamental al dinamicii</strong>
+            <p>
+              Accelerația unui corp este direct proporțională cu forța rezultantă și invers proporțională
+              cu masa corpului.
+            </p>
+            <div class="formula">
+              $$\vec F_{\text{rez}}=m\vec a$$
+              $$\sum F_x=ma_x,\qquad \sum F_y=ma_y$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>4. Principiul acțiunii și reacțiunii</strong>
+            <p>
+              Dacă un corp A acționează asupra corpului B cu o forță, corpul B acționează asupra lui A
+              cu o forță egală ca modul și opusă ca sens.
+            </p>
+            <div class="formula">
+              $$\vec F_{A\to B}=-\vec F_{B\to A}$$
+            </div>
+            <p>
+              Cele două forțe acționează pe corpuri diferite, deci nu se anulează între ele pe același corp.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Forțe uzuale</strong>
+            <div class="formula">
+              $$\vec G=m\vec g,\qquad G=mg$$
+              $$N=\text{reacțiunea normală}$$
+              $$T=\text{tensiunea în fir}$$
+              $$F_e=kx$$
+              $$F_f=\mu N$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>6. Frecarea</strong>
+            <p>
+              Frecarea se opune mișcării relative sau tendinței de mișcare relativă.
+            </p>
+            <div class="formula">
+              $$F_{f,\max}=\mu_sN$$
+              $$F_f=\mu_kN$$
+            </div>
+            <p>
+              În problemele simple cu alunecare se folosește frecarea cinetică $F_f=\mu N$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Sisteme inerțiale</strong>
+            <p>
+              Un sistem inerțial este un sistem în care principiul inerției este valabil.
+              Sistemele care se deplasează rectiliniu uniform față de un sistem inerțial sunt tot inerțiale.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Sisteme neinerțiale</strong>
+            <p>
+              Într-un sistem accelerat se introduc forțe de inerție pentru a putea aplica o formă
+              asemănătoare legii a II-a.
+            </p>
+            <div class="formula">
+              $$\vec F_i=-m\vec a_0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Mișcare circulară</strong>
+            <p>
+              Pentru mișcarea circulară, accelerația centripetă este produsă de o rezultantă orientată
+              spre centrul traiectoriei.
+            </p>
+            <div class="formula">
+              $$a_c=\frac{v^2}{R}=\omega^2R$$
+              $$F_c=m\frac{v^2}{R}=m\omega^2R$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Algoritm de rezolvare</strong>
+            <ol>
+              <li>Alege corpul studiat.</li>
+              <li>Desenează diagrama de corp liber.</li>
+              <li>Alege axele convenabile.</li>
+              <li>Proiectează forțele pe axe.</li>
+              <li>Scrie $\sum F_x=ma_x$, $\sum F_y=ma_y$.</li>
+              <li>Rezolvă sistemul și interpretează rezultatul.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          nu confunda greutatea cu masa; nu anula acțiunea și reacțiunea pe același corp;
+          nu scrie $N=mg$ automat; nu aplica $\vec F=m\vec a$ fără diagramă de corp liber.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Forță rezultantă</td>
+                  <td></td>
+                  <td>Suma vectorială a forțelor.</td>
+                </tr>
+                <tr>
+                  <td>Principiul inerției</td>
+                  <td></td>
+                  <td>Valabil în sisteme inerțiale.</td>
+                </tr>
+                <tr>
+                  <td>Principiul fundamental</td>
+                  <td></td>
+                  <td>Leagă rezultanta de accelerație.</td>
+                </tr>
+                <tr>
+                  <td>Acțiune–reacțiune</td>
+                  <td></td>
+                  <td>Forțele acționează pe corpuri diferite.</td>
+                </tr>
+                <tr>
+                  <td>Greutate</td>
+                  <td></td>
+                  <td>Forța gravitațională exercitată asupra corpului.</td>
+                </tr>
+                <tr>
+                  <td>Forță de inerție</td>
+                  <td></td>
+                  <td>Se introduce în sisteme neinerțiale.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Dacă $\vec F_{\text{rez}}=\vec0$, corpul poate fi în repaus sau în mișcare rectilinie uniformă.</li>
+            <li>Acțiunea și reacțiunea se anulează deoarece acționează pe același corp.</li>
+            <li>Accelerația are aceeași direcție și același sens cu forța rezultantă.</li>
+            <li>Masa se măsoară în newtoni.</li>
+            <li>Forța de frecare cinetică are modulul $F_f=\mu N$.</li>
+            <li>Într-un lift accelerat, greutatea aparentă poate fi diferită de $mg$.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>Rezultantă: $\vec F_{\text{rez}}=$ <span class="line"></span></p>
+              <p>Newton II: $\vec F_{\text{rez}}=$ <span class="line"></span></p>
+              <p>Greutate: $G=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>Frecare cinetică: $F_f=$ <span class="line"></span></p>
+              <p>Forță elastică: $F_e=$ <span class="line"></span></p>
+              <p>Forță de inerție: $\vec F_i=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Rezultanta forțelor coliniare. 5 p</h3>
+
+          <p>
+            Asupra unui corp acționează trei forțe coliniare:
+            $F_1=<span class="var" id="e1F1"></span>\,\text{N}$ spre dreapta,
+            $F_2=<span class="var" id="e1F2"></span>\,\text{N}$ spre dreapta și
+            $F_3=<span class="var" id="e1F3"></span>\,\text{N}$ spre stânga.
+          </p>
+
+          <ol type="a">
+            <li>Determină forța rezultantă.</li>
+            <li>Precizează sensul accelerației corpului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Corp pe plan orizontal fără frecare. 6 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e2m"></span>\,\text{kg}$
+            este tras pe un plan orizontal neted cu forța
+            $F=<span class="var" id="e2F"></span>\,\text{N}$.
+            Inițial corpul este în repaus. Determină accelerația, viteza și deplasarea după
+            $t=<span class="var" id="e2t"></span>\,\text{s}$.
+          </p>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Corp pe plan orizontal cu frecare. 7 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e3m"></span>\,\text{kg}$
+            este tras orizontal cu forța
+            $F=<span class="var" id="e3F"></span>\,\text{N}$.
+            Coeficientul de frecare cinetică este
+            $\mu=<span class="var" id="e3mu"></span>$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină reacțiunea normală.</li>
+            <li>Determină forța de frecare.</li>
+            <li>Determină accelerația corpului.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Plan înclinat fără frecare. 7 p</h3>
+
+          <p>
+            Un corp alunecă pe un plan înclinat fără frecare, de unghi
+            $\alpha=<span class="var" id="e4alpha"></span>^\circ$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie componenta greutății paralelă cu planul.</li>
+            <li>Determină accelerația corpului.</li>
+            <li>Determină reacțiunea normală pentru masa $m=<span class="var" id="e4m"></span>\,\text{kg}$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Plan înclinat cu frecare. 8 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e5m"></span>\,\text{kg}$
+            alunecă în jos pe un plan înclinat de unghi
+            $\alpha=<span class="var" id="e5alpha"></span>^\circ$.
+            Coeficientul de frecare este
+            $\mu=<span class="var" id="e5mu"></span>$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină componenta greutății pe direcția planului.</li>
+            <li>Determină reacțiunea normală.</li>
+            <li>Determină forța de frecare.</li>
+            <li>Determină accelerația.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Lift accelerat. 7 p</h3>
+
+          <p>
+            O persoană de masă $m=<span class="var" id="e6m"></span>\,\text{kg}$
+            se află într-un lift care accelerează vertical în sus cu
+            $a=<span class="var" id="e6a"></span>\,\text{m/s}^2$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină greutatea reală.</li>
+            <li>Determină reacțiunea podelei asupra persoanei.</li>
+            <li>Interpretează greutatea aparentă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Lift accelerat în jos. 6 p</h3>
+
+          <p>
+            Aceeași persoană are masa
+            $m=<span class="var" id="e7m"></span>\,\text{kg}$,
+            iar liftul accelerează vertical în jos cu
+            $a=<span class="var" id="e7a"></span>\,\text{m/s}^2$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină reacțiunea podelei.</li>
+            <li>Compară greutatea aparentă cu greutatea reală.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Acțiune și reacțiune. 5 p</h3>
+
+          <p>
+            Un elev împinge un perete cu forța
+            $F=<span class="var" id="e8F"></span>\,\text{N}$.
+          </p>
+
+          <ol type="a">
+            <li>Cu ce forță acționează peretele asupra elevului?</li>
+            <li>De ce aceste două forțe nu se anulează reciproc?</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Sistem neinerțial – autobuz accelerat. 7 p</h3>
+
+          <p>
+            Un autobuz accelerează înainte cu
+            $a_0=<span class="var" id="e9a0"></span>\,\text{m/s}^2$.
+            Un pasager de masă
+            $m=<span class="var" id="e9m"></span>\,\text{kg}$
+            descrie situația din sistemul autobuzului.
+          </p>
+
+          <ol type="a">
+            <li>Determină forța de inerție introdusă în sistemul autobuzului.</li>
+            <li>Precizează sensul acestei forțe.</li>
+            <li>Explică de ce pasagerul are tendința să se deplaseze spre spate.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Mișcare circulară și forță centripetă. 7 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e10m"></span>\,\text{kg}$
+            se mișcă uniform pe un cerc de rază
+            $R=<span class="var" id="e10R"></span>\,\text{m}$,
+            cu viteza
+            $v=<span class="var" id="e10v"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină accelerația centripetă.</li>
+            <li>Determină forța centripetă.</li>
+            <li>Precizează direcția și sensul forței rezultante.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>14. Diagrama de corp liber și aplicarea principiului fundamental. 15 p</h3>
+
+          <p>
+            Redactează o rezolvare generală pentru un corp tras pe un plan orizontal cu frecare.
+            Corpul are masa $m$, este tras cu o forță orizontală $F$, iar coeficientul de frecare este $\mu$.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>forțele care acționează asupra corpului;</li>
+            <li>diagrama de corp liber descrisă în cuvinte;</li>
+            <li>alegerea axelor;</li>
+            <li>ecuațiile pe axele $Ox$ și $Oy$;</li>
+            <li>formula accelerației;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–13, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> forțe corecte 3 p, ecuații pe axe 4 p, formulă finală 3 p, capcane 2 p, claritate 3 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C04-principiile-mecanicii-newtoniene.html">Înapoi la lecția C04</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c04", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c04");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    const trig = {
+      30: { sin: 0.5, cos: 0.866 },
+      37: { sin: 0.6, cos: 0.8 },
+      45: { sin: 0.707, cos: 0.707 },
+      53: { sin: 0.8, cos: 0.6 },
+      60: { sin: 0.866, cos: 0.5 }
+    };
+
+    function generateValues() {
+      const e1 = {
+        F1: randInt(10, 40, 5),
+        F2: randInt(10, 35, 5),
+        F3: randInt(5, 45, 5)
+      };
+
+      const e2m = randInt(2, 10);
+      const e2a = randInt(2, 6);
+      const e2 = {
+        m: e2m,
+        a: e2a,
+        F: e2m * e2a,
+        t: randInt(3, 8)
+      };
+
+      const e3m = randInt(4, 12);
+      const e3mu = choose([0.1, 0.15, 0.2, 0.25, 0.3]);
+      const e3a = randInt(1, 5);
+      const e3Ff = e3mu * e3m * 10;
+      const e3 = {
+        m: e3m,
+        mu: e3mu,
+        F: Math.round(e3m * e3a + e3Ff),
+        g: 10
+      };
+
+      const e4alpha = choose([30, 37, 45, 53, 60]);
+      const e4 = {
+        alpha: e4alpha,
+        m: randInt(2, 10),
+        g: 10
+      };
+
+      const e5alpha = choose([30, 37, 45, 53]);
+      const e5mu = choose([0.1, 0.15, 0.2, 0.25]);
+      const e5 = {
+        alpha: e5alpha,
+        mu: e5mu,
+        m: randInt(3, 12),
+        g: 10
+      };
+
+      const e6 = {
+        m: randInt(45, 90, 5),
+        a: randInt(1, 4),
+        g: 10
+      };
+
+      const e7 = {
+        m: randInt(45, 90, 5),
+        a: randInt(1, 4),
+        g: 10
+      };
+
+      const e8 = {
+        F: randInt(60, 250, 10)
+      };
+
+      const e9 = {
+        m: randInt(40, 90, 5),
+        a0: randInt(1, 5)
+      };
+
+      const e10 = {
+        m: randInt(1, 8),
+        R: choose([2, 3, 4, 5, 6, 8]),
+        v: randInt(4, 14)
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10 };
+      localStorage.setItem("values-fisa-c04", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1F1", fmt(data.e1.F1, 0));
+      setText("e1F2", fmt(data.e1.F2, 0));
+      setText("e1F3", fmt(data.e1.F3, 0));
+
+      setText("e2m", fmt(data.e2.m, 0));
+      setText("e2F", fmt(data.e2.F, 0));
+      setText("e2t", fmt(data.e2.t, 0));
+
+      setText("e3m", fmt(data.e3.m, 0));
+      setText("e3F", fmt(data.e3.F, 0));
+      setText("e3mu", fmt(data.e3.mu, 2));
+
+      setText("e4alpha", fmt(data.e4.alpha, 0));
+      setText("e4m", fmt(data.e4.m, 0));
+
+      setText("e5m", fmt(data.e5.m, 0));
+      setText("e5alpha", fmt(data.e5.alpha, 0));
+      setText("e5mu", fmt(data.e5.mu, 2));
+
+      setText("e6m", fmt(data.e6.m, 0));
+      setText("e6a", fmt(data.e6.a, 0));
+
+      setText("e7m", fmt(data.e7.m, 0));
+      setText("e7a", fmt(data.e7.a, 0));
+
+      setText("e8F", fmt(data.e8.F, 0));
+
+      setText("e9a0", fmt(data.e9.a0, 0));
+      setText("e9m", fmt(data.e9.m, 0));
+
+      setText("e10m", fmt(data.e10.m, 0));
+      setText("e10R", fmt(data.e10.R, 0));
+      setText("e10v", fmt(data.e10.v, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1F = data.e1.F1 + data.e1.F2 - data.e1.F3;
+      const e1sense = e1F > 0 ? "spre dreapta" : e1F < 0 ? "spre stânga" : "rezultantă nulă";
+
+      const e2a = data.e2.F / data.e2.m;
+      const e2v = e2a * data.e2.t;
+      const e2s = 0.5 * e2a * data.e2.t * data.e2.t;
+
+      const e3N = data.e3.m * data.e3.g;
+      const e3Ff = data.e3.mu * e3N;
+      const e3Frez = data.e3.F - e3Ff;
+      const e3a = e3Frez / data.e3.m;
+
+      const sin4 = trig[data.e4.alpha].sin;
+      const cos4 = trig[data.e4.alpha].cos;
+      const e4a = data.e4.g * sin4;
+      const e4N = data.e4.m * data.e4.g * cos4;
+
+      const sin5 = trig[data.e5.alpha].sin;
+      const cos5 = trig[data.e5.alpha].cos;
+      const e5Gpar = data.e5.m * data.e5.g * sin5;
+      const e5N = data.e5.m * data.e5.g * cos5;
+      const e5Ff = data.e5.mu * e5N;
+      const e5a = (e5Gpar - e5Ff) / data.e5.m;
+
+      const e6G = data.e6.m * data.e6.g;
+      const e6N = data.e6.m * (data.e6.g + data.e6.a);
+
+      const e7G = data.e7.m * data.e7.g;
+      const e7N = data.e7.m * (data.e7.g - data.e7.a);
+
+      const e9Fi = data.e9.m * data.e9.a0;
+
+      const e10ac = data.e10.v * data.e10.v / data.e10.R;
+      const e10Fc = data.e10.m * e10ac;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Rezultanta forțelor coliniare</h3>
+          <div class="formula">
+            $$F_{rez}=F_1+F_2-F_3
+            =${tex(data.e1.F1, 0)}+${tex(data.e1.F2, 0)}-${tex(data.e1.F3, 0)}
+            =${tex(e1F, 0)}\\,\\text{N}$$
+          </div>
+          <p>Sensul accelerației: <strong>${e1sense}</strong>.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Plan orizontal fără frecare</h3>
+          <div class="formula">
+            $$a=\\frac{F}{m}=\\frac{${tex(data.e2.F, 0)}}{${tex(data.e2.m, 0)}}
+            =${tex(e2a, 2)}\\,\\text{m/s}^2$$
+            $$v=at=${tex(e2a, 2)}\\cdot ${tex(data.e2.t, 0)}
+            =${tex(e2v, 2)}\\,\\text{m/s}$$
+            $$s=\\frac{at^2}{2}
+            =\\frac{${tex(e2a, 2)}\\cdot ${tex(data.e2.t, 0)}^2}{2}
+            =${tex(e2s, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Plan orizontal cu frecare</h3>
+          <div class="formula">
+            $$N=mg=${tex(data.e3.m, 0)}\\cdot10=${tex(e3N, 2)}\\,\\text{N}$$
+            $$F_f=\\mu N=${tex(data.e3.mu, 2)}\\cdot ${tex(e3N, 2)}
+            =${tex(e3Ff, 2)}\\,\\text{N}$$
+            $$F_{rez}=F-F_f=${tex(data.e3.F, 0)}-${tex(e3Ff, 2)}
+            =${tex(e3Frez, 2)}\\,\\text{N}$$
+            $$a=\\frac{F_{rez}}{m}
+            =\\frac{${tex(e3Frez, 2)}}{${tex(data.e3.m, 0)}}
+            =${tex(e3a, 2)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Plan înclinat fără frecare</h3>
+          <div class="formula">
+            $$G_{\\parallel}=mg\\sin\\alpha$$
+            $$a=g\\sin\\alpha=10\\cdot ${tex(sin4, 3)}
+            =${tex(e4a, 2)}\\,\\text{m/s}^2$$
+            $$N=mg\\cos\\alpha
+            =${tex(data.e4.m, 0)}\\cdot10\\cdot ${tex(cos4, 3)}
+            =${tex(e4N, 2)}\\,\\text{N}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Plan înclinat cu frecare</h3>
+          <div class="formula">
+            $$G_{\\parallel}=mg\\sin\\alpha
+            =${tex(data.e5.m, 0)}\\cdot10\\cdot ${tex(sin5, 3)}
+            =${tex(e5Gpar, 2)}\\,\\text{N}$$
+            $$N=mg\\cos\\alpha
+            =${tex(data.e5.m, 0)}\\cdot10\\cdot ${tex(cos5, 3)}
+            =${tex(e5N, 2)}\\,\\text{N}$$
+            $$F_f=\\mu N
+            =${tex(data.e5.mu, 2)}\\cdot ${tex(e5N, 2)}
+            =${tex(e5Ff, 2)}\\,\\text{N}$$
+            $$a=\\frac{G_{\\parallel}-F_f}{m}
+            =\\frac{${tex(e5Gpar, 2)}-${tex(e5Ff, 2)}}{${tex(data.e5.m, 0)}}
+            =${tex(e5a, 2)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Lift accelerat în sus</h3>
+          <div class="formula">
+            $$G=mg=${tex(data.e6.m, 0)}\\cdot10=${tex(e6G, 0)}\\,\\text{N}$$
+            $$N-mg=ma$$
+            $$N=m(g+a)
+            =${tex(data.e6.m, 0)}(10+${tex(data.e6.a, 0)})
+            =${tex(e6N, 0)}\\,\\text{N}$$
+          </div>
+          <p>Greutatea aparentă este mai mare decât greutatea reală.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Lift accelerat în jos</h3>
+          <div class="formula">
+            $$mg-N=ma$$
+            $$N=m(g-a)
+            =${tex(data.e7.m, 0)}(10-${tex(data.e7.a, 0)})
+            =${tex(e7N, 0)}\\,\\text{N}$$
+            $$G=mg=${tex(e7G, 0)}\\,\\text{N}$$
+          </div>
+          <p>Greutatea aparentă este mai mică decât greutatea reală.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Acțiune și reacțiune</h3>
+          <div class="formula">
+            $$F_{perete\\to elev}=F_{elev\\to perete}
+            =${tex(data.e8.F, 0)}\\,\\text{N}$$
+          </div>
+          <p>
+            Forța peretelui asupra elevului are același modul, aceeași direcție și sens opus.
+            Cele două forțe nu se anulează deoarece acționează pe corpuri diferite.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Autobuz accelerat</h3>
+          <div class="formula">
+            $$F_i=ma_0
+            =${tex(data.e9.m, 0)}\\cdot ${tex(data.e9.a0, 0)}
+            =${tex(e9Fi, 0)}\\,\\text{N}$$
+          </div>
+          <p>
+            Forța de inerție este orientată opus accelerației autobuzului, deci spre spate.
+            Pasagerul are tendința să rămână în starea inițială de mișcare, conform principiului inerției.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Forță centripetă</h3>
+          <div class="formula">
+            $$a_c=\\frac{v^2}{R}
+            =\\frac{${tex(data.e10.v, 0)}^2}{${tex(data.e10.R, 0)}}
+            =${tex(e10ac, 2)}\\,\\text{m/s}^2$$
+            $$F_c=ma_c
+            =${tex(data.e10.m, 0)}\\cdot ${tex(e10ac, 2)}
+            =${tex(e10Fc, 2)}\\,\\text{N}$$
+          </div>
+          <p>Forța rezultantă este orientată radial, spre centrul cercului.</p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c04");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c04");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
