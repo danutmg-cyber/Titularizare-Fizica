@@ -1,1 +1,1196 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 7 – Ciocniri elastice și inelastice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 180px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 7 • Ciocniri elastice și inelastice</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C07-ciocniri-elastice-si-inelastice.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 7</span>
+        <h1>Ciocniri elastice și inelastice</h1>
+
+        <p class="lead">
+          Fișă completă pentru studiul ciocnirilor unidimensionale: impuls, impulsul forței,
+          sistem izolat, conservarea impulsului, ciocniri elastice, ciocniri perfect inelastice,
+          energie cinetică pierdută, coeficient de restituire și explozii.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 80 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Ciocnirea</strong>
+            <p>
+              O ciocnire este o interacțiune de durată foarte scurtă între corpuri, în care forțele interne
+              sunt mari față de forțele externe obișnuite.
+            </p>
+            <p>
+              În timpul ciocnirii, impulsul total al sistemului poate fi considerat conservat dacă impulsul
+              forțelor externe este neglijabil.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Impulsul mecanic</strong>
+            <div class="formula">
+              $$\vec p=m\vec v$$
+              $$[\vec p]_{SI}=\text{kg}\cdot\text{m/s}$$
+            </div>
+            <p>
+              Impulsul este mărime vectorială. În problemele unidimensionale se lucrează cu semne.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Impulsul forței</strong>
+            <div class="formula">
+              $$\vec I=\int_{t_1}^{t_2}\vec F\,dt$$
+              $$\vec I=\vec F_{\text{med}}\Delta t$$
+              $$\vec I=\Delta\vec p$$
+            </div>
+            <p>
+              Forțele mari care acționează timp scurt pot produce variații importante ale impulsului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Sistem izolat</strong>
+            <p>
+              Un sistem este izolat dacă rezultanta forțelor externe este nulă sau dacă impulsul forțelor externe
+              este neglijabil în timpul interacțiunii.
+            </p>
+            <div class="formula">
+              $$\sum \vec F_{\text{ext}}=\vec0
+              \Rightarrow \vec P=\text{constant}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Conservarea impulsului</strong>
+            <p>
+              Pentru două corpuri:
+            </p>
+            <div class="formula">
+              $$m_1\vec v_1+m_2\vec v_2
+              =
+              m_1\vec u_1+m_2\vec u_2$$
+            </div>
+            <p>
+              $v_1$, $v_2$ sunt vitezele înainte de ciocnire, iar $u_1$, $u_2$ după ciocnire.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Ciocnire elastică</strong>
+            <p>
+              Într-o ciocnire elastică se conservă atât impulsul total, cât și energia cinetică totală.
+            </p>
+            <div class="formula">
+              $$P_i=P_f$$
+              $$E_{c,i}=E_{c,f}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>7. Ciocnire inelastică</strong>
+            <p>
+              Într-o ciocnire inelastică se conservă impulsul total, dar energia cinetică mecanică nu se conservă.
+            </p>
+            <div class="formula">
+              $$P_i=P_f,\qquad E_{c,f}<E_{c,i}$$
+            </div>
+            <p>
+              O parte din energia cinetică se transformă în căldură, deformări, sunet.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Ciocnire perfect inelastică</strong>
+            <p>
+              Corpurile rămân lipite după ciocnire și au aceeași viteză finală.
+            </p>
+            <div class="formula">
+              $$m_1v_1+m_2v_2=(m_1+m_2)u$$
+              $$u=\frac{m_1v_1+m_2v_2}{m_1+m_2}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Ciocnire elastică unidimensională</strong>
+            <p>
+              Pentru două corpuri pe aceeași dreaptă:
+            </p>
+            <div class="formula">
+              $$u_1=\frac{m_1-m_2}{m_1+m_2}v_1+\frac{2m_2}{m_1+m_2}v_2$$
+              $$u_2=\frac{2m_1}{m_1+m_2}v_1+\frac{m_2-m_1}{m_1+m_2}v_2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Caz particular: $m_1=m_2$</strong>
+            <p>
+              Într-o ciocnire elastică frontală între mase egale, corpurile își schimbă vitezele între ele.
+            </p>
+            <div class="formula">
+              $$m_1=m_2\Rightarrow u_1=v_2,\qquad u_2=v_1$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>11. Coeficientul de restituire</strong>
+            <p>
+              Pentru ciocniri unidimensionale:
+            </p>
+            <div class="formula">
+              $$e=\frac{u_2-u_1}{v_1-v_2}$$
+            </div>
+            <p>
+              Pentru ciocnire elastică $e=1$, iar pentru ciocnire perfect inelastică $e=0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>12. Energia pierdută la lipire</strong>
+            <p>
+              Energia cinetică pierdută într-o ciocnire perfect inelastică este:
+            </p>
+            <div class="formula">
+              $$\Delta E_{\text{pierdere}}=E_{c,i}-E_{c,f}$$
+            </div>
+            <p>
+              Pentru $v_2=0$:
+            </p>
+            <div class="formula">
+              $$\Delta E=\frac12\frac{m_1m_2}{m_1+m_2}v_1^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>13. Centrul de masă</strong>
+            <div class="formula">
+              $$V_C=\frac{m_1v_1+m_2v_2}{m_1+m_2}$$
+            </div>
+            <p>
+              Într-un sistem izolat, viteza centrului de masă rămâne constantă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Explozie / recul</strong>
+            <p>
+              Într-o explozie internă, impulsul total se conservă, deși energia cinetică poate crește
+              prin transformarea energiei interne.
+            </p>
+            <div class="formula">
+              $$\vec P_i=\vec P_f$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          impulsul este vectorial; energia cinetică nu se conservă în orice ciocnire;
+          forțele de acțiune și reacțiune sunt egale și opuse, dar acționează pe corpuri diferite;
+          la ciocniri în sensuri opuse, semnele vitezelor sunt esențiale.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / definiție</th>
+                  <th>Ce se conservă?</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Impuls mecanic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Mărime vectorială.</td>
+                </tr>
+                <tr>
+                  <td>Impulsul forței</td>
+                  <td></td>
+                  <td></td>
+                  <td>Egal cu variația impulsului mecanic.</td>
+                </tr>
+                <tr>
+                  <td>Sistem izolat</td>
+                  <td></td>
+                  <td>Impulsul total.</td>
+                  <td>Forțe externe nule sau neglijabile.</td>
+                </tr>
+                <tr>
+                  <td>Ciocnire elastică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Nu se pierde energie cinetică totală.</td>
+                </tr>
+                <tr>
+                  <td>Ciocnire inelastică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Energia cinetică scade.</td>
+                </tr>
+                <tr>
+                  <td>Ciocnire perfect inelastică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Corpurile rămân lipite.</td>
+                </tr>
+                <tr>
+                  <td>Coeficient de restituire</td>
+                  <td></td>
+                  <td></td>
+                  <td>$e=1$ elastic, $e=0$ perfect inelastic.</td>
+                </tr>
+                <tr>
+                  <td>Recul</td>
+                  <td></td>
+                  <td>Impulsul total.</td>
+                  <td>Apare prin conservarea impulsului.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Într-un sistem izolat, impulsul total se conservă.</li>
+            <li>Într-o ciocnire elastică se conservă energia cinetică totală.</li>
+            <li>Într-o ciocnire perfect inelastică, corpurile rămân lipite după ciocnire.</li>
+            <li>În orice ciocnire se conservă energia cinetică.</li>
+            <li>Impulsul mecanic este o mărime scalară.</li>
+            <li>Într-o explozie internă, impulsul total al sistemului se conservă.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\vec p=$ <span class="line"></span></p>
+              <p>$\vec I=$ <span class="line"></span></p>
+              <p>$m_1v_1+m_2v_2=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$u_{\text{lipire}}=$ <span class="line"></span></p>
+              <p>$e=$ <span class="line"></span></p>
+              <p>$V_C=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Impulsul forței. 5 p</h3>
+
+          <p>
+            O forță medie $F=<span class="var" id="e1F"></span>\,\text{N}$
+            acționează asupra unei mingi timp de
+            $\Delta t=<span class="var" id="e1t"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează impulsul forței.</li>
+            <li>Determină variația impulsului mecanic al mingii.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Ciocnire perfect inelastică: al doilea corp în repaus. 6 p</h3>
+
+          <p>
+            Un corp de masă $m_1=<span class="var" id="e2m1"></span>\,\text{kg}$
+            se deplasează cu viteza $v_1=<span class="var" id="e2v1"></span>\,\text{m/s}$
+            și lovește un corp de masă $m_2=<span class="var" id="e2m2"></span>\,\text{kg}$
+            aflat în repaus. După ciocnire, corpurile rămân lipite.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea conservării impulsului.</li>
+            <li>Determină viteza comună finală.</li>
+            <li>Determină energia cinetică pierdută.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Ciocnire perfect inelastică în sensuri opuse. 6 p</h3>
+
+          <p>
+            Două corpuri se deplasează pe aceeași dreaptă în sensuri opuse.
+            Primul are masa $m_1=<span class="var" id="e3m1"></span>\,\text{kg}$
+            și viteza $v_1=<span class="var" id="e3v1"></span>\,\text{m/s}$.
+            Al doilea are masa $m_2=<span class="var" id="e3m2"></span>\,\text{kg}$
+            și viteza de modul $v_2=<span class="var" id="e3v2"></span>\,\text{m/s}$ în sens opus.
+            După ciocnire, corpurile rămân lipite.
+          </p>
+
+          <ol type="a">
+            <li>Alege sensul pozitiv și scrie vitezele cu semn.</li>
+            <li>Determină viteza comună finală.</li>
+            <li>Precizează sensul mișcării după ciocnire.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Ciocnire elastică unidimensională. 8 p</h3>
+
+          <p>
+            Un corp de masă $m_1=<span class="var" id="e4m1"></span>\,\text{kg}$
+            are viteza inițială $v_1=<span class="var" id="e4v1"></span>\,\text{m/s}$.
+            El ciocnește elastic un corp de masă
+            $m_2=<span class="var" id="e4m2"></span>\,\text{kg}$ aflat în repaus.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formulele vitezelor finale pentru ciocnirea elastică frontală.</li>
+            <li>Calculează $u_1$ și $u_2$.</li>
+            <li>Verifică prin calcul conservarea impulsului.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Ciocnire elastică între mase egale. 5 p</h3>
+
+          <p>
+            Două corpuri de mase egale se ciocnesc elastic pe aceeași dreaptă.
+            Primul are viteza $v_1=<span class="var" id="e5v1"></span>\,\text{m/s}$,
+            iar al doilea are viteza $v_2=<span class="var" id="e5v2"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină vitezele finale.</li>
+            <li>Explică regula folosită.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Energia pierdută într-o ciocnire inelastică. 7 p</h3>
+
+          <p>
+            Un corp de masă $m_1=<span class="var" id="e6m1"></span>\,\text{kg}$
+            cu viteza $v_1=<span class="var" id="e6v1"></span>\,\text{m/s}$
+            se lipește de un corp de masă
+            $m_2=<span class="var" id="e6m2"></span>\,\text{kg}$ aflat în repaus.
+          </p>
+
+          <ol type="a">
+            <li>Calculează energia cinetică inițială.</li>
+            <li>Calculează viteza finală comună.</li>
+            <li>Calculează energia cinetică finală.</li>
+            <li>Calculează energia transformată în alte forme.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Explozie în două fragmente. 5 p</h3>
+
+          <p>
+            Un corp aflat inițial în repaus explodează în două fragmente.
+            Primul fragment are masa
+            $m_1=<span class="var" id="e7m1"></span>\,\text{kg}$
+            și viteza $v_1=<span class="var" id="e7v1"></span>\,\text{m/s}$ spre dreapta.
+            Al doilea fragment are masa
+            $m_2=<span class="var" id="e7m2"></span>\,\text{kg}$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie conservarea impulsului.</li>
+            <li>Determină viteza celui de-al doilea fragment.</li>
+            <li>Precizează sensul vitezei acestuia.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Pendul balistic. 7 p</h3>
+
+          <p>
+            Un proiectil de masă $m=<span class="var" id="e8m"></span>\,\text{kg}$
+            se înfige într-un bloc de masă
+            $M=<span class="var" id="e8M"></span>\,\text{kg}$ aflat în repaus.
+            Imediat după impact, ansamblul urcă până la înălțimea
+            $h=<span class="var" id="e8h"></span>\,\text{m}$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza ansamblului imediat după ciocnire.</li>
+            <li>Determină viteza proiectilului înainte de impact.</li>
+            <li>Precizează unde se conservă impulsul și unde se conservă energia mecanică.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Coeficientul de restituire. 6 p</h3>
+
+          <p>
+            Două corpuri se ciocnesc pe aceeași dreaptă. Înainte de ciocnire,
+            vitezele sunt $v_1=<span class="var" id="e9v1"></span>\,\text{m/s}$ și
+            $v_2=<span class="var" id="e9v2"></span>\,\text{m/s}$.
+            După ciocnire, vitezele sunt
+            $u_1=<span class="var" id="e9u1"></span>\,\text{m/s}$ și
+            $u_2=<span class="var" id="e9u2"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează coeficientul de restituire.</li>
+            <li>Precizează dacă ciocnirea este elastică, perfect inelastică sau parțial inelastică.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>13. Compară ciocnirile elastice și inelastice. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care să compari ciocnirea elastică, ciocnirea inelastică
+            și ciocnirea perfect inelastică.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>condiția de sistem izolat;</li>
+            <li>conservarea impulsului;</li>
+            <li>comportarea energiei cinetice în fiecare caz;</li>
+            <li>formula vitezei comune pentru lipire;</li>
+            <li>semnificația coeficientului de restituire;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–12, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> comparație corectă 5 p, relații matematice 4 p, condiții de conservare 3 p, capcane 2 p, claritate 1 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C07-ciocniri-elastice-si-inelastice.html">Înapoi la lecția C07</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c07", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c07");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1 = {
+        F: randInt(50, 300, 25),
+        t: choose([0.02, 0.04, 0.05, 0.08, 0.1])
+      };
+
+      const e2 = {
+        m1: randInt(1, 6),
+        v1: randInt(4, 14),
+        m2: randInt(1, 8)
+      };
+
+      const e3 = {
+        m1: randInt(2, 8),
+        v1: randInt(4, 12),
+        m2: randInt(2, 8),
+        v2: randInt(2, 10)
+      };
+
+      const e4 = {
+        m1: randInt(1, 8),
+        v1: randInt(4, 16),
+        m2: randInt(1, 8)
+      };
+
+      const e5 = {
+        v1: randInt(3, 12),
+        v2: choose([0, -2, -4, 2])
+      };
+
+      const e6 = {
+        m1: randInt(2, 8),
+        v1: randInt(4, 14),
+        m2: randInt(2, 10)
+      };
+
+      const e7 = {
+        m1: randInt(1, 6),
+        v1: randInt(4, 16),
+        m2: randInt(2, 10)
+      };
+
+      const e8 = {
+        m: choose([0.02, 0.04, 0.05, 0.08, 0.1]),
+        M: choose([1, 1.5, 2, 2.5, 3]),
+        h: choose([0.05, 0.1, 0.2, 0.3, 0.45]),
+        g: 10
+      };
+
+      const e9v1 = randInt(8, 18);
+      const e9v2 = randInt(0, 4);
+      const e9e = choose([0.25, 0.5, 0.75, 1]);
+      const relAfter = e9e * (e9v1 - e9v2);
+      const e9u1 = randInt(1, 6);
+      const e9u2 = e9u1 + relAfter;
+      const e9 = {
+        v1: e9v1,
+        v2: e9v2,
+        u1: e9u1,
+        u2: e9u2
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9 };
+      localStorage.setItem("values-fisa-c07", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1F", fmt(data.e1.F, 0));
+      setText("e1t", fmt(data.e1.t, 2));
+
+      setText("e2m1", fmt(data.e2.m1, 0));
+      setText("e2v1", fmt(data.e2.v1, 0));
+      setText("e2m2", fmt(data.e2.m2, 0));
+
+      setText("e3m1", fmt(data.e3.m1, 0));
+      setText("e3v1", fmt(data.e3.v1, 0));
+      setText("e3m2", fmt(data.e3.m2, 0));
+      setText("e3v2", fmt(data.e3.v2, 0));
+
+      setText("e4m1", fmt(data.e4.m1, 0));
+      setText("e4v1", fmt(data.e4.v1, 0));
+      setText("e4m2", fmt(data.e4.m2, 0));
+
+      setText("e5v1", fmt(data.e5.v1, 0));
+      setText("e5v2", fmt(data.e5.v2, 0));
+
+      setText("e6m1", fmt(data.e6.m1, 0));
+      setText("e6v1", fmt(data.e6.v1, 0));
+      setText("e6m2", fmt(data.e6.m2, 0));
+
+      setText("e7m1", fmt(data.e7.m1, 0));
+      setText("e7v1", fmt(data.e7.v1, 0));
+      setText("e7m2", fmt(data.e7.m2, 0));
+
+      setText("e8m", fmt(data.e8.m, 2));
+      setText("e8M", fmt(data.e8.M, 2));
+      setText("e8h", fmt(data.e8.h, 2));
+
+      setText("e9v1", fmt(data.e9.v1, 2));
+      setText("e9v2", fmt(data.e9.v2, 2));
+      setText("e9u1", fmt(data.e9.u1, 2));
+      setText("e9u2", fmt(data.e9.u2, 2));
+    }
+
+    function renderSolutions(data) {
+      const e1I = data.e1.F * data.e1.t;
+
+      const e2u = data.e2.m1 * data.e2.v1 / (data.e2.m1 + data.e2.m2);
+      const e2Eci = 0.5 * data.e2.m1 * data.e2.v1 ** 2;
+      const e2Ecf = 0.5 * (data.e2.m1 + data.e2.m2) * e2u ** 2;
+      const e2Loss = e2Eci - e2Ecf;
+
+      const e3u = (data.e3.m1 * data.e3.v1 - data.e3.m2 * data.e3.v2) / (data.e3.m1 + data.e3.m2);
+      const e3sense = e3u > 0 ? "în sensul pozitiv ales" : e3u < 0 ? "în sens opus sensului pozitiv" : "sistemul rămâne în repaus după ciocnire";
+
+      const e4u1 = ((data.e4.m1 - data.e4.m2) / (data.e4.m1 + data.e4.m2)) * data.e4.v1;
+      const e4u2 = (2 * data.e4.m1 / (data.e4.m1 + data.e4.m2)) * data.e4.v1;
+      const e4Pi = data.e4.m1 * data.e4.v1;
+      const e4Pf = data.e4.m1 * e4u1 + data.e4.m2 * e4u2;
+
+      const e5u1 = data.e5.v2;
+      const e5u2 = data.e5.v1;
+
+      const e6u = data.e6.m1 * data.e6.v1 / (data.e6.m1 + data.e6.m2);
+      const e6Eci = 0.5 * data.e6.m1 * data.e6.v1 ** 2;
+      const e6Ecf = 0.5 * (data.e6.m1 + data.e6.m2) * e6u ** 2;
+      const e6Loss = e6Eci - e6Ecf;
+
+      const e7v2 = -(data.e7.m1 * data.e7.v1) / data.e7.m2;
+
+      const e8u = Math.sqrt(2 * data.e8.g * data.e8.h);
+      const e8v = ((data.e8.m + data.e8.M) / data.e8.m) * e8u;
+
+      const e9e = (data.e9.u2 - data.e9.u1) / (data.e9.v1 - data.e9.v2);
+      let e9type = "parțial inelastică";
+      if (Math.abs(e9e - 1) < 0.001) e9type = "elastică";
+      if (Math.abs(e9e) < 0.001) e9type = "perfect inelastică";
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Impulsul forței</h3>
+          <div class="formula">
+            $$I=F\\Delta t=${tex(data.e1.F, 0)}\\cdot ${tex(data.e1.t, 2)}
+            =${tex(e1I, 3)}\\,\\text{N}\\cdot\\text{s}$$
+            $$I=\\Delta p=${tex(e1I, 3)}\\,\\text{kg}\\cdot\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Ciocnire perfect inelastică cu al doilea corp în repaus</h3>
+          <div class="formula">
+            $$m_1v_1=(m_1+m_2)u$$
+            $$u=\\frac{m_1v_1}{m_1+m_2}
+            =\\frac{${tex(data.e2.m1, 0)}\\cdot ${tex(data.e2.v1, 0)}}{${tex(data.e2.m1, 0)}+${tex(data.e2.m2, 0)}}
+            =${tex(e2u, 3)}\\,\\text{m/s}$$
+            $$E_{c,i}=\\frac12m_1v_1^2=${tex(e2Eci, 3)}\\,\\text{J}$$
+            $$E_{c,f}=\\frac12(m_1+m_2)u^2=${tex(e2Ecf, 3)}\\,\\text{J}$$
+            $$\\Delta E=E_{c,i}-E_{c,f}=${tex(e2Loss, 3)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Ciocnire perfect inelastică în sensuri opuse</h3>
+          <div class="formula">
+            $$v_1=+${tex(data.e3.v1, 0)}\\,\\text{m/s},\\qquad
+            v_2=-${tex(data.e3.v2, 0)}\\,\\text{m/s}$$
+            $$u=\\frac{m_1v_1+m_2v_2}{m_1+m_2}$$
+            $$u=\\frac{${tex(data.e3.m1, 0)}\\cdot ${tex(data.e3.v1, 0)}
+            -${tex(data.e3.m2, 0)}\\cdot ${tex(data.e3.v2, 0)}}{${tex(data.e3.m1, 0)}+${tex(data.e3.m2, 0)}}$$
+            $$u=${tex(e3u, 3)}\\,\\text{m/s}$$
+          </div>
+          <p>Sensul mișcării după ciocnire: <strong>${e3sense}</strong>.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Ciocnire elastică unidimensională</h3>
+          <div class="formula">
+            $$u_1=\\frac{m_1-m_2}{m_1+m_2}v_1$$
+            $$u_2=\\frac{2m_1}{m_1+m_2}v_1$$
+            $$u_1=\\frac{${tex(data.e4.m1, 0)}-${tex(data.e4.m2, 0)}}{${tex(data.e4.m1, 0)}+${tex(data.e4.m2, 0)}}\\cdot ${tex(data.e4.v1, 0)}
+            =${tex(e4u1, 3)}\\,\\text{m/s}$$
+            $$u_2=\\frac{2\\cdot ${tex(data.e4.m1, 0)}}{${tex(data.e4.m1, 0)}+${tex(data.e4.m2, 0)}}\\cdot ${tex(data.e4.v1, 0)}
+            =${tex(e4u2, 3)}\\,\\text{m/s}$$
+            $$P_i=m_1v_1=${tex(e4Pi, 3)}\\,\\text{kg}\\cdot\\text{m/s}$$
+            $$P_f=m_1u_1+m_2u_2=${tex(e4Pf, 3)}\\,\\text{kg}\\cdot\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Ciocnire elastică între mase egale</h3>
+          <p>
+            Pentru mase egale într-o ciocnire elastică frontală, corpurile își schimbă vitezele între ele.
+          </p>
+          <div class="formula">
+            $$u_1=v_2=${tex(e5u1, 2)}\\,\\text{m/s}$$
+            $$u_2=v_1=${tex(e5u2, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Energie pierdută într-o ciocnire inelastică</h3>
+          <div class="formula">
+            $$E_{c,i}=\\frac12m_1v_1^2
+            =\\frac12\\cdot ${tex(data.e6.m1, 0)}\\cdot ${tex(data.e6.v1, 0)}^2
+            =${tex(e6Eci, 3)}\\,\\text{J}$$
+            $$u=\\frac{m_1v_1}{m_1+m_2}
+            =${tex(e6u, 3)}\\,\\text{m/s}$$
+            $$E_{c,f}=\\frac12(m_1+m_2)u^2
+            =${tex(e6Ecf, 3)}\\,\\text{J}$$
+            $$\\Delta E=E_{c,i}-E_{c,f}
+            =${tex(e6Loss, 3)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Explozie în două fragmente</h3>
+          <div class="formula">
+            $$0=m_1v_1+m_2v_2$$
+            $$v_2=-\\frac{m_1v_1}{m_2}
+            =-\\frac{${tex(data.e7.m1, 0)}\\cdot ${tex(data.e7.v1, 0)}}{${tex(data.e7.m2, 0)}}
+            =${tex(e7v2, 3)}\\,\\text{m/s}$$
+          </div>
+          <p>Al doilea fragment se deplasează în sens opus primului fragment.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Pendul balistic</h3>
+          <div class="formula">
+            $$\\frac12(m+M)u^2=(m+M)gh$$
+            $$u=\\sqrt{2gh}
+            =\\sqrt{2\\cdot10\\cdot ${tex(data.e8.h, 2)}}
+            =${tex(e8u, 3)}\\,\\text{m/s}$$
+            $$mv=(m+M)u$$
+            $$v=\\frac{m+M}{m}u
+            =\\frac{${tex(data.e8.m, 2)}+${tex(data.e8.M, 2)}}{${tex(data.e8.m, 2)}}\\cdot ${tex(e8u, 3)}
+            =${tex(e8v, 3)}\\,\\text{m/s}$$
+          </div>
+          <p>
+            Impulsul se conservă în timpul impactului scurt. Energia mecanică se conservă după impact,
+            în urcarea ansamblului.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Coeficientul de restituire</h3>
+          <div class="formula">
+            $$e=\\frac{u_2-u_1}{v_1-v_2}$$
+            $$e=\\frac{${tex(data.e9.u2, 2)}-${tex(data.e9.u1, 2)}}{${tex(data.e9.v1, 2)}-${tex(data.e9.v2, 2)}}
+            =${tex(e9e, 3)}$$
+          </div>
+          <p>Tipul ciocnirii: <strong>${e9type}</strong>.</p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c07");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c07");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
