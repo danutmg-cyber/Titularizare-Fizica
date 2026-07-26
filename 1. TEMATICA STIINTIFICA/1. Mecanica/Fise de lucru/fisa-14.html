@@ -1,1 +1,1332 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 14 – Teoria relativității restrânse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 14 • Relativitate restrânsă</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C14-bazele-experimentale-ale-teoriei-relativitatii-restranse.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 14</span>
+        <h1>Bazele teoriei relativității restrânse. Transformările Lorentz</h1>
+
+        <p class="lead">
+          Fișă completă pentru bazele experimentale ale relativității restrânse, experimentul Michelson–Morley,
+          postulatele lui Einstein, factorul Lorentz, transformările Lorentz, dilatarea timpului,
+          contracția lungimilor, relativitatea simultaneității, transformarea vitezelor și intervalul spațiu-timp.
+          Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+          În exerciții se folosește frecvent unitatea naturală în care $c=1$.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Problema eterului</strong>
+            <p>
+              Fizica pre-relativistă presupunea existența unui mediu privilegiat, numit eter luminifer,
+              față de care lumina s-ar propaga cu viteza $c$. Experimentele nu au confirmat existența
+              unui asemenea sistem de referință absolut.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Experimentul Michelson–Morley</strong>
+            <p>
+              Experimentul a urmărit detectarea mișcării Pământului prin eter prin deplasarea franjelor
+              de interferență. Rezultatul nul a arătat că viteza luminii nu depinde de orientarea aparatului
+              față de presupusul „vânt de eter”.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Postulatul relativității</strong>
+            <p>
+              Legile fizicii au aceeași formă în toate sistemele de referință inerțiale.
+            </p>
+            <p>
+              Nu există experiment mecanic, optic sau electromagnetic intern care să distingă un sistem
+              inerțial „absolut”.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Postulatul constanței vitezei luminii</strong>
+            <p>
+              Viteza luminii în vid are aceeași valoare $c$ în toate sistemele de referință inerțiale,
+              indiferent de mișcarea sursei sau a observatorului.
+            </p>
+            <div class="formula">
+              $$c=3\cdot10^8\,\text{m/s}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Factorul Lorentz</strong>
+            <p>
+              Pentru două sisteme inerțiale aflate în mișcare relativă cu viteza $V$:
+            </p>
+            <div class="formula">
+              $$\beta=\frac{V}{c}$$
+              $$\gamma=\frac{1}{\sqrt{1-\beta^2}}$$
+            </div>
+            <p>
+              Pentru $V\ll c$, $\gamma\approx1$ și se recuperează limita clasică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Transformările Lorentz</strong>
+            <p>
+              Dacă sistemul $S'$ se deplasează cu viteza $V$ pe axa $Ox$ față de $S$:
+            </p>
+            <div class="formula">
+              $$x'=\gamma(x-Vt)$$
+              $$y'=y,\qquad z'=z$$
+              $$t'=\gamma\left(t-\frac{Vx}{c^2}\right)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>7. Transformările inverse</strong>
+            <div class="formula">
+              $$x=\gamma(x'+Vt')$$
+              $$y=y',\qquad z=z'$$
+              $$t=\gamma\left(t'+\frac{Vx'}{c^2}\right)$$
+            </div>
+            <p>
+              Ele se obțin schimbând $V$ cu $-V$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Relativitatea simultaneității</strong>
+            <p>
+              Două evenimente simultane într-un sistem nu sunt, în general, simultane în alt sistem aflat
+              în mișcare relativă.
+            </p>
+            <div class="formula">
+              $$\Delta t'=\gamma\left(\Delta t-\frac{V\Delta x}{c^2}\right)$$
+            </div>
+            <p>
+              Dacă $\Delta t=0$ și $\Delta x\ne0$, atunci $\Delta t'\ne0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>9. Timp propriu</strong>
+            <p>
+              Timpul propriu $\Delta t_0$ este intervalul de timp măsurat în sistemul în care cele două evenimente
+              au loc în același punct.
+            </p>
+            <div class="formula">
+              $$\Delta t=\gamma\Delta t_0$$
+            </div>
+            <p>
+              Ceasul în mișcare este observat ca mergând mai lent.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>10. Contracția lungimilor</strong>
+            <p>
+              Lungimea proprie $L_0$ este lungimea măsurată în sistemul în care corpul este în repaus.
+            </p>
+            <div class="formula">
+              $$L=\frac{L_0}{\gamma}$$
+            </div>
+            <p>
+              Contracția apare numai pe direcția mișcării relative.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>11. Transformarea vitezelor pe axa mișcării</strong>
+            <p>
+              Pentru mișcare coliniară:
+            </p>
+            <div class="formula">
+              $$u'_x=\frac{u_x-V}{1-\frac{u_xV}{c^2}}$$
+              $$u_x=\frac{u'_x+V}{1+\frac{u'_xV}{c^2}}$$
+            </div>
+            <p>
+              Această lege înlocuiește compunerea galileană $u'=u-V$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>12. Invarianța vitezei luminii</strong>
+            <p>
+              Dacă $u_x=c$, atunci:
+            </p>
+            <div class="formula">
+              $$u'_x=\frac{c-V}{1-\frac{V}{c}}=c$$
+            </div>
+            <p>
+              Lumina are aceeași viteză în toate sistemele inerțiale.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Intervalul spațiu-timp</strong>
+            <p>
+              În relativitatea restrânsă, mărimea invariantă dintre două evenimente este:
+            </p>
+            <div class="formula">
+              $$s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2$$
+            </div>
+            <p>
+              Pentru mișcare pe axa $Ox$:
+            </p>
+            <div class="formula">
+              $$s^2=c^2\Delta t^2-\Delta x^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>14. Tipuri de intervale</strong>
+            <div class="formula">
+              $$s^2>0\Rightarrow \text{interval temporal}$$
+              $$s^2=0\Rightarrow \text{interval luminos}$$
+              $$s^2<0\Rightarrow \text{interval spațial}$$
+            </div>
+            <p>
+              Numai pentru intervale temporale poate exista relație cauzală directă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>15. Limita clasică</strong>
+            <p>
+              Pentru viteze mici față de viteza luminii:
+            </p>
+            <div class="formula">
+              $$\beta\ll1,\qquad \gamma\approx1$$
+              $$x'\approx x-Vt,\qquad t'\approx t$$
+            </div>
+            <p>
+              Transformările Lorentz tind spre transformările Galilei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>16. Ideea-cheie</strong>
+            <p>
+              Spațiul și timpul nu mai sunt absolute separat. Mărimea invariantă este intervalul spațiu-timp,
+              iar măsurătorile de timp și lungime depind de sistemul inerțial al observatorului.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          dilatarea timpului folosește timpul propriu; contracția lungimii folosește lungimea proprie;
+          simultaneitatea nu este absolută; vitezele nu se compun galilean la viteze apropiate de $c$;
+          transformările Lorentz se aplică între sisteme inerțiale.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Postulatul relativității</td>
+                  <td></td>
+                  <td>Valabil pentru sisteme inerțiale.</td>
+                </tr>
+                <tr>
+                  <td>Postulatul vitezei luminii</td>
+                  <td></td>
+                  <td>$c$ este invariantă.</td>
+                </tr>
+                <tr>
+                  <td>Factor Lorentz</td>
+                  <td></td>
+                  <td>Depinde de $V/c$.</td>
+                </tr>
+                <tr>
+                  <td>Transformare Lorentz pentru $x'$</td>
+                  <td></td>
+                  <td>Mișcare relativă pe $Ox$.</td>
+                </tr>
+                <tr>
+                  <td>Transformare Lorentz pentru $t'$</td>
+                  <td></td>
+                  <td>Timpul depinde și de poziție.</td>
+                </tr>
+                <tr>
+                  <td>Dilatarea timpului</td>
+                  <td></td>
+                  <td>Folosește timpul propriu.</td>
+                </tr>
+                <tr>
+                  <td>Contracția lungimilor</td>
+                  <td></td>
+                  <td>Numai pe direcția mișcării.</td>
+                </tr>
+                <tr>
+                  <td>Interval spațiu-timp</td>
+                  <td></td>
+                  <td>Invariant Lorentz.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Legile fizicii au aceeași formă în toate sistemele inerțiale.</li>
+            <li>Viteza luminii în vid depinde de viteza sursei.</li>
+            <li>Două evenimente simultane într-un sistem pot să nu fie simultane în alt sistem inerțial.</li>
+            <li>Lungimea proprie este măsurată în sistemul în care corpul este în repaus.</li>
+            <li>La viteze mici față de $c$, transformările Lorentz tind spre transformările Galilei.</li>
+            <li>Contracția lungimilor apare și perpendicular pe direcția mișcării relative.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\beta=$ <span class="line"></span></p>
+              <p>$\gamma=$ <span class="line"></span></p>
+              <p>$x'=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$t'=$ <span class="line"></span></p>
+              <p>$\Delta t=$ <span class="line"></span></p>
+              <p>$L=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Factorul Lorentz. 4 p</h3>
+
+          <p>
+            Un sistem $S'$ se deplasează față de $S$ cu viteza $V$ =
+            <span class="var" id="e1beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\beta=V/c$.</li>
+            <li>Calculează factorul Lorentz $\gamma$.</li>
+            <li>Explică de ce $\gamma\ge1$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Dilatarea timpului. 5 p</h3>
+
+          <p>
+            Un proces are durata proprie $\Delta t_0$ =
+            <span class="var" id="e2t0"></span> μs.
+            Observatorul din laborator vede sistemul în mișcare cu viteza $V$ =
+            <span class="var" id="e2beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$.</li>
+            <li>Determină durata măsurată în laborator.</li>
+            <li>Precizează care este ceasul propriu.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Contracția lungimii. 5 p</h3>
+
+          <p>
+            O navă are lungimea proprie $L_0$ =
+            <span class="var" id="e3L0"></span> m.
+            Ea trece pe lângă un observator cu viteza $V$ =
+            <span class="var" id="e3beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează factorul Lorentz.</li>
+            <li>Determină lungimea navei măsurată de observator.</li>
+            <li>Precizează direcția pe care apare contracția.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Relativitatea simultaneității. 6 p</h3>
+
+          <p>
+            În sistemul $S$, două evenimente sunt simultane, deci $\Delta t=0$.
+            Distanța dintre ele este $\Delta x$ =
+            <span class="var" id="e4dx"></span> ani-lumină.
+            Sistemul $S'$ se deplasează față de $S$ cu viteza $V$ =
+            <span class="var" id="e4beta"></span>$c$.
+            Folosește unități în care $c=1$, astfel încât timpul este exprimat în ani.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula pentru $\Delta t'$.</li>
+            <li>Calculează $\Delta t'$.</li>
+            <li>Concluzionează dacă evenimentele rămân simultane în $S'$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Transformarea Lorentz a unui eveniment. 6 p</h3>
+
+          <p>
+            Un eveniment are coordonatele în $S$:
+            $x$ = <span class="var" id="e5x"></span> ani-lumină,
+            $t$ = <span class="var" id="e5t"></span> ani.
+            Sistemul $S'$ se deplasează cu $V$ =
+            <span class="var" id="e5beta"></span>$c$.
+            Folosește $c=1$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $x'=\gamma(x-\beta t)$.</li>
+            <li>Calculează $t'=\gamma(t-\beta x)$.</li>
+            <li>Interpretează semnul lui $x'$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Transformarea inversă. 5 p</h3>
+
+          <p>
+            În sistemul $S'$, un eveniment are coordonatele:
+            $x'$ = <span class="var" id="e6xp"></span> ani-lumină,
+            $t'$ = <span class="var" id="e6tp"></span> ani.
+            Sistemul $S'$ se deplasează cu $V$ =
+            <span class="var" id="e6beta"></span>$c$ față de $S$.
+            Folosește $c=1$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie transformările inverse.</li>
+            <li>Calculează $x$ și $t$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Compunerea relativistă a vitezelor. 6 p</h3>
+
+          <p>
+            O particulă se deplasează în $S'$ cu viteza $u'_x$ =
+            <span class="var" id="e7up"></span>$c$ în sensul pozitiv al axei.
+            Sistemul $S'$ se deplasează față de $S$ cu viteza $V$ =
+            <span class="var" id="e7beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie formula de compunere relativistă a vitezelor.</li>
+            <li>Calculează viteza particulei în $S$.</li>
+            <li>Compară cu suma galileană $u'_x+V$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Invarianța vitezei luminii. 4 p</h3>
+
+          <p>
+            În sistemul $S'$, un semnal luminos se propagă cu viteza $u'_x=c$.
+            Sistemul $S'$ se deplasează față de $S$ cu viteza $V$ =
+            <span class="var" id="e8beta"></span>$c$.
+          </p>
+
+          <ol type="a">
+            <li>Folosește formula relativistă a vitezelor.</li>
+            <li>Arată că viteza semnalului în $S$ este tot $c$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Interval spațiu-timp. 6 p</h3>
+
+          <p>
+            Două evenimente au separarea temporală $\Delta t$ =
+            <span class="var" id="e9dt"></span> ani și separarea spațială
+            $\Delta x$ = <span class="var" id="e9dx"></span> ani-lumină.
+            Folosește $c=1$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $s^2=\Delta t^2-\Delta x^2$.</li>
+            <li>Clasifică intervalul: temporal, luminos sau spațial.</li>
+            <li>Precizează dacă poate exista relație cauzală directă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Timp propriu din interval. 4 p</h3>
+
+          <p>
+            Pentru două evenimente separate temporal, în $S$ se măsoară
+            $\Delta t$ = <span class="var" id="e10dt"></span> ani și
+            $\Delta x$ = <span class="var" id="e10dx"></span> ani-lumină.
+            Folosește $c=1$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează timpul propriu $\Delta \tau=\sqrt{\Delta t^2-\Delta x^2}$.</li>
+            <li>Explică de ce $\Delta \tau<\Delta t$ când $\Delta x\ne0$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Călătorie relativistă. 5 p</h3>
+
+          <p>
+            O navă parcurge în sistemul Pământului distanța $D$ =
+            <span class="var" id="e11D"></span> ani-lumină cu viteza $V$ =
+            <span class="var" id="e11beta"></span>$c$.
+            Se neglijează perioadele de accelerare și frânare.
+          </p>
+
+          <ol type="a">
+            <li>Determină durata călătoriei în sistemul Pământului.</li>
+            <li>Determină durata proprie măsurată pe navă.</li>
+            <li>Explică diferența dintre cele două durate.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Limita clasică. 5 p</h3>
+
+          <p>
+            Pentru o particulă cu viteza $V$ =
+            <span class="var" id="e12beta"></span>$c$,
+            compară factorul Lorentz exact cu aproximația clasică $\gamma\approx1$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\gamma$ exact.</li>
+            <li>Calculează abaterea procentuală față de $1$.</li>
+            <li>Precizează dacă efectele relativiste sunt mici sau importante.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>16. De la experimentul Michelson–Morley la transformările Lorentz. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat despre fundamentarea teoriei relativității restrânse.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>contextul problemei eterului luminifer;</li>
+            <li>ideea experimentului Michelson–Morley și semnificația rezultatului nul;</li>
+            <li>cele două postulate ale lui Einstein;</li>
+            <li>definiția factorului Lorentz;</li>
+            <li>transformările Lorentz pentru $x'$ și $t'$;</li>
+            <li>deducerea calitativă a dilatării timpului și contracției lungimilor;</li>
+            <li>explicarea relativității simultaneității;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–15, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> bază experimentală 3 p, postulate 3 p, transformări Lorentz 4 p, consecințe 3 p, capcane și claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C14-bazele-experimentale-ale-teoriei-relativitatii-restranse.html">Înapoi la lecția C14</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c14", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c14");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function gamma(beta) {
+      return 1 / Math.sqrt(1 - beta * beta);
+    }
+
+    function classifyInterval(s2) {
+      if (Math.abs(s2) < 1e-9) {
+        return {
+          type: "luminos",
+          causal: "relația cauzală este posibilă numai prin semnale luminoase"
+        };
+      }
+
+      if (s2 > 0) {
+        return {
+          type: "temporal",
+          causal: "poate exista relație cauzală directă"
+        };
+      }
+
+      return {
+        type: "spațial",
+        causal: "nu poate exista relație cauzală directă, deoarece ar necesita viteză mai mare decât c"
+      };
+    }
+
+    function generateValues() {
+      const betaSet = [0.2, 0.4, 0.5, 0.6, 0.8];
+
+      const e1 = {
+        beta: choose(betaSet)
+      };
+
+      const e2 = {
+        t0: choose([2, 3, 4, 5, 8, 10]),
+        beta: choose([0.5, 0.6, 0.8])
+      };
+
+      const e3 = {
+        L0: choose([20, 40, 60, 80, 100, 120]),
+        beta: choose([0.5, 0.6, 0.8])
+      };
+
+      const e4 = {
+        dx: choose([2, 3, 4, 5, 6]),
+        beta: choose([0.2, 0.4, 0.5, 0.6])
+      };
+
+      const e5 = {
+        x: choose([2, 3, 4, 5, 6]),
+        t: choose([3, 4, 5, 6, 8]),
+        beta: choose([0.2, 0.4, 0.5, 0.6])
+      };
+
+      const e6 = {
+        xp: choose([1, 2, 3, 4, 5]),
+        tp: choose([2, 3, 4, 5, 6]),
+        beta: choose([0.2, 0.4, 0.5])
+      };
+
+      const e7up = choose([0.2, 0.3, 0.4, 0.5, 0.6]);
+      const e7beta = choose([0.2, 0.3, 0.4, 0.5]);
+      const e7 = {
+        up: e7up,
+        beta: e7beta
+      };
+
+      const e8 = {
+        beta: choose([0.2, 0.4, 0.6, 0.8])
+      };
+
+      const e9dt = choose([3, 4, 5, 6]);
+      const e9case = choose(["temporal", "luminos", "spatial"]);
+      let e9dx = 0;
+      if (e9case === "temporal") e9dx = e9dt - 1;
+      if (e9case === "luminos") e9dx = e9dt;
+      if (e9case === "spatial") e9dx = e9dt + 1;
+      const e9 = {
+        dt: e9dt,
+        dx: e9dx
+      };
+
+      const e10dt = choose([5, 6, 8, 10]);
+      const e10dx = choose([3, 4, 5]);
+      const e10 = {
+        dt: e10dt,
+        dx: Math.min(e10dx, e10dt - 1)
+      };
+
+      const e11 = {
+        D: choose([4, 6, 8, 10, 12]),
+        beta: choose([0.5, 0.6, 0.8])
+      };
+
+      const e12 = {
+        beta: choose([0.02, 0.05, 0.1, 0.2, 0.6])
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 };
+      localStorage.setItem("values-fisa-c14", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1beta", fmt(data.e1.beta, 2));
+
+      setText("e2t0", fmt(data.e2.t0, 0));
+      setText("e2beta", fmt(data.e2.beta, 2));
+
+      setText("e3L0", fmt(data.e3.L0, 0));
+      setText("e3beta", fmt(data.e3.beta, 2));
+
+      setText("e4dx", fmt(data.e4.dx, 0));
+      setText("e4beta", fmt(data.e4.beta, 2));
+
+      setText("e5x", fmt(data.e5.x, 0));
+      setText("e5t", fmt(data.e5.t, 0));
+      setText("e5beta", fmt(data.e5.beta, 2));
+
+      setText("e6xp", fmt(data.e6.xp, 0));
+      setText("e6tp", fmt(data.e6.tp, 0));
+      setText("e6beta", fmt(data.e6.beta, 2));
+
+      setText("e7up", fmt(data.e7.up, 2));
+      setText("e7beta", fmt(data.e7.beta, 2));
+
+      setText("e8beta", fmt(data.e8.beta, 2));
+
+      setText("e9dt", fmt(data.e9.dt, 0));
+      setText("e9dx", fmt(data.e9.dx, 0));
+
+      setText("e10dt", fmt(data.e10.dt, 0));
+      setText("e10dx", fmt(data.e10.dx, 0));
+
+      setText("e11D", fmt(data.e11.D, 0));
+      setText("e11beta", fmt(data.e11.beta, 2));
+
+      setText("e12beta", fmt(data.e12.beta, 2));
+    }
+
+    function renderSolutions(data) {
+      const e1g = gamma(data.e1.beta);
+
+      const e2g = gamma(data.e2.beta);
+      const e2t = e2g * data.e2.t0;
+
+      const e3g = gamma(data.e3.beta);
+      const e3L = data.e3.L0 / e3g;
+
+      const e4g = gamma(data.e4.beta);
+      const e4dtp = e4g * (0 - data.e4.beta * data.e4.dx);
+
+      const e5g = gamma(data.e5.beta);
+      const e5xp = e5g * (data.e5.x - data.e5.beta * data.e5.t);
+      const e5tp = e5g * (data.e5.t - data.e5.beta * data.e5.x);
+
+      const e6g = gamma(data.e6.beta);
+      const e6x = e6g * (data.e6.xp + data.e6.beta * data.e6.tp);
+      const e6t = e6g * (data.e6.tp + data.e6.beta * data.e6.xp);
+
+      const e7u = (data.e7.up + data.e7.beta) / (1 + data.e7.up * data.e7.beta);
+      const e7ugal = data.e7.up + data.e7.beta;
+
+      const e8u = (1 + data.e8.beta) / (1 + data.e8.beta);
+
+      const e9s2 = data.e9.dt ** 2 - data.e9.dx ** 2;
+      const e9class = classifyInterval(e9s2);
+
+      const e10tau = Math.sqrt(data.e10.dt ** 2 - data.e10.dx ** 2);
+
+      const e11tEarth = data.e11.D / data.e11.beta;
+      const e11g = gamma(data.e11.beta);
+      const e11tShip = e11tEarth / e11g;
+
+      const e12g = gamma(data.e12.beta);
+      const e12err = (e12g - 1) * 100;
+      const e12importance = e12err < 1 ? "efecte relativiste foarte mici" :
+                            e12err < 5 ? "efecte relativiste mici, dar măsurabile" :
+                            "efecte relativiste importante";
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Factorul Lorentz</h3>
+          <div class="formula">
+            $$\\beta=\\frac{V}{c}=${tex(data.e1.beta, 2)}$$
+            $$\\gamma=\\frac{1}{\\sqrt{1-\\beta^2}}
+            =\\frac{1}{\\sqrt{1-${tex(data.e1.beta, 2)}^2}}
+            =${tex(e1g, 5)}$$
+          </div>
+          <p>Deoarece $0\\le\\beta<1$, rezultă $0<1-\\beta^2\\le1$, deci $\\gamma\\ge1$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Dilatarea timpului</h3>
+          <div class="formula">
+            $$\\gamma=\\frac{1}{\\sqrt{1-${tex(data.e2.beta, 2)}^2}}
+            =${tex(e2g, 5)}$$
+            $$\\Delta t=\\gamma\\Delta t_0
+            =${tex(e2g, 5)}\\cdot ${tex(data.e2.t0, 0)}
+            =${tex(e2t, 5)}\\,\\mu\\text{s}$$
+          </div>
+          <p>Ceasul propriu este ceasul aflat în repaus față de procesul studiat.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Contracția lungimii</h3>
+          <div class="formula">
+            $$\\gamma=\\frac{1}{\\sqrt{1-${tex(data.e3.beta, 2)}^2}}
+            =${tex(e3g, 5)}$$
+            $$L=\\frac{L_0}{\\gamma}
+            =\\frac{${tex(data.e3.L0, 0)}}{${tex(e3g, 5)}}
+            =${tex(e3L, 5)}\\,\\text{m}$$
+          </div>
+          <p>Contracția apare numai pe direcția mișcării relative.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Relativitatea simultaneității</h3>
+          <div class="formula">
+            $$\\Delta t'=\\gamma(\\Delta t-\\beta\\Delta x)$$
+            $$\\Delta t=0$$
+            $$\\gamma=${tex(e4g, 5)}$$
+            $$\\Delta t'=${tex(e4g, 5)}(0-${tex(data.e4.beta, 2)}\\cdot ${tex(data.e4.dx, 0)})
+            =${tex(e4dtp, 5)}\\,\\text{ani}$$
+          </div>
+          <p>Evenimentele nu rămân simultane în $S'$ deoarece $\\Delta t'\\ne0$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Transformarea Lorentz a unui eveniment</h3>
+          <div class="formula">
+            $$\\gamma=${tex(e5g, 5)}$$
+            $$x'=\\gamma(x-\\beta t)
+            =${tex(e5g, 5)}(${tex(data.e5.x, 0)}-${tex(data.e5.beta, 2)}\\cdot ${tex(data.e5.t, 0)})
+            =${tex(e5xp, 5)}\\,\\text{ani-lumină}$$
+            $$t'=\\gamma(t-\\beta x)
+            =${tex(e5g, 5)}(${tex(data.e5.t, 0)}-${tex(data.e5.beta, 2)}\\cdot ${tex(data.e5.x, 0)})
+            =${tex(e5tp, 5)}\\,\\text{ani}$$
+          </div>
+          <p>Semnul lui $x'$ arată de care parte a originii sistemului $S'$ se află evenimentul.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Transformarea inversă</h3>
+          <div class="formula">
+            $$x=\\gamma(x'+\\beta t')$$
+            $$t=\\gamma(t'+\\beta x')$$
+            $$\\gamma=${tex(e6g, 5)}$$
+            $$x=${tex(e6g, 5)}(${tex(data.e6.xp, 0)}+${tex(data.e6.beta, 2)}\\cdot ${tex(data.e6.tp, 0)})
+            =${tex(e6x, 5)}\\,\\text{ani-lumină}$$
+            $$t=${tex(e6g, 5)}(${tex(data.e6.tp, 0)}+${tex(data.e6.beta, 2)}\\cdot ${tex(data.e6.xp, 0)})
+            =${tex(e6t, 5)}\\,\\text{ani}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Compunerea relativistă a vitezelor</h3>
+          <div class="formula">
+            $$u_x=\\frac{u'_x+V}{1+\\frac{u'_xV}{c^2}}$$
+            $$\\frac{u_x}{c}=\\frac{${tex(data.e7.up, 2)}+${tex(data.e7.beta, 2)}}{
+            1+${tex(data.e7.up, 2)}\\cdot ${tex(data.e7.beta, 2)}}$$
+            $$\\frac{u_x}{c}=${tex(e7u, 5)}$$
+            $$u_{Galilei}=(${tex(e7ugal, 5)})c$$
+          </div>
+          <p>Formula relativistă menține viteza sub $c$, spre deosebire de suma galileană.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Invarianța vitezei luminii</h3>
+          <div class="formula">
+            $$\\frac{u_x}{c}=\\frac{1+\\beta}{1+\\beta}=1$$
+            $$u_x=c$$
+          </div>
+          <p>Pentru $\\beta=${tex(data.e8.beta, 2)}$, rezultatul rămâne $u_x=${tex(e8u, 0)}c=c$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Interval spațiu-timp</h3>
+          <div class="formula">
+            $$s^2=\\Delta t^2-\\Delta x^2$$
+            $$s^2=${tex(data.e9.dt, 0)}^2-${tex(data.e9.dx, 0)}^2
+            =${tex(e9s2, 0)}$$
+          </div>
+          <p>Intervalul este <strong>${e9class.type}</strong>; ${e9class.causal}.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Timp propriu</h3>
+          <div class="formula">
+            $$\\Delta\\tau=\\sqrt{\\Delta t^2-\\Delta x^2}$$
+            $$\\Delta\\tau=\\sqrt{${tex(data.e10.dt, 0)}^2-${tex(data.e10.dx, 0)}^2}
+            =${tex(e10tau, 5)}\\,\\text{ani}$$
+          </div>
+          <p>Dacă $\\Delta x\\ne0$, atunci se scade un termen pozitiv, deci $\\Delta\\tau<\\Delta t$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Călătorie relativistă</h3>
+          <div class="formula">
+            $$t_{Pământ}=\\frac{D}{V}
+            =\\frac{${tex(data.e11.D, 0)}}{${tex(data.e11.beta, 2)}}
+            =${tex(e11tEarth, 5)}\\,\\text{ani}$$
+            $$\\gamma=\\frac{1}{\\sqrt{1-${tex(data.e11.beta, 2)}^2}}
+            =${tex(e11g, 5)}$$
+            $$t_{navă}=\\frac{t_{Pământ}}{\\gamma}
+            =\\frac{${tex(e11tEarth, 5)}}{${tex(e11g, 5)}}
+            =${tex(e11tShip, 5)}\\,\\text{ani}$$
+          </div>
+          <p>Durata proprie a călătoriei este măsurată de ceasul aflat pe navă.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Limita clasică</h3>
+          <div class="formula">
+            $$\\gamma=\\frac{1}{\\sqrt{1-${tex(data.e12.beta, 2)}^2}}
+            =${tex(e12g, 8)}$$
+            $$\\text{abatere procentuală}=(\\gamma-1)\\cdot100\\%
+            =${tex(e12err, 5)}\\%$$
+          </div>
+          <p>Concluzie: <strong>${e12importance}</strong>.</p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c14");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c14");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
