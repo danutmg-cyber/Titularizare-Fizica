@@ -5,61 +5,17 @@
   <title>C04 – Principiile mecanicii newtoniene</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C04 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
     }
 
     .topbar {
@@ -101,24 +57,17 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
     .page.active {
       display: flex;
     }
 
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
-    }
-
     .eyebrow {
       display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       color: var(--accent);
       font-weight: 900;
       letter-spacing: 0.03em;
@@ -126,28 +75,12 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
     p {
       margin: 0.75rem 0;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 1.35rem;
     }
 
@@ -158,25 +91,6 @@
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -206,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -218,34 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning {
-      background: #33260c;
+      border: 1px solid var(--border);
     }
 
     .compare {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      overflow: hidden;
-      border-radius: 16px;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -264,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -283,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -305,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -330,22 +249,30 @@
     }
 
     .bottom-links a:nth-child(3) {
-      background: var(--accent-3);
+      background: #7c3aed;
     }
 
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
-      }
-
       .grid,
       .bottom-links {
         grid-template-columns: 1fr;
       }
 
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
       }
 
       .pager a {
@@ -367,7 +294,7 @@
 <body>
   <div class="topbar">
     <strong>C04 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -377,9 +304,10 @@
         <h1>Principiile mecanicii newtoniene</h1>
 
         <p class="lead">
-          Dinamica răspunde la întrebarea: <span class="mark">de ce se modifică mișcarea?</span>
-          Răspunsul newtonian este: mișcarea se modifică atunci când asupra corpului acționează o
-          <strong>rezultantă nenulă a forțelor</strong>.
+          Dinamica răspunde la întrebarea:
+          <span class="mark">de ce se modifică mișcarea?</span>
+          Răspunsul newtonian este: mișcarea se modifică atunci când asupra corpului
+          acționează o <strong>rezultantă nenulă a forțelor</strong>.
         </p>
 
         <div class="exam">
@@ -392,22 +320,35 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 320" role="img" aria-label="Forța rezultantă produce accelerație">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c04-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c04-1-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <line x1="70" y1="235" x2="690" y2="235" stroke="#64748b" stroke-width="4"/>
+            <line x1="70" y1="235" x2="690" y2="235"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
             <rect x="260" y="150" width="150" height="85" rx="14" fill="#f59e0b"/>
-            <line x1="410" y1="192" x2="600" y2="192" stroke="#2563eb" stroke-width="8" marker-end="url(#arrow-blue)"/>
-            <line x1="340" y1="145" x2="340" y2="70" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-green)"/>
+
+            <line x1="410" y1="192" x2="600" y2="192"
+                  stroke="#2563eb" stroke-width="7" stroke-linecap="round"
+                  marker-end="url(#c04-1-blue)"/>
+
+            <line x1="340" y1="145" x2="340" y2="70"
+                  stroke="#0f766e" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-1-green)"/>
+
             <text x="468" y="175" fill="#2563eb" font-size="26">Frez</text>
             <text x="352" y="92" fill="#0f766e" font-size="26">a</text>
             <text x="300" y="205" fill="#122033" font-size="28">m</text>
           </svg>
+
           <p class="caption">
             Accelerația are direcția și sensul forței rezultante. Forțele individuale trebuie compuse vectorial.
           </p>
@@ -421,8 +362,9 @@
         <h2>Forța și rezultanta forțelor</h2>
 
         <p>
-          <span class="mark">Forța</span> este mărimea fizică vectorială care caracterizează interacțiunea mecanică dintre corpuri.
-          Ea poate modifica viteza corpului sau poate produce deformarea acestuia.
+          <span class="mark">Forța</span> este mărimea fizică vectorială care caracterizează
+          interacțiunea mecanică dintre corpuri. Ea poate modifica viteza corpului sau poate produce
+          deformarea acestuia.
         </p>
 
         <div class="formula">
@@ -464,6 +406,7 @@
             <strong>Repaus</strong>
             <p>$\vec v=\vec 0$, iar corpul rămâne în repaus.</p>
           </div>
+
           <div class="mini">
             <strong>Mișcare rectilinie uniformă</strong>
             <p>$\vec v=\text{constant}$, iar accelerația este nulă.</p>
@@ -484,11 +427,13 @@
         <h2>Inerția și masa</h2>
 
         <p>
-          <span class="mark">Inerția</span> este proprietatea corpurilor de a se opune schimbării stării de repaus sau de mișcare rectilinie uniformă.
+          <span class="mark">Inerția</span> este proprietatea corpurilor de a se opune schimbării
+          stării de repaus sau de mișcare rectilinie uniformă.
         </p>
 
         <p>
-          <span class="mark">Masa</span> este măsura inerției. Pentru aceeași forță rezultantă, un corp cu masă mai mare capătă o accelerație mai mică.
+          <span class="mark">Masa</span> este măsura inerției. Pentru aceeași forță rezultantă,
+          un corp cu masă mai mare capătă o accelerație mai mică.
         </p>
 
         <div class="formula">
@@ -498,25 +443,41 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Mase diferite la aceeași forță">
             <defs>
-              <marker id="arrow-f" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c04-2-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c04-2-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <line x1="70" y1="140" x2="690" y2="140" stroke="#64748b" stroke-width="3"/>
-            <line x1="70" y1="270" x2="690" y2="270" stroke="#64748b" stroke-width="3"/>
+            <line x1="70" y1="140" x2="690" y2="140"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+
+            <line x1="70" y1="270" x2="690" y2="270"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
 
             <rect x="130" y="85" width="90" height="55" rx="12" fill="#f59e0b"/>
             <rect x="130" y="205" width="170" height="65" rx="12" fill="#f59e0b"/>
 
-            <line x1="220" y1="112" x2="370" y2="112" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-f)"/>
-            <line x1="220" y1="85" x2="340" y2="85" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-a)"/>
+            <line x1="220" y1="112" x2="370" y2="112"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-2-blue)"/>
 
-            <line x1="300" y1="238" x2="450" y2="238" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-f)"/>
-            <line x1="300" y1="205" x2="365" y2="205" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-a)"/>
+            <line x1="220" y1="85" x2="340" y2="85"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c04-2-green)"/>
+
+            <line x1="300" y1="238" x2="450" y2="238"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-2-blue)"/>
+
+            <line x1="300" y1="205" x2="365" y2="205"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c04-2-green)"/>
 
             <text x="150" y="120" fill="#122033" font-size="24">m</text>
             <text x="160" y="245" fill="#122033" font-size="24">M &gt; m</text>
@@ -525,6 +486,7 @@
             <text x="345" y="88" fill="#0f766e" font-size="23">a mare</text>
             <text x="370" y="208" fill="#0f766e" font-size="23">a mică</text>
           </svg>
+
           <p class="caption">
             La aceeași forță rezultantă, accelerația este invers proporțională cu masa corpului.
           </p>
@@ -569,36 +531,57 @@
         <h2>Cum identifici corect forțele</h2>
 
         <p>
-          Pentru aplicarea legii a II-a, se izolează corpul studiat și se reprezintă toate forțele care acționează asupra lui.
-          Această reprezentare se numește <span class="mark">diagramă de corp liber</span>.
+          Pentru aplicarea legii a II-a, se izolează corpul studiat și se reprezintă toate forțele
+          care acționează asupra lui. Această reprezentare se numește
+          <span class="mark">diagramă de corp liber</span>.
         </p>
 
         <div class="svgbox">
           <svg viewBox="0 0 760 360" role="img" aria-label="Diagramă de corp liber pentru corp pe plan orizontal">
             <defs>
-              <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              <marker id="c04-3-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
-              <marker id="arrow-blue2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+
+              <marker id="c04-3-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-green2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c04-3-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <line x1="80" y1="270" x2="690" y2="270" stroke="#64748b" stroke-width="5"/>
+            <line x1="80" y1="270" x2="690" y2="270"
+                  stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+
             <rect x="310" y="190" width="130" height="80" rx="12" fill="#f59e0b"/>
-            <line x1="375" y1="190" x2="375" y2="80" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-green2)"/>
-            <line x1="375" y1="270" x2="375" y2="340" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
-            <line x1="440" y1="230" x2="610" y2="230" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-blue2)"/>
-            <line x1="310" y1="230" x2="190" y2="230" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-red)"/>
+
+            <line x1="375" y1="190" x2="375" y2="80"
+                  stroke="#0f766e" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-3-green)"/>
+
+            <line x1="375" y1="270" x2="375" y2="340"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-3-red)"/>
+
+            <line x1="440" y1="230" x2="610" y2="230"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-3-blue)"/>
+
+            <line x1="310" y1="230" x2="190" y2="230"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c04-3-red)"/>
 
             <text x="390" y="110" fill="#0f766e" font-size="25">N</text>
             <text x="390" y="330" fill="#ef4444" font-size="25">G=mg</text>
             <text x="515" y="212" fill="#2563eb" font-size="25">F</text>
             <text x="205" y="212" fill="#ef4444" font-size="25">Ff</text>
           </svg>
+
           <p class="caption">
             Pe plan orizontal apar, de regulă: greutatea, reacțiunea normală, forța aplicată și frecarea.
           </p>
@@ -621,42 +604,44 @@
         <span class="eyebrow">Forțe uzuale</span>
         <h2>Tipuri de forțe mecanice</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Forță</th>
-              <th>Expresie uzuală</th>
-              <th>Direcție și sens</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Greutatea</td>
-              <td>$\vec G=m\vec g$</td>
-              <td>Vertical în jos, spre centrul Pământului.</td>
-            </tr>
-            <tr>
-              <td>Reacțiunea normală</td>
-              <td>$\vec N$</td>
-              <td>Perpendiculară pe suprafața de contact.</td>
-            </tr>
-            <tr>
-              <td>Frecarea la alunecare</td>
-              <td>$F_f=\mu N$</td>
-              <td>Opusă mișcării relative.</td>
-            </tr>
-            <tr>
-              <td>Forța elastică</td>
-              <td>$\vec F_e=-k\vec x$</td>
-              <td>Opusă deformării.</td>
-            </tr>
-            <tr>
-              <td>Tensiunea din fir</td>
-              <td>$\vec T$</td>
-              <td>De-a lungul firului ideal.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Forță</th>
+                <th>Expresie uzuală</th>
+                <th>Direcție și sens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Greutatea</td>
+                <td>$\vec G=m\vec g$</td>
+                <td>Vertical în jos, spre centrul Pământului.</td>
+              </tr>
+              <tr>
+                <td>Reacțiunea normală</td>
+                <td>$\vec N$</td>
+                <td>Perpendiculară pe suprafața de contact.</td>
+              </tr>
+              <tr>
+                <td>Frecarea la alunecare</td>
+                <td>$F_f=\mu N$</td>
+                <td>Opusă mișcării relative.</td>
+              </tr>
+              <tr>
+                <td>Forța elastică</td>
+                <td>$\vec F_e=-k\vec x$</td>
+                <td>Opusă deformării.</td>
+              </tr>
+              <tr>
+                <td>Tensiunea din fir</td>
+                <td>$\vec T$</td>
+                <td>De-a lungul firului ideal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="exam">
           <strong>Observație:</strong>
@@ -689,23 +674,34 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 320" role="img" aria-label="Acțiune și reacțiune între două corpuri">
             <defs>
-              <marker id="arrow-ab" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c04-4-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-ba" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+
+              <marker id="c04-4-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
             </defs>
 
             <circle cx="270" cy="165" r="58" fill="#f59e0b"/>
             <circle cx="500" cy="165" r="58" fill="#0f766e"/>
-            <line x1="330" y1="165" x2="440" y2="165" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-ab)"/>
-            <line x1="440" y1="200" x2="330" y2="200" stroke="#ef4444" stroke-width="7" marker-end="url(#arrow-ba)"/>
+
+            <line x1="330" y1="165" x2="440" y2="165"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c04-4-blue)"/>
+
+            <line x1="440" y1="200" x2="330" y2="200"
+                  stroke="#ef4444" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c04-4-red)"/>
+
             <text x="255" y="174" fill="#122033" font-size="28">A</text>
             <text x="485" y="174" fill="#ffffff" font-size="28">B</text>
             <text x="345" y="145" fill="#2563eb" font-size="24">F A→B</text>
             <text x="345" y="230" fill="#ef4444" font-size="24">F B→A</text>
           </svg>
+
           <p class="caption">
             Cele două forțe au module egale și sensuri opuse, dar sunt aplicate pe corpuri diferite.
           </p>
@@ -736,6 +732,7 @@
             <strong>Aproximativ inerțial</strong>
             <p>Un laborator fix pe Pământ, pentru multe experimente obișnuite.</p>
           </div>
+
           <div class="mini">
             <strong>Inerțial ideal</strong>
             <p>Un sistem care nu este accelerat și nu se rotește.</p>
@@ -755,8 +752,9 @@
         <h2>Când apar forțele complementare?</h2>
 
         <p>
-          <span class="mark">Sistemul de referință neinerțial</span> este un sistem accelerat sau rotitor față de un sistem inerțial.
-          Într-un astfel de sistem, corpurile pot părea accelerate chiar dacă nu există o forță reală care să producă acea accelerație în sens newtonian.
+          <span class="mark">Sistemul de referință neinerțial</span> este un sistem accelerat sau rotitor
+          față de un sistem inerțial. Într-un astfel de sistem, corpurile pot părea accelerate chiar
+          dacă nu există o forță reală care să producă acea accelerație în sens newtonian.
         </p>
 
         <p>
@@ -797,11 +795,14 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Forța de inerție într-un vehicul accelerat">
             <defs>
-              <marker id="arrow-forward" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c04-5-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-back" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+
+              <marker id="c04-5-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
             </defs>
 
@@ -809,11 +810,19 @@
             <circle cx="250" cy="265" r="28" fill="#334155"/>
             <circle cx="510" cy="265" r="28" fill="#334155"/>
             <circle cx="360" cy="190" r="18" fill="#ef4444"/>
-            <line x1="590" y1="185" x2="700" y2="185" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-forward)"/>
-            <line x1="360" y1="190" x2="245" y2="190" stroke="#ef4444" stroke-width="7" marker-end="url(#arrow-back)"/>
+
+            <line x1="590" y1="185" x2="700" y2="185"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c04-5-blue)"/>
+
+            <line x1="360" y1="190" x2="245" y2="190"
+                  stroke="#ef4444" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c04-5-red)"/>
+
             <text x="610" y="165" fill="#2563eb" font-size="25">a₀</text>
             <text x="260" y="170" fill="#ef4444" font-size="25">Fi</text>
           </svg>
+
           <p class="caption">
             Într-un autobuz care accelerează înainte, pasagerul simte o tendință aparentă de deplasare înapoi.
           </p>
@@ -835,13 +844,17 @@
           <div class="mini">
             <strong>Forța centrifugă</strong>
             <p>Apare pentru corpuri observate în sistemul rotitor.</p>
-            <div class="formula">$$\vec F_{\text{cf}}=m\omega^2\vec r_\perp$$</div>
+            <div class="formula">
+              $$\vec F_{\text{cf}}=m\omega^2\vec r_\perp$$
+            </div>
           </div>
 
           <div class="mini">
             <strong>Forța Coriolis</strong>
             <p>Apare dacă punctul se mișcă față de sistemul rotitor.</p>
-            <div class="formula">$$\vec F_{\text{Cor}}=-2m\vec\omega\times\vec v_{\text{rel}}$$</div>
+            <div class="formula">
+              $$\vec F_{\text{Cor}}=-2m\vec\omega\times\vec v_{\text{rel}}$$
+            </div>
           </div>
         </div>
 
@@ -858,32 +871,34 @@
         <span class="eyebrow">Centripet vs centrifug</span>
         <h2>Diferență esențială</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Noțiune</th>
-              <th>Sistem de referință</th>
-              <th>Rol fizic</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Forță centripetă</td>
-              <td>Sistem inerțial</td>
-              <td>Forță reală rezultantă orientată spre centrul traiectoriei.</td>
-            </tr>
-            <tr>
-              <td>Forță centrifugă</td>
-              <td>Sistem rotitor neinerțial</td>
-              <td>Forță complementară orientată aparent spre exterior.</td>
-            </tr>
-            <tr>
-              <td>Accelerație centripetă</td>
-              <td>Descriere cinematică</td>
-              <td>$a_c=\frac{v^2}{R}=\omega^2R$.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Noțiune</th>
+                <th>Sistem de referință</th>
+                <th>Rol fizic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forță centripetă</td>
+                <td>Sistem inerțial</td>
+                <td>Forță reală rezultantă orientată spre centrul traiectoriei.</td>
+              </tr>
+              <tr>
+                <td>Forță centrifugă</td>
+                <td>Sistem rotitor neinerțial</td>
+                <td>Forță complementară orientată aparent spre exterior.</td>
+              </tr>
+              <tr>
+                <td>Accelerație centripetă</td>
+                <td>Descriere cinematică</td>
+                <td>$a_c=\dfrac{v^2}{R}=\omega^2R$.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="exam">
           <strong>Formulare bună la oral:</strong>
@@ -929,16 +944,19 @@
         </p>
 
         <p><strong>1. Forțe pe verticală:</strong></p>
+
         <div class="formula">
           $$N-G=0 \Rightarrow N=mg=5\cdot10=50\,\text{N}$$
         </div>
 
         <p><strong>2. Forța de frecare:</strong></p>
+
         <div class="formula">
           $$F_f=\mu N=0{,}2\cdot50=10\,\text{N}$$
         </div>
 
         <p><strong>3. Ecuația pe orizontală:</strong></p>
+
         <div class="formula">
           $$F-F_f=ma$$
           $$20-10=5a$$
@@ -1062,42 +1080,44 @@
         <span class="eyebrow">Sinteză</span>
         <h2>Relații esențiale</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Concept</th>
-              <th>Relație</th>
-              <th>Interpretare</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Principiul inerției</td>
-              <td>$\vec F_{\text{rez}}=\vec 0 \Rightarrow \vec v=\text{constant}$</td>
-              <td>Repausul și MRU sunt stări naturale în absența rezultantei.</td>
-            </tr>
-            <tr>
-              <td>Principiul fundamental</td>
-              <td>$\sum \vec F=m\vec a$</td>
-              <td>Rezultanta forțelor produce accelerație.</td>
-            </tr>
-            <tr>
-              <td>Acțiune–reacțiune</td>
-              <td>$\vec F_{A\to B}=-\vec F_{B\to A}$</td>
-              <td>Forțe egale și opuse, aplicate pe corpuri diferite.</td>
-            </tr>
-            <tr>
-              <td>Forță de inerție</td>
-              <td>$\vec F_i=-m\vec a_0$</td>
-              <td>Forță complementară în sistem accelerat.</td>
-            </tr>
-            <tr>
-              <td>Forță Coriolis</td>
-              <td>$\vec F_{\text{Cor}}=-2m\vec\omega\times\vec v_{\text{rel}}$</td>
-              <td>Forță complementară în sistem rotitor.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>Relație</th>
+                <th>Interpretare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Principiul inerției</td>
+                <td>$\vec F_{\text{rez}}=\vec 0 \Rightarrow \vec v=\text{constant}$</td>
+                <td>Repausul și MRU sunt stări naturale în absența rezultantei.</td>
+              </tr>
+              <tr>
+                <td>Principiul fundamental</td>
+                <td>$\sum \vec F=m\vec a$</td>
+                <td>Rezultanta forțelor produce accelerație.</td>
+              </tr>
+              <tr>
+                <td>Acțiune–reacțiune</td>
+                <td>$\vec F_{A\to B}=-\vec F_{B\to A}$</td>
+                <td>Forțe egale și opuse, aplicate pe corpuri diferite.</td>
+              </tr>
+              <tr>
+                <td>Forță de inerție</td>
+                <td>$\vec F_i=-m\vec a_0$</td>
+                <td>Forță complementară în sistem accelerat.</td>
+              </tr>
+              <tr>
+                <td>Forță Coriolis</td>
+                <td>$\vec F_{\text{Cor}}=-2m\vec\omega\times\vec v_{\text{rel}}$</td>
+                <td>Forță complementară în sistem rotitor.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="formula">
           $$\boxed{\sum \vec F=m\vec a}$$
@@ -1125,6 +1145,12 @@
           <li>Rezolvați o problemă cu lift accelerat și interpretați greutatea aparentă.</li>
         </ol>
 
+        <div class="formula">
+          $$\vec F_{\text{rez}}=\vec 0 \Rightarrow \vec v=\text{constant},\qquad
+          \sum \vec F=m\vec a,\qquad
+          \vec F_{A\to B}=-\vec F_{B\to A}$$
+        </div>
+
         <div class="bottom-links">
           <a href="C05-teoremele-mecanicii-clasice.html">Lecția următoare</a>
           <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
@@ -1135,23 +1161,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 19</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1174,6 +1208,8 @@
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
