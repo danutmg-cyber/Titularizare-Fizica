@@ -1,1 +1,1366 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 9 – Deformări elastice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 9 • Deformări elastice</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C09-deformari-elastice.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 9</span>
+        <h1>Deformări elastice. Legea lui Hooke. Module elastice</h1>
+
+        <p class="lead">
+          Fișă completă pentru deformări elastice longitudinale, tensiune mecanică, alungire relativă,
+          modulul lui Young, forțe elastice, energie elastică, forfecare, compresibilitate, coeficientul Poisson
+          și relații între modulele elastice. Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 80 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Deformare elastică</strong>
+            <p>
+              Deformarea este elastică dacă, după încetarea acțiunii forțelor deformatoare, corpul revine
+              la forma și dimensiunile inițiale.
+            </p>
+            <p>
+              Deformarea plastică este permanentă. În practică, legea lui Hooke este valabilă numai
+              în domeniul elastic liniar.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Tensiune normală</strong>
+            <p>
+              Tensiunea mecanică normală este raportul dintre forța normală și aria secțiunii transversale.
+            </p>
+            <div class="formula">
+              $$\sigma=\frac{F}{S}$$
+              $$[\sigma]_{SI}=1\,\text{Pa}=1\,\text{N/m}^2$$
+            </div>
+            <p>
+              Practic: $1\,\text{MPa}=1\,\text{N/mm}^2$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Deformație specifică longitudinală</strong>
+            <p>
+              Alungirea relativă este:
+            </p>
+            <div class="formula">
+              $$\varepsilon=\frac{\Delta l}{l_0}$$
+            </div>
+            <p>
+              Este mărime adimensională și poate fi exprimată și procentual.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Legea lui Hooke pentru întindere</strong>
+            <p>
+              În domeniul elastic liniar:
+            </p>
+            <div class="formula">
+              $$\sigma=E\varepsilon$$
+            </div>
+            <p>
+              $E$ este modulul lui Young. Cu cât $E$ este mai mare, cu atât materialul este mai rigid
+              la întindere sau compresiune.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Alungirea unei bare</strong>
+            <p>
+              Pentru o bară de lungime $l_0$, secțiune $S$, modul Young $E$, solicitată axial cu forța $F$:
+            </p>
+            <div class="formula">
+              $$\Delta l=\frac{Fl_0}{ES}$$
+            </div>
+            <p>
+              Rigiditatea axială echivalentă este:
+            </p>
+            <div class="formula">
+              $$k=\frac{ES}{l_0}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>6. Resort elastic</strong>
+            <p>
+              Forța elastică se opune deformării.
+            </p>
+            <div class="formula">
+              $$\vec F_e=-k\vec x,\qquad F_e=kx$$
+            </div>
+            <p>
+              Energia potențială elastică:
+            </p>
+            <div class="formula">
+              $$E_e=\frac12kx^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>7. Resorturi asociate</strong>
+            <p>
+              Pentru resorturi în paralel:
+            </p>
+            <div class="formula">
+              $$k_p=k_1+k_2+\dots$$
+            </div>
+            <p>
+              Pentru resorturi în serie:
+            </p>
+            <div class="formula">
+              $$\frac{1}{k_s}=\frac{1}{k_1}+\frac{1}{k_2}+\dots$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>8. Energia elastică într-o bară întinsă</strong>
+            <p>
+              Când forța crește treptat de la $0$ la $F$, lucrul mecanic înmagazinat elastic este:
+            </p>
+            <div class="formula">
+              $$E_e=\frac12F\Delta l$$
+              $$E_e=\frac{F^2l_0}{2ES}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Forfecarea</strong>
+            <p>
+              La forfecare apar tensiune tangențială și deformație unghiulară.
+            </p>
+            <div class="formula">
+              $$\tau=\frac{F}{S}$$
+              $$\gamma=\frac{\Delta x}{h}$$
+              $$\tau=G\gamma$$
+            </div>
+            <p>
+              $G$ este modulul de forfecare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>10. Compresibilitatea volumică</strong>
+            <p>
+              Modulul de compresibilitate volumică $K$ leagă variația de presiune de variația relativă de volum.
+            </p>
+            <div class="formula">
+              $$K=-\frac{\Delta p}{\Delta V/V}$$
+              $$\Delta V=-V\frac{\Delta p}{K}$$
+            </div>
+            <p>
+              Semnul minus arată că volumul scade când presiunea crește.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>11. Coeficientul Poisson</strong>
+            <p>
+              La întindere longitudinală, corpul se contractă transversal.
+            </p>
+            <div class="formula">
+              $$\nu=-\frac{\varepsilon_t}{\varepsilon_l}$$
+            </div>
+            <p>
+              Pentru o bară cilindrică:
+            </p>
+            <div class="formula">
+              $$\frac{\Delta d}{d_0}=-\nu\frac{\Delta l}{l_0}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>12. Relații între modulele elastice</strong>
+            <p>
+              Pentru materiale izotrope:
+            </p>
+            <div class="formula">
+              $$E=2G(1+\nu)$$
+              $$K=\frac{E}{3(1-2\nu)}$$
+            </div>
+            <p>
+              Aceste relații sunt valabile pentru comportare elastică liniară izotropă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Diagrama $\sigma(\varepsilon)$</strong>
+            <p>
+              În zona liniară, panta graficului tensiune–deformație este modulul lui Young.
+            </p>
+            <div class="formula">
+              $$E=\frac{\Delta\sigma}{\Delta\varepsilon}$$
+            </div>
+            <p>
+              Peste limita elastică apar deformări permanente.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Rezistență admisibilă</strong>
+            <p>
+              În aplicații tehnice se folosește un coeficient de siguranță $n$:
+            </p>
+            <div class="formula">
+              $$\sigma_{\text{adm}}=\frac{\sigma_{\text{limită}}}{n}$$
+              $$F_{\max}=\sigma_{\text{adm}}S$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          nu confunda tensiunea $\sigma$ cu forța $F$; alungirea $\Delta l$ are unitate de lungime,
+          iar alungirea relativă $\varepsilon$ este adimensională; în formulele cu $E$, $G$, $K$ trebuie
+          convertite corect ariile și unitățile; $1\,\text{MPa}=1\,\text{N/mm}^2$.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / definiție</th>
+                  <th>Unitate SI</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tensiune normală</td>
+                  <td></td>
+                  <td></td>
+                  <td>Forță normală raportată la secțiune.</td>
+                </tr>
+                <tr>
+                  <td>Alungire relativă</td>
+                  <td></td>
+                  <td></td>
+                  <td>Mărime adimensională.</td>
+                </tr>
+                <tr>
+                  <td>Legea lui Hooke axială</td>
+                  <td></td>
+                  <td></td>
+                  <td>Valabilă în domeniul elastic liniar.</td>
+                </tr>
+                <tr>
+                  <td>Alungirea unei bare</td>
+                  <td></td>
+                  <td></td>
+                  <td>Depinde de $F$, $l_0$, $E$, $S$.</td>
+                </tr>
+                <tr>
+                  <td>Forța elastică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Orientată opus deformării.</td>
+                </tr>
+                <tr>
+                  <td>Energia elastică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Proporțională cu $x^2$.</td>
+                </tr>
+                <tr>
+                  <td>Forfecare</td>
+                  <td></td>
+                  <td></td>
+                  <td>$G$ este modulul de forfecare.</td>
+                </tr>
+                <tr>
+                  <td>Coeficient Poisson</td>
+                  <td></td>
+                  <td></td>
+                  <td>Leagă contracția transversală de alungirea longitudinală.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>În domeniul elastic liniar, tensiunea este proporțională cu deformația specifică.</li>
+            <li>Alungirea relativă se măsoară în metri.</li>
+            <li>Modulul lui Young are aceeași unitate ca tensiunea mecanică.</li>
+            <li>Energia elastică a resortului este $E_e=\frac12kx^2$.</li>
+            <li>Două resorturi identice puse în paralel au rigiditatea echivalentă mai mică decât a unuia singur.</li>
+            <li>La creșterea presiunii hidrostatice, volumul unui corp elastic compresibil scade.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\sigma=$ <span class="line"></span></p>
+              <p>$\varepsilon=$ <span class="line"></span></p>
+              <p>$\sigma=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$\Delta l=$ <span class="line"></span></p>
+              <p>$E_e=$ <span class="line"></span></p>
+              <p>$K=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Bară întinsă axial. 6 p</h3>
+
+          <p>
+            O bară de lungime $l_0=<span class="var" id="e1L"></span>\,\text{m}$,
+            secțiune $S=<span class="var" id="e1S"></span>\,\text{mm}^2$
+            și modul Young $E=<span class="var" id="e1E"></span>\,\text{GPa}$
+            este solicitată axial cu forța
+            $F=<span class="var" id="e1F"></span>\,\text{N}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează tensiunea normală $\sigma$.</li>
+            <li>Calculează alungirea relativă $\varepsilon$.</li>
+            <li>Calculează alungirea $\Delta l$ în milimetri.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Determinarea modulului lui Young. 5 p</h3>
+
+          <p>
+            Un fir de lungime $l_0=<span class="var" id="e2L"></span>\,\text{m}$
+            și secțiune $S=<span class="var" id="e2S"></span>\,\text{mm}^2$
+            se alungește cu
+            $\Delta l=<span class="var" id="e2dL"></span>\,\text{mm}$
+            sub acțiunea forței
+            $F=<span class="var" id="e2F"></span>\,\text{N}$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie relația folosită.</li>
+            <li>Determină modulul lui Young în GPa.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Forța maximă admisă. 5 p</h3>
+
+          <p>
+            Un cablu are secțiunea $S=<span class="var" id="e3S"></span>\,\text{mm}^2$.
+            Tensiunea-limită a materialului este
+            $\sigma_{\text{lim}}=<span class="var" id="e3sig"></span>\,\text{MPa}$.
+            Se folosește coeficientul de siguranță
+            $n=<span class="var" id="e3n"></span>$.
+          </p>
+
+          <ol type="a">
+            <li>Determină tensiunea admisibilă.</li>
+            <li>Determină forța maximă admisă.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Resort elastic. 5 p</h3>
+
+          <p>
+            Un resort de constantă elastică
+            $k=<span class="var" id="e4k"></span>\,\text{N/m}$
+            este alungit cu
+            $x=<span class="var" id="e4x"></span>\,\text{cm}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează forța elastică.</li>
+            <li>Calculează energia potențială elastică.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Resorturi în serie și paralel. 6 p</h3>
+
+          <p>
+            Două resorturi au constantele elastice
+            $k_1=<span class="var" id="e5k1"></span>\,\text{N/m}$ și
+            $k_2=<span class="var" id="e5k2"></span>\,\text{N/m}$.
+            Asupra sistemului acționează forța
+            $F=<span class="var" id="e5F"></span>\,\text{N}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează rigiditatea echivalentă în paralel și alungirea corespunzătoare.</li>
+            <li>Calculează rigiditatea echivalentă în serie și alungirea corespunzătoare.</li>
+            <li>Compară rezultatele.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Energie elastică într-un fir întins. 5 p</h3>
+
+          <p>
+            Un fir de lungime $l_0=<span class="var" id="e6L"></span>\,\text{m}$,
+            secțiune $S=<span class="var" id="e6S"></span>\,\text{mm}^2$
+            și modul Young $E=<span class="var" id="e6E"></span>\,\text{GPa}$
+            este întins cu forța
+            $F=<span class="var" id="e6F"></span>\,\text{N}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează alungirea firului.</li>
+            <li>Calculează energia elastică acumulată.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Deformare prin forfecare. 6 p</h3>
+
+          <p>
+            Un bloc elastic de înălțime $h=<span class="var" id="e7h"></span>\,\text{cm}$
+            și suprafață $S=<span class="var" id="e7S"></span>\,\text{cm}^2$
+            este forfecat de forța
+            $F=<span class="var" id="e7F"></span>\,\text{N}$.
+            Modulul de forfecare este
+            $G=<span class="var" id="e7G"></span>\,\text{GPa}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează tensiunea tangențială $\tau$.</li>
+            <li>Calculează deformația unghiulară $\gamma$.</li>
+            <li>Calculează deplasarea laterală $\Delta x$ în milimetri.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Compresibilitate volumică. 5 p</h3>
+
+          <p>
+            Un corp elastic are volumul
+            $V=<span class="var" id="e8V"></span>\,\text{L}$.
+            Presiunea crește cu
+            $\Delta p=<span class="var" id="e8dp"></span>\,\text{MPa}$.
+            Modulul de compresibilitate volumică este
+            $K=<span class="var" id="e8K"></span>\,\text{GPa}$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie relația dintre $K$, $\Delta p$ și $\Delta V/V$.</li>
+            <li>Determină variația de volum în mililitri.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Coeficientul Poisson. 5 p</h3>
+
+          <p>
+            O tijă cilindrică de lungime
+            $l_0=<span class="var" id="e9L"></span>\,\text{m}$
+            și diametru
+            $d_0=<span class="var" id="e9d"></span>\,\text{mm}$
+            se alungește cu
+            $\Delta l=<span class="var" id="e9dL"></span>\,\text{mm}$.
+            Coeficientul Poisson este
+            $\nu=<span class="var" id="e9nu"></span>$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează deformația longitudinală.</li>
+            <li>Calculează variația diametrului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Relații între modulele elastice. 4 p</h3>
+
+          <p>
+            Un material izotrop are modulul Young
+            $E=<span class="var" id="e10E"></span>\,\text{GPa}$
+            și coeficientul Poisson
+            $\nu=<span class="var" id="e10nu"></span>$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează modulul de forfecare $G$.</li>
+            <li>Calculează modulul de compresibilitate volumică $K$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Grafic tensiune–deformație. 5 p</h3>
+
+          <p>
+            În zona liniară a graficului $\sigma(\varepsilon)$, pentru o probă se obține
+            $\sigma=<span class="var" id="e11sig"></span>\,\text{MPa}$
+            la deformația specifică
+            $\varepsilon=<span class="var" id="e11eps"></span>\cdot10^{-4}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină modulul lui Young în GPa.</li>
+            <li>Explică semnificația pantei graficului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Problemă combinată: bară ca resort. 3 p</h3>
+
+          <p>
+            O bară elastică are $E=<span class="var" id="e12E"></span>\,\text{GPa}$,
+            $S=<span class="var" id="e12S"></span>\,\text{mm}^2$ și
+            $l_0=<span class="var" id="e12L"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină rigiditatea axială $k=ES/l_0$.</li>
+            <li>Determină alungirea la forța $F=<span class="var" id="e12F"></span>\,\text{N}$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>16. Compară tipurile de deformări elastice. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care să compari întinderea/compresiunea,
+            forfecarea și compresibilitatea volumică.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>mărimea de tip tensiune pentru fiecare caz;</li>
+            <li>mărimea de tip deformație pentru fiecare caz;</li>
+            <li>modulul elastic corespunzător: $E$, $G$, $K$;</li>
+            <li>relația matematică fundamentală;</li>
+            <li>unitățile SI;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–15, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> comparație corectă 5 p, relații matematice 4 p, unități 2 p, capcane 2 p, claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C09-deformari-elastice.html">Înapoi la lecția C09</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c09", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c09");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1 = {
+        L: choose([1, 1.5, 2, 2.5, 3]),
+        S: choose([2, 3, 4, 5, 6, 8, 10]),
+        E: choose([70, 100, 120, 200]),
+        F: randInt(100, 600, 50)
+      };
+
+      const e2E = choose([70, 100, 120, 200]);
+      const e2 = {
+        L: choose([1, 1.5, 2, 2.5]),
+        S: choose([2, 4, 5, 8, 10]),
+        E: e2E,
+        F: randInt(100, 500, 50)
+      };
+      e2.dL = e2.F * e2.L / (e2.E * 1e9 * e2.S * 1e-6) * 1000;
+
+      const e3 = {
+        S: randInt(20, 120, 10),
+        sig: randInt(120, 400, 20),
+        n: choose([2, 2.5, 3, 4])
+      };
+
+      const e4 = {
+        k: randInt(100, 800, 50),
+        x: choose([2, 3, 4, 5, 6, 8, 10])
+      };
+
+      const e5 = {
+        k1: randInt(100, 600, 50),
+        k2: randInt(100, 600, 50),
+        F: randInt(10, 80, 10)
+      };
+
+      const e6 = {
+        L: choose([1, 1.5, 2, 2.5, 3]),
+        S: choose([2, 3, 4, 5, 6, 8]),
+        E: choose([70, 100, 120, 200]),
+        F: randInt(100, 600, 50)
+      };
+
+      const e7 = {
+        h: choose([2, 3, 4, 5, 6]),
+        S: choose([4, 5, 8, 10, 12, 15]),
+        F: randInt(100, 800, 50),
+        G: choose([25, 30, 40, 50, 80])
+      };
+
+      const e8 = {
+        V: choose([0.5, 1, 1.5, 2, 3]),
+        dp: choose([2, 5, 8, 10, 12]),
+        K: choose([2, 5, 10, 20, 50])
+      };
+
+      const e9 = {
+        L: choose([1, 1.5, 2, 2.5]),
+        d: choose([2, 3, 4, 5, 6]),
+        dL: choose([0.2, 0.4, 0.6, 0.8, 1]),
+        nu: choose([0.25, 0.28, 0.3, 0.33])
+      };
+
+      const e10 = {
+        E: choose([70, 100, 120, 200]),
+        nu: choose([0.25, 0.28, 0.3, 0.33])
+      };
+
+      const e11epsFactor = choose([2, 3, 4, 5, 6, 8]);
+      const e11E = choose([50, 70, 100, 200]);
+      const e11 = {
+        epsFactor: e11epsFactor,
+        sig: e11E * e11epsFactor * 1e-4 * 1000
+      };
+
+      const e12 = {
+        E: choose([70, 100, 120, 200]),
+        S: choose([2, 4, 5, 8, 10]),
+        L: choose([1, 1.5, 2, 2.5]),
+        F: randInt(100, 600, 50)
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 };
+      localStorage.setItem("values-fisa-c09", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1L", fmt(data.e1.L, 2));
+      setText("e1S", fmt(data.e1.S, 0));
+      setText("e1E", fmt(data.e1.E, 0));
+      setText("e1F", fmt(data.e1.F, 0));
+
+      setText("e2L", fmt(data.e2.L, 2));
+      setText("e2S", fmt(data.e2.S, 0));
+      setText("e2dL", fmt(data.e2.dL, 3));
+      setText("e2F", fmt(data.e2.F, 0));
+
+      setText("e3S", fmt(data.e3.S, 0));
+      setText("e3sig", fmt(data.e3.sig, 0));
+      setText("e3n", fmt(data.e3.n, 1));
+
+      setText("e4k", fmt(data.e4.k, 0));
+      setText("e4x", fmt(data.e4.x, 0));
+
+      setText("e5k1", fmt(data.e5.k1, 0));
+      setText("e5k2", fmt(data.e5.k2, 0));
+      setText("e5F", fmt(data.e5.F, 0));
+
+      setText("e6L", fmt(data.e6.L, 2));
+      setText("e6S", fmt(data.e6.S, 0));
+      setText("e6E", fmt(data.e6.E, 0));
+      setText("e6F", fmt(data.e6.F, 0));
+
+      setText("e7h", fmt(data.e7.h, 0));
+      setText("e7S", fmt(data.e7.S, 0));
+      setText("e7F", fmt(data.e7.F, 0));
+      setText("e7G", fmt(data.e7.G, 0));
+
+      setText("e8V", fmt(data.e8.V, 2));
+      setText("e8dp", fmt(data.e8.dp, 0));
+      setText("e8K", fmt(data.e8.K, 0));
+
+      setText("e9L", fmt(data.e9.L, 2));
+      setText("e9d", fmt(data.e9.d, 0));
+      setText("e9dL", fmt(data.e9.dL, 2));
+      setText("e9nu", fmt(data.e9.nu, 2));
+
+      setText("e10E", fmt(data.e10.E, 0));
+      setText("e10nu", fmt(data.e10.nu, 2));
+
+      setText("e11sig", fmt(data.e11.sig, 2));
+      setText("e11eps", fmt(data.e11.epsFactor, 0));
+
+      setText("e12E", fmt(data.e12.E, 0));
+      setText("e12S", fmt(data.e12.S, 0));
+      setText("e12L", fmt(data.e12.L, 2));
+      setText("e12F", fmt(data.e12.F, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1sigmaMPa = data.e1.F / data.e1.S;
+      const e1eps = e1sigmaMPa / (data.e1.E * 1000);
+      const e1dLmm = e1eps * data.e1.L * 1000;
+
+      const e2E_GPa = data.e2.F * data.e2.L / ((data.e2.S * 1e-6) * (data.e2.dL / 1000)) / 1e9;
+
+      const e3sigAdm = data.e3.sig / data.e3.n;
+      const e3Fmax = e3sigAdm * data.e3.S;
+
+      const e4xm = data.e4.x / 100;
+      const e4F = data.e4.k * e4xm;
+      const e4Ee = 0.5 * data.e4.k * e4xm ** 2;
+
+      const e5kp = data.e5.k1 + data.e5.k2;
+      const e5xp = data.e5.F / e5kp;
+      const e5ks = data.e5.k1 * data.e5.k2 / (data.e5.k1 + data.e5.k2);
+      const e5xs = data.e5.F / e5ks;
+
+      const e6dLm = data.e6.F * data.e6.L / (data.e6.E * 1e9 * data.e6.S * 1e-6);
+      const e6dLmm = e6dLm * 1000;
+      const e6Ee = 0.5 * data.e6.F * e6dLm;
+
+      const e7tauMPa = data.e7.F / (data.e7.S * 100);
+      const e7gamma = (e7tauMPa * 1e6) / (data.e7.G * 1e9);
+      const e7dxmm = e7gamma * (data.e7.h / 100) * 1000;
+
+      const e8dV_L = -data.e8.V * (data.e8.dp * 1e6) / (data.e8.K * 1e9);
+      const e8dV_mL = e8dV_L * 1000;
+
+      const e9epsL = (data.e9.dL / 1000) / data.e9.L;
+      const e9epsT = -data.e9.nu * e9epsL;
+      const e9ddmm = e9epsT * data.e9.d;
+
+      const e10G = data.e10.E / (2 * (1 + data.e10.nu));
+      const e10K = data.e10.E / (3 * (1 - 2 * data.e10.nu));
+
+      const e11eps = data.e11.epsFactor * 1e-4;
+      const e11E_GPa = (data.e11.sig * 1e6 / e11eps) / 1e9;
+
+      const e12k = data.e12.E * 1e9 * data.e12.S * 1e-6 / data.e12.L;
+      const e12dLmm = data.e12.F / e12k * 1000;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Bară întinsă axial</h3>
+          <div class="formula">
+            $$\\sigma=\\frac{F}{S}
+            =\\frac{${tex(data.e1.F, 0)}}{${tex(data.e1.S, 0)}}
+            =${tex(e1sigmaMPa, 3)}\\,\\text{MPa}$$
+            $$\\varepsilon=\\frac{\\sigma}{E}
+            =\\frac{${tex(e1sigmaMPa, 3)}}{${tex(data.e1.E * 1000, 0)}}=
+            ${tex(e1eps, 6)}$$
+            $$\\Delta l=\\varepsilon l_0
+            =${tex(e1eps, 6)}\\cdot ${tex(data.e1.L, 2)}
+            =${tex(e1dLmm, 4)}\\,\\text{mm}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Modulul lui Young</h3>
+          <div class="formula">
+            $$\\Delta l=\\frac{Fl_0}{ES}
+            \\Rightarrow E=\\frac{Fl_0}{S\\Delta l}$$
+            $$E=\\frac{${tex(data.e2.F, 0)}\\cdot ${tex(data.e2.L, 2)}}{
+            (${tex(data.e2.S, 0)}\\cdot10^{-6})(${tex(data.e2.dL, 3)}\\cdot10^{-3})}$$
+            $$E=${tex(e2E_GPa, 3)}\\,\\text{GPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Forța maximă admisă</h3>
+          <div class="formula">
+            $$\\sigma_{adm}=\\frac{\\sigma_{lim}}{n}
+            =\\frac{${tex(data.e3.sig, 0)}}{${tex(data.e3.n, 1)}}
+            =${tex(e3sigAdm, 3)}\\,\\text{MPa}$$
+            $$F_{max}=\\sigma_{adm}S
+            =${tex(e3sigAdm, 3)}\\cdot ${tex(data.e3.S, 0)}
+            =${tex(e3Fmax, 3)}\\,\\text{N}$$
+          </div>
+          <p>Am folosit faptul că $1\\,\\text{MPa}=1\\,\\text{N/mm}^2$.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Resort elastic</h3>
+          <div class="formula">
+            $$x=${tex(data.e4.x, 0)}\\,\\text{cm}=${tex(e4xm, 3)}\\,\\text{m}$$
+            $$F=kx=${tex(data.e4.k, 0)}\\cdot ${tex(e4xm, 3)}
+            =${tex(e4F, 3)}\\,\\text{N}$$
+            $$E_e=\\frac12kx^2
+            =\\frac12\\cdot ${tex(data.e4.k, 0)}\\cdot ${tex(e4xm, 3)}^2
+            =${tex(e4Ee, 4)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Resorturi în paralel și serie</h3>
+          <div class="formula">
+            $$k_p=k_1+k_2
+            =${tex(data.e5.k1, 0)}+${tex(data.e5.k2, 0)}
+            =${tex(e5kp, 3)}\\,\\text{N/m}$$
+            $$x_p=\\frac{F}{k_p}
+            =\\frac{${tex(data.e5.F, 0)}}{${tex(e5kp, 3)}}
+            =${tex(e5xp, 4)}\\,\\text{m}$$
+            $$k_s=\\frac{k_1k_2}{k_1+k_2}
+            =${tex(e5ks, 3)}\\,\\text{N/m}$$
+            $$x_s=\\frac{F}{k_s}
+            =\\frac{${tex(data.e5.F, 0)}}{${tex(e5ks, 3)}}
+            =${tex(e5xs, 4)}\\,\\text{m}$$
+          </div>
+          <p>În serie alungirea este mai mare, deoarece rigiditatea echivalentă este mai mică.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Energie elastică în fir</h3>
+          <div class="formula">
+            $$\\Delta l=\\frac{Fl_0}{ES}
+            =${tex(e6dLmm, 4)}\\,\\text{mm}$$
+            $$E_e=\\frac12F\\Delta l
+            =\\frac12\\cdot ${tex(data.e6.F, 0)}\\cdot ${tex(e6dLm, 6)}
+            =${tex(e6Ee, 6)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Forfecare</h3>
+          <div class="formula">
+            $$S=${tex(data.e7.S, 0)}\\,\\text{cm}^2=${tex(data.e7.S * 100, 0)}\\,\\text{mm}^2$$
+            $$\\tau=\\frac{F}{S}
+            =\\frac{${tex(data.e7.F, 0)}}{${tex(data.e7.S * 100, 0)}}
+            =${tex(e7tauMPa, 4)}\\,\\text{MPa}$$
+            $$\\gamma=\\frac{\\tau}{G}
+            =\\frac{${tex(e7tauMPa, 4)}\\cdot10^6}{${tex(data.e7.G, 0)}\\cdot10^9}
+            =${tex(e7gamma, 8)}$$
+            $$\\Delta x=\\gamma h
+            =${tex(e7dxmm, 6)}\\,\\text{mm}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Compresibilitate volumică</h3>
+          <div class="formula">
+            $$K=-\\frac{\\Delta p}{\\Delta V/V}
+            \\Rightarrow \\Delta V=-V\\frac{\\Delta p}{K}$$
+            $$\\Delta V=-${tex(data.e8.V, 2)}
+            \\frac{${tex(data.e8.dp, 0)}\\cdot10^6}{${tex(data.e8.K, 0)}\\cdot10^9}$$
+            $$\\Delta V=${tex(e8dV_mL, 4)}\\,\\text{mL}$$
+          </div>
+          <p>Semnul negativ arată scăderea volumului.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Coeficientul Poisson</h3>
+          <div class="formula">
+            $$\\varepsilon_l=\\frac{\\Delta l}{l_0}
+            =\\frac{${tex(data.e9.dL, 2)}\\cdot10^{-3}}{${tex(data.e9.L, 2)}}
+            =${tex(e9epsL, 8)}$$
+            $$\\varepsilon_t=-\\nu\\varepsilon_l
+            =-${tex(data.e9.nu, 2)}\\cdot ${tex(e9epsL, 8)}
+            =${tex(e9epsT, 8)}$$
+            $$\\Delta d=\\varepsilon_t d_0
+            =${tex(e9epsT, 8)}\\cdot ${tex(data.e9.d, 0)}
+            =${tex(e9ddmm, 8)}\\,\\text{mm}$$
+          </div>
+          <p>Diametrul scade, de aceea variația este negativă.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Relații între module</h3>
+          <div class="formula">
+            $$G=\\frac{E}{2(1+\\nu)}
+            =\\frac{${tex(data.e10.E, 0)}}{2(1+${tex(data.e10.nu, 2)})}
+            =${tex(e10G, 3)}\\,\\text{GPa}$$
+            $$K=\\frac{E}{3(1-2\\nu)}
+            =\\frac{${tex(data.e10.E, 0)}}{3(1-2\\cdot ${tex(data.e10.nu, 2)})}
+            =${tex(e10K, 3)}\\,\\text{GPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Grafic tensiune–deformație</h3>
+          <div class="formula">
+            $$E=\\frac{\\sigma}{\\varepsilon}$$
+            $$\\varepsilon=${tex(data.e11.epsFactor, 0)}\\cdot10^{-4}=${tex(e11eps, 6)}$$
+            $$E=\\frac{${tex(data.e11.sig, 2)}\\cdot10^6}{${tex(e11eps, 6)}}
+            =${tex(e11E_GPa, 3)}\\,\\text{GPa}$$
+          </div>
+          <p>Panta graficului $\sigma(\\varepsilon)$ în zona liniară este modulul lui Young.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Bară ca resort</h3>
+          <div class="formula">
+            $$k=\\frac{ES}{l_0}
+            =\\frac{${tex(data.e12.E, 0)}\\cdot10^9\\cdot ${tex(data.e12.S, 0)}\\cdot10^{-6}}{${tex(data.e12.L, 2)}}
+            =${tex(e12k, 3)}\\,\\text{N/m}$$
+            $$\\Delta l=\\frac{F}{k}
+            =\\frac{${tex(data.e12.F, 0)}}{${tex(e12k, 3)}}
+            =${tex(e12dLmm, 5)}\\,\\text{mm}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c09");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c09");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
