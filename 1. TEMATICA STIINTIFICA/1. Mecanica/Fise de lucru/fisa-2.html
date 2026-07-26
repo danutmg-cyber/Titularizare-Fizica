@@ -1,1 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 2 – Mișcarea rectilinie și circulară</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 125px; }
+    .answer-space.tall { min-height: 170px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .grid-3,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 110px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 2 • Mișcarea rectilinie și mișcarea circulară</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C02-miscarea-rectilinie-si-circulara.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 2</span>
+        <h1>Mișcarea rectilinie uniformă, mișcarea rectilinie uniform variată și mișcarea circulară uniformă</h1>
+
+        <p class="lead">
+          Fișă completă pentru exersarea relațiilor cinematice fundamentale. Exercițiile numerice folosesc
+          valori variabile: apasă <strong>„Generează alte valori”</strong> pentru un set nou de date.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 70 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Mișcare rectilinie uniformă — MRU</strong>
+            <div class="formula">
+              $$a=0,\qquad v=\text{constant}$$
+              $$x=x_0+vt$$
+              $$\Delta x=v\Delta t$$
+            </div>
+            <p>
+              Graficul $x(t)$ este o dreaptă. Panta graficului reprezintă viteza.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Mișcare rectilinie uniform variată — MRUV</strong>
+            <div class="formula">
+              $$a=\text{constant}$$
+              $$v=v_0+at$$
+              $$x=x_0+v_0t+\frac{at^2}{2}$$
+              $$v^2=v_0^2+2a\Delta x$$
+            </div>
+            <p>
+              Graficul $v(t)$ este o dreaptă, iar aria de sub graficul $v(t)$ reprezintă deplasarea.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Mișcare circulară uniformă — MCU</strong>
+            <div class="formula">
+              $$\omega=\frac{\Delta\varphi}{\Delta t}$$
+              $$T=\frac{1}{f},\qquad \omega=2\pi f=\frac{2\pi}{T}$$
+              $$v=\omega R=\frac{2\pi R}{T}$$
+              $$a_c=\frac{v^2}{R}=\omega^2R$$
+            </div>
+            <p>
+              Modulul vitezei este constant, dar direcția vitezei se modifică. De aceea există accelerație centripetă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Conversii și interpretări grafice</strong>
+            <div class="formula">
+              $$1\,\text{km/h}=\frac{1}{3{,}6}\,\text{m/s}$$
+              $$1\,\text{rot}=2\pi\,\text{rad}$$
+              $$1\,\text{rpm}=\frac{1}{60}\,\text{Hz}$$
+            </div>
+            <ul>
+              <li>Panta lui $x(t)$: viteza.</li>
+              <li>Panta lui $v(t)$: accelerația.</li>
+              <li>Aria sub $v(t)$: deplasarea.</li>
+              <li>Aria sub $a(t)$: variația vitezei.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          accelerația negativă nu înseamnă automat încetinire; viteza medie vectorială nu este aceeași cu viteza
+          medie scalară; în mișcarea circulară uniformă viteza are modul constant, dar accelerația nu este nulă.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mărime</th>
+                  <th>Definiție / relație</th>
+                  <th>Unitate SI</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Viteză</td>
+                  <td></td>
+                  <td></td>
+                  <td>Mărime vectorială.</td>
+                </tr>
+                <tr>
+                  <td>Accelerație</td>
+                  <td></td>
+                  <td></td>
+                  <td>Măsoară variația vitezei în timp.</td>
+                </tr>
+                <tr>
+                  <td>Viteză unghiulară</td>
+                  <td></td>
+                  <td></td>
+                  <td>Specifică mișcării circulare.</td>
+                </tr>
+                <tr>
+                  <td>Perioadă</td>
+                  <td></td>
+                  <td></td>
+                  <td>Timpul unei rotații complete.</td>
+                </tr>
+                <tr>
+                  <td>Frecvență</td>
+                  <td></td>
+                  <td></td>
+                  <td>Numărul de rotații pe secundă.</td>
+                </tr>
+                <tr>
+                  <td>Accelerație centripetă</td>
+                  <td></td>
+                  <td></td>
+                  <td>Orientată spre centrul traiectoriei.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>În MRU, accelerația este nulă.</li>
+            <li>În MRUV, viteza se modifică liniar cu timpul.</li>
+            <li>În MCU, accelerația este nulă deoarece viteza are modul constant.</li>
+            <li>Aria de sub graficul $v(t)$ reprezintă deplasarea.</li>
+            <li>În MCU, viteza instantanee este tangentă la traiectorie.</li>
+            <li>În MRU, graficul $x(t)$ este o parabolă.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>MRU: $x=$ <span class="line"></span></p>
+              <p>MRUV: $v=$ <span class="line"></span></p>
+              <p>MRUV: $x=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>MCU: $\omega=$ <span class="line"></span></p>
+              <p>MCU: $v=$ <span class="line"></span></p>
+              <p>MCU: $a_c=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. MRU – legea poziției. 6 p</h3>
+
+          <p>
+            Un mobil se deplasează rectiliniu uniform cu poziția inițială
+            $x_0=<span class="var" id="e1x0"></span>\,\text{m}$ și viteza
+            $v=<span class="var" id="e1v"></span>\,\text{m/s}$.
+            Determină poziția mobilului după
+            $t=<span class="var" id="e1t"></span>\,\text{s}$ și deplasarea în acest interval.
+          </p>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Întâlnire din sensuri opuse. 7 p</h3>
+
+          <p>
+            Două mobile pornesc simultan unul spre celălalt de la distanța
+            $d=<span class="var" id="e2d"></span>\,\text{m}$.
+            Primul are viteza $v_1=<span class="var" id="e2v1"></span>\,\text{m/s}$,
+            iar al doilea are viteza $v_2=<span class="var" id="e2v2"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină timpul până la întâlnire.</li>
+            <li>Determină distanța parcursă de primul mobil până la întâlnire.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Ajungere din urmă. 7 p</h3>
+
+          <p>
+            Mobilul A se află cu $d=<span class="var" id="e3d"></span>\,\text{m}$
+            în spatele mobilului B. Ambele se deplasează în același sens.
+            Viteza lui A este $v_A=<span class="var" id="e3vA"></span>\,\text{m/s}$,
+            iar viteza lui B este $v_B=<span class="var" id="e3vB"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină timpul după care A îl ajunge pe B.</li>
+            <li>Determină distanța parcursă de A până la întâlnire.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. MRUV – poziție și viteză. 8 p</h3>
+
+          <p>
+            Un mobil are poziția inițială $x_0=<span class="var" id="e4x0"></span>\,\text{m}$,
+            viteza inițială $v_0=<span class="var" id="e4v0"></span>\,\text{m/s}$
+            și accelerația constantă $a=<span class="var" id="e4a"></span>\,\text{m/s}^2$.
+            Determină $v(t)$ și $x(t)$ pentru
+            $t=<span class="var" id="e4t"></span>\,\text{s}$.
+          </p>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Frânare uniformă. 7 p</h3>
+
+          <p>
+            Un automobil se deplasează cu viteza inițială
+            $v_0=<span class="var" id="e5v0km"></span>\,\text{km/h}$.
+            El frânează uniform cu accelerația de modul
+            $a_f=<span class="var" id="e5a"></span>\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă viteza inițială în $\text{m/s}$.</li>
+            <li>Determină timpul de oprire.</li>
+            <li>Determină distanța de frânare.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Mișcare verticală în câmp gravitațional. 7 p</h3>
+
+          <p>
+            Un corp este aruncat vertical în sus cu viteza inițială
+            $v_0=<span class="var" id="e6v0"></span>\,\text{m/s}$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină timpul până la înălțimea maximă.</li>
+            <li>Determină înălțimea maximă.</li>
+            <li>Determină timpul total de revenire la nivelul de lansare.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Grafic $v(t)$ pe trei intervale. 7 p</h3>
+
+          <p>
+            Un mobil pornește din repaus. În primele
+            $t_1=<span class="var" id="e7t1"></span>\,\text{s}$ viteza crește uniform până la
+            $v_m=<span class="var" id="e7vm"></span>\,\text{m/s}$.
+            Apoi viteza rămâne constantă timp de
+            $t_2=<span class="var" id="e7t2"></span>\,\text{s}$.
+            În ultimele $t_3=<span class="var" id="e7t3"></span>\,\text{s}$ mobilul frânează uniform până la repaus.
+          </p>
+
+          <ol type="a">
+            <li>Calculează accelerația pe fiecare interval.</li>
+            <li>Calculează deplasarea totală ca arie de sub graficul $v(t)$.</li>
+            <li>Calculează viteza medie pe tot intervalul.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. MCU – perioadă dată. 7 p</h3>
+
+          <p>
+            Un punct material se mișcă uniform pe un cerc de rază
+            $R=<span class="var" id="e8R"></span>\,\text{m}$,
+            cu perioada $T=<span class="var" id="e8T"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină frecvența $f$.</li>
+            <li>Determină viteza unghiulară $\omega$.</li>
+            <li>Determină viteza liniară $v$.</li>
+            <li>Determină accelerația centripetă $a_c$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. MCU – rotații pe minut. 6 p</h3>
+
+          <p>
+            O roată de rază $R=<span class="var" id="e9R"></span>\,\text{m}$
+            se rotește cu $n=<span class="var" id="e9n"></span>\,\text{rot/min}$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă turația în frecvență, în $\text{Hz}$.</li>
+            <li>Determină perioada.</li>
+            <li>Determină viteza liniară a unui punct de pe marginea roții.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Deplasare unghiulară. 6 p</h3>
+
+          <p>
+            Un punct de pe marginea unui disc de rază
+            $R=<span class="var" id="e10R"></span>\,\text{m}$ efectuează
+            $N=<span class="var" id="e10N"></span>$ rotații complete în
+            $\Delta t=<span class="var" id="e10t"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină deplasarea unghiulară $\Delta\varphi$.</li>
+            <li>Determină viteza unghiulară medie.</li>
+            <li>Determină drumul parcurs pe cerc.</li>
+            <li>Determină viteza liniară medie.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>14. Compară MRU, MRUV și MCU. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care să compari cele trei tipuri de mișcare:
+            mișcarea rectilinie uniformă, mișcarea rectilinie uniform variată și mișcarea circulară uniformă.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>forma traiectoriei;</li>
+            <li>comportarea vitezei;</li>
+            <li>comportarea accelerației;</li>
+            <li>două relații matematice pentru fiecare caz;</li>
+            <li>o capcană de interpretare pentru fiecare tip de mișcare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–13, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> comparație corectă 6 p, relații matematice 4 p, capcane 3 p, claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C02-miscarea-rectilinie-si-circulara.html">Înapoi la lecția C02</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c02", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c02");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1 = {
+        x0: randInt(-20, 30, 5),
+        v: randInt(2, 12),
+        t: randInt(4, 16)
+      };
+
+      const e2v1 = randInt(3, 10);
+      const e2v2 = randInt(4, 12);
+      const e2sum = e2v1 + e2v2;
+      const e2t = randInt(4, 10);
+      const e2 = {
+        v1: e2v1,
+        v2: e2v2,
+        t: e2t,
+        d: e2sum * e2t
+      };
+
+      const e3vB = randInt(3, 9);
+      const e3diff = randInt(2, 6);
+      const e3t = randInt(5, 12);
+      const e3 = {
+        vB: e3vB,
+        vA: e3vB + e3diff,
+        d: e3diff * e3t,
+        t: e3t
+      };
+
+      const e4 = {
+        x0: randInt(-10, 15, 5),
+        v0: randInt(2, 12),
+        a: choose([2, 3, 4, -2, -3]),
+        t: randInt(3, 8)
+      };
+
+      const e5v0ms = choose([10, 15, 20, 25, 30]);
+      const e5 = {
+        v0ms: e5v0ms,
+        v0km: e5v0ms * 3.6,
+        a: choose([2, 3, 4, 5])
+      };
+
+      const e6 = {
+        v0: choose([10, 15, 20, 25, 30]),
+        g: 10
+      };
+
+      const e7 = {
+        t1: randInt(3, 7),
+        t2: randInt(2, 6),
+        t3: randInt(2, 5),
+        vm: choose([6, 8, 10, 12, 14])
+      };
+
+      const e8 = {
+        R: choose([0.5, 0.8, 1, 1.2, 1.5, 2]),
+        T: choose([2, 3, 4, 5, 6])
+      };
+
+      const e9 = {
+        R: choose([0.2, 0.25, 0.3, 0.4, 0.5]),
+        n: choose([60, 90, 120, 180, 240, 300])
+      };
+
+      const e10 = {
+        R: choose([0.4, 0.5, 0.75, 1, 1.2]),
+        N: randInt(3, 12),
+        t: randInt(5, 20)
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10 };
+      localStorage.setItem("values-fisa-c02", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1x0", fmt(data.e1.x0, 0));
+      setText("e1v", fmt(data.e1.v, 0));
+      setText("e1t", fmt(data.e1.t, 0));
+
+      setText("e2d", fmt(data.e2.d, 0));
+      setText("e2v1", fmt(data.e2.v1, 0));
+      setText("e2v2", fmt(data.e2.v2, 0));
+
+      setText("e3d", fmt(data.e3.d, 0));
+      setText("e3vA", fmt(data.e3.vA, 0));
+      setText("e3vB", fmt(data.e3.vB, 0));
+
+      setText("e4x0", fmt(data.e4.x0, 0));
+      setText("e4v0", fmt(data.e4.v0, 0));
+      setText("e4a", fmt(data.e4.a, 0));
+      setText("e4t", fmt(data.e4.t, 0));
+
+      setText("e5v0km", fmt(data.e5.v0km, 0));
+      setText("e5a", fmt(data.e5.a, 0));
+
+      setText("e6v0", fmt(data.e6.v0, 0));
+
+      setText("e7t1", fmt(data.e7.t1, 0));
+      setText("e7t2", fmt(data.e7.t2, 0));
+      setText("e7t3", fmt(data.e7.t3, 0));
+      setText("e7vm", fmt(data.e7.vm, 0));
+
+      setText("e8R", fmt(data.e8.R, 2));
+      setText("e8T", fmt(data.e8.T, 0));
+
+      setText("e9R", fmt(data.e9.R, 2));
+      setText("e9n", fmt(data.e9.n, 0));
+
+      setText("e10R", fmt(data.e10.R, 2));
+      setText("e10N", fmt(data.e10.N, 0));
+      setText("e10t", fmt(data.e10.t, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1dx = data.e1.v * data.e1.t;
+      const e1x = data.e1.x0 + e1dx;
+
+      const e2t = data.e2.d / (data.e2.v1 + data.e2.v2);
+      const e2s1 = data.e2.v1 * e2t;
+
+      const e3t = data.e3.d / (data.e3.vA - data.e3.vB);
+      const e3sA = data.e3.vA * e3t;
+
+      const e4v = data.e4.v0 + data.e4.a * data.e4.t;
+      const e4dx = data.e4.v0 * data.e4.t + 0.5 * data.e4.a * data.e4.t * data.e4.t;
+      const e4x = data.e4.x0 + e4dx;
+
+      const e5t = data.e5.v0ms / data.e5.a;
+      const e5s = data.e5.v0ms * data.e5.v0ms / (2 * data.e5.a);
+
+      const e6tUp = data.e6.v0 / data.e6.g;
+      const e6h = data.e6.v0 * data.e6.v0 / (2 * data.e6.g);
+      const e6tTotal = 2 * e6tUp;
+
+      const e7a1 = data.e7.vm / data.e7.t1;
+      const e7a2 = 0;
+      const e7a3 = -data.e7.vm / data.e7.t3;
+      const e7s = 0.5 * data.e7.t1 * data.e7.vm + data.e7.t2 * data.e7.vm + 0.5 * data.e7.t3 * data.e7.vm;
+      const e7tTotal = data.e7.t1 + data.e7.t2 + data.e7.t3;
+      const e7vMed = e7s / e7tTotal;
+
+      const e8f = 1 / data.e8.T;
+      const e8omega = 2 * Math.PI / data.e8.T;
+      const e8v = e8omega * data.e8.R;
+      const e8ac = e8omega * e8omega * data.e8.R;
+
+      const e9f = data.e9.n / 60;
+      const e9T = 1 / e9f;
+      const e9v = 2 * Math.PI * data.e9.R * e9f;
+
+      const e10phi = 2 * Math.PI * data.e10.N;
+      const e10omega = e10phi / data.e10.t;
+      const e10s = 2 * Math.PI * data.e10.R * data.e10.N;
+      const e10v = e10s / data.e10.t;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. MRU</h3>
+          <div class="formula">
+            $$x=x_0+vt=${tex(data.e1.x0, 0)}+${tex(data.e1.v, 0)}\\cdot ${tex(data.e1.t, 0)}
+            =${tex(e1x, 0)}\\,\\text{m}$$
+            $$\\Delta x=vt=${tex(e1dx, 0)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Întâlnire din sensuri opuse</h3>
+          <div class="formula">
+            $$t=\\frac{d}{v_1+v_2}
+            =\\frac{${tex(data.e2.d, 0)}}{${tex(data.e2.v1, 0)}+${tex(data.e2.v2, 0)}}
+            =${tex(e2t, 2)}\\,\\text{s}$$
+            $$s_1=v_1t=${tex(data.e2.v1, 0)}\\cdot ${tex(e2t, 2)}
+            =${tex(e2s1, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Ajungere din urmă</h3>
+          <div class="formula">
+            $$t=\\frac{d}{v_A-v_B}
+            =\\frac{${tex(data.e3.d, 0)}}{${tex(data.e3.vA, 0)}-${tex(data.e3.vB, 0)}}
+            =${tex(e3t, 2)}\\,\\text{s}$$
+            $$s_A=v_A t=${tex(data.e3.vA, 0)}\\cdot ${tex(e3t, 2)}
+            =${tex(e3sA, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. MRUV</h3>
+          <div class="formula">
+            $$v=v_0+at=${tex(data.e4.v0, 0)}+${tex(data.e4.a, 0)}\\cdot ${tex(data.e4.t, 0)}
+            =${tex(e4v, 2)}\\,\\text{m/s}$$
+            $$\\Delta x=v_0t+\\frac{at^2}{2}
+            =${tex(data.e4.v0, 0)}\\cdot ${tex(data.e4.t, 0)}
+            +\\frac{${tex(data.e4.a, 0)}\\cdot ${tex(data.e4.t, 0)}^2}{2}
+            =${tex(e4dx, 2)}\\,\\text{m}$$
+            $$x=x_0+\\Delta x=${tex(data.e4.x0, 0)}+${tex(e4dx, 2)}
+            =${tex(e4x, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Frânare uniformă</h3>
+          <div class="formula">
+            $$v_0=${tex(data.e5.v0km, 0)}\\,\\text{km/h}
+            =\\frac{${tex(data.e5.v0km, 0)}}{3{,}6}
+            =${tex(data.e5.v0ms, 2)}\\,\\text{m/s}$$
+            $$t_{oprire}=\\frac{v_0}{a_f}
+            =\\frac{${tex(data.e5.v0ms, 2)}}{${tex(data.e5.a, 0)}}
+            =${tex(e5t, 2)}\\,\\text{s}$$
+            $$s_{fr}=\\frac{v_0^2}{2a_f}
+            =\\frac{${tex(data.e5.v0ms, 2)}^2}{2\\cdot ${tex(data.e5.a, 0)}}
+            =${tex(e5s, 2)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Aruncare verticală</h3>
+          <div class="formula">
+            $$t_{urcare}=\\frac{v_0}{g}
+            =\\frac{${tex(data.e6.v0, 0)}}{10}
+            =${tex(e6tUp, 2)}\\,\\text{s}$$
+            $$h_{max}=\\frac{v_0^2}{2g}
+            =\\frac{${tex(data.e6.v0, 0)}^2}{20}
+            =${tex(e6h, 2)}\\,\\text{m}$$
+            $$t_{total}=2t_{urcare}=${tex(e6tTotal, 2)}\\,\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Grafic v(t)</h3>
+          <div class="formula">
+            $$a_1=\\frac{v_m}{t_1}
+            =\\frac{${tex(data.e7.vm, 0)}}{${tex(data.e7.t1, 0)}}
+            =${tex(e7a1, 2)}\\,\\text{m/s}^2$$
+            $$a_2=0$$
+            $$a_3=\\frac{0-v_m}{t_3}
+            =-${tex(Math.abs(e7a3), 2)}\\,\\text{m/s}^2$$
+            $$\\Delta x=\\frac{t_1v_m}{2}+t_2v_m+\\frac{t_3v_m}{2}
+            =${tex(e7s, 2)}\\,\\text{m}$$
+            $$v_{med}=\\frac{\\Delta x}{t_1+t_2+t_3}
+            =\\frac{${tex(e7s, 2)}}{${tex(e7tTotal, 0)}}
+            =${tex(e7vMed, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. MCU cu perioadă dată</h3>
+          <div class="formula">
+            $$f=\\frac{1}{T}=\\frac{1}{${tex(data.e8.T, 0)}}
+            =${tex(e8f, 3)}\\,\\text{Hz}$$
+            $$\\omega=\\frac{2\\pi}{T}
+            =${tex(e8omega, 3)}\\,\\text{rad/s}$$
+            $$v=\\omega R
+            =${tex(e8omega, 3)}\\cdot ${tex(data.e8.R, 2)}
+            =${tex(e8v, 3)}\\,\\text{m/s}$$
+            $$a_c=\\omega^2R
+            =${tex(e8ac, 3)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Rotații pe minut</h3>
+          <div class="formula">
+            $$f=\\frac{n}{60}
+            =\\frac{${tex(data.e9.n, 0)}}{60}
+            =${tex(e9f, 3)}\\,\\text{Hz}$$
+            $$T=\\frac{1}{f}
+            =${tex(e9T, 3)}\\,\\text{s}$$
+            $$v=2\\pi Rf
+            =${tex(e9v, 3)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Deplasare unghiulară</h3>
+          <div class="formula">
+            $$\\Delta\\varphi=2\\pi N=2\\pi\\cdot ${tex(data.e10.N, 0)}
+            =${tex(e10phi, 3)}\\,\\text{rad}$$
+            $$\\omega_m=\\frac{\\Delta\\varphi}{\\Delta t}
+            =${tex(e10omega, 3)}\\,\\text{rad/s}$$
+            $$s=2\\pi RN
+            =${tex(e10s, 3)}\\,\\text{m}$$
+            $$v_m=\\frac{s}{\\Delta t}
+            =${tex(e10v, 3)}\\,\\text{m/s}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c02");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c02");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
