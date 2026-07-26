@@ -5,61 +5,17 @@
   <title>C02 – Mișcarea rectilinie și circulară</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C02 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
     }
 
     .topbar {
@@ -101,20 +57,11 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
     .page.active {
       display: flex;
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
     }
 
     .eyebrow {
@@ -128,28 +75,12 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
     p {
       margin: 0.75rem 0;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 1.35rem;
     }
 
@@ -160,25 +91,6 @@
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -208,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -220,34 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning {
-      background: #33260c;
+      border: 1px solid var(--border);
     }
 
     .compare {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      overflow: hidden;
-      border-radius: 16px;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -266,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -285,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -307,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -332,22 +249,30 @@
     }
 
     .bottom-links a:nth-child(3) {
-      background: var(--accent-3);
+      background: #7c3aed;
     }
 
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
-      }
-
       .grid,
       .bottom-links {
         grid-template-columns: 1fr;
       }
 
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
       }
 
       .pager a {
@@ -369,7 +294,7 @@
 <body>
   <div class="topbar">
     <strong>C02 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -382,7 +307,8 @@
           Această lecție fixează două modele fundamentale ale cinematicii:
           <span class="mark">mișcarea rectilinie</span> și
           <span class="mark">mișcarea circulară</span>.
-          Pentru examen, trebuie să poți trece rapid de la descrierea fizică la ecuații, grafice și interpretarea rezultatului.
+          Pentru examen trebuie să treci corect de la descrierea fizică la ecuații,
+          grafice și interpretarea rezultatului.
         </p>
 
         <div class="exam">
@@ -394,31 +320,55 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 300" role="img" aria-label="Comparație mișcare rectilinie și circulară">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c02-1-axis" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
               </marker>
-              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c02-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c02-1-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <line x1="60" y1="220" x2="330" y2="220" stroke="#64748b" stroke-width="4" marker-end="url(#arrow-blue)"/>
-            <circle cx="130" cy="220" r="10" fill="#ef4444"/>
-            <circle cx="260" cy="220" r="10" fill="#ef4444"/>
-            <line x1="130" y1="190" x2="260" y2="190" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow-blue)"/>
-            <text x="150" y="175" fill="#2563eb" font-size="24">deplasare rectilinie</text>
+            <line x1="60" y1="220" x2="330" y2="220"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"
+                  marker-end="url(#c02-1-axis)"/>
+
+            <circle cx="130" cy="220" r="9" fill="#ef4444"/>
+            <circle cx="260" cy="220" r="9" fill="#ef4444"/>
+
+            <line x1="130" y1="190" x2="260" y2="190"
+                  stroke="#2563eb" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c02-1-blue)"/>
+
+            <text x="142" y="175" fill="#2563eb" font-size="24">deplasare rectilinie</text>
             <text x="50" y="255" fill="#64748b" font-size="22">Ox</text>
 
-            <circle cx="565" cy="155" r="92" fill="none" stroke="#0f766e" stroke-width="6"/>
-            <line x1="565" y1="155" x2="640" y2="102" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-blue)"/>
-            <path d="M625 102 A92 92 0 0 1 657 155" fill="none" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-green)"/>
-            <circle cx="640" cy="102" r="10" fill="#ef4444"/>
+            <circle cx="565" cy="155" r="92" fill="none" stroke="#0f766e" stroke-width="5"/>
+            <line x1="565" y1="155" x2="640" y2="102"
+                  stroke="#2563eb" stroke-width="3.5" stroke-linecap="round"
+                  marker-end="url(#c02-1-blue)"/>
+
+            <path d="M625 102 A92 92 0 0 1 657 155"
+                  fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c02-1-green)"/>
+
+            <circle cx="640" cy="102" r="9" fill="#ef4444"/>
+
             <text x="585" y="122" fill="#2563eb" font-size="24">R</text>
-            <text x="670" y="140" fill="#0f766e" font-size="24">v tangentă</text>
+            <text x="660" y="140" fill="#0f766e" font-size="24">v tangentă</text>
             <text x="535" y="155" fill="#64748b" font-size="22">O</text>
           </svg>
+
           <p class="caption">
-            În mișcarea circulară uniformă, modulul vitezei poate fi constant, dar direcția vectorului viteză se schimbă permanent.
+            În mișcarea circulară uniformă, modulul vitezei poate fi constant,
+            dar direcția vectorului viteză se schimbă permanent.
           </p>
         </div>
       </article>
@@ -477,20 +427,42 @@
 
         <div class="svgbox">
           <svg viewBox="0 0 760 300" role="img" aria-label="Grafice pentru mișcarea rectilinie uniformă">
-            <line x1="70" y1="235" x2="340" y2="235" stroke="#64748b" stroke-width="3"/>
-            <line x1="90" y1="250" x2="90" y2="50" stroke="#64748b" stroke-width="3"/>
-            <line x1="105" y1="205" x2="315" y2="75" stroke="#2563eb" stroke-width="7"/>
+            <defs>
+              <marker id="c02-2-axis" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <line x1="70" y1="235" x2="340" y2="235"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"
+                  marker-end="url(#c02-2-axis)"/>
+            <line x1="90" y1="250" x2="90" y2="50"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"
+                  marker-end="url(#c02-2-axis)"/>
+
+            <line x1="105" y1="205" x2="315" y2="75"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"/>
+
             <text x="320" y="260" fill="#64748b" font-size="22">t</text>
             <text x="60" y="60" fill="#64748b" font-size="22">x</text>
             <text x="145" y="95" fill="#2563eb" font-size="24">x(t)</text>
 
-            <line x1="430" y1="235" x2="700" y2="235" stroke="#64748b" stroke-width="3"/>
-            <line x1="450" y1="250" x2="450" y2="50" stroke="#64748b" stroke-width="3"/>
-            <line x1="470" y1="120" x2="680" y2="120" stroke="#0f766e" stroke-width="7"/>
+            <line x1="430" y1="235" x2="700" y2="235"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"
+                  marker-end="url(#c02-2-axis)"/>
+            <line x1="450" y1="250" x2="450" y2="50"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"
+                  marker-end="url(#c02-2-axis)"/>
+
+            <line x1="470" y1="120" x2="680" y2="120"
+                  stroke="#0f766e" stroke-width="6" stroke-linecap="round"/>
+
             <text x="680" y="260" fill="#64748b" font-size="22">t</text>
             <text x="420" y="60" fill="#64748b" font-size="22">v</text>
             <text x="535" y="100" fill="#0f766e" font-size="24">v = const.</text>
           </svg>
+
           <p class="caption">
             Pentru MRU, $x(t)$ este o dreaptă, iar $v(t)$ este o linie orizontală.
           </p>
@@ -498,8 +470,8 @@
 
         <div class="exam">
           <strong>Interpretare grafică:</strong>
-          panta graficului $x(t)$ reprezintă viteza.
-          Dacă panta este pozitivă, corpul se deplasează în sensul pozitiv al axei.
+          panta graficului $x(t)$ reprezintă viteza. Dacă panta este pozitivă,
+          corpul se deplasează în sensul pozitiv al axei.
         </div>
       </article>
     </section>
@@ -530,13 +502,13 @@
 
         <div class="exam">
           <strong>Strategie de examen:</strong>
-          scrie întâi datele, stabilește sensul pozitiv al axei, apoi alege ecuația care conține necunoscuta cerută.
+          scrie întâi datele, stabilește sensul pozitiv al axei, apoi alege ecuația care conține
+          necunoscuta cerută.
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          nu aplica automat $s=vt$ în MRUV.
-          Această relație este valabilă direct numai când viteza este constantă.
+          nu aplica automat $s=vt$ în MRUV. Această relație este valabilă direct numai când viteza este constantă.
         </div>
       </article>
     </section>
@@ -546,47 +518,36 @@
         <span class="eyebrow">Grafice rectilinii</span>
         <h2>Cum citești corect graficele</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Grafic</th>
-              <th>Ce indică panta?</th>
-              <th>Ce indică aria?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>$x(t)$</td>
-              <td>Viteza: $v=\frac{\Delta x}{\Delta t}$</td>
-              <td>Nu are interpretare cinematică uzuală directă.</td>
-            </tr>
-            <tr>
-              <td>$v(t)$</td>
-              <td>Accelerația: $a=\frac{\Delta v}{\Delta t}$</td>
-              <td>Deplasarea: $\Delta x=\int v(t)\,dt$</td>
-            </tr>
-            <tr>
-              <td>$a(t)$</td>
-              <td>Rata de variație a accelerației</td>
-              <td>Variația vitezei: $\Delta v=\int a(t)\,dt$</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="grid">
+          <div class="mini">
+            <strong>Graficul $x(t)$</strong>
+            <p>Panta graficului poziție–timp este viteza.</p>
+            <div class="formula">
+              $$v=\frac{\Delta x}{\Delta t}$$
+            </div>
+          </div>
 
-        <div class="svgbox">
-          <svg viewBox="0 0 760 300" role="img" aria-label="Aria de sub graficul viteza timp">
-            <line x1="80" y1="235" x2="690" y2="235" stroke="#64748b" stroke-width="3"/>
-            <line x1="100" y1="250" x2="100" y2="55" stroke="#64748b" stroke-width="3"/>
-            <polygon points="120,210 650,85 650,235 120,235" fill="rgba(15,118,110,0.25)"/>
-            <line x1="120" y1="210" x2="650" y2="85" stroke="#0f766e" stroke-width="7"/>
-            <text x="675" y="260" fill="#64748b" font-size="22">t</text>
-            <text x="65" y="65" fill="#64748b" font-size="22">v</text>
-            <text x="325" y="185" fill="#0f766e" font-size="26">aria = Δx</text>
-            <text x="340" y="95" fill="#0f766e" font-size="23">panta = a</text>
-          </svg>
-          <p class="caption">
-            În graficul $v(t)$, aria de sub grafic reprezintă deplasarea, iar panta reprezintă accelerația.
-          </p>
+          <div class="mini">
+            <strong>Graficul $v(t)$</strong>
+            <p>Panta graficului viteză–timp este accelerația.</p>
+            <div class="formula">
+              $$a=\frac{\Delta v}{\Delta t}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="mini">
+          <strong>Aria de sub graficul $v(t)$</strong>
+          <p>Reprezintă deplasarea:</p>
+          <div class="formula">
+            $$\Delta x=\int_{t_1}^{t_2}v(t)\,dt$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          aria de sub graficul $x(t)$ nu are interpretarea directă de drum parcurs.
+          Pentru deplasare se folosește aria de sub graficul $v(t)$.
         </div>
       </article>
     </section>
@@ -594,52 +555,61 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Mișcare circulară</span>
-        <h2>Unghi, arc și radian</h2>
+        <h2>Coordonata unghiulară $\varphi(t)$</h2>
 
         <p>
-          <span class="mark">Mișcarea circulară</span> este mișcarea unui punct material pe o traiectorie circulară de rază $R$.
+          În <span class="mark">mișcarea circulară</span>, punctul material se deplasează pe un cerc de rază $R$.
           Poziția poate fi descrisă prin unghiul la centru $\varphi(t)$.
         </p>
 
-        <p>
-          Dacă punctul parcurge un arc de cerc de lungime $s$, atunci:
-        </p>
-
         <div class="formula">
-          $$\varphi=\frac{s}{R}$$
           $$s=R\varphi$$
         </div>
 
         <p>
-          Pentru o rotație completă:
+          Relația este valabilă când unghiul $\varphi$ este exprimat în radiani.
         </p>
 
-        <div class="formula">
-          $$\varphi=2\pi\ \text{rad},\qquad s=2\pi R$$
-        </div>
-
         <div class="svgbox">
-          <svg viewBox="0 0 760 320" role="img" aria-label="Unghi și arc de cerc">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Coordonata unghiulară în mișcarea circulară">
             <defs>
-              <marker id="arrow-circ" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+              <marker id="c02-3-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c02-3-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <circle cx="380" cy="165" r="110" fill="none" stroke="#0f766e" stroke-width="6"/>
-            <line x1="380" y1="165" x2="490" y2="165" stroke="#2563eb" stroke-width="4"/>
-            <line x1="380" y1="165" x2="452" y2="82" stroke="#2563eb" stroke-width="4"/>
-            <path d="M420 165 A40 40 0 0 0 406 135" fill="none" stroke="#f59e0b" stroke-width="5"/>
-            <path d="M490 165 A110 110 0 0 0 452 82" fill="none" stroke="#0f766e" stroke-width="8" marker-end="url(#arrow-circ)"/>
-            <circle cx="490" cy="165" r="9" fill="#ef4444"/>
-            <circle cx="452" cy="82" r="9" fill="#ef4444"/>
-            <text x="426" y="146" fill="#f59e0b" font-size="26">φ</text>
-            <text x="430" y="182" fill="#2563eb" font-size="24">R</text>
-            <text x="492" y="120" fill="#0f766e" font-size="24">s</text>
-            <text x="362" y="162" fill="#64748b" font-size="23">O</text>
+            <circle cx="380" cy="170" r="110" fill="none" stroke="#0f766e" stroke-width="5"/>
+            <circle cx="380" cy="170" r="7" fill="#64748b"/>
+
+            <line x1="380" y1="170" x2="490" y2="170"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+            <line x1="380" y1="170" x2="455" y2="90"
+                  stroke="#2563eb" stroke-width="3.5" stroke-linecap="round"
+                  marker-end="url(#c02-3-blue)"/>
+
+            <path d="M425 170 A45 45 0 0 0 411 137"
+                  fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c02-3-green)"/>
+
+            <path d="M490 170 A110 110 0 0 0 455 90"
+                  fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
+
+            <circle cx="455" cy="90" r="9" fill="#ef4444"/>
+
+            <text x="437" y="138" fill="#0f766e" font-size="26">φ</text>
+            <text x="414" y="102" fill="#2563eb" font-size="24">R</text>
+            <text x="480" y="120" fill="#f59e0b" font-size="24">arc s</text>
+            <text x="355" y="165" fill="#64748b" font-size="23">O</text>
           </svg>
+
           <p class="caption">
-            Radianul este o mărime adimensională: unghiul este raportul dintre arc și rază.
+            Pentru $\varphi$ în radiani, lungimea arcului este $s=R\varphi$.
           </p>
         </div>
       </article>
@@ -647,99 +617,114 @@
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Viteză unghiulară</span>
-        <h2>$\omega$, $T$ și $f$</h2>
+        <span class="eyebrow">Perioadă și frecvență</span>
+        <h2>Mărimi caracteristice mișcării circulare uniforme</h2>
 
         <p>
-          <span class="mark">Viteza unghiulară</span> exprimă viteza de variație a unghiului de rotație.
+          În <span class="mark">mișcarea circulară uniformă</span>, punctul material parcurge arce egale
+          în intervale de timp egale. Viteza unghiulară este constantă.
         </p>
-
-        <div class="formula">
-          $$\omega=\frac{d\varphi}{dt}$$
-        </div>
-
-        <p>
-          În mișcarea circulară uniformă, $\omega$ este constantă:
-        </p>
-
-        <div class="formula">
-          $$\varphi(t)=\varphi_0+\omega t$$
-        </div>
 
         <div class="grid">
           <div class="mini">
             <strong>Perioada $T$</strong>
             <p>Timpul necesar pentru o rotație completă.</p>
+            <div class="formula">
+              $$[T]=\text{s}$$
+            </div>
           </div>
+
           <div class="mini">
             <strong>Frecvența $f$</strong>
             <p>Numărul de rotații efectuate într-o secundă.</p>
+            <div class="formula">
+              $$f=\frac{1}{T},\qquad [f]=\text{Hz}$$
+            </div>
           </div>
         </div>
 
+        <p>
+          Viteza unghiulară este:
+        </p>
+
         <div class="formula">
-          $$f=\frac{1}{T}$$
-          $$\omega=2\pi f=\frac{2\pi}{T}$$
+          $$\omega=\frac{\Delta\varphi}{\Delta t}$$
+          $$\omega=\frac{2\pi}{T}=2\pi f$$
         </div>
 
-        <div class="warning">
-          <strong>Capcană:</strong>
-          rotațiile pe secundă se transformă în radiani pe secundă prin înmulțire cu $2\pi$.
-          Nu scrie $\omega=f$.
+        <div class="exam">
+          <strong>Observație:</strong>
+          radianul este o unitate adimensională, dar în practică se scrie frecvent
+          $\text{rad/s}$ pentru viteza unghiulară.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Viteză liniară</span>
+        <span class="eyebrow">Legătura liniar–unghiular</span>
         <h2>Relația $v=R\omega$</h2>
 
         <p>
-          <span class="mark">Viteza liniară</span>, numită și viteză tangențială, este viteza punctului de-a lungul traiectoriei circulare.
+          Pornim de la relația dintre lungimea arcului și unghi:
         </p>
 
         <div class="formula">
-          $$v=\frac{ds}{dt}$$
+          $$s=R\varphi$$
         </div>
 
         <p>
-          Deoarece $s=R\varphi$, prin derivare în raport cu timpul se obține:
+          Derivând în raport cu timpul, obținem:
         </p>
 
         <div class="formula">
-          $$v=\frac{d(R\varphi)}{dt}=R\frac{d\varphi}{dt}=R\omega$$
-        </div>
-
-        <div class="exam">
-          <strong>Interpretare fizică:</strong>
-          pentru aceeași viteză unghiulară, punctele aflate mai departe de centru au viteză liniară mai mare.
+          $$\frac{ds}{dt}=R\frac{d\varphi}{dt}$$
+          $$v=R\omega$$
         </div>
 
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Viteze liniare diferite pe același disc">
             <defs>
-              <marker id="arrow-v" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c02-4-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
             <circle cx="380" cy="170" r="120" fill="none" stroke="#0f766e" stroke-width="5"/>
             <circle cx="380" cy="170" r="65" fill="none" stroke="#0f766e" stroke-width="3" stroke-dasharray="8 8"/>
-            <line x1="380" y1="170" x2="445" y2="170" stroke="#64748b" stroke-width="4"/>
-            <line x1="380" y1="170" x2="500" y2="170" stroke="#64748b" stroke-width="4"/>
+
+            <line x1="380" y1="170" x2="445" y2="170"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+            <line x1="380" y1="170" x2="500" y2="170"
+                  stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+
             <circle cx="445" cy="170" r="9" fill="#f59e0b"/>
             <circle cx="500" cy="170" r="9" fill="#ef4444"/>
-            <line x1="445" y1="170" x2="445" y2="105" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-v)"/>
-            <line x1="500" y1="170" x2="500" y2="65" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-v)"/>
+
+            <line x1="445" y1="170" x2="445" y2="105"
+                  stroke="#2563eb" stroke-width="3.5" stroke-linecap="round"
+                  marker-end="url(#c02-4-blue)"/>
+            <line x1="500" y1="170" x2="500" y2="65"
+                  stroke="#2563eb" stroke-width="4.5" stroke-linecap="round"
+                  marker-end="url(#c02-4-blue)"/>
+
             <text x="402" y="193" fill="#64748b" font-size="23">R mic</text>
             <text x="470" y="194" fill="#64748b" font-size="23">R mare</text>
             <text x="455" y="103" fill="#2563eb" font-size="23">v mic</text>
             <text x="510" y="65" fill="#2563eb" font-size="23">v mare</text>
           </svg>
+
           <p class="caption">
-            Pe același disc rigid, toate punctele au aceeași $\omega$, dar vitezele liniare diferă după distanța față de centru.
+            Pe același disc rigid, toate punctele au aceeași $\omega$, dar vitezele liniare diferă
+            după distanța față de centru.
           </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          viteza unghiulară $\omega$ este aceeași pentru punctele de pe același corp rigid aflat în rotație,
+          dar viteza liniară $v$ crește cu raza $R$.
         </div>
       </article>
     </section>
@@ -747,7 +732,7 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Accelerație centripetă</span>
-        <h2>De ce există accelerație când viteza are modul constant?</h2>
+        <h2>De ce există accelerație când modulul vitezei este constant?</h2>
 
         <p>
           În <span class="mark">mișcarea circulară uniformă</span>, modulul vitezei este constant,
@@ -755,7 +740,8 @@
         </p>
 
         <p>
-          Orice variație a vectorului viteză produce accelerație. În acest caz, accelerația este orientată spre centrul cercului.
+          Orice variație a vectorului viteză produce accelerație. În acest caz, accelerația este orientată
+          spre centrul cercului.
         </p>
 
         <div class="formula">
@@ -766,23 +752,34 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Accelerația centripetă orientată spre centru">
             <defs>
-              <marker id="arrow-center" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"></path>
+              <marker id="c02-5-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
-              <marker id="arrow-tangent" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+
+              <marker id="c02-5-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
-            <circle cx="380" cy="170" r="115" fill="none" stroke="#0f766e" stroke-width="6"/>
+            <circle cx="380" cy="170" r="115" fill="none" stroke="#0f766e" stroke-width="5"/>
             <circle cx="380" cy="170" r="8" fill="#64748b"/>
-            <circle cx="495" cy="170" r="11" fill="#ef4444"/>
-            <line x1="495" y1="170" x2="495" y2="70" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow-tangent)"/>
-            <line x1="495" y1="170" x2="395" y2="170" stroke="#ef4444" stroke-width="5" marker-end="url(#arrow-center)"/>
+            <circle cx="495" cy="170" r="10" fill="#ef4444"/>
+
+            <line x1="495" y1="170" x2="495" y2="70"
+                  stroke="#2563eb" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c02-5-blue)"/>
+
+            <line x1="495" y1="170" x2="395" y2="170"
+                  stroke="#ef4444" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c02-5-red)"/>
+
             <text x="505" y="90" fill="#2563eb" font-size="25">v</text>
             <text x="430" y="150" fill="#ef4444" font-size="25">a_c</text>
             <text x="358" y="160" fill="#64748b" font-size="23">O</text>
           </svg>
+
           <p class="caption">
             Viteza este tangentă la cerc, iar accelerația centripetă este orientată radial spre centru.
           </p>
@@ -791,7 +788,7 @@
         <div class="warning">
           <strong>Greșeală frecventă:</strong>
           „dacă viteza este constantă, accelerația este zero”.
-          Afirmația este falsă pentru mișcarea circulară uniformă, deoarece vectorul viteză își schimbă direcția.
+          Afirmația este falsă pentru MCU, deoarece vectorul viteză își schimbă direcția.
         </div>
       </article>
     </section>
@@ -810,13 +807,17 @@
           <div class="mini">
             <strong>Accelerația centripetă</strong>
             <p>Schimbă direcția vitezei.</p>
-            <div class="formula">$$a_c=\frac{v^2}{R}$$</div>
+            <div class="formula">
+              $$a_c=\frac{v^2}{R}$$
+            </div>
           </div>
 
           <div class="mini">
             <strong>Accelerația tangențială</strong>
             <p>Schimbă modulul vitezei.</p>
-            <div class="formula">$$a_t=\frac{dv}{dt}=R\alpha$$</div>
+            <div class="formula">
+              $$a_t=\frac{dv}{dt}=R\alpha$$
+            </div>
           </div>
         </div>
 
@@ -840,47 +841,48 @@
         <span class="eyebrow">Comparație esențială</span>
         <h2>Rectiliniu vs circular</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Aspect</th>
-              <th>Mișcare rectilinie</th>
-              <th>Mișcare circulară</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Traiectorie</td>
-              <td>Dreaptă</td>
-              <td>Cerc</td>
-            </tr>
-            <tr>
-              <td>Coordonată naturală</td>
-              <td>$x(t)$</td>
-              <td>$\varphi(t)$</td>
-            </tr>
-            <tr>
-              <td>Viteză</td>
-              <td>$v=\frac{dx}{dt}$</td>
-              <td>$\omega=\frac{d\varphi}{dt}$ și $v=R\omega$</td>
-            </tr>
-            <tr>
-              <td>Uniformă</td>
-              <td>$v=\text{constant}$ și $a=0$</td>
-              <td>$|\vec v|=\text{constant}$, dar $a_c\neq 0$</td>
-            </tr>
-            <tr>
-              <td>Accelerație caracteristică</td>
-              <td>$a=\frac{dv}{dt}$</td>
-              <td>$a_c=\frac{v^2}{R}=\omega^2R$</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Mișcare rectilinie</th>
+                <th>Mișcare circulară</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coordonată</td>
+                <td>$x(t)$</td>
+                <td>$\varphi(t)$</td>
+              </tr>
+              <tr>
+                <td>Viteză</td>
+                <td>$v=\dfrac{dx}{dt}$</td>
+                <td>$\omega=\dfrac{d\varphi}{dt}$</td>
+              </tr>
+              <tr>
+                <td>Legătură între mărimi</td>
+                <td>$s=x-x_0$</td>
+                <td>$s=R\varphi$, $v=R\omega$</td>
+              </tr>
+              <tr>
+                <td>Accelerație în cazul uniform</td>
+                <td>$a=0$</td>
+                <td>$a_c=\dfrac{v^2}{R}=\omega^2R$</td>
+              </tr>
+              <tr>
+                <td>Interpretare</td>
+                <td>Viteza constantă înseamnă vector viteză constant.</td>
+                <td>Viteza cu modul constant nu înseamnă vector viteză constant.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="exam">
-          <strong>Răspuns scurt de examen oral:</strong>
-          MRU are vectorul viteză constant, deci accelerația este nulă.
-          MCU are doar modulul vitezei constant; direcția vitezei se schimbă, deci apare accelerația centripetă.
+          <strong>Idee de reținut:</strong>
+          MRU are accelerație nulă, dar MCU are accelerație nenulă, deși modulul vitezei este constant.
         </div>
       </article>
     </section>
@@ -888,33 +890,35 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 1</span>
-        <h2>Mișcare rectilinie uniformă</h2>
+        <h2>Mișcare rectilinie uniform variată</h2>
 
         <p>
-          Un tren se deplasează rectiliniu cu viteza constantă $v=90\,\text{km/h}$.
-          Calculați distanța parcursă în $t=40\,\text{min}$.
+          Un corp pornește din repaus și se mișcă rectiliniu cu accelerația constantă
+          $a=3\,\text{m/s}^2$. Determinați viteza și distanța parcursă după $t=4\,\text{s}$.
         </p>
 
-        <p><strong>1. Conversia unităților:</strong></p>
+        <p><strong>1. Datele problemei:</strong></p>
+
         <div class="formula">
-          $$90\,\text{km/h}=90\cdot\frac{1000}{3600}\,\text{m/s}=25\,\text{m/s}$$
-          $$40\,\text{min}=40\cdot60\,\text{s}=2400\,\text{s}$$
+          $$v_0=0,\qquad a=3\,\text{m/s}^2,\qquad t=4\,\text{s}$$
         </div>
 
-        <p><strong>2. Relația pentru MRU:</strong></p>
+        <p><strong>2. Viteza la momentul $t$:</strong></p>
+
         <div class="formula">
-          $$s=vt$$
-          $$s=25\cdot2400=60000\,\text{m}=60\,\text{km}$$
+          $$v=v_0+at=0+3\cdot4=12\,\text{m/s}$$
+        </div>
+
+        <p><strong>3. Distanța parcursă:</strong></p>
+
+        <div class="formula">
+          $$s=v_0t+\frac{at^2}{2}$$
+          $$s=0+\frac{3\cdot4^2}{2}=24\,\text{m}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          trenul parcurge $60\,\text{km}$.
-        </div>
-
-        <div class="warning">
-          <strong>Observație:</strong>
-          aici este permisă relația $s=vt$ deoarece viteza este constantă.
+          după $4\,\text{s}$, corpul are viteza $12\,\text{m/s}$ și a parcurs $24\,\text{m}$.
         </div>
       </article>
     </section>
@@ -926,24 +930,26 @@
 
         <p>
           Un punct material se deplasează pe un cerc de rază $R=0{,}5\,\text{m}$,
-          efectuând $f=2\,\text{rotații/s}$.
-          Determinați $\omega$, $v$ și $a_c$.
+          efectuând $f=2\,\text{rotații/s}$. Determinați $\omega$, $v$ și $a_c$.
         </p>
 
         <p><strong>1. Viteza unghiulară:</strong></p>
+
         <div class="formula">
           $$\omega=2\pi f=2\pi\cdot2=4\pi\,\text{rad/s}$$
         </div>
 
         <p><strong>2. Viteza liniară:</strong></p>
+
         <div class="formula">
           $$v=R\omega=0{,}5\cdot4\pi=2\pi\,\text{m/s}$$
         </div>
 
         <p><strong>3. Accelerația centripetă:</strong></p>
+
         <div class="formula">
           $$a_c=\frac{v^2}{R}=\frac{(2\pi)^2}{0{,}5}=8\pi^2\,\text{m/s}^2$$
-          $$a_c\approx 78{,}96\,\text{m/s}^2$$
+          $$a_c\approx78{,}96\,\text{m/s}^2$$
         </div>
 
         <div class="exam">
@@ -966,7 +972,7 @@
           </li>
           <li>
             <strong>Confuzia între perioadă și frecvență:</strong>
-            $T=\frac{1}{f}$, nu $T=f$.
+            $T=\dfrac{1}{f}$, nu $T=f$.
           </li>
           <li>
             <strong>Aplicarea greșită a relației $v=R\omega$:</strong>
@@ -1023,23 +1029,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 15</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1062,6 +1076,8 @@
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
