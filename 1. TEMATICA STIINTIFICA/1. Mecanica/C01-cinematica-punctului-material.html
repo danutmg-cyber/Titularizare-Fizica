@@ -5,92 +5,17 @@
   <title>C01 – Cinematica punctului material</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  
-/* Formule MathJax – dimensiuni optimizate pentru telefon */
-mjx-container[jax="SVG"] {
-    font-size: 1.06em !important;
-    line-height: 1.35 !important;
-}
 
-mjx-container[jax="SVG"]:not([display="true"]) {
-    font-size: 1.04em !important;
-    vertical-align: -0.05em;
-}
-
-mjx-container[jax="SVG"][display="true"] {
-    font-size: 1.08em !important;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0.15rem 0;
-    margin: 0.35rem 0;
-}
-
-mjx-container[jax="SVG"] svg {
-    max-width: 100%;
-    height: auto;
-}
-
-@media (max-width: 600px) {
-    mjx-container[jax="SVG"] {
-        font-size: 1.03em !important;
-    }
-
-    mjx-container[jax="SVG"][display="true"] {
-        font-size: 1.05em !important;
-    }
-}
+  <!-- Stiluri locale: doar elementele specifice lecției C01 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
     }
 
     .topbar {
@@ -139,15 +64,6 @@ mjx-container[jax="SVG"] svg {
       display: flex;
     }
 
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
-    }
-
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -159,28 +75,12 @@ mjx-container[jax="SVG"] svg {
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
     p {
       margin: 0.75rem 0;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 1.35rem;
     }
 
@@ -191,25 +91,6 @@ mjx-container[jax="SVG"] svg {
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -239,36 +120,21 @@ mjx-container[jax="SVG"] svg {
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
       min-width: 300px;
       height: auto;
+      display: block;
     }
 
     .caption {
       color: var(--muted);
       font-size: 0.92em;
       margin-top: 0.4rem;
-    }
-
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning {
-      background: #33260c;
     }
 
     .pager {
@@ -343,11 +209,15 @@ mjx-container[jax="SVG"] svg {
       background: #7c3aed;
     }
 
-    @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
-      }
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.75rem 0.9rem;
+      white-space: nowrap;
+    }
 
+    @media (max-width: 760px) {
       .grid,
       .bottom-links {
         grid-template-columns: 1fr;
@@ -362,6 +232,12 @@ mjx-container[jax="SVG"] svg {
         grid-column: 1 / -1;
       }
 
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.35rem;
+      }
+
       .topbar {
         align-items: flex-start;
         flex-direction: column;
@@ -373,7 +249,7 @@ mjx-container[jax="SVG"] svg {
 <body>
   <div class="topbar">
     <strong>C01 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -381,40 +257,53 @@ mjx-container[jax="SVG"] svg {
       <article class="card">
         <span class="eyebrow">Lecția 1</span>
         <h1>Cinematica punctului material</h1>
+
         <p class="lead">
-          Cinematica studiază <span class="mark">descrierea mișcării</span>, fără a analiza cauzele care o produc.
-          Pentru examen, trebuie să stăpânești simultan limbajul vectorial, interpretarea graficelor și rezolvarea riguroasă a problemelor.
+          Cinematica studiază <span class="mark">descrierea mișcării</span>, fără a analiza cauzele
+          care produc mișcarea. În această lecție sunt fixate noțiunile de sistem de referință,
+          vector de poziție, traiectorie, viteză și accelerație.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
           mișcarea se descrie numai în raport cu un <strong>sistem de referință</strong>.
-          Nu există poziție, viteză sau repaus absolut în mecanica clasică.
+          În mecanica clasică nu vorbim despre poziție absolută, repaus absolut sau viteză absolută.
         </div>
 
         <div class="svgbox">
           <svg viewBox="0 0 700 260" role="img" aria-label="Traiectorie și vectori de poziție">
             <defs>
-              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <marker id="arrow-c01-1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
                 <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
               </marker>
             </defs>
-            <line x1="60" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
-            <line x1="80" y1="230" x2="80" y2="30" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+
+            <line x1="60" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-c01-1)"/>
+            <line x1="80" y1="230" x2="80" y2="30" stroke="#64748b" stroke-width="3" marker-end="url(#arrow-c01-1)"/>
+
             <text x="645" y="215" fill="#64748b" font-size="22">x</text>
             <text x="65" y="28" fill="#64748b" font-size="22">y</text>
-            <path d="M120 180 C220 80, 320 70, 430 135 S560 180, 610 75" fill="none" stroke="#0f766e" stroke-width="6"/>
+
+            <path d="M120 180 C220 80, 320 70, 430 135 S560 180, 610 75"
+                  fill="none" stroke="#0f766e" stroke-width="6"/>
+
             <circle cx="120" cy="180" r="9" fill="#ef4444"/>
             <circle cx="430" cy="135" r="9" fill="#ef4444"/>
-            <line x1="80" y1="210" x2="120" y2="180" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
-            <line x1="80" y1="210" x2="430" y2="135" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow)"/>
-            <line x1="120" y1="180" x2="430" y2="135" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow)"/>
+
+            <line x1="80" y1="210" x2="120" y2="180" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-c01-1)"/>
+            <line x1="80" y1="210" x2="430" y2="135" stroke="#2563eb" stroke-width="4" marker-end="url(#arrow-c01-1)"/>
+            <line x1="120" y1="180" x2="430" y2="135" stroke="#f59e0b" stroke-width="4" marker-end="url(#arrow-c01-1)"/>
+
             <text x="145" y="178" fill="#2563eb" font-size="23">r₁</text>
             <text x="300" y="118" fill="#2563eb" font-size="23">r₂</text>
             <text x="250" y="180" fill="#f59e0b" font-size="23">Δr = r₂ − r₁</text>
             <text x="450" y="90" fill="#0f766e" font-size="23">traiectorie</text>
           </svg>
-          <p class="caption">Vectorul deplasare unește poziția inițială cu poziția finală; nu este același lucru cu lungimea drumului parcurs.</p>
+
+          <p class="caption">
+            Vectorul deplasare unește poziția inițială cu poziția finală. El nu este același lucru
+            cu lungimea drumului parcurs.
+          </p>
         </div>
       </article>
     </section>
@@ -425,11 +314,14 @@ mjx-container[jax="SVG"] svg {
         <h2>Punctul material și sistemul de referință</h2>
 
         <p>
-          <span class="mark">Punctul material</span> este un model idealizat al unui corp ale cărui dimensiuni pot fi neglijate față de distanțele implicate în problemă.
+          <span class="mark">Punctul material</span> este un model idealizat al unui corp ale cărui
+          dimensiuni pot fi neglijate față de distanțele implicate în problemă.
         </p>
 
         <p>
-          Un automobil poate fi tratat ca punct material când studiem deplasarea București–Brașov, dar nu poate fi tratat astfel când analizăm rotația roților sau stabilitatea în curbă.
+          De exemplu, un automobil poate fi tratat ca punct material când studiem deplasarea între
+          două orașe. Același automobil nu poate fi tratat ca punct material dacă analizăm rotația
+          roților sau stabilitatea în curbă.
         </p>
 
         <div class="grid">
@@ -437,6 +329,7 @@ mjx-container[jax="SVG"] svg {
             <strong>Sistem de referință</strong>
             <p>Ansamblu format din corp de referință, axe de coordonate și ceas.</p>
           </div>
+
           <div class="mini">
             <strong>Poziție</strong>
             <p>Locul ocupat de punctul material la un moment dat, descris prin vectorul $\vec r(t)$.</p>
@@ -449,7 +342,8 @@ mjx-container[jax="SVG"] svg {
 
         <div class="exam">
           <strong>Formulare de examen:</strong>
-          vectorul de poziție este funcția vectorială care asociază fiecărui moment de timp poziția punctului material față de originea sistemului de referință.
+          vectorul de poziție este funcția vectorială care asociază fiecărui moment de timp poziția
+          punctului material față de originea sistemului de referință.
         </div>
       </article>
     </section>
@@ -460,15 +354,18 @@ mjx-container[jax="SVG"] svg {
         <h2>Traiectorie, drum parcurs, deplasare</h2>
 
         <p>
-          <span class="mark">Traiectoria</span> este locul geometric al pozițiilor succesive ocupate de punctul material în timpul mișcării.
+          <span class="mark">Traiectoria</span> este locul geometric al pozițiilor succesive ocupate
+          de punctul material în timpul mișcării.
         </p>
 
         <p>
-          <span class="mark">Drumul parcurs</span> este lungimea traiectoriei între două momente. Este o mărime scalară și se notează frecvent cu $s$ sau $l$.
+          <span class="mark">Drumul parcurs</span> este lungimea traiectoriei între două momente.
+          Este o mărime scalară și se notează frecvent cu $s$ sau $l$.
         </p>
 
         <p>
-          <span class="mark">Deplasarea</span> este vectorul care unește poziția inițială cu poziția finală:
+          <span class="mark">Deplasarea</span> este vectorul care unește poziția inițială cu poziția
+          finală:
         </p>
 
         <div class="formula">
@@ -477,14 +374,14 @@ mjx-container[jax="SVG"] svg {
 
         <div class="warning">
           <strong>Greșeală frecventă:</strong>
-          candidații confundă deplasarea cu distanța parcursă.
-          Pentru mișcare curbilinie, în general:
+          candidații confundă deplasarea cu distanța parcursă. Pentru o mișcare curbilinie, în general:
           $$|\Delta \vec r| < s$$
         </div>
 
         <div class="exam">
           <strong>Caz particular:</strong>
-          dacă mișcarea este rectilinie și nu se schimbă sensul, modulul deplasării este egal cu drumul parcurs.
+          dacă mișcarea este rectilinie și nu se schimbă sensul, modulul deplasării este egal cu
+          drumul parcurs.
         </div>
       </article>
     </section>
@@ -495,7 +392,8 @@ mjx-container[jax="SVG"] svg {
         <h2>Viteza medie și viteza instantanee</h2>
 
         <p>
-          <span class="mark">Viteza medie vectorială</span> pe intervalul $\Delta t$ este raportul dintre deplasare și durata mișcării:
+          <span class="mark">Viteza medie vectorială</span> pe intervalul de timp $\Delta t$ este
+          raportul dintre deplasare și durata mișcării:
         </p>
 
         <div class="formula">
@@ -503,7 +401,8 @@ mjx-container[jax="SVG"] svg {
         </div>
 
         <p>
-          <span class="mark">Viteza instantanee</span> este limita vitezei medii când intervalul de timp tinde la zero:
+          <span class="mark">Viteza instantanee</span> este limita vitezei medii când intervalul de
+          timp tinde la zero:
         </p>
 
         <div class="formula">
@@ -528,18 +427,25 @@ mjx-container[jax="SVG"] svg {
     <section class="page">
       <article class="card">
         <span class="eyebrow">Accelerația</span>
-        <h2>Accelerația medie și instantanee</h2>
+        <h2>Accelerația medie și accelerația instantanee</h2>
 
         <p>
           <span class="mark">Accelerația</span> măsoară variația vitezei în timp.
+          Accelerația medie este:
         </p>
 
         <div class="formula">
           $$\vec a_m=\frac{\Delta \vec v}{\Delta t}$$
         </div>
 
+        <p>
+          Accelerația instantanee este derivata vitezei în raport cu timpul:
+        </p>
+
         <div class="formula">
-          $$\vec a(t)=\lim_{\Delta t\to 0}\frac{\Delta \vec v}{\Delta t}=\frac{d\vec v}{dt}=\frac{d^2\vec r}{dt^2}$$
+          $$\vec a(t)=\lim_{\Delta t\to 0}\frac{\Delta \vec v}{\Delta t}
+          =\frac{d\vec v}{dt}
+          =\frac{d^2\vec r}{dt^2}$$
         </div>
 
         <p>
@@ -553,18 +459,19 @@ mjx-container[jax="SVG"] svg {
         <div class="grid">
           <div class="mini">
             <strong>$a>0$</strong>
-            <p>Viteza crește în sensul pozitiv al axei.</p>
+            <p>Accelerația este orientată în sensul pozitiv al axei alese.</p>
           </div>
+
           <div class="mini">
             <strong>$a<0$</strong>
-            <p>Viteza scade sau mișcarea este accelerată în sens negativ.</p>
+            <p>Accelerația este orientată în sensul negativ al axei alese.</p>
           </div>
         </div>
 
         <div class="warning">
           <strong>Atenție:</strong>
-          accelerația negativă nu înseamnă obligatoriu „încetinire”.
-          Sensul vitezei și sensul accelerației trebuie analizate împreună.
+          accelerația negativă nu înseamnă obligatoriu „încetinire”. Sensul vitezei și sensul
+          accelerației trebuie analizate împreună.
         </div>
       </article>
     </section>
@@ -575,7 +482,8 @@ mjx-container[jax="SVG"] svg {
         <h2>MRU: $v=\text{constant}$</h2>
 
         <p>
-          În <span class="mark">mișcarea rectilinie uniformă</span>, traiectoria este o dreaptă, iar viteza rămâne constantă.
+          În <span class="mark">mișcarea rectilinie uniformă</span>, traiectoria este o dreaptă, iar
+          viteza rămâne constantă în timp.
         </p>
 
         <div class="formula">
@@ -584,15 +492,20 @@ mjx-container[jax="SVG"] svg {
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic x de t pentru MRU">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic poziție timp pentru MRU">
             <line x1="70" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3"/>
             <line x1="90" y1="225" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
+
             <line x1="105" y1="185" x2="590" y2="65" stroke="#2563eb" stroke-width="7"/>
+
             <text x="620" y="235" fill="#64748b" font-size="22">t</text>
             <text x="55" y="45" fill="#64748b" font-size="22">x</text>
-            <text x="300" y="105" fill="#2563eb" font-size="24">x(t)=x₀+vt</text>
+            <text x="300" y="105" fill="#2563eb" font-size="24">x(t)=x₀+v₀t</text>
           </svg>
-          <p class="caption">Pentru MRU, graficul $x(t)$ este o dreaptă. Panta este viteza.</p>
+
+          <p class="caption">
+            Pentru MRU, graficul $x(t)$ este o dreaptă. Panta dreptei este viteza.
+          </p>
         </div>
 
         <div class="exam">
@@ -627,20 +540,26 @@ mjx-container[jax="SVG"] svg {
         </div>
 
         <div class="exam">
-          <strong>Folosește această relație</strong> când problema nu cere explicit timpul sau când timpul nu este dat.
+          <strong>Folosește această relație</strong>
+          când problema nu cere timpul sau când timpul nu este dat explicit.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic v de t pentru MRUV">
+          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic viteză timp pentru MRUV">
             <line x1="70" y1="210" x2="640" y2="210" stroke="#64748b" stroke-width="3"/>
             <line x1="90" y1="225" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
-            <line x1="110" y1="185" x2="590" y2="70" stroke="#0f766e" stroke-width="7"/>
+
             <polygon points="110,185 590,70 590,210 110,210" fill="rgba(15,118,110,0.22)"/>
+            <line x1="110" y1="185" x2="590" y2="70" stroke="#0f766e" stroke-width="7"/>
+
             <text x="620" y="235" fill="#64748b" font-size="22">t</text>
             <text x="55" y="45" fill="#64748b" font-size="22">v</text>
             <text x="300" y="120" fill="#0f766e" font-size="24">aria = deplasarea</text>
           </svg>
-          <p class="caption">În graficul $v(t)$, panta este accelerația, iar aria de sub grafic este deplasarea.</p>
+
+          <p class="caption">
+            În graficul $v(t)$, panta este accelerația, iar aria de sub grafic este deplasarea.
+          </p>
         </div>
       </article>
     </section>
@@ -653,26 +572,32 @@ mjx-container[jax="SVG"] svg {
         <div class="grid">
           <div class="mini">
             <strong>Graficul $x(t)$</strong>
-            <p>Panta dă viteza:</p>
-            <div class="formula">$$v=\frac{\Delta x}{\Delta t}$$</div>
+            <p>Panta graficului poziție–timp dă viteza:</p>
+            <div class="formula">
+              $$v=\frac{\Delta x}{\Delta t}$$
+            </div>
           </div>
 
           <div class="mini">
             <strong>Graficul $v(t)$</strong>
-            <p>Panta dă accelerația:</p>
-            <div class="formula">$$a=\frac{\Delta v}{\Delta t}$$</div>
+            <p>Panta graficului viteză–timp dă accelerația:</p>
+            <div class="formula">
+              $$a=\frac{\Delta v}{\Delta t}$$
+            </div>
           </div>
         </div>
 
         <div class="mini">
           <strong>Aria de sub graficul $v(t)$</strong>
-          <p>Reprezintă deplasarea pe intervalul considerat:</p>
-          <div class="formula">$$\Delta x=\int_{t_1}^{t_2}v(t)\,dt$$</div>
+          <p>Reprezintă deplasarea pe intervalul de timp considerat:</p>
+          <div class="formula">
+            $$\Delta x=\int_{t_1}^{t_2}v(t)\,dt$$
+          </div>
         </div>
 
         <div class="warning">
           <strong>Greșeală frecventă:</strong>
-          panta graficului $x(t)$ nu este accelerația. Panta lui $x(t)$ este viteza.
+          panta graficului $x(t)$ nu este accelerația. Panta graficului $x(t)$ este viteza.
         </div>
       </article>
     </section>
@@ -688,22 +613,32 @@ mjx-container[jax="SVG"] svg {
           Determinați viteza și poziția după $t=5\,\text{s}$.
         </p>
 
-        <p><strong>1. Identificarea tipului de mișcare:</strong> accelerația este constantă, deci mișcarea este MRUV.</p>
+        <p>
+          <strong>1. Identificarea tipului de mișcare:</strong>
+          accelerația este constantă, deci mișcarea este rectilinie uniform variată.
+        </p>
 
-        <p><strong>2. Viteza la momentul $t$:</strong></p>
+        <p>
+          <strong>2. Calculul vitezei la momentul $t$:</strong>
+        </p>
+
         <div class="formula">
-          $$v=v_0+at=4+2\cdot5=14\,\text{m/s}$$
+          $$v=v_0+at=4+2\cdot 5=14\,\text{m/s}$$
         </div>
 
-        <p><strong>3. Poziția la momentul $t$:</strong></p>
+        <p>
+          <strong>3. Calculul poziției la momentul $t$:</strong>
+        </p>
+
         <div class="formula">
           $$x=x_0+v_0t+\frac{at^2}{2}$$
-          $$x=2+4\cdot5+\frac{2\cdot5^2}{2}=2+20+25=47\,\text{m}$$
+          $$x=2+4\cdot 5+\frac{2\cdot 5^2}{2}=2+20+25=47\,\text{m}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          după $5\,\text{s}$, corpul are viteza $14\,\text{m/s}$ și se află la poziția $47\,\text{m}$ față de origine.
+          după $5\,\text{s}$, corpul are viteza $14\,\text{m/s}$ și se află la poziția
+          $47\,\text{m}$ față de origine.
         </div>
       </article>
     </section>
@@ -718,27 +653,32 @@ mjx-container[jax="SVG"] svg {
             <strong>Confuzia distanță–deplasare:</strong>
             distanța este scalară, deplasarea este vectorială.
           </li>
+
           <li>
             <strong>Neconversia unităților:</strong>
             $72\,\text{km/h}=20\,\text{m/s}$, nu $72\,\text{m/s}$.
           </li>
+
           <li>
             <strong>Aplicarea formulelor fără semn:</strong>
-            sensul axei trebuie stabilit înainte de folosirea relațiilor.
+            sensul axei trebuie stabilit înainte de folosirea relațiilor cinematice.
           </li>
+
           <li>
             <strong>Citirea greșită a graficelor:</strong>
-            panta lui $x(t)$ este $v$, panta lui $v(t)$ este $a$.
+            panta lui $x(t)$ este $v$, iar panta lui $v(t)$ este $a$.
           </li>
+
           <li>
             <strong>Omiterea interpretării fizice:</strong>
-            un rezultat numeric trebuie verificat ca ordin de mărime și unitate.
+            un rezultat numeric trebuie verificat ca unitate de măsură și ordin de mărime.
           </li>
         </ul>
 
         <div class="exam">
           <strong>Formulare bună la proba scrisă:</strong>
-          „Aleg axa $Ox$ în sensul mișcării inițiale. Deoarece accelerația este constantă, folosesc ecuațiile cinematice ale mișcării rectilinii uniform variate.”
+          „Aleg axa $Ox$ în sensul mișcării inițiale. Deoarece accelerația este constantă,
+          folosesc ecuațiile cinematice ale mișcării rectilinii uniform variate.”
         </div>
       </article>
     </section>
@@ -754,11 +694,15 @@ mjx-container[jax="SVG"] svg {
           <li>Scrieți relația vitezei instantanee în formă vectorială.</li>
           <li>Arătați că accelerația este derivata a doua a vectorului de poziție.</li>
           <li>Ce reprezintă aria de sub graficul $v(t)$?</li>
-          <li>Un corp are $v_0=3\,\text{m/s}$ și $a=4\,\text{m/s}^2$. Calculați viteza după $2\,\text{s}$.</li>
+          <li>
+            Un corp are $v_0=3\,\text{m/s}$ și $a=4\,\text{m/s}^2$.
+            Calculați viteza după $2\,\text{s}$.
+          </li>
         </ol>
 
         <div class="formula">
-          $$\vec v=\frac{d\vec r}{dt},\qquad \vec a=\frac{d\vec v}{dt}=\frac{d^2\vec r}{dt^2}$$
+          $$\vec v=\frac{d\vec r}{dt},\qquad
+          \vec a=\frac{d\vec v}{dt}=\frac{d^2\vec r}{dt^2}$$
         </div>
 
         <div class="bottom-links">
@@ -771,23 +715,31 @@ mjx-container[jax="SVG"] svg {
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 10</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -810,6 +762,8 @@ mjx-container[jax="SVG"] svg {
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
