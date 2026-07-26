@@ -5,63 +5,17 @@
   <title>C14 – Bazele experimentale ale teoriei relativității restrânse</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C14 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --warn: #fbbf24;
-      --danger: #f87171;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
+    * {
+      box-sizing: border-box;
     }
 
     .topbar {
@@ -103,22 +57,17 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
-    .page.active { display: flex; }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
+    .page.active {
+      display: flex;
     }
 
     .eyebrow {
       display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       color: var(--accent);
       font-weight: 900;
       letter-spacing: 0.03em;
@@ -126,42 +75,22 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
+    p {
+      margin: 0.75rem 0;
     }
 
-    h1 { font-size: var(--title); }
-    h2 { font-size: var(--subtitle); }
-    h3 { font-size: clamp(22px, 3vw, 30px); }
+    ul,
+    ol {
+      padding-left: 1.35rem;
+    }
 
-    p { margin: 0.75rem 0; }
-
-    ul, ol { padding-left: 1.35rem; }
-    li { margin: 0.55rem 0; }
+    li {
+      margin: 0.55rem 0;
+    }
 
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -178,7 +107,9 @@
       padding: 1rem;
     }
 
-    .mini strong { color: var(--accent-2); }
+    .mini strong {
+      color: var(--accent-2);
+    }
 
     .svgbox {
       margin: 1rem 0;
@@ -189,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -201,32 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
+      border: 1px solid var(--border);
     }
-
-    .warning {
-      border-left: 7px solid var(--warn);
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning { background: #33260c; }
 
     .compare {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -245,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -264,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -286,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -306,28 +244,49 @@
       background: var(--accent);
     }
 
-    .bottom-links a:nth-child(2) { background: var(--accent-2); }
-    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
 
     @media (max-width: 760px) {
-      body { line-height: 1.55; }
-
       .grid,
-      .bottom-links { grid-template-columns: 1fr; }
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
 
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
       }
 
-      .pager a { grid-column: 1 / -1; }
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
 
       .topbar {
         align-items: flex-start;
         flex-direction: column;
       }
 
-      .compare { font-size: 0.9em; }
+      .compare {
+        font-size: 0.9em;
+      }
     }
   </style>
 </head>
@@ -335,7 +294,7 @@
 <body>
   <div class="topbar">
     <strong>C14 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -345,43 +304,75 @@
         <h1>Bazele experimentale ale teoriei relativității restrânse</h1>
 
         <p class="lead">
-          <span class="mark">Teoria relativității restrânse</span> apare din conflictul dintre mecanica newtoniană,
+          <span class="mark">Relativitatea restrânsă</span> apare din conflictul dintre mecanica newtoniană,
           electromagnetismul clasic și rezultatele experimentale privind propagarea luminii.
+          Ea descrie legile fizicii în sisteme de referință inerțiale.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          rezultatul negativ al experienței Michelson–Morley și constanța vitezei luminii conduc la înlocuirea transformărilor Galilei cu
-          <strong>transformările Lorentz</strong>.
+          rezultatul negativ al experimentului Michelson–Morley și constanța vitezei luminii conduc
+          la abandonarea timpului absolut și la folosirea <strong>transformărilor Lorentz</strong>.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 340" role="img" aria-label="Două sisteme de referință inerțiale">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Două sisteme inerțiale">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c14-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c14-1-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+
+              <marker id="c14-1-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
             </defs>
 
-            <line x1="85" y1="250" x2="680" y2="250" stroke="#64748b" stroke-width="4"/>
-            <line x1="110" y1="270" x2="110" y2="80" stroke="#64748b" stroke-width="4"/>
-            <line x1="110" y1="250" x2="250" y2="250" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-blue)"/>
-            <line x1="110" y1="250" x2="110" y2="110" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-blue)"/>
-            <text x="90" y="300" fill="#2563eb" font-size="26">S</text>
+            <line x1="90" y1="260" x2="680" y2="260"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
 
-            <line x1="350" y1="220" x2="680" y2="220" stroke="#0f766e" stroke-width="4"/>
-            <line x1="370" y1="240" x2="370" y2="95" stroke="#0f766e" stroke-width="4"/>
-            <line x1="370" y1="220" x2="510" y2="220" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-green)"/>
-            <line x1="370" y1="220" x2="370" y2="115" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-green)"/>
-            <line x1="370" y1="65" x2="520" y2="65" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-blue)"/>
-            <text x="520" y="55" fill="#ef4444" font-size="25">V</text>
-            <text x="350" y="270" fill="#0f766e" font-size="26">S′</text>
+            <line x1="115" y1="280" x2="115" y2="85"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+            <line x1="115" y1="260" x2="255" y2="260"
+                  stroke="#2563eb" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c14-1-blue)"/>
+
+            <line x1="115" y1="260" x2="115" y2="120"
+                  stroke="#2563eb" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c14-1-blue)"/>
+
+            <line x1="345" y1="225" x2="680" y2="225"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+
+            <line x1="370" y1="245" x2="370" y2="95"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+
+            <line x1="370" y1="225" x2="515" y2="225"
+                  stroke="#0f766e" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c14-1-green)"/>
+
+            <line x1="370" y1="225" x2="370" y2="125"
+                  stroke="#0f766e" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c14-1-green)"/>
+
+            <line x1="370" y1="65" x2="530" y2="65"
+                  stroke="#ef4444" stroke-width="5"
+                  marker-end="url(#c14-1-red)"/>
+
+            <text x="93" y="308" fill="#2563eb" font-size="26">S</text>
+            <text x="350" y="277" fill="#0f766e" font-size="26">S′</text>
+            <text x="535" y="58" fill="#ef4444" font-size="25">V</text>
           </svg>
+
           <p class="caption">
-            Relativitatea restrânsă compară măsurătorile făcute în sisteme de referință inerțiale aflate în mișcare rectilinie uniformă unul față de altul.
+            Sistemul $S'$ se deplasează rectiliniu uniform cu viteza $V$ față de sistemul inerțial $S$.
           </p>
         </div>
       </article>
@@ -393,8 +384,8 @@
         <h2>Transformările Galilei</h2>
 
         <p>
-          În mecanica newtoniană, dacă sistemul $S'$ se deplasează cu viteza constantă $V$ față de sistemul $S$ pe axa $Ox$,
-          coordonatele se leagă prin transformările Galilei:
+          În mecanica newtoniană, dacă $S'$ se deplasează cu viteza constantă $V$ față de $S$
+          de-a lungul axei $Ox$, transformările Galilei sunt:
         </p>
 
         <div class="formula">
@@ -402,22 +393,27 @@
         </div>
 
         <p>
-          Timpul este considerat <span class="mark">absolut</span>:
-          același pentru toți observatorii inerțiali.
+          Timpul este considerat <span class="mark">absolut</span>, adică același pentru toți observatorii inerțiali.
         </p>
 
         <p>
-          Viteza se transformă după regula clasică:
+          Vitezele se compun după regula:
         </p>
 
         <div class="formula">
           $$u'_x=u_x-V$$
         </div>
 
+        <div class="exam">
+          <strong>Valabilitate:</strong>
+          transformările Galilei sunt o aproximație foarte bună pentru viteze mult mai mici decât viteza luminii:
+          $$V\ll c.$$
+        </div>
+
         <div class="warning">
           <strong>Capcană:</strong>
-          regula galileană de compunere a vitezelor funcționează bine pentru viteze mici față de $c$,
-          dar nu poate păstra aceeași valoare a vitezei luminii în toate sistemele inerțiale.
+          dacă aplicăm regula galileană luminii, un observator ar trebui să măsoare $c\pm V$,
+          dar acest rezultat nu este confirmat experimental.
         </div>
       </article>
     </section>
@@ -428,7 +424,8 @@
         <h2>Electromagnetismul și viteza $c$</h2>
 
         <p>
-          Ecuațiile electromagnetismului conduc la existența undelor electromagnetice care se propagă în vid cu viteza:
+          Ecuațiile electromagnetismului conduc la existența undelor electromagnetice care se propagă în vid
+          cu viteza:
         </p>
 
         <div class="formula">
@@ -436,18 +433,17 @@
         </div>
 
         <p>
-          Această viteză nu apare ca o viteză dependentă de sursă sau de observator, ci ca o constantă fundamentală a câmpului electromagnetic.
+          Această viteză apare ca o constantă fundamentală, nu ca o mărime care depinde de viteza sursei.
         </p>
+
+        <div class="formula">
+          $$c\approx 3\cdot 10^8\,\text{m/s}$$
+        </div>
 
         <div class="exam">
           <strong>Conflict conceptual:</strong>
-          dacă s-ar aplica direct compunerea galileană a vitezelor,
-          un observator aflat în mișcare față de o rază de lumină ar trebui să măsoare $c\pm V$.
-          Experimentele nu confirmă această concluzie.
-        </div>
-
-        <div class="formula">
-          $$c\approx 3\cdot10^8\,\text{m/s}$$
+          mecanica galileană păstrează timpul absolut, dar nu păstrează invarianta vitezei luminii.
+          Relativitatea restrânsă păstrează forma legilor fizicii și constanța lui $c$.
         </div>
       </article>
     </section>
@@ -455,478 +451,242 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Ipoteza eterului</span>
-        <h2>Un mediu ipotetic pentru lumină</h2>
+        <h2>Eterul luminifer</h2>
 
         <p>
-          În fizica secolului al XIX-lea, undele mecanice necesitau un mediu de propagare.
-          Prin analogie, s-a presupus existența unui mediu universal numit <span class="mark">eter luminifer</span>,
-          în care s-ar propaga undele luminoase.
+          În fizica secolului al XIX-lea s-a presupus că lumina, fiind undă, ar avea nevoie de un mediu
+          de propagare numit <span class="mark">eter luminifer</span>.
         </p>
 
         <p>
-          Dacă Pământul s-ar deplasa prin eter, atunci observatorul terestru ar trebui să detecteze un
-          <strong>vânt de eter</strong>.
+          Dacă Pământul s-ar deplasa prin eter, observatorii de pe Pământ ar trebui să detecteze
+          un <strong>vânt de eter</strong>, adică o modificare a vitezei luminii în funcție de direcție.
         </p>
 
         <div class="grid">
           <div class="mini">
             <strong>Așteptare clasică</strong>
-            <p>Viteza luminii ar depinde de direcția mișcării față de eter.</p>
+            <p>Viteza luminii depinde de direcția mișcării Pământului prin eter.</p>
           </div>
+
           <div class="mini">
             <strong>Rezultat experimental</strong>
-            <p>Nu se detectează diferența așteptată între direcții perpendiculare.</p>
+            <p>Nu se observă diferența așteptată între direcții perpendiculare.</p>
           </div>
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          eterul nu este un concept necesar în relativitatea restrânsă.
-          Teoria explică propagarea luminii fără un sistem privilegiat de repaus.
+          relativitatea restrânsă nu are nevoie de eter și nu introduce un sistem privilegiat de repaus absolut.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Michelson–Morley</span>
-        <h2>Interferometrul și ideea experimentului</h2>
+        <span class="eyebrow">Experiment decisiv</span>
+        <h2>Michelson–Morley</h2>
 
         <p>
-          Experiența Michelson–Morley a comparat timpii de propagare ai luminii pe două direcții perpendiculare.
-          Dacă exista vânt de eter, rotirea aparatului ar fi trebuit să modifice figura de interferență.
+          Experimentul Michelson–Morley a comparat timpii de propagare ai luminii pe două brațe perpendiculare
+          ale unui interferometru.
+        </p>
+
+        <p>
+          Dacă ar fi existat vânt de eter, rotirea aparatului ar fi trebuit să schimbe diferența de drum optic
+          și să deplaseze franjele de interferență.
         </p>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 360" role="img" aria-label="Schema simplificată a interferometrului Michelson">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Schema interferometrului Michelson">
             <defs>
-              <marker id="arrow-light" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c14-2-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c14-2-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
             </defs>
 
-            <circle cx="380" cy="180" r="18" fill="#f59e0b"/>
-            <line x1="150" y1="180" x2="360" y2="180" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-light)"/>
-            <line x1="400" y1="180" x2="610" y2="180" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-light)"/>
-            <line x1="380" y1="160" x2="380" y2="70" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow-light)"/>
-            <line x1="380" y1="200" x2="380" y2="300" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-light)"/>
-            <rect x="610" y="150" width="20" height="60" fill="#64748b"/>
-            <rect x="350" y="50" width="60" height="20" fill="#64748b"/>
-            <rect x="350" y="300" width="60" height="20" fill="#7c3aed"/>
-            <text x="110" y="165" fill="#2563eb" font-size="24">sursă</text>
-            <text x="585" y="140" fill="#64748b" font-size="24">oglindă</text>
-            <text x="410" y="62" fill="#64748b" font-size="24">oglindă</text>
-            <text x="410" y="320" fill="#7c3aed" font-size="24">detector</text>
-            <text x="310" y="210" fill="#f59e0b" font-size="24">separator</text>
+            <rect x="350" y="160" width="70" height="20"
+                  fill="#f59e0b" transform="rotate(-45 385 170)"/>
+
+            <line x1="95" y1="170" x2="355" y2="170"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c14-2-blue)"/>
+
+            <line x1="395" y1="170" x2="640" y2="170"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c14-2-blue)"/>
+
+            <line x1="385" y1="160" x2="385" y2="65"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c14-2-red)"/>
+
+            <line x1="385" y1="180" x2="385" y2="285"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c14-2-red)"/>
+
+            <rect x="635" y="135" width="16" height="70" fill="#64748b"/>
+            <rect x="350" y="50" width="70" height="16" fill="#64748b"/>
+            <rect x="350" y="285" width="70" height="16" fill="#64748b"/>
+
+            <text x="105" y="145" fill="#2563eb" font-size="24">sursă</text>
+            <text x="655" y="178" fill="#64748b" font-size="24">oglindă</text>
+            <text x="320" y="45" fill="#64748b" font-size="24">oglindă</text>
+            <text x="405" y="255" fill="#ef4444" font-size="24">ecran</text>
           </svg>
+
           <p class="caption">
-            Fasciculul se împarte pe două brațe perpendiculare, se reflectă și se recombină, producând interferență.
+            Fasciculul este împărțit în două raze perpendiculare, reflectat și recombinat pentru a produce franje.
           </p>
         </div>
 
         <div class="exam">
-          <strong>Idee experimentală:</strong>
-          o diferență de timp între cele două drumuri optice ar produce o deplasare a franjelor de interferență.
+          <strong>Rezultat esențial:</strong>
+          deplasarea de franje așteptată nu a fost observată. Rezultatul este numit „rezultat nul”.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Rezultat negativ</span>
-        <h2>Ce a arătat experiența?</h2>
+        <span class="eyebrow">Consecință experimentală</span>
+        <h2>De ce rezultatul nul este important?</h2>
 
         <p>
-          În cadrul ipotezei eterului, se aștepta o diferență între timpul de propagare pe direcția mișcării Pământului și timpul pe direcția perpendiculară.
-        </p>
-
-        <p>
-          Rezultatul a fost <span class="mark">negativ</span>:
-          deplasarea franjelor așteptată nu a fost observată.
+          În interpretarea clasică, timpii de parcurgere pe brațul paralel și pe brațul perpendicular
+          față de presupusul vânt de eter ar fi trebuit să fie diferiți.
         </p>
 
         <div class="formula">
-          $$\Delta t_{\text{așteptat}}\neq 0,\qquad \Delta t_{\text{observat}}\approx 0$$
+          $$t_{\parallel}\neq t_{\perp}$$
         </div>
+
+        <p>
+          Diferența de timp ar fi produs o diferență de drum optic și, prin rotirea aparatului,
+          o deplasare observabilă a franjelor.
+        </p>
 
         <div class="exam">
           <strong>Concluzie fizică:</strong>
-          nu există dovezi experimentale pentru un sistem privilegiat legat de eter.
-          Viteza luminii în vid are aceeași valoare pentru observatorii inerțiali.
+          nu s-a putut evidenția o mișcare absolută față de eter.
+          Viteza luminii în vid trebuie tratată ca aceeași în toate sistemele inerțiale.
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          „rezultat negativ” nu înseamnă experiment nereușit.
-          Înseamnă că efectul prezis de ipoteza eterului nu a fost detectat.
+          rezultatul nul nu înseamnă că lumina nu se propagă.
+          Înseamnă că propagarea luminii nu evidențiază un sistem absolut de repaus.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Postulatele lui Einstein</span>
-        <h2>Fundamentul teoriei relativității restrânse</h2>
+        <span class="eyebrow">Einstein</span>
+        <h2>Postulatele relativității restrânse</h2>
 
         <p>
-          Teoria relativității restrânse se bazează pe două postulate.
+          Relativitatea restrânsă se bazează pe două postulate fundamentale.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>Principiul relativității</strong>
-            <p>Legile fizicii au aceeași formă în toate sistemele de referință inerțiale.</p>
+            <strong>Postulatul relativității</strong>
+            <p>
+              Legile fizicii au aceeași formă în toate sistemele de referință inerțiale.
+            </p>
           </div>
 
           <div class="mini">
-            <strong>Constanța vitezei luminii</strong>
-            <p>Viteza luminii în vid este aceeași pentru toți observatorii inerțiali, indiferent de mișcarea sursei sau observatorului.</p>
+            <strong>Postulatul constanței lui $c$</strong>
+            <p>
+              Viteza luminii în vid are aceeași valoare $c$ pentru toți observatorii inerțiali,
+              indiferent de mișcarea sursei sau a observatorului.
+            </p>
           </div>
         </div>
 
-        <div class="formula">
-          $$c=\text{constantă universală}$$
-        </div>
-
         <div class="exam">
-          <strong>Formulare de examen:</strong>
-          nu există sistem de referință inerțial privilegiat, iar viteza luminii în vid este invariantă.
+          <strong>Idee de examen:</strong>
+          cele două postulate impun modificarea noțiunilor clasice de timp și spațiu,
+          nu modificarea arbitrară a opticii sau a electromagnetismului.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Relativitatea simultaneității</span>
-        <h2>Evenimente simultane pentru cine?</h2>
+        <span class="eyebrow">Factor relativist</span>
+        <h2>Factorul Lorentz</h2>
 
         <p>
-          Un <span class="mark">eveniment</span> este caracterizat prin poziție și timp:
-        </p>
-
-        <div class="formula">
-          $$(x,y,z,t)$$
-        </div>
-
-        <p>
-          În mecanica clasică, simultaneitatea este absolută.
-          În relativitatea restrânsă, două evenimente simultane într-un sistem pot să nu fie simultane în alt sistem aflat în mișcare.
-        </p>
-
-        <div class="svgbox">
-          <svg viewBox="0 0 760 330" role="img" aria-label="Relativitatea simultaneității">
-            <defs>
-              <marker id="arrow-train" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
-              </marker>
-            </defs>
-
-            <rect x="140" y="150" width="480" height="85" rx="20" fill="#f59e0b"/>
-            <circle cx="230" cy="245" r="24" fill="#334155"/>
-            <circle cx="530" cy="245" r="24" fill="#334155"/>
-            <line x1="620" y1="120" x2="700" y2="120" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-train)"/>
-            <circle cx="260" cy="190" r="13" fill="#ef4444"/>
-            <circle cx="500" cy="190" r="13" fill="#ef4444"/>
-            <circle cx="380" cy="190" r="10" fill="#0f766e"/>
-            <text x="245" y="135" fill="#ef4444" font-size="23">fulger A</text>
-            <text x="475" y="135" fill="#ef4444" font-size="23">fulger B</text>
-            <text x="390" y="180" fill="#0f766e" font-size="23">observator</text>
-            <text x="635" y="105" fill="#2563eb" font-size="23">V</text>
-          </svg>
-          <p class="caption">
-            Simultaneitatea depinde de sistemul de referință, deoarece semnalele luminoase au aceeași viteză finită $c$.
-          </p>
-        </div>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          relativitatea simultaneității nu este o iluzie optică.
-          După corectarea timpilor de propagare ai luminii, diferența rămâne o proprietate a spațiu-timpului.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Transformări Lorentz</span>
-        <h2>Înlocuirea transformărilor Galilei</h2>
-
-        <p>
-          Pentru două sisteme inerțiale $S$ și $S'$, cu $S'$ deplasându-se cu viteza $V$ pe axa comună $Ox$,
-          transformările Lorentz sunt:
-        </p>
-
-        <div class="formula">
-          $$x'=\gamma(x-Vt)$$
-          $$t'=\gamma\left(t-\frac{Vx}{c^2}\right)$$
-          $$y'=y,\qquad z'=z$$
-        </div>
-
-        <p>
-          unde:
+          Mărimea care apare constant în transformările relativiste este
+          <span class="mark">factorul Lorentz</span>:
         </p>
 
         <div class="formula">
           $$\gamma=\frac{1}{\sqrt{1-\frac{V^2}{c^2}}}$$
         </div>
 
-        <div class="exam">
-          <strong>Observație:</strong>
-          pentru $V\ll c$, factorul $\gamma\approx1$, iar transformările Lorentz se reduc aproximativ la transformările Galilei.
+        <p>
+          Pentru viteze mici față de viteza luminii:
+        </p>
+
+        <div class="formula">
+          $$V\ll c\quad \Rightarrow\quad \gamma\approx 1$$
         </div>
+
+        <p>
+          Pentru viteze apropiate de $c$, factorul $\gamma$ devine mult mai mare decât $1$.
+        </p>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          în relativitate, timpul nu se transformă simplu ca $t'=t$.
-          Timpul depinde de sistemul de referință.
+          niciun sistem material nu poate atinge sau depăși viteza luminii în vid.
+          Pentru $V\to c$, factorul $\gamma$ tinde la infinit.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Interval spațiu-timp</span>
-        <h2>Mărimea invariantă</h2>
+        <span class="eyebrow">Transformări fundamentale</span>
+        <h2>Transformările Lorentz</h2>
 
         <p>
-          În relativitatea restrânsă, nu distanța spațială și intervalul de timp separat sunt absolute,
-          ci combinația numită <span class="mark">interval spațiu-timp</span>.
+          Considerăm două sisteme inerțiale $S$ și $S'$, cu $S'$ deplasându-se cu viteza $V$
+          față de $S$ de-a lungul axei $Ox$.
+        </p>
+
+        <p>
+          Transformările Lorentz sunt:
         </p>
 
         <div class="formula">
-          $$s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2$$
+          $$x'=\gamma(x-Vt)$$
+          $$y'=y,\qquad z'=z$$
+          $$t'=\gamma\left(t-\frac{Vx}{c^2}\right)$$
         </div>
 
         <p>
-          Această mărime are aceeași valoare în toate sistemele inerțiale.
+          Transformările inverse sunt:
         </p>
 
         <div class="formula">
-          $$s'^2=s^2$$
-        </div>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Tip de interval</th>
-              <th>Condiție</th>
-              <th>Interpretare</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Temporal</td>
-              <td>$s^2>0$</td>
-              <td>Evenimentele pot fi legate cauzal printr-un semnal mai lent decât lumina.</td>
-            </tr>
-            <tr>
-              <td>Luminos</td>
-              <td>$s^2=0$</td>
-              <td>Evenimentele pot fi legate printr-un semnal luminos.</td>
-            </tr>
-            <tr>
-              <td>Spațial</td>
-              <td>$s^2<0$</td>
-              <td>Evenimentele nu pot fi legate cauzal.</td>
-            </tr>
-          </tbody>
-        </table>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Dilatarea timpului</span>
-        <h2>Ceasurile în mișcare merg mai lent</h2>
-
-        <p>
-          Timpul propriu $\Delta t_0$ este intervalul de timp măsurat într-un sistem în care cele două evenimente au loc în același punct.
-        </p>
-
-        <p>
-          Un observator față de care ceasul este în mișcare măsoară un interval mai mare:
-        </p>
-
-        <div class="formula">
-          $$\Delta t=\gamma \Delta t_0$$
+          $$x=\gamma(x'+Vt')$$
+          $$y=y',\qquad z=z'$$
+          $$t=\gamma\left(t'+\frac{Vx'}{c^2}\right)$$
         </div>
 
         <div class="exam">
-          <strong>Interpretare:</strong>
-          un ceas aflat în mișcare față de observator este măsurat ca funcționând mai lent.
-        </div>
-
-        <div class="svgbox">
-          <svg viewBox="0 0 760 330" role="img" aria-label="Dilatarea timpului prin ceas luminos">
-            <defs>
-              <marker id="arrow-light2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
-              </marker>
-            </defs>
-
-            <rect x="140" y="85" width="160" height="180" rx="18" fill="rgba(15,118,110,0.15)" stroke="#0f766e" stroke-width="5"/>
-            <line x1="220" y1="230" x2="220" y2="120" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-light2)"/>
-            <text x="145" y="295" fill="#0f766e" font-size="24">ceas în repaus</text>
-
-            <rect x="470" y="85" width="160" height="180" rx="18" fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="5"/>
-            <path d="M520 230 L580 120" stroke="#ef4444" stroke-width="6" marker-end="url(#arrow-light2)"/>
-            <text x="450" y="295" fill="#2563eb" font-size="24">ceas în mișcare</text>
-            <text x="520" y="70" fill="#ef4444" font-size="24">drum mai lung</text>
-          </svg>
-          <p class="caption">
-            Pentru ca lumina să aibă aceeași viteză $c$, drumul mai lung al luminii în ceasul aflat în mișcare implică un timp măsurat mai mare.
-          </p>
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Contracția lungimilor</span>
-        <h2>Lungimile pe direcția mișcării se micșorează</h2>
-
-        <p>
-          Lungimea proprie $L_0$ este lungimea măsurată în sistemul în care corpul este în repaus.
-        </p>
-
-        <p>
-          Lungimea măsurată de un observator față de care corpul se deplasează cu viteza $V$ este:
-        </p>
-
-        <div class="formula">
-          $$L=\frac{L_0}{\gamma}$$
-        </div>
-
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          contracția apare numai pe direcția mișcării relative.
-          Dimensiunile perpendiculare pe mișcare nu se contractă.
-        </div>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          lungimea proprie este lungimea maximă.
-          Observatorii față de care corpul se mișcă măsoară o lungime mai mică.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Compunerea relativistă</span>
-        <h2>Vitezele nu se mai adună galilean</h2>
-
-        <p>
-          Dacă un corp are viteza $u'$ față de sistemul $S'$, iar $S'$ se deplasează cu viteza $V$ față de $S$,
-          viteza corpului față de $S$ este:
-        </p>
-
-        <div class="formula">
-          $$u=\frac{u'+V}{1+\frac{u'V}{c^2}}$$
-        </div>
-
-        <p>
-          Pentru sens opus:
-        </p>
-
-        <div class="formula">
-          $$u=\frac{u'-V}{1-\frac{u'V}{c^2}}$$
-        </div>
-
-        <div class="exam">
-          <strong>Consecință:</strong>
-          dacă $u'=c$, atunci:
-          $$u=\frac{c+V}{1+\frac{cV}{c^2}}=c.$$
-          Viteza luminii rămâne $c$.
-        </div>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          două viteze subluminale nu pot compune o viteză mai mare decât $c$.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Efect Doppler relativist</span>
-        <h2>Schimbarea frecvenței luminii</h2>
-
-        <p>
-          Pentru lumină, efectul Doppler trebuie tratat relativist.
-          Dacă sursa și observatorul se îndepărtează pe aceeași direcție, frecvența observată este mai mică:
-        </p>
-
-        <div class="formula">
-          $$f=f_0\sqrt{\frac{1-\beta}{1+\beta}},\qquad \beta=\frac{V}{c}$$
-        </div>
-
-        <p>
-          Dacă sursa și observatorul se apropie:
-        </p>
-
-        <div class="formula">
-          $$f=f_0\sqrt{\frac{1+\beta}{1-\beta}}$$
-        </div>
-
-        <div class="grid">
-          <div class="mini">
-            <strong>Îndepărtare</strong>
-            <p>Frecvența scade, lungimea de undă crește: deplasare spre roșu.</p>
-          </div>
-          <div class="mini">
-            <strong>Apropiere</strong>
-            <p>Frecvența crește, lungimea de undă scade: deplasare spre albastru.</p>
-          </div>
-        </div>
-
-        <div class="exam">
-          <strong>Idee de examen:</strong>
-          efectul Doppler relativist este o confirmare experimentală a modificării timpului măsurat între sisteme în mișcare relativă.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Confirmări experimentale</span>
-        <h2>Ce verifică teoria?</h2>
-
-        <p>
-          Teoria relativității restrânse este susținută de numeroase verificări experimentale, printre care:
-        </p>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Fenomen</th>
-              <th>Ce confirmă?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Michelson–Morley</td>
-              <td>Absența eterului și invarianta vitezei luminii.</td>
-            </tr>
-            <tr>
-              <td>Durata de viață a miuonilor</td>
-              <td>Dilatarea timpului pentru particule în mișcare rapidă.</td>
-            </tr>
-            <tr>
-              <td>Efectul Doppler relativist</td>
-              <td>Transformarea relativistă a frecvenței și timpului.</td>
-            </tr>
-            <tr>
-              <td>Acceleratoare de particule</td>
-              <td>Necesitatea relațiilor relativiste la viteze apropiate de $c$.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          relativitatea restrânsă nu contrazice mecanica newtoniană în domeniul vitezelor mici.
-          O include ca aproximație pentru $V\ll c$.
+          <strong>Observație esențială:</strong>
+          timpul nu mai este absolut. Coordonata temporală depinde de poziție și de starea de mișcare
+          a observatorului.
         </div>
       </article>
     </section>
@@ -934,36 +694,326 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Limită clasică</span>
-        <h2>Când revine mecanica newtoniană?</h2>
+        <h2>Recuperarea transformărilor Galilei</h2>
 
         <p>
-          Factorul Lorentz este:
+          Pentru viteze mult mai mici decât viteza luminii:
         </p>
 
         <div class="formula">
-          $$\gamma=\frac{1}{\sqrt{1-\frac{V^2}{c^2}}}$$
+          $$\frac{V^2}{c^2}\ll 1,\qquad \gamma\approx 1$$
         </div>
 
         <p>
-          Dacă $V\ll c$, atunci:
+          De asemenea:
         </p>
 
         <div class="formula">
-          $$\frac{V^2}{c^2}\ll1,\qquad \gamma\approx1$$
+          $$\frac{Vx}{c^2}\approx 0$$
         </div>
 
         <p>
-          În această limită:
+          Transformările Lorentz devin aproximativ:
         </p>
 
         <div class="formula">
-          $$x'=\gamma(x-Vt)\approx x-Vt$$
-          $$t'=\gamma\left(t-\frac{Vx}{c^2}\right)\approx t$$
+          $$x'\approx x-Vt,\qquad t'\approx t$$
         </div>
 
         <div class="exam">
           <strong>Concluzie:</strong>
-          transformările Galilei sunt aproximația transformărilor Lorentz pentru viteze mult mai mici decât viteza luminii.
+          mecanica newtoniană este limita de viteze mici a relativității restrânse.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          relativitatea nu „anulează” mecanica newtoniană; o include ca aproximație pentru $V\ll c$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteze</span>
+        <h2>Compunerea relativistă a vitezelor</h2>
+
+        <p>
+          Dacă o particulă are viteza $u_x$ în sistemul $S$, viteza ei în $S'$ este:
+        </p>
+
+        <div class="formula">
+          $$u'_x=\frac{u_x-V}{1-\frac{u_xV}{c^2}}$$
+        </div>
+
+        <p>
+          Invers:
+        </p>
+
+        <div class="formula">
+          $$u_x=\frac{u'_x+V}{1+\frac{u'_xV}{c^2}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Verificare importantă:</strong>
+          dacă $u'_x=c$, atunci:
+          $$u_x=\frac{c+V}{1+\frac{V}{c}}=c.$$
+          Deci viteza luminii rămâne $c$.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          vitezele nu se adună simplu ca în mecanica galileană atunci când sunt comparabile cu $c$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Simultaneitate</span>
+        <h2>Relativitatea simultaneității</h2>
+
+        <p>
+          Două evenimente simultane într-un sistem nu sunt, în general, simultane în alt sistem
+          care se deplasează față de primul.
+        </p>
+
+        <p>
+          Din transformarea timpului:
+        </p>
+
+        <div class="formula">
+          $$t'=\gamma\left(t-\frac{Vx}{c^2}\right)$$
+        </div>
+
+        <p>
+          pentru două evenimente:
+        </p>
+
+        <div class="formula">
+          $$\Delta t'=\gamma\left(\Delta t-\frac{V\Delta x}{c^2}\right)$$
+        </div>
+
+        <p>
+          Dacă în $S$ evenimentele sunt simultane, $\Delta t=0$, dar au poziții diferite,
+          $\Delta x\neq 0$, atunci:
+        </p>
+
+        <div class="formula">
+          $$\Delta t'=-\gamma\frac{V\Delta x}{c^2}\neq 0$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          simultaneitatea este relativă, nu absolută.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Timp</span>
+        <h2>Dilatarea timpului</h2>
+
+        <p>
+          <span class="mark">Timpul propriu</span> $\Delta t_0$ este intervalul de timp măsurat într-un sistem
+          în care cele două evenimente au loc în același punct.
+        </p>
+
+        <p>
+          Un observator față de care ceasul este în mișcare măsoară un interval de timp mai mare:
+        </p>
+
+        <div class="formula">
+          $$\Delta t=\gamma\Delta t_0$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Dilatarea timpului">
+            <defs>
+              <marker id="c14-3-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="125" y="100" width="180" height="120" rx="20"
+                  fill="rgba(37,99,235,0.18)" stroke="#2563eb" stroke-width="5"/>
+
+            <circle cx="215" cy="160" r="38" fill="#f59e0b"/>
+            <line x1="215" y1="160" x2="215" y2="132" stroke="#122033" stroke-width="5" stroke-linecap="round"/>
+            <line x1="215" y1="160" x2="240" y2="175" stroke="#122033" stroke-width="5" stroke-linecap="round"/>
+
+            <rect x="470" y="100" width="180" height="120" rx="20"
+                  fill="rgba(15,118,110,0.18)" stroke="#0f766e" stroke-width="5"/>
+
+            <circle cx="560" cy="160" r="38" fill="#f59e0b"/>
+            <line x1="560" y1="160" x2="560" y2="132" stroke="#122033" stroke-width="5" stroke-linecap="round"/>
+            <line x1="560" y1="160" x2="585" y2="175" stroke="#122033" stroke-width="5" stroke-linecap="round"/>
+
+            <line x1="470" y1="75" x2="630" y2="75"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c14-3-red)"/>
+
+            <text x="155" y="250" fill="#2563eb" font-size="24">ceas propriu</text>
+            <text x="465" y="250" fill="#0f766e" font-size="24">ceas în mișcare</text>
+            <text x="635" y="70" fill="#ef4444" font-size="24">V</text>
+          </svg>
+
+          <p class="caption">
+            Ceasul aflat în mișcare față de observator este măsurat ca mergând mai lent.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          dilatarea timpului se scrie cu $\gamma>1$, deci intervalul măsurat în sistemul în care ceasul
+          se mișcă este mai mare decât timpul propriu.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lungime</span>
+        <h2>Contracția lungimilor</h2>
+
+        <p>
+          <span class="mark">Lungimea proprie</span> $L_0$ este lungimea măsurată în sistemul în care corpul
+          este în repaus.
+        </p>
+
+        <p>
+          Lungimea măsurată de un observator față de care corpul se deplasează este:
+        </p>
+
+        <div class="formula">
+          $$L=\frac{L_0}{\gamma}$$
+        </div>
+
+        <p>
+          Contracția are loc numai pe direcția mișcării relative.
+        </p>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          lungimea unui corp în mișcare este mai mică decât lungimea proprie pe direcția deplasării.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          lungimile perpendiculare pe direcția mișcării nu se contractă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spațiu-timp</span>
+        <h2>Intervalul invariant</h2>
+
+        <p>
+          Deși intervalele de timp și distanțele spațiale pot avea valori diferite în sisteme inerțiale diferite,
+          o combinație dintre ele rămâne invariantă.
+        </p>
+
+        <div class="formula">
+          $$s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2$$
+        </div>
+
+        <p>
+          Pentru mișcare pe axa $Ox$:
+        </p>
+
+        <div class="formula">
+          $$s^2=c^2\Delta t^2-\Delta x^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          transformările Lorentz nu păstrează separat timpul și distanța, dar păstrează intervalul spațiu-timp.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conuri de lumină</span>
+        <h2>Cauzalitate relativistă</h2>
+
+        <p>
+          Viteza luminii în vid este viteza maximă de propagare a semnalelor cauzale.
+          De aceea, clasificăm separarea dintre evenimente prin intervalul spațiu-timp.
+        </p>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Tip de interval</th>
+                <th>Condiție</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Temporal</td>
+                <td>$s^2>0$</td>
+                <td>Poate exista relație cauzală între evenimente.</td>
+              </tr>
+              <tr>
+                <td>Luminos</td>
+                <td>$s^2=0$</td>
+                <td>Evenimentele pot fi legate printr-un semnal luminos.</td>
+              </tr>
+              <tr>
+                <td>Spațial</td>
+                <td>$s^2<0$</td>
+                <td>Nu poate exista influență cauzală între evenimente.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          faptul că două evenimente sunt simultane într-un sistem nu garantează simultaneitatea lor
+          în alt sistem.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Confirmări experimentale</span>
+        <h2>De la interferometru la particule rapide</h2>
+
+        <p>
+          Relativitatea restrânsă este susținută de numeroase observații și experimente:
+          rezultatul Michelson–Morley, dilatarea duratei de viață a particulelor rapide,
+          funcționarea acceleratoarelor de particule și corecțiile relativiste din măsurători de mare precizie.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Muoni atmosferici</strong>
+            <p>
+              Muonii produși în atmosferă ajung la sol în număr mult mai mare decât ar permite
+              durata lor de viață proprie în descriere clasică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Acceleratoare</strong>
+            <p>
+              Particulele accelerate la viteze apropiate de $c$ necesită tratament relativist.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Idee de examen:</strong>
+          experimentele nu sunt simple „detalii istorice”; ele justifică trecerea de la
+          transformările Galilei la transformările Lorentz.
         </div>
       </article>
     </section>
@@ -971,30 +1021,24 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 1</span>
-        <h2>Calculul factorului Lorentz</h2>
+        <h2>Factorul Lorentz</h2>
 
         <p>
-          Un sistem se deplasează cu viteza $V=0{,}6c$ față de un observator.
+          Un sistem $S'$ se deplasează cu viteza $V=0{,}6c$ față de $S$.
           Determinați factorul Lorentz.
         </p>
 
-        <p>
-          Folosim:
-        </p>
+        <p><strong>1. Formula:</strong></p>
 
         <div class="formula">
           $$\gamma=\frac{1}{\sqrt{1-\frac{V^2}{c^2}}}$$
         </div>
 
-        <p>
-          Deoarece $V=0{,}6c$:
-        </p>
+        <p><strong>2. Calcul:</strong></p>
 
         <div class="formula">
-          $$\gamma=\frac{1}{\sqrt{1-0{,}6^2}}
-          =\frac{1}{\sqrt{1-0{,}36}}
-          =\frac{1}{\sqrt{0{,}64}}
-          =\frac{1}{0{,}8}=1{,}25$$
+          $$\gamma=\frac{1}{\sqrt{1-(0{,}6)^2}}$$
+          $$\gamma=\frac{1}{\sqrt{1-0{,}36}}=\frac{1}{\sqrt{0{,}64}}=\frac{1}{0{,}8}=1{,}25$$
         </div>
 
         <div class="exam">
@@ -1010,33 +1054,36 @@
         <h2>Dilatarea timpului</h2>
 
         <p>
-          Un proces durează în sistemul propriu $\Delta t_0=4\,\mu\text{s}$.
-          Față de laborator, sistemul se deplasează cu $V=0{,}8c$.
-          Determinați durata măsurată în laborator.
+          Un ceas aflat într-o navă are intervalul propriu $\Delta t_0=4\,\text{s}$.
+          Nava se deplasează cu viteza $V=0{,}6c$ față de observatorul terestru.
+          Determinați intervalul măsurat de observatorul terestru.
         </p>
 
-        <p><strong>1. Factorul Lorentz:</strong></p>
+        <p>
+          Din problema precedentă:
+        </p>
+
         <div class="formula">
-          $$\gamma=\frac{1}{\sqrt{1-0{,}8^2}}
-          =\frac{1}{\sqrt{0{,}36}}
-          =\frac{1}{0{,}6}
-          =\frac{5}{3}$$
+          $$\gamma=1{,}25$$
         </div>
 
-        <p><strong>2. Dilatarea timpului:</strong></p>
+        <p>
+          Aplicăm dilatarea timpului:
+        </p>
+
         <div class="formula">
-          $$\Delta t=\gamma\Delta t_0=\frac{5}{3}\cdot4\,\mu\text{s}
-          =\frac{20}{3}\,\mu\text{s}\approx6{,}67\,\mu\text{s}$$
+          $$\Delta t=\gamma\Delta t_0$$
+          $$\Delta t=1{,}25\cdot4=5\,\text{s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          observatorul din laborator măsoară durata $\Delta t\approx6{,}67\,\mu\text{s}$.
+          observatorul terestru măsoară $\Delta t=5\,\text{s}$.
         </div>
 
         <div class="warning">
-          <strong>Capcană:</strong>
-          timpul propriu este cel mai scurt interval de timp dintre cele două evenimente.
+          <strong>Interpretare:</strong>
+          ceasul navei este văzut de pe Pământ ca mergând mai lent.
         </div>
       </article>
     </section>
@@ -1048,34 +1095,25 @@
 
         <p>
           O navă are lungimea proprie $L_0=100\,\text{m}$.
-          Ea se deplasează față de Pământ cu $V=0{,}6c$.
-          Determinați lungimea măsurată de un observator de pe Pământ.
+          Ea se deplasează cu viteza $V=0{,}8c$ față de un observator.
+          Determinați lungimea măsurată de observator.
         </p>
 
-        <p>
-          Pentru $V=0{,}6c$, din problema anterioară:
-        </p>
+        <p><strong>1. Factorul Lorentz:</strong></p>
 
         <div class="formula">
-          $$\gamma=1{,}25$$
+          $$\gamma=\frac{1}{\sqrt{1-0{,}8^2}}=\frac{1}{\sqrt{0{,}36}}=\frac{1}{0{,}6}=\frac{5}{3}$$
         </div>
 
-        <p>
-          Aplicăm contracția lungimilor:
-        </p>
+        <p><strong>2. Contracția lungimii:</strong></p>
 
         <div class="formula">
-          $$L=\frac{L_0}{\gamma}=\frac{100}{1{,}25}=80\,\text{m}$$
+          $$L=\frac{L_0}{\gamma}=\frac{100}{5/3}=60\,\text{m}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          lungimea măsurată de observatorul terestru este $80\,\text{m}$.
-        </div>
-
-        <div class="warning">
-          <strong>Observație:</strong>
-          contracția apare doar pe direcția mișcării relative.
+          lungimea navei măsurată de observator este $60\,\text{m}$.
         </div>
       </article>
     </section>
@@ -1086,32 +1124,31 @@
         <h2>Compunerea relativistă a vitezelor</h2>
 
         <p>
-          O navă se deplasează față de Pământ cu $V=0{,}6c$.
-          Din navă se emite o particulă în același sens cu viteza $u'=0{,}5c$ față de navă.
+          O navă se deplasează față de Pământ cu viteza $V=0{,}6c$.
+          Din navă este lansată o particulă înainte cu viteza $u'_x=0{,}6c$ față de navă.
           Determinați viteza particulei față de Pământ.
         </p>
 
         <p>
-          Folosim:
+          Folosim formula inversă:
         </p>
 
         <div class="formula">
-          $$u=\frac{u'+V}{1+\frac{u'V}{c^2}}$$
+          $$u_x=\frac{u'_x+V}{1+\frac{u'_xV}{c^2}}$$
         </div>
 
         <p>
-          Înlocuim:
+          Calcul:
         </p>
 
         <div class="formula">
-          $$u=\frac{0{,}5c+0{,}6c}{1+0{,}5\cdot0{,}6}
-          =\frac{1{,}1c}{1{,}3}
-          \approx0{,}846c$$
+          $$u_x=\frac{0{,}6c+0{,}6c}{1+0{,}6\cdot0{,}6}$$
+          $$u_x=\frac{1{,}2c}{1{,}36}\approx0{,}882c$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          viteza particulei față de Pământ este aproximativ $0{,}846c$, nu $1{,}1c$.
+          viteza particulei față de Pământ este aproximativ $0{,}882c$, nu $1{,}2c$.
         </div>
       </article>
     </section>
@@ -1119,35 +1156,38 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 5</span>
-        <h2>Intervalul spațiu-timp</h2>
+        <h2>Relativitatea simultaneității</h2>
 
         <p>
-          Două evenimente au loc pe aceeași direcție, cu
-          $\Delta t=5\,\mu\text{s}$ și $\Delta x=900\,\text{m}$.
-          Considerați $c=3\cdot10^8\,\text{m/s}$.
-          Determinați tipul intervalului.
+          Două evenimente sunt simultane în sistemul $S$, deci $\Delta t=0$,
+          și sunt separate prin $\Delta x=300\,\text{m}$.
+          Sistemul $S'$ se deplasează cu $V=0{,}6c$.
+          Determinați $\Delta t'$.
         </p>
 
         <p>
-          Calculăm:
+          Pentru $V=0{,}6c$, $\gamma=1{,}25$.
         </p>
 
         <div class="formula">
-          $$c\Delta t=3\cdot10^8\cdot5\cdot10^{-6}=1500\,\text{m}$$
+          $$\Delta t'=\gamma\left(\Delta t-\frac{V\Delta x}{c^2}\right)$$
         </div>
 
-        <div class="formula">
-          $$s^2=c^2\Delta t^2-\Delta x^2
-          =(1500)^2-(900)^2$$
-        </div>
+        <p>
+          Deoarece $\Delta t=0$:
+        </p>
 
         <div class="formula">
-          $$s^2=2\,250\,000-810\,000=1\,440\,000\,\text{m}^2>0$$
+          $$\Delta t'=-\gamma\frac{V\Delta x}{c^2}$$
+          $$\Delta t'=-1{,}25\cdot\frac{0{,}6c\cdot300}{c^2}$$
+          $$\Delta t'=-1{,}25\cdot0{,}6\cdot\frac{300}{3\cdot10^8}$$
+          $$\Delta t'=-7{,}5\cdot10^{-7}\,\text{s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          intervalul este temporal, deci evenimentele pot fi legate cauzal.
+          evenimentele nu mai sunt simultane în $S'$; intervalul temporal este
+          $-7{,}5\cdot10^{-7}\,\text{s}$.
         </div>
       </article>
     </section>
@@ -1159,38 +1199,35 @@
 
         <ul>
           <li>
-            <strong>Confuzia dintre rezultat negativ și eșec experimental:</strong>
-            experiența Michelson–Morley a fost decisivă tocmai prin absența efectului așteptat.
+            <strong>Aplicarea compunerii galileene la viteze relativiste:</strong>
+            pentru viteze comparabile cu $c$ se folosește compunerea relativistă.
           </li>
           <li>
-            <strong>Aplicarea compunerii galileene la lumină:</strong>
-            viteza luminii în vid rămâne $c$, nu $c\pm V$.
+            <strong>Confuzia dintre timp propriu și timp dilatat:</strong>
+            timpul propriu se măsoară în sistemul în care cele două evenimente au loc în același punct.
           </li>
           <li>
-            <strong>Considerarea timpului ca absolut:</strong>
-            în relativitate, $t'\neq t$ în general.
+            <strong>Scrierea greșită a contracției:</strong>
+            formula corectă este $L=L_0/\gamma$, nu $L=\gamma L_0$.
           </li>
           <li>
-            <strong>Confuzia timp propriu–timp dilatat:</strong>
-            timpul propriu este cel măsurat în sistemul în care evenimentele au loc în același punct.
+            <strong>Neglijarea relativității simultaneității:</strong>
+            simultaneitatea nu este absolută.
           </li>
           <li>
-            <strong>Confuzia lungime proprie–lungime contractată:</strong>
-            lungimea proprie este măsurată în sistemul în care corpul este în repaus.
+            <strong>Uitarea termenului $Vx/c^2$:</strong>
+            transformarea timpului Lorentz nu este $t'=\gamma t$, decât în cazuri particulare.
           </li>
           <li>
-            <strong>Contracția aplicată pe toate direcțiile:</strong>
-            contracția lungimii apare numai pe direcția mișcării.
-          </li>
-          <li>
-            <strong>Uitarea limitei clasice:</strong>
-            pentru $V\ll c$, rezultatele relativiste trebuie să revină la cele newtoniene.
+            <strong>Confuzia dintre $V$ și $u$:</strong>
+            $V$ este viteza relativă dintre sisteme, iar $u$ este viteza unei particule sau a unui semnal.
           </li>
         </ul>
 
         <div class="exam">
           <strong>Formulare recomandată:</strong>
-          „Pornesc de la cele două postulate ale relativității restrânse și folosesc transformările Lorentz, nu transformările Galilei, deoarece viteza analizată este comparabilă cu $c$.”
+          „Aleg sistemele inerțiale, stabilesc direcția mișcării relative, scriu transformările Lorentz
+          și identific mărimea proprie înainte de a aplica formula.”
         </div>
       </article>
     </section>
@@ -1201,48 +1238,55 @@
         <h2>Relații esențiale</h2>
 
         <div class="formula">
-          $$c=\frac{1}{\sqrt{\mu_0\varepsilon_0}}\approx3\cdot10^8\,\text{m/s}$$
           $$\gamma=\frac{1}{\sqrt{1-\frac{V^2}{c^2}}}$$
           $$x'=\gamma(x-Vt),\qquad t'=\gamma\left(t-\frac{Vx}{c^2}\right)$$
-          $$y'=y,\qquad z'=z$$
-          $$s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2$$
+          $$x=\gamma(x'+Vt'),\qquad t=\gamma\left(t'+\frac{Vx'}{c^2}\right)$$
+          $$u'_x=\frac{u_x-V}{1-\frac{u_xV}{c^2}},\qquad
+          u_x=\frac{u'_x+V}{1+\frac{u'_xV}{c^2}}$$
           $$\Delta t=\gamma\Delta t_0$$
           $$L=\frac{L_0}{\gamma}$$
-          $$u=\frac{u'+V}{1+\frac{u'V}{c^2}}$$
-          $$f=f_0\sqrt{\frac{1-\beta}{1+\beta}},\qquad \beta=\frac{V}{c}\quad \text{pentru îndepărtare}$$
+          $$\Delta t'=\gamma\left(\Delta t-\frac{V\Delta x}{c^2}\right)$$
+          $$s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2$$
         </div>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Concept</th>
-              <th>De reținut</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Michelson–Morley</td>
-              <td>Nu detectează vânt de eter; susține invarianta vitezei luminii.</td>
-            </tr>
-            <tr>
-              <td>Postulatul relativității</td>
-              <td>Legile fizicii au aceeași formă în toate sistemele inerțiale.</td>
-            </tr>
-            <tr>
-              <td>Postulatul lui $c$</td>
-              <td>Viteza luminii în vid este aceeași pentru toți observatorii inerțiali.</td>
-            </tr>
-            <tr>
-              <td>Lorentz</td>
-              <td>Înlocuiește transformările Galilei la viteze apropiate de $c$.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>De reținut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Michelson–Morley</td>
+                <td>Nu detectează vântul de eter; susține constanța vitezei luminii.</td>
+              </tr>
+              <tr>
+                <td>Postulatul relativității</td>
+                <td>Legile fizicii au aceeași formă în toate sistemele inerțiale.</td>
+              </tr>
+              <tr>
+                <td>Postulatul lui $c$</td>
+                <td>Viteza luminii în vid este aceeași pentru toți observatorii inerțiali.</td>
+              </tr>
+              <tr>
+                <td>Lorentz</td>
+                <td>Transformă coordonatele spațiale și temporale între sisteme inerțiale.</td>
+              </tr>
+              <tr>
+                <td>Consecințe</td>
+                <td>Dilatarea timpului, contracția lungimilor, relativitatea simultaneității.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="bottom-links">
-          <a href="C15-elemente-de-dinamica-relativista.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
-          <a href="index.html">Înapoi la capitol</a>
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          pentru o navă cu viteza $V=0{,}8c$, calculează $\gamma$, durata măsurată pe Pământ
+          pentru un proces cu timp propriu $\Delta t_0$, lungimea contractată a navei și viteza unei particule
+          lansate din navă.
         </div>
       </article>
     </section>
@@ -1253,28 +1297,28 @@
         <h2>Itemi pentru autoevaluare</h2>
 
         <ol>
-          <li>Scrieți transformările Galilei și precizați ipoteza timpului absolut.</li>
-          <li>Explicați conflictul dintre compunerea galileană a vitezelor și viteza luminii.</li>
+          <li>Scrieți transformările Galilei pentru două sisteme inerțiale.</li>
+          <li>Explicați de ce transformările Galilei intră în conflict cu invarianta vitezei luminii.</li>
           <li>Descrieți ipoteza eterului luminifer.</li>
-          <li>Explicați ideea experienței Michelson–Morley.</li>
-          <li>Precizați semnificația rezultatului negativ al experienței Michelson–Morley.</li>
-          <li>Enunțați cele două postulate ale teoriei relativității restrânse.</li>
-          <li>Explicați relativitatea simultaneității.</li>
-          <li>Scrieți transformările Lorentz pentru mișcare pe axa $Ox$.</li>
-          <li>Definiți factorul Lorentz $\gamma$.</li>
+          <li>Explicați ideea experimentului Michelson–Morley.</li>
+          <li>Precizați semnificația rezultatului nul al experimentului Michelson–Morley.</li>
+          <li>Enunțați cele două postulate ale relativității restrânse.</li>
+          <li>Definiți factorul Lorentz.</li>
+          <li>Scrieți transformările Lorentz directe și inverse.</li>
           <li>Arătați că transformările Lorentz se reduc la transformările Galilei pentru $V\ll c$.</li>
-          <li>Definiți intervalul spațiu-timp și precizați caracterul său invariant.</li>
-          <li>Scrieți relația dilatării timpului.</li>
-          <li>Scrieți relația contracției lungimilor.</li>
-          <li>Scrieți formula compunerii relativiste a vitezelor.</li>
-          <li>Rezolvați o problemă numerică pentru $V=0{,}8c$ folosind $\gamma$.</li>
+          <li>Scrieți formula relativistă de compunere a vitezelor.</li>
+          <li>Explicați relativitatea simultaneității.</li>
+          <li>Deduceți relația de dilatare a timpului.</li>
+          <li>Deduceți relația de contracție a lungimilor.</li>
+          <li>Scrieți intervalul spațiu-timp invariant.</li>
+          <li>Rezolvați o problemă numerică pentru $V=0{,}6c$.</li>
         </ol>
 
-        <div class="exam">
-          <strong>Problemă tipică de examen:</strong>
-          o navă se deplasează cu $V=0{,}8c$ față de Pământ.
-          Se cunosc lungimea proprie a navei și durata proprie a unui proces.
-          Determină lungimea măsurată de pe Pământ, durata măsurată de pe Pământ și explică de ce nu se pot folosi transformările Galilei.
+        <div class="formula">
+          $$x'=\gamma(x-Vt),\qquad
+          t'=\gamma\left(t-\frac{Vx}{c^2}\right),\qquad
+          \Delta t=\gamma\Delta t_0,\qquad
+          L=\frac{L_0}{\gamma}$$
         </div>
 
         <div class="bottom-links">
@@ -1287,23 +1331,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 24</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1326,6 +1378,8 @@
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
