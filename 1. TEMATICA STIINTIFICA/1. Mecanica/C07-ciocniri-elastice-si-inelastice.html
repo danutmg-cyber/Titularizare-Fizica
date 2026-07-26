@@ -1,1 +1,1381 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C07 – Ciocniri elastice și inelastice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <!-- Stiluri locale: doar elementele specifice lecției C07 -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    p {
+      margin: 0.75rem 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.35rem;
+    }
+
+    li {
+      margin: 0.55rem 0;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 0.95em;
+      background: var(--card);
+    }
+
+    .compare th,
+    .compare td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+
+    .compare th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C07 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 7</span>
+        <h1>Ciocniri elastice și inelastice</h1>
+
+        <p class="lead">
+          <span class="mark">Ciocnirea</span> este o interacțiune de durată foarte scurtă între corpuri,
+          în timpul căreia forțele interne pot fi foarte mari. În studiul ciocnirilor folosim în special
+          conservarea impulsului și analiza energiei cinetice.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          în toate ciocnirile unui sistem izolat se conservă impulsul total.
+          Energia cinetică se conservă numai în ciocnirile perfect elastice.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 320" role="img" aria-label="Ciocnire între două corpuri">
+            <defs>
+              <marker id="c07-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c07-1-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <line x1="70" y1="230" x2="690" y2="230"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+            <circle cx="220" cy="185" r="42" fill="#f59e0b"/>
+            <circle cx="520" cy="185" r="52" fill="#0f766e"/>
+
+            <line x1="100" y1="185" x2="170" y2="185"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c07-1-blue)"/>
+
+            <line x1="660" y1="185" x2="590" y2="185"
+                  stroke="#0f766e" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c07-1-green)"/>
+
+            <text x="194" y="195" fill="#122033" font-size="25">m₁</text>
+            <text x="494" y="195" fill="#ffffff" font-size="25">m₂</text>
+            <text x="115" y="162" fill="#2563eb" font-size="24">v₁</text>
+            <text x="610" y="162" fill="#0f766e" font-size="24">v₂</text>
+            <text x="335" y="90" fill="#64748b" font-size="25">înainte de ciocnire</text>
+          </svg>
+
+          <p class="caption">
+            Într-o ciocnire, vitezele corpurilor se modifică puternic într-un interval de timp foarte mic.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Ce este o ciocnire?</h2>
+
+        <p>
+          O ciocnire este o interacțiune mecanică între două sau mai multe corpuri,
+          desfășurată într-un timp scurt, în care forțele interne sunt mult mai mari decât
+          forțele externe obișnuite.
+        </p>
+
+        <div class="formula">
+          $$\Delta t_{\text{ciocnire}}\ \text{mic},\qquad
+          F_{\text{interne}}\ \text{mari}$$
+        </div>
+
+        <p>
+          De aceea, pe durata ciocnirii, impulsul forțelor externe poate fi adesea neglijat.
+        </p>
+
+        <div class="exam">
+          <strong>Condiția de bază:</strong>
+          pentru sistemul format din corpurile care se ciocnesc, dacă impulsul forțelor externe
+          este neglijabil, impulsul total se conservă.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu spunem că nu există forțe în timpul ciocnirii. Există forțe interne mari,
+          dar ele nu modifică impulsul total al sistemului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Impuls total</span>
+        <h2>Legea conservării impulsului</h2>
+
+        <p>
+          Pentru două corpuri care se ciocnesc, impulsul total înainte de ciocnire este:
+        </p>
+
+        <div class="formula">
+          $$\vec P_i=m_1\vec v_1+m_2\vec v_2$$
+        </div>
+
+        <p>
+          Impulsul total după ciocnire este:
+        </p>
+
+        <div class="formula">
+          $$\vec P_f=m_1\vec u_1+m_2\vec u_2$$
+        </div>
+
+        <p>
+          Dacă sistemul este izolat:
+        </p>
+
+        <div class="formula">
+          $$\vec P_i=\vec P_f$$
+          $$m_1\vec v_1+m_2\vec v_2=m_1\vec u_1+m_2\vec u_2$$
+        </div>
+
+        <div class="exam">
+          <strong>Notație:</strong>
+          în această lecție, $v_1$, $v_2$ sunt vitezele înainte de ciocnire,
+          iar $u_1$, $u_2$ sunt vitezele după ciocnire.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Clasificare</span>
+        <h2>Ciocniri elastice și inelastice</h2>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Tip de ciocnire</th>
+                <th>Impuls total</th>
+                <th>Energie cinetică</th>
+                <th>Caracteristică</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Perfect elastică</td>
+                <td>Se conservă</td>
+                <td>Se conservă</td>
+                <td>Corpurile se separă după ciocnire.</td>
+              </tr>
+              <tr>
+                <td>Inelastică</td>
+                <td>Se conservă</td>
+                <td>Nu se conservă</td>
+                <td>O parte din energia cinetică devine energie internă, deformare, sunet, căldură.</td>
+              </tr>
+              <tr>
+                <td>Perfect inelastică</td>
+                <td>Se conservă</td>
+                <td>Nu se conservă</td>
+                <td>Corpurile rămân împreună după ciocnire.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula">
+          $$E_{c,i}=E_{c,f}\quad \text{numai în ciocnirea perfect elastică}$$
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          mulți candidați aplică simultan conservarea impulsului și conservarea energiei
+          în orice ciocnire. Conservarea energiei cinetice se aplică numai ciocnirilor elastice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciocnire perfect elastică</span>
+        <h2>Condiții fundamentale</h2>
+
+        <p>
+          Într-o ciocnire perfect elastică se conservă atât impulsul total, cât și energia cinetică totală.
+        </p>
+
+        <div class="formula">
+          $$m_1v_1+m_2v_2=m_1u_1+m_2u_2$$
+        </div>
+
+        <div class="formula">
+          $$\frac{1}{2}m_1v_1^2+\frac{1}{2}m_2v_2^2
+          =
+          \frac{1}{2}m_1u_1^2+\frac{1}{2}m_2u_2^2$$
+        </div>
+
+        <p>
+          Într-o dimensiune, din aceste două relații rezultă și proprietatea:
+        </p>
+
+        <div class="formula">
+          $$v_1-v_2=-(u_1-u_2)$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          viteza relativă de apropiere este egală în modul cu viteza relativă de depărtare.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          semnele vitezelor sunt esențiale. Alege întâi sensul pozitiv al axei.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formule utile</span>
+        <h2>Ciocnire elastică unidimensională</h2>
+
+        <p>
+          Pentru o ciocnire perfect elastică pe aceeași direcție, vitezele finale sunt:
+        </p>
+
+        <div class="formula">
+          $$u_1=\frac{m_1-m_2}{m_1+m_2}v_1+\frac{2m_2}{m_1+m_2}v_2$$
+        </div>
+
+        <div class="formula">
+          $$u_2=\frac{2m_1}{m_1+m_2}v_1+\frac{m_2-m_1}{m_1+m_2}v_2$$
+        </div>
+
+        <div class="exam">
+          <strong>Recomandare:</strong>
+          la examen, este mai sigur să pornești de la conservarea impulsului și de la relația
+          vitezelor relative, decât să scrii formulele memorate fără verificarea semnelor.
+        </div>
+
+        <div class="mini">
+          <strong>Caz particular important</strong>
+          <p>Dacă al doilea corp este inițial în repaus, $v_2=0$:</p>
+          <div class="formula">
+            $$u_1=\frac{m_1-m_2}{m_1+m_2}v_1,\qquad
+            u_2=\frac{2m_1}{m_1+m_2}v_1$$
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mase egale</span>
+        <h2>Caz special: transfer de viteză</h2>
+
+        <p>
+          Dacă două corpuri au mase egale și ciocnirea este perfect elastică, atunci corpurile își schimbă vitezele.
+        </p>
+
+        <div class="formula">
+          $$m_1=m_2 \quad \Rightarrow \quad u_1=v_2,\qquad u_2=v_1$$
+        </div>
+
+        <p>
+          Dacă al doilea corp este inițial în repaus:
+        </p>
+
+        <div class="formula">
+          $$v_2=0\quad \Rightarrow \quad u_1=0,\qquad u_2=v_1$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Ciocnire elastică între mase egale">
+            <defs>
+              <marker id="c07-2-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c07-2-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <line x1="70" y1="155" x2="690" y2="155"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+            <circle cx="210" cy="115" r="38" fill="#f59e0b"/>
+            <circle cx="430" cy="115" r="38" fill="#0f766e"/>
+
+            <line x1="105" y1="115" x2="165" y2="115"
+                  stroke="#2563eb" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c07-2-blue)"/>
+
+            <text x="185" y="122" fill="#122033" font-size="24">m</text>
+            <text x="406" y="122" fill="#ffffff" font-size="24">m</text>
+            <text x="110" y="92" fill="#2563eb" font-size="23">v</text>
+            <text x="315" y="70" fill="#64748b" font-size="23">înainte</text>
+
+            <line x1="70" y1="285" x2="690" y2="285"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+            <circle cx="250" cy="245" r="38" fill="#f59e0b"/>
+            <circle cx="470" cy="245" r="38" fill="#0f766e"/>
+
+            <line x1="510" y1="245" x2="590" y2="245"
+                  stroke="#0f766e" stroke-width="5.5" stroke-linecap="round"
+                  marker-end="url(#c07-2-green)"/>
+
+            <text x="225" y="252" fill="#122033" font-size="24">m</text>
+            <text x="446" y="252" fill="#ffffff" font-size="24">m</text>
+            <text x="610" y="250" fill="#0f766e" font-size="23">v</text>
+            <text x="325" y="212" fill="#64748b" font-size="23">după</text>
+          </svg>
+
+          <p class="caption">
+            Pentru mase egale, corpul incident se oprește, iar corpul lovit preia viteza sa.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciocnire perfect inelastică</span>
+        <h2>Corpurile rămân împreună</h2>
+
+        <p>
+          Într-o ciocnire perfect inelastică, corpurile se cuplează și se deplasează apoi cu aceeași viteză $u$.
+        </p>
+
+        <div class="formula">
+          $$u_1=u_2=u$$
+        </div>
+
+        <p>
+          Conservarea impulsului dă:
+        </p>
+
+        <div class="formula">
+          $$m_1v_1+m_2v_2=(m_1+m_2)u$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$u=\frac{m_1v_1+m_2v_2}{m_1+m_2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          viteza comună de după ciocnire este viteza centrului de masă al sistemului.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în ciocnirea perfect inelastică energia cinetică nu se conservă.
+          O parte din ea se transformă în energie internă, deformare, sunet și căldură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Pierdere de energie</span>
+        <h2>Energia cinetică pierdută în ciocnirea perfect inelastică</h2>
+
+        <p>
+          Energia cinetică inițială este:
+        </p>
+
+        <div class="formula">
+          $$E_{c,i}=\frac{1}{2}m_1v_1^2+\frac{1}{2}m_2v_2^2$$
+        </div>
+
+        <p>
+          Energia cinetică finală, când ambele corpuri au viteza comună $u$, este:
+        </p>
+
+        <div class="formula">
+          $$E_{c,f}=\frac{1}{2}(m_1+m_2)u^2$$
+        </div>
+
+        <p>
+          Pierderea de energie cinetică este:
+        </p>
+
+        <div class="formula">
+          $$\Delta E_{\text{pierdută}}=E_{c,i}-E_{c,f}$$
+        </div>
+
+        <p>
+          Pentru cazul general, se poate scrie:
+        </p>
+
+        <div class="formula">
+          $$\Delta E_{\text{pierdută}}
+          =\frac{1}{2}\frac{m_1m_2}{m_1+m_2}(v_1-v_2)^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia pierdută depinde de viteza relativă inițială. Dacă cele două corpuri au aceeași viteză inițială,
+          nu există ciocnire efectivă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Coeficient de restituire</span>
+        <h2>Ciocniri parțial elastice</h2>
+
+        <p>
+          Coeficientul de restituire $e$ caracterizează cât de elastică este ciocnirea.
+          Într-o dimensiune:
+        </p>
+
+        <div class="formula">
+          $$e=\frac{\text{viteza relativă de depărtare}}{\text{viteza relativă de apropiere}}$$
+        </div>
+
+        <div class="formula">
+          $$e=\frac{u_2-u_1}{v_1-v_2}$$
+        </div>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Valoare</th>
+                <th>Tip de ciocnire</th>
+                <th>Consecință</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$e=1$</td>
+                <td>Perfect elastică</td>
+                <td>Energia cinetică se conservă.</td>
+              </tr>
+              <tr>
+                <td>$0&lt;e&lt;1$</td>
+                <td>Parțial elastică</td>
+                <td>Energia cinetică scade.</td>
+              </tr>
+              <tr>
+                <td>$e=0$</td>
+                <td>Perfect inelastică</td>
+                <td>Corpurile rămân împreună după ciocnire.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție la semne:</strong>
+          formula se folosește pe o axă orientată. Pentru probleme simple, se alege sensul mișcării inițiale
+          a corpului incident ca sens pozitiv.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sistemul centrului de masă</span>
+        <h2>Viteza centrului de masă</h2>
+
+        <p>
+          Viteza centrului de masă pentru două corpuri este:
+        </p>
+
+        <div class="formula">
+          $$\vec V_C=\frac{m_1\vec v_1+m_2\vec v_2}{m_1+m_2}$$
+        </div>
+
+        <p>
+          Impulsul total poate fi scris:
+        </p>
+
+        <div class="formula">
+          $$\vec P=(m_1+m_2)\vec V_C$$
+        </div>
+
+        <p>
+          Dacă sistemul este izolat, impulsul total se conservă, deci viteza centrului de masă rămâne constantă.
+        </p>
+
+        <div class="exam">
+          <strong>Idee utilă:</strong>
+          în ciocnirea perfect inelastică, viteza comună de după ciocnire este chiar viteza centrului de masă:
+          $$\vec u=\vec V_C.$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 320" role="img" aria-label="Centrul de masă în ciocnire">
+            <defs>
+              <marker id="c07-3-orange" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#f59e0b"></path>
+              </marker>
+            </defs>
+
+            <line x1="80" y1="230" x2="690" y2="230"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
+            <circle cx="250" cy="185" r="42" fill="#2563eb"/>
+            <circle cx="510" cy="185" r="60" fill="#0f766e"/>
+
+            <circle cx="420" cy="185" r="10" fill="#f59e0b"/>
+
+            <line x1="420" y1="185" x2="540" y2="185"
+                  stroke="#f59e0b" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c07-3-orange)"/>
+
+            <text x="225" y="194" fill="#ffffff" font-size="24">m₁</text>
+            <text x="485" y="194" fill="#ffffff" font-size="24">m₂</text>
+            <text x="395" y="165" fill="#f59e0b" font-size="24">C</text>
+            <text x="550" y="177" fill="#f59e0b" font-size="24">VC</text>
+          </svg>
+
+          <p class="caption">
+            Centrul de masă se mișcă uniform dacă rezultanta forțelor externe asupra sistemului este nulă.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciocniri oblice</span>
+        <h2>Conservarea impulsului pe componente</h2>
+
+        <p>
+          În ciocnirile în două dimensiuni, impulsul se conservă vectorial.
+          Se proiectează relația de conservare pe axe.
+        </p>
+
+        <div class="formula">
+          $$\vec P_i=\vec P_f$$
+        </div>
+
+        <div class="formula">
+          $$\sum p_{x,i}=\sum p_{x,f},\qquad
+          \sum p_{y,i}=\sum p_{y,f}$$
+        </div>
+
+        <p>
+          Dacă ciocnirea este elastică, se adaugă și conservarea energiei cinetice:
+        </p>
+
+        <div class="formula">
+          $$E_{c,i}=E_{c,f}$$
+        </div>
+
+        <div class="exam">
+          <strong>Metodă:</strong>
+          alegi axa $Ox$ pe direcția uneia dintre vitezele cunoscute, descompui vitezele necunoscute
+          și aplici conservarea impulsului pe $Ox$ și $Oy$.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în două dimensiuni nu este suficientă o singură ecuație scalară pentru impuls.
+          Sunt necesare ecuațiile pe componente.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Diagramă vectorială</span>
+        <h2>Impulsul înainte și după ciocnire</h2>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Conservarea impulsului în două dimensiuni">
+            <defs>
+              <marker id="c07-4-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c07-4-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+
+              <marker id="c07-4-orange" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#f59e0b"></path>
+              </marker>
+            </defs>
+
+            <line x1="90" y1="270" x2="680" y2="270"
+                  stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+
+            <line x1="120" y1="300" x2="120" y2="65"
+                  stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+
+            <circle cx="300" cy="210" r="12" fill="#ef4444"/>
+
+            <line x1="160" y1="210" x2="290" y2="210"
+                  stroke="#f59e0b" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c07-4-orange)"/>
+
+            <line x1="300" y1="210" x2="470" y2="115"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c07-4-blue)"/>
+
+            <line x1="300" y1="210" x2="505" y2="285"
+                  stroke="#0f766e" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c07-4-green)"/>
+
+            <text x="185" y="195" fill="#f59e0b" font-size="24">p inițial</text>
+            <text x="475" y="112" fill="#2563eb" font-size="24">p₁ final</text>
+            <text x="510" y="290" fill="#0f766e" font-size="24">p₂ final</text>
+            <text x="665" y="292" fill="#64748b" font-size="23">x</text>
+            <text x="95" y="70" fill="#64748b" font-size="23">y</text>
+          </svg>
+
+          <p class="caption">
+            În ciocnirile oblice, suma vectorială a impulsurilor finale este egală cu impulsul total inițial.
+          </p>
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          dacă un corp inițial în repaus este lovit elastic de un corp identic,
+          direcțiile finale pot fi perpendiculare în cazul particular al ciocnirii elastice între mase egale.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Ciocnire perfect inelastică</h2>
+
+        <p>
+          Un cărucior de masă $m_1=2\,\text{kg}$ se deplasează cu viteza
+          $v_1=6\,\text{m/s}$ și se ciocnește cu un cărucior de masă
+          $m_2=4\,\text{kg}$ aflat în repaus. După ciocnire, cele două cărucioare rămân cuplate.
+          Determinați viteza comună.
+        </p>
+
+        <p><strong>1. Identificarea tipului de ciocnire:</strong></p>
+        <p>Corpurile rămân împreună, deci ciocnirea este perfect inelastică.</p>
+
+        <p><strong>2. Conservarea impulsului:</strong></p>
+
+        <div class="formula">
+          $$m_1v_1+m_2v_2=(m_1+m_2)u$$
+        </div>
+
+        <p><strong>3. Calcul numeric:</strong></p>
+
+        <div class="formula">
+          $$2\cdot6+4\cdot0=(2+4)u$$
+          $$12=6u$$
+          $$u=2\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          viteza comună după ciocnire este $2\,\text{m/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Energia pierdută în ciocnire</h2>
+
+        <p>
+          Pentru problema precedentă, determinați energia cinetică pierdută în timpul ciocnirii.
+        </p>
+
+        <p><strong>1. Energia cinetică inițială:</strong></p>
+
+        <div class="formula">
+          $$E_{c,i}=\frac{1}{2}m_1v_1^2+\frac{1}{2}m_2v_2^2$$
+          $$E_{c,i}=\frac{1}{2}\cdot2\cdot6^2+0=36\,\text{J}$$
+        </div>
+
+        <p><strong>2. Energia cinetică finală:</strong></p>
+
+        <div class="formula">
+          $$E_{c,f}=\frac{1}{2}(m_1+m_2)u^2$$
+          $$E_{c,f}=\frac{1}{2}\cdot6\cdot2^2=12\,\text{J}$$
+        </div>
+
+        <p><strong>3. Energia pierdută:</strong></p>
+
+        <div class="formula">
+          $$\Delta E_{\text{pierdută}}=E_{c,i}-E_{c,f}=36-12=24\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          cei $24\,\text{J}$ nu dispar, ci se transformă în energie internă, deformări, sunet și căldură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Ciocnire elastică între mase egale</h2>
+
+        <p>
+          O bilă de masă $m$ se deplasează cu viteza $v=5\,\text{m/s}$
+          și lovește elastic o bilă identică aflată în repaus.
+          Determinați vitezele finale.
+        </p>
+
+        <p>
+          Pentru mase egale într-o ciocnire perfect elastică unidimensională, corpurile își schimbă vitezele:
+        </p>
+
+        <div class="formula">
+          $$u_1=v_2,\qquad u_2=v_1$$
+        </div>
+
+        <p>
+          Cum $v_2=0$ și $v_1=5\,\text{m/s}$:
+        </p>
+
+        <div class="formula">
+          $$u_1=0,\qquad u_2=5\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          prima bilă se oprește, iar a doua bilă pleacă mai departe cu viteza $5\,\text{m/s}$.
+        </div>
+
+        <div class="warning">
+          <strong>Verificare rapidă:</strong>
+          se conservă atât impulsul, cât și energia cinetică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Ciocnire elastică între mase diferite</h2>
+
+        <p>
+          Un corp de masă $m_1=1\,\text{kg}$ cu viteza $v_1=6\,\text{m/s}$
+          lovește elastic un corp de masă $m_2=2\,\text{kg}$ aflat în repaus.
+          Determinați vitezele finale.
+        </p>
+
+        <p>
+          Folosim formulele pentru ciocnirea elastică unidimensională cu $v_2=0$:
+        </p>
+
+        <div class="formula">
+          $$u_1=\frac{m_1-m_2}{m_1+m_2}v_1$$
+          $$u_2=\frac{2m_1}{m_1+m_2}v_1$$
+        </div>
+
+        <p>
+          Calculăm:
+        </p>
+
+        <div class="formula">
+          $$u_1=\frac{1-2}{1+2}\cdot6=-2\,\text{m/s}$$
+          $$u_2=\frac{2\cdot1}{1+2}\cdot6=4\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          primul corp ricoșează în sens opus cu viteza $2\,\text{m/s}$,
+          iar al doilea pleacă înainte cu viteza $4\,\text{m/s}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Coeficient de restituire</h2>
+
+        <p>
+          Două corpuri se deplasează pe aceeași direcție. Înainte de ciocnire:
+          $v_1=8\,\text{m/s}$ și $v_2=2\,\text{m/s}$.
+          După ciocnire: $u_1=3\,\text{m/s}$ și $u_2=6\,\text{m/s}$.
+          Determinați coeficientul de restituire.
+        </p>
+
+        <p>
+          Folosim relația:
+        </p>
+
+        <div class="formula">
+          $$e=\frac{u_2-u_1}{v_1-v_2}$$
+        </div>
+
+        <p>
+          Înlocuim:
+        </p>
+
+        <div class="formula">
+          $$e=\frac{6-3}{8-2}=\frac{3}{6}=0{,}5$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns final:</strong>
+          ciocnirea este parțial elastică, cu $e=0{,}5$.
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          deoarece $e<1$, energia cinetică totală nu se conservă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Aplicație clasică</span>
+        <h2>Pendul balistic</h2>
+
+        <p>
+          Pendulul balistic este un exemplu în care se folosesc două principii diferite în două etape:
+          conservarea impulsului în ciocnirea perfect inelastică și conservarea energiei mecanice
+          în ridicarea ulterioară.
+        </p>
+
+        <p>
+          Un glonț de masă $m$ cu viteza $v$ se înfige într-un bloc de masă $M$ aflat în repaus.
+          Imediat după ciocnire, sistemul are viteza $u$:
+        </p>
+
+        <div class="formula">
+          $$mv=(M+m)u$$
+        </div>
+
+        <p>
+          Apoi sistemul se ridică până la înălțimea $h$, iar energia mecanică se conservă:
+        </p>
+
+        <div class="formula">
+          $$\frac{1}{2}(M+m)u^2=(M+m)gh$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$u=\sqrt{2gh},\qquad
+          v=\frac{M+m}{m}\sqrt{2gh}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană importantă:</strong>
+          energia mecanică nu se conservă în timpul ciocnirii glonț–bloc.
+          Ea se conservă numai după ciocnire, în urcarea pendulului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Metodă de rezolvare</span>
+        <h2>Algoritm pentru probleme cu ciocniri</h2>
+
+        <ol>
+          <li>Identifică sistemul de corpuri care se ciocnesc.</li>
+          <li>Alege sensul pozitiv al axei.</li>
+          <li>Notează vitezele înainte și după ciocnire cu semn.</li>
+          <li>Scrie conservarea impulsului.</li>
+          <li>Decide tipul ciocnirii: elastică, parțial elastică, perfect inelastică.</li>
+          <li>Adaugă relația potrivită: conservarea energiei cinetice, coeficientul de restituire sau viteza comună.</li>
+          <li>Rezolvă sistemul de ecuații.</li>
+          <li>Verifică unitățile, semnele și interpretarea fizică.</li>
+        </ol>
+
+        <div class="exam">
+          <strong>Formulare bună la examen:</strong>
+          „Pe durata scurtă a ciocnirii neglijez impulsul forțelor externe,
+          deci impulsul total al sistemului se conservă.”
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente</h2>
+
+        <ul>
+          <li>
+            <strong>Aplicarea conservării energiei cinetice la ciocniri inelastice:</strong>
+            energia cinetică se conservă numai în ciocnirea perfect elastică.
+          </li>
+          <li>
+            <strong>Uitarea semnelor vitezelor:</strong>
+            vitezele se scriu cu semn după sensul axei alese.
+          </li>
+          <li>
+            <strong>Confuzia între impuls și energie:</strong>
+            impulsul este vectorial, energia cinetică este scalară.
+          </li>
+          <li>
+            <strong>Neglijarea condiției de izolare:</strong>
+            impulsul total se conservă numai dacă impulsul forțelor externe este nul sau neglijabil.
+          </li>
+          <li>
+            <strong>Utilizarea greșită a pendulului balistic:</strong>
+            impulsul se conservă în ciocnire, energia mecanică se folosește după ciocnire.
+          </li>
+          <li>
+            <strong>Confuzia dintre ciocnire inelastică și perfect inelastică:</strong>
+            într-o ciocnire perfect inelastică, corpurile rămân împreună.
+          </li>
+        </ul>
+
+        <div class="exam">
+          <strong>Verificare rapidă:</strong>
+          dacă după calcul energia cinetică finală este mai mare decât cea inițială într-o ciocnire obișnuită,
+          verifică semnele și ecuațiile.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Relații esențiale</h2>
+
+        <div class="formula">
+          $$m_1\vec v_1+m_2\vec v_2=m_1\vec u_1+m_2\vec u_2$$
+          $$E_{c,i}=E_{c,f}\quad \text{pentru ciocnire perfect elastică}$$
+          $$u=\frac{m_1v_1+m_2v_2}{m_1+m_2}\quad \text{pentru ciocnire perfect inelastică}$$
+          $$e=\frac{u_2-u_1}{v_1-v_2}$$
+          $$\Delta E_{\text{pierdută}}=E_{c,i}-E_{c,f}$$
+          $$\vec V_C=\frac{m_1\vec v_1+m_2\vec v_2}{m_1+m_2}$$
+        </div>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Situație</th>
+                <th>Ce se conservă?</th>
+                <th>Relație suplimentară</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ciocnire elastică</td>
+                <td>Impulsul și energia cinetică</td>
+                <td>$v_1-v_2=-(u_1-u_2)$</td>
+              </tr>
+              <tr>
+                <td>Ciocnire parțial elastică</td>
+                <td>Impulsul</td>
+                <td>$e=\dfrac{u_2-u_1}{v_1-v_2}$</td>
+              </tr>
+              <tr>
+                <td>Ciocnire perfect inelastică</td>
+                <td>Impulsul</td>
+                <td>$u_1=u_2=u$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          două corpuri se ciocnesc și rămân împreună. Determină viteza comună din conservarea impulsului,
+          apoi calculează energia cinetică pierdută.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Verificare rapidă</span>
+        <h2>Itemi pentru autoevaluare</h2>
+
+        <ol>
+          <li>Definiți ciocnirea mecanică.</li>
+          <li>Precizați condiția de conservare a impulsului total într-o ciocnire.</li>
+          <li>Scrieți relația de conservare a impulsului pentru două corpuri.</li>
+          <li>Definiți ciocnirea perfect elastică.</li>
+          <li>Definiți ciocnirea perfect inelastică.</li>
+          <li>Explicați diferența dintre ciocnire inelastică și perfect inelastică.</li>
+          <li>Scrieți formulele vitezelor finale pentru ciocnirea elastică unidimensională.</li>
+          <li>Deduceți viteza comună într-o ciocnire perfect inelastică.</li>
+          <li>Definiți coeficientul de restituire.</li>
+          <li>Explicați de ce energia cinetică nu se conservă în ciocnirea inelastică.</li>
+          <li>Rezolvați o problemă cu două mase egale într-o ciocnire elastică.</li>
+          <li>Explicați cele două etape ale pendulului balistic.</li>
+        </ol>
+
+        <div class="formula">
+          $$\vec P_i=\vec P_f,\qquad
+          E_{c,i}=E_{c,f}\ \text{doar la ciocnire elastică},\qquad
+          u=\frac{m_1v_1+m_2v_2}{m_1+m_2}$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C08-miscarea-in-camp-central.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 20</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c07", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c07");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    updatePageStatus();
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
