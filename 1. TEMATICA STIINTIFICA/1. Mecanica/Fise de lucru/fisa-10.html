@@ -1,1 +1,1381 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 10 – Oscilatorul armonic liniar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 10 • Oscilatorul armonic liniar</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C10-oscilatorul-armonic-liniar.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 10</span>
+        <h1>Oscilatorul armonic liniar. Oscilații libere, amortizate și forțate</h1>
+
+        <p class="lead">
+          Fișă completă pentru modelul masă–resort, ecuația diferențială a oscilatorului armonic,
+          soluția sinusoidală, energie, pendul matematic pentru oscilații mici, amortizare, factor de calitate,
+          oscilații forțate și rezonanță. Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Oscilație mecanică</strong>
+            <p>
+              Oscilația este o mișcare periodică în jurul unei poziții de echilibru stabil.
+              Pentru oscilații mici, multe sisteme reale pot fi aproximate prin oscilator armonic liniar.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Forță de revenire</strong>
+            <p>
+              Modelul fundamental este resortul ideal:
+            </p>
+            <div class="formula">
+              $$F=-kx$$
+            </div>
+            <p>
+              Semnul minus arată că forța elastică este orientată spre poziția de echilibru.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Ecuația oscilatorului armonic</strong>
+            <p>
+              Din legea a II-a:
+            </p>
+            <div class="formula">
+              $$m\ddot x=-kx$$
+              $$m\ddot x+kx=0$$
+              $$\ddot x+\omega_0^2x=0$$
+            </div>
+            <p>
+              unde:
+            </p>
+            <div class="formula">
+              $$\omega_0=\sqrt{\frac{k}{m}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>4. Soluția oscilației libere</strong>
+            <p>
+              Soluția generală poate fi scrisă:
+            </p>
+            <div class="formula">
+              $$x(t)=A\cos(\omega_0t+\varphi_0)$$
+            </div>
+            <p>
+              $A$ este amplitudinea, $\omega_0t+\varphi_0$ este faza, iar $\varphi_0$ este faza inițială.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Perioadă și frecvență</strong>
+            <div class="formula">
+              $$T=\frac{2\pi}{\omega_0}=2\pi\sqrt{\frac{m}{k}}$$
+              $$f=\frac{1}{T}=\frac{\omega_0}{2\pi}$$
+            </div>
+            <p>
+              Perioada crește cu masa și scade când resortul este mai rigid.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Viteză și accelerație</strong>
+            <div class="formula">
+              $$v(t)=\dot x=-A\omega_0\sin(\omega_0t+\varphi_0)$$
+              $$a(t)=\ddot x=-A\omega_0^2\cos(\omega_0t+\varphi_0)$$
+              $$a=-\omega_0^2x$$
+            </div>
+            <p>
+              Accelerația este mereu orientată spre poziția de echilibru.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Valori maxime</strong>
+            <div class="formula">
+              $$x_{\max}=A$$
+              $$v_{\max}=A\omega_0$$
+              $$a_{\max}=A\omega_0^2$$
+            </div>
+            <p>
+              Viteza este maximă în poziția de echilibru, iar accelerația este maximă în pozițiile extreme.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Energie</strong>
+            <div class="formula">
+              $$E_p=\frac12kx^2$$
+              $$E_c=\frac12mv^2$$
+              $$E=E_c+E_p=\frac12kA^2=\frac12m\omega_0^2A^2$$
+            </div>
+            <p>
+              În absența amortizării, energia mecanică totală rămâne constantă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>9. Condiții inițiale</strong>
+            <p>
+              Dacă se cunosc $x_0$ și $v_0$ la $t=0$, amplitudinea este:
+            </p>
+            <div class="formula">
+              $$A=\sqrt{x_0^2+\left(\frac{v_0}{\omega_0}\right)^2}$$
+            </div>
+            <p>
+              Faza inițială se poate determina din:
+            </p>
+            <div class="formula">
+              $$x_0=A\cos\varphi_0,\qquad v_0=-A\omega_0\sin\varphi_0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Pendul matematic pentru oscilații mici</strong>
+            <p>
+              Pentru un pendul ideal și unghiuri mici:
+            </p>
+            <div class="formula">
+              $$\ddot\theta+\frac{g}{l}\theta=0$$
+              $$\omega_0=\sqrt{\frac{g}{l}}$$
+              $$T=2\pi\sqrt{\frac{l}{g}}$$
+            </div>
+            <p>
+              Formula este valabilă numai pentru amplitudini unghiulare mici.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>11. Oscilații amortizate</strong>
+            <p>
+              Dacă forța rezistivă este proporțională cu viteza:
+            </p>
+            <div class="formula">
+              $$F_r=-b\dot x$$
+              $$m\ddot x+b\dot x+kx=0$$
+              $$\ddot x+2\beta\dot x+\omega_0^2x=0$$
+              $$\beta=\frac{b}{2m}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>12. Regimuri de amortizare</strong>
+            <div class="formula">
+              $$\beta<\omega_0\Rightarrow \text{subamortizat}$$
+              $$\beta=\omega_0\Rightarrow \text{amortizare critică}$$
+              $$\beta>\omega_0\Rightarrow \text{supraamortizat}$$
+            </div>
+            <p>
+              În regim subamortizat, pulsația amortizată este:
+            </p>
+            <div class="formula">
+              $$\omega_d=\sqrt{\omega_0^2-\beta^2}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>13. Factorul de calitate</strong>
+            <p>
+              Pentru amortizare slabă:
+            </p>
+            <div class="formula">
+              $$Q=\frac{\omega_0}{2\beta}=\frac{m\omega_0}{b}$$
+            </div>
+            <p>
+              $Q$ mare înseamnă amortizare slabă și rezonanță îngustă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Oscilații forțate și rezonanță</strong>
+            <p>
+              Cu forță periodică externă:
+            </p>
+            <div class="formula">
+              $$F_{\text{ext}}=F_0\cos\Omega t$$
+              $$m\ddot x+b\dot x+kx=F_0\cos\Omega t$$
+            </div>
+            <p>
+              Pentru amortizare slabă:
+            </p>
+            <div class="formula">
+              $$\Omega_{\text{rez}}\approx\omega_0$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          nu confunda amplitudinea cu elongația instantanee; nu confunda $\omega_0$ cu $f$;
+          în oscilațiile amortizate energia mecanică scade; în oscilațiile forțate, regimul permanent are pulsația
+          forței externe $\Omega$, nu neapărat pulsația proprie $\omega_0$.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / definiție</th>
+                  <th>Unitate SI</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Forță elastică</td>
+                  <td></td>
+                  <td>N</td>
+                  <td>Forță de revenire.</td>
+                </tr>
+                <tr>
+                  <td>Ecuația oscilatorului liber</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>Ecuație diferențială.</td>
+                </tr>
+                <tr>
+                  <td>Pulsație proprie</td>
+                  <td></td>
+                  <td>rad/s</td>
+                  <td>Depinde de $m$ și $k$.</td>
+                </tr>
+                <tr>
+                  <td>Perioadă</td>
+                  <td></td>
+                  <td>s</td>
+                  <td>Timpul unei oscilații complete.</td>
+                </tr>
+                <tr>
+                  <td>Frecvență</td>
+                  <td></td>
+                  <td>Hz</td>
+                  <td>Număr de oscilații pe secundă.</td>
+                </tr>
+                <tr>
+                  <td>Energie mecanică totală</td>
+                  <td></td>
+                  <td>J</td>
+                  <td>Constantă pentru oscilator ideal.</td>
+                </tr>
+                <tr>
+                  <td>Coeficient de amortizare</td>
+                  <td></td>
+                  <td>s$^{-1}$</td>
+                  <td>$\beta=b/(2m)$.</td>
+                </tr>
+                <tr>
+                  <td>Factor de calitate</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>Cu cât este mai mare, cu atât amortizarea este mai slabă.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>În oscilatorul armonic liniar, forța de revenire este proporțională cu elongația.</li>
+            <li>Accelerația oscilatorului este $a=-\omega_0^2x$.</li>
+            <li>Viteza este maximă în pozițiile extreme.</li>
+            <li>Energia mecanică totală este constantă în absența amortizării.</li>
+            <li>În oscilațiile amortizate, amplitudinea rămâne constantă.</li>
+            <li>Rezonanța apare când frecvența excitatoare este apropiată de frecvența proprie.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$F_e=$ <span class="line"></span></p>
+              <p>$\omega_0=$ <span class="line"></span></p>
+              <p>$T=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$v_{\max}=$ <span class="line"></span></p>
+              <p>$E=$ <span class="line"></span></p>
+              <p>$Q=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Sistem masă–resort. 5 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e1m"></span>\,\text{kg}$ este legat de un resort cu
+            $k=<span class="var" id="e1k"></span>\,\text{N/m}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină pulsația proprie $\omega_0$.</li>
+            <li>Determină perioada $T$.</li>
+            <li>Determină frecvența $f$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Elongație, viteză și accelerație. 6 p</h3>
+
+          <p>
+            Oscilația este descrisă de:
+            $$x(t)=A\cos(\omega t)$$
+            unde $A=<span class="var" id="e2A"></span>\,\text{cm}$,
+            $\omega=<span class="var" id="e2w"></span>\,\text{rad/s}$ și
+            $t=<span class="var" id="e2t"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează elongația $x(t)$.</li>
+            <li>Calculează viteza $v(t)$.</li>
+            <li>Calculează accelerația $a(t)$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Amplitudinea din condiții inițiale. 5 p</h3>
+
+          <p>
+            Un oscilator are pulsația proprie
+            $\omega_0=<span class="var" id="e3w"></span>\,\text{rad/s}$.
+            La $t=0$, elongația este
+            $x_0=<span class="var" id="e3x0"></span>\,\text{cm}$,
+            iar viteza este
+            $v_0=<span class="var" id="e3v0"></span>\,\text{cm/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină amplitudinea $A$.</li>
+            <li>Determină valorile $v_{\max}$ și $a_{\max}$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Energia oscilatorului ideal. 6 p</h3>
+
+          <p>
+            Un oscilator are constanta elastică
+            $k=<span class="var" id="e4k"></span>\,\text{N/m}$ și amplitudinea
+            $A=<span class="var" id="e4A"></span>\,\text{cm}$.
+            La un moment dat, elongația este
+            $x=<span class="var" id="e4x"></span>\,\text{cm}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină energia mecanică totală.</li>
+            <li>Determină energia potențială elastică la elongația $x$.</li>
+            <li>Determină energia cinetică în acel moment.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Viteza din energie. 5 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e5m"></span>\,\text{kg}$ oscilează pe resort cu
+            $k=<span class="var" id="e5k"></span>\,\text{N/m}$ și amplitudinea
+            $A=<span class="var" id="e5A"></span>\,\text{cm}$.
+            Determină viteza corpului când elongația este
+            $x=<span class="var" id="e5x"></span>\,\text{cm}$.
+          </p>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Resort vertical: poziție de echilibru și oscilații. 5 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e6m"></span>\,\text{kg}$
+            este suspendat de un resort cu
+            $k=<span class="var" id="e6k"></span>\,\text{N/m}$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină alungirea statică $\Delta l_0$.</li>
+            <li>Determină perioada micilor oscilații în jurul poziției de echilibru.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Pendul matematic pentru unghiuri mici. 5 p</h3>
+
+          <p>
+            Un pendul matematic are lungimea
+            $l=<span class="var" id="e7l"></span>\,\text{m}$.
+            Se ia $g=10\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Determină pulsația proprie.</li>
+            <li>Determină perioada oscilațiilor mici.</li>
+            <li>Determină frecvența.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Oscilații amortizate: regim și factor de calitate. 6 p</h3>
+
+          <p>
+            Un oscilator amortizat are
+            $m=<span class="var" id="e8m"></span>\,\text{kg}$,
+            $k=<span class="var" id="e8k"></span>\,\text{N/m}$ și
+            $b=<span class="var" id="e8b"></span>\,\text{kg/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\omega_0$ și $\beta$.</li>
+            <li>Stabilește regimul de amortizare.</li>
+            <li>Calculează factorul de calitate $Q$ pentru amortizare slabă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Pulsația amortizată. 4 p</h3>
+
+          <p>
+            Un oscilator subamortizat are
+            $\omega_0=<span class="var" id="e9w0"></span>\,\text{rad/s}$ și
+            $\beta=<span class="var" id="e9beta"></span>\,\text{s}^{-1}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină pulsația amortizată $\omega_d$.</li>
+            <li>Determină perioada amortizată $T_d$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Oscilație forțată: amplitudinea în regim staționar. 5 p</h3>
+
+          <p>
+            Un oscilator forțat are
+            $m=<span class="var" id="e10m"></span>\,\text{kg}$,
+            $k=<span class="var" id="e10k"></span>\,\text{N/m}$,
+            $b=<span class="var" id="e10b"></span>\,\text{kg/s}$,
+            $F_0=<span class="var" id="e10F0"></span>\,\text{N}$ și
+            $\Omega=<span class="var" id="e10Omega"></span>\,\text{rad/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\omega_0$ și $\beta$.</li>
+            <li>Calculează amplitudinea staționară $A(\Omega)$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Rezonanță și bandă de rezonanță. 5 p</h3>
+
+          <p>
+            Un oscilator are
+            $m=<span class="var" id="e11m"></span>\,\text{kg}$,
+            $k=<span class="var" id="e11k"></span>\,\text{N/m}$ și
+            $b=<span class="var" id="e11b"></span>\,\text{kg/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină $\omega_0$.</li>
+            <li>Determină aproximativ pulsația de rezonanță pentru amortizare slabă.</li>
+            <li>Determină $Q$ și lățimea aproximativă $\Delta\omega\simeq \omega_0/Q$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Determinarea constantei elastice din perioadă. 3 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e12m"></span>\,\text{kg}$
+            legat de un resort oscilează cu perioada
+            $T=<span class="var" id="e12T"></span>\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină pulsația proprie.</li>
+            <li>Determină constanta elastică $k$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>16. Compară oscilațiile libere, amortizate și forțate. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care să compari oscilațiile libere neamortizate,
+            oscilațiile amortizate și oscilațiile forțate.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>forțele care acționează în fiecare caz;</li>
+            <li>ecuația diferențială corespunzătoare;</li>
+            <li>comportarea amplitudinii;</li>
+            <li>comportarea energiei mecanice;</li>
+            <li>semnificația pulsațiilor $\omega_0$, $\omega_d$ și $\Omega$;</li>
+            <li>condiția de rezonanță și rolul amortizării;</li>
+            <li>două capcane de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–15, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> comparație corectă 4 p, ecuații 4 p, energie/amplitudine 3 p, rezonanță 2 p, capcane și claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C10-oscilatorul-armonic-liniar.html">Înapoi la lecția C10</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c10", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c10");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1m = choose([0.25, 0.5, 1, 2, 4]);
+      const e1w = choose([4, 5, 8, 10, 12]);
+      const e1 = {
+        m: e1m,
+        k: e1m * e1w * e1w
+      };
+
+      const e2 = {
+        A: choose([2, 3, 4, 5, 6, 8]),
+        w: choose([2, 3, 4, 5]),
+        t: choose([0, 0.25, 0.5, 1])
+      };
+
+      const e3 = {
+        w: choose([4, 5, 8, 10]),
+        x0: choose([2, 3, 4, 5, 6]),
+        v0: choose([8, 10, 12, 16, 20])
+      };
+
+      const e4A = choose([4, 5, 6, 8, 10]);
+      const e4x = choose([1, 2, 3, 4, 5]);
+      const e4 = {
+        k: choose([100, 150, 200, 250, 300]),
+        A: e4A,
+        x: Math.min(e4x, e4A - 1)
+      };
+
+      const e5A = choose([5, 6, 8, 10]);
+      const e5x = choose([1, 2, 3, 4, 5]);
+      const e5m = choose([0.25, 0.5, 1, 2]);
+      const e5w = choose([5, 8, 10, 12]);
+      const e5 = {
+        m: e5m,
+        k: e5m * e5w * e5w,
+        A: e5A,
+        x: Math.min(e5x, e5A - 1)
+      };
+
+      const e6m = choose([0.2, 0.4, 0.5, 1, 2]);
+      const e6w = choose([5, 8, 10]);
+      const e6 = {
+        m: e6m,
+        k: e6m * e6w * e6w,
+        g: 10
+      };
+
+      const e7 = {
+        l: choose([0.4, 0.5, 0.8, 1, 1.25, 1.6]),
+        g: 10
+      };
+
+      const e8m = choose([0.5, 1, 2, 4]);
+      const e8w0 = choose([5, 8, 10, 12]);
+      const e8beta = choose([0.5, 1, 1.5, 2]);
+      const e8 = {
+        m: e8m,
+        k: e8m * e8w0 * e8w0,
+        b: 2 * e8m * e8beta
+      };
+
+      const e9w0 = choose([8, 10, 12, 15]);
+      const e9 = {
+        w0: e9w0,
+        beta: choose([1, 2, 3])
+      };
+
+      const e10m = choose([0.5, 1, 2]);
+      const e10w0 = choose([8, 10, 12]);
+      const e10beta = choose([0.5, 1, 1.5]);
+      const e10Omega = choose([5, 7, 9, 11, 13]);
+      const e10 = {
+        m: e10m,
+        k: e10m * e10w0 * e10w0,
+        b: 2 * e10m * e10beta,
+        F0: choose([1, 2, 3, 4, 5]),
+        Omega: e10Omega
+      };
+
+      const e11m = choose([0.5, 1, 2]);
+      const e11w0 = choose([8, 10, 12, 15]);
+      const e11beta = choose([0.5, 1, 1.5]);
+      const e11 = {
+        m: e11m,
+        k: e11m * e11w0 * e11w0,
+        b: 2 * e11m * e11beta
+      };
+
+      const e12m = choose([0.25, 0.5, 1, 2]);
+      const e12T = choose([0.5, 0.75, 1, 1.25, 1.5]);
+      const e12 = {
+        m: e12m,
+        T: e12T
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 };
+      localStorage.setItem("values-fisa-c10", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1m", fmt(data.e1.m, 2));
+      setText("e1k", fmt(data.e1.k, 2));
+
+      setText("e2A", fmt(data.e2.A, 0));
+      setText("e2w", fmt(data.e2.w, 0));
+      setText("e2t", fmt(data.e2.t, 2));
+
+      setText("e3w", fmt(data.e3.w, 0));
+      setText("e3x0", fmt(data.e3.x0, 0));
+      setText("e3v0", fmt(data.e3.v0, 0));
+
+      setText("e4k", fmt(data.e4.k, 0));
+      setText("e4A", fmt(data.e4.A, 0));
+      setText("e4x", fmt(data.e4.x, 0));
+
+      setText("e5m", fmt(data.e5.m, 2));
+      setText("e5k", fmt(data.e5.k, 2));
+      setText("e5A", fmt(data.e5.A, 0));
+      setText("e5x", fmt(data.e5.x, 0));
+
+      setText("e6m", fmt(data.e6.m, 2));
+      setText("e6k", fmt(data.e6.k, 2));
+
+      setText("e7l", fmt(data.e7.l, 2));
+
+      setText("e8m", fmt(data.e8.m, 2));
+      setText("e8k", fmt(data.e8.k, 2));
+      setText("e8b", fmt(data.e8.b, 2));
+
+      setText("e9w0", fmt(data.e9.w0, 0));
+      setText("e9beta", fmt(data.e9.beta, 2));
+
+      setText("e10m", fmt(data.e10.m, 2));
+      setText("e10k", fmt(data.e10.k, 2));
+      setText("e10b", fmt(data.e10.b, 2));
+      setText("e10F0", fmt(data.e10.F0, 0));
+      setText("e10Omega", fmt(data.e10.Omega, 0));
+
+      setText("e11m", fmt(data.e11.m, 2));
+      setText("e11k", fmt(data.e11.k, 2));
+      setText("e11b", fmt(data.e11.b, 2));
+
+      setText("e12m", fmt(data.e12.m, 2));
+      setText("e12T", fmt(data.e12.T, 2));
+    }
+
+    function renderSolutions(data) {
+      const e1w = Math.sqrt(data.e1.k / data.e1.m);
+      const e1T = 2 * Math.PI / e1w;
+      const e1f = 1 / e1T;
+
+      const e2Am = data.e2.A / 100;
+      const e2phase = data.e2.w * data.e2.t;
+      const e2x = e2Am * Math.cos(e2phase);
+      const e2v = -e2Am * data.e2.w * Math.sin(e2phase);
+      const e2a = -e2Am * data.e2.w * data.e2.w * Math.cos(e2phase);
+
+      const e3x0m = data.e3.x0 / 100;
+      const e3v0m = data.e3.v0 / 100;
+      const e3A = Math.sqrt(e3x0m ** 2 + (e3v0m / data.e3.w) ** 2);
+      const e3vmax = e3A * data.e3.w;
+      const e3amax = e3A * data.e3.w ** 2;
+
+      const e4Am = data.e4.A / 100;
+      const e4xm = data.e4.x / 100;
+      const e4E = 0.5 * data.e4.k * e4Am ** 2;
+      const e4Ep = 0.5 * data.e4.k * e4xm ** 2;
+      const e4Ec = e4E - e4Ep;
+
+      const e5Am = data.e5.A / 100;
+      const e5xm = data.e5.x / 100;
+      const e5E = 0.5 * data.e5.k * e5Am ** 2;
+      const e5Ep = 0.5 * data.e5.k * e5xm ** 2;
+      const e5Ec = e5E - e5Ep;
+      const e5v = Math.sqrt(2 * e5Ec / data.e5.m);
+
+      const e6dl = data.e6.m * data.e6.g / data.e6.k;
+      const e6T = 2 * Math.PI * Math.sqrt(data.e6.m / data.e6.k);
+
+      const e7w = Math.sqrt(data.e7.g / data.e7.l);
+      const e7T = 2 * Math.PI * Math.sqrt(data.e7.l / data.e7.g);
+      const e7f = 1 / e7T;
+
+      const e8w0 = Math.sqrt(data.e8.k / data.e8.m);
+      const e8beta = data.e8.b / (2 * data.e8.m);
+      const e8Q = e8w0 / (2 * e8beta);
+      let e8regime = "subamortizat";
+      if (Math.abs(e8beta - e8w0) < 0.001) e8regime = "critic";
+      if (e8beta > e8w0) e8regime = "supraamortizat";
+
+      const e9wd = Math.sqrt(data.e9.w0 ** 2 - data.e9.beta ** 2);
+      const e9Td = 2 * Math.PI / e9wd;
+
+      const e10w0 = Math.sqrt(data.e10.k / data.e10.m);
+      const e10beta = data.e10.b / (2 * data.e10.m);
+      const e10den = Math.sqrt((e10w0 ** 2 - data.e10.Omega ** 2) ** 2 + (2 * e10beta * data.e10.Omega) ** 2);
+      const e10A = (data.e10.F0 / data.e10.m) / e10den;
+
+      const e11w0 = Math.sqrt(data.e11.k / data.e11.m);
+      const e11beta = data.e11.b / (2 * data.e11.m);
+      const e11Q = e11w0 / (2 * e11beta);
+      const e11dw = e11w0 / e11Q;
+      const e11wRez = Math.sqrt(Math.max(0, e11w0 ** 2 - 2 * e11beta ** 2));
+
+      const e12w = 2 * Math.PI / data.e12.T;
+      const e12k = data.e12.m * e12w ** 2;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Sistem masă–resort</h3>
+          <div class="formula">
+            $$\\omega_0=\\sqrt{\\frac{k}{m}}
+            =\\sqrt{\\frac{${tex(data.e1.k, 2)}}{${tex(data.e1.m, 2)}}}
+            =${tex(e1w, 3)}\\,\\text{rad/s}$$
+            $$T=\\frac{2\\pi}{\\omega_0}
+            =${tex(e1T, 3)}\\,\\text{s}$$
+            $$f=\\frac{1}{T}
+            =${tex(e1f, 3)}\\,\\text{Hz}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Elongație, viteză și accelerație</h3>
+          <div class="formula">
+            $$A=${tex(data.e2.A, 0)}\\,\\text{cm}=${tex(e2Am, 3)}\\,\\text{m}$$
+            $$x=A\\cos(\\omega t)
+            =${tex(e2Am, 3)}\\cos(${tex(data.e2.w, 0)}\\cdot ${tex(data.e2.t, 2)})
+            =${tex(e2x, 4)}\\,\\text{m}$$
+            $$v=-A\\omega\\sin(\\omega t)
+            =${tex(e2v, 4)}\\,\\text{m/s}$$
+            $$a=-A\\omega^2\\cos(\\omega t)
+            =${tex(e2a, 4)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Amplitudine din condiții inițiale</h3>
+          <div class="formula">
+            $$A=\\sqrt{x_0^2+\\left(\\frac{v_0}{\\omega_0}\\right)^2}$$
+            $$x_0=${tex(e3x0m, 4)}\\,\\text{m},\\qquad
+            v_0=${tex(e3v0m, 4)}\\,\\text{m/s}$$
+            $$A=\\sqrt{${tex(e3x0m, 4)}^2+
+            \\left(\\frac{${tex(e3v0m, 4)}}{${tex(data.e3.w, 0)}}\\right)^2}
+            =${tex(e3A, 4)}\\,\\text{m}$$
+            $$v_{max}=A\\omega_0=${tex(e3vmax, 4)}\\,\\text{m/s}$$
+            $$a_{max}=A\\omega_0^2=${tex(e3amax, 4)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Energia oscilatorului ideal</h3>
+          <div class="formula">
+            $$E=\\frac12kA^2
+            =\\frac12\\cdot ${tex(data.e4.k, 0)}\\cdot ${tex(e4Am, 3)}^2
+            =${tex(e4E, 5)}\\,\\text{J}$$
+            $$E_p=\\frac12kx^2
+            =\\frac12\\cdot ${tex(data.e4.k, 0)}\\cdot ${tex(e4xm, 3)}^2
+            =${tex(e4Ep, 5)}\\,\\text{J}$$
+            $$E_c=E-E_p
+            =${tex(e4Ec, 5)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Viteza din energie</h3>
+          <div class="formula">
+            $$E=\\frac12kA^2=${tex(e5E, 5)}\\,\\text{J}$$
+            $$E_p=\\frac12kx^2=${tex(e5Ep, 5)}\\,\\text{J}$$
+            $$E_c=E-E_p=${tex(e5Ec, 5)}\\,\\text{J}$$
+            $$v=\\sqrt{\\frac{2E_c}{m}}
+            =\\sqrt{\\frac{2\\cdot ${tex(e5Ec, 5)}}{${tex(data.e5.m, 2)}}}
+            =${tex(e5v, 4)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Resort vertical</h3>
+          <div class="formula">
+            $$\\Delta l_0=\\frac{mg}{k}
+            =\\frac{${tex(data.e6.m, 2)}\\cdot10}{${tex(data.e6.k, 2)}}
+            =${tex(e6dl, 4)}\\,\\text{m}$$
+            $$T=2\\pi\\sqrt{\\frac{m}{k}}
+            =${tex(e6T, 4)}\\,\\text{s}$$
+          </div>
+          <p>
+            Gravitația deplasează poziția de echilibru, dar nu schimbă perioada micilor oscilații.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Pendul matematic</h3>
+          <div class="formula">
+            $$\\omega_0=\\sqrt{\\frac{g}{l}}
+            =\\sqrt{\\frac{10}{${tex(data.e7.l, 2)}}}
+            =${tex(e7w, 4)}\\,\\text{rad/s}$$
+            $$T=2\\pi\\sqrt{\\frac{l}{g}}
+            =${tex(e7T, 4)}\\,\\text{s}$$
+            $$f=\\frac{1}{T}
+            =${tex(e7f, 4)}\\,\\text{Hz}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Oscilații amortizate</h3>
+          <div class="formula">
+            $$\\omega_0=\\sqrt{\\frac{k}{m}}
+            =${tex(e8w0, 4)}\\,\\text{rad/s}$$
+            $$\\beta=\\frac{b}{2m}
+            =\\frac{${tex(data.e8.b, 2)}}{2\\cdot ${tex(data.e8.m, 2)}}
+            =${tex(e8beta, 4)}\\,\\text{s}^{-1}$$
+            $$Q=\\frac{\\omega_0}{2\\beta}
+            =${tex(e8Q, 4)}$$
+          </div>
+          <p>Regimul de amortizare este: <strong>${e8regime}</strong>.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Pulsația amortizată</h3>
+          <div class="formula">
+            $$\\omega_d=\\sqrt{\\omega_0^2-\\beta^2}$$
+            $$\\omega_d=\\sqrt{${tex(data.e9.w0, 0)}^2-${tex(data.e9.beta, 2)}^2}
+            =${tex(e9wd, 4)}\\,\\text{rad/s}$$
+            $$T_d=\\frac{2\\pi}{\\omega_d}
+            =${tex(e9Td, 4)}\\,\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Oscilație forțată</h3>
+          <div class="formula">
+            $$\\omega_0=\\sqrt{\\frac{k}{m}}
+            =${tex(e10w0, 4)}\\,\\text{rad/s}$$
+            $$\\beta=\\frac{b}{2m}
+            =${tex(e10beta, 4)}\\,\\text{s}^{-1}$$
+            $$A(\\Omega)=\\frac{F_0/m}{
+            \\sqrt{(\\omega_0^2-\\Omega^2)^2+(2\\beta\\Omega)^2}}$$
+            $$A=\\frac{${tex(data.e10.F0, 0)}/${tex(data.e10.m, 2)}}{
+            \\sqrt{(${tex(e10w0, 4)}^2-${tex(data.e10.Omega, 0)}^2)^2+
+            (2\\cdot ${tex(e10beta, 4)}\\cdot ${tex(data.e10.Omega, 0)})^2}}$$
+            $$A=${tex(e10A, 6)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Rezonanță și bandă</h3>
+          <div class="formula">
+            $$\\omega_0=\\sqrt{\\frac{k}{m}}
+            =${tex(e11w0, 4)}\\,\\text{rad/s}$$
+            $$\\beta=\\frac{b}{2m}
+            =${tex(e11beta, 4)}\\,\\text{s}^{-1}$$
+            $$\\Omega_{rez}\\approx\\omega_0
+            =${tex(e11w0, 4)}\\,\\text{rad/s}$$
+            $$\\Omega_{rez,\\,mai\\ riguros}=\\sqrt{\\omega_0^2-2\\beta^2}
+            =${tex(e11wRez, 4)}\\,\\text{rad/s}$$
+            $$Q=\\frac{\\omega_0}{2\\beta}
+            =${tex(e11Q, 4)}$$
+            $$\\Delta\\omega\\simeq\\frac{\\omega_0}{Q}
+            =${tex(e11dw, 4)}\\,\\text{rad/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Constanta elastică din perioadă</h3>
+          <div class="formula">
+            $$\\omega_0=\\frac{2\\pi}{T}
+            =\\frac{2\\pi}{${tex(data.e12.T, 2)}}
+            =${tex(e12w, 4)}\\,\\text{rad/s}$$
+            $$k=m\\omega_0^2
+            =${tex(data.e12.m, 2)}\\cdot ${tex(e12w, 4)}^2
+            =${tex(e12k, 4)}\\,\\text{N/m}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c10");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c10");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
