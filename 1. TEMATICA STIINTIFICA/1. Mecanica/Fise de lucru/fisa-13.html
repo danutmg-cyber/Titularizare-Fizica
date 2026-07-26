@@ -1,1 +1,1327 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 13 – Dinamica fluidelor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 13 • Dinamica fluidelor</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C13-dinamica-fluidelor.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 13</span>
+        <h1>Dinamica fluidelor. Ecuația de continuitate. Legea lui Bernoulli</h1>
+
+        <p class="lead">
+          Fișă completă pentru curgerea fluidelor ideale: debit volumic, debit masic,
+          curgere staționară, linii de curent, ecuația de continuitate, ecuația lui Bernoulli,
+          presiune statică, presiune dinamică, Torricelli, Venturi și Pitot.
+          Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+          În exerciții se folosește, dacă nu se precizează altfel, $g=10\,\text{m/s}^2$.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Fluid ideal</strong>
+            <p>
+              Modelul de fluid ideal presupune curgere fără vâscozitate, fără pierderi de energie prin frecare
+              internă și, în cazul lichidelor, densitate constantă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Curgere staționară</strong>
+            <p>
+              Curgerea este staționară dacă, într-un punct fix al spațiului, viteza, presiunea și densitatea
+              nu se modifică în timp.
+            </p>
+            <div class="formula">
+              $$\frac{\partial \vec v}{\partial t}=\vec0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>3. Linie de curent</strong>
+            <p>
+              Linia de curent este curba tangentă în fiecare punct la vectorul viteză al fluidului.
+              În curgere staționară, particulele fluidului se deplasează de-a lungul liniilor de curent.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Debit volumic</strong>
+            <p>
+              Debitul volumic este volumul de fluid care traversează o secțiune în unitatea de timp.
+            </p>
+            <div class="formula">
+              $$Q=\frac{\Delta V}{\Delta t}$$
+              $$Q=Av$$
+              $$[Q]_{SI}=\text{m}^3/\text{s}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Debit masic</strong>
+            <p>
+              Debitul masic este masa de fluid care traversează o secțiune în unitatea de timp.
+            </p>
+            <div class="formula">
+              $$\dot m=\frac{\Delta m}{\Delta t}$$
+              $$\dot m=\rho Av=\rho Q$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>6. Ecuația de continuitate generală</strong>
+            <p>
+              Pentru curgere staționară:
+            </p>
+            <div class="formula">
+              $$\rho_1A_1v_1=\rho_2A_2v_2$$
+            </div>
+            <p>
+              Ea exprimă conservarea masei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Continuitatea pentru lichid incompresibil</strong>
+            <p>
+              Dacă densitatea este constantă:
+            </p>
+            <div class="formula">
+              $$A_1v_1=A_2v_2$$
+              $$Q=\text{constant}$$
+            </div>
+            <p>
+              Într-o secțiune mai îngustă, viteza este mai mare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Energia pe unitatea de volum</strong>
+            <p>
+              Termenii din ecuația lui Bernoulli au unitate de presiune, adică energie pe unitatea de volum.
+            </p>
+            <div class="formula">
+              $$[p]=\left[\frac12\rho v^2\right]=[\rho gh]=\text{Pa}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Legea lui Bernoulli</strong>
+            <p>
+              Pentru fluid ideal, incompresibil, în curgere staționară, de-a lungul aceleiași linii de curent:
+            </p>
+            <div class="formula">
+              $$p+\frac12\rho v^2+\rho gh=\text{constant}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Interpretarea termenilor Bernoulli</strong>
+            <div class="formula">
+              $$p=\text{presiune statică}$$
+              $$\frac12\rho v^2=\text{presiune dinamică}$$
+              $$\rho gh=\text{presiune hidrostatică}$$
+            </div>
+            <p>
+              Dacă înălțimea este aceeași, creșterea vitezei produce scăderea presiunii statice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>11. Bernoulli pe conductă orizontală</strong>
+            <p>
+              Dacă $h_1=h_2$, atunci:
+            </p>
+            <div class="formula">
+              $$p_1+\frac12\rho v_1^2=p_2+\frac12\rho v_2^2$$
+              $$p_1-p_2=\frac12\rho(v_2^2-v_1^2)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>12. Teorema lui Torricelli</strong>
+            <p>
+              Pentru un orificiu mic aflat la adâncimea $h$ sub suprafața liberă:
+            </p>
+            <div class="formula">
+              $$v=\sqrt{2gh}$$
+            </div>
+            <p>
+              Rezultatul se obține din Bernoulli, neglijând viteza suprafeței libere.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Tub Venturi</strong>
+            <p>
+              Într-o conductă orizontală cu îngustare:
+            </p>
+            <div class="formula">
+              $$A_1v_1=A_2v_2$$
+              $$p_1-p_2=\frac12\rho(v_2^2-v_1^2)$$
+            </div>
+            <p>
+              Secțiunea îngustă are viteză mai mare și presiune statică mai mică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Tub Pitot</strong>
+            <p>
+              Tubul Pitot măsoară viteza din diferența dintre presiunea totală și presiunea statică:
+            </p>
+            <div class="formula">
+              $$p_t-p_s=\frac12\rho v^2$$
+              $$v=\sqrt{\frac{2(p_t-p_s)}{\rho}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>15. Jet orizontal din rezervor</strong>
+            <p>
+              Dacă viteza de ieșire este $v=\sqrt{2gh}$ și orificiul este la înălțimea $y$ deasupra solului:
+            </p>
+            <div class="formula">
+              $$t=\sqrt{\frac{2y}{g}}$$
+              $$x=vt$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>16. Limitele modelului</strong>
+            <p>
+              În fluide reale apar vâscozitate, turbulență, pierderi de energie și modificări de densitate.
+              Atunci Bernoulli simplu nu se aplică direct fără termeni de pierdere.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          Bernoulli se aplică de-a lungul aceleiași linii de curent și pentru fluid ideal;
+          debitul se conservă prin secțiuni diferite doar în curgere staționară incompresibilă;
+          presiunea este mai mică acolo unde viteza este mai mare doar dacă înălțimea este aceeași;
+          nu confunda debitul $Q$ cu viteza $v$.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Unitate SI</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Debit volumic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Volum pe unitatea de timp.</td>
+                </tr>
+                <tr>
+                  <td>Debit masic</td>
+                  <td></td>
+                  <td></td>
+                  <td>Masă pe unitatea de timp.</td>
+                </tr>
+                <tr>
+                  <td>Continuitate generală</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>Exprimă conservarea masei.</td>
+                </tr>
+                <tr>
+                  <td>Continuitate incompresibil</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>$Q$ rămâne constant.</td>
+                </tr>
+                <tr>
+                  <td>Bernoulli</td>
+                  <td></td>
+                  <td>Pa</td>
+                  <td>Energie pe unitatea de volum.</td>
+                </tr>
+                <tr>
+                  <td>Presiune dinamică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Depinde de $v^2$.</td>
+                </tr>
+                <tr>
+                  <td>Torricelli</td>
+                  <td></td>
+                  <td></td>
+                  <td>Viteza de ieșire prin orificiu.</td>
+                </tr>
+                <tr>
+                  <td>Tub Pitot</td>
+                  <td></td>
+                  <td></td>
+                  <td>Determină viteza din diferență de presiune.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Ecuația de continuitate exprimă conservarea masei fluidului.</li>
+            <li>Într-o conductă mai îngustă, viteza unui lichid incompresibil este mai mică.</li>
+            <li>În ecuația lui Bernoulli, toți termenii au unitate de presiune.</li>
+            <li>Bernoulli se aplică direct pentru orice fluid real, indiferent de vâscozitate.</li>
+            <li>Într-o conductă orizontală, creșterea vitezei este însoțită de scăderea presiunii statice.</li>
+            <li>Teorema lui Torricelli dă $v=\sqrt{2gh}$ pentru orificiu mic și rezervor mare.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$Q=$ <span class="line"></span></p>
+              <p>$\dot m=$ <span class="line"></span></p>
+              <p>$A_1v_1=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$p+\frac12\rho v^2+\rho gh=$ <span class="line"></span></p>
+              <p>$v_{\text{Torricelli}}=$ <span class="line"></span></p>
+              <p>$v_{\text{Pitot}}=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Debit volumic prin conductă. 4 p</h3>
+
+          <p>
+            Printr-o conductă cu aria secțiunii $A_1$ = <span class="var" id="e1A"></span> cm²
+            fluidul curge cu viteza $v_1$ = <span class="var" id="e1v"></span> m/s.
+          </p>
+
+          <ol type="a">
+            <li>Transformă aria în m².</li>
+            <li>Determină debitul volumic în m³/s și L/s.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Debit masic. 4 p</h3>
+
+          <p>
+            Un lichid de densitate $\rho$ = <span class="var" id="e2rho"></span> kg/m³
+            curge cu debitul volumic $Q$ = <span class="var" id="e2Q"></span> L/s.
+          </p>
+
+          <ol type="a">
+            <li>Transformă debitul în m³/s.</li>
+            <li>Determină debitul masic.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Ecuația de continuitate. 5 p</h3>
+
+          <p>
+            Într-o conductă orizontală, aria secțiunii mari este $A_1$ = <span class="var" id="e3A1"></span> cm²,
+            iar viteza lichidului este $v_1$ = <span class="var" id="e3v1"></span> m/s.
+            În secțiunea îngustă, aria este $A_2$ = <span class="var" id="e3A2"></span> cm².
+          </p>
+
+          <ol type="a">
+            <li>Scrie ecuația de continuitate.</li>
+            <li>Determină viteza $v_2$.</li>
+            <li>Calculează debitul volumic.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Bernoulli pe conductă orizontală. 6 p</h3>
+
+          <p>
+            Apa curge printr-o conductă orizontală. În secțiunea 1 viteza este
+            $v_1$ = <span class="var" id="e4v1"></span> m/s, iar în secțiunea 2 viteza este
+            $v_2$ = <span class="var" id="e4v2"></span> m/s.
+            Densitatea apei este $\rho=1000\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie ecuația lui Bernoulli pentru $h_1=h_2$.</li>
+            <li>Determină diferența de presiune $p_1-p_2$.</li>
+            <li>Precizează unde presiunea statică este mai mare.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Conductă cu diferență de nivel. 6 p</h3>
+
+          <p>
+            Un lichid de densitate $\rho$ = <span class="var" id="e5rho"></span> kg/m³
+            trece din punctul 1 în punctul 2. Se cunosc:
+            $v_1$ = <span class="var" id="e5v1"></span> m/s,
+            $v_2$ = <span class="var" id="e5v2"></span> m/s,
+            $h_2-h_1$ = <span class="var" id="e5dh"></span> m.
+            Presiunea în punctul 1 este $p_1$ = <span class="var" id="e5p1"></span> kPa.
+          </p>
+
+          <ol type="a">
+            <li>Scrie Bernoulli între punctele 1 și 2.</li>
+            <li>Determină presiunea $p_2$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Teorema lui Torricelli. 5 p</h3>
+
+          <p>
+            Un rezervor mare are un orificiu mic aflat la adâncimea
+            $h$ = <span class="var" id="e6h"></span> m sub suprafața liberă.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza de ieșire a lichidului.</li>
+            <li>Determină debitul dacă aria orificiului este $A$ = <span class="var" id="e6A"></span> cm².</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Jet orizontal din rezervor. 5 p</h3>
+
+          <p>
+            Jetul iese orizontal cu viteza dată de Torricelli, dintr-un orificiu aflat la adâncimea
+            $h$ = <span class="var" id="e7h"></span> m sub suprafața liberă. Orificiul se află la înălțimea
+            $y$ = <span class="var" id="e7y"></span> m deasupra solului.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza de ieșire.</li>
+            <li>Determină timpul de cădere până la sol.</li>
+            <li>Determină bătaia orizontală a jetului.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Tub Venturi cu arii date. 6 p</h3>
+
+          <p>
+            Într-un tub Venturi orizontal, aria secțiunii mari este
+            $A_1$ = <span class="var" id="e8A1"></span> cm², iar aria gâtului este
+            $A_2$ = <span class="var" id="e8A2"></span> cm².
+            Viteza în secțiunea mare este $v_1$ = <span class="var" id="e8v1"></span> m/s.
+            Fluidul are densitatea $\rho$ = <span class="var" id="e8rho"></span> kg/m³.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza în gâtul tubului.</li>
+            <li>Determină diferența de presiune $p_1-p_2$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Tub Pitot. 5 p</h3>
+
+          <p>
+            Un tub Pitot indică diferența de presiune
+            $\Delta p$ = <span class="var" id="e9dp"></span> Pa
+            într-un fluid de densitate $\rho$ = <span class="var" id="e9rho"></span> kg/m³.
+          </p>
+
+          <ol type="a">
+            <li>Scrie relația dintre $\Delta p$ și viteza fluidului.</li>
+            <li>Determină viteza fluidului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Presiune dinamică. 4 p</h3>
+
+          <p>
+            Un fluid de densitate $\rho$ = <span class="var" id="e10rho"></span> kg/m³
+            curge cu viteza $v$ = <span class="var" id="e10v"></span> m/s.
+          </p>
+
+          <ol type="a">
+            <li>Calculează presiunea dinamică.</li>
+            <li>Exprimă rezultatul în kPa.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Puterea unui jet de apă. 5 p</h3>
+
+          <p>
+            Un jet de apă are debitul $Q$ = <span class="var" id="e11Q"></span> L/s
+            și viteza $v$ = <span class="var" id="e11v"></span> m/s.
+            Se ia $\rho=1000\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Determină debitul masic.</li>
+            <li>Determină puterea cinetică a jetului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Determinarea vitezei din diferență de nivel manometric. 5 p</h3>
+
+          <p>
+            Diferența dintre presiunea totală și presiunea statică este indicată de o coloană de apă
+            cu diferența de nivel $\Delta h$ = <span class="var" id="e12dh"></span> cm.
+            Fluidul măsurat este tot apă, cu $\rho=1000\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează $\Delta p=\rho g\Delta h$.</li>
+            <li>Determină viteza curgerii.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>16. Verificarea condițiilor de aplicare Bernoulli. 5 p</h3>
+
+          <p>
+            Pentru fiecare situație, scrie dacă Bernoulli simplu se poate aplica direct sau trebuie introdus
+            un termen de pierdere:
+          </p>
+
+          <ul>
+            <li>apă idealizată într-o conductă netedă, curgere staționară;</li>
+            <li>ulei foarte vâscos într-o conductă lungă;</li>
+            <li>jet de apă care iese dintr-un rezervor mare prin orificiu mic;</li>
+            <li>curgere turbulentă cu pierderi mari de energie.</li>
+          </ul>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>17. Deducerea ecuației de continuitate și a legii lui Bernoulli. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat despre curgerea staționară a unui fluid ideal.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>definiția debitului volumic și a debitului masic;</li>
+            <li>deducerea ecuației de continuitate din conservarea masei;</li>
+            <li>forma pentru lichid incompresibil $A_1v_1=A_2v_2$;</li>
+            <li>enunțul legii lui Bernoulli și condițiile de aplicare;</li>
+            <li>interpretarea termenilor $p$, $\frac12\rho v^2$, $\rho gh$;</li>
+            <li>deducerea relației lui Torricelli ca aplicație;</li>
+            <li>două capcane de interpretare frecvente.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–16, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> debit și continuitate 4 p, Bernoulli 4 p, interpretare fizică 3 p, Torricelli 2 p, capcane și claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C13-dinamica-fluidelor.html">Înapoi la lecția C13</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c13", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c13");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1 = {
+        A: choose([10, 20, 25, 40, 50, 80]),
+        v: choose([0.5, 1, 1.5, 2, 2.5, 3])
+      };
+
+      const e2 = {
+        rho: choose([800, 900, 1000, 1200]),
+        Q: choose([1, 2, 3, 4, 5, 8])
+      };
+
+      const e3A2 = choose([5, 10, 20, 25]);
+      const e3ratio = choose([2, 3, 4]);
+      const e3 = {
+        A2: e3A2,
+        A1: e3A2 * e3ratio,
+        v1: choose([0.5, 1, 1.5, 2])
+      };
+
+      const e4v1 = choose([1, 2, 3]);
+      const e4 = {
+        v1: e4v1,
+        v2: e4v1 + choose([2, 3, 4, 5]),
+        rho: 1000
+      };
+
+      const e5 = {
+        rho: choose([800, 1000, 1200]),
+        v1: choose([1, 2, 3]),
+        v2: choose([4, 5, 6, 7]),
+        dh: choose([1, 2, 3, 4]),
+        p1: choose([150, 180, 200, 250])
+      };
+
+      const e6 = {
+        h: choose([0.5, 1, 1.5, 2, 3, 5]),
+        A: choose([1, 2, 3, 4, 5])
+      };
+
+      const e7 = {
+        h: choose([0.5, 1, 1.5, 2, 3]),
+        y: choose([0.8, 1, 1.2, 1.5, 2])
+      };
+
+      const e8A2 = choose([5, 10, 20]);
+      const e8ratio = choose([2, 3, 4]);
+      const e8 = {
+        A2: e8A2,
+        A1: e8A2 * e8ratio,
+        v1: choose([1, 1.5, 2, 2.5]),
+        rho: choose([800, 1000, 1200])
+      };
+
+      const e9rho = choose([800, 1000, 1200]);
+      const e9v = choose([2, 3, 4, 5, 6, 8]);
+      const e9 = {
+        rho: e9rho,
+        dp: 0.5 * e9rho * e9v * e9v
+      };
+
+      const e10 = {
+        rho: choose([800, 1000, 1200]),
+        v: choose([2, 3, 4, 5, 8, 10])
+      };
+
+      const e11 = {
+        Q: choose([1, 2, 3, 4, 5]),
+        v: choose([4, 5, 8, 10, 12])
+      };
+
+      const e12 = {
+        dh: choose([5, 10, 15, 20, 25, 30])
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 };
+      localStorage.setItem("values-fisa-c13", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1A", fmt(data.e1.A, 0));
+      setText("e1v", fmt(data.e1.v, 2));
+
+      setText("e2rho", fmt(data.e2.rho, 0));
+      setText("e2Q", fmt(data.e2.Q, 0));
+
+      setText("e3A1", fmt(data.e3.A1, 0));
+      setText("e3v1", fmt(data.e3.v1, 2));
+      setText("e3A2", fmt(data.e3.A2, 0));
+
+      setText("e4v1", fmt(data.e4.v1, 0));
+      setText("e4v2", fmt(data.e4.v2, 0));
+
+      setText("e5rho", fmt(data.e5.rho, 0));
+      setText("e5v1", fmt(data.e5.v1, 0));
+      setText("e5v2", fmt(data.e5.v2, 0));
+      setText("e5dh", fmt(data.e5.dh, 0));
+      setText("e5p1", fmt(data.e5.p1, 0));
+
+      setText("e6h", fmt(data.e6.h, 2));
+      setText("e6A", fmt(data.e6.A, 0));
+
+      setText("e7h", fmt(data.e7.h, 2));
+      setText("e7y", fmt(data.e7.y, 2));
+
+      setText("e8A1", fmt(data.e8.A1, 0));
+      setText("e8A2", fmt(data.e8.A2, 0));
+      setText("e8v1", fmt(data.e8.v1, 2));
+      setText("e8rho", fmt(data.e8.rho, 0));
+
+      setText("e9dp", fmt(data.e9.dp, 0));
+      setText("e9rho", fmt(data.e9.rho, 0));
+
+      setText("e10rho", fmt(data.e10.rho, 0));
+      setText("e10v", fmt(data.e10.v, 0));
+
+      setText("e11Q", fmt(data.e11.Q, 0));
+      setText("e11v", fmt(data.e11.v, 0));
+
+      setText("e12dh", fmt(data.e12.dh, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1Am2 = data.e1.A * 1e-4;
+      const e1Q = e1Am2 * data.e1.v;
+      const e1QLs = e1Q * 1000;
+
+      const e2Qm3s = data.e2.Q / 1000;
+      const e2mdot = data.e2.rho * e2Qm3s;
+
+      const e3v2 = data.e3.A1 * data.e3.v1 / data.e3.A2;
+      const e3Q = data.e3.A1 * 1e-4 * data.e3.v1;
+
+      const e4dp = 0.5 * data.e4.rho * (data.e4.v2 ** 2 - data.e4.v1 ** 2);
+
+      const e5p1Pa = data.e5.p1 * 1000;
+      const e5p2 = e5p1Pa + 0.5 * data.e5.rho * (data.e5.v1 ** 2 - data.e5.v2 ** 2) - data.e5.rho * 10 * data.e5.dh;
+
+      const e6v = Math.sqrt(2 * 10 * data.e6.h);
+      const e6Q = data.e6.A * 1e-4 * e6v;
+
+      const e7v = Math.sqrt(2 * 10 * data.e7.h);
+      const e7t = Math.sqrt(2 * data.e7.y / 10);
+      const e7x = e7v * e7t;
+
+      const e8v2 = data.e8.A1 * data.e8.v1 / data.e8.A2;
+      const e8dp = 0.5 * data.e8.rho * (e8v2 ** 2 - data.e8.v1 ** 2);
+
+      const e9v = Math.sqrt(2 * data.e9.dp / data.e9.rho);
+
+      const e10pdyn = 0.5 * data.e10.rho * data.e10.v ** 2;
+
+      const e11Qm3s = data.e11.Q / 1000;
+      const e11mdot = 1000 * e11Qm3s;
+      const e11P = 0.5 * e11mdot * data.e11.v ** 2;
+
+      const e12dhm = data.e12.dh / 100;
+      const e12dp = 1000 * 10 * e12dhm;
+      const e12v = Math.sqrt(2 * e12dp / 1000);
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Debit volumic</h3>
+          <div class="formula">
+            $$A=${tex(data.e1.A, 0)}\\,\\text{cm}^2
+            =${tex(e1Am2, 6)}\\,\\text{m}^2$$
+            $$Q=Av=${tex(e1Am2, 6)}\\cdot ${tex(data.e1.v, 2)}
+            =${tex(e1Q, 6)}\\,\\text{m}^3/\\text{s}$$
+            $$Q=${tex(e1QLs, 3)}\\,\\text{L/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Debit masic</h3>
+          <div class="formula">
+            $$Q=${tex(data.e2.Q, 0)}\\,\\text{L/s}
+            =${tex(e2Qm3s, 5)}\\,\\text{m}^3/\\text{s}$$
+            $$\\dot m=\\rho Q
+            =${tex(data.e2.rho, 0)}\\cdot ${tex(e2Qm3s, 5)}
+            =${tex(e2mdot, 3)}\\,\\text{kg/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Ecuația de continuitate</h3>
+          <div class="formula">
+            $$A_1v_1=A_2v_2$$
+            $$v_2=\\frac{A_1v_1}{A_2}
+            =\\frac{${tex(data.e3.A1, 0)}\\cdot ${tex(data.e3.v1, 2)}}{${tex(data.e3.A2, 0)}}
+            =${tex(e3v2, 3)}\\,\\text{m/s}$$
+            $$Q=A_1v_1
+            =${tex(data.e3.A1, 0)}\\cdot10^{-4}\\cdot ${tex(data.e3.v1, 2)}
+            =${tex(e3Q, 6)}\\,\\text{m}^3/\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Bernoulli pe conductă orizontală</h3>
+          <div class="formula">
+            $$p_1+\\frac12\\rho v_1^2=p_2+\\frac12\\rho v_2^2$$
+            $$p_1-p_2=\\frac12\\rho(v_2^2-v_1^2)$$
+            $$p_1-p_2=\\frac12\\cdot1000(${tex(data.e4.v2, 0)}^2-${tex(data.e4.v1, 0)}^2)
+            =${tex(e4dp, 3)}\\,\\text{Pa}$$
+            $$p_1-p_2=${tex(e4dp / 1000, 3)}\\,\\text{kPa}$$
+          </div>
+          <p>Presiunea statică este mai mare în secțiunea cu viteză mai mică.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Conductă cu diferență de nivel</h3>
+          <div class="formula">
+            $$p_1+\\frac12\\rho v_1^2+\\rho gh_1
+            =p_2+\\frac12\\rho v_2^2+\\rho gh_2$$
+            $$p_2=p_1+\\frac12\\rho(v_1^2-v_2^2)-\\rho g(h_2-h_1)$$
+            $$p_2=${tex(data.e5.p1, 0)}\\cdot10^3+
+            \\frac12\\cdot ${tex(data.e5.rho, 0)}
+            (${tex(data.e5.v1, 0)}^2-${tex(data.e5.v2, 0)}^2)
+            -${tex(data.e5.rho, 0)}\\cdot10\\cdot ${tex(data.e5.dh, 0)}$$
+            $$p_2=${tex(e5p2, 3)}\\,\\text{Pa}
+            =${tex(e5p2 / 1000, 3)}\\,\\text{kPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Torricelli</h3>
+          <div class="formula">
+            $$v=\\sqrt{2gh}
+            =\\sqrt{2\\cdot10\\cdot ${tex(data.e6.h, 2)}}
+            =${tex(e6v, 3)}\\,\\text{m/s}$$
+            $$A=${tex(data.e6.A, 0)}\\,\\text{cm}^2=${tex(data.e6.A * 1e-4, 6)}\\,\\text{m}^2$$
+            $$Q=Av=${tex(data.e6.A * 1e-4, 6)}\\cdot ${tex(e6v, 3)}
+            =${tex(e6Q, 6)}\\,\\text{m}^3/\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Jet orizontal</h3>
+          <div class="formula">
+            $$v=\\sqrt{2gh}
+            =\\sqrt{2\\cdot10\\cdot ${tex(data.e7.h, 2)}}
+            =${tex(e7v, 3)}\\,\\text{m/s}$$
+            $$t=\\sqrt{\\frac{2y}{g}}
+            =\\sqrt{\\frac{2\\cdot ${tex(data.e7.y, 2)}}{10}}
+            =${tex(e7t, 3)}\\,\\text{s}$$
+            $$x=vt=${tex(e7v, 3)}\\cdot ${tex(e7t, 3)}
+            =${tex(e7x, 3)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Tub Venturi</h3>
+          <div class="formula">
+            $$A_1v_1=A_2v_2$$
+            $$v_2=\\frac{A_1}{A_2}v_1
+            =\\frac{${tex(data.e8.A1, 0)}}{${tex(data.e8.A2, 0)}}\\cdot ${tex(data.e8.v1, 2)}
+            =${tex(e8v2, 3)}\\,\\text{m/s}$$
+            $$p_1-p_2=\\frac12\\rho(v_2^2-v_1^2)$$
+            $$p_1-p_2=\\frac12\\cdot ${tex(data.e8.rho, 0)}
+            (${tex(e8v2, 3)}^2-${tex(data.e8.v1, 2)}^2)
+            =${tex(e8dp, 3)}\\,\\text{Pa}$$
+          </div>
+          <p>Presiunea este mai mică în gâtul tubului, unde viteza este mai mare.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Tub Pitot</h3>
+          <div class="formula">
+            $$\\Delta p=\\frac12\\rho v^2$$
+            $$v=\\sqrt{\\frac{2\\Delta p}{\\rho}}
+            =\\sqrt{\\frac{2\\cdot ${tex(data.e9.dp, 0)}}{${tex(data.e9.rho, 0)}}}
+            =${tex(e9v, 3)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Presiune dinamică</h3>
+          <div class="formula">
+            $$p_d=\\frac12\\rho v^2$$
+            $$p_d=\\frac12\\cdot ${tex(data.e10.rho, 0)}\\cdot ${tex(data.e10.v, 0)}^2
+            =${tex(e10pdyn, 3)}\\,\\text{Pa}$$
+            $$p_d=${tex(e10pdyn / 1000, 3)}\\,\\text{kPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Puterea cinetică a jetului</h3>
+          <div class="formula">
+            $$Q=${tex(data.e11.Q, 0)}\\,\\text{L/s}
+            =${tex(e11Qm3s, 5)}\\,\\text{m}^3/\\text{s}$$
+            $$\\dot m=\\rho Q=1000\\cdot ${tex(e11Qm3s, 5)}
+            =${tex(e11mdot, 3)}\\,\\text{kg/s}$$
+            $$P_c=\\frac12\\dot m v^2
+            =\\frac12\\cdot ${tex(e11mdot, 3)}\\cdot ${tex(data.e11.v, 0)}^2
+            =${tex(e11P, 3)}\\,\\text{W}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Viteza din diferență manometrică</h3>
+          <div class="formula">
+            $$\\Delta h=${tex(data.e12.dh, 0)}\\,\\text{cm}
+            =${tex(e12dhm, 3)}\\,\\text{m}$$
+            $$\\Delta p=\\rho g\\Delta h
+            =1000\\cdot10\\cdot ${tex(e12dhm, 3)}
+            =${tex(e12dp, 3)}\\,\\text{Pa}$$
+            $$v=\\sqrt{\\frac{2\\Delta p}{\\rho}}
+            =\\sqrt{\\frac{2\\cdot ${tex(e12dp, 3)}}{1000}}
+            =${tex(e12v, 3)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>16. Condiții Bernoulli</h3>
+          <ul>
+            <li>Apă idealizată, conductă netedă, curgere staționară: Bernoulli simplu se poate aplica.</li>
+            <li>Ulei foarte vâscos în conductă lungă: trebuie termen de pierdere.</li>
+            <li>Jet din rezervor mare prin orificiu mic: Torricelli se poate deduce din Bernoulli idealizat.</li>
+            <li>Curgere turbulentă cu pierderi mari: Bernoulli simplu nu se aplică direct.</li>
+          </ul>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c13");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c13");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
