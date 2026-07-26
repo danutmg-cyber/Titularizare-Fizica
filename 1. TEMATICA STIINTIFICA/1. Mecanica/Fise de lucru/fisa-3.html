@@ -1,1 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 3 – Cinematica mișcărilor relative</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 125px; }
+    .answer-space.tall { min-height: 175px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .grid-3,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 115px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 3 • Cinematica mișcărilor relative</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C03-cinematica-miscarilor-relative.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 3</span>
+        <h1>Cinematica mișcărilor relative</h1>
+
+        <p class="lead">
+          Fișă completă pentru compunerea pozițiilor, vitezelor și accelerațiilor în sisteme de referință
+          aflate în mișcare relativă. Exercițiile numerice folosesc valori variabile.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 70 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Poziția relativă</strong>
+            <p>
+              Dacă originea sistemului $S'$ are poziția $\vec R$ față de $S$, iar punctul material are
+              poziția $\vec r'$ față de $S'$, atunci poziția față de $S$ este:
+            </p>
+            <div class="formula">
+              $$\vec r=\vec R+\vec r'$$
+            </div>
+            <p>
+              Aceasta este relația fundamentală pentru poziții în mișcări relative.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Transformările Galilei</strong>
+            <p>
+              Dacă $S'$ se deplasează rectiliniu uniform cu viteza $\vec V$ față de $S$:
+            </p>
+            <div class="formula">
+              $$\vec R=\vec Vt$$
+              $$\vec r=\vec r'+\vec Vt$$
+            </div>
+            <p>
+              Pentru mișcare de-a lungul axei $Ox$:
+            </p>
+            <div class="formula">
+              $$x=x'+Vt,\qquad y=y',\qquad z=z',\qquad t=t'$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>3. Compunerea vitezelor</strong>
+            <p>
+              Derivând relația pozițiilor în raport cu timpul:
+            </p>
+            <div class="formula">
+              $$\vec v=\vec V+\vec v'$$
+            </div>
+            <p>
+              $\vec v$ este viteza absolută, $\vec v'$ viteza relativă, iar $\vec V$ viteza de transport.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Compunerea accelerațiilor</strong>
+            <p>
+              Dacă sistemul $S'$ are accelerația $\vec A$ față de $S$:
+            </p>
+            <div class="formula">
+              $$\vec a=\vec A+\vec a'$$
+            </div>
+            <p>
+              Pentru mișcare relativă uniformă, $\vec A=\vec 0$, deci:
+            </p>
+            <div class="formula">
+              $$\vec a=\vec a'$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Cazuri coliniare</strong>
+            <p>
+              Dacă vitezele sunt pe aceeași dreaptă, se lucrează algebric, cu semne:
+            </p>
+            <div class="formula">
+              $$v=v'+V$$
+            </div>
+            <p>
+              Sensurile opuse se introduc prin semn negativ.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Cazuri perpendiculare</strong>
+            <p>
+              Dacă vitezele sunt perpendiculare:
+            </p>
+            <div class="formula">
+              $$v=\sqrt{V^2+v'^2}$$
+              $$\tan\alpha=\frac{v'}{V}$$
+            </div>
+            <p>
+              Se aplică teorema lui Pitagora și funcțiile trigonometrice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Barcă pe râu</strong>
+            <p>
+              Viteza bărcii față de mal este suma vectorială dintre viteza bărcii față de apă
+              și viteza curentului:
+            </p>
+            <div class="formula">
+              $$\vec v_{\text{mal}}=\vec v_{\text{barcă/apă}}+\vec v_{\text{curent}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>8. Avion și vânt</strong>
+            <p>
+              Viteza avionului față de sol este:
+            </p>
+            <div class="formula">
+              $$\vec v_{\text{sol}}=\vec v_{\text{avion/aer}}+\vec v_{\text{vânt}}$$
+            </div>
+            <p>
+              Vântul din spate crește viteza față de sol, iar vântul din față o reduce.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          nu aduna modulele când vitezele nu sunt coliniare; precizează mereu față de ce sistem este măsurată viteza;
+          în problemele cu râu, timpul de traversare depinde de componenta perpendiculară pe mal, nu de viteza rezultantă.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Definiție / relație</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Viteză absolută</td>
+                  <td></td>
+                  <td>Viteza punctului față de sistemul considerat fix.</td>
+                </tr>
+                <tr>
+                  <td>Viteză relativă</td>
+                  <td></td>
+                  <td>Viteza punctului față de sistemul mobil.</td>
+                </tr>
+                <tr>
+                  <td>Viteză de transport</td>
+                  <td></td>
+                  <td>Viteza sistemului mobil față de sistemul fix.</td>
+                </tr>
+                <tr>
+                  <td>Transformări Galilei</td>
+                  <td></td>
+                  <td>Valabile pentru viteze mici față de $c$.</td>
+                </tr>
+                <tr>
+                  <td>Compunerea vitezelor</td>
+                  <td></td>
+                  <td>Relație vectorială.</td>
+                </tr>
+                <tr>
+                  <td>Compunerea accelerațiilor</td>
+                  <td></td>
+                  <td>Pentru $\vec A=\vec0$, accelerațiile coincid.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Viteza unui corp trebuie precizată față de un sistem de referință.</li>
+            <li>Relația $\vec v=\vec V+\vec v'$ este o relație vectorială.</li>
+            <li>Dacă două viteze sunt perpendiculare, modulele se adună simplu.</li>
+            <li>În transformările Galilei timpul este absolut: $t=t'$.</li>
+            <li>Într-un râu, viteza față de mal este suma vectorială dintre viteza față de apă și viteza curentului.</li>
+            <li>Dacă sistemul mobil are accelerație nulă, atunci $\vec a=\vec a'$.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>Poziție: $\vec r=$ <span class="line"></span></p>
+              <p>Galilei: $x=$ <span class="line"></span></p>
+              <p>Timp clasic: $t=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>Viteze: $\vec v=$ <span class="line"></span></p>
+              <p>Accelerații: $\vec a=$ <span class="line"></span></p>
+              <p>Perpendiculare: $v=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Pasager în tren – același sens. 6 p</h3>
+
+          <p>
+            Un tren se deplasează cu viteza
+            $V=<span class="var" id="e1V"></span>\,\text{m/s}$ față de sol.
+            Un pasager merge în tren în același sens cu viteza
+            $v'=<span class="var" id="e1vp"></span>\,\text{m/s}$ față de tren.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza pasagerului față de sol.</li>
+            <li>Scrie relația vectorială folosită.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Pasager în tren – sens opus. 6 p</h3>
+
+          <p>
+            Trenul are viteza
+            $V=<span class="var" id="e2V"></span>\,\text{m/s}$ față de sol.
+            Un pasager merge în sens opus deplasării trenului cu viteza
+            $v'=<span class="var" id="e2vp"></span>\,\text{m/s}$ față de tren.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza pasagerului față de sol.</li>
+            <li>Precizează sensul mișcării față de sol.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Barcă traversând perpendicular pe curent. 8 p</h3>
+
+          <p>
+            Un râu are lățimea
+            $L=<span class="var" id="e3L"></span>\,\text{m}$.
+            Barca are viteza față de apă
+            $v_b=<span class="var" id="e3vb"></span>\,\text{m/s}$, orientată perpendicular pe mal.
+            Curentul are viteza
+            $v_c=<span class="var" id="e3vc"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină timpul de traversare.</li>
+            <li>Determină deplasarea în aval.</li>
+            <li>Determină viteza rezultantă față de mal.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Barcă orientată contra curentului. 8 p</h3>
+
+          <p>
+            O barcă trebuie să ajungă exact în punctul opus de pe celălalt mal.
+            Viteza curentului este
+            $v_c=<span class="var" id="e4vc"></span>\,\text{m/s}$,
+            iar viteza bărcii față de apă este
+            $v_b=<span class="var" id="e4vb"></span>\,\text{m/s}$.
+            Lățimea râului este
+            $L=<span class="var" id="e4L"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină componenta vitezei bărcii perpendiculară pe mal.</li>
+            <li>Determină timpul de traversare.</li>
+            <li>Determină unghiul față de direcția perpendiculară pe mal.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Avion cu vânt din spate. 6 p</h3>
+
+          <p>
+            Un avion are viteza față de aer
+            $v_a=<span class="var" id="e5va"></span>\,\text{km/h}$.
+            Vântul bate din spate cu viteza
+            $v_v=<span class="var" id="e5vv"></span>\,\text{km/h}$.
+            Distanța parcursă față de sol este
+            $d=<span class="var" id="e5d"></span>\,\text{km}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza avionului față de sol.</li>
+            <li>Determină timpul de zbor.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Avion cu vânt lateral. 7 p</h3>
+
+          <p>
+            Un avion are viteza față de aer
+            $v_a=<span class="var" id="e6va"></span>\,\text{km/h}$ spre nord.
+            Vântul bate spre est cu viteza
+            $v_v=<span class="var" id="e6vv"></span>\,\text{km/h}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină modulul vitezei avionului față de sol.</li>
+            <li>Determină unghiul deviației față de direcția nord.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Două trenuri în sensuri opuse. 6 p</h3>
+
+          <p>
+            Două trenuri se deplasează pe linii paralele în sensuri opuse.
+            Primul are viteza
+            $v_1=<span class="var" id="e7v1"></span>\,\text{m/s}$,
+            iar al doilea are viteza
+            $v_2=<span class="var" id="e7v2"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza trenului 2 față de trenul 1.</li>
+            <li>Determină viteza trenului 1 față de trenul 2.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Două trenuri în același sens. 6 p</h3>
+
+          <p>
+            Două trenuri se deplasează în același sens.
+            Trenul A are viteza
+            $v_A=<span class="var" id="e8vA"></span>\,\text{m/s}$,
+            iar trenul B are viteza
+            $v_B=<span class="var" id="e8vB"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza relativă a trenului A față de trenul B.</li>
+            <li>Precizează ce observă un pasager din trenul B despre trenul A.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Sistem mobil accelerat. 8 p</h3>
+
+          <p>
+            Un sistem mobil $S'$ are accelerația
+            $A=<span class="var" id="e9A"></span>\,\text{m/s}^2$
+            față de sistemul fix $S$, pe direcția pozitivă a axei.
+            Un corp are accelerația relativă
+            $a'=<span class="var" id="e9ap"></span>\,\text{m/s}^2$
+            față de $S'$.
+          </p>
+
+          <ol type="a">
+            <li>Determină accelerația corpului față de $S$ dacă accelerațiile au același sens.</li>
+            <li>Determină accelerația corpului față de $S$ dacă accelerația relativă are sens opus.</li>
+            <li>Explică de ce în acest caz nu mai avem transformare galileană inertială simplă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>13. Discurs structurat: viteza relativă. 15 p</h3>
+
+          <p>
+            Redactează un răspuns de 12–15 rânduri în care să explici de ce viteza este o mărime dependentă
+            de sistemul de referință.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>definirea sistemului de referință;</li>
+            <li>relația $\vec r=\vec R+\vec r'$;</li>
+            <li>deducerea relației $\vec v=\vec V+\vec v'$;</li>
+            <li>un exemplu cu tren sau barcă;</li>
+            <li>o capcană de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–12, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> definiții corecte 3 p, relații matematice 4 p, exemplu 3 p, capcană 2 p, claritate 3 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C03-cinematica-miscarilor-relative.html">Înapoi la lecția C03</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c03", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c03");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1 = {
+        V: randInt(8, 25),
+        vp: randInt(1, 4)
+      };
+
+      const e2 = {
+        V: randInt(10, 28),
+        vp: randInt(2, 6)
+      };
+
+      const e3 = {
+        L: randInt(80, 240, 20),
+        vb: randInt(3, 8),
+        vc: randInt(1, 4)
+      };
+
+      const e4vc = randInt(1, 4);
+      const e4vb = randInt(e4vc + 2, e4vc + 7);
+      const e4 = {
+        vc: e4vc,
+        vb: e4vb,
+        L: randInt(90, 270, 30)
+      };
+
+      const e5 = {
+        va: randInt(500, 800, 50),
+        vv: randInt(40, 120, 20),
+        d: randInt(600, 1800, 100)
+      };
+
+      const e6 = {
+        va: randInt(400, 750, 50),
+        vv: randInt(60, 180, 20)
+      };
+
+      const e7 = {
+        v1: randInt(12, 32),
+        v2: randInt(10, 30)
+      };
+
+      const e8vB = randInt(10, 25);
+      const e8 = {
+        vB: e8vB,
+        vA: e8vB + randInt(3, 12)
+      };
+
+      const e9 = {
+        A: randInt(1, 5),
+        ap: randInt(2, 7)
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9 };
+      localStorage.setItem("values-fisa-c03", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1V", fmt(data.e1.V, 0));
+      setText("e1vp", fmt(data.e1.vp, 0));
+
+      setText("e2V", fmt(data.e2.V, 0));
+      setText("e2vp", fmt(data.e2.vp, 0));
+
+      setText("e3L", fmt(data.e3.L, 0));
+      setText("e3vb", fmt(data.e3.vb, 0));
+      setText("e3vc", fmt(data.e3.vc, 0));
+
+      setText("e4vc", fmt(data.e4.vc, 0));
+      setText("e4vb", fmt(data.e4.vb, 0));
+      setText("e4L", fmt(data.e4.L, 0));
+
+      setText("e5va", fmt(data.e5.va, 0));
+      setText("e5vv", fmt(data.e5.vv, 0));
+      setText("e5d", fmt(data.e5.d, 0));
+
+      setText("e6va", fmt(data.e6.va, 0));
+      setText("e6vv", fmt(data.e6.vv, 0));
+
+      setText("e7v1", fmt(data.e7.v1, 0));
+      setText("e7v2", fmt(data.e7.v2, 0));
+
+      setText("e8vA", fmt(data.e8.vA, 0));
+      setText("e8vB", fmt(data.e8.vB, 0));
+
+      setText("e9A", fmt(data.e9.A, 0));
+      setText("e9ap", fmt(data.e9.ap, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1v = data.e1.V + data.e1.vp;
+
+      const e2v = data.e2.V - data.e2.vp;
+
+      const e3t = data.e3.L / data.e3.vb;
+      const e3drift = data.e3.vc * e3t;
+      const e3v = Math.sqrt(data.e3.vb ** 2 + data.e3.vc ** 2);
+
+      const e4vperp = Math.sqrt(data.e4.vb ** 2 - data.e4.vc ** 2);
+      const e4t = data.e4.L / e4vperp;
+      const e4angle = Math.asin(data.e4.vc / data.e4.vb) * 180 / Math.PI;
+
+      const e5vsol = data.e5.va + data.e5.vv;
+      const e5t = data.e5.d / e5vsol;
+
+      const e6vsol = Math.sqrt(data.e6.va ** 2 + data.e6.vv ** 2);
+      const e6angle = Math.atan(data.e6.vv / data.e6.va) * 180 / Math.PI;
+
+      const e7vrel = data.e7.v1 + data.e7.v2;
+
+      const e8vrel = data.e8.vA - data.e8.vB;
+
+      const e9same = data.e9.A + data.e9.ap;
+      const e9opposite = data.e9.A - data.e9.ap;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Pasager în tren – același sens</h3>
+          <div class="formula">
+            $$v=v'+V=${tex(data.e1.vp, 0)}+${tex(data.e1.V, 0)}
+            =${tex(e1v, 0)}\\,\\text{m/s}$$
+          </div>
+          <p>Pasagerul se deplasează față de sol în sensul trenului.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Pasager în tren – sens opus</h3>
+          <div class="formula">
+            $$v=V-v'=${tex(data.e2.V, 0)}-${tex(data.e2.vp, 0)}
+            =${tex(e2v, 0)}\\,\\text{m/s}$$
+          </div>
+          <p>
+            Cum rezultatul este pozitiv, pasagerul se deplasează față de sol în sensul trenului,
+            dar cu viteză mai mică decât trenul.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Barcă traversând perpendicular pe curent</h3>
+          <div class="formula">
+            $$t=\\frac{L}{v_b}
+            =\\frac{${tex(data.e3.L, 0)}}{${tex(data.e3.vb, 0)}}
+            =${tex(e3t, 2)}\\,\\text{s}$$
+            $$d_{aval}=v_c t
+            =${tex(data.e3.vc, 0)}\\cdot ${tex(e3t, 2)}
+            =${tex(e3drift, 2)}\\,\\text{m}$$
+            $$v_{mal}=\\sqrt{v_b^2+v_c^2}
+            =\\sqrt{${tex(data.e3.vb, 0)}^2+${tex(data.e3.vc, 0)}^2}
+            =${tex(e3v, 2)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Barcă orientată contra curentului</h3>
+          <div class="formula">
+            $$v_{\\perp}=\\sqrt{v_b^2-v_c^2}
+            =\\sqrt{${tex(data.e4.vb, 0)}^2-${tex(data.e4.vc, 0)}^2}
+            =${tex(e4vperp, 2)}\\,\\text{m/s}$$
+            $$t=\\frac{L}{v_{\\perp}}
+            =\\frac{${tex(data.e4.L, 0)}}{${tex(e4vperp, 2)}}
+            =${tex(e4t, 2)}\\,\\text{s}$$
+            $$\\sin\\alpha=\\frac{v_c}{v_b}
+            =\\frac{${tex(data.e4.vc, 0)}}{${tex(data.e4.vb, 0)}}$$
+            $$\\alpha=${tex(e4angle, 2)}^\\circ$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Avion cu vânt din spate</h3>
+          <div class="formula">
+            $$v_{sol}=v_a+v_v
+            =${tex(data.e5.va, 0)}+${tex(data.e5.vv, 0)}
+            =${tex(e5vsol, 0)}\\,\\text{km/h}$$
+            $$t=\\frac{d}{v_{sol}}
+            =\\frac{${tex(data.e5.d, 0)}}{${tex(e5vsol, 0)}}
+            =${tex(e5t, 2)}\\,\\text{h}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Avion cu vânt lateral</h3>
+          <div class="formula">
+            $$v_{sol}=\\sqrt{v_a^2+v_v^2}
+            =\\sqrt{${tex(data.e6.va, 0)}^2+${tex(data.e6.vv, 0)}^2}
+            =${tex(e6vsol, 2)}\\,\\text{km/h}$$
+            $$\\tan\\alpha=\\frac{v_v}{v_a}
+            =\\frac{${tex(data.e6.vv, 0)}}{${tex(data.e6.va, 0)}}$$
+            $$\\alpha=${tex(e6angle, 2)}^\\circ$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Două trenuri în sensuri opuse</h3>
+          <div class="formula">
+            $$v_{rel}=v_1+v_2
+            =${tex(data.e7.v1, 0)}+${tex(data.e7.v2, 0)}
+            =${tex(e7vrel, 0)}\\,\\text{m/s}$$
+          </div>
+          <p>
+            Modulele vitezelor relative sunt egale: fiecare tren îl vede pe celălalt apropiindu-se
+            cu ${fmt(e7vrel, 0)} m/s, dar în sens opus.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Două trenuri în același sens</h3>
+          <div class="formula">
+            $$v_{A/B}=v_A-v_B
+            =${tex(data.e8.vA, 0)}-${tex(data.e8.vB, 0)}
+            =${tex(e8vrel, 0)}\\,\\text{m/s}$$
+          </div>
+          <p>
+            Un pasager din trenul B observă trenul A deplasându-se înainte cu viteza relativă
+            ${fmt(e8vrel, 0)} m/s.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Sistem mobil accelerat</h3>
+          <div class="formula">
+            $$a=A+a'=${tex(data.e9.A, 0)}+${tex(data.e9.ap, 0)}
+            =${tex(e9same, 0)}\\,\\text{m/s}^2$$
+            $$a=A-a'=${tex(data.e9.A, 0)}-${tex(data.e9.ap, 0)}
+            =${tex(e9opposite, 0)}\\,\\text{m/s}^2$$
+          </div>
+          <p>
+            Sistemul $S'$ nu mai este inerțial dacă are accelerație față de $S$; de aceea accelerația de transport
+            trebuie inclusă explicit.
+          </p>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c03");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c03");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
