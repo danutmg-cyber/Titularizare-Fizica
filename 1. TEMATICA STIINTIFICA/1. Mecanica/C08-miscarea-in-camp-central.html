@@ -2,66 +2,20 @@
 <html lang="ro" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <title>C07 – Ciocniri elastice și inelastice</title>
+  <title>C08 – Mișcarea în câmp central</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C08 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --warn: #fbbf24;
-      --danger: #f87171;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
+    * {
+      box-sizing: border-box;
     }
 
     .topbar {
@@ -103,22 +57,17 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
-    .page.active { display: flex; }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
+    .page.active {
+      display: flex;
     }
 
     .eyebrow {
       display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       color: var(--accent);
       font-weight: 900;
       letter-spacing: 0.03em;
@@ -126,42 +75,22 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
+    p {
+      margin: 0.75rem 0;
     }
 
-    h1 { font-size: var(--title); }
-    h2 { font-size: var(--subtitle); }
-    h3 { font-size: clamp(22px, 3vw, 30px); }
+    ul,
+    ol {
+      padding-left: 1.35rem;
+    }
 
-    p { margin: 0.75rem 0; }
-
-    ul, ol { padding-left: 1.35rem; }
-    li { margin: 0.55rem 0; }
+    li {
+      margin: 0.55rem 0;
+    }
 
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -178,7 +107,9 @@
       padding: 1rem;
     }
 
-    .mini strong { color: var(--accent-2); }
+    .mini strong {
+      color: var(--accent-2);
+    }
 
     .svgbox {
       margin: 1rem 0;
@@ -189,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -201,32 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
+      border: 1px solid var(--border);
     }
-
-    .warning {
-      border-left: 7px solid var(--warn);
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning { background: #33260c; }
 
     .compare {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -245,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -264,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -286,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -306,78 +244,116 @@
       background: var(--accent);
     }
 
-    .bottom-links a:nth-child(2) { background: var(--accent-2); }
-    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
 
     @media (max-width: 760px) {
-      body { line-height: 1.55; }
-
       .grid,
-      .bottom-links { grid-template-columns: 1fr; }
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
 
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
       }
 
-      .pager a { grid-column: 1 / -1; }
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
 
       .topbar {
         align-items: flex-start;
         flex-direction: column;
       }
 
-      .compare { font-size: 0.9em; }
+      .compare {
+        font-size: 0.9em;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="topbar">
-    <strong>C07 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <strong>C08 • Mecanică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
     <section class="page active">
       <article class="card">
-        <span class="eyebrow">Lecția 7</span>
-        <h1>Ciocniri elastice și inelastice</h1>
+        <span class="eyebrow">Lecția 8</span>
+        <h1>Mișcarea în câmp central</h1>
 
         <p class="lead">
-          O <span class="mark">ciocnire</span> este o interacțiune de durată foarte scurtă între corpuri,
-          în care forțele interne sunt mari, iar impulsul sistemului se poate conserva foarte bine dacă forțele externe sunt neglijabile.
+          Mișcarea în câmp central descrie mișcarea unui punct material asupra căruia acționează
+          o forță orientată mereu pe dreapta care unește punctul material cu un centru fix.
+          Cel mai important exemplu este <span class="mark">mișcarea gravitațională</span>.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          în orice ciocnire izolată se conservă <strong>impulsul total</strong>.
-          Energia cinetică se conservă numai în ciocnirile elastice.
+          în câmp central momentul forței față de centru este nul, deci
+          <strong>momentul cinetic se conservă</strong>. Din această conservare rezultă legea ariilor.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 320" role="img" aria-label="Ciocnire între două corpuri">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Mișcare în câmp central atractiv">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c08-1-red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
               </marker>
-              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c08-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
-            <line x1="70" y1="230" x2="690" y2="230" stroke="#64748b" stroke-width="4"/>
-            <circle cx="210" cy="200" r="42" fill="#f59e0b"/>
-            <circle cx="500" cy="200" r="55" fill="#0f766e"/>
-            <line x1="252" y1="200" x2="385" y2="200" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-blue)"/>
-            <line x1="445" y1="200" x2="365" y2="200" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-green)"/>
-            <text x="175" y="206" fill="#122033" font-size="26">m₁</text>
-            <text x="467" y="207" fill="#ffffff" font-size="26">m₂</text>
-            <text x="285" y="175" fill="#2563eb" font-size="24">v₁</text>
-            <text x="392" y="175" fill="#0f766e" font-size="24">v₂</text>
+            <ellipse cx="390" cy="170" rx="225" ry="105"
+                     fill="none" stroke="#0f766e" stroke-width="6"/>
+
+            <circle cx="305" cy="170" r="18" fill="#f59e0b"/>
+            <circle cx="560" cy="112" r="12" fill="#ef4444"/>
+
+            <line x1="560" y1="112" x2="330" y2="165"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c08-1-red)"/>
+
+            <line x1="560" y1="112" x2="620" y2="167"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c08-1-blue)"/>
+
+            <line x1="305" y1="170" x2="560" y2="112"
+                  stroke="#64748b" stroke-width="3.5" stroke-dasharray="8 8"/>
+
+            <text x="270" y="205" fill="#f59e0b" font-size="25">centru</text>
+            <text x="578" y="98" fill="#ef4444" font-size="24">m</text>
+            <text x="435" y="125" fill="#ef4444" font-size="24">F atractivă</text>
+            <text x="623" y="176" fill="#2563eb" font-size="24">v tangentă</text>
           </svg>
+
           <p class="caption">
-            În timpul ciocnirii, corpurile exercită forțe interne egale și opuse, conform principiului acțiunii și reacțiunii.
+            În câmp central, forța este radială, iar viteza este în general tangentă la traiectorie.
           </p>
         </div>
       </article>
@@ -385,435 +361,548 @@
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Durată scurtă</span>
-        <h2>De ce se folosește impulsul?</h2>
+        <span class="eyebrow">Definiție</span>
+        <h2>Ce este un câmp central?</h2>
 
         <p>
-          Într-o ciocnire, forța dintre corpuri poate fi foarte mare, dar acționează într-un timp foarte scurt.
-          Mărimea relevantă este <span class="mark">impulsul forței</span>.
+          Un câmp de forțe este <span class="mark">central</span> dacă forța exercitată asupra punctului material
+          este orientată pe direcția razei vectoare $\vec r$ față de un punct fix $O$.
         </p>
 
         <div class="formula">
-          $$\vec I=\int_{t_1}^{t_2}\vec F\,dt=\Delta\vec p$$
+          $$\vec F=F(r)\,\vec e_r$$
         </div>
 
         <p>
-          Pentru un corp:
+          Pentru un câmp central atractiv, forța este orientată spre centru:
         </p>
 
         <div class="formula">
-          $$\vec p=m\vec v$$
+          $$\vec F=-F(r)\,\vec e_r,\qquad F(r)>0$$
         </div>
 
-        <p>
-          Pentru un sistem de corpuri:
-        </p>
+        <div class="grid">
+          <div class="mini">
+            <strong>Exemplu gravitațional</strong>
+            <p>Planeta este atrasă de Soare pe direcția razei vectoare.</p>
+          </div>
 
-        <div class="formula">
-          $$\vec P=\sum_i m_i\vec v_i$$
+          <div class="mini">
+            <strong>Exemplu electrostatic</strong>
+            <p>Sarcinile de semne opuse se atrag pe direcția dreptei care le unește.</p>
+          </div>
         </div>
 
         <div class="exam">
           <strong>Formulare de examen:</strong>
-          în timpul ciocnirii, impulsul forțelor interne modifică impulsurile corpurilor componente,
-          dar nu modifică impulsul total al sistemului izolat.
+          câmpul central este caracterizat de simetrie sferică: modulul forței depinde numai de distanța $r$,
+          nu de direcția din spațiu.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Conservarea impulsului</span>
-        <h2>Relația fundamentală</h2>
+        <span class="eyebrow">Momentul forței</span>
+        <h2>De ce se conservă momentul cinetic?</h2>
 
         <p>
-          Dacă impulsul forțelor externe este nul sau neglijabil, impulsul total al sistemului se conservă.
+          Momentul forței față de centrul $O$ este:
         </p>
 
         <div class="formula">
-          $$\vec P_i=\vec P_f$$
+          $$\vec M_O=\vec r\times \vec F$$
         </div>
 
         <p>
-          Pentru două corpuri:
+          În câmp central, $\vec F$ este coliniară cu $\vec r$, deci produsul vectorial este nul:
         </p>
 
         <div class="formula">
-          $$m_1\vec v_{1i}+m_2\vec v_{2i}
-          =
-          m_1\vec v_{1f}+m_2\vec v_{2f}$$
+          $$\vec r\parallel \vec F \quad \Rightarrow \quad \vec M_O=\vec 0$$
         </div>
 
-        <div class="warning">
-          <strong>Capcană:</strong>
-          impulsul este vectorial.
-          În problemele unidimensionale, semnul vitezei indică sensul mișcării.
+        <p>
+          Din teorema momentului cinetic:
+        </p>
+
+        <div class="formula">
+          $$\frac{d\vec L}{dt}=\vec M_O$$
         </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          $$\vec M_O=\vec 0 \quad \Rightarrow \quad \vec L=\text{constant}$$
+        </div>
+
+        <div class="exam">
+          <strong>Consecință majoră:</strong>
+          mișcarea în câmp central are loc într-un plan perpendicular pe vectorul constant $\vec L$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea ariilor</span>
+        <h2>Viteza areolară constantă</h2>
+
+        <p>
+          Într-un interval de timp foarte mic $dt$, raza vectoare mătură aria elementară:
+        </p>
+
+        <div class="formula">
+          $$dA=\frac{1}{2}r^2\,d\varphi$$
+        </div>
+
+        <p>
+          Prin împărțire la $dt$:
+        </p>
+
+        <div class="formula">
+          $$\frac{dA}{dt}=\frac{1}{2}r^2\frac{d\varphi}{dt}
+          =\frac{1}{2}r^2\omega$$
+        </div>
+
+        <p>
+          Momentul cinetic al punctului material este:
+        </p>
+
+        <div class="formula">
+          $$L=mr^2\omega$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\frac{dA}{dt}=\frac{L}{2m}=\text{constant}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          raza vectoare mătură arii egale în intervale de timp egale. Aceasta este a doua lege a lui Kepler.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reprezentare geometrică</span>
+        <h2>Arii egale în timpuri egale</h2>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 300" role="img" aria-label="Conservarea impulsului înainte și după ciocnire">
-            <line x1="70" y1="220" x2="690" y2="220" stroke="#64748b" stroke-width="4"/>
+          <svg viewBox="0 0 760 340" role="img" aria-label="Legea ariilor în mișcarea planetară">
+            <ellipse cx="390" cy="170" rx="250" ry="110"
+                     fill="none" stroke="#0f766e" stroke-width="6"/>
 
-            <circle cx="160" cy="190" r="32" fill="#f59e0b"/>
-            <circle cx="280" cy="190" r="38" fill="#0f766e"/>
-            <text x="110" y="105" fill="#64748b" font-size="24">înainte</text>
+            <circle cx="310" cy="170" r="17" fill="#f59e0b"/>
 
-            <line x1="350" y1="70" x2="350" y2="250" stroke="#64748b" stroke-width="3" stroke-dasharray="8 8"/>
+            <path d="M310 170 L560 110 A250 110 0 0 1 585 135 Z"
+                  fill="rgba(37, 99, 235, 0.28)" stroke="#2563eb" stroke-width="3"/>
 
-            <circle cx="470" cy="190" r="32" fill="#f59e0b"/>
-            <circle cx="610" cy="190" r="38" fill="#0f766e"/>
-            <text x="520" y="105" fill="#64748b" font-size="24">după</text>
+            <path d="M310 170 L210 230 A250 110 0 0 1 185 195 Z"
+                  fill="rgba(239, 68, 68, 0.25)" stroke="#ef4444" stroke-width="3"/>
 
-            <text x="140" y="250" fill="#2563eb" font-size="23">Pᵢ</text>
-            <text x="540" y="250" fill="#0f766e" font-size="23">P𝒇 = Pᵢ</text>
+            <circle cx="560" cy="110" r="9" fill="#2563eb"/>
+            <circle cx="585" cy="135" r="9" fill="#2563eb"/>
+            <circle cx="210" cy="230" r="9" fill="#ef4444"/>
+            <circle cx="185" cy="195" r="9" fill="#ef4444"/>
+
+            <text x="275" y="205" fill="#f59e0b" font-size="25">Soare</text>
+            <text x="510" y="92" fill="#2563eb" font-size="23">arie A</text>
+            <text x="130" y="245" fill="#ef4444" font-size="23">arie A</text>
           </svg>
+
           <p class="caption">
-            Impulsul total rămâne același dacă sistemul este izolat, chiar dacă vitezele individuale se schimbă.
+            Aproape de centru corpul se deplasează mai repede, iar departe de centru se deplasează mai lent,
+            astfel încât ariile măturate în timpuri egale rămân egale.
           </p>
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Clasificare</span>
-        <h2>Elastic, inelastic, perfect inelastic</h2>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Tip de ciocnire</th>
-              <th>Impuls total</th>
-              <th>Energie cinetică</th>
-              <th>Observație</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Elastică</td>
-              <td>Se conservă</td>
-              <td>Se conservă</td>
-              <td>Corpurile se separă după ciocnire.</td>
-            </tr>
-            <tr>
-              <td>Inelastică</td>
-              <td>Se conservă</td>
-              <td>Nu se conservă</td>
-              <td>O parte din energia cinetică se transformă în energie internă, sunet, deformări.</td>
-            </tr>
-            <tr>
-              <td>Perfect inelastică</td>
-              <td>Se conservă</td>
-              <td>Pierderea de energie cinetică este maximă</td>
-              <td>Corpurile rămân unite după ciocnire.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="exam">
-          <strong>Răspuns scurt de examen:</strong>
-          diferența dintre ciocnirea elastică și cea inelastică nu este conservarea impulsului,
-          ci conservarea sau neconservarea energiei cinetice.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Ciocnire elastică</span>
-        <h2>Conservarea simultană a impulsului și energiei</h2>
-
-        <p>
-          Într-o <span class="mark">ciocnire elastică</span>, impulsul total și energia cinetică totală se conservă.
-        </p>
-
-        <div class="formula">
-          $$m_1v_{1i}+m_2v_{2i}=m_1v_{1f}+m_2v_{2f}$$
-        </div>
-
-        <div class="formula">
-          $$\frac{1}{2}m_1v_{1i}^2+\frac{1}{2}m_2v_{2i}^2
-          =
-          \frac{1}{2}m_1v_{1f}^2+\frac{1}{2}m_2v_{2f}^2$$
-        </div>
-
-        <p>
-          În mișcare unidimensională, relația suplimentară utilă este:
-        </p>
-
-        <div class="formula">
-          $$v_{1i}-v_{2i}=-(v_{1f}-v_{2f})$$
-        </div>
-
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          în ciocnirea elastică unidimensională,
-          viteza relativă de apropiere este egală în modul cu viteza relativă de depărtare.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Formule utile</span>
-        <h2>Ciocnire elastică frontală în 1D</h2>
-
-        <p>
-          Pentru două corpuri care se ciocnesc elastic pe aceeași direcție, vitezele finale sunt:
-        </p>
-
-        <div class="formula">
-          $$v_{1f}=
-          \frac{m_1-m_2}{m_1+m_2}v_{1i}
-          +
-          \frac{2m_2}{m_1+m_2}v_{2i}$$
-        </div>
-
-        <div class="formula">
-          $$v_{2f}=
-          \frac{2m_1}{m_1+m_2}v_{1i}
-          +
-          \frac{m_2-m_1}{m_1+m_2}v_{2i}$$
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          aceste formule sunt valabile pentru ciocnire elastică frontală, unidimensională.
-          Pentru ciocniri oblice, impulsul trebuie tratat pe componente.
-        </div>
-
-        <div class="exam">
-          <strong>Strategie:</strong>
-          la examen este mai sigur să scrii întâi cele două legi de conservare,
-          apoi să deduci sau să folosești formulele finale.
+          legea ariilor nu spune că viteza este constantă. Ea spune că viteza areolară este constantă.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Cazuri particulare</span>
-        <h2>Mase egale și țintă în repaus</h2>
+        <span class="eyebrow">Ecuațiile în coordonate polare</span>
+        <h2>Descrierea mișcării plane</h2>
 
         <p>
-          Dacă două corpuri au mase egale, iar al doilea este inițial în repaus:
+          Pentru mișcarea plană în coordonate polare, viteza are componente radială și transversală:
         </p>
 
         <div class="formula">
-          $$m_1=m_2,\qquad v_{2i}=0$$
+          $$\vec v=\dot r\,\vec e_r+r\dot\varphi\,\vec e_\varphi$$
         </div>
 
         <p>
-          Pentru ciocnire elastică frontală rezultă:
+          Accelerația este:
         </p>
 
         <div class="formula">
-          $$v_{1f}=0,\qquad v_{2f}=v_{1i}$$
+          $$\vec a=(\ddot r-r\dot\varphi^2)\vec e_r+
+          (r\ddot\varphi+2\dot r\dot\varphi)\vec e_\varphi$$
+        </div>
+
+        <p>
+          Pentru forță centrală, componenta transversală a forței este nulă:
+        </p>
+
+        <div class="formula">
+          $$F_\varphi=0$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$r\ddot\varphi+2\dot r\dot\varphi=0$$
+        </div>
+
+        <div class="exam">
+          <strong>Consecință:</strong>
+          relația de mai sus este echivalentă cu conservarea lui $r^2\dot\varphi$,
+          adică a momentului cinetic pe unitatea de masă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Potențial efectiv</span>
+        <h2>Reducerea problemei la o mișcare radială</h2>
+
+        <p>
+          Deoarece momentul cinetic se conservă:
+        </p>
+
+        <div class="formula">
+          $$L=mr^2\dot\varphi=\text{constant}$$
+        </div>
+
+        <p>
+          energia mecanică poate fi scrisă sub forma:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{1}{2}m\dot r^2+\frac{L^2}{2mr^2}+U(r)$$
+        </div>
+
+        <p>
+          Se definește potențialul efectiv:
+        </p>
+
+        <div class="formula">
+          $$U_{\text{ef}}(r)=U(r)+\frac{L^2}{2mr^2}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$U(r)$</strong>
+            <p>Energia potențială a câmpului central.</p>
+          </div>
+
+          <div class="mini">
+            <strong>$\dfrac{L^2}{2mr^2}$</strong>
+            <p>Termen centrifugal efectiv, asociat rotației.</p>
+          </div>
         </div>
 
         <div class="exam">
           <strong>Interpretare:</strong>
-          primul corp se oprește, iar al doilea pleacă mai departe cu viteza pe care o avea primul.
-        </div>
-
-        <div class="svgbox">
-          <svg viewBox="0 0 760 320" role="img" aria-label="Transfer de viteză la mase egale">
-            <defs>
-              <marker id="arrow-v1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
-              </marker>
-            </defs>
-
-            <line x1="70" y1="235" x2="690" y2="235" stroke="#64748b" stroke-width="4"/>
-
-            <circle cx="160" cy="205" r="36" fill="#f59e0b"/>
-            <circle cx="300" cy="205" r="36" fill="#0f766e"/>
-            <line x1="196" y1="205" x2="255" y2="205" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-v1)"/>
-            <text x="140" y="270" fill="#64748b" font-size="23">înainte</text>
-
-            <line x1="380" y1="80" x2="380" y2="270" stroke="#64748b" stroke-width="3" stroke-dasharray="8 8"/>
-
-            <circle cx="470" cy="205" r="36" fill="#f59e0b"/>
-            <circle cx="590" cy="205" r="36" fill="#0f766e"/>
-            <line x1="626" y1="205" x2="690" y2="205" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-v1)"/>
-            <text x="505" y="270" fill="#64748b" font-size="23">după</text>
-          </svg>
-          <p class="caption">
-            Pentru mase egale și ciocnire elastică frontală, vitezele se pot transfera complet de la un corp la celălalt.
-          </p>
+          problema plană se reduce la o problemă radială cu energie cinetică radială și potențial efectiv.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Ciocnire perfect inelastică</span>
-        <h2>Corpurile rămân unite</h2>
+        <span class="eyebrow">Gravitație</span>
+        <h2>Legea atracției universale</h2>
 
         <p>
-          Într-o <span class="mark">ciocnire perfect inelastică</span>, corpurile se cuplează și se deplasează împreună după ciocnire.
+          Două corpuri punctiforme de mase $M$ și $m$, aflate la distanța $r$, se atrag cu forțe egale
+          în modul și opuse ca sens.
         </p>
 
         <div class="formula">
-          $$v_{1f}=v_{2f}=v$$
+          $$F=G\frac{Mm}{r^2}$$
         </div>
 
         <p>
-          Conservarea impulsului devine:
+          Vectorial, forța exercitată de masa centrală $M$ asupra masei $m$ este:
         </p>
 
         <div class="formula">
-          $$m_1v_{1i}+m_2v_{2i}=(m_1+m_2)v$$
+          $$\vec F=-G\frac{Mm}{r^2}\vec e_r$$
         </div>
 
         <p>
-          De aici:
+          Constanta gravitațională universală este:
         </p>
 
         <div class="formula">
-          $$v=\frac{m_1v_{1i}+m_2v_{2i}}{m_1+m_2}$$
+          $$G\approx 6{,}67\cdot10^{-11}\,\text{N}\cdot\text{m}^2/\text{kg}^2$$
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          în ciocnirea perfect inelastică nu se conservă energia cinetică.
-          Se conservă impulsul, dacă sistemul este izolat.
+          semnul minus din forma vectorială indică faptul că forța este atractivă,
+          orientată spre masa centrală.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Pierdere de energie</span>
-        <h2>Unde se duce energia cinetică?</h2>
+        <span class="eyebrow">Câmp gravitațional</span>
+        <h2>Intensitatea câmpului și potențialul</h2>
 
         <p>
-          În ciocnirile inelastice, energia cinetică inițială este mai mare decât energia cinetică finală.
+          Intensitatea câmpului gravitațional creat de masa $M$ este forța gravitațională raportată la masa de probă $m$:
         </p>
 
         <div class="formula">
-          $$E_{c,i}>E_{c,f}$$
+          $$\vec g=\frac{\vec F}{m}=-G\frac{M}{r^2}\vec e_r$$
         </div>
 
         <p>
-          Diferența se transformă în energie internă, deformări permanente, căldură și sunet:
+          Modulul intensității este:
         </p>
 
         <div class="formula">
-          $$\Delta E_{\text{pierdută}}=E_{c,i}-E_{c,f}$$
+          $$g=G\frac{M}{r^2}$$
         </div>
 
         <p>
-          Pentru ciocnire perfect inelastică:
+          Energia potențială gravitațională se alege nulă la infinit:
         </p>
 
         <div class="formula">
-          $$E_{c,i}=\frac{1}{2}m_1v_{1i}^2+\frac{1}{2}m_2v_{2i}^2$$
-          $$E_{c,f}=\frac{1}{2}(m_1+m_2)v^2$$
+          $$U(r)=-G\frac{Mm}{r}$$
         </div>
-
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          energia totală se conservă, dar energia cinetică mecanică nu se conservă.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Coeficient de restituire</span>
-        <h2>Măsura elasticității ciocnirii</h2>
 
         <p>
-          <span class="mark">Coeficientul de restituire</span> $e$ compară viteza relativă de depărtare cu viteza relativă de apropiere.
+          Potențialul gravitațional este:
         </p>
 
         <div class="formula">
-          $$e=\frac{v_{2f}-v_{1f}}{v_{1i}-v_{2i}}$$
+          $$V_g(r)=\frac{U}{m}=-G\frac{M}{r}$$
         </div>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Valoare</th>
-              <th>Tip de ciocnire</th>
-              <th>Semnificație</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>$e=1$</td>
-              <td>Elastică</td>
-              <td>Viteza relativă se conservă în modul.</td>
-            </tr>
-            <tr>
-              <td>$0&lt;e&lt;1$</td>
-              <td>Inelastică</td>
-              <td>O parte din energia cinetică se pierde mecanic.</td>
-            </tr>
-            <tr>
-              <td>$e=0$</td>
-              <td>Perfect inelastică</td>
-              <td>Corpurile rămân împreună după ciocnire.</td>
-            </tr>
-          </tbody>
-        </table>
 
         <div class="exam">
           <strong>Observație:</strong>
-          coeficientul de restituire este util când problema nu spune direct dacă ciocnirea este elastică,
-          dar oferă o relație între vitezele relative.
+          energia potențială gravitațională este negativă pentru o stare legată,
+          deoarece nivelul de referință este ales la infinit.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Ciocniri în două dimensiuni</span>
-        <h2>Impulsul se conservă pe componente</h2>
+        <span class="eyebrow">Orbita circulară</span>
+        <h2>Viteza orbitală</h2>
 
         <p>
-          În ciocnirile oblice, impulsul total se conservă vectorial.
-          Relația se proiectează pe axele alese.
+          Pentru o orbită circulară de rază $r$, forța gravitațională joacă rol de forță centripetă.
         </p>
 
         <div class="formula">
-          $$\sum p_{x,i}=\sum p_{x,f}$$
-          $$\sum p_{y,i}=\sum p_{y,f}$$
+          $$G\frac{Mm}{r^2}=m\frac{v^2}{r}$$
         </div>
 
         <p>
-          Dacă ciocnirea este elastică, se adaugă și conservarea energiei cinetice:
+          Prin simplificare:
         </p>
 
         <div class="formula">
-          $$E_{c,i}=E_{c,f}$$
+          $$v=\sqrt{\frac{GM}{r}}$$
+        </div>
+
+        <p>
+          Viteza unghiulară este:
+        </p>
+
+        <div class="formula">
+          $$\omega=\frac{v}{r}=\sqrt{\frac{GM}{r^3}}$$
+        </div>
+
+        <p>
+          Perioada de revoluție:
+        </p>
+
+        <div class="formula">
+          $$T=\frac{2\pi r}{v}=2\pi\sqrt{\frac{r^3}{GM}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Idee importantă:</strong>
+          masa satelitului $m$ se simplifică. Viteza orbitală depinde de masa corpului central și de raza orbitei.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia pe orbită circulară</span>
+        <h2>Energia totală este negativă</h2>
+
+        <p>
+          Pe orbită circulară:
+        </p>
+
+        <div class="formula">
+          $$v^2=\frac{GM}{r}$$
+        </div>
+
+        <p>
+          Energia cinetică este:
+        </p>
+
+        <div class="formula">
+          $$E_c=\frac{1}{2}mv^2=\frac{GMm}{2r}$$
+        </div>
+
+        <p>
+          Energia potențială este:
+        </p>
+
+        <div class="formula">
+          $$U=-\frac{GMm}{r}$$
+        </div>
+
+        <p>
+          Energia mecanică totală:
+        </p>
+
+        <div class="formula">
+          $$E=E_c+U=\frac{GMm}{2r}-\frac{GMm}{r}
+          =-\frac{GMm}{2r}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia totală negativă indică o orbită legată gravitațional.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          energia potențială gravitațională este de două ori mai mare în modul decât energia cinetică,
+          dar are semn negativ.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteza de evadare</span>
+        <h2>Condiția pentru a ajunge la infinit</h2>
+
+        <p>
+          Viteza de evadare este viteza minimă necesară pentru ca un corp lansat de la distanța $r$
+          să ajungă la infinit cu viteză finală nulă.
+        </p>
+
+        <p>
+          Conservarea energiei:
+        </p>
+
+        <div class="formula">
+          $$\frac{1}{2}mv_e^2-\frac{GMm}{r}=0$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$v_e=\sqrt{\frac{2GM}{r}}$$
+        </div>
+
+        <p>
+          Comparând cu viteza circulară:
+        </p>
+
+        <div class="formula">
+          $$v_e=\sqrt{2}\,v_{\text{orb}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          viteza de evadare nu depinde de masa corpului lansat, dacă se neglijează rezistența aerului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Traiectorii în câmp gravitațional</span>
+        <h2>Cerc, elipsă, parabolă, hiperbolă</h2>
+
+        <p>
+          Pentru un câmp atractiv de tip $1/r^2$, traiectoriile posibile sunt conice:
+          cercuri, elipse, parabole sau hiperbole.
+        </p>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Energia totală</th>
+                <th>Traiectorie</th>
+                <th>Interpretare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$E&lt;0$</td>
+                <td>Elipsă sau cerc</td>
+                <td>Stare legată gravitațional.</td>
+              </tr>
+              <tr>
+                <td>$E=0$</td>
+                <td>Parabolă</td>
+                <td>Limită de evadare.</td>
+              </tr>
+              <tr>
+                <td>$E&gt;0$</td>
+                <td>Hiperbolă</td>
+                <td>Traiectorie nelegată, corpul vine de la infinit și pleacă la infinit.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 340" role="img" aria-label="Ciocnire oblică">
-            <defs>
-              <marker id="arrow-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
-              </marker>
-              <marker id="arrow-b" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
-              </marker>
-            </defs>
+          <svg viewBox="0 0 760 330" role="img" aria-label="Tipuri de traiectorii în câmp central">
+            <circle cx="360" cy="165" r="14" fill="#f59e0b"/>
 
-            <line x1="80" y1="270" x2="690" y2="270" stroke="#64748b" stroke-width="3"/>
-            <line x1="100" y1="290" x2="100" y2="60" stroke="#64748b" stroke-width="3"/>
-            <circle cx="270" cy="200" r="34" fill="#f59e0b"/>
-            <circle cx="340" cy="200" r="40" fill="#0f766e"/>
-            <line x1="340" y1="200" x2="560" y2="105" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-a)"/>
-            <line x1="340" y1="200" x2="570" y2="270" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-b)"/>
-            <text x="575" y="112" fill="#2563eb" font-size="24">v₁f</text>
-            <text x="585" y="275" fill="#0f766e" font-size="24">v₂f</text>
-            <text x="670" y="295" fill="#64748b" font-size="23">x</text>
-            <text x="75" y="70" fill="#64748b" font-size="23">y</text>
+            <ellipse cx="360" cy="165" rx="170" ry="80"
+                     fill="none" stroke="#0f766e" stroke-width="5"/>
+
+            <circle cx="360" cy="165" r="95"
+                    fill="none" stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
+
+            <path d="M110 300 C240 190, 470 105, 655 55"
+                  fill="none" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+
+            <text x="535" y="115" fill="#0f766e" font-size="23">elipsă</text>
+            <text x="450" y="255" fill="#2563eb" font-size="23">cerc</text>
+            <text x="570" y="50" fill="#ef4444" font-size="23">hiperbolă/parabolă</text>
           </svg>
+
           <p class="caption">
-            În 2D, vitezele se descompun pe axe, iar conservarea impulsului se aplică separat pe fiecare componentă.
+            Energia totală decide dacă mișcarea este legată sau nelegată.
           </p>
         </div>
       </article>
@@ -821,65 +910,85 @@
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Centru de masă</span>
-        <h2>Privirea sistemului ca întreg</h2>
+        <span class="eyebrow">Legile lui Kepler</span>
+        <h2>Rezultate empirice explicate de gravitația newtoniană</h2>
 
-        <p>
-          Viteza centrului de masă al unui sistem de două corpuri este:
-        </p>
-
-        <div class="formula">
-          $$\vec v_C=\frac{m_1\vec v_1+m_2\vec v_2}{m_1+m_2}$$
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Legea</th>
+                <th>Enunț</th>
+                <th>Formă matematică / idee</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>I</td>
+                <td>Planetele se mișcă pe elipse, Soarele fiind într-un focar.</td>
+                <td>Orbită eliptică pentru $E&lt;0$.</td>
+              </tr>
+              <tr>
+                <td>II</td>
+                <td>Raza vectoare mătură arii egale în intervale de timp egale.</td>
+                <td>$\dfrac{dA}{dt}=\text{constant}$.</td>
+              </tr>
+              <tr>
+                <td>III</td>
+                <td>Pătratul perioadei este proporțional cu cubul semiaxei mari.</td>
+                <td>$T^2\propto a^3$.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <p>
-          Impulsul total se poate scrie:
-        </p>
-
-        <div class="formula">
-          $$\vec P=(m_1+m_2)\vec v_C$$
-        </div>
-
-        <p>
-          Într-un sistem izolat, $\vec P$ este constant, deci viteza centrului de masă este constantă.
-        </p>
 
         <div class="exam">
-          <strong>Interpretare:</strong>
-          ciocnirea poate schimba mișcarea corpurilor unul față de celălalt,
-          dar nu poate schimba mișcarea centrului de masă al sistemului izolat.
+          <strong>Legătură conceptuală:</strong>
+          legea a II-a provine din conservarea momentului cinetic,
+          iar legea a III-a se obține din combinația dintre gravitație și mișcarea orbitală.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Explozia</span>
-        <h2>Proces invers unei ciocniri perfect inelastice</h2>
+        <span class="eyebrow">Legea a III-a a lui Kepler</span>
+        <h2>Deducere pentru orbită circulară</h2>
 
         <p>
-          O explozie este un proces în care un corp sau sistem se desparte în fragmente.
-          Dacă forțele externe sunt neglijabile, impulsul total se conservă.
+          Pentru o orbită circulară, forța gravitațională este forță centripetă:
         </p>
 
         <div class="formula">
-          $$\vec P_i=\vec P_f$$
+          $$G\frac{Mm}{r^2}=m\frac{4\pi^2r}{T^2}$$
         </div>
 
         <p>
-          Dacă sistemul era inițial în repaus:
+          Simplificăm masa satelitului și obținem:
         </p>
 
         <div class="formula">
-          $$\vec P_i=\vec 0
-          \quad \Rightarrow \quad
-          \sum_i m_i\vec v_i=\vec 0$$
+          $$T^2=\frac{4\pi^2}{GM}r^3$$
+        </div>
+
+        <p>
+          Pentru orbită eliptică, raza $r$ este înlocuită de semiaxa mare $a$:
+        </p>
+
+        <div class="formula">
+          $$T^2=\frac{4\pi^2}{GM}a^3$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          pentru corpuri care orbitează aceeași masă centrală,
+          raportul $\dfrac{T^2}{a^3}$ este constant.
         </div>
 
         <div class="warning">
-          <strong>Atenție:</strong>
-          într-o explozie energia cinetică finală poate fi mai mare decât cea inițială,
-          deoarece energia internă se transformă în energie cinetică.
+          <strong>Capcană:</strong>
+          constanta din legea a III-a depinde de masa centrală $M$.
+          Nu este aceeași pentru toate sistemele planetare.
         </div>
       </article>
     </section>
@@ -887,36 +996,35 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 1</span>
-        <h2>Ciocnire perfect inelastică</h2>
+        <h2>Viteza orbitală circulară</h2>
 
         <p>
-          Un corp de masă $m_1=2\,\text{kg}$ se deplasează cu viteza $v_{1i}=6\,\text{m/s}$
-          și lovește un corp de masă $m_2=4\,\text{kg}$ aflat în repaus.
-          După ciocnire, corpurile rămân unite.
-          Determinați viteza comună.
+          Un satelit se mișcă pe o orbită circulară de rază $r=7{,}0\cdot10^6\,\text{m}$
+          în jurul Pământului. Se ia $GM=4{,}0\cdot10^{14}\,\text{m}^3/\text{s}^2$.
+          Determinați viteza orbitală.
         </p>
 
         <p>
-          Deoarece ciocnirea este perfect inelastică, folosim conservarea impulsului:
+          Folosim:
         </p>
 
         <div class="formula">
-          $$m_1v_{1i}+m_2v_{2i}=(m_1+m_2)v$$
+          $$v=\sqrt{\frac{GM}{r}}$$
         </div>
 
         <p>
-          Cu $v_{2i}=0$:
+          Înlocuim numeric:
         </p>
 
         <div class="formula">
-          $$2\cdot6+4\cdot0=(2+4)v$$
-          $$12=6v$$
-          $$v=2\,\text{m/s}$$
+          $$v=\sqrt{\frac{4{,}0\cdot10^{14}}{7{,}0\cdot10^6}}$$
+          $$v=\sqrt{5{,}71\cdot10^7}$$
+          $$v\approx7{,}56\cdot10^3\,\text{m/s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          viteza comună după ciocnire este $2\,\text{m/s}$.
+          viteza orbitală este aproximativ $7{,}56\,\text{km/s}$.
         </div>
       </article>
     </section>
@@ -924,32 +1032,41 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 2</span>
-        <h2>Pierderea de energie cinetică</h2>
+        <h2>Perioada unui satelit</h2>
 
         <p>
-          Pentru problema anterioară, determinați energia cinetică pierdută în ciocnire.
+          Pentru același satelit cu $r=7{,}0\cdot10^6\,\text{m}$ și
+          $GM=4{,}0\cdot10^{14}\,\text{m}^3/\text{s}^2$, determinați perioada orbitală.
         </p>
 
-        <p><strong>Energia cinetică inițială:</strong></p>
+        <p>
+          Folosim:
+        </p>
+
         <div class="formula">
-          $$E_{c,i}=\frac{1}{2}m_1v_{1i}^2+\frac{1}{2}m_2v_{2i}^2$$
-          $$E_{c,i}=\frac{1}{2}\cdot2\cdot6^2+0=36\,\text{J}$$
+          $$T=2\pi\sqrt{\frac{r^3}{GM}}$$
         </div>
 
-        <p><strong>Energia cinetică finală:</strong></p>
+        <p>
+          Calcul:
+        </p>
+
         <div class="formula">
-          $$E_{c,f}=\frac{1}{2}(m_1+m_2)v^2$$
-          $$E_{c,f}=\frac{1}{2}\cdot6\cdot2^2=12\,\text{J}$$
+          $$T=2\pi\sqrt{\frac{(7{,}0\cdot10^6)^3}{4{,}0\cdot10^{14}}}$$
+          $$T\approx5{,}82\cdot10^3\,\text{s}$$
         </div>
 
-        <p><strong>Pierderea de energie cinetică:</strong></p>
+        <p>
+          Transformare în minute:
+        </p>
+
         <div class="formula">
-          $$\Delta E_{\text{pierdută}}=E_{c,i}-E_{c,f}=36-12=24\,\text{J}$$
+          $$T\approx\frac{5{,}82\cdot10^3}{60}\approx97\,\text{min}$$
         </div>
 
         <div class="exam">
-          <strong>Interpretare:</strong>
-          cei $24\,\text{J}$ s-au transformat în energie internă, deformări și sunet.
+          <strong>Răspuns final:</strong>
+          perioada orbitală este aproximativ $97\,\text{min}$.
         </div>
       </article>
     </section>
@@ -957,39 +1074,34 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 3</span>
-        <h2>Ciocnire elastică între mase egale</h2>
+        <h2>Viteza de evadare</h2>
 
         <p>
-          O bilă de masă $m$ se deplasează cu viteza $v_0=5\,\text{m/s}$
-          și lovește elastic, frontal, o bilă identică aflată în repaus.
-          Determinați vitezele finale.
+          Determinați viteza de evadare de la distanța $r=6{,}4\cdot10^6\,\text{m}$
+          față de centrul Pământului. Se ia $GM=4{,}0\cdot10^{14}\,\text{m}^3/\text{s}^2$.
         </p>
 
         <p>
-          Pentru ciocnire elastică frontală între mase egale:
+          Folosim:
         </p>
 
         <div class="formula">
-          $$v_{1f}=v_{2i},\qquad v_{2f}=v_{1i}$$
+          $$v_e=\sqrt{\frac{2GM}{r}}$$
         </div>
 
         <p>
-          Deoarece $v_{2i}=0$ și $v_{1i}=5\,\text{m/s}$:
+          Calcul:
         </p>
 
         <div class="formula">
-          $$v_{1f}=0$$
-          $$v_{2f}=5\,\text{m/s}$$
+          $$v_e=\sqrt{\frac{2\cdot4{,}0\cdot10^{14}}{6{,}4\cdot10^6}}$$
+          $$v_e=\sqrt{1{,}25\cdot10^8}$$
+          $$v_e\approx1{,}12\cdot10^4\,\text{m/s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          prima bilă se oprește, iar a doua pleacă cu viteza $5\,\text{m/s}$.
-        </div>
-
-        <div class="warning">
-          <strong>Observație:</strong>
-          acest rezultat este specific ciocnirii elastice frontale și maselor egale.
+          viteza de evadare este aproximativ $11{,}2\,\text{km/s}$.
         </div>
       </article>
     </section>
@@ -997,60 +1109,64 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 4</span>
-        <h2>Explozie în două fragmente</h2>
+        <h2>Legea a III-a a lui Kepler</h2>
 
         <p>
-          Un corp aflat inițial în repaus explodează în două fragmente.
-          Primul fragment are masa $m_1=1\,\text{kg}$ și viteza $v_1=12\,\text{m/s}$.
-          Al doilea fragment are masa $m_2=3\,\text{kg}$.
-          Determinați viteza celui de-al doilea fragment.
+          Două planete orbitează aceeași stea. Prima are semiaxa mare $a_1$ și perioada $T_1$.
+          A doua are semiaxa mare $a_2=4a_1$. Determinați raportul $T_2/T_1$.
         </p>
 
         <p>
-          Impulsul inițial este nul:
+          Pentru aceeași masă centrală:
         </p>
 
         <div class="formula">
-          $$P_i=0$$
+          $$\frac{T_1^2}{a_1^3}=\frac{T_2^2}{a_2^3}$$
         </div>
 
         <p>
-          Alegem sensul vitezei primului fragment ca pozitiv:
+          Deci:
         </p>
 
         <div class="formula">
-          $$m_1v_1+m_2v_2=0$$
-          $$1\cdot12+3v_2=0$$
-          $$v_2=-4\,\text{m/s}$$
+          $$\left(\frac{T_2}{T_1}\right)^2=\left(\frac{a_2}{a_1}\right)^3=4^3=64$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\frac{T_2}{T_1}=8$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          al doilea fragment se deplasează în sens opus primului, cu viteza $4\,\text{m/s}$.
+          planeta a doua are perioada de $8$ ori mai mare.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Algoritm de rezolvare</span>
-        <h2>Cum abordezi o problemă cu ciocniri</h2>
+        <span class="eyebrow">Metodă de rezolvare</span>
+        <h2>Algoritm pentru probleme cu câmp central</h2>
 
         <ol>
-          <li>Stabilește sistemul de corpuri analizat.</li>
-          <li>Verifică dacă impulsul forțelor externe poate fi neglijat.</li>
-          <li>Alege axa și sensul pozitiv.</li>
-          <li>Scrie conservarea impulsului cu semne corecte.</li>
-          <li>Identifică tipul ciocnirii: elastică, inelastică sau perfect inelastică.</li>
-          <li>Dacă este elastică, adaugă conservarea energiei cinetice.</li>
-          <li>Dacă este perfect inelastică, impune viteza finală comună.</li>
-          <li>Calculează și interpretează rezultatul fizic.</li>
+          <li>Identifică centrul de forță și masa centrală $M$.</li>
+          <li>Stabilește dacă mișcarea este circulară, eliptică sau de evadare.</li>
+          <li>Pentru orbită circulară, egalează forța gravitațională cu forța centripetă.</li>
+          <li>Pentru energii, folosește $U=-GMm/r$ și $E=E_c+U$.</li>
+          <li>Pentru legea ariilor, folosește conservarea momentului cinetic.</li>
+          <li>Pentru perioade orbitale, aplică legea a III-a a lui Kepler.</li>
+          <li>Verifică unitățile: $GM$ are unitatea $\text{m}^3/\text{s}^2$.</li>
+          <li>Interpretează semnul energiei totale.</li>
         </ol>
 
         <div class="exam">
-          <strong>În lucrarea scrisă:</strong>
-          precizarea condiției de conservare a impulsului este esențială:
-          „Pe durata ciocnirii, impulsul forțelor externe este neglijabil.”
+          <strong>Formulare bună la examen:</strong>
+          „Forța gravitațională este centrală, deci momentul său față de centrul de atracție este nul.
+          Prin urmare, momentul cinetic se conservă.”
         </div>
       </article>
     </section>
@@ -1062,35 +1178,35 @@
 
         <ul>
           <li>
-            <strong>Aplicarea conservării energiei cinetice la orice ciocnire:</strong>
-            energia cinetică se conservă numai în ciocnirile elastice.
+            <strong>Confuzia dintre rază și altitudine:</strong>
+            în formule se folosește distanța față de centrul corpului central, nu înălțimea față de suprafață.
           </li>
           <li>
-            <strong>Uitarea semnelor vitezelor:</strong>
-            în 1D, corpurile care se mișcă în sensuri opuse au viteze cu semne opuse.
+            <strong>Uitarea semnului energiei potențiale:</strong>
+            în gravitație, cu referința la infinit, $U=-GMm/r$.
           </li>
           <li>
-            <strong>Confuzia între inelastică și perfect inelastică:</strong>
-            perfect inelastică înseamnă că obiectele rămân unite.
+            <strong>Aplicarea vitezei orbitale la evadare:</strong>
+            $v_e=\sqrt2\,v_{\text{orb}}$, deci vitezele nu sunt egale.
           </li>
           <li>
-            <strong>Folosirea unei singure ecuații pentru două necunoscute:</strong>
-            la ciocnirea elastică trebuie folosite atât impulsul, cât și energia cinetică.
+            <strong>Confuzia vitezei constante cu viteza areolară constantă:</strong>
+            pe orbită eliptică viteza liniară nu este constantă.
           </li>
           <li>
-            <strong>Omiterea caracterului vectorial:</strong>
-            în 2D se lucrează pe componentele $x$ și $y$.
+            <strong>Folosirea greșită a legii a III-a a lui Kepler:</strong>
+            $T^2$ este proporțional cu $a^3$, nu $T$ cu $a$.
           </li>
           <li>
-            <strong>Confuzia energie totală–energie cinetică:</strong>
-            energia totală se conservă, dar energia cinetică poate scădea.
+            <strong>Neglijarea caracterului vectorial al momentului cinetic:</strong>
+            conservarea lui $\vec L$ fixează planul mișcării.
           </li>
         </ul>
 
-        <div class="warning">
+        <div class="exam">
           <strong>Verificare rapidă:</strong>
-          dacă după o ciocnire perfect inelastică obții o energie cinetică finală mai mare decât cea inițială,
-          ai greșit semnul, formula sau interpretarea.
+          pentru orbită circulară, dacă obții o viteză care depinde de masa satelitului,
+          ai făcut o eroare, deoarece masa satelitului se simplifică.
         </div>
       </article>
     </section>
@@ -1101,44 +1217,59 @@
         <h2>Relații esențiale</h2>
 
         <div class="formula">
-          $$\vec p=m\vec v,\qquad \vec P=\sum_i m_i\vec v_i$$
-          $$\vec P_i=\vec P_f$$
-          $$m_1\vec v_{1i}+m_2\vec v_{2i}
-          =
-          m_1\vec v_{1f}+m_2\vec v_{2f}$$
-          $$E_{c,i}=E_{c,f}\quad \text{numai pentru ciocniri elastice}$$
-          $$v=\frac{m_1v_{1i}+m_2v_{2i}}{m_1+m_2}
-          \quad \text{pentru ciocnire perfect inelastică}$$
-          $$e=\frac{v_{2f}-v_{1f}}{v_{1i}-v_{2i}}$$
+          $$\vec F=F(r)\vec e_r,\qquad \vec M_O=\vec r\times\vec F=\vec 0$$
+          $$\vec L=\text{constant},\qquad \frac{dA}{dt}=\frac{L}{2m}=\text{constant}$$
+          $$F=G\frac{Mm}{r^2},\qquad \vec F=-G\frac{Mm}{r^2}\vec e_r$$
+          $$U(r)=-G\frac{Mm}{r},\qquad g=G\frac{M}{r^2}$$
+          $$v_{\text{orb}}=\sqrt{\frac{GM}{r}},\qquad
+          T=2\pi\sqrt{\frac{r^3}{GM}}$$
+          $$v_e=\sqrt{\frac{2GM}{r}}$$
+          $$T^2=\frac{4\pi^2}{GM}a^3$$
         </div>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Tip</th>
-              <th>Ecuații de bază</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Elastică</td>
-              <td>Conservarea impulsului + conservarea energiei cinetice.</td>
-            </tr>
-            <tr>
-              <td>Inelastică</td>
-              <td>Conservarea impulsului; energia cinetică scade.</td>
-            </tr>
-            <tr>
-              <td>Perfect inelastică</td>
-              <td>Conservarea impulsului + viteza finală comună.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>Condiție</th>
+                <th>Consecință</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forță centrală</td>
+                <td>$\vec F\parallel \vec r$</td>
+                <td>$\vec M_O=0$</td>
+              </tr>
+              <tr>
+                <td>Moment cinetic conservat</td>
+                <td>$\vec M_O=0$</td>
+                <td>Mișcare plană și legea ariilor</td>
+              </tr>
+              <tr>
+                <td>Orbită circulară</td>
+                <td>Gravitația asigură accelerația centripetă</td>
+                <td>$v=\sqrt{GM/r}$</td>
+              </tr>
+              <tr>
+                <td>Orbită eliptică</td>
+                <td>$E&lt;0$</td>
+                <td>Stare legată</td>
+              </tr>
+              <tr>
+                <td>Evadare</td>
+                <td>$E=0$</td>
+                <td>$v_e=\sqrt{2GM/r}$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="bottom-links">
-          <a href="C08-miscarea-in-camp-central.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
-          <a href="index.html">Înapoi la capitol</a>
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un satelit se află la altitudinea $h$ deasupra Pământului.
+          Determină viteza orbitală folosind $r=R_P+h$, nu doar $h$.
         </div>
       </article>
     </section>
@@ -1149,29 +1280,29 @@
         <h2>Itemi pentru autoevaluare</h2>
 
         <ol>
-          <li>Definiți ciocnirea mecanică.</li>
-          <li>Scrieți impulsul mecanic al unui corp.</li>
-          <li>Enunțați legea conservării impulsului pentru un sistem izolat.</li>
-          <li>Precizați diferența dintre ciocnire elastică și ciocnire inelastică.</li>
-          <li>Ce caracterizează o ciocnire perfect inelastică?</li>
-          <li>Scrieți relația vitezei comune după o ciocnire perfect inelastică.</li>
-          <li>Scrieți ecuațiile pentru o ciocnire elastică frontală în 1D.</li>
-          <li>Explicați rolul coeficientului de restituire.</li>
-          <li>De ce impulsul se conservă în ciocniri, dar energia cinetică nu întotdeauna?</li>
-          <li>Rezolvați o problemă cu două corpuri care se cuplează după ciocnire.</li>
-          <li>Rezolvați o problemă cu ciocnire elastică între mase egale.</li>
-          <li>Explicați cum se aplică conservarea impulsului în două dimensiuni.</li>
+          <li>Definiți câmpul central de forțe.</li>
+          <li>Arătați că momentul forței centrale față de centru este nul.</li>
+          <li>Demonstrați conservarea momentului cinetic în câmp central.</li>
+          <li>Demonstrați legea ariilor folosind $L=mr^2\dot\varphi$.</li>
+          <li>Scrieți legea atracției universale în formă scalară și vectorială.</li>
+          <li>Scrieți expresia energiei potențiale gravitaționale.</li>
+          <li>Deduceți viteza orbitală pentru o orbită circulară.</li>
+          <li>Deduceți perioada orbitală pentru o orbită circulară.</li>
+          <li>Deduceți viteza de evadare.</li>
+          <li>Enunțați cele trei legi ale lui Kepler.</li>
+          <li>Deduceți legea a III-a a lui Kepler pentru orbită circulară.</li>
+          <li>Explicați diferența dintre viteză liniară constantă și viteză areolară constantă.</li>
         </ol>
 
-        <div class="exam">
-          <strong>Problemă tipică de examen:</strong>
-          un proiectil de masă $m$ se înfige într-un bloc de masă $M$ suspendat de un fir.
-          Determină viteza proiectilului folosind întâi conservarea impulsului la ciocnire,
-          apoi conservarea energiei mecanice pentru urcarea blocului.
+        <div class="formula">
+          $$\vec L=\text{constant},\qquad
+          \frac{dA}{dt}=\text{constant},\qquad
+          v_{\text{orb}}=\sqrt{\frac{GM}{r}},\qquad
+          v_e=\sqrt{\frac{2GM}{r}}$$
         </div>
 
         <div class="bottom-links">
-          <a href="C08-miscarea-in-camp-central.html">Lecția următoare</a>
+          <a href="C09-deformari-elastice-izotrope.html">Lecția următoare</a>
           <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
           <a href="index.html">Înapoi la capitol</a>
         </div>
@@ -1180,23 +1311,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 21</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1212,13 +1351,15 @@
       const html = document.documentElement;
       const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
       html.dataset.theme = nextTheme;
-      localStorage.setItem("theme-c07", nextTheme);
+      localStorage.setItem("theme-c08", nextTheme);
     }
 
-    const savedTheme = localStorage.getItem("theme-c07");
+    const savedTheme = localStorage.getItem("theme-c08");
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
