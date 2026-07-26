@@ -5,65 +5,17 @@
   <title>C05 – Teoremele mecanicii clasice</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C05 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --danger: #ef4444;
-      --warn: #f59e0b;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --danger: #f87171;
-      --warn: #fbbf24;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
     }
 
     .topbar {
@@ -105,24 +57,17 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
     .page.active {
       display: flex;
     }
 
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
-    }
-
     .eyebrow {
       display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       color: var(--accent);
       font-weight: 900;
       letter-spacing: 0.03em;
@@ -130,28 +75,12 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
     p {
       margin: 0.75rem 0;
     }
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 1.35rem;
     }
 
@@ -162,25 +91,6 @@
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -210,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -222,34 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    .warning {
-      border-left: 7px solid var(--warn);
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning {
-      background: #33260c;
+      border: 1px solid var(--border);
     }
 
     .compare {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      overflow: hidden;
-      border-radius: 16px;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -268,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -287,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -309,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -334,22 +249,30 @@
     }
 
     .bottom-links a:nth-child(3) {
-      background: var(--accent-3);
+      background: #7c3aed;
     }
 
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
-      }
-
       .grid,
       .bottom-links {
         grid-template-columns: 1fr;
       }
 
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
       }
 
       .pager a {
@@ -371,7 +294,7 @@
 <body>
   <div class="topbar">
     <strong>C05 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -389,17 +312,21 @@
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          teoremele arată cum se modifică mărimile mecanice fundamentale atunci când asupra sistemului acționează forțe sau momente ale forțelor.
+          teoremele arată cum se modifică mărimile mecanice fundamentale atunci când asupra
+          sistemului acționează forțe sau momente ale forțelor.
         </div>
 
         <div class="svgbox">
           <svg viewBox="0 0 760 320" role="img" aria-label="Energie, impuls și moment cinetic">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c05-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
-              <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#0f766e"></path>
+
+              <marker id="c05-1-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
@@ -408,15 +335,20 @@
             <text x="93" y="240" fill="#64748b" font-size="23">energie cinetică</text>
 
             <circle cx="380" cy="160" r="55" fill="#2563eb"/>
-            <line x1="380" y1="160" x2="490" y2="160" stroke="#0f766e" stroke-width="7" marker-end="url(#arrow-green)"/>
+            <line x1="380" y1="160" x2="490" y2="160"
+                  stroke="#0f766e" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c05-1-green)"/>
             <text x="356" y="170" fill="#ffffff" font-size="32">p</text>
             <text x="332" y="240" fill="#64748b" font-size="23">impuls</text>
 
             <circle cx="610" cy="160" r="55" fill="#0f766e"/>
-            <path d="M585 160 A28 28 0 1 1 610 188" fill="none" stroke="#ffffff" stroke-width="6" marker-end="url(#arrow-blue)"/>
+            <path d="M585 160 A28 28 0 1 1 610 188"
+                  fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c05-1-blue)"/>
             <text x="600" y="173" fill="#ffffff" font-size="32">L</text>
             <text x="535" y="240" fill="#64748b" font-size="23">moment cinetic</text>
           </svg>
+
           <p class="caption">
             Energia cinetică este scalară; impulsul și momentul cinetic sunt mărimi vectoriale.
           </p>
@@ -430,7 +362,8 @@
         <h2>Forța care produce deplasare</h2>
 
         <p>
-          <span class="mark">Lucrul mecanic</span> măsoară transferul de energie realizat de o forță atunci când punctul ei de aplicație se deplasează.
+          <span class="mark">Lucrul mecanic</span> măsoară transferul de energie realizat de o forță
+          atunci când punctul ei de aplicație se deplasează.
         </p>
 
         <div class="formula">
@@ -445,36 +378,39 @@
           $$L=Fs\cos\alpha$$
         </div>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Situație</th>
-              <th>Valoare</th>
-              <th>Interpretare</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>$\alpha=0^\circ$</td>
-              <td>$L=Fs$</td>
-              <td>Forța favorizează mișcarea.</td>
-            </tr>
-            <tr>
-              <td>$\alpha=90^\circ$</td>
-              <td>$L=0$</td>
-              <td>Forța nu schimbă energia cinetică.</td>
-            </tr>
-            <tr>
-              <td>$\alpha=180^\circ$</td>
-              <td>$L=-Fs$</td>
-              <td>Forța se opune mișcării.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Situație</th>
+                <th>Valoare</th>
+                <th>Interpretare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$\alpha=0^\circ$</td>
+                <td>$L=Fs$</td>
+                <td>Forța favorizează mișcarea.</td>
+              </tr>
+              <tr>
+                <td>$\alpha=90^\circ$</td>
+                <td>$L=0$</td>
+                <td>Forța nu schimbă energia cinetică.</td>
+              </tr>
+              <tr>
+                <td>$\alpha=180^\circ$</td>
+                <td>$L=-Fs$</td>
+                <td>Forța se opune mișcării.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          nu orice forță efectuează lucru mecanic. Dacă forța este perpendiculară pe deplasare, lucrul mecanic este nul.
+          nu orice forță efectuează lucru mecanic. Dacă forța este perpendiculară pe deplasare,
+          lucrul mecanic este nul.
         </div>
       </article>
     </section>
@@ -493,7 +429,8 @@
         </div>
 
         <p>
-          <span class="mark">Teorema variației energiei cinetice</span> afirmă că lucrul mecanic al rezultantei forțelor este egal cu variația energiei cinetice.
+          <span class="mark">Teorema variației energiei cinetice</span> afirmă că lucrul mecanic
+          al rezultantei forțelor este egal cu variația energiei cinetice.
         </p>
 
         <div class="formula">
@@ -503,25 +440,34 @@
 
         <div class="exam">
           <strong>Formulare de examen:</strong>
-          dacă lucrul mecanic al rezultantei este pozitiv, energia cinetică crește; dacă este negativ, energia cinetică scade.
+          dacă lucrul mecanic al rezultantei este pozitiv, energia cinetică crește;
+          dacă este negativ, energia cinetică scade.
         </div>
 
         <div class="svgbox">
           <svg viewBox="0 0 760 300" role="img" aria-label="Variația energiei cinetice">
             <defs>
-              <marker id="arrow-f" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c05-2-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
-            <line x1="70" y1="220" x2="690" y2="220" stroke="#64748b" stroke-width="5"/>
+            <line x1="70" y1="220" x2="690" y2="220"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
             <rect x="140" y="160" width="90" height="60" rx="12" fill="#f59e0b"/>
             <rect x="480" y="145" width="110" height="75" rx="12" fill="#f59e0b"/>
-            <line x1="230" y1="190" x2="455" y2="190" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-f)"/>
+
+            <line x1="230" y1="190" x2="455" y2="190"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c05-2-blue)"/>
+
             <text x="285" y="168" fill="#2563eb" font-size="26">Lrez &gt; 0</text>
             <text x="135" y="250" fill="#64748b" font-size="24">v₁ mică</text>
             <text x="480" y="250" fill="#64748b" font-size="24">v₂ mare</text>
           </svg>
+
           <p class="caption">
             Lucrul mecanic pozitiv al rezultantei mărește energia cinetică.
           </p>
@@ -551,7 +497,7 @@
         </div>
 
         <p>
-          Deoarece $\vec a=\frac{d\vec v}{dt}$ și $d\vec r=\vec v\,dt$, rezultă:
+          Deoarece $\vec a=\dfrac{d\vec v}{dt}$ și $d\vec r=\vec v\,dt$, rezultă:
         </p>
 
         <div class="formula">
@@ -582,7 +528,8 @@
         <h2>Energie potențială și conservarea energiei mecanice</h2>
 
         <p>
-          O forță este <span class="mark">conservativă</span> dacă lucrul ei mecanic nu depinde de drum, ci numai de poziția inițială și finală.
+          O forță este <span class="mark">conservativă</span> dacă lucrul ei mecanic nu depinde de drum,
+          ci numai de poziția inițială și finală.
         </p>
 
         <div class="formula">
@@ -636,24 +583,36 @@
 
         <div class="svgbox">
           <svg viewBox="0 0 760 340" role="img" aria-label="Transformarea energiei potențiale în energie cinetică">
-            <path d="M80 265 C220 110, 360 75, 670 250" fill="none" stroke="#0f766e" stroke-width="8"/>
+            <path d="M80 265 C220 110, 360 75, 670 250"
+                  fill="none" stroke="#0f766e" stroke-width="7" stroke-linecap="round"/>
+
             <circle cx="180" cy="170" r="22" fill="#f59e0b"/>
             <circle cx="520" cy="190" r="22" fill="#f59e0b"/>
-            <line x1="180" y1="170" x2="180" y2="270" stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
-            <line x1="520" y1="190" x2="520" y2="270" stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
-            <line x1="70" y1="270" x2="700" y2="270" stroke="#64748b" stroke-width="4"/>
+
+            <line x1="180" y1="170" x2="180" y2="270"
+                  stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
+
+            <line x1="520" y1="190" x2="520" y2="270"
+                  stroke="#2563eb" stroke-width="4" stroke-dasharray="8 8"/>
+
+            <line x1="70" y1="270" x2="700" y2="270"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+
             <text x="120" y="115" fill="#2563eb" font-size="26">Ep mare</text>
             <text x="480" y="140" fill="#0f766e" font-size="26">Ec crește</text>
             <text x="310" y="310" fill="#64748b" font-size="23">nivel de referință</text>
           </svg>
+
           <p class="caption">
-            Pe o pistă fără frecare, energia potențială se transformă în energie cinetică, iar energia mecanică totală rămâne constantă.
+            Pe o pistă fără frecare, energia potențială se transformă în energie cinetică,
+            iar energia mecanică totală rămâne constantă.
           </p>
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          energia mecanică nu se conservă automat. Ea se conservă numai dacă lucrul forțelor neconservative este nul.
+          energia mecanică nu se conservă automat. Ea se conservă numai dacă lucrul forțelor
+          neconservative este nul.
         </div>
       </article>
     </section>
@@ -688,7 +647,8 @@
 
         <div class="warning">
           <strong>Greșeală frecventă:</strong>
-          aplicarea conservării energiei mecanice într-o problemă cu frecare, fără a include lucrul frecării.
+          aplicarea conservării energiei mecanice într-o problemă cu frecare,
+          fără a include lucrul frecării.
         </div>
       </article>
     </section>
@@ -724,7 +684,8 @@
 
         <div class="exam">
           <strong>Interpretare:</strong>
-          două motoare pot efectua același lucru mecanic, dar motorul cu putere mai mare îl efectuează într-un timp mai scurt.
+          două motoare pot efectua același lucru mecanic, dar motorul cu putere mai mare îl efectuează
+          într-un timp mai scurt.
         </div>
       </article>
     </section>
@@ -780,16 +741,35 @@
 
         <div class="svgbox">
           <svg viewBox="0 0 760 320" role="img" aria-label="Aria de sub graficul F de t">
-            <line x1="80" y1="250" x2="690" y2="250" stroke="#64748b" stroke-width="4"/>
-            <line x1="100" y1="270" x2="100" y2="60" stroke="#64748b" stroke-width="4"/>
-            <path d="M120 240 C220 90, 340 80, 450 150 S590 220, 650 120 L650 250 L120 250 Z" fill="rgba(15,118,110,0.25)"/>
-            <path d="M120 240 C220 90, 340 80, 450 150 S590 220, 650 120" fill="none" stroke="#0f766e" stroke-width="7"/>
+            <defs>
+              <marker id="c05-3-axis" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <line x1="80" y1="250" x2="690" y2="250"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c05-3-axis)"/>
+
+            <line x1="100" y1="270" x2="100" y2="60"
+                  stroke="#64748b" stroke-width="4" stroke-linecap="round"
+                  marker-end="url(#c05-3-axis)"/>
+
+            <path d="M120 240 C220 90, 340 80, 450 150 S590 220, 650 120 L650 250 L120 250 Z"
+                  fill="rgba(15,118,110,0.25)"/>
+
+            <path d="M120 240 C220 90, 340 80, 450 150 S590 220, 650 120"
+                  fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round"/>
+
             <text x="675" y="270" fill="#64748b" font-size="23">t</text>
             <text x="72" y="70" fill="#64748b" font-size="23">F</text>
             <text x="320" y="210" fill="#0f766e" font-size="28">aria = I = Δp</text>
           </svg>
+
           <p class="caption">
-            În coliziuni sau lovituri, forța poate fi mare într-un interval scurt; aria $F(t)$ rămâne mărimea relevantă pentru variația impulsului.
+            În coliziuni sau lovituri, forța poate fi mare într-un interval scurt;
+            aria $F(t)$ rămâne mărimea relevantă pentru variația impulsului.
           </p>
         </div>
 
@@ -833,7 +813,8 @@
 
         <div class="exam">
           <strong>Condiție de aplicare:</strong>
-          impulsul se conservă pentru sistemul ales numai dacă impulsul forțelor externe este nul sau neglijabil.
+          impulsul se conservă pentru sistemul ales numai dacă impulsul forțelor externe este nul
+          sau neglijabil.
         </div>
       </article>
     </section>
@@ -869,7 +850,8 @@
 
         <div class="exam">
           <strong>Interpretare:</strong>
-          forțele interne pot modifica mișcările relative ale corpurilor, dar nu pot modifica mișcarea centrului de masă al sistemului izolat.
+          forțele interne pot modifica mișcările relative ale corpurilor, dar nu pot modifica
+          mișcarea centrului de masă al sistemului izolat.
         </div>
       </article>
     </section>
@@ -902,20 +884,29 @@
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Momentul forței">
             <defs>
-              <marker id="arrow-force" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c05-4-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
             <circle cx="230" cy="190" r="12" fill="#64748b"/>
-            <line x1="230" y1="190" x2="560" y2="190" stroke="#0f766e" stroke-width="8"/>
-            <line x1="560" y1="190" x2="560" y2="70" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-force)"/>
-            <path d="M280 190 A60 60 0 0 1 305 145" fill="none" stroke="#f59e0b" stroke-width="6"/>
+            <line x1="230" y1="190" x2="560" y2="190"
+                  stroke="#0f766e" stroke-width="7" stroke-linecap="round"/>
+
+            <line x1="560" y1="190" x2="560" y2="70"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                  marker-end="url(#c05-4-blue)"/>
+
+            <path d="M280 190 A60 60 0 0 1 305 145"
+                  fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
+
             <text x="205" y="225" fill="#64748b" font-size="25">O</text>
             <text x="380" y="175" fill="#0f766e" font-size="25">r</text>
             <text x="575" y="115" fill="#2563eb" font-size="25">F</text>
             <text x="310" y="148" fill="#f59e0b" font-size="25">rotație</text>
           </svg>
+
           <p class="caption">
             Momentul forței depinde atât de mărimea forței, cât și de brațul forței.
           </p>
@@ -954,7 +945,8 @@
 
         <div class="exam">
           <strong>Formulare de examen:</strong>
-          derivata în raport cu timpul a momentului cinetic față de un punct fix este egală cu momentul rezultant al forțelor față de același punct.
+          derivata în raport cu timpul a momentului cinetic față de un punct fix este egală cu
+          momentul rezultant al forțelor față de același punct.
         </div>
       </article>
     </section>
@@ -965,7 +957,8 @@
         <h2>Când momentul cinetic rămâne constant</h2>
 
         <p>
-          Dacă momentul rezultant al forțelor externe față de un punct este nul, momentul cinetic se conservă.
+          Dacă momentul rezultant al forțelor externe față de un punct este nul,
+          momentul cinetic se conservă.
         </p>
 
         <div class="formula">
@@ -995,15 +988,18 @@
             <circle cx="240" cy="165" r="95" fill="none" stroke="#0f766e" stroke-width="6"/>
             <circle cx="240" cy="165" r="14" fill="#64748b"/>
             <circle cx="335" cy="165" r="14" fill="#f59e0b"/>
+
             <text x="165" y="290" fill="#64748b" font-size="23">brațe întinse</text>
             <text x="165" y="315" fill="#64748b" font-size="23">I mare, ω mică</text>
 
             <circle cx="540" cy="165" r="55" fill="none" stroke="#0f766e" stroke-width="6"/>
             <circle cx="540" cy="165" r="14" fill="#64748b"/>
             <circle cx="595" cy="165" r="14" fill="#f59e0b"/>
+
             <text x="465" y="290" fill="#64748b" font-size="23">brațe apropiate</text>
             <text x="465" y="315" fill="#64748b" font-size="23">I mic, ω mare</text>
           </svg>
+
           <p class="caption">
             Dacă momentul cinetic se conservă, scăderea momentului de inerție determină creșterea vitezei unghiulare.
           </p>
@@ -1016,32 +1012,34 @@
         <span class="eyebrow">Tabel sinteză</span>
         <h2>Teoreme și legi de conservare</h2>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Mărime</th>
-              <th>Teoremă</th>
-              <th>Conservare</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Energie cinetică</td>
-              <td>$L_{\text{rez}}=\Delta E_c$</td>
-              <td>Energia mecanică se conservă dacă acționează numai forțe conservative.</td>
-            </tr>
-            <tr>
-              <td>Impuls</td>
-              <td>$\vec I=\Delta \vec p$</td>
-              <td>Impulsul total se conservă dacă $\vec F_{\text{ext}}=\vec 0$.</td>
-            </tr>
-            <tr>
-              <td>Moment cinetic</td>
-              <td>$\frac{d\vec L}{dt}=\vec M$</td>
-              <td>Momentul cinetic se conservă dacă $\vec M_{\text{ext}}=\vec 0$.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Mărime</th>
+                <th>Teoremă</th>
+                <th>Conservare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Energie cinetică</td>
+                <td>$L_{\text{rez}}=\Delta E_c$</td>
+                <td>Energia mecanică se conservă dacă acționează numai forțe conservative.</td>
+              </tr>
+              <tr>
+                <td>Impuls</td>
+                <td>$\vec I=\Delta \vec p$</td>
+                <td>Impulsul total se conservă dacă $\vec F_{\text{ext}}=\vec 0$.</td>
+              </tr>
+              <tr>
+                <td>Moment cinetic</td>
+                <td>$\dfrac{d\vec L}{dt}=\vec M$</td>
+                <td>Momentul cinetic se conservă dacă $\vec M_{\text{ext}}=\vec 0$.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="exam">
           <strong>Strategie de examen:</strong>
@@ -1056,21 +1054,25 @@
         <h2>Teorema energiei cinetice</h2>
 
         <p>
-          Un corp de masă $m=2\,\text{kg}$ pornește din repaus și este tras pe plan orizontal fără frecare de o forță constantă
-          $F=10\,\text{N}$ pe distanța $s=5\,\text{m}$. Determinați viteza finală.
+          Un corp de masă $m=2\,\text{kg}$ pornește din repaus și este tras pe plan orizontal fără frecare
+          de o forță constantă $F=10\,\text{N}$ pe distanța $s=5\,\text{m}$.
+          Determinați viteza finală.
         </p>
 
         <p><strong>1. Lucrul mecanic al forței:</strong></p>
+
         <div class="formula">
           $$L=Fs=10\cdot5=50\,\text{J}$$
         </div>
 
         <p><strong>2. Teorema energiei cinetice:</strong></p>
+
         <div class="formula">
           $$L=\Delta E_c=\frac{mv^2}{2}-0$$
         </div>
 
         <p><strong>3. Determinarea vitezei:</strong></p>
+
         <div class="formula">
           $$50=\frac{2v^2}{2}=v^2$$
           $$v=\sqrt{50}=5\sqrt2\,\text{m/s}\approx7{,}07\,\text{m/s}$$
@@ -1128,8 +1130,9 @@
         <h2>Conservarea impulsului</h2>
 
         <p>
-          Un cărucior de masă $m_1=2\,\text{kg}$ se deplasează cu viteza $v_1=4\,\text{m/s}$ și se cuplează cu un al doilea cărucior aflat în repaus,
-          de masă $m_2=3\,\text{kg}$. Determinați viteza comună după cuplare.
+          Un cărucior de masă $m_1=2\,\text{kg}$ se deplasează cu viteza $v_1=4\,\text{m/s}$
+          și se cuplează cu un al doilea cărucior aflat în repaus, de masă $m_2=3\,\text{kg}$.
+          Determinați viteza comună după cuplare.
         </p>
 
         <p>
@@ -1168,9 +1171,10 @@
         <h2>Moment cinetic conservat</h2>
 
         <p>
-          Un corp de masă $m=0{,}5\,\text{kg}$ se rotește pe un cerc de rază $r_1=0{,}8\,\text{m}$ cu viteza $v_1=4\,\text{m/s}$.
-          Prin micșorarea razei la $r_2=0{,}4\,\text{m}$, momentul forțelor externe față de centru este neglijabil.
-          Determinați viteza finală.
+          Un corp de masă $m=0{,}5\,\text{kg}$ se rotește pe un cerc de rază
+          $r_1=0{,}8\,\text{m}$ cu viteza $v_1=4\,\text{m/s}$.
+          Prin micșorarea razei la $r_2=0{,}4\,\text{m}$, momentul forțelor externe față de centru
+          este neglijabil. Determinați viteza finală.
         </p>
 
         <p>
@@ -1233,7 +1237,8 @@
 
         <div class="exam">
           <strong>Formulare matură:</strong>
-          „Aleg sistemul de corpuri astfel încât forțele externe pe direcția analizată să fie nule sau neglijabile; în aceste condiții, aplic legea conservării impulsului.”
+          „Aleg sistemul de corpuri astfel încât forțele externe pe direcția analizată să fie nule
+          sau neglijabile; în aceste condiții, aplic legea conservării impulsului.”
         </div>
       </article>
     </section>
@@ -1248,36 +1253,40 @@
           $$E_m=E_c+E_p,\qquad \Delta E_m=L_{\text{neconservative}}$$
           $$\vec p=m\vec v,\qquad \vec I=\Delta\vec p$$
           $$\vec P=\sum_i m_i\vec v_i,\qquad \vec F_{\text{ext}}=\frac{d\vec P}{dt}$$
-          $$\vec M=\vec r\times\vec F,\qquad \vec L=\vec r\times\vec p,\qquad \frac{d\vec L}{dt}=\vec M$$
+          $$\vec M=\vec r\times\vec F,\qquad
+          \vec L=\vec r\times\vec p,\qquad
+          \frac{d\vec L}{dt}=\vec M$$
         </div>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Ce cauți?</th>
-              <th>Metoda rapidă</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Viteză după o deplasare</td>
-              <td>Teorema energiei cinetice sau conservarea energiei.</td>
-            </tr>
-            <tr>
-              <td>Viteză după interacțiune scurtă</td>
-              <td>Teorema impulsului sau conservarea impulsului.</td>
-            </tr>
-            <tr>
-              <td>Rotație fără moment extern</td>
-              <td>Conservarea momentului cinetic.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Ce cauți?</th>
+                <th>Metoda rapidă</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Viteză după o deplasare</td>
+                <td>Teorema energiei cinetice sau conservarea energiei.</td>
+              </tr>
+              <tr>
+                <td>Viteză după interacțiune scurtă</td>
+                <td>Teorema impulsului sau conservarea impulsului.</td>
+              </tr>
+              <tr>
+                <td>Rotație fără moment extern</td>
+                <td>Conservarea momentului cinetic.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="bottom-links">
-          <a href="C06-solidul-rigid-cu-axa-fixa.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
-          <a href="index.html">Înapoi la capitol</a>
+        <div class="exam">
+          <strong>Regulă de alegere:</strong>
+          când nu te interesează timpul, caută o lege de conservare sau o teoremă integrală:
+          energie, impuls sau moment cinetic.
         </div>
       </article>
     </section>
@@ -1304,7 +1313,7 @@
 
         <div class="exam">
           <strong>Problemă tipică de examen:</strong>
-          un corp coboară pe un plan înclinat cu frecare. Determină viteza la bază folosind
+          un corp coboară pe un plan înclinat cu frecare. Determină viteza la bază folosind:
           $$E_{m2}-E_{m1}=L_f.$$
         </div>
 
@@ -1318,23 +1327,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 23</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1357,6 +1374,8 @@
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
