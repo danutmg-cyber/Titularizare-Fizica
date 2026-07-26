@@ -1,0 +1,166 @@
+/* =========================================================
+   TEMA GLOBALĂ – Titularizare Fizică
+   Se folosește în lecții, fișe de lucru, teste și recapitulări
+   ========================================================= */
+
+:root {
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --text: #122033;
+    --muted: #526173;
+
+    --accent: #2563eb;
+    --accent-2: #0f766e;
+    --warning: #f59e0b;
+
+    --marker: #fff3a3;
+    --formula-bg: #eef6ff;
+    --border: #dbe4ef;
+    --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+
+    --radius: 22px;
+
+    --font: clamp(17px, 2.1vw, 22px);
+    --title: clamp(28px, 4.8vw, 50px);
+    --subtitle: clamp(21px, 3.3vw, 32px);
+
+    --math-inline: 1.04em;
+    --math-display: 1.08em;
+}
+
+html[data-theme="dark"] {
+    --bg: #08111f;
+    --card: #111c2e;
+    --text: #eef5ff;
+    --muted: #b6c3d5;
+
+    --accent: #60a5fa;
+    --accent-2: #5eead4;
+    --marker: #6b5d12;
+    --formula-bg: #172842;
+    --border: #29415f;
+    --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Text general */
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: var(--font);
+    line-height: 1.6;
+}
+
+/* Carduri pentru lecții, fișe, teste */
+.card {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(1.2rem, 4vw, 2.4rem);
+}
+
+/* Titluri */
+h1, h2, h3 {
+    line-height: 1.15;
+    margin: 0.35rem 0 1rem;
+}
+
+h1 {
+    font-size: var(--title);
+}
+
+h2 {
+    font-size: var(--subtitle);
+}
+
+h3 {
+    font-size: clamp(22px, 3vw, 30px);
+}
+
+/* Evidențiere concepte */
+.mark {
+    background: linear-gradient(transparent 45%, var(--marker) 45%);
+    padding: 0 0.18rem;
+    border-radius: 0.2rem;
+    font-weight: 900;
+    color: var(--text);
+}
+
+/* Casete de formule */
+.formula {
+    margin: 0.8rem 0;
+    padding: 0.8rem;
+    background: var(--formula-bg);
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--accent);
+    border-radius: 16px;
+    overflow-x: auto;
+    font-size: 1em;
+}
+
+/* MathJax – formule optimizate pentru telefon */
+mjx-container[jax="SVG"] {
+    line-height: 1.35 !important;
+}
+
+mjx-container[jax="SVG"]:not([display="true"]) {
+    font-size: var(--math-inline) !important;
+    vertical-align: -0.05em;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+    font-size: var(--math-display) !important;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.1rem 0;
+    margin: 0.25rem 0;
+}
+
+mjx-container[jax="SVG"] svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Casete didactice */
+.exam {
+    border-left: 7px solid var(--accent-2);
+    background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    padding: 1rem;
+    border-radius: 16px;
+    margin-top: 1rem;
+}
+
+.warning {
+    border-left: 7px solid var(--warning);
+    background: color-mix(in srgb, #fef3c7 70%, var(--card));
+    padding: 1rem;
+    border-radius: 16px;
+    margin-top: 1rem;
+}
+
+html[data-theme="dark"] .warning {
+    background: #33260c;
+}
+
+/* Adaptare telefon */
+@media (max-width: 600px) {
+    :root {
+        --font: 17px;
+        --math-inline: 1.03em;
+        --math-display: 1.05em;
+    }
+
+    body {
+        line-height: 1.55;
+    }
+
+    .formula {
+        padding: 0.7rem;
+    }
+}
