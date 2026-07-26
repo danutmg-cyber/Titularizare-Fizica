@@ -1,1 +1,875 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 1 – Cinematica punctului material</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Tema globală -->
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <!-- MathJax global -->
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .field {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.85rem;
+      background: var(--formula-bg);
+    }
+
+    .field strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 {
+      margin-bottom: 0;
+    }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 72px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.tall {
+      min-height: 150px;
+    }
+
+    .answer-space.medium {
+      min-height: 110px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .rubric li {
+      margin: 0.45rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .footer-nav a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 90px;
+      }
+
+      a {
+        color: black !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 1 • Cinematica punctului material</strong>
+    <div class="top-actions">
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C01-cinematica-punctului-material.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card hero">
+        <span class="mark">Fișă de lucru 1</span>
+        <h1>Cinematica punctului material</h1>
+
+        <p class="lead">
+          Exersează noțiunile fundamentale din lecția C01: punct material, sistem de referință,
+          vector de poziție, traiectorie, deplasare, drum parcurs, viteză și accelerație.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 50 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Competențe vizate</h2>
+          <span class="points">orientativ</span>
+        </div>
+
+        <ul>
+          <li>Utilizarea corectă a noțiunilor de sistem de referință, punct material, poziție și traiectorie.</li>
+          <li>Calcularea deplasării, vitezei medii, vitezei instantanee și accelerației.</li>
+          <li>Interpretarea graficelor $x(t)$, $v(t)$ și $a(t)$.</li>
+          <li>Aplicarea relațiilor cinematice în situații numerice simple.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>I. Noțiuni fundamentale</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 6 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Definiție / semnificație</th>
+                  <th>Tip de mărime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sistem de referință</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Punct material</td>
+                  <td></td>
+                  <td>model fizic</td>
+                </tr>
+                <tr>
+                  <td>Traiectorie</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Deplasare $\Delta\vec r$</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Drum parcurs $s$</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Viteză instantanee $\vec v$</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege varianta corectă. 4 p</h3>
+
+          <p>
+            Un elev merge pe o pistă circulară și revine exact în punctul de plecare după o tură completă.
+            Care afirmație este corectă?
+          </p>
+
+          <ul class="checklist">
+            <li>Drumul parcurs este zero, iar deplasarea este diferită de zero.</li>
+            <li>Drumul parcurs este diferit de zero, iar deplasarea este zero.</li>
+            <li>Drumul parcurs și deplasarea sunt egale ca modul.</li>
+            <li>Traiectoria este o dreaptă.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Marchează Adevărat / Fals. 6 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Afirmație</th>
+                  <th>A / F</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mișcarea se descrie numai în raport cu un sistem de referință.</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Deplasarea este întotdeauna egală cu drumul parcurs.</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Viteza instantanee este derivata vectorului de poziție în raport cu timpul.</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Accelerația negativă înseamnă întotdeauna încetinire.</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>În MRU, viteza este constantă.</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Panta graficului $x(t)$ reprezintă viteza.</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>4. Scrie unitățile SI. 4 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$x$ sau $s$: <span class="line"></span></p>
+              <p>$t$: <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$v$: <span class="line"></span></p>
+              <p>$a$: <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>II. Aplicații de calcul</h2>
+          <span class="points">30 p</span>
+        </div>
+
+        <div class="item">
+          <h3>5. Vector de poziție și deplasare. 10 p</h3>
+
+          <p>
+            Poziția unui punct material este dată de:
+          </p>
+
+          <div class="formula">
+            $$\vec r(t)=(2+3t)\vec i+(1-t^2)\vec j\quad [\text{m}]$$
+          </div>
+
+          <p>
+            Determină:
+          </p>
+
+          <ol type="a">
+            <li>$\vec r(0)$;</li>
+            <li>$\vec r(2\,\text{s})$;</li>
+            <li>deplasarea $\Delta\vec r=\vec r(2)-\vec r(0)$;</li>
+            <li>modulul deplasării $|\Delta\vec r|$;</li>
+            <li>viteza medie vectorială pe intervalul $[0,2]\,\text{s}$.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Drum parcurs și deplasare. 8 p</h3>
+
+          <p>
+            Un biciclist parcurge o traiectorie curbilinie de lungime $s=1200\,\text{m}$.
+            Poziția finală este la $900\,\text{m}$ spre est față de poziția inițială.
+            Durata mișcării este $\Delta t=60\,\text{s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează viteza medie scalară raportată la drumul parcurs.</li>
+            <li>Calculează modulul vitezei medii vectoriale.</li>
+            <li>Explică de ce cele două rezultate sunt diferite.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Mișcare rectilinie dată prin ecuația poziției. 12 p</h3>
+
+          <p>
+            Un punct material se deplasează pe axa $Ox$ după legea:
+          </p>
+
+          <div class="formula">
+            $$x(t)=5+4t-t^2\quad [\text{m}]$$
+          </div>
+
+          <p>
+            unde $t$ este exprimat în secunde.
+          </p>
+
+          <ol type="a">
+            <li>Determină expresia vitezei $v(t)$.</li>
+            <li>Determină expresia accelerației $a(t)$.</li>
+            <li>Calculează $x(0)$, $v(0)$ și $a(0)$.</li>
+            <li>Determină momentul în care punctul material își schimbă sensul mișcării.</li>
+            <li>Calculează poziția la acel moment.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>III. Interpretare grafică</h2>
+          <span class="points">25 p</span>
+        </div>
+
+        <div class="item">
+          <h3>8. Grafic $x(t)$ pe intervale. 10 p</h3>
+
+          <p>
+            Pentru un mobil care se deplasează rectiliniu, s-au obținut următoarele date:
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>$t$ [s]</th>
+                  <th>0</th>
+                  <th>2</th>
+                  <th>4</th>
+                  <th>6</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>$x$ [m]</td>
+                  <td>0</td>
+                  <td>8</td>
+                  <td>8</td>
+                  <td>2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ol type="a">
+            <li>Calculează viteza medie pe intervalele $[0,2]$, $[2,4]$ și $[4,6]$.</li>
+            <li>Precizează pe ce interval mobilul este în repaus.</li>
+            <li>Precizează pe ce interval mobilul se deplasează în sens negativ.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Aria de sub graficul $v(t)$. 15 p</h3>
+
+          <p>
+            Viteza unui mobil variază astfel:
+          </p>
+
+          <ul>
+            <li>între $0$ și $4\,\text{s}$: viteza crește uniform de la $0$ la $8\,\text{m/s}$;</li>
+            <li>între $4$ și $7\,\text{s}$: viteza rămâne constantă la $8\,\text{m/s}$;</li>
+            <li>între $7$ și $9\,\text{s}$: viteza scade uniform de la $8\,\text{m/s}$ la $0$.</li>
+          </ul>
+
+          <div class="svgbox">
+            <svg viewBox="0 0 760 330" role="img" aria-label="Grafic v-t">
+              <defs>
+                <marker id="axis-f1" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                        refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                  <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+                </marker>
+              </defs>
+
+              <line x1="80" y1="270" x2="690" y2="270"
+                    stroke="#64748b" stroke-width="4" stroke-linecap="round"
+                    marker-end="url(#axis-f1)"/>
+
+              <line x1="100" y1="290" x2="100" y2="55"
+                    stroke="#64748b" stroke-width="4" stroke-linecap="round"
+                    marker-end="url(#axis-f1)"/>
+
+              <polyline points="100,270 330,90 505,90 620,270"
+                        fill="none" stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+
+              <line x1="330" y1="270" x2="330" y2="90" stroke="#94a3b8" stroke-width="3" stroke-dasharray="7 7"/>
+              <line x1="505" y1="270" x2="505" y2="90" stroke="#94a3b8" stroke-width="3" stroke-dasharray="7 7"/>
+              <line x1="100" y1="90" x2="620" y2="90" stroke="#94a3b8" stroke-width="3" stroke-dasharray="7 7"/>
+
+              <text x="675" y="300" fill="#64748b" font-size="24">t</text>
+              <text x="70" y="65" fill="#64748b" font-size="24">v</text>
+              <text x="320" y="300" fill="#64748b" font-size="22">4 s</text>
+              <text x="495" y="300" fill="#64748b" font-size="22">7 s</text>
+              <text x="615" y="300" fill="#64748b" font-size="22">9 s</text>
+              <text x="55" y="98" fill="#64748b" font-size="22">8</text>
+            </svg>
+          </div>
+
+          <ol type="a">
+            <li>Calculează accelerația pe fiecare interval.</li>
+            <li>Calculează deplasarea totală în cele $9\,\text{s}$ folosind aria de sub grafic.</li>
+            <li>Calculează viteza medie scalară pe tot intervalul.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>IV. Problemă tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>10. Mișcare rectilinie uniform variată. 15 p</h3>
+
+          <p>
+            Un mobil se deplasează pe axa $Ox$ cu poziția inițială $x_0=-5\,\text{m}$,
+            viteza inițială $v_0=4\,\text{m/s}$ și accelerația constantă
+            $a=2\,\text{m/s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea vitezei $v(t)$.</li>
+            <li>Scrie legea poziției $x(t)$.</li>
+            <li>Calculează viteza la $t=3\,\text{s}$.</li>
+            <li>Calculează poziția la $t=3\,\text{s}$.</li>
+            <li>Calculează deplasarea în primele $3\,\text{s}$.</li>
+            <li>Interpretează semnul accelerației în raport cu sensul mișcării.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>V. Reflecție conceptuală</h2>
+          <span class="points">10 p</span>
+        </div>
+
+        <div class="item">
+          <h3>11. Explică o capcană frecventă. 10 p</h3>
+
+          <p>
+            Redactează un răspuns de 6–8 rânduri pentru afirmația:
+          </p>
+
+          <div class="warning">
+            „Accelerația negativă înseamnă întotdeauna că mobilul încetinește.”
+          </div>
+
+          <p>
+            Folosește în explicație relația dintre semnul vitezei și semnul accelerației.
+          </p>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul class="rubric">
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>I. Noțiuni fundamentale – 20 p:</strong> item 1: 6 p; item 2: 4 p; item 3: 6 p; item 4: 4 p.</li>
+          <li><strong>II. Aplicații de calcul – 30 p:</strong> item 5: 10 p; item 6: 8 p; item 7: 12 p.</li>
+          <li><strong>III. Interpretare grafică – 25 p:</strong> item 8: 10 p; item 9: 15 p.</li>
+          <li><strong>IV. Problemă tip examen – 15 p:</strong> câte 2–3 p pentru fiecare cerință rezolvată corect.</li>
+          <li><strong>V. Reflecție conceptuală – 10 p:</strong> corectitudine fizică 6 p, claritate 2 p, folosirea semnelor $v$ și $a$ 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări scurte pentru profesor / autocorectare</h2>
+          <span class="points">cheie</span>
+        </div>
+
+        <details>
+          <summary>Deschide rezolvările și răspunsurile orientative</summary>
+
+          <h3>Itemul 2</h3>
+          <p>
+            Corect: drumul parcurs este diferit de zero, iar deplasarea este zero.
+          </p>
+
+          <h3>Itemul 3</h3>
+          <p>
+            A, F, A, F, A, A.
+          </p>
+
+          <h3>Itemul 4</h3>
+          <p>
+            $[x]=[s]=\text{m}$, $[t]=\text{s}$, $[v]=\text{m/s}$, $[a]=\text{m/s}^2$.
+          </p>
+
+          <h3>Itemul 5</h3>
+          <div class="formula">
+            $$\vec r(0)=2\vec i+1\vec j\ \text{m}$$
+            $$\vec r(2)=8\vec i-3\vec j\ \text{m}$$
+            $$\Delta\vec r=6\vec i-4\vec j\ \text{m}$$
+            $$|\Delta\vec r|=\sqrt{6^2+(-4)^2}=\sqrt{52}=2\sqrt{13}\ \text{m}$$
+            $$\vec v_m=\frac{\Delta\vec r}{\Delta t}=3\vec i-2\vec j\ \text{m/s}$$
+          </div>
+
+          <h3>Itemul 6</h3>
+          <div class="formula">
+            $$v_{\text{med, scalar}}=\frac{s}{\Delta t}=\frac{1200}{60}=20\,\text{m/s}$$
+            $$|\vec v_m|=\frac{|\Delta\vec r|}{\Delta t}=\frac{900}{60}=15\,\text{m/s}$$
+          </div>
+          <p>
+            Sunt diferite deoarece drumul parcurs este lungimea traiectoriei, iar deplasarea unește poziția inițială cu cea finală.
+          </p>
+
+          <h3>Itemul 7</h3>
+          <div class="formula">
+            $$x(t)=5+4t-t^2$$
+            $$v(t)=\frac{dx}{dt}=4-2t$$
+            $$a(t)=\frac{dv}{dt}=-2\,\text{m/s}^2$$
+            $$x(0)=5\,\text{m},\quad v(0)=4\,\text{m/s},\quad a(0)=-2\,\text{m/s}^2$$
+            $$v(t)=0\Rightarrow 4-2t=0\Rightarrow t=2\,\text{s}$$
+            $$x(2)=5+8-4=9\,\text{m}$$
+          </div>
+
+          <h3>Itemul 8</h3>
+          <div class="formula">
+            $$v_{0-2}=\frac{8-0}{2}=4\,\text{m/s}$$
+            $$v_{2-4}=\frac{8-8}{2}=0$$
+            $$v_{4-6}=\frac{2-8}{2}=-3\,\text{m/s}$$
+          </div>
+          <p>
+            Repaus pe $[2,4]\,\text{s}$; deplasare în sens negativ pe $[4,6]\,\text{s}$.
+          </p>
+
+          <h3>Itemul 9</h3>
+          <div class="formula">
+            $$a_{0-4}=\frac{8-0}{4}=2\,\text{m/s}^2$$
+            $$a_{4-7}=0$$
+            $$a_{7-9}=\frac{0-8}{2}=-4\,\text{m/s}^2$$
+          </div>
+          <div class="formula">
+            $$\Delta x=A_{\text{triunghi}}+A_{\text{dreptunghi}}+A_{\text{triunghi}}$$
+            $$\Delta x=\frac{4\cdot8}{2}+3\cdot8+\frac{2\cdot8}{2}=16+24+8=48\,\text{m}$$
+            $$v_{\text{med}}=\frac{48}{9}\approx5{,}33\,\text{m/s}$$
+          </div>
+
+          <h3>Itemul 10</h3>
+          <div class="formula">
+            $$v(t)=v_0+at=4+2t$$
+            $$x(t)=x_0+v_0t+\frac{at^2}{2}=-5+4t+t^2$$
+            $$v(3)=4+6=10\,\text{m/s}$$
+            $$x(3)=-5+12+9=16\,\text{m}$$
+            $$\Delta x=x(3)-x(0)=16-(-5)=21\,\text{m}$$
+          </div>
+          <p>
+            Cum $v_0>0$ și $a>0$, accelerația are același sens cu viteza și mobilul își mărește viteza.
+          </p>
+
+          <h3>Itemul 11</h3>
+          <p>
+            Accelerația negativă nu înseamnă obligatoriu încetinire. Dacă viteza este pozitivă și accelerația negativă,
+            modulul vitezei scade. Dacă viteza este negativă și accelerația este tot negativă, mobilul se deplasează
+            în sens negativ și viteza în modul crește.
+          </p>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C01-cinematica-punctului-material.html">Înapoi la lecția C01</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c01", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c01");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+  </script>
+</body>
+</html>
