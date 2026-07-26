@@ -5,63 +5,17 @@
   <title>C11 – Unde elastice plane</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <!-- Tema globală: fonturi, culori, carduri, formule MathJax, mod dark -->
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <!-- Configurație MathJax globală -->
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+  <!-- Stiluri locale: doar elementele specifice lecției C11 -->
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --accent-3: #7c3aed;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --accent-3: #c4b5fd;
-      --warn: #fbbf24;
-      --danger: #f87171;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        radial-gradient(circle at bottom right, rgba(15, 118, 110, 0.13), transparent 28rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
+    * {
+      box-sizing: border-box;
     }
 
     .topbar {
@@ -103,22 +57,17 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 7rem;
     }
 
-    .page.active { display: flex; }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
+    .page.active {
+      display: flex;
     }
 
     .eyebrow {
       display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       color: var(--accent);
       font-weight: 900;
       letter-spacing: 0.03em;
@@ -126,42 +75,22 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
+    p {
+      margin: 0.75rem 0;
     }
 
-    h1 { font-size: var(--title); }
-    h2 { font-size: var(--subtitle); }
-    h3 { font-size: clamp(22px, 3vw, 30px); }
+    ul,
+    ol {
+      padding-left: 1.35rem;
+    }
 
-    p { margin: 0.75rem 0; }
-
-    ul, ol { padding-left: 1.35rem; }
-    li { margin: 0.55rem 0; }
+    li {
+      margin: 0.55rem 0;
+    }
 
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -178,7 +107,9 @@
       padding: 1rem;
     }
 
-    .mini strong { color: var(--accent-2); }
+    .mini strong {
+      color: var(--accent-2);
+    }
 
     .svgbox {
       margin: 1rem 0;
@@ -189,10 +120,15 @@
       overflow-x: auto;
     }
 
-    svg {
+    /*
+      Nu folosim selector global "svg",
+      deoarece formulele MathJax sunt randate tot ca SVG.
+    */
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -201,32 +137,20 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
       border-radius: 16px;
-      margin-top: 1rem;
+      border: 1px solid var(--border);
     }
-
-    .warning {
-      border-left: 7px solid var(--warn);
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
-    }
-
-    html[data-theme="dark"] .warning { background: #33260c; }
 
     .compare {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
-      margin: 1rem 0;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
       font-size: 0.95em;
+      background: var(--card);
     }
 
     .compare th,
@@ -245,16 +169,17 @@
     .pager {
       position: fixed;
       left: 50%;
-      bottom: 0.75rem;
+      bottom: 0.5rem;
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0.6rem;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 0.55rem;
+      padding: 0.45rem;
       box-shadow: var(--shadow);
       backdrop-filter: blur(12px);
       z-index: 25;
@@ -264,12 +189,14 @@
     .pager a {
       border: 0;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       font-size: 0.92em;
       font-weight: 900;
       text-decoration: none;
       text-align: center;
       cursor: pointer;
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .pager button {
@@ -286,6 +213,17 @@
     .pager a {
       background: var(--accent-2);
       color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .bottom-links {
@@ -306,28 +244,49 @@
       background: var(--accent);
     }
 
-    .bottom-links a:nth-child(2) { background: var(--accent-2); }
-    .bottom-links a:nth-child(3) { background: var(--accent-3); }
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
 
     @media (max-width: 760px) {
-      body { line-height: 1.55; }
-
       .grid,
-      .bottom-links { grid-template-columns: 1fr; }
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
 
       .pager {
         grid-template-columns: 1fr 1fr;
         border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
       }
 
-      .pager a { grid-column: 1 / -1; }
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
 
       .topbar {
         align-items: flex-start;
         flex-direction: column;
       }
 
-      .compare { font-size: 0.9em; }
+      .compare {
+        font-size: 0.9em;
+      }
     }
   </style>
 </head>
@@ -335,7 +294,7 @@
 <body>
   <div class="topbar">
     <strong>C11 • Mecanică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -345,37 +304,55 @@
         <h1>Unde elastice plane</h1>
 
         <p class="lead">
-          O <span class="mark">undă elastică</span> este propagarea unei perturbații mecanice printr-un mediu elastic.
-          Ea transportă <strong>energie</strong> și <strong>impuls</strong>, fără transport global de substanță.
+          O <span class="mark">undă elastică</span> este propagarea unei perturbații mecanice
+          printr-un mediu elastic. Ea transportă energie și impuls, fără transport global
+          de substanță.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          într-o undă, particulele mediului oscilează local, iar perturbația se propagă cu viteza $v$.
-          Pentru o undă armonică plană:
+          particulele mediului oscilează local, iar perturbația se propagă prin mediu.
+          Pentru o undă armonică plană care se propagă spre $+x$:
           $$\xi(x,t)=A\cos(\omega t-kx+\varphi_0).$$
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 330" role="img" aria-label="Undă sinusoidală care se propagă pe axa x">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Undă sinusoidală plană">
             <defs>
-              <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c11-1-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
-            <path d="M70 170 H690" stroke="#64748b" stroke-width="3"/>
-            <path d="M100 280 V65" stroke="#64748b" stroke-width="3"/>
-            <path d="M100 170 C145 70, 220 70, 265 170 S385 270, 430 170 S550 70, 595 170 S680 270, 720 170" fill="none" stroke="#2563eb" stroke-width="7"/>
-            <line x1="260" y1="90" x2="430" y2="90" stroke="#0f766e" stroke-width="5"/>
-            <line x1="260" y1="72" x2="260" y2="108" stroke="#0f766e" stroke-width="4"/>
-            <line x1="430" y1="72" x2="430" y2="108" stroke="#0f766e" stroke-width="4"/>
-            <text x="330" y="72" fill="#0f766e" font-size="25">λ</text>
-            <line x1="610" y1="120" x2="700" y2="120" stroke="#2563eb" stroke-width="6" marker-end="url(#arrow-blue)"/>
-            <text x="635" y="100" fill="#2563eb" font-size="25">v</text>
+            <line x1="80" y1="170" x2="690" y2="170"
+                  stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+
+            <line x1="105" y1="285" x2="105" y2="55"
+                  stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+
+            <path d="M105 170 C150 75, 225 75, 270 170 S390 265, 435 170 S555 75, 600 170 S690 265, 730 170"
+                  fill="none" stroke="#2563eb" stroke-width="6" stroke-linecap="round"/>
+
+            <line x1="270" y1="95" x2="435" y2="95"
+                  stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+
+            <line x1="270" y1="78" x2="270" y2="112"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+
+            <line x1="435" y1="78" x2="435" y2="112"
+                  stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+
+            <line x1="610" y1="120" x2="700" y2="120"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c11-1-blue)"/>
+
+            <text x="340" y="78" fill="#0f766e" font-size="25">λ</text>
+            <text x="640" y="100" fill="#2563eb" font-size="25">v</text>
             <text x="675" y="195" fill="#64748b" font-size="24">x</text>
             <text x="78" y="75" fill="#64748b" font-size="24">ξ</text>
           </svg>
+
           <p class="caption">
             Lungimea de undă $\lambda$ este distanța dintre două puncte consecutive aflate în aceeași fază.
           </p>
@@ -389,31 +366,32 @@
         <h2>Ce se propagă într-o undă?</h2>
 
         <p>
-          Într-o undă mecanică nu se propagă materia ca întreg, ci se propagă
-          <span class="mark">starea de oscilație</span>.
-          Particulele mediului oscilează în jurul pozițiilor de echilibru.
+          Într-o undă mecanică nu se propagă mediul material ca întreg, ci se propagă
+          <span class="mark">starea de oscilație</span>. Particulele mediului oscilează
+          în jurul pozițiilor de echilibru.
         </p>
 
         <div class="grid">
           <div class="mini">
             <strong>Se propagă</strong>
-            <p>perturbația, energia, faza oscilației.</p>
+            <p>Perturbația, energia, impulsul și faza oscilației.</p>
           </div>
+
           <div class="mini">
             <strong>Nu se propagă global</strong>
-            <p>mediul material în ansamblu.</p>
+            <p>Mediul material în ansamblu.</p>
           </div>
         </div>
 
         <p>
-          Exemplu: la o undă pe o coardă, un punct al corzii se deplasează transversal în sus și în jos,
+          Exemplu: la o undă pe o coardă, un punct al corzii se mișcă în sus și în jos,
           dar forma undei se deplasează de-a lungul corzii.
         </p>
 
         <div class="warning">
           <strong>Capcană:</strong>
           viteza particulei mediului nu este aceeași cu viteza de propagare a undei.
-          Particula oscilează local; unda se propagă în spațiu.
+          Particula oscilează local; unda se propagă spațial.
         </div>
       </article>
     </section>
@@ -424,44 +402,60 @@
         <h2>Unde transversale și longitudinale</h2>
 
         <p>
-          Undele elastice se clasifică după direcția oscilației particulelor mediului față de direcția de propagare.
+          Undele elastice se clasifică după direcția oscilației particulelor mediului față de
+          direcția de propagare.
         </p>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Tip de undă</th>
-              <th>Oscilația particulelor</th>
-              <th>Exemplu</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Transversală</td>
-              <td>Perpendiculară pe direcția de propagare.</td>
-              <td>Undă pe o coardă întinsă.</td>
-            </tr>
-            <tr>
-              <td>Longitudinală</td>
-              <td>Paralelă cu direcția de propagare.</td>
-              <td>Sunet în aer.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Tip de undă</th>
+                <th>Oscilația particulelor</th>
+                <th>Exemplu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Transversală</td>
+                <td>Perpendiculară pe direcția de propagare.</td>
+                <td>Undă pe o coardă întinsă.</td>
+              </tr>
+              <tr>
+                <td>Longitudinală</td>
+                <td>Paralelă cu direcția de propagare.</td>
+                <td>Sunet în aer, compresii și rarefieri.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 760 360" role="img" aria-label="Undă transversală și undă longitudinală">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Unde transversale și longitudinale">
             <defs>
-              <marker id="arrow-dir" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c11-2-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker id="c11-2-green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
 
-            <path d="M80 115 C125 45, 185 45, 230 115 S335 185, 380 115 S485 45, 530 115 S640 185, 690 115" fill="none" stroke="#2563eb" stroke-width="6"/>
-            <line x1="80" y1="205" x2="690" y2="205" stroke="#64748b" stroke-width="3"/>
-            <line x1="80" y1="115" x2="80" y2="55" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-dir)"/>
-            <line x1="100" y1="115" x2="190" y2="115" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow-dir)"/>
-            <text x="225" y="78" fill="#2563eb" font-size="24">transversală</text>
+            <path d="M80 115 C125 45, 185 45, 230 115 S335 185, 380 115 S485 45, 530 115 S640 185, 690 115"
+                  fill="none" stroke="#2563eb" stroke-width="5.5" stroke-linecap="round"/>
+
+            <line x1="95" y1="115" x2="185" y2="115"
+                  stroke="#2563eb" stroke-width="4.5" stroke-linecap="round"
+                  marker-end="url(#c11-2-blue)"/>
+
+            <line x1="130" y1="115" x2="130" y2="65"
+                  stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"
+                  marker-end="url(#c11-2-green)"/>
+
+            <text x="235" y="78" fill="#2563eb" font-size="24">undă transversală</text>
 
             <g fill="#f59e0b">
               <circle cx="110" cy="270" r="10"/>
@@ -476,12 +470,21 @@
               <circle cx="595" cy="270" r="10"/>
               <circle cx="630" cy="270" r="10"/>
             </g>
-            <line x1="105" y1="315" x2="205" y2="315" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow-dir)"/>
-            <line x1="105" y1="292" x2="155" y2="292" stroke="#0f766e" stroke-width="5" marker-end="url(#arrow-dir)"/>
-            <text x="235" y="320" fill="#2563eb" font-size="24">longitudinală</text>
+
+            <line x1="105" y1="315" x2="205" y2="315"
+                  stroke="#2563eb" stroke-width="4.5" stroke-linecap="round"
+                  marker-end="url(#c11-2-blue)"/>
+
+            <line x1="105" y1="292" x2="155" y2="292"
+                  stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"
+                  marker-end="url(#c11-2-green)"/>
+
+            <text x="235" y="320" fill="#2563eb" font-size="24">undă longitudinală</text>
           </svg>
+
           <p class="caption">
-            La unda transversală oscilația este perpendiculară pe propagare; la unda longitudinală este paralelă cu propagarea.
+            La unda transversală oscilația este perpendiculară pe propagare; la unda longitudinală
+            este paralelă cu propagarea.
           </p>
         </div>
       </article>
@@ -490,46 +493,61 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Undă plană</span>
-        <h2>Front de undă și direcție de propagare</h2>
+        <h2>Front de undă și rază de undă</h2>
 
         <p>
-          O <span class="mark">undă plană</span> este o undă ale cărei suprafețe de fază constantă sunt plane paralele.
-          Aceste suprafețe se numesc <strong>fronturi de undă</strong>.
+          <span class="mark">Frontul de undă</span> este locul geometric al punctelor care oscilează
+          în aceeași fază. Pentru o undă plană, fronturile de undă sunt plane paralele.
         </p>
 
-        <p>
-          Direcția de propagare este perpendiculară pe fronturile de undă.
-        </p>
+        <div class="grid">
+          <div class="mini">
+            <strong>Front de undă</strong>
+            <p>Suprafață de fază constantă.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Rază de undă</strong>
+            <p>Direcția de propagare, perpendiculară pe frontul de undă.</p>
+          </div>
+        </div>
 
         <div class="formula">
-          $$\text{front de undă}: \quad \varphi=\text{constant}$$
+          $$\Phi(\vec r,t)=\text{constant}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          unda plană este unda pentru care suprafețele de fază constantă sunt plane paralele,
+          iar propagarea are loc perpendicular pe aceste plane.
         </div>
 
         <div class="svgbox">
           <svg viewBox="0 0 760 330" role="img" aria-label="Fronturi plane de undă">
             <defs>
-              <marker id="arrow-prop" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"></path>
+              <marker id="c11-3-blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
               </marker>
             </defs>
 
-            <line x1="180" y1="60" x2="180" y2="270" stroke="#0f766e" stroke-width="6"/>
-            <line x1="290" y1="60" x2="290" y2="270" stroke="#0f766e" stroke-width="6"/>
-            <line x1="400" y1="60" x2="400" y2="270" stroke="#0f766e" stroke-width="6"/>
-            <line x1="510" y1="60" x2="510" y2="270" stroke="#0f766e" stroke-width="6"/>
-            <line x1="620" y1="60" x2="620" y2="270" stroke="#0f766e" stroke-width="6"/>
-            <line x1="85" y1="165" x2="690" y2="165" stroke="#2563eb" stroke-width="7" marker-end="url(#arrow-prop)"/>
-            <text x="335" y="145" fill="#2563eb" font-size="26">direcția propagării</text>
-            <text x="250" y="295" fill="#0f766e" font-size="25">fronturi plane paralele</text>
-          </svg>
-          <p class="caption">
-            În unda plană, fronturile de undă rămân plane și paralele în timpul propagării ideale.
-          </p>
-        </div>
+            <line x1="170" y1="55" x2="170" y2="280" stroke="#0f766e" stroke-width="5"/>
+            <line x1="270" y1="55" x2="270" y2="280" stroke="#0f766e" stroke-width="5"/>
+            <line x1="370" y1="55" x2="370" y2="280" stroke="#0f766e" stroke-width="5"/>
+            <line x1="470" y1="55" x2="470" y2="280" stroke="#0f766e" stroke-width="5"/>
+            <line x1="570" y1="55" x2="570" y2="280" stroke="#0f766e" stroke-width="5"/>
 
-        <div class="exam">
-          <strong>Formulare de examen:</strong>
-          unda plană este o aproximație foarte bună la distanță mare de o sursă sau într-o regiune mică a unui front sferic.
+            <line x1="95" y1="165" x2="680" y2="165"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"
+                  marker-end="url(#c11-3-blue)"/>
+
+            <text x="325" y="140" fill="#2563eb" font-size="25">direcția propagării</text>
+            <text x="210" y="305" fill="#0f766e" font-size="25">fronturi de undă plane</text>
+          </svg>
+
+          <p class="caption">
+            Fronturile plane rămân paralele; raza de undă este perpendiculară pe ele.
+          </p>
         </div>
       </article>
     </section>
@@ -537,10 +555,10 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Undă progresivă</span>
-        <h2>Forma generală în 1D</h2>
+        <h2>Funcțiile $f(x-vt)$ și $f(x+vt)$</h2>
 
         <p>
-          O undă care se propagă de-a lungul axei $Ox$, în sens pozitiv, poate fi scrisă:
+          O perturbație care se propagă fără deformare spre sensul pozitiv al axei $Ox$ are forma:
         </p>
 
         <div class="formula">
@@ -548,26 +566,23 @@
         </div>
 
         <p>
-          O undă care se propagă în sens negativ al axei $Ox$ se scrie:
+          O perturbație care se propagă spre sensul negativ al axei $Ox$ are forma:
         </p>
 
         <div class="formula">
           $$\xi(x,t)=f(x+vt)$$
         </div>
 
-        <p>
-          Semnul din argument arată sensul propagării.
-        </p>
-
         <div class="exam">
           <strong>Regulă rapidă:</strong>
-          $f(x-vt)$ se propagă spre $+x$, iar $f(x+vt)$ se propagă spre $-x$.
+          pentru propagare spre $+x$ apare combinația $x-vt$; pentru propagare spre $-x$ apare
+          combinația $x+vt$.
         </div>
 
         <div class="warning">
           <strong>Capcană:</strong>
-          semnul minus din $x-vt$ nu înseamnă deplasare spre stânga.
-          Forma $x-vt=\text{constant}$ dă $x=vt+\text{constant}$, deci propagare spre dreapta.
+          forma $A\cos(\omega t-kx)$ este echivalentă cu $A\cos(kx-\omega t)$,
+          deoarece funcția cosinus este pară. Ambele descriu propagare spre $+x$.
         </div>
       </article>
     </section>
@@ -575,148 +590,57 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Undă armonică plană</span>
-        <h2>Ecuația sinusoidală</h2>
+        <h2>Ecuația undei sinusoidale</h2>
 
         <p>
-          O undă armonică plană care se propagă spre sensul pozitiv al axei $Ox$ este:
+          Unda armonică plană care se propagă spre $+x$ se scrie:
         </p>
 
         <div class="formula">
           $$\xi(x,t)=A\cos(\omega t-kx+\varphi_0)$$
         </div>
 
-        <p>
-          Echivalent, poate fi scrisă:
-        </p>
-
-        <div class="formula">
-          $$\xi(x,t)=A\sin(\omega t-kx+\varphi_0)$$
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Mărime</th>
+                <th>Semnificație</th>
+                <th>Relație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$A$</td>
+                <td>Amplitudinea oscilației</td>
+                <td>Elongația maximă</td>
+              </tr>
+              <tr>
+                <td>$T$</td>
+                <td>Perioada</td>
+                <td>$f=1/T$</td>
+              </tr>
+              <tr>
+                <td>$f$</td>
+                <td>Frecvența</td>
+                <td>$\omega=2\pi f$</td>
+              </tr>
+              <tr>
+                <td>$\lambda$</td>
+                <td>Lungimea de undă</td>
+                <td>$k=2\pi/\lambda$</td>
+              </tr>
+              <tr>
+                <td>$k$</td>
+                <td>Numărul de undă</td>
+                <td>$[k]=\text{rad/m}$</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Mărime</th>
-              <th>Semnificație</th>
-              <th>Unitate</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>$A$</td>
-              <td>Amplitudinea oscilației</td>
-              <td>m</td>
-            </tr>
-            <tr>
-              <td>$\omega$</td>
-              <td>Pulsația</td>
-              <td>rad/s</td>
-            </tr>
-            <tr>
-              <td>$k$</td>
-              <td>Numărul de undă</td>
-              <td>rad/m</td>
-            </tr>
-            <tr>
-              <td>$\varphi_0$</td>
-              <td>Faza inițială</td>
-              <td>rad</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          amplitudinea este mărimea oscilației locale, nu distanța parcursă de undă într-o perioadă.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Mărimi caracteristice</span>
-        <h2>$T$, $f$, $\lambda$, $\omega$, $k$</h2>
-
-        <p>
-          Perioada $T$ este timpul unei oscilații complete.
-          Frecvența $f$ este numărul de oscilații pe secundă.
-        </p>
-
-        <div class="formula">
-          $$f=\frac{1}{T},\qquad \omega=2\pi f=\frac{2\pi}{T}$$
-        </div>
-
-        <p>
-          Lungimea de undă $\lambda$ este distanța parcursă de undă într-o perioadă:
-        </p>
-
-        <div class="formula">
-          $$\lambda=vT$$
-        </div>
-
-        <p>
-          Numărul de undă este:
-        </p>
-
-        <div class="formula">
-          $$k=\frac{2\pi}{\lambda}$$
-        </div>
-
-        <p>
-          Relația fundamentală este:
-        </p>
 
         <div class="formula">
           $$v=\lambda f=\frac{\omega}{k}$$
-        </div>
-
-        <div class="exam">
-          <strong>De reținut:</strong>
-          când unda trece dintr-un mediu în altul, frecvența rămâne aceeași, dar viteza și lungimea de undă se pot modifica.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Fază</span>
-        <h2>Puncte în fază și în opoziție de fază</h2>
-
-        <p>
-          Faza unei unde armonice plane este:
-        </p>
-
-        <div class="formula">
-          $$\Phi(x,t)=\omega t-kx+\varphi_0$$
-        </div>
-
-        <p>
-          Două puncte sunt în aceeași fază dacă diferența de fază este multiplu de $2\pi$:
-        </p>
-
-        <div class="formula">
-          $$\Delta \Phi=2n\pi,\qquad n\in\mathbb Z$$
-        </div>
-
-        <p>
-          Două puncte sunt în opoziție de fază dacă:
-        </p>
-
-        <div class="formula">
-          $$\Delta \Phi=(2n+1)\pi$$
-        </div>
-
-        <p>
-          Pentru două puncte separate prin distanța $\Delta x$ la același moment:
-        </p>
-
-        <div class="formula">
-          $$|\Delta \Phi|=k\Delta x=\frac{2\pi}{\lambda}\Delta x$$
-        </div>
-
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          două puncte aflate la distanța $\lambda$ sunt în fază; două puncte aflate la distanța $\lambda/2$ sunt în opoziție de fază.
         </div>
       </article>
     </section>
@@ -724,14 +648,14 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Viteza de fază</span>
-        <h2>Cum se obține $v=\omega/k$?</h2>
+        <h2>Deducerea relației $v=\omega/k$</h2>
 
         <p>
-          Un punct de fază constantă satisface:
+          Pentru un punct de fază constantă:
         </p>
 
         <div class="formula">
-          $$\omega t-kx+\varphi_0=\text{constant}$$
+          $$\Phi=\omega t-kx+\varphi_0=\text{constant}$$
         </div>
 
         <p>
@@ -747,18 +671,21 @@
         </p>
 
         <div class="formula">
-          $$v_{\varphi}=\frac{dx}{dt}=\frac{\omega}{k}$$
+          $$v=\frac{dx}{dt}=\frac{\omega}{k}$$
+        </div>
+
+        <p>
+          Cum $\omega=2\pi f$ și $k=\dfrac{2\pi}{\lambda}$:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{2\pi f}{2\pi/\lambda}=\lambda f$$
         </div>
 
         <div class="exam">
-          <strong>Formulare de examen:</strong>
-          viteza de fază este viteza cu care se deplasează un punct de fază constantă al undei.
-        </div>
-
-        <div class="warning">
-          <strong>Capcană:</strong>
-          viteza de fază nu este viteza de oscilație a particulei mediului.
-          Particula are viteza $u=\partial \xi/\partial t$.
+          <strong>Concluzie:</strong>
+          viteza undei este determinată de proprietățile mediului, iar pentru unda armonică
+          se poate calcula prin $v=\lambda f$.
         </div>
       </article>
     </section>
@@ -766,22 +693,11 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Ecuația undei</span>
-        <h2>Ecuația diferențială în 1D</h2>
+        <h2>Forma diferențială în 1D</h2>
 
         <p>
-          Pentru o undă elastică plană care se propagă fără amortizare de-a lungul axei $Ox$,
-          funcția de undă satisface ecuația:
-        </p>
-
-        <div class="formula">
-          $$\frac{\partial^2 \xi}{\partial x^2}
-          =
-          \frac{1}{v^2}
-          \frac{\partial^2 \xi}{\partial t^2}$$
-        </div>
-
-        <p>
-          Echivalent:
+          Într-un mediu omogen și izotrop, o undă plană care se propagă pe axa $Ox$
+          satisface ecuația undei:
         </p>
 
         <div class="formula">
@@ -791,23 +707,29 @@
         </div>
 
         <p>
-          Soluția generală în 1D este suma a două unde progresive:
+          Soluția generală în o dimensiune este:
         </p>
 
         <div class="formula">
           $$\xi(x,t)=f(x-vt)+g(x+vt)$$
         </div>
 
+        <p>
+          Primul termen descrie o undă care se propagă spre $+x$, iar al doilea termen
+          descrie o undă care se propagă spre $-x$.
+        </p>
+
         <div class="exam">
-          <strong>Interpretare:</strong>
-          termenul $f(x-vt)$ descrie propagarea spre $+x$, iar $g(x+vt)$ descrie propagarea spre $-x$.
+          <strong>Formulare de examen:</strong>
+          ecuația undei este o ecuație diferențială de ordinul al doilea care leagă
+          variația temporală a perturbației de curbura ei spațială.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Verificarea soluției</span>
+        <span class="eyebrow">Verificare matematică</span>
         <h2>Unda armonică satisface ecuația undei</h2>
 
         <p>
@@ -819,7 +741,7 @@
         </div>
 
         <p>
-          Derivata a doua în raport cu timpul este:
+          Derivata a doua în raport cu timpul:
         </p>
 
         <div class="formula">
@@ -827,7 +749,7 @@
         </div>
 
         <p>
-          Derivata a doua în raport cu poziția este:
+          Derivata a doua în raport cu spațiul:
         </p>
 
         <div class="formula">
@@ -835,7 +757,7 @@
         </div>
 
         <p>
-          În ecuația undei:
+          Ecuația undei cere:
         </p>
 
         <div class="formula">
@@ -843,101 +765,141 @@
         </div>
 
         <p>
-          Rezultă:
+          Deci:
         </p>
 
         <div class="formula">
-          $$\omega^2=v^2k^2 \quad \Rightarrow \quad v=\frac{\omega}{k}$$
+          $$v^2=\frac{\omega^2}{k^2}\quad \Rightarrow \quad v=\frac{\omega}{k}$$
         </div>
 
         <div class="exam">
           <strong>Concluzie:</strong>
-          unda armonică plană este soluție a ecuației undei dacă între $\omega$, $k$ și $v$ există relația $v=\omega/k$.
+          forma armonică este soluție a ecuației undei numai dacă între $\omega$, $k$ și $v$
+          există relația $v=\omega/k$.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Viteza undelor elastice</span>
-        <h2>Dependența de mediu</h2>
+        <span class="eyebrow">Două viteze diferite</span>
+        <h2>Viteza undei și viteza particulei mediului</h2>
 
         <p>
-          Viteza undei elastice depinde de proprietățile mediului: elasticitate și inerție.
+          Pentru unda:
         </p>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Sistem</th>
-              <th>Viteza undei</th>
-              <th>Semnificație</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Coardă întinsă</td>
-              <td>$v=\sqrt{\frac{T}{\mu}}$</td>
-              <td>$T$ este tensiunea, $\mu$ masa pe unitatea de lungime.</td>
-            </tr>
-            <tr>
-              <td>Undă longitudinală într-un solid</td>
-              <td>$v=\sqrt{\frac{E}{\rho}}$</td>
-              <td>$E$ modul Young, $\rho$ densitate.</td>
-            </tr>
-            <tr>
-              <td>Sunet în fluid</td>
-              <td>$v=\sqrt{\frac{K}{\rho}}$</td>
-              <td>$K$ modul volumic, $\rho$ densitate.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="formula">
+          $$\xi(x,t)=A\cos(\omega t-kx+\varphi_0)$$
+        </div>
 
-        <div class="exam">
-          <strong>Idee fizică:</strong>
-          viteza este mai mare în medii mai rigide și mai mică în medii cu inerție mare.
+        <p>
+          viteza de oscilație a particulei mediului este:
+        </p>
+
+        <div class="formula">
+          $$u(x,t)=\frac{\partial \xi}{\partial t}
+          =-A\omega\sin(\omega t-kx+\varphi_0)$$
+        </div>
+
+        <p>
+          Viteza de propagare a undei este:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{\omega}{k}$$
         </div>
 
         <div class="warning">
-          <strong>Capcană:</strong>
-          viteza undei nu este stabilită de amplitudine în modelul liniar ideal.
+          <strong>Capcană majoră:</strong>
+          $u(x,t)$ este viteza locală a particulei mediului, iar $v$ este viteza de propagare
+          a perturbației. Acestea nu sunt aceeași mărime.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Energia undei</span>
-        <h2>Transport de energie</h2>
+        <span class="eyebrow">Viteza undelor</span>
+        <h2>Dependența de mediu</h2>
 
         <p>
-          O undă elastică transportă energie prin mediul elastic.
-          În regim armonic liniar, energia transportată crește cu pătratul amplitudinii.
+          În modelul liniar, viteza unei unde elastice depinde de proprietățile mediului,
+          nu de amplitudinea undei.
         </p>
 
-        <div class="formula">
-          $$E \propto A^2$$
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Sistem / mediu</th>
+                <th>Viteza undei</th>
+                <th>Semnificația mărimilor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coardă întinsă</td>
+                <td>$v=\sqrt{\dfrac{T}{\mu}}$</td>
+                <td>$T$ – tensiunea, $\mu$ – masa pe unitatea de lungime.</td>
+              </tr>
+              <tr>
+                <td>Undă longitudinală într-un solid</td>
+                <td>$v=\sqrt{\dfrac{E}{\rho}}$</td>
+                <td>$E$ – modul Young, $\rho$ – densitatea.</td>
+              </tr>
+              <tr>
+                <td>Undă sonoră într-un fluid</td>
+                <td>$v=\sqrt{\dfrac{K}{\rho}}$</td>
+                <td>$K$ – modul volumic, $\rho$ – densitatea.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <p>
-          Intensitatea undei este energia transportată în unitatea de timp prin unitatea de suprafață perpendiculară pe direcția de propagare.
-        </p>
-
-        <div class="formula">
-          $$I=\frac{P}{S}$$
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          mediile mai rigide transmit mai repede perturbațiile; mediile cu densitate mai mare tind
+          să reducă viteza de propagare.
         </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie și intensitate</span>
+        <h2>Ce transportă unda?</h2>
 
         <p>
-          Pentru unde armonice într-un mediu dat:
+          O undă elastică transportă energie prin mediu. Pentru unde armonice în regim liniar,
+          energia transportată crește cu pătratul amplitudinii și cu pătratul pulsației.
         </p>
 
         <div class="formula">
           $$I\propto A^2\omega^2$$
         </div>
 
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          dublarea amplitudinii produce o creștere de patru ori a energiei transportate, dacă restul parametrilor rămân constanți.
+        <p>
+          Intensitatea undei este energia transportată în unitatea de timp prin unitatea de suprafață
+          perpendiculară pe direcția de propagare.
+        </p>
+
+        <div class="formula">
+          $$I=\frac{\Delta E}{S\,\Delta t}$$
+        </div>
+
+        <p>
+          Unitatea în SI este:
+        </p>
+
+        <div class="formula">
+          $$[I]_{SI}=\text{W/m}^2$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          dublarea amplitudinii nu dublează intensitatea; în regim liniar, intensitatea crește
+          de patru ori.
         </div>
       </article>
     </section>
@@ -945,51 +907,58 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Superpoziție</span>
-        <h2>Adunarea undelor</h2>
+        <h2>Interferența undelor</h2>
 
         <p>
-          Într-un mediu liniar, dacă două unde se propagă simultan, elongația rezultantă este suma elongațiilor individuale.
+          Într-un mediu liniar, dacă două unde se suprapun, elongația rezultantă este suma
+          elongațiilor produse separat de fiecare undă.
         </p>
 
         <div class="formula">
           $$\xi=\xi_1+\xi_2$$
         </div>
 
-        <p>
-          Acesta este <span class="mark">principiul superpoziției</span>.
-        </p>
-
         <div class="grid">
           <div class="mini">
             <strong>Interferență constructivă</strong>
-            <p>Undele ajung în fază, iar amplitudinile se adună.</p>
+            <p>Undele sunt în fază:</p>
+            <div class="formula">
+              $$\Delta\Phi=2n\pi$$
+            </div>
           </div>
+
           <div class="mini">
             <strong>Interferență distructivă</strong>
-            <p>Undele ajung în opoziție de fază, iar amplitudinile se scad.</p>
+            <p>Undele sunt în opoziție de fază:</p>
+            <div class="formula">
+              $$\Delta\Phi=(2n+1)\pi$$
+            </div>
           </div>
         </div>
 
+        <p>
+          Pentru două puncte separate cu distanța $\Delta x$ pe direcția propagării:
+        </p>
+
         <div class="formula">
-          $$\Delta\Phi=2n\pi \Rightarrow \text{maxim}$$
-          $$\Delta\Phi=(2n+1)\pi \Rightarrow \text{minim}$$
+          $$\Delta\Phi=k\Delta x=\frac{2\pi}{\lambda}\Delta x$$
         </div>
 
-        <div class="warning">
-          <strong>Capcană:</strong>
-          interferența nu distruge energia totală; ea redistribuie energia în spațiu.
+        <div class="exam">
+          <strong>Observație:</strong>
+          interferența stabilă se observă clar pentru unde coerente, adică unde cu diferență de fază constantă în timp.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Unde staționare</span>
+        <span class="eyebrow">Undă staționară</span>
         <h2>Suprapunerea a două unde opuse</h2>
 
         <p>
-          O undă staționară apare prin suprapunerea a două unde armonice de aceeași amplitudine și frecvență,
-          care se propagă în sensuri opuse.
+          Considerăm două unde armonice de aceeași amplitudine și frecvență, care se propagă
+          în sensuri opuse:
         </p>
 
         <div class="formula">
@@ -998,32 +967,35 @@
         </div>
 
         <p>
-          Prin adunare:
+          Prin superpoziție:
         </p>
 
         <div class="formula">
-          $$\xi=2A\cos(kx)\cos(\omega t)$$
+          $$\xi=\xi_1+\xi_2=2A\cos(kx)\cos(\omega t)$$
         </div>
 
-        <p>
-          Apar <span class="mark">noduri</span> și <span class="mark">ventre</span>.
-        </p>
+        <div class="grid">
+          <div class="mini">
+            <strong>Noduri</strong>
+            <p>Puncte care rămân permanent în repaus:</p>
+            <div class="formula">
+              $$\cos(kx)=0$$
+            </div>
+          </div>
 
-        <div class="svgbox">
-          <svg viewBox="0 0 760 330" role="img" aria-label="Undă staționară cu noduri și ventre">
-            <path d="M80 170 H690" stroke="#64748b" stroke-width="3"/>
-            <path d="M100 170 C145 70, 225 70, 270 170 S395 270, 440 170 S565 70, 610 170" fill="none" stroke="#2563eb" stroke-width="6"/>
-            <path d="M100 170 C145 270, 225 270, 270 170 S395 70, 440 170 S565 270, 610 170" fill="none" stroke="#0f766e" stroke-width="5" stroke-dasharray="8 8"/>
-            <circle cx="100" cy="170" r="8" fill="#ef4444"/>
-            <circle cx="270" cy="170" r="8" fill="#ef4444"/>
-            <circle cx="440" cy="170" r="8" fill="#ef4444"/>
-            <circle cx="610" cy="170" r="8" fill="#ef4444"/>
-            <text x="85" y="210" fill="#ef4444" font-size="23">noduri</text>
-            <text x="170" y="75" fill="#2563eb" font-size="23">ventru</text>
-          </svg>
-          <p class="caption">
-            Într-o undă staționară, nodurile rămân fixe, iar energia nu se propagă global ca într-o undă progresivă.
-          </p>
+          <div class="mini">
+            <strong>Ventre</strong>
+            <p>Puncte cu amplitudine maximă:</p>
+            <div class="formula">
+              $$|\cos(kx)|=1$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          unda staționară nu transportă energie netă de-a lungul mediului, deși fiecare punct
+          dintre noduri oscilează.
         </div>
       </article>
     </section>
@@ -1035,7 +1007,7 @@
 
         <p>
           Pentru o coardă de lungime $L$ fixată la ambele capete, capetele sunt noduri.
-          Condiția pentru modurile staționare este:
+          Condiția de staționaritate impune:
         </p>
 
         <div class="formula">
@@ -1043,7 +1015,7 @@
         </div>
 
         <p>
-          De aici:
+          Lungimile de undă permise sunt:
         </p>
 
         <div class="formula">
@@ -1058,52 +1030,41 @@
           $$f_n=\frac{v}{\lambda_n}=\frac{nv}{2L}$$
         </div>
 
-        <div class="exam">
-          <strong>Interpretare:</strong>
-          $n=1$ este armonica fundamentală, iar $n=2,3,\ldots$ sunt armonici superioare.
-        </div>
+        <div class="svgbox">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Moduri normale pe coardă fixată">
+            <line x1="95" y1="90" x2="665" y2="90" stroke="#64748b" stroke-width="4"/>
+            <line x1="95" y1="180" x2="665" y2="180" stroke="#64748b" stroke-width="4"/>
+            <line x1="95" y1="270" x2="665" y2="270" stroke="#64748b" stroke-width="4"/>
 
-        <div class="warning">
-          <strong>Capcană:</strong>
-          pentru coarda fixată la ambele capete, distanța dintre două noduri consecutive este $\lambda/2$, nu $\lambda$.
-        </div>
-      </article>
-    </section>
+            <circle cx="95" cy="90" r="8" fill="#ef4444"/>
+            <circle cx="665" cy="90" r="8" fill="#ef4444"/>
 
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Reflexie</span>
-        <h2>Ce se întâmplă la capătul mediului?</h2>
+            <circle cx="95" cy="180" r="8" fill="#ef4444"/>
+            <circle cx="380" cy="180" r="8" fill="#ef4444"/>
+            <circle cx="665" cy="180" r="8" fill="#ef4444"/>
 
-        <p>
-          Când o undă ajunge la o frontieră, ea se poate reflecta, transmite sau absorbi parțial.
-        </p>
+            <circle cx="95" cy="270" r="8" fill="#ef4444"/>
+            <circle cx="285" cy="270" r="8" fill="#ef4444"/>
+            <circle cx="475" cy="270" r="8" fill="#ef4444"/>
+            <circle cx="665" cy="270" r="8" fill="#ef4444"/>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Frontieră</th>
-              <th>Comportament la reflexie</th>
-              <th>Observație</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Capăt fix</td>
-              <td>Reflexie cu schimbare de fază cu $\pi$.</td>
-              <td>Creasta se reflectă ca vale.</td>
-            </tr>
-            <tr>
-              <td>Capăt liber</td>
-              <td>Reflexie fără inversare de fază.</td>
-              <td>Creasta se reflectă ca creastă.</td>
-            </tr>
-          </tbody>
-        </table>
+            <path d="M95 90 C240 25, 520 25, 665 90"
+                  fill="none" stroke="#2563eb" stroke-width="5"/>
 
-        <div class="exam">
-          <strong>Legătură cu undele staționare:</strong>
-          reflexia unei unde pe o coardă poate produce, prin superpoziție cu unda incidentă, un sistem de noduri și ventre.
+            <path d="M95 180 C190 115, 285 115, 380 180 S570 245, 665 180"
+                  fill="none" stroke="#0f766e" stroke-width="5"/>
+
+            <path d="M95 270 C160 205, 220 205, 285 270 S410 335, 475 270 S600 205, 665 270"
+                  fill="none" stroke="#f59e0b" stroke-width="5"/>
+
+            <text x="685" y="97" fill="#2563eb" font-size="23">n=1</text>
+            <text x="685" y="187" fill="#0f766e" font-size="23">n=2</text>
+            <text x="685" y="277" fill="#f59e0b" font-size="23">n=3</text>
+          </svg>
+
+          <p class="caption">
+            Frecvența fundamentală este $f_1=\dfrac{v}{2L}$, iar armonicile au frecvențele $f_n=nf_1$.
+          </p>
         </div>
       </article>
     </section>
@@ -1111,26 +1072,28 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Problemă rezolvată 1</span>
-        <h2>Viteza, lungimea de undă și frecvența</h2>
+        <h2>Viteza unei unde</h2>
 
         <p>
-          O undă elastică are frecvența $f=50\,\text{Hz}$ și lungimea de undă
-          $\lambda=0{,}8\,\text{m}$. Determinați viteza de propagare.
+          O undă elastică are lungimea de undă $\lambda=0{,}80\,\text{m}$ și frecvența
+          $f=25\,\text{Hz}$. Determinați viteza de propagare.
         </p>
 
-        <p><strong>Relația fundamentală:</strong></p>
+        <p><strong>1. Relația fundamentală:</strong></p>
+
         <div class="formula">
           $$v=\lambda f$$
         </div>
 
-        <p><strong>Calcul numeric:</strong></p>
+        <p><strong>2. Calcul numeric:</strong></p>
+
         <div class="formula">
-          $$v=0{,}8\cdot50=40\,\text{m/s}$$
+          $$v=0{,}80\cdot25=20\,\text{m/s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          viteza de propagare este $40\,\text{m/s}$.
+          viteza de propagare a undei este $20\,\text{m/s}$.
         </div>
       </article>
     </section>
@@ -1141,7 +1104,7 @@
         <h2>Identificarea mărimilor din ecuația undei</h2>
 
         <p>
-          O undă este descrisă de ecuația:
+          Se dă unda:
         </p>
 
         <div class="formula">
@@ -1149,37 +1112,45 @@
         </div>
 
         <p>
-          Determinați amplitudinea, pulsația, numărul de undă, frecvența, lungimea de undă și viteza.
+          Determinați amplitudinea, frecvența, lungimea de undă și viteza de propagare.
         </p>
 
-        <p><strong>Comparație cu forma standard:</strong></p>
+        <p><strong>1. Comparăm cu forma standard:</strong></p>
+
         <div class="formula">
           $$\xi=A\cos(\omega t-kx+\varphi_0)$$
         </div>
 
-        <p><strong>Identificăm:</strong></p>
+        <p>
+          Rezultă:
+        </p>
+
         <div class="formula">
           $$A=0{,}02\,\text{m},\qquad \omega=100\pi\,\text{rad/s},\qquad k=5\pi\,\text{rad/m}$$
         </div>
 
-        <p><strong>Frecvența:</strong></p>
+        <p><strong>2. Frecvența:</strong></p>
+
         <div class="formula">
           $$f=\frac{\omega}{2\pi}=\frac{100\pi}{2\pi}=50\,\text{Hz}$$
         </div>
 
-        <p><strong>Lungimea de undă:</strong></p>
+        <p><strong>3. Lungimea de undă:</strong></p>
+
         <div class="formula">
           $$\lambda=\frac{2\pi}{k}=\frac{2\pi}{5\pi}=0{,}4\,\text{m}$$
         </div>
 
-        <p><strong>Viteza:</strong></p>
+        <p><strong>4. Viteza:</strong></p>
+
         <div class="formula">
           $$v=\frac{\omega}{k}=\frac{100\pi}{5\pi}=20\,\text{m/s}$$
         </div>
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          $A=2\,\text{cm}$, $f=50\,\text{Hz}$, $\lambda=0{,}4\,\text{m}$, $v=20\,\text{m/s}$.
+          $A=2\,\text{cm}$, $f=50\,\text{Hz}$, $\lambda=0{,}4\,\text{m}$,
+          $v=20\,\text{m/s}$.
         </div>
       </article>
     </section>
@@ -1195,17 +1166,13 @@
           $\lambda=0{,}60\,\text{m}$. Determinați diferența de fază.
         </p>
 
-        <p>
-          Folosim:
-        </p>
+        <p><strong>1. Formula diferenței de fază:</strong></p>
 
         <div class="formula">
-          $$\Delta\Phi=\frac{2\pi}{\lambda}\Delta x$$
+          $$\Delta\Phi=k\Delta x=\frac{2\pi}{\lambda}\Delta x$$
         </div>
 
-        <p>
-          Calcul:
-        </p>
+        <p><strong>2. Calcul:</strong></p>
 
         <div class="formula">
           $$\Delta\Phi=\frac{2\pi}{0{,}60}\cdot0{,}15$$
@@ -1214,7 +1181,7 @@
 
         <div class="exam">
           <strong>Răspuns final:</strong>
-          diferența de fază este $\frac{\pi}{2}$ rad.
+          diferența de fază este $\dfrac{\pi}{2}$ rad.
         </div>
 
         <div class="warning">
@@ -1235,20 +1202,21 @@
           Determinați frecvența fundamentală și frecvența armonicii a treia.
         </p>
 
-        <p>
-          Pentru coardă fixată la ambele capete:
-        </p>
+        <p><strong>1. Frecvențele proprii:</strong></p>
 
         <div class="formula">
           $$f_n=\frac{nv}{2L}$$
         </div>
 
-        <p><strong>Frecvența fundamentală:</strong></p>
+        <p><strong>2. Frecvența fundamentală:</strong></p>
+
         <div class="formula">
-          $$f_1=\frac{1\cdot60}{2\cdot1{,}2}=\frac{60}{2{,}4}=25\,\text{Hz}$$
+          $$f_1=\frac{1\cdot60}{2\cdot1{,}2}
+          =\frac{60}{2{,}4}=25\,\text{Hz}$$
         </div>
 
-        <p><strong>Armonica a treia:</strong></p>
+        <p><strong>3. Armonica a treia:</strong></p>
+
         <div class="formula">
           $$f_3=3f_1=75\,\text{Hz}$$
         </div>
@@ -1256,6 +1224,40 @@
         <div class="exam">
           <strong>Răspuns final:</strong>
           $f_1=25\,\text{Hz}$ și $f_3=75\,\text{Hz}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Experiment</span>
+        <h2>Determinarea vitezei undei pe o coardă</h2>
+
+        <p>
+          Pentru o coardă întinsă, se poate determina viteza undei prin producerea unei unde staționare.
+          Se măsoară lungimea corzii $L$, frecvența $f$ și numărul de ventre observate.
+        </p>
+
+        <p>
+          Pentru coardă fixată la ambele capete:
+        </p>
+
+        <div class="formula">
+          $$L=n\frac{\lambda}{2}$$
+          $$\lambda=\frac{2L}{n}$$
+          $$v=\lambda f$$
+        </div>
+
+        <div class="exam">
+          <strong>Integrare didactică:</strong>
+          experimentul evidențiază legătura dintre lungime de undă, frecvență, viteză,
+          noduri și ventre.
+        </div>
+
+        <div class="warning">
+          <strong>NTSM:</strong>
+          generatorul de vibrații se fixează stabil, coarda nu se tensionează excesiv,
+          iar elevii nu ating sistemul în timpul funcționării.
         </div>
       </article>
     </section>
@@ -1270,22 +1272,27 @@
             <strong>Confuzia dintre viteza undei și viteza particulei:</strong>
             unda se propagă cu $v$, particula mediului oscilează local.
           </li>
+
           <li>
             <strong>Confuzia dintre $f$ și $\omega$:</strong>
             $\omega=2\pi f$, nu $\omega=f$.
           </li>
+
           <li>
             <strong>Confuzia dintre $k$ și $\lambda$:</strong>
-            $k=\frac{2\pi}{\lambda}$.
+            $k=\dfrac{2\pi}{\lambda}$.
           </li>
+
           <li>
             <strong>Determinarea greșită a sensului propagării:</strong>
             $A\cos(\omega t-kx)$ se propagă spre $+x$.
           </li>
+
           <li>
             <strong>Folosirea amplitudinii pentru viteza undei:</strong>
             în model liniar, viteza undei depinde de mediu, nu de amplitudine.
           </li>
+
           <li>
             <strong>Confuzia dintre undă progresivă și undă staționară:</strong>
             unda progresivă transportă energie; unda staționară are noduri fixe.
@@ -1294,7 +1301,8 @@
 
         <div class="exam">
           <strong>Formulare recomandată:</strong>
-          „Compar ecuația dată cu forma standard a undei armonice plane, identific $\omega$ și $k$, apoi determin $f$, $\lambda$ și $v=\omega/k$.”
+          „Compar ecuația dată cu forma standard a undei armonice plane, identific
+          $\omega$ și $k$, apoi determin $f$, $\lambda$ și $v=\omega/k$.”
         </div>
       </article>
     </section>
@@ -1317,37 +1325,40 @@
           $$f_n=\frac{nv}{2L},\qquad n=1,2,3,\ldots$$
         </div>
 
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Concept</th>
-              <th>De reținut</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Undă elastică</td>
-              <td>Propagare de perturbație mecanică într-un mediu elastic.</td>
-            </tr>
-            <tr>
-              <td>Undă plană</td>
-              <td>Fronturile de undă sunt plane paralele.</td>
-            </tr>
-            <tr>
-              <td>Undă armonică</td>
-              <td>Dependență sinusoidală de spațiu și timp.</td>
-            </tr>
-            <tr>
-              <td>Undă staționară</td>
-              <td>Rezultă prin superpoziția a două unde opuse și are noduri fixe.</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Concept</th>
+                <th>De reținut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Undă elastică</td>
+                <td>Propagare de perturbație mecanică într-un mediu elastic.</td>
+              </tr>
+              <tr>
+                <td>Undă plană</td>
+                <td>Fronturile de undă sunt plane paralele.</td>
+              </tr>
+              <tr>
+                <td>Undă armonică</td>
+                <td>Dependență sinusoidală de spațiu și timp.</td>
+              </tr>
+              <tr>
+                <td>Undă staționară</td>
+                <td>Rezultă prin superpoziția a două unde opuse și are noduri fixe.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="bottom-links">
-          <a href="C12-statica-fluidelor.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
-          <a href="index.html">Înapoi la capitol</a>
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          se dă ecuația unei unde armonice plane. Identifică $A$, $\omega$, $k$, $f$,
+          $\lambda$, $v$, sensul propagării și diferența de fază dintre două puncte separate
+          printr-o distanță dată.
         </div>
       </article>
     </section>
@@ -1373,10 +1384,10 @@
           <li>Deduceți frecvențele proprii ale unei corzi fixate la ambele capete.</li>
         </ol>
 
-        <div class="exam">
-          <strong>Problemă tipică de examen:</strong>
-          se dă ecuația unei unde armonice plane. Identifică $A$, $\omega$, $k$, $f$, $\lambda$, $v$,
-          sensul propagării și diferența de fază dintre două puncte separate printr-o distanță dată.
+        <div class="formula">
+          $$\xi=A\cos(\omega t-kx+\varphi_0),\qquad
+          v=\lambda f=\frac{\omega}{k},\qquad
+          \frac{\partial^2 \xi}{\partial t^2}=v^2\frac{\partial^2 \xi}{\partial x^2}$$
         </div>
 
         <div class="bottom-links">
@@ -1389,23 +1400,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 22</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
+
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -1428,6 +1447,8 @@
     if (savedTheme) {
       document.documentElement.dataset.theme = savedTheme;
     }
+
+    updatePageStatus();
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") nextPage();
