@@ -1,1 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 8 – Mișcarea în câmp central</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 8 • Mișcarea în câmp central</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C08-miscarea-in-camp-central.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 8</span>
+        <h1>Mișcarea în câmp central</h1>
+
+        <p class="lead">
+          Fișă completă pentru câmpuri centrale, forțe centrale, moment cinetic, legea ariilor,
+          mișcarea gravitațională, orbite circulare, energia orbitală, viteza de evadare și legile lui Kepler.
+          Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 80 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Câmp central</strong>
+            <p>
+              Un câmp este central dacă forța exercitată asupra punctului material este orientată pe direcția
+              razei vectoare față de un centru fix $O$ și modulul ei depinde numai de distanța $r$.
+            </p>
+            <div class="formula">
+              $$\vec F=F(r)\,\vec e_r$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>2. Momentul forței centrale</strong>
+            <p>
+              Deoarece $\vec F$ este coliniară cu $\vec r$, momentul forței față de centru este nul.
+            </p>
+            <div class="formula">
+              $$\vec M_O=\vec r\times\vec F=\vec0$$
+            </div>
+            <p>
+              Aceasta duce direct la conservarea momentului cinetic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Moment cinetic conservat</strong>
+            <div class="formula">
+              $$\vec L=\vec r\times m\vec v$$
+              $$\frac{d\vec L}{dt}=\vec M_O=\vec0$$
+              $$\vec L=\text{constant}$$
+            </div>
+            <p>
+              Traiectoria este plană, deoarece vectorul $\vec L$ își păstrează direcția.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Legea ariilor</strong>
+            <p>
+              Raza vectoare mătură arii egale în intervale de timp egale.
+            </p>
+            <div class="formula">
+              $$\frac{dA}{dt}=\frac{L}{2m}=\text{constant}$$
+            </div>
+            <p>
+              Aceasta este legea a doua a lui Kepler pentru mișcarea planetară.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Câmp gravitațional newtonian</strong>
+            <p>
+              Forța gravitațională dintre două mase este atractivă și are modul invers proporțional cu $r^2$.
+            </p>
+            <div class="formula">
+              $$F=G\frac{Mm}{r^2}$$
+              $$\vec F=-G\frac{Mm}{r^2}\vec e_r$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>6. Parametrul gravitațional</strong>
+            <p>
+              În problemele orbitale se folosește frecvent:
+            </p>
+            <div class="formula">
+              $$\mu=GM$$
+              $$g(r)=\frac{\mu}{r^2}$$
+            </div>
+            <p>
+              Astfel se evită scrierea repetată a produsului $GM$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Energia potențială gravitațională</strong>
+            <p>
+              Alegând energia potențială nulă la infinit:
+            </p>
+            <div class="formula">
+              $$E_p(r)=-G\frac{Mm}{r}=-\frac{\mu m}{r}$$
+            </div>
+            <p>
+              Semnul negativ arată că interacțiunea gravitațională este atractivă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Energia mecanică totală</strong>
+            <div class="formula">
+              $$E=\frac12mv^2-\frac{\mu m}{r}$$
+            </div>
+            <p>
+              Pentru orbită legată, energia totală este negativă. Pentru evadare, energia minimă finală
+              la infinit este zero.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>9. Orbită circulară</strong>
+            <p>
+              Forța gravitațională asigură accelerația centripetă:
+            </p>
+            <div class="formula">
+              $$\frac{mv^2}{r}=\frac{\mu m}{r^2}$$
+              $$v_c=\sqrt{\frac{\mu}{r}}$$
+              $$T=2\pi\sqrt{\frac{r^3}{\mu}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Viteza de evadare</strong>
+            <p>
+              Viteza minimă pentru ca un corp să ajungă la infinit cu viteză finală nulă este:
+            </p>
+            <div class="formula">
+              $$v_e=\sqrt{\frac{2\mu}{r}}$$
+            </div>
+            <p>
+              Relația se obține din conservarea energiei mecanice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>11. Legile lui Kepler</strong>
+            <ol>
+              <li>Planetele descriu elipse, Soarele fiind într-un focar.</li>
+              <li>Raza vectoare mătură arii egale în timpuri egale.</li>
+              <li>Pentru același corp central: $\dfrac{T^2}{a^3}=\text{constant}$.</li>
+            </ol>
+            <div class="formula">
+              $$T^2=\frac{4\pi^2}{\mu}a^3$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>12. Ecuația vis-viva</strong>
+            <p>
+              Pentru o orbită kepleriană:
+            </p>
+            <div class="formula">
+              $$v^2=\mu\left(\frac{2}{r}-\frac{1}{a}\right)$$
+            </div>
+            <p>
+              $a$ este semiaxa mare a orbitei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>13. Potențial efectiv</strong>
+            <p>
+              Mișcarea radială poate fi analizată cu energia potențială efectivă:
+            </p>
+            <div class="formula">
+              $$U_{\text{ef}}(r)=\frac{L^2}{2mr^2}-\frac{k}{r}$$
+            </div>
+            <p>
+              Primul termen este bariera centrifugă, iar al doilea este potențialul atractiv.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Orbită circulară din potențial efectiv</strong>
+            <p>
+              Pentru orbită circulară, potențialul efectiv are extrem:
+            </p>
+            <div class="formula">
+              $$\frac{dU_{\text{ef}}}{dr}=0$$
+              $$r_c=\frac{L^2}{mk}$$
+            </div>
+            <p>
+              În câmp gravitațional, $k=GMm=\mu m$.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          forța centrală nu este orice forță orientată „spre ceva”; ea trebuie să fie pe direcția razei vectoare.
+          Momentul cinetic se conservă față de centrul forței. Pentru orbite circulare se folosește
+          $v_c=\sqrt{\mu/r}$, iar pentru evadare $v_e=\sqrt{2\mu/r}$.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Forță centrală</td>
+                  <td></td>
+                  <td>Orientată pe direcția razei vectoare.</td>
+                </tr>
+                <tr>
+                  <td>Momentul forței centrale</td>
+                  <td></td>
+                  <td>Nul față de centrul forței.</td>
+                </tr>
+                <tr>
+                  <td>Moment cinetic</td>
+                  <td></td>
+                  <td>Se conservă în câmp central.</td>
+                </tr>
+                <tr>
+                  <td>Viteză areolară</td>
+                  <td></td>
+                  <td>Constantă în câmp central.</td>
+                </tr>
+                <tr>
+                  <td>Forță gravitațională</td>
+                  <td></td>
+                  <td>Atractivă, proporțională cu $1/r^2$.</td>
+                </tr>
+                <tr>
+                  <td>Orbită circulară</td>
+                  <td></td>
+                  <td>Forța gravitațională este centripetă.</td>
+                </tr>
+                <tr>
+                  <td>Viteză de evadare</td>
+                  <td></td>
+                  <td>Se obține din conservarea energiei.</td>
+                </tr>
+                <tr>
+                  <td>Legea a III-a a lui Kepler</td>
+                  <td></td>
+                  <td>$T^2/a^3$ este constant pentru același corp central.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Într-un câmp central, momentul forței față de centru este nul.</li>
+            <li>Într-un câmp central, momentul cinetic față de centru se conservă.</li>
+            <li>Legea ariilor rezultă din conservarea energiei cinetice.</li>
+            <li>În câmp gravitațional, energia potențială este $E_p=-\mu m/r$ dacă referința este la infinit.</li>
+            <li>Pentru orbită circulară, $v_c=\sqrt{\mu/r}$.</li>
+            <li>Viteza de evadare este mai mică decât viteza circulară la aceeași rază.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\vec F=$ <span class="line"></span></p>
+              <p>$\vec M_O=$ <span class="line"></span></p>
+              <p>$\vec L=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$\dfrac{dA}{dt}=$ <span class="line"></span></p>
+              <p>$v_c=$ <span class="line"></span></p>
+              <p>$v_e=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Forță centrală de tip invers pătratic. 5 p</h3>
+
+          <p>
+            O particulă de masă $m=<span class="var" id="e1m"></span>\,\text{kg}$
+            se află la distanța $r=<span class="var" id="e1r"></span>\,\text{m}$
+            de centrul unui câmp atractiv cu parametrul
+            $k=<span class="var" id="e1k"></span>\,\text{N}\cdot\text{m}^2$.
+            Modulul forței este $F=k/r^2$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează modulul forței centrale.</li>
+            <li>Calculează accelerația radială a particulei.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Momentul cinetic al unei particule. 5 p</h3>
+
+          <p>
+            O particulă de masă $m=<span class="var" id="e2m"></span>\,\text{kg}$
+            se află la distanța $r=<span class="var" id="e2r"></span>\,\text{m}$
+            față de centru și are componenta tangențială a vitezei
+            $v_t=<span class="var" id="e2vt"></span>\,\text{m/s}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează modulul momentului cinetic față de centru.</li>
+            <li>Calculează viteza areolară.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Legea ariilor. 5 p</h3>
+
+          <p>
+            O particulă se mișcă într-un câmp central și mătură aria
+            $A_1=<span class="var" id="e3A1"></span>\,\text{m}^2$
+            în timpul $t_1=<span class="var" id="e3t1"></span>\,\text{s}$.
+            Determină aria măturată în timpul
+            $t_2=<span class="var" id="e3t2"></span>\,\text{s}$.
+          </p>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Orbită circulară în câmp gravitațional. 7 p</h3>
+
+          <p>
+            Pentru un corp central cu parametrul gravitațional
+            $\mu=<span class="var" id="e4mu"></span>\,\text{m}^3/\text{s}^2$,
+            un satelit se află pe orbită circulară de rază
+            $r=<span class="var" id="e4r"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza orbitală circulară.</li>
+            <li>Determină perioada orbitală.</li>
+            <li>Calculează accelerația centripetă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Viteza de evadare. 6 p</h3>
+
+          <p>
+            Pentru același tip de câmp gravitațional, se dau
+            $\mu=<span class="var" id="e5mu"></span>\,\text{m}^3/\text{s}^2$
+            și $r=<span class="var" id="e5r"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Determină viteza circulară la raza $r$.</li>
+            <li>Determină viteza de evadare.</li>
+            <li>Compară cele două viteze.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Energia pe orbită circulară. 6 p</h3>
+
+          <p>
+            Un corp de masă $m=<span class="var" id="e6m"></span>\,\text{kg}$
+            se află pe o orbită circulară de rază
+            $r=<span class="var" id="e6r"></span>\,\text{m}$
+            în jurul unui corp central cu
+            $\mu=<span class="var" id="e6mu"></span>\,\text{m}^3/\text{s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează energia cinetică.</li>
+            <li>Calculează energia potențială.</li>
+            <li>Calculează energia mecanică totală.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Legea a III-a a lui Kepler. 6 p</h3>
+
+          <p>
+            Un corp se află pe o orbită cu semiaxa mare
+            $a_1=<span class="var" id="e7a1"></span>\,\text{u.a.}$
+            și perioada
+            $T_1=<span class="var" id="e7T1"></span>\,\text{ani}$.
+            Pentru altă orbită în jurul aceluiași corp central,
+            semiaxa mare este
+            $a_2=<span class="var" id="e7a2"></span>\,\text{u.a.}$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie legea a III-a a lui Kepler.</li>
+            <li>Determină perioada $T_2$.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Ecuația vis-viva. 6 p</h3>
+
+          <p>
+            O particulă se află pe o orbită eliptică având semiaxa mare
+            $a=<span class="var" id="e8a"></span>\,\text{m}$.
+            La distanța
+            $r=<span class="var" id="e8r"></span>\,\text{m}$
+            față de centru, parametrul gravitațional este
+            $\mu=<span class="var" id="e8mu"></span>\,\text{m}^3/\text{s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie ecuația vis-viva.</li>
+            <li>Calculează viteza în acel punct.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Potențial efectiv. 5 p</h3>
+
+          <p>
+            O particulă de masă $m=<span class="var" id="e9m"></span>\,\text{kg}$
+            are moment cinetic $L=<span class="var" id="e9L"></span>\,\text{kg}\cdot\text{m}^2/\text{s}$
+            într-un câmp atractiv cu parametrul
+            $k=<span class="var" id="e9k"></span>\,\text{N}\cdot\text{m}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie potențialul efectiv.</li>
+            <li>Determină raza orbitei circulare.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Accelerarea gravitațională la distanță. 5 p</h3>
+
+          <p>
+            La suprafața unui corp ceresc, accelerația gravitațională este
+            $g_0=<span class="var" id="e10g0"></span>\,\text{m/s}^2$.
+            Determină accelerația gravitațională la distanța
+            $r=<span class="var" id="e10factor"></span>R$
+            față de centrul corpului.
+          </p>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Satelit geostaționar idealizat. 5 p</h3>
+
+          <p>
+            Un satelit trebuie să aibă perioada
+            $T=<span class="var" id="e11T"></span>\,\text{s}$
+            în jurul unui corp central cu
+            $\mu=<span class="var" id="e11mu"></span>\,\text{m}^3/\text{s}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Pornește de la formula $T=2\pi\sqrt{r^3/\mu}$.</li>
+            <li>Determină raza orbitei circulare.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>15. Demonstrează legea ariilor pentru câmp central. 15 p</h3>
+
+          <p>
+            Redactează o demonstrație structurată pentru legea ariilor în mișcarea într-un câmp central.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>definiția forței centrale;</li>
+            <li>calculul momentului forței $\vec M_O=\vec r\times\vec F$;</li>
+            <li>deducerea conservării momentului cinetic;</li>
+            <li>legătura dintre aria măturată și momentul cinetic;</li>
+            <li>enunțul legii ariilor;</li>
+            <li>o capcană de interpretare.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–14, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> definiție corectă 2 p, momentul forței 3 p, conservarea momentului cinetic 3 p, viteza areolară 4 p, claritate și capcană 3 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C08-miscarea-in-camp-central.html">Înapoi la lecția C08</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c08", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c08");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1r = randInt(2, 8);
+      const e1F = randInt(6, 30);
+      const e1 = {
+        m: randInt(1, 6),
+        r: e1r,
+        k: e1F * e1r * e1r
+      };
+
+      const e2 = {
+        m: randInt(1, 8),
+        r: randInt(2, 10),
+        vt: randInt(3, 14)
+      };
+
+      const e3 = {
+        A1: randInt(20, 100, 10),
+        t1: randInt(2, 10),
+        t2: randInt(4, 20)
+      };
+
+      const e4r = choose([10, 12, 15, 20, 25, 30]);
+      const e4vc = randInt(4, 12);
+      const e4 = {
+        r: e4r,
+        mu: e4vc * e4vc * e4r
+      };
+
+      const e5r = choose([8, 10, 12, 15, 20]);
+      const e5vc = randInt(5, 14);
+      const e5 = {
+        r: e5r,
+        mu: e5vc * e5vc * e5r
+      };
+
+      const e6r = choose([10, 12, 15, 20]);
+      const e6vc = randInt(4, 12);
+      const e6 = {
+        m: randInt(1, 6),
+        r: e6r,
+        mu: e6vc * e6vc * e6r
+      };
+
+      const e7a1 = 1;
+      const e7T1 = 1;
+      const e7a2 = choose([4, 9, 16, 25]);
+      const e7 = {
+        a1: e7a1,
+        T1: e7T1,
+        a2: e7a2
+      };
+
+      const e8a = choose([20, 24, 30, 40]);
+      const e8r = choose([10, 12, 15, 16, 18]);
+      const e8mu = randInt(300, 900, 100);
+      const e8 = {
+        a: e8a,
+        r: Math.min(e8r, 2 * e8a - 1),
+        mu: e8mu
+      };
+
+      const e9m = randInt(1, 5);
+      const e9rc = randInt(3, 10);
+      const e9k = randInt(10, 60, 5);
+      const e9L = Math.round(Math.sqrt(e9m * e9k * e9rc));
+      const e9 = {
+        m: e9m,
+        L: e9L,
+        k: e9k
+      };
+
+      const e10 = {
+        g0: choose([8, 9, 10, 12]),
+        factor: choose([2, 3, 4, 5])
+      };
+
+      const e11T = choose([20, 30, 40, 50, 60]);
+      const e11r = choose([8, 10, 12, 15, 20]);
+      const e11mu = Math.round(4 * Math.PI * Math.PI * Math.pow(e11r, 3) / (e11T * e11T));
+      const e11 = {
+        T: e11T,
+        r: e11r,
+        mu: e11mu
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11 };
+      localStorage.setItem("values-fisa-c08", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1m", fmt(data.e1.m, 0));
+      setText("e1r", fmt(data.e1.r, 0));
+      setText("e1k", fmt(data.e1.k, 0));
+
+      setText("e2m", fmt(data.e2.m, 0));
+      setText("e2r", fmt(data.e2.r, 0));
+      setText("e2vt", fmt(data.e2.vt, 0));
+
+      setText("e3A1", fmt(data.e3.A1, 0));
+      setText("e3t1", fmt(data.e3.t1, 0));
+      setText("e3t2", fmt(data.e3.t2, 0));
+
+      setText("e4mu", fmt(data.e4.mu, 0));
+      setText("e4r", fmt(data.e4.r, 0));
+
+      setText("e5mu", fmt(data.e5.mu, 0));
+      setText("e5r", fmt(data.e5.r, 0));
+
+      setText("e6m", fmt(data.e6.m, 0));
+      setText("e6r", fmt(data.e6.r, 0));
+      setText("e6mu", fmt(data.e6.mu, 0));
+
+      setText("e7a1", fmt(data.e7.a1, 0));
+      setText("e7T1", fmt(data.e7.T1, 0));
+      setText("e7a2", fmt(data.e7.a2, 0));
+
+      setText("e8a", fmt(data.e8.a, 0));
+      setText("e8r", fmt(data.e8.r, 0));
+      setText("e8mu", fmt(data.e8.mu, 0));
+
+      setText("e9m", fmt(data.e9.m, 0));
+      setText("e9L", fmt(data.e9.L, 0));
+      setText("e9k", fmt(data.e9.k, 0));
+
+      setText("e10g0", fmt(data.e10.g0, 0));
+      setText("e10factor", fmt(data.e10.factor, 0));
+
+      setText("e11T", fmt(data.e11.T, 0));
+      setText("e11mu", fmt(data.e11.mu, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1F = data.e1.k / (data.e1.r ** 2);
+      const e1a = e1F / data.e1.m;
+
+      const e2L = data.e2.m * data.e2.r * data.e2.vt;
+      const e2Areal = e2L / (2 * data.e2.m);
+
+      const e3Rate = data.e3.A1 / data.e3.t1;
+      const e3A2 = e3Rate * data.e3.t2;
+
+      const e4vc = Math.sqrt(data.e4.mu / data.e4.r);
+      const e4T = 2 * Math.PI * Math.sqrt(Math.pow(data.e4.r, 3) / data.e4.mu);
+      const e4ac = data.e4.mu / (data.e4.r ** 2);
+
+      const e5vc = Math.sqrt(data.e5.mu / data.e5.r);
+      const e5ve = Math.sqrt(2 * data.e5.mu / data.e5.r);
+
+      const e6Ec = data.e6.m * data.e6.mu / (2 * data.e6.r);
+      const e6Ep = -data.e6.m * data.e6.mu / data.e6.r;
+      const e6E = -data.e6.m * data.e6.mu / (2 * data.e6.r);
+
+      const e7T2 = data.e7.T1 * Math.sqrt(Math.pow(data.e7.a2, 3) / Math.pow(data.e7.a1, 3));
+
+      const e8v = Math.sqrt(data.e8.mu * (2 / data.e8.r - 1 / data.e8.a));
+
+      const e9rc = data.e9.L ** 2 / (data.e9.m * data.e9.k);
+
+      const e10g = data.e10.g0 / (data.e10.factor ** 2);
+
+      const e11r = Math.cbrt(data.e11.mu * data.e11.T ** 2 / (4 * Math.PI * Math.PI));
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Forță centrală invers pătratică</h3>
+          <div class="formula">
+            $$F=\\frac{k}{r^2}
+            =\\frac{${tex(data.e1.k, 0)}}{${tex(data.e1.r, 0)}^2}
+            =${tex(e1F, 3)}\\,\\text{N}$$
+            $$a=\\frac{F}{m}
+            =\\frac{${tex(e1F, 3)}}{${tex(data.e1.m, 0)}}
+            =${tex(e1a, 3)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Moment cinetic și viteză areolară</h3>
+          <div class="formula">
+            $$L=mrv_t
+            =${tex(data.e2.m, 0)}\\cdot ${tex(data.e2.r, 0)}\\cdot ${tex(data.e2.vt, 0)}
+            =${tex(e2L, 3)}\\,\\text{kg}\\cdot\\text{m}^2/\\text{s}$$
+            $$\\frac{dA}{dt}=\\frac{L}{2m}
+            =\\frac{${tex(e2L, 3)}}{2\\cdot ${tex(data.e2.m, 0)}}
+            =${tex(e2Areal, 3)}\\,\\text{m}^2/\\text{s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Legea ariilor</h3>
+          <div class="formula">
+            $$\\frac{dA}{dt}=\\frac{A_1}{t_1}
+            =\\frac{${tex(data.e3.A1, 0)}}{${tex(data.e3.t1, 0)}}
+            =${tex(e3Rate, 3)}\\,\\text{m}^2/\\text{s}$$
+            $$A_2=\\frac{dA}{dt}\\,t_2
+            =${tex(e3Rate, 3)}\\cdot ${tex(data.e3.t2, 0)}
+            =${tex(e3A2, 3)}\\,\\text{m}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Orbită circulară</h3>
+          <div class="formula">
+            $$v_c=\\sqrt{\\frac{\\mu}{r}}
+            =\\sqrt{\\frac{${tex(data.e4.mu, 0)}}{${tex(data.e4.r, 0)}}}
+            =${tex(e4vc, 3)}\\,\\text{m/s}$$
+            $$T=2\\pi\\sqrt{\\frac{r^3}{\\mu}}
+            =2\\pi\\sqrt{\\frac{${tex(data.e4.r, 0)}^3}{${tex(data.e4.mu, 0)}}}
+            =${tex(e4T, 3)}\\,\\text{s}$$
+            $$a_c=\\frac{\\mu}{r^2}
+            =\\frac{${tex(data.e4.mu, 0)}}{${tex(data.e4.r, 0)}^2}
+            =${tex(e4ac, 3)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Viteza de evadare</h3>
+          <div class="formula">
+            $$v_c=\\sqrt{\\frac{\\mu}{r}}
+            =${tex(e5vc, 3)}\\,\\text{m/s}$$
+            $$v_e=\\sqrt{\\frac{2\\mu}{r}}
+            =${tex(e5ve, 3)}\\,\\text{m/s}$$
+            $$v_e=\\sqrt2\\,v_c$$
+          </div>
+          <p>Viteza de evadare este mai mare decât viteza circulară la aceeași rază.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Energia pe orbită circulară</h3>
+          <div class="formula">
+            $$E_c=\\frac{\\mu m}{2r}
+            =\\frac{${tex(data.e6.mu, 0)}\\cdot ${tex(data.e6.m, 0)}}{2\\cdot ${tex(data.e6.r, 0)}}
+            =${tex(e6Ec, 3)}\\,\\text{J}$$
+            $$E_p=-\\frac{\\mu m}{r}
+            =${tex(e6Ep, 3)}\\,\\text{J}$$
+            $$E=E_c+E_p=-\\frac{\\mu m}{2r}
+            =${tex(e6E, 3)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Legea a III-a a lui Kepler</h3>
+          <div class="formula">
+            $$\\frac{T_1^2}{a_1^3}=\\frac{T_2^2}{a_2^3}$$
+            $$T_2=T_1\\sqrt{\\frac{a_2^3}{a_1^3}}$$
+            $$T_2=${tex(data.e7.T1, 0)}\\sqrt{\\frac{${tex(data.e7.a2, 0)}^3}{${tex(data.e7.a1, 0)}^3}}
+            =${tex(e7T2, 3)}\\,\\text{ani}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Ecuația vis-viva</h3>
+          <div class="formula">
+            $$v^2=\\mu\\left(\\frac{2}{r}-\\frac{1}{a}\\right)$$
+            $$v=\\sqrt{${tex(data.e8.mu, 0)}
+            \\left(\\frac{2}{${tex(data.e8.r, 0)}}-\\frac{1}{${tex(data.e8.a, 0)}}\\right)}$$
+            $$v=${tex(e8v, 3)}\\,\\text{m/s}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Potențial efectiv</h3>
+          <div class="formula">
+            $$U_{ef}(r)=\\frac{L^2}{2mr^2}-\\frac{k}{r}$$
+            $$r_c=\\frac{L^2}{mk}
+            =\\frac{${tex(data.e9.L, 0)}^2}{${tex(data.e9.m, 0)}\\cdot ${tex(data.e9.k, 0)}}
+            =${tex(e9rc, 3)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Accelerarea gravitațională la distanță</h3>
+          <div class="formula">
+            $$g(r)=g_0\\frac{R^2}{r^2}$$
+            $$r=${tex(data.e10.factor, 0)}R$$
+            $$g=\\frac{g_0}{${tex(data.e10.factor, 0)}^2}
+            =\\frac{${tex(data.e10.g0, 0)}}{${tex(data.e10.factor, 0)}^2}
+            =${tex(e10g, 3)}\\,\\text{m/s}^2$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Raza orbitei cu perioadă dată</h3>
+          <div class="formula">
+            $$T=2\\pi\\sqrt{\\frac{r^3}{\\mu}}$$
+            $$r=\\sqrt[3]{\\frac{\\mu T^2}{4\\pi^2}}$$
+            $$r=\\sqrt[3]{\\frac{${tex(data.e11.mu, 0)}\\cdot ${tex(data.e11.T, 0)}^2}{4\\pi^2}}
+            =${tex(e11r, 3)}\\,\\text{m}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c08");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c08");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
