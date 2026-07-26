@@ -1,1 +1,762 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișe de lucru – Mecanică</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--accent);
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .searchbox {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.85rem 1rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    .searchbox:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    .counter {
+      color: var(--muted);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .fisa-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 12%, transparent), transparent 32%),
+        var(--card);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      min-height: 280px;
+      overflow: hidden;
+    }
+
+    .fisa-card.hidden {
+      display: none;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      color: white;
+      background: var(--accent);
+      font-weight: 900;
+      white-space: nowrap;
+      font-size: 0.85rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.65rem;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      font-weight: 900;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .fisa-card h2 {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.22rem;
+      line-height: 1.25;
+    }
+
+    .fisa-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .topic {
+      border-radius: 999px;
+      padding: 0.25rem 0.55rem;
+      background: color-mix(in srgb, var(--accent-2) 14%, transparent);
+      color: var(--accent-2);
+      font-weight: 900;
+      font-size: 0.78rem;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.2rem;
+    }
+
+    .links a {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 0.75rem 0.6rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .links a.lesson {
+      background: var(--accent-2);
+    }
+
+    .section {
+      margin-top: 1rem;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 980px) {
+      .grid,
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar,
+      .grid,
+      .stats,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .links {
+        grid-template-columns: 1fr;
+      }
+
+      .counter {
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .toolbar,
+      .footer-nav {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .fisa-card {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .links a {
+        color: black;
+        background: transparent !important;
+        border: 1px solid #999;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișe de lucru • Mecanică</strong>
+    <div class="top-actions">
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button type="button" onclick="window.print()">Tipărește indexul</button>
+      <a href="../index.html">Înapoi la Mecanică</a>
+      <a href="../../index.html">Tematica științifică</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="mark">Titularizare Fizică 2026</span>
+      <h1>Fișe de lucru – Mecanică</h1>
+
+      <p class="lead">
+        Index complet pentru cele 15 fișe de lucru aferente capitolului de mecanică.
+        Fiecare fișă conține sinteză teoretică, itemi obiectivi și semiobiectivi,
+        exerciții cu valori variabile, barem orientativ și rezolvări generate automat.
+      </p>
+
+      <div class="exam">
+        <strong>Utilizare recomandată:</strong>
+        parcurge lecția C01–C15, apoi rezolvă fișa corespunzătoare. Pentru recapitulare,
+        folosește filtrul de mai jos și caută după cuvinte-cheie: „Bernoulli”, „Lorentz”,
+        „Hooke”, „unde”, „ciocniri”, „Arhimede”.
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>15</strong>
+          fișe de lucru
+        </div>
+        <div class="stat">
+          <strong>100</strong>
+          puncte / fișă
+        </div>
+        <div class="stat">
+          <strong>C01–C15</strong>
+          mecanică completă
+        </div>
+        <div class="stat">
+          <strong>auto</strong>
+          valori variabile
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="toolbar">
+        <input
+          id="searchBox"
+          class="searchbox"
+          type="search"
+          placeholder="Caută fișă, lecție sau concept: impuls, unde, Pascal, Lorentz..."
+          oninput="filterCards()"
+        >
+        <div class="counter" id="counter">15 / 15 fișe afișate</div>
+      </div>
+
+      <div class="grid" id="cardsGrid">
+        <article class="fisa-card" data-search="c01 fisa 1 cinematica punctului material vector pozitie viteza acceleratie traiectorie">
+          <div class="badge-row">
+            <span class="code">Fișa 1</span>
+            <span class="tag">C01</span>
+          </div>
+          <h2>Cinematica punctului material</h2>
+          <p>
+            Sisteme de referință, vector de poziție, deplasare, viteză medie,
+            viteză instantanee, accelerație, traiectorie și ecuații de mișcare.
+          </p>
+          <div class="topics">
+            <span class="topic">poziție</span>
+            <span class="topic">viteză</span>
+            <span class="topic">accelerație</span>
+          </div>
+          <div class="links">
+            <a href="fisa-1.html">Deschide fișa</a>
+            <a class="lesson" href="../C01-cinematica-punctului-material.html">Lecția C01</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c02 fisa 2 miscare rectilinie circulara mru mruv mcu acceleratie centripeta tangentiala">
+          <div class="badge-row">
+            <span class="code">Fișa 2</span>
+            <span class="tag">C02</span>
+          </div>
+          <h2>Mișcarea rectilinie și circulară</h2>
+          <p>
+            MRU, MRUV, cădere liberă, mișcare circulară uniformă, pulsație,
+            perioadă, frecvență și accelerație centripetă.
+          </p>
+          <div class="topics">
+            <span class="topic">MRU</span>
+            <span class="topic">MRUV</span>
+            <span class="topic">MCU</span>
+          </div>
+          <div class="links">
+            <a href="fisa-2.html">Deschide fișa</a>
+            <a class="lesson" href="../C02-miscarea-rectilinie-si-circulara.html">Lecția C02</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c03 fisa 3 cinematica miscarilor relative transformari galilei viteza relativa barca tren avion vant">
+          <div class="badge-row">
+            <span class="code">Fișa 3</span>
+            <span class="tag">C03</span>
+          </div>
+          <h2>Cinematica mișcărilor relative</h2>
+          <p>
+            Transformări Galilei, compunerea vitezelor, mișcări relative,
+            probleme cu trenuri, bărci, curenți de apă și vânt.
+          </p>
+          <div class="topics">
+            <span class="topic">Galilei</span>
+            <span class="topic">viteze relative</span>
+            <span class="topic">compunere</span>
+          </div>
+          <div class="links">
+            <a href="fisa-3.html">Deschide fișa</a>
+            <a class="lesson" href="../C03-cinematica-miscarilor-relative.html">Lecția C03</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c04 fisa 4 principiile mecanicii newtoniene inertie forta masa actiune reactiune frecare sisteme neinertiale">
+          <div class="badge-row">
+            <span class="code">Fișa 4</span>
+            <span class="tag">C04</span>
+          </div>
+          <h2>Principiile mecanicii newtoniene</h2>
+          <p>
+            Principiile lui Newton, sisteme inerțiale și neinerțiale,
+            forțe uzuale, frecare, plan înclinat și mișcare circulară.
+          </p>
+          <div class="topics">
+            <span class="topic">Newton</span>
+            <span class="topic">forțe</span>
+            <span class="topic">frecare</span>
+          </div>
+          <div class="links">
+            <a href="fisa-4.html">Deschide fișa</a>
+            <a class="lesson" href="../C04-principiile-mecanicii-newtoniene.html">Lecția C04</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c05 fisa 5 teoremele mecanicii clasice lucru energie impuls moment cinetic putere conservare">
+          <div class="badge-row">
+            <span class="code">Fișa 5</span>
+            <span class="tag">C05</span>
+          </div>
+          <h2>Teoremele mecanicii clasice</h2>
+          <p>
+            Lucru mecanic, energie cinetică, energie potențială,
+            impuls, teorema impulsului, moment cinetic și putere.
+          </p>
+          <div class="topics">
+            <span class="topic">energie</span>
+            <span class="topic">impuls</span>
+            <span class="topic">putere</span>
+          </div>
+          <div class="links">
+            <a href="fisa-5.html">Deschide fișa</a>
+            <a class="lesson" href="../C05-teoremele-mecanicii-clasice.html">Lecția C05</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c06 fisa 6 solid rigid axa fixa moment inertie steiner rotatie cuplu moment forta energie rotatie">
+          <div class="badge-row">
+            <span class="code">Fișa 6</span>
+            <span class="tag">C06</span>
+          </div>
+          <h2>Solidul rigid cu axă fixă</h2>
+          <p>
+            Cinematica rotației, moment de inerție, teorema Steiner,
+            momentul forței, ecuația rotației și energia cinetică de rotație.
+          </p>
+          <div class="topics">
+            <span class="topic">rotație</span>
+            <span class="topic">inerție</span>
+            <span class="topic">Steiner</span>
+          </div>
+          <div class="links">
+            <a href="fisa-6.html">Deschide fișa</a>
+            <a class="lesson" href="../C06-solidul-rigid-cu-axa-fixa.html">Lecția C06</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c07 fisa 7 ciocniri elastice inelastice impuls conservare energie cinetica coeficient restituire recul">
+          <div class="badge-row">
+            <span class="code">Fișa 7</span>
+            <span class="tag">C07</span>
+          </div>
+          <h2>Ciocniri elastice și inelastice</h2>
+          <p>
+            Conservarea impulsului, ciocniri elastice, ciocniri perfect inelastice,
+            energie pierdută, coeficient de restituire și recul.
+          </p>
+          <div class="topics">
+            <span class="topic">ciocniri</span>
+            <span class="topic">impuls</span>
+            <span class="topic">restituire</span>
+          </div>
+          <div class="links">
+            <a href="fisa-7.html">Deschide fișa</a>
+            <a class="lesson" href="../C07-ciocniri-elastice-si-inelastice.html">Lecția C07</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c08 fisa 8 miscare camp central gravitatie kepler moment cinetic orbita viteza cosmica evadare">
+          <div class="badge-row">
+            <span class="code">Fișa 8</span>
+            <span class="tag">C08</span>
+          </div>
+          <h2>Mișcarea în câmp central</h2>
+          <p>
+            Forțe centrale, moment cinetic, legea ariilor,
+            câmp gravitațional, orbite circulare, viteza de evadare și Kepler.
+          </p>
+          <div class="topics">
+            <span class="topic">gravitație</span>
+            <span class="topic">Kepler</span>
+            <span class="topic">orbite</span>
+          </div>
+          <div class="links">
+            <a href="fisa-8.html">Deschide fișa</a>
+            <a class="lesson" href="../C08-miscarea-in-camp-central.html">Lecția C08</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c09 fisa 9 deformari elastice hooke young tensiune alungire resort poisson forfecare compresibilitate">
+          <div class="badge-row">
+            <span class="code">Fișa 9</span>
+            <span class="tag">C09</span>
+          </div>
+          <h2>Deformări elastice</h2>
+          <p>
+            Legea lui Hooke, tensiune normală, alungire relativă,
+            modulul Young, resorturi, energie elastică, forfecare și Poisson.
+          </p>
+          <div class="topics">
+            <span class="topic">Hooke</span>
+            <span class="topic">Young</span>
+            <span class="topic">elasticitate</span>
+          </div>
+          <div class="links">
+            <a href="fisa-9.html">Deschide fișa</a>
+            <a class="lesson" href="../C09-deformari-elastice.html">Lecția C09</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c10 fisa 10 oscilator armonic liniar resort amplitudine perioada frecventa energie amortizare rezonanta">
+          <div class="badge-row">
+            <span class="code">Fișa 10</span>
+            <span class="tag">C10</span>
+          </div>
+          <h2>Oscilatorul armonic liniar</h2>
+          <p>
+            Sistem masă–resort, ecuația oscilației, amplitudine,
+            energie, pendul, oscilații amortizate, forțate și rezonanță.
+          </p>
+          <div class="topics">
+            <span class="topic">oscilații</span>
+            <span class="topic">energie</span>
+            <span class="topic">rezonanță</span>
+          </div>
+          <div class="links">
+            <a href="fisa-10.html">Deschide fișa</a>
+            <a class="lesson" href="../C10-oscilatorul-armonic-liniar.html">Lecția C10</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c11 fisa 11 unde elastice plane ecuatia undei frecventa lungime unda interferenta stationare intensitate sunet">
+          <div class="badge-row">
+            <span class="code">Fișa 11</span>
+            <span class="tag">C11</span>
+          </div>
+          <h2>Unde elastice plane</h2>
+          <p>
+            Unde longitudinale și transversale, ecuația undei,
+            viteză de propagare, fază, interferență, intensitate și unde staționare.
+          </p>
+          <div class="topics">
+            <span class="topic">unde</span>
+            <span class="topic">interferență</span>
+            <span class="topic">staționare</span>
+          </div>
+          <div class="links">
+            <a href="fisa-11.html">Deschide fișa</a>
+            <a class="lesson" href="../C11-unde-elastice-plane.html">Lecția C11</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c12 fisa 12 statica fluidelor presiune hidrostatica pascal arhimede vase comunicante manometru plutire">
+          <div class="badge-row">
+            <span class="code">Fișa 12</span>
+            <span class="tag">C12</span>
+          </div>
+          <h2>Statica fluidelor</h2>
+          <p>
+            Densitate, presiune, legea hidrostaticii,
+            principiul lui Pascal, presa hidraulică, manometre, Arhimede și plutire.
+          </p>
+          <div class="topics">
+            <span class="topic">presiune</span>
+            <span class="topic">Pascal</span>
+            <span class="topic">Arhimede</span>
+          </div>
+          <div class="links">
+            <a href="fisa-12.html">Deschide fișa</a>
+            <a class="lesson" href="../C12-statica-fluidelor.html">Lecția C12</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c13 fisa 13 dinamica fluidelor debit continuitate bernoulli torricelli venturi pitot presiune dinamica">
+          <div class="badge-row">
+            <span class="code">Fișa 13</span>
+            <span class="tag">C13</span>
+          </div>
+          <h2>Dinamica fluidelor</h2>
+          <p>
+            Debit volumic și masic, ecuația de continuitate,
+            legea lui Bernoulli, Torricelli, Venturi, Pitot și presiune dinamică.
+          </p>
+          <div class="topics">
+            <span class="topic">debit</span>
+            <span class="topic">Bernoulli</span>
+            <span class="topic">Venturi</span>
+          </div>
+          <div class="links">
+            <a href="fisa-13.html">Deschide fișa</a>
+            <a class="lesson" href="../C13-dinamica-fluidelor.html">Lecția C13</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c14 fisa 14 relativitate restransa michelson morley einstein lorentz simultaneitate timp lungime viteze">
+          <div class="badge-row">
+            <span class="code">Fișa 14</span>
+            <span class="tag">C14</span>
+          </div>
+          <h2>Teoria relativității restrânse</h2>
+          <p>
+            Experimentul Michelson–Morley, postulatele lui Einstein,
+            transformările Lorentz, dilatarea timpului, contracția lungimilor și simultaneitate.
+          </p>
+          <div class="topics">
+            <span class="topic">Lorentz</span>
+            <span class="topic">timp</span>
+            <span class="topic">lungime</span>
+          </div>
+          <div class="links">
+            <a href="fisa-14.html">Deschide fișa</a>
+            <a class="lesson" href="../C14-bazele-experimentale-ale-teoriei-relativitatii-restranse.html">Lecția C14</a>
+          </div>
+        </article>
+
+        <article class="fisa-card" data-search="c15 fisa 15 dinamica relativista masa viteza forta acceleratie masa energie impuls foton energie cinetica">
+          <div class="badge-row">
+            <span class="code">Fișa 15</span>
+            <span class="tag">C15</span>
+          </div>
+          <h2>Elemente de dinamică relativistă</h2>
+          <p>
+            Impuls relativist, masă–viteză, forță–accelerație,
+            energie de repaus, energie cinetică, energie–impuls și fotoni.
+          </p>
+          <div class="topics">
+            <span class="topic">impuls</span>
+            <span class="topic">energie</span>
+            <span class="topic">foton</span>
+          </div>
+          <div class="links">
+            <a href="fisa-15.html">Deschide fișa</a>
+            <a class="lesson" href="../C15-elemente-de-dinamica-relativista.html">Lecția C15</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card section">
+      <span class="mark">Recomandare de lucru</span>
+      <h2>Parcurs pentru recapitulare</h2>
+      <p>
+        Pentru pregătirea finală, rezolvă câte o fișă pe zi, apoi revino la itemii greșiți.
+        La fiecare fișă urmărește: definiții, formule fundamentale, unități SI, ipotezele de aplicare
+        și capcanele de interpretare.
+      </p>
+
+      <div class="formula">
+        $$\text{lecție} \rightarrow \text{fișă} \rightarrow \text{barem} \rightarrow \text{reluarea erorilor}$$
+      </div>
+
+      <div class="footer-nav">
+        <a href="../index.html">Index mecanică</a>
+        <a href="../../index.html">Tematica științifică</a>
+        <a href="../../../index.html">Pagina principală</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fise-mecanica-index", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fise-mecanica-index");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function normalizeText(text) {
+      return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filterCards() {
+      const query = normalizeText(document.getElementById("searchBox").value.trim());
+      const cards = [...document.querySelectorAll(".fisa-card")];
+      let visible = 0;
+
+      cards.forEach(card => {
+        const text = normalizeText(card.dataset.search + " " + card.textContent);
+        const match = !query || text.includes(query);
+        card.classList.toggle("hidden", !match);
+        if (match) visible += 1;
+      });
+
+      document.getElementById("counter").textContent = `${visible} / ${cards.length} fișe afișate`;
+    }
+
+    filterCards();
+  </script>
+</body>
+</html>
