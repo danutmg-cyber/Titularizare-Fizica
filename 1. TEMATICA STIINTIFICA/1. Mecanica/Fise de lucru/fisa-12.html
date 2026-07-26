@@ -1,1 +1,1401 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 12 – Statica fluidelor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      margin: 0.55rem 0;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 12 • Statica fluidelor</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C12-statica-fluidelor.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 12</span>
+        <h1>Statica fluidelor. Presiune hidrostatică. Pascal. Arhimede</h1>
+
+        <p class="lead">
+          Fișă completă pentru fluide în repaus: densitate, presiune, forțe de presiune,
+          legea fundamentală a hidrostaticii, principiul lui Pascal, presa hidraulică,
+          manometre, vase comunicante, principiul lui Arhimede și condiții de plutire.
+          Exercițiile folosesc valori variabile generate automat.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+          În exerciții se folosește, dacă nu se precizează altfel, $g=10\,\text{m/s}^2$.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Fluid</strong>
+            <p>
+              Fluidul este un corp care curge și nu are formă proprie. Lichidele au volum propriu,
+              iar gazele ocupă întregul volum disponibil.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Densitatea</strong>
+            <div class="formula">
+              $$\rho=\frac{m}{V}$$
+              $$[\rho]_{SI}=\text{kg/m}^3$$
+            </div>
+            <p>
+              Conversii utile: $1\,\text{L}=10^{-3}\,\text{m}^3$,
+              $1\,\text{g/cm}^3=1000\,\text{kg/m}^3$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Presiunea</strong>
+            <p>
+              Presiunea este forța normală exercitată pe unitatea de suprafață.
+            </p>
+            <div class="formula">
+              $$p=\frac{F_\perp}{S}$$
+              $$[p]_{SI}=1\,\text{Pa}=1\,\text{N/m}^2$$
+            </div>
+            <p>
+              Conversii: $1\,\text{kPa}=10^3\,\text{Pa}$,
+              $1\,\text{bar}=10^5\,\text{Pa}$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Presiunea într-un lichid în repaus</strong>
+            <p>
+              Presiunea hidrostatică la adâncimea $h$ este:
+            </p>
+            <div class="formula">
+              $$p_h=\rho gh$$
+            </div>
+            <p>
+              Presiunea totală, dacă la suprafață acționează presiunea $p_0$, este:
+            </p>
+            <div class="formula">
+              $$p=p_0+\rho gh$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Legea fundamentală a hidrostaticii</strong>
+            <p>
+              În același lichid omogen aflat în repaus, diferența de presiune dintre două puncte depinde
+              numai de diferența de nivel.
+            </p>
+            <div class="formula">
+              $$p_2-p_1=\rho g(h_2-h_1)$$
+            </div>
+            <p>
+              Punctele aflate la același nivel au aceeași presiune.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Forța de presiune</strong>
+            <p>
+              Dacă presiunea este uniformă pe o suprafață plană:
+            </p>
+            <div class="formula">
+              $$F=pS$$
+            </div>
+            <p>
+              Pentru fundul orizontal al unui vas:
+            </p>
+            <div class="formula">
+              $$F_h=\rho ghS$$
+            </div>
+            <p>
+              Aceasta este forța datorată presiunii hidrostatice relative.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>7. Forța pe un perete vertical</strong>
+            <p>
+              Pentru o placă verticală dreptunghiulară cu lățimea $b$ și înălțimea $H$,
+              având marginea superioară la suprafața lichidului:
+            </p>
+            <div class="formula">
+              $$F=\rho gb\frac{H^2}{2}$$
+            </div>
+            <p>
+              Centrul de presiune se află la distanța $2H/3$ sub suprafață.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>8. Principiul lui Pascal</strong>
+            <p>
+              Presiunea exercitată asupra unui fluid închis se transmite integral și în toate direcțiile.
+            </p>
+            <div class="formula">
+              $$p_1=p_2$$
+              $$\frac{F_1}{S_1}=\frac{F_2}{S_2}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>9. Presa hidraulică</strong>
+            <p>
+              Presa hidraulică multiplică forța, dar nu multiplică lucrul mecanic ideal.
+            </p>
+            <div class="formula">
+              $$F_2=F_1\frac{S_2}{S_1}$$
+              $$S_1h_1=S_2h_2$$
+              $$F_1h_1=F_2h_2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>10. Vase comunicante</strong>
+            <p>
+              În vase comunicante cu același lichid, nivelurile libere sunt egale.
+              Pentru două lichide nemiscibile, în echilibru:
+            </p>
+            <div class="formula">
+              $$\rho_1gh_1=\rho_2gh_2$$
+              $$\rho_1h_1=\rho_2h_2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>11. Manometru cu lichid</strong>
+            <p>
+              Diferența de presiune indicată de un manometru cu lichid este:
+            </p>
+            <div class="formula">
+              $$\Delta p=\rho g\Delta h$$
+            </div>
+            <p>
+              Densitatea lichidului manometric este esențială.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>12. Principiul lui Arhimede</strong>
+            <p>
+              Un corp scufundat total sau parțial într-un fluid este împins de jos în sus cu o forță
+              egală cu greutatea fluidului dezlocuit.
+            </p>
+            <div class="formula">
+              $$F_A=\rho_f gV_{\text{dezlocuit}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>13. Greutate aparentă</strong>
+            <p>
+              Pentru un corp complet scufundat:
+            </p>
+            <div class="formula">
+              $$G_{\text{ap}}=G-F_A$$
+            </div>
+            <p>
+              Dacă $F_A>G$, corpul are tendința să urce.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>14. Condiția de plutire</strong>
+            <p>
+              Pentru un corp care plutește în echilibru:
+            </p>
+            <div class="formula">
+              $$G=F_A$$
+              $$\rho_cgV=\rho_fgV_{\text{scufundat}}$$
+              $$\frac{V_{\text{scufundat}}}{V}=\frac{\rho_c}{\rho_f}$$
+            </div>
+            <p>
+              Corpul plutește dacă $\rho_c<\rho_f$.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane importante:</strong>
+          presiunea este scalară, dar forța de presiune este perpendiculară pe suprafață;
+          presiunea hidrostatică depinde de adâncime, nu de forma vasului;
+          în presa hidraulică se multiplică forța, dar deplasarea pistonului mare este mai mică;
+          forța arhimedică depinde de volumul de fluid dezlocuit, nu direct de masa corpului.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Unitate SI</th>
+                  <th>Observație</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Densitate</td>
+                  <td></td>
+                  <td></td>
+                  <td>Masă pe unitatea de volum.</td>
+                </tr>
+                <tr>
+                  <td>Presiune</td>
+                  <td></td>
+                  <td></td>
+                  <td>Forță normală pe unitatea de suprafață.</td>
+                </tr>
+                <tr>
+                  <td>Presiune hidrostatică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Crește liniar cu adâncimea.</td>
+                </tr>
+                <tr>
+                  <td>Forța de presiune</td>
+                  <td></td>
+                  <td></td>
+                  <td>Perpendiculară pe suprafață.</td>
+                </tr>
+                <tr>
+                  <td>Principiul lui Pascal</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>Presiunea se transmite integral.</td>
+                </tr>
+                <tr>
+                  <td>Manometru</td>
+                  <td></td>
+                  <td></td>
+                  <td>Măsoară diferențe de presiune.</td>
+                </tr>
+                <tr>
+                  <td>Forță arhimedică</td>
+                  <td></td>
+                  <td></td>
+                  <td>Greutatea fluidului dezlocuit.</td>
+                </tr>
+                <tr>
+                  <td>Condiție de plutire</td>
+                  <td></td>
+                  <td>—</td>
+                  <td>$G=F_A$ la echilibru.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Alege afirmațiile corecte. 6 p</h3>
+
+          <ul class="checklist">
+            <li>Presiunea hidrostatică într-un lichid omogen crește liniar cu adâncimea.</li>
+            <li>Într-un lichid în repaus, punctele aflate la același nivel au aceeași presiune.</li>
+            <li>Presiunea hidrostatică depinde de forma vasului.</li>
+            <li>Forța de presiune pe o suprafață este perpendiculară pe acea suprafață.</li>
+            <li>Forța arhimedică este egală cu greutatea corpului scufundat.</li>
+            <li>Un corp plutește dacă densitatea lui medie este mai mică decât densitatea fluidului.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$\rho=$ <span class="line"></span></p>
+              <p>$p=$ <span class="line"></span></p>
+              <p>$p_h=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$F=$ <span class="line"></span></p>
+              <p>$\Delta p=$ <span class="line"></span></p>
+              <p>$F_A=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Densitatea unui lichid. 4 p</h3>
+
+          <p>
+            O probă de lichid are masa
+            $m=<span class="var" id="e1m"></span>\,\text{kg}$ și volumul
+            $V=<span class="var" id="e1V"></span>\,\text{L}$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă volumul în $\text{m}^3$.</li>
+            <li>Calculează densitatea lichidului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Presiunea exercitată pe o suprafață. 4 p</h3>
+
+          <p>
+            O forță normală
+            $F=<span class="var" id="e2F"></span>\,\text{N}$
+            acționează pe o suprafață
+            $S=<span class="var" id="e2S"></span>\,\text{cm}^2$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă suprafața în $\text{m}^2$.</li>
+            <li>Determină presiunea în Pa și kPa.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Presiune hidrostatică la adâncime. 5 p</h3>
+
+          <p>
+            Într-un lichid de densitate
+            $\rho=<span class="var" id="e3rho"></span>\,\text{kg/m}^3$,
+            un punct se află la adâncimea
+            $h=<span class="var" id="e3h"></span>\,\text{m}$.
+            Presiunea atmosferică este
+            $p_0=100\,\text{kPa}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează presiunea hidrostatică relativă.</li>
+            <li>Calculează presiunea totală.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Forța hidrostatică pe fundul unui vas. 5 p</h3>
+
+          <p>
+            Un vas are fund orizontal dreptunghiular de lungime
+            $a=<span class="var" id="e4a"></span>\,\text{m}$ și lățime
+            $b=<span class="var" id="e4b"></span>\,\text{m}$.
+            În vas se află un lichid cu densitatea
+            $\rho=<span class="var" id="e4rho"></span>\,\text{kg/m}^3$
+            până la înălțimea
+            $h=<span class="var" id="e4h"></span>\,\text{m}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează aria fundului vasului.</li>
+            <li>Calculează presiunea hidrostatică pe fund.</li>
+            <li>Calculează forța hidrostatică exercitată pe fund.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Presa hidraulică. 6 p</h3>
+
+          <p>
+            O presă hidraulică are pistonul mic cu aria
+            $S_1=<span class="var" id="e5S1"></span>\,\text{cm}^2$
+            și pistonul mare cu aria
+            $S_2=<span class="var" id="e5S2"></span>\,\text{cm}^2$.
+            Pe pistonul mic se aplică forța
+            $F_1=<span class="var" id="e5F1"></span>\,\text{N}$.
+            Pistonul mic coboară cu
+            $h_1=<span class="var" id="e5h1"></span>\,\text{cm}$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează presiunea transmisă fluidului.</li>
+            <li>Calculează forța pe pistonul mare.</li>
+            <li>Calculează deplasarea pistonului mare.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Manometru cu lichid. 5 p</h3>
+
+          <p>
+            Un manometru cu lichid de densitate
+            $\rho=<span class="var" id="e6rho"></span>\,\text{kg/m}^3$
+            indică o diferență de nivel
+            $\Delta h=<span class="var" id="e6dh"></span>\,\text{cm}$.
+          </p>
+
+          <ol type="a">
+            <li>Transformă diferența de nivel în metri.</li>
+            <li>Calculează diferența de presiune în Pa și kPa.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Vase comunicante cu două lichide. 5 p</h3>
+
+          <p>
+            Două lichide nemiscibile sunt în echilibru într-un tub în U.
+            Primul lichid are densitatea
+            $\rho_1=<span class="var" id="e7rho1"></span>\,\text{kg/m}^3$
+            și coloana de înălțime
+            $h_1=<span class="var" id="e7h1"></span>\,\text{cm}$.
+            Al doilea lichid are densitatea
+            $\rho_2=<span class="var" id="e7rho2"></span>\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie condiția de echilibru la același nivel.</li>
+            <li>Determină înălțimea coloanei celui de-al doilea lichid.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Principiul lui Arhimede și greutatea aparentă. 5 p</h3>
+
+          <p>
+            Un corp de masă
+            $m=<span class="var" id="e8m"></span>\,\text{kg}$
+            este scufundat complet într-un lichid de densitate
+            $\rho_f=<span class="var" id="e8rho"></span>\,\text{kg/m}^3$.
+            Volumul corpului este
+            $V=<span class="var" id="e8V"></span>\,\text{dm}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează greutatea corpului.</li>
+            <li>Calculează forța arhimedică.</li>
+            <li>Calculează greutatea aparentă.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Corp care plutește. 5 p</h3>
+
+          <p>
+            Un corp omogen de densitate
+            $\rho_c=<span class="var" id="e9rhoc"></span>\,\text{kg/m}^3$
+            plutește într-un lichid de densitate
+            $\rho_f=<span class="var" id="e9rhof"></span>\,\text{kg/m}^3$.
+            Volumul total al corpului este
+            $V=<span class="var" id="e9V"></span>\,\text{dm}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Determină fracțiunea din volum care este scufundată.</li>
+            <li>Determină volumul scufundat.</li>
+            <li>Determină volumul aflat deasupra lichidului.</li>
+          </ol>
+
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Determinarea densității din plutire. 4 p</h3>
+
+          <p>
+            Un corp plutește într-un lichid de densitate
+            $\rho_f=<span class="var" id="e10rhof"></span>\,\text{kg/m}^3$.
+            Fracțiunea scufundată din volumul corpului este
+            $f=<span class="var" id="e10f"></span>$.
+          </p>
+
+          <ol type="a">
+            <li>Scrie relația de plutire.</li>
+            <li>Determină densitatea medie a corpului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Densitatea unui corp din greutatea aparentă. 4 p</h3>
+
+          <p>
+            Un corp are greutatea în aer
+            $G=<span class="var" id="e11G"></span>\,\text{N}$.
+            Scufundat complet în apă, greutatea aparentă devine
+            $G_{\text{ap}}=<span class="var" id="e11Gap"></span>\,\text{N}$.
+            Se ia $\rho_{\text{apă}}=1000\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Determină forța arhimedică.</li>
+            <li>Determină densitatea corpului.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>15. Forța pe un perete vertical. 5 p</h3>
+
+          <p>
+            O placă verticală dreptunghiulară are lățimea
+            $b=<span class="var" id="e12b"></span>\,\text{m}$
+            și înălțimea
+            $H=<span class="var" id="e12H"></span>\,\text{m}$.
+            Marginea superioară este la suprafața unui lichid de densitate
+            $\rho=<span class="var" id="e12rho"></span>\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Calculează forța hidrostatică pe placă.</li>
+            <li>Precizează poziția centrului de presiune față de suprafață.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>16. Barometru cu mercur. 3 p</h3>
+
+          <p>
+            Presiunea atmosferică este
+            $p=<span class="var" id="e13p"></span>\,\text{kPa}$.
+            Densitatea mercurului este
+            $\rho_{Hg}=13600\,\text{kg/m}^3$.
+          </p>
+
+          <ol type="a">
+            <li>Determină înălțimea coloanei de mercur echivalente.</li>
+          </ol>
+
+          <div class="answer-space medium"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>17. Demonstrează legea presiunii hidrostatice și aplică principiul lui Arhimede. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat despre echilibrul fluidelor în repaus.
+          </p>
+
+          <p>
+            Include obligatoriu:
+          </p>
+
+          <ul>
+            <li>definiția presiunii și unitatea SI;</li>
+            <li>deducerea relației $p=p_0+\rho gh$ din echilibrul unei coloane de lichid;</li>
+            <li>consecința: punctele aflate la același nivel au aceeași presiune;</li>
+            <li>enunțul principiului lui Pascal și o aplicație la presa hidraulică;</li>
+            <li>enunțul principiului lui Arhimede;</li>
+            <li>condiția de plutire și relația $V_{\text{scufundat}}/V=\rho_c/\rho_f$;</li>
+            <li>două capcane de interpretare frecvente.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–16, conform punctajelor indicate.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> definiții și unități 2 p, deducerea lui $p=p_0+\rho gh$ 4 p, Pascal 2 p, Arhimede 3 p, plutire 2 p, capcane și claritate 2 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C12-statica-fluidelor.html">Înapoi la lecția C12</a>
+          <a href="index.html">Index fișe de lucru</a>
+          <a href="../index.html">Înapoi la mecanică</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c12", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c12");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function randInt(min, max, step = 1) {
+      const count = Math.floor((max - min) / step) + 1;
+      return min + step * Math.floor(Math.random() * count);
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function generateValues() {
+      const e1rho = choose([800, 900, 1000, 1200]);
+      const e1V = choose([0.5, 1, 1.5, 2, 2.5, 3]);
+      const e1 = {
+        rho: e1rho,
+        V: e1V,
+        m: e1rho * e1V / 1000
+      };
+
+      const e2S = choose([10, 20, 25, 40, 50, 80]);
+      const e2p = choose([20, 40, 50, 80, 100, 120]);
+      const e2 = {
+        S: e2S,
+        F: e2p * 1000 * e2S * 1e-4
+      };
+
+      const e3 = {
+        rho: choose([800, 900, 1000, 1200]),
+        h: choose([1, 1.5, 2, 3, 4, 5]),
+        g: 10,
+        p0: 100000
+      };
+
+      const e4 = {
+        a: choose([1, 1.5, 2, 2.5, 3]),
+        b: choose([0.5, 0.8, 1, 1.2]),
+        h: choose([1, 1.5, 2, 2.5, 3]),
+        rho: choose([800, 1000, 1200]),
+        g: 10
+      };
+
+      const e5S1 = choose([5, 10, 20]);
+      const e5ratio = choose([4, 5, 8, 10]);
+      const e5 = {
+        S1: e5S1,
+        S2: e5S1 * e5ratio,
+        F1: choose([50, 100, 150, 200]),
+        h1: choose([4, 5, 8, 10])
+      };
+
+      const e6 = {
+        rho: choose([1000, 1200, 13600]),
+        dh: choose([5, 8, 10, 12, 15, 20]),
+        g: 10
+      };
+
+      const e7 = {
+        rho1: choose([800, 900, 1000]),
+        h1: choose([8, 10, 12, 15, 20]),
+        rho2: choose([700, 800, 1000, 1200])
+      };
+
+      const e8rho = choose([800, 1000, 1200]);
+      const e8V = choose([1, 2, 3, 4, 5]);
+      const e8mult = choose([1.2, 1.5, 2, 2.5]);
+      const e8 = {
+        rho: e8rho,
+        V: e8V,
+        m: e8rho * (e8V / 1000) * e8mult,
+        g: 10
+      };
+
+      const e9 = {
+        rhoc: choose([500, 600, 700, 800, 900]),
+        rhof: 1000,
+        V: choose([2, 4, 5, 8, 10])
+      };
+
+      const e10 = {
+        rhof: choose([800, 1000, 1200]),
+        f: choose([0.5, 0.6, 0.75, 0.8, 0.9])
+      };
+
+      const e11rho = choose([2000, 2500, 4000, 5000, 8000]);
+      const e11G = choose([20, 30, 40, 50, 60]);
+      const e11Gap = e11G * (1 - 1000 / e11rho);
+      const e11 = {
+        rho: e11rho,
+        G: e11G,
+        Gap: e11Gap
+      };
+
+      const e12 = {
+        b: choose([0.5, 1, 1.5, 2]),
+        H: choose([1, 1.5, 2, 2.5, 3]),
+        rho: choose([800, 1000, 1200]),
+        g: 10
+      };
+
+      const e13 = {
+        p: choose([96, 100, 101, 104, 108]),
+        rhoHg: 13600,
+        g: 10
+      };
+
+      const data = { e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13 };
+      localStorage.setItem("values-fisa-c12", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e1m", fmt(data.e1.m, 3));
+      setText("e1V", fmt(data.e1.V, 2));
+
+      setText("e2F", fmt(data.e2.F, 2));
+      setText("e2S", fmt(data.e2.S, 0));
+
+      setText("e3rho", fmt(data.e3.rho, 0));
+      setText("e3h", fmt(data.e3.h, 2));
+
+      setText("e4a", fmt(data.e4.a, 2));
+      setText("e4b", fmt(data.e4.b, 2));
+      setText("e4rho", fmt(data.e4.rho, 0));
+      setText("e4h", fmt(data.e4.h, 2));
+
+      setText("e5S1", fmt(data.e5.S1, 0));
+      setText("e5S2", fmt(data.e5.S2, 0));
+      setText("e5F1", fmt(data.e5.F1, 0));
+      setText("e5h1", fmt(data.e5.h1, 0));
+
+      setText("e6rho", fmt(data.e6.rho, 0));
+      setText("e6dh", fmt(data.e6.dh, 0));
+
+      setText("e7rho1", fmt(data.e7.rho1, 0));
+      setText("e7h1", fmt(data.e7.h1, 0));
+      setText("e7rho2", fmt(data.e7.rho2, 0));
+
+      setText("e8m", fmt(data.e8.m, 3));
+      setText("e8rho", fmt(data.e8.rho, 0));
+      setText("e8V", fmt(data.e8.V, 0));
+
+      setText("e9rhoc", fmt(data.e9.rhoc, 0));
+      setText("e9rhof", fmt(data.e9.rhof, 0));
+      setText("e9V", fmt(data.e9.V, 0));
+
+      setText("e10rhof", fmt(data.e10.rhof, 0));
+      setText("e10f", fmt(data.e10.f, 2));
+
+      setText("e11G", fmt(data.e11.G, 0));
+      setText("e11Gap", fmt(data.e11.Gap, 2));
+
+      setText("e12b", fmt(data.e12.b, 2));
+      setText("e12H", fmt(data.e12.H, 2));
+      setText("e12rho", fmt(data.e12.rho, 0));
+
+      setText("e13p", fmt(data.e13.p, 0));
+    }
+
+    function renderSolutions(data) {
+      const e1Vm3 = data.e1.V * 1e-3;
+      const e1rho = data.e1.m / e1Vm3;
+
+      const e2Sm2 = data.e2.S * 1e-4;
+      const e2p = data.e2.F / e2Sm2;
+      const e2pkPa = e2p / 1000;
+
+      const e3ph = data.e3.rho * data.e3.g * data.e3.h;
+      const e3ptot = data.e3.p0 + e3ph;
+
+      const e4S = data.e4.a * data.e4.b;
+      const e4p = data.e4.rho * data.e4.g * data.e4.h;
+      const e4F = e4p * e4S;
+
+      const e5p = data.e5.F1 / (data.e5.S1 * 1e-4);
+      const e5F2 = data.e5.F1 * data.e5.S2 / data.e5.S1;
+      const e5h2 = data.e5.h1 * data.e5.S1 / data.e5.S2;
+
+      const e6dhm = data.e6.dh / 100;
+      const e6dp = data.e6.rho * data.e6.g * e6dhm;
+
+      const e7h2 = data.e7.rho1 * data.e7.h1 / data.e7.rho2;
+
+      const e8G = data.e8.m * data.e8.g;
+      const e8Vm3 = data.e8.V * 1e-3;
+      const e8FA = data.e8.rho * data.e8.g * e8Vm3;
+      const e8Gap = e8G - e8FA;
+
+      const e9frac = data.e9.rhoc / data.e9.rhof;
+      const e9Vsub = e9frac * data.e9.V;
+      const e9Vabove = data.e9.V - e9Vsub;
+
+      const e10rhoc = data.e10.f * data.e10.rhof;
+
+      const e11FA = data.e11.G - data.e11.Gap;
+      const e11rho = 1000 * data.e11.G / e11FA;
+
+      const e12F = data.e12.rho * data.e12.g * data.e12.b * data.e12.H * data.e12.H / 2;
+      const e12yc = 2 * data.e12.H / 3;
+
+      const e13hm = data.e13.p * 1000 / (data.e13.rhoHg * data.e13.g);
+      const e13hcm = e13hm * 100;
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Densitatea lichidului</h3>
+          <div class="formula">
+            $$V=${tex(data.e1.V, 2)}\\,\\text{L}
+            =${tex(e1Vm3, 5)}\\,\\text{m}^3$$
+            $$\\rho=\\frac{m}{V}
+            =\\frac{${tex(data.e1.m, 3)}}{${tex(e1Vm3, 5)}}
+            =${tex(e1rho, 2)}\\,\\text{kg/m}^3$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Presiunea pe o suprafață</h3>
+          <div class="formula">
+            $$S=${tex(data.e2.S, 0)}\\,\\text{cm}^2
+            =${tex(e2Sm2, 6)}\\,\\text{m}^2$$
+            $$p=\\frac{F}{S}
+            =\\frac{${tex(data.e2.F, 2)}}{${tex(e2Sm2, 6)}}
+            =${tex(e2p, 2)}\\,\\text{Pa}$$
+            $$p=${tex(e2pkPa, 3)}\\,\\text{kPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Presiunea hidrostatică</h3>
+          <div class="formula">
+            $$p_h=\\rho gh
+            =${tex(data.e3.rho, 0)}\\cdot10\\cdot ${tex(data.e3.h, 2)}
+            =${tex(e3ph, 2)}\\,\\text{Pa}$$
+            $$p_h=${tex(e3ph / 1000, 3)}\\,\\text{kPa}$$
+            $$p=p_0+p_h=100\\,\\text{kPa}+${tex(e3ph / 1000, 3)}\\,\\text{kPa}
+            =${tex(e3ptot / 1000, 3)}\\,\\text{kPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Forța pe fundul vasului</h3>
+          <div class="formula">
+            $$S=ab=${tex(data.e4.a, 2)}\\cdot ${tex(data.e4.b, 2)}
+            =${tex(e4S, 3)}\\,\\text{m}^2$$
+            $$p_h=\\rho gh
+            =${tex(data.e4.rho, 0)}\\cdot10\\cdot ${tex(data.e4.h, 2)}
+            =${tex(e4p, 2)}\\,\\text{Pa}$$
+            $$F=p_hS
+            =${tex(e4p, 2)}\\cdot ${tex(e4S, 3)}
+            =${tex(e4F, 2)}\\,\\text{N}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Presa hidraulică</h3>
+          <div class="formula">
+            $$p=\\frac{F_1}{S_1}
+            =\\frac{${tex(data.e5.F1, 0)}}{${tex(data.e5.S1, 0)}\\cdot10^{-4}}
+            =${tex(e5p, 2)}\\,\\text{Pa}$$
+            $$F_2=F_1\\frac{S_2}{S_1}
+            =${tex(data.e5.F1, 0)}\\frac{${tex(data.e5.S2, 0)}}{${tex(data.e5.S1, 0)}}
+            =${tex(e5F2, 2)}\\,\\text{N}$$
+            $$S_1h_1=S_2h_2
+            \\Rightarrow h_2=h_1\\frac{S_1}{S_2}$$
+            $$h_2=${tex(data.e5.h1, 0)}\\frac{${tex(data.e5.S1, 0)}}{${tex(data.e5.S2, 0)}}
+            =${tex(e5h2, 3)}\\,\\text{cm}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Manometru</h3>
+          <div class="formula">
+            $$\\Delta h=${tex(data.e6.dh, 0)}\\,\\text{cm}
+            =${tex(e6dhm, 3)}\\,\\text{m}$$
+            $$\\Delta p=\\rho g\\Delta h
+            =${tex(data.e6.rho, 0)}\\cdot10\\cdot ${tex(e6dhm, 3)}
+            =${tex(e6dp, 2)}\\,\\text{Pa}$$
+            $$\\Delta p=${tex(e6dp / 1000, 3)}\\,\\text{kPa}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Vase comunicante</h3>
+          <div class="formula">
+            $$\\rho_1gh_1=\\rho_2gh_2
+            \\Rightarrow \\rho_1h_1=\\rho_2h_2$$
+            $$h_2=\\frac{\\rho_1h_1}{\\rho_2}
+            =\\frac{${tex(data.e7.rho1, 0)}\\cdot ${tex(data.e7.h1, 0)}}{${tex(data.e7.rho2, 0)}}
+            =${tex(e7h2, 3)}\\,\\text{cm}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Arhimede și greutate aparentă</h3>
+          <div class="formula">
+            $$G=mg=${tex(data.e8.m, 3)}\\cdot10
+            =${tex(e8G, 3)}\\,\\text{N}$$
+            $$V=${tex(data.e8.V, 0)}\\,\\text{dm}^3
+            =${tex(e8Vm3, 4)}\\,\\text{m}^3$$
+            $$F_A=\\rho_fgV
+            =${tex(data.e8.rho, 0)}\\cdot10\\cdot ${tex(e8Vm3, 4)}
+            =${tex(e8FA, 3)}\\,\\text{N}$$
+            $$G_{ap}=G-F_A
+            =${tex(e8G, 3)}-${tex(e8FA, 3)}
+            =${tex(e8Gap, 3)}\\,\\text{N}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Corp care plutește</h3>
+          <div class="formula">
+            $$\\frac{V_{sc}}{V}=\\frac{\\rho_c}{\\rho_f}
+            =\\frac{${tex(data.e9.rhoc, 0)}}{${tex(data.e9.rhof, 0)}}
+            =${tex(e9frac, 3)}$$
+            $$V_{sc}=fV=${tex(e9frac, 3)}\\cdot ${tex(data.e9.V, 0)}
+            =${tex(e9Vsub, 3)}\\,\\text{dm}^3$$
+            $$V_{deasupra}=V-V_{sc}
+            =${tex(data.e9.V, 0)}-${tex(e9Vsub, 3)}
+            =${tex(e9Vabove, 3)}\\,\\text{dm}^3$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Densitatea din plutire</h3>
+          <div class="formula">
+            $$\\frac{V_{sc}}{V}=\\frac{\\rho_c}{\\rho_f}=f$$
+            $$\\rho_c=f\\rho_f
+            =${tex(data.e10.f, 2)}\\cdot ${tex(data.e10.rhof, 0)}
+            =${tex(e10rhoc, 2)}\\,\\text{kg/m}^3$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Densitatea din greutatea aparentă</h3>
+          <div class="formula">
+            $$F_A=G-G_{ap}
+            =${tex(data.e11.G, 0)}-${tex(data.e11.Gap, 2)}
+            =${tex(e11FA, 3)}\\,\\text{N}$$
+            $$F_A=\\rho_{apă}gV,\\qquad G=\\rho_cgV$$
+            $$\\frac{G}{F_A}=\\frac{\\rho_c}{\\rho_{apă}}$$
+            $$\\rho_c=\\rho_{apă}\\frac{G}{F_A}
+            =1000\\frac{${tex(data.e11.G, 0)}}{${tex(e11FA, 3)}}
+            =${tex(e11rho, 3)}\\,\\text{kg/m}^3$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>15. Forța pe un perete vertical</h3>
+          <div class="formula">
+            $$F=\\rho gb\\frac{H^2}{2}$$
+            $$F=${tex(data.e12.rho, 0)}\\cdot10\\cdot ${tex(data.e12.b, 2)}
+            \\frac{${tex(data.e12.H, 2)}^2}{2}
+            =${tex(e12F, 3)}\\,\\text{N}$$
+            $$y_C=\\frac{2H}{3}
+            =\\frac{2\\cdot ${tex(data.e12.H, 2)}}{3}
+            =${tex(e12yc, 3)}\\,\\text{m}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>16. Barometru cu mercur</h3>
+          <div class="formula">
+            $$p=\\rho_{Hg}gh
+            \\Rightarrow h=\\frac{p}{\\rho_{Hg}g}$$
+            $$h=\\frac{${tex(data.e13.p, 0)}\\cdot10^3}{13600\\cdot10}
+            =${tex(e13hm, 4)}\\,\\text{m}$$
+            $$h=${tex(e13hcm, 2)}\\,\\text{cm}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c12");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c12");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
