@@ -1,1 +1,1219 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C40 – Emisia stimulată. Radiația LASER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active { display: flex; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    p { margin: 0.75rem 0; }
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 330px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+
+    .step {
+      counter-increment: step;
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      border-radius: 16px;
+      padding: 0.85rem;
+    }
+
+    .step::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 950;
+      margin-right: 0.45rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.45rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .grid-3,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C40 • Fizică atomică, nucleară și cuantică • Emisie stimulată • LASER</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 40</span>
+        <h1>Emisia stimulată. Bilanțul puterilor. Proprietățile radiației LASER</h1>
+
+        <p class="lead">
+          Lecția explică mecanismele elementare de interacție radiație–materie, condiția de inversie de populație,
+          amplificarea optică, bilanțul puterilor într-un laser și proprietățile radiației LASER.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          laserul funcționează prin <span class="mark">emisie stimulată</span> într-un mediu activ cu inversie de populație,
+          introdus într-un rezonator optic care asigură reacție pozitivă și selecție de moduri.
+        </div>
+
+        <div class="formula">
+          $$E_2-E_1=h\nu,\qquad N_2>N_1\quad\Rightarrow\quad \text{amplificare optică}$$
+          $$P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}+\frac{dW}{dt}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Principiul laserului">
+            <defs>
+              <marker id="arrowC40IntroBlue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC40IntroRed" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="70" y="95" width="95" height="120" rx="14" fill="#94a3b8"></rect>
+            <text x="118" y="235" fill="#64748b" font-size="16" text-anchor="middle">oglindă totală</text>
+
+            <rect x="595" y="95" width="95" height="120" rx="14" fill="#bfdbfe" stroke="#2563eb" stroke-width="3"></rect>
+            <text x="642" y="235" fill="#64748b" font-size="16" text-anchor="middle">oglindă parțială</text>
+
+            <rect x="250" y="105" width="260" height="100" rx="25" fill="#e0f2fe" stroke="#2563eb" stroke-width="3"></rect>
+            <text x="380" y="160" fill="#2563eb" font-size="20" text-anchor="middle">mediu activ</text>
+
+            <line x1="170" y1="155" x2="245" y2="155" stroke="#2563eb" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowC40IntroBlue)"></line>
+            <line x1="510" y1="155" x2="590" y2="155" stroke="#2563eb" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowC40IntroBlue)"></line>
+            <line x1="690" y1="155" x2="735" y2="155" stroke="#ef4444" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC40IntroRed)"></line>
+
+            <path d="M310 78 C345 45, 415 45, 450 78" fill="none" stroke="#f59e0b" stroke-width="4"
+                  marker-end="url(#arrowC40IntroBlue)" stroke-linecap="round"></path>
+            <text x="380" y="42" fill="#f59e0b" font-size="18" text-anchor="middle">pompare</text>
+            <text x="710" y="135" fill="#ef4444" font-size="18" text-anchor="middle">fascicul laser</text>
+          </svg>
+          <p class="caption">
+            Laserul conține mediu activ, sistem de pompare și rezonator optic. O oglindă este parțial transparentă pentru extragerea fasciculului.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Interacții radiație–materie</span>
+        <h2>Absorbție, emisie spontană, emisie stimulată</h2>
+
+        <div class="grid-3">
+          <div class="mini">
+            <strong>Absorbție</strong>
+            <p>
+              Atomul trece de pe nivel inferior $E_1$ pe nivel superior $E_2$ absorbind un foton:
+            </p>
+            <div class="formula">
+              $$E_2-E_1=h\nu$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Emisie spontană</strong>
+            <p>
+              Atomul excitat revine spontan pe nivel inferior și emite un foton cu fază și direcție aleatoare.
+            </p>
+            <div class="formula">
+              $$E_2\to E_1+h\nu$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Emisie stimulată</strong>
+            <p>
+              Un foton incident determină atomul excitat să emită un al doilea foton identic cu primul.
+            </p>
+            <div class="formula">
+              $$h\nu+E_2\to E_1+2h\nu$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de barem:</strong>
+          fotonul emis stimulat are aceeași frecvență, aceeași direcție de propagare, aceeași fază și aceeași polarizare ca fotonul incident.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Einstein</span>
+        <h2>Coeficienții Einstein</h2>
+
+        <p>
+          Pentru două nivele energetice $1$ și $2$, cu $E_2>E_1$, Einstein a introdus coeficienți de tranziție
+          pentru absorbție, emisie spontană și emisie stimulată.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Proces</th>
+                <th>Rată de tranziție</th>
+                <th>Coeficient</th>
+                <th>Interpretare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Absorbție</td>
+                <td>$W_{12}=B_{12}\rho(\nu)$</td>
+                <td>$B_{12}$</td>
+                <td>Depinde de densitatea spectrală de energie a radiației.</td>
+              </tr>
+              <tr>
+                <td>Emisie spontană</td>
+                <td>$W_{21}^{sp}=A_{21}$</td>
+                <td>$A_{21}$</td>
+                <td>Apare fără câmp electromagnetic incident.</td>
+              </tr>
+              <tr>
+                <td>Emisie stimulată</td>
+                <td>$W_{21}^{st}=B_{21}\rho(\nu)$</td>
+                <td>$B_{21}$</td>
+                <td>Este stimulată de radiația incidentă rezonantă.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula">
+          $$\rho(\nu)=\text{densitatea spectrală de energie a radiației}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          emisia spontană nu poate produce singură radiație coerentă; coerența laserului este consecința emisiei stimulate și a rezonatorului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Populații</span>
+        <h2>Inversia de populație</h2>
+
+        <p>
+          În echilibru termic, nivelul inferior este mai populat decât nivelul superior:
+        </p>
+
+        <div class="formula">
+          $$\frac{N_2}{N_1}=e^{-(E_2-E_1)/(k_BT)}<1$$
+        </div>
+
+        <p>
+          Pentru amplificare laser este necesară inversia de populație:
+        </p>
+
+        <div class="formula">
+          $$N_2>N_1$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Fără inversie</strong>
+            <p>
+              Absorbția domină: fasciculul pierde energie în mediu.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Cu inversie</strong>
+            <p>
+              Emisia stimulată domină: fasciculul este amplificat.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          inversia de populație este o stare de neechilibru, obținută prin pompare optică, electrică, chimică sau prin descărcare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Amplificare</span>
+        <h2>Câștig optic și prag laser</h2>
+
+        <p>
+          În mediu activ cu inversie, intensitatea radiației poate crește pe direcția de propagare:
+        </p>
+
+        <div class="formula">
+          $$I(x)=I_0e^{gx}$$
+        </div>
+
+        <p>
+          Într-un laser real există și pierderi interne $\alpha_i$, plus pierderi prin oglinzi.
+          Oscilația laser apare numai când amplificarea pe un tur compensează pierderile.
+        </p>
+
+        <div class="formula">
+          $$R_1R_2e^{2(g-\alpha_i)L}=1$$
+        </div>
+
+        <p>
+          De aici rezultă câștigul de prag:
+        </p>
+
+        <div class="formula">
+          $$g_{\text{prag}}=\alpha_i+\frac{1}{2L}\ln\frac1{R_1R_2}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          existența emisiei stimulate nu este suficientă. Laserul pornește numai dacă inversia produce câștig peste prag.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rezonator</span>
+        <h2>Rezonatorul optic și modurile longitudinale</h2>
+
+        <p>
+          Rezonatorul optic, de regulă format din două oglinzi, selectează undele care se pot reproduce după reflexii succesive.
+        </p>
+
+        <div class="formula">
+          $$2L=m\lambda,\qquad m=1,2,3,\dots$$
+        </div>
+
+        <p>
+          Frecvențele permise ale modurilor longitudinale sunt:
+        </p>
+
+        <div class="formula">
+          $$\nu_m=\frac{mc}{2L}$$
+        </div>
+
+        <p>
+          Distanța dintre moduri consecutive este:
+        </p>
+
+        <div class="formula">
+          $$\Delta\nu=\frac{c}{2L}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Moduri în rezonator">
+            <rect x="110" y="80" width="18" height="145" rx="6" fill="#64748b"></rect>
+            <rect x="630" y="80" width="18" height="145" rx="6" fill="#94a3b8"></rect>
+            <line x1="128" y1="152" x2="630" y2="152" stroke="#64748b" stroke-width="2" stroke-dasharray="8,6"></line>
+            <path d="M130 152 C170 95, 210 95, 250 152 S330 209, 370 152 S450 95, 490 152 S570 209, 630 152"
+                  fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round"></path>
+            <text x="380" y="58" fill="#2563eb" font-size="19" text-anchor="middle">undă staționară în cavitate</text>
+            <text x="380" y="252" fill="#64748b" font-size="17" text-anchor="middle">$2L=m\lambda$</text>
+          </svg>
+          <p class="caption">
+            Rezonatorul selectează lungimile de undă compatibile cu condiția de undă staționară.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sisteme de nivele</span>
+        <h2>Lasere cu trei și patru nivele</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Laser cu trei nivele</strong>
+            <p>
+              Pomparea ridică atomii pe un nivel superior, apoi aceștia cad rapid pe un nivel metastabil.
+              Tranziția laser se face spre starea fundamentală.
+            </p>
+            <div class="formula">
+              $$E_3\to E_2\quad\text{rapid},\qquad E_2\to E_1+h\nu$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Laser cu patru nivele</strong>
+            <p>
+              Tranziția laser se face între două nivele excitate, iar nivelul inferior se depopulează rapid.
+              Inversia este mai ușor de obținut.
+            </p>
+            <div class="formula">
+              $$E_4\to E_3,\qquad E_3\to E_2+h\nu,\qquad E_2\to E_1$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>De reținut:</strong>
+          un sistem simplu cu două nivele nu poate menține ușor inversie de populație prin pompare optică, deoarece absorbția și emisia stimulată concurează simetric.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Bilanț de puteri</span>
+        <h2>Bilanțul puterilor într-un laser</h2>
+
+        <p>
+          Din punct de vedere energetic, puterea introdusă prin pompare se distribuie între fasciculul laser util,
+          pierderi și variația energiei stocate în mediu.
+        </p>
+
+        <div class="formula">
+          $$P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}+\frac{dW}{dt}$$
+        </div>
+
+        <p>
+          În regim staționar, energia stocată în mediu este aproximativ constantă:
+        </p>
+
+        <div class="formula">
+          $$\frac{dW}{dt}=0\quad\Longrightarrow\quad
+          P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Randament energetic</strong>
+            <div class="formula">
+              $$\eta=\frac{P_{\text{laser}}}{P_{\text{pompare}}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Putere pierdută</strong>
+            <div class="formula">
+              $$P_{\text{pierderi}}=P_{\text{termice}}+P_{\text{optice}}+P_{\text{neutile}}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Interpretare:</strong>
+          bilanțul puterilor explică de ce laserele necesită răcire și de ce randamentul depinde de tipul mediului activ și de mecanismul de pompare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Putere și energie</span>
+        <h2>Laser continuu și laser pulsat</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Regim continuu</strong>
+            <p>
+              Puterea emisă este aproximativ constantă în timp:
+            </p>
+            <div class="formula">
+              $$E=P\Delta t$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Regim pulsat</strong>
+            <p>
+              Energia este concentrată într-un interval scurt $\Delta t$:
+            </p>
+            <div class="formula">
+              $$P_{\text{medie}}=fE_p,\qquad
+              P_{\text{vârf}}\simeq\frac{E_p}{\tau}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Observație de examen:</strong>
+          puterea medie și puterea de vârf pot diferi enorm la laserele pulsate.
+          Un impuls scurt poate avea putere de vârf mare chiar dacă energia totală este modestă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Proprietăți</span>
+        <h2>Proprietățile radiației LASER</h2>
+
+        <div class="grid-3">
+          <div class="mini">
+            <strong>Monocromaticitate</strong>
+            <p>
+              Spectrul este îngust; radiația are frecvență bine definită.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Coerență</strong>
+            <p>
+              Undele au relații de fază stabile în timp și spațiu.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Direcționalitate</strong>
+            <p>
+              Fasciculul are divergență mică și se propagă pe direcție bine definită.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Intensitate mare</strong>
+            <p>
+              Energia poate fi concentrată într-o secțiune mică și într-un interval scurt.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Polarizare</strong>
+            <p>
+              Multe lasere produc radiație cu stare de polarizare controlată.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Focalizabilitate</strong>
+            <p>
+              Fasciculul poate fi focalizat pe pete foarte mici, util în tehnică și medicină.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\theta_{\text{dif}}\simeq1{,}22\frac{\lambda}{D}$$
+        </div>
+
+        <p>
+          Relația de mai sus estimează divergența limitată de difracție pentru un fascicul circular de diametru $D$.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Coerență</span>
+        <h2>Lungimea de coerență</h2>
+
+        <p>
+          Coerența temporală este legată de lățimea spectrală $\Delta\nu$.
+          Cu cât spectrul este mai îngust, cu atât unda păstrează mai mult timp o relație de fază stabilă.
+        </p>
+
+        <div class="formula">
+          $$\tau_c\simeq\frac1{\Delta\nu},\qquad
+          L_c=c\tau_c\simeq\frac{c}{\Delta\nu}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Coerență temporală</strong>
+            <p>
+              Permite obținerea interferenței pentru diferențe mari de drum optic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Coerență spațială</strong>
+            <p>
+              Permite interferența între puncte diferite ale frontului de undă.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu optica:</strong>
+          proprietățile laserului explică folosirea sa în interferometrie, holografie și măsurători de mare precizie.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Energia fotonilor într-un laser roșu</h2>
+
+        <p>
+          Un laser emite radiație cu lungimea de undă $\lambda=650\,\text{nm}$.
+          Determinați energia unui foton în eV.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Folosim relația:
+            $$E=\frac{hc}{\lambda}$$
+          </div>
+          <div class="step">
+            Cu $hc\simeq1240\,\text{eV·nm}$:
+            $$E=\frac{1240}{650}\,\text{eV}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$E\simeq1{,}91\,\text{eV}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          un foton roșu de $650\,\text{nm}$ are energia aproximativ $1{,}91\,\text{eV}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Distanța dintre modurile rezonatorului</h2>
+
+        <p>
+          Un rezonator laser are lungimea $L=30\,\text{cm}$.
+          Determinați distanța în frecvență dintre modurile longitudinale consecutive.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Formula pentru distanța dintre moduri:
+            $$\Delta\nu=\frac{c}{2L}$$
+          </div>
+          <div class="step">
+            Transformăm:
+            $$L=30\,\text{cm}=0{,}30\,\text{m}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$\Delta\nu=\frac{3\cdot10^8}{2\cdot0{,}30}
+            =5{,}0\cdot10^8\,\text{Hz}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $\Delta\nu=500\,\text{MHz}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Bilanț energetic și randament</h2>
+
+        <p>
+          Un laser este pompat cu puterea $P_{\text{pompare}}=50\,\text{W}$ și emite puterea utilă
+          $P_{\text{laser}}=2{,}5\,\text{W}$. Determinați randamentul și puterea pierdută în regim staționar.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Randamentul:
+            $$\eta=\frac{P_{\text{laser}}}{P_{\text{pompare}}}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$\eta=\frac{2{,}5}{50}=0{,}05=5\%$$
+          </div>
+          <div class="step">
+            În regim staționar:
+            $$P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}$$
+          </div>
+          <div class="step">
+            Puterea pierdută:
+            $$P_{\text{pierderi}}=50-2{,}5=47{,}5\,\text{W}$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Interpretare:</strong>
+          puterea pierdută se transformă în principal în căldură și trebuie evacuată prin răcire.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Aplicații</span>
+        <h2>Aplicații ale laserelor</h2>
+
+        <div class="grid-3">
+          <div class="mini">
+            <strong>Medicină</strong>
+            <p>
+              Chirurgie, oftalmologie, dermatologie, fotocoagulare și terapii controlate.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Comunicații</strong>
+            <p>
+              Transmiterea informației prin fibre optice cu surse coerente și modulate.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Metrologie</strong>
+            <p>
+              Măsurări de distanțe, interferometrie, aliniere și standarde de frecvență.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Industrie</strong>
+            <p>
+              Tăiere, sudare, gravare, imprimare și prelucrare de precizie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Cercetare</strong>
+            <p>
+              Spectroscopie, răcire laser, optică neliniară și fizica plasmei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Educație</strong>
+            <p>
+              Demonstrații de interferență, difracție, polarizare și coerență.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu proprietățile:</strong>
+          aplicațiile laserului se explică prin monocromaticitate, coerență, direcționalitate și densitate mare de putere.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">NTSM</span>
+        <h2>Siguranța la utilizarea laserelor</h2>
+
+        <p>
+          Radiația laser poate fi periculoasă pentru ochi și piele, mai ales datorită direcționalității și posibilității
+          de focalizare pe suprafețe foarte mici.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Reguli de bază</strong>
+            <ul>
+              <li>nu se privește niciodată direct în fascicul;</li>
+              <li>nu se orientează fasciculul spre persoane;</li>
+              <li>se evită reflexiile pe suprafețe lucioase;</li>
+              <li>se folosește putere minimă pentru demonstrații școlare;</li>
+              <li>se utilizează ochelari de protecție adecvați când este necesar.</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <strong>Organizarea demonstrației</strong>
+            <ul>
+              <li>fasciculul se menține sub nivelul ochilor;</li>
+              <li>traiectoria fasciculului se închide cu ecrane mate;</li>
+              <li>sursa se fixează mecanic;</li>
+              <li>elevii primesc instrucțiuni înaintea experimentului.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>La examen:</strong>
+          o secvență didactică despre laser trebuie să includă explicit norme NTSM, deoarece fasciculul este intens, coerent și direcțional.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică</span>
+        <h2>Secvență didactică de 10 minute</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Evenimentul instruirii</th>
+                <th>Obiectiv operațional</th>
+                <th>Activitatea profesorului</th>
+                <th>Activitatea elevilor</th>
+                <th>Strategii și mijloace</th>
+                <th>Evaluare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Captarea atenției</td>
+                <td>Elevii identifică diferența dintre lumină obișnuită și laser.</td>
+                <td>Compară fasciculul unei lanterne cu fasciculul unui pointer laser pe un ecran mat.</td>
+                <td>Observă divergența mică și pata luminoasă concentrată.</td>
+                <td>Demonstrație, conversație euristică, ecran mat.</td>
+                <td>Întrebare orală: „Ce observăm la fasciculul laser?”</td>
+              </tr>
+              <tr>
+                <td>Dirijarea învățării</td>
+                <td>Elevii explică emisia stimulată.</td>
+                <td>Desenează două nivele energetice și prezintă fotonul incident și fotonul emis stimulat.</td>
+                <td>Formulează că fotonii au aceeași frecvență, fază, direcție și polarizare.</td>
+                <td>Modelare, schemă, analogie cu multiplicarea fotonilor.</td>
+                <td>Item scurt: absorbție/spontan/stimulat.</td>
+              </tr>
+              <tr>
+                <td>Aplicare</td>
+                <td>Elevii calculează energia unui foton laser.</td>
+                <td>Oferă $\lambda=532\,\text{nm}$ și $hc=1240\,\text{eV·nm}$.</td>
+                <td>Aplică $E=hc/\lambda$ și exprimă rezultatul în eV.</td>
+                <td>Rezolvare de probleme, lucru individual.</td>
+                <td>Corectare pe barem: formulă, substituție, unitate.</td>
+              </tr>
+              <tr>
+                <td>Transfer și siguranță</td>
+                <td>Elevii formulează două norme NTSM.</td>
+                <td>Solicită reguli pentru utilizarea pointerului laser.</td>
+                <td>Enumeră reguli: nu se privește direct, se evită reflexiile.</td>
+                <td>Discuție dirijată, problematizare.</td>
+                <td>Exit ticket: o proprietate + o regulă de siguranță.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane</span>
+        <h2>Greșeli frecvente la examen</h2>
+
+        <ul>
+          <li>
+            <strong>Emisie spontană vs. stimulată:</strong>
+            spontană înseamnă fotoni emiși aleator; stimulată înseamnă fotoni corelați cu fotonul incident.
+          </li>
+          <li>
+            <strong>Inversia de populație:</strong>
+            nu apare la echilibru termic; trebuie produsă prin pompare.
+          </li>
+          <li>
+            <strong>Prag laser:</strong>
+            nu orice mediu excitat este laser; câștigul trebuie să depășească pierderile.
+          </li>
+          <li>
+            <strong>Monocromaticitate absolută:</strong>
+            laserul nu are lățime spectrală zero; are lățime spectrală foarte mică.
+          </li>
+          <li>
+            <strong>Coerență și direcționalitate:</strong>
+            sunt proprietăți diferite, chiar dacă apar simultan la fasciculele laser.
+          </li>
+          <li>
+            <strong>Siguranță:</strong>
+            un laser de putere mică poate fi periculos pentru ochi dacă fasciculul este privit direct sau reflectat specular.
+          </li>
+        </ul>
+
+        <div class="formula">
+          $$N_2>N_1,\qquad
+          g_{\text{prag}}=\alpha_i+\frac{1}{2L}\ln\frac1{R_1R_2},\qquad
+          \eta=\frac{P_{\text{laser}}}{P_{\text{pompare}}}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          „Emisia stimulată este procesul prin care un foton incident determină un atom aflat pe un nivel excitat
+          să emită un al doilea foton identic: aceeași frecvență, fază, direcție și polarizare. Acest proces este
+          esențial pentru laser, deoarece permite amplificarea coerentă a radiației. Pentru ca amplificarea să domine
+          absorbția, mediul activ trebuie adus într-o stare de inversie de populație, adică nivelul superior al tranziției
+          laser să fie mai populat decât nivelul inferior.”
+        </p>
+
+        <p>
+          „Un laser conține trei elemente principale: mediul activ, sistemul de pompare și rezonatorul optic.
+          Pomparea produce inversia de populație, iar rezonatorul cu două oglinzi selectează modurile permise și asigură
+          reacție pozitivă. Condiția de prag exprimă egalitatea dintre câștig și pierderi:
+          $g_{\text{prag}}=\alpha_i+\frac{1}{2L}\ln\frac1{R_1R_2}$.
+          Din punct de vedere energetic, bilanțul este
+          $P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}+\frac{dW}{dt}$,
+          iar în regim staționar puterea pompată se împarte între puterea laser utilă și pierderi.”
+        </p>
+
+        <p>
+          „Radiația laser se caracterizează prin monocromaticitate, coerență, direcționalitate, intensitate mare,
+          polarizare și focalizabilitate. Aceste proprietăți explică aplicațiile în medicină, comunicații optice,
+          metrologie, industrie și cercetare. Didactic, lecția se predă eficient prin scheme de nivele energetice,
+          comparația lanternă–laser, calcule cu $E=hc/\lambda$ și norme clare de siguranță: nu se privește în fascicul,
+          se evită reflexiile speculare și se folosește ecran mat.”
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Autoevaluare</span>
+        <h2>Itemi de verificare rapidă</h2>
+
+        <ol>
+          <li>Definiți emisia stimulată și comparați-o cu emisia spontană.</li>
+          <li>Explicați de ce fotonii rezultați prin emisie stimulată sunt coerenți.</li>
+          <li>Definiți inversia de populație și precizați de ce nu apare la echilibru termic.</li>
+          <li>Enumerați elementele constructive ale unui laser.</li>
+          <li>Scrieți condiția de prag pentru câștigul laser.</li>
+          <li>Formulați bilanțul puterilor într-un laser și definiți randamentul.</li>
+          <li>Enumerați patru proprietăți ale radiației LASER.</li>
+          <li>Calculați energia fotonului pentru un laser cu $\lambda=532\,\text{nm}$.</li>
+          <li>Formulați două aplicații și două norme NTSM pentru utilizarea laserelor.</li>
+        </ol>
+
+        <div class="formula">
+          $$E=h\nu=\frac{hc}{\lambda},\qquad
+          2L=m\lambda,\qquad
+          \Delta\nu=\frac{c}{2L}$$
+          $$P_{\text{pompare}}=P_{\text{laser}}+P_{\text{pierderi}}+\frac{dW}{dt},\qquad
+          \eta=\frac{P_{\text{laser}}}{P_{\text{pompare}}}$$
+        </div>
+
+        <div class="bottom-links">
+          <a href="C41-semiconductori-intrinseci-extrinseci-jonctiunea-pn.html">Lecția următoare C41</a>
+          <a href="Fise%20de%20lucru/fisa-40.html">Fișa de lucru C40</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 20</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c40", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c40");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    updatePageStatus();
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
