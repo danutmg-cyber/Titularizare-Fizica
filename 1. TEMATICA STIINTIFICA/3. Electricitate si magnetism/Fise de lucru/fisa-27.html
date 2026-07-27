@@ -1,1 +1,998 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C27 – Curent alternativ. Circuite RLC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 { margin-top: 0; }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show { display: block; }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 300px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li { margin: 0.35rem 0; }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C27 • Curent alternativ. Circuite RLC</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C27</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Curent electric alternativ. Circuite RLC</h1>
+
+      <p class="lead">
+        Fișa consolidează mărimile sinusoidale, valorile efective, reactanțele inductivă și capacitivă,
+        impedanța circuitului $RLC$ serie, defazajul, puterea în curent alternativ și rezonanța.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Mărimi sinusoidale</strong>
+          <div class="formula">
+            $$u(t)=U_m\sin(\omega t+\varphi_u)$$
+            $$i(t)=I_m\sin(\omega t+\varphi_i)$$
+            $$\omega=2\pi f$$
+          </div>
+          <p>
+            $U_m$ și $I_m$ sunt valori maxime; $U$ și $I$ sunt valori efective.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Valori efective</strong>
+          <div class="formula">
+            $$U=\frac{U_m}{\sqrt2},\qquad I=\frac{I_m}{\sqrt2}$$
+          </div>
+          <p>
+            Formulele de putere în curent alternativ folosesc, de regulă, valori efective.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Reactanțe</strong>
+          <div class="formula">
+            $$X_L=\omega L,\qquad X_C=\frac1{\omega C}$$
+          </div>
+          <p>
+            $X_L$ crește cu frecvența, iar $X_C$ scade cu frecvența.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>RLC serie</strong>
+          <div class="formula">
+            $$Z=\sqrt{R^2+(X_L-X_C)^2}$$
+            $$I=\frac{U}{Z},\qquad \tan\varphi=\frac{X_L-X_C}{R}$$
+          </div>
+          <p>
+            Tensiunile nu se adună aritmetic, ci fazorial.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mărime / fenomen</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Valoare efectivă</td>
+              <td>$U=U_m/\sqrt2$, $I=I_m/\sqrt2$</td>
+              <td>V, A</td>
+              <td>Nu se confundă cu valoarea maximă.</td>
+            </tr>
+            <tr>
+              <td>Reactanță inductivă</td>
+              <td>$X_L=\omega L$</td>
+              <td>$\Omega$</td>
+              <td>Crește proporțional cu frecvența.</td>
+            </tr>
+            <tr>
+              <td>Reactanță capacitivă</td>
+              <td>$X_C=1/(\omega C)$</td>
+              <td>$\Omega$</td>
+              <td>Scade când frecvența crește.</td>
+            </tr>
+            <tr>
+              <td>Impedanță RLC serie</td>
+              <td>$Z=\sqrt{R^2+(X_L-X_C)^2}$</td>
+              <td>$\Omega$</td>
+              <td>Se folosește diferența reactanțelor.</td>
+            </tr>
+            <tr>
+              <td>Defazaj</td>
+              <td>$\tan\varphi=(X_L-X_C)/R$</td>
+              <td>rad sau grade</td>
+              <td>$\varphi>0$ inductiv, $\varphi<0$ capacitiv.</td>
+            </tr>
+            <tr>
+              <td>Putere activă</td>
+              <td>$P=UI\cos\varphi=RI^2$</td>
+              <td>W</td>
+              <td>Este puterea transformată ireversibil.</td>
+            </tr>
+            <tr>
+              <td>Putere aparentă</td>
+              <td>$S=UI$</td>
+              <td>VA</td>
+              <td>Nu se confundă cu aria $S$.</td>
+            </tr>
+            <tr>
+              <td>Rezonanță serie</td>
+              <td>$\omega_0=1/\sqrt{LC}$</td>
+              <td>rad/s</td>
+              <td>La rezonanță: $X_L=X_C$, $Z=R$, $\cos\varphi=1$.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Pentru o mărime sinusoidală, valoarea efectivă este:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$U=U_m\sqrt2$</option>
+          <option value="b">$U=U_m/\sqrt2$</option>
+          <option value="c">$U=2U_m$</option>
+          <option value="d">$U=U_m^2$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Reactanța inductivă este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$X_L=\omega L$</option>
+          <option value="b">$X_L=1/(\omega L)$</option>
+          <option value="c">$X_L=RC$</option>
+          <option value="d">$X_L=U/I^2$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Reactanța capacitivă este:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">$X_C=\omega C$</option>
+          <option value="b">$X_C=\omega/C$</option>
+          <option value="c">$X_C=1/(\omega C)$</option>
+          <option value="d">$X_C=LC$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. La rezonanță serie într-un circuit $RLC$:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">$X_L=0$ și $X_C=0$</option>
+          <option value="b">$Z$ este maximă</option>
+          <option value="c">$I=0$</option>
+          <option value="d">$X_L=X_C$, $Z=R$, curentul este maxim</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Puterea activă în curent alternativ este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$P=UI\cos\varphi$</option>
+          <option value="b">$P=UI/\cos\varphi$</option>
+          <option value="c">$P=U/I$</option>
+          <option value="d">$P=XI^2$ pentru orice element</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Se folosesc valori efective, cu excepția cazurilor unde se cere explicit valoarea maximă.
+      </p>
+
+      <article class="item">
+        <h3>4. Valoare maximă și valoare efectivă <span class="points">5 p</span></h3>
+        <p>
+          O tensiune sinusoidală are valoarea maximă
+          <span class="formula-inline">$U_m$</span> = <span class="var" id="e4Um"></span> V.
+          Determinați valoarea efectivă.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Pulsația și reactanțele <span class="points">5 p</span></h3>
+        <p>
+          Un circuit funcționează la frecvența
+          <span class="formula-inline">$f$</span> = <span class="var" id="e5f"></span> Hz.
+          Bobina are inductanța
+          <span class="formula-inline">$L$</span> = <span class="var" id="e5L"></span> mH,
+          iar condensatorul are capacitatea
+          <span class="formula-inline">$C$</span> = <span class="var" id="e5C"></span> $\mu\text{F}$.
+          Determinați $\omega$, $X_L$ și $X_C$.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Impedanța circuitului $RLC$ serie <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e6R"></span> $\Omega$,
+          <span class="formula-inline">$X_L$</span> = <span class="var" id="e6XL"></span> $\Omega$ și
+          <span class="formula-inline">$X_C$</span> = <span class="var" id="e6XC"></span> $\Omega$.
+          Determinați impedanța și caracterul circuitului.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Curentul și defazajul în $RLC$ serie <span class="points">5 p</span></h3>
+        <p>
+          Circuitul de la itemul anterior este alimentat la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e7U"></span> V.
+          Determinați curentul efectiv și unghiul de defazaj.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Putere activă, aparentă și reactivă <span class="points">5 p</span></h3>
+        <p>
+          Un receptor este alimentat la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e8U"></span> V,
+          absorbind curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e8I"></span> A
+          cu factorul de putere
+          <span class="formula-inline">$\cos\varphi$</span> = <span class="var" id="e8cos"></span>.
+          Determinați $P$, $S$ și $Q$.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Frecvența de rezonanță <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$L$</span> = <span class="var" id="e9L"></span> mH și
+          <span class="formula-inline">$C$</span> = <span class="var" id="e9C"></span> $\mu\text{F}$.
+          Determinați pulsația și frecvența de rezonanță.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Curentul la rezonanță și puterea maximă <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are rezistența
+          <span class="formula-inline">$R$</span> = <span class="var" id="e10R"></span> $\Omega$
+          și este alimentat la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e10U"></span> V.
+          Determinați curentul la rezonanță și puterea activă.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Factorul de calitate și lățimea de bandă <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e11R"></span> $\Omega$,
+          <span class="formula-inline">$L$</span> = <span class="var" id="e11L"></span> mH
+          și frecvența de rezonanță
+          <span class="formula-inline">$f_0$</span> = <span class="var" id="e11f0"></span> Hz.
+          Determinați $Q_f$ și lățimea de bandă $\Delta f$.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Tensiuni pe bobină și condensator la rezonanță <span class="points">5 p</span></h3>
+        <p>
+          La rezonanță, un circuit $RLC$ serie este străbătut de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e12I"></span> A.
+          Inductanța este
+          <span class="formula-inline">$L$</span> = <span class="var" id="e12L"></span> mH,
+          iar pulsația de rezonanță este
+          <span class="formula-inline">$\omega_0$</span> = <span class="var" id="e12w"></span> rad/s.
+          Determinați $U_L$ și $U_C$.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Condensator în curent alternativ <span class="points">5 p</span></h3>
+        <p>
+          Un condensator de capacitate
+          <span class="formula-inline">$C$</span> = <span class="var" id="e13C"></span> $\mu\text{F}$
+          este alimentat la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e13U"></span> V
+          și frecvența
+          <span class="formula-inline">$f$</span> = <span class="var" id="e13f"></span> Hz.
+          Determinați reactanța capacitivă și curentul efectiv.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Bobină ideală în curent alternativ <span class="points">5 p</span></h3>
+        <p>
+          O bobină ideală de inductanță
+          <span class="formula-inline">$L$</span> = <span class="var" id="e14L"></span> mH
+          este alimentată la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e14U"></span> V
+          și frecvența
+          <span class="formula-inline">$f$</span> = <span class="var" id="e14f"></span> Hz.
+          Determinați reactanța inductivă și curentul efectiv.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Explicați diferența dintre valoarea maximă și valoarea efectivă a unei tensiuni alternative sinusoidale.
+          Precizați de ce formulele de putere folosesc valorile efective.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Deducere / interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Deducați expresia impedanței circuitului $RLC$ serie
+          $Z=\sqrt{R^2+(X_L-X_C)^2}$ folosind reprezentarea fazorială a tensiunilor.
+          Discutați cazurile inductiv, capacitiv și rezonant.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru evidențierea rezonanței într-un circuit $RLC$ serie.
+          Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor, evaluarea rapidă,
+          mijloacele didactice și două norme de protecția muncii privind sursele de curent alternativ și condensatoarele.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, defazaj sau interpretare fizică: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: V, A, $\Omega$, W, VA, var, Hz, rad/s.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C27-curentul-electric-alternativ-circuite-rlc.html">Înapoi la lecția C27</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-28.html">Fișa următoare C28</a>
+    </nav>
+  </main>
+
+  <script>
+    const storageKey = "values-fisa-c27";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const XL6 = rnd(40, 160, 10);
+      let XC6 = rnd(20, 140, 10);
+      if (XC6 === XL6) XC6 += 30;
+
+      const v = {
+        e4Um: rnd(100, 500, 25),
+
+        e5f: choose([50, 60, 100, 200, 400]),
+        e5L: rnd(50, 500, 50),
+        e5C: choose([10, 22, 47, 68, 100, 220]),
+
+        e6R: rnd(10, 80, 5),
+        e6XL: XL6,
+        e6XC: XC6,
+        e7U: rnd(60, 240, 20),
+
+        e8U: rnd(120, 240, 10),
+        e8I: rnd(1, 10),
+        e8cos: choose([0.60, 0.70, 0.75, 0.80, 0.85, 0.90]),
+
+        e9L: rnd(50, 500, 50),
+        e9C: choose([10, 22, 47, 68, 100, 220]),
+
+        e10R: rnd(10, 100, 10),
+        e10U: rnd(50, 250, 25),
+
+        e11R: rnd(5, 80, 5),
+        e11L: rnd(50, 500, 50),
+        e11f0: rnd(100, 1500, 100),
+
+        e12I: rnd(1, 8),
+        e12L: rnd(50, 500, 50),
+        e12w: rnd(100, 1000, 100),
+
+        e13C: choose([10, 22, 47, 68, 100, 220]),
+        e13U: rnd(20, 240, 20),
+        e13f: choose([50, 60, 100, 200, 400]),
+
+        e14L: rnd(50, 500, 50),
+        e14U: rnd(20, 240, 20),
+        e14f: choose([50, 60, 100, 200, 400])
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const U4 = v.e4Um / Math.sqrt(2);
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        Pentru tensiune sinusoidală:
+        $$U=\\frac{U_m}{\\sqrt2}$$
+        $$U=\\frac{${v.e4Um}}{\\sqrt2}=${tex(U4)}\\,\\text{V}$$
+        Valoarea efectivă este valoarea tensiunii continue echivalente prin efect termic.
+      `);
+
+      const L5 = v.e5L * 1e-3;
+      const C5 = v.e5C * 1e-6;
+      const w5 = 2 * Math.PI * v.e5f;
+      const XL5 = w5 * L5;
+      const XC5 = 1 / (w5 * C5);
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        $$\\omega=2\\pi f=2\\pi\\cdot${v.e5f}=${tex(w5)}\\,\\text{rad/s}$$
+        $$L=${v.e5L}\\,\\text{mH}=${tex(L5)}\\,\\text{H},\\qquad C=${v.e5C}\\,\\mu\\text{F}=${tex(C5)}\\,\\text{F}$$
+        $$X_L=\\omega L=${tex(w5)}\\cdot${tex(L5)}=${tex(XL5)}\\,\\Omega$$
+        $$X_C=\\frac1{\\omega C}=\\frac1{${tex(w5)}\\cdot${tex(C5)}}=${tex(XC5)}\\,\\Omega$$
+        $X_L$ crește cu frecvența, iar $X_C$ scade cu frecvența.
+      `);
+
+      const X6 = v.e6XL - v.e6XC;
+      const Z6 = Math.sqrt(v.e6R * v.e6R + X6 * X6);
+      const caracter6 = X6 > 0 ? "inductiv" : "capacitiv";
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        $$Z=\\sqrt{R^2+(X_L-X_C)^2}$$
+        $$X_L-X_C=${v.e6XL}-${v.e6XC}=${tex(X6)}\\,\\Omega$$
+        $$Z=\\sqrt{${v.e6R}^2+(${tex(X6)})^2}=${tex(Z6)}\\,\\Omega$$
+        Deoarece ${X6 > 0 ? "$X_L>X_C$" : "$X_C>X_L$"}, circuitul are caracter ${caracter6}.
+      `);
+
+      const I7 = v.e7U / Z6;
+      const tan7 = X6 / v.e6R;
+      const phi7 = Math.atan(tan7);
+      const phiDeg7 = phi7 * 180 / Math.PI;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        Folosim impedanța din itemul anterior:
+        $$I=\\frac{U}{Z}=\\frac{${v.e7U}}{${tex(Z6)}}=${tex(I7)}\\,\\text{A}$$
+        Unghiul de defazaj:
+        $$\\tan\\varphi=\\frac{X_L-X_C}{R}=\\frac{${tex(X6)}}{${v.e6R}}=${tex(tan7)}$$
+        $$\\varphi=${tex(phiDeg7)}^{\\circ}$$
+        Semnul lui $\\varphi$ arată dacă tensiunea este înaintea curentului sau curentul este înaintea tensiunii.
+      `);
+
+      const S8 = v.e8U * v.e8I;
+      const P8 = S8 * v.e8cos;
+      const sin8 = Math.sqrt(1 - v.e8cos * v.e8cos);
+      const Q8 = S8 * sin8;
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Puterea aparentă:
+        $$S=UI=${v.e8U}\\cdot${v.e8I}=${tex(S8)}\\,\\text{VA}$$
+        Puterea activă:
+        $$P=UI\\cos\\varphi=${v.e8U}\\cdot${v.e8I}\\cdot${String(v.e8cos).replace(".", ",")}=${tex(P8)}\\,\\text{W}$$
+        Deoarece:
+        $$\\sin\\varphi=\\sqrt{1-\\cos^2\\varphi}=${tex(sin8)}$$
+        Puterea reactivă:
+        $$Q=UI\\sin\\varphi=${tex(S8)}\\cdot${tex(sin8)}=${tex(Q8)}\\,\\text{var}$$
+      `);
+
+      const L9 = v.e9L * 1e-3;
+      const C9 = v.e9C * 1e-6;
+      const w9 = 1 / Math.sqrt(L9 * C9);
+      const f9 = w9 / (2 * Math.PI);
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Condiția de rezonanță serie:
+        $$X_L=X_C$$
+        $$\\omega_0=\\frac1{\\sqrt{LC}}$$
+        $$L=${v.e9L}\\,\\text{mH}=${tex(L9)}\\,\\text{H},\\qquad C=${v.e9C}\\,\\mu\\text{F}=${tex(C9)}\\,\\text{F}$$
+        $$\\omega_0=\\frac1{\\sqrt{${tex(L9)}\\cdot${tex(C9)}}}=${tex(w9)}\\,\\text{rad/s}$$
+        $$f_0=\\frac{\\omega_0}{2\\pi}=${tex(f9)}\\,\\text{Hz}$$
+      `);
+
+      const I10 = v.e10U / v.e10R;
+      const P10 = v.e10U * I10;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        La rezonanță serie:
+        $$Z_{\\min}=R$$
+        $$I_0=\\frac{U}{R}=\\frac{${v.e10U}}{${v.e10R}}=${tex(I10)}\\,\\text{A}$$
+        Puterea activă:
+        $$P=UI_0=${v.e10U}\\cdot${tex(I10)}=${tex(P10)}\\,\\text{W}$$
+        Echivalent:
+        $$P=RI_0^2$$
+        La rezonanță, factorul de putere este unitar.
+      `);
+
+      const L11 = v.e11L * 1e-3;
+      const w011 = 2 * Math.PI * v.e11f0;
+      const Q11 = w011 * L11 / v.e11R;
+      const df11 = v.e11f0 / Q11;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Pentru $RLC$ serie:
+        $$Q_f=\\frac{\\omega_0L}{R}$$
+        $$\\omega_0=2\\pi f_0=2\\pi\\cdot${v.e11f0}=${tex(w011)}\\,\\text{rad/s}$$
+        $$L=${v.e11L}\\,\\text{mH}=${tex(L11)}\\,\\text{H}$$
+        $$Q_f=\\frac{${tex(w011)}\\cdot${tex(L11)}}{${v.e11R}}=${tex(Q11)}$$
+        Lățimea de bandă:
+        $$\\Delta f=\\frac{f_0}{Q_f}=\\frac{${v.e11f0}}{${tex(Q11)}}=${tex(df11)}\\,\\text{Hz}$$
+        Un $Q_f$ mare înseamnă selectivitate mare și bandă îngustă.
+      `);
+
+      const L12 = v.e12L * 1e-3;
+      const XL12 = v.e12w * L12;
+      const UL12 = v.e12I * XL12;
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        La rezonanță:
+        $$X_L=X_C=\\omega_0L$$
+        $$X_L=${v.e12w}\\cdot${tex(L12)}=${tex(XL12)}\\,\\Omega$$
+        Tensiunea pe bobină:
+        $$U_L=IX_L=${v.e12I}\\cdot${tex(XL12)}=${tex(UL12)}\\,\\text{V}$$
+        Deoarece la rezonanță $U_L$ și $U_C$ sunt egale în modul:
+        $$U_C=U_L=${tex(UL12)}\\,\\text{V}$$
+        Aceste tensiuni se compensează fazorial, dar pot fi mari individual.
+      `);
+
+      const C13 = v.e13C * 1e-6;
+      const w13 = 2 * Math.PI * v.e13f;
+      const XC13 = 1 / (w13 * C13);
+      const I13 = v.e13U / XC13;
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        $$\\omega=2\\pi f=2\\pi\\cdot${v.e13f}=${tex(w13)}\\,\\text{rad/s}$$
+        $$C=${v.e13C}\\,\\mu\\text{F}=${tex(C13)}\\,\\text{F}$$
+        $$X_C=\\frac1{\\omega C}=\\frac1{${tex(w13)}\\cdot${tex(C13)}}=${tex(XC13)}\\,\\Omega$$
+        Curentul efectiv:
+        $$I=\\frac{U}{X_C}=\\frac{${v.e13U}}{${tex(XC13)}}=${tex(I13)}\\,\\text{A}$$
+        În condensator ideal, curentul este înaintea tensiunii cu $\\pi/2$.
+      `);
+
+      const L14 = v.e14L * 1e-3;
+      const w14 = 2 * Math.PI * v.e14f;
+      const XL14 = w14 * L14;
+      const I14 = v.e14U / XL14;
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        $$\\omega=2\\pi f=2\\pi\\cdot${v.e14f}=${tex(w14)}\\,\\text{rad/s}$$
+        $$L=${v.e14L}\\,\\text{mH}=${tex(L14)}\\,\\text{H}$$
+        $$X_L=\\omega L=${tex(w14)}\\cdot${tex(L14)}=${tex(XL14)}\\,\\Omega$$
+        Curentul efectiv:
+        $$I=\\frac{U}{X_L}=\\frac{${v.e14U}}{${tex(XL14)}}=${tex(I14)}\\,\\text{A}$$
+        În bobină ideală, curentul rămâne în urmă față de tensiune cu $\\pi/2$.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c27", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c27");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
