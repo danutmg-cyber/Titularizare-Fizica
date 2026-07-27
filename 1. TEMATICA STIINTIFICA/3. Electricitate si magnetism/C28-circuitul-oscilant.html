@@ -1,1 +1,1826 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C28 – Circuitul oscilant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C28 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 28</span>
+        <h1>Circuitul oscilant</h1>
+
+        <p class="lead">
+          Circuitul oscilant este sistemul electromagnetic format, în forma ideală, dintr-un condensator și o bobină.
+          Energia oscilează periodic între câmpul electric al condensatorului și câmpul magnetic al bobinei.
+          Lecția tratează oscilațiile electromagnetice libere, amortizate și forțate, analogia cu oscilatorul mecanic,
+          rezonanța și factorul de calitate.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          circuitul $LC$ ideal este analog oscilatorului armonic liniar: sarcina $q$ joacă rolul coordonatei,
+          curentul $i=dq/dt$ joacă rolul vitezei, iar energia se conservă prin schimb periodic între $C$ și $L$.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Circuit oscilant LC">
+            <defs>
+              <marker id="arrowC28" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="120" y="95" width="520" height="150" rx="24" fill="none" stroke="#64748b" stroke-width="6"></rect>
+
+            <line x1="230" y1="125" x2="230" y2="205" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"></line>
+            <line x1="270" y1="125" x2="270" y2="205" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"></line>
+            <text x="250" y="245" text-anchor="middle" fill="#7c3aed" font-size="30" font-weight="900">C</text>
+            <text x="210" y="116" fill="#ef4444" font-size="22" font-weight="900">+Q</text>
+            <text x="268" y="116" fill="#2563eb" font-size="22" font-weight="900">−Q</text>
+
+            <path d="M410 170 c10 -28, 30 -28, 40 0 c10 -28, 30 -28, 40 0 c10 -28, 30 -28, 40 0"
+                  fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round"></path>
+            <text x="485" y="220" text-anchor="middle" fill="#0f766e" font-size="30" font-weight="900">L</text>
+
+            <line x1="315" y1="95" x2="420" y2="95" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC28)"></line>
+            <text x="350" y="72" fill="#2563eb" font-size="23" font-weight="900">i(t)</text>
+
+            <text x="145" y="292" fill="#64748b" font-size="20">
+              energia trece periodic: câmp electric în condensator ↔ câmp magnetic în bobină
+            </text>
+          </svg>
+
+          <p class="caption">
+            În circuitul ideal $LC$, pierderile sunt neglijate, iar oscilațiile sunt libere și neamortizate.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C28?</h2>
+
+        <p>
+          Tema C28 cere modelarea circuitului oscilant și analiza oscilațiilor electromagnetice libere,
+          amortizate și forțate.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Circuit $LC$ ideal</strong>
+            <p>
+              Ecuația oscilațiilor libere, pulsația proprie, perioada Thomson și conservarea energiei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Circuit $RLC$ real</strong>
+            <p>
+              Amortizarea oscilațiilor prin efect Joule și rolul rezistenței electrice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Oscilații forțate</strong>
+            <p>
+              Răspunsul circuitului la o sursă sinusoidală și dependența amplitudinii de frecvență.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezonanță și calitate</strong>
+            <p>
+              Frecvența de rezonanță, factorul de calitate, lățimea de bandă și selectivitatea.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          pornești de la legea lui Kirchhoff pentru $LC$, obții ecuația
+          $\frac{d^2q}{dt^2}+\frac{1}{LC}q=0$, apoi extinzi la $RLC$ amortizat și la regim forțat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Model fizic</span>
+        <h2>Elementele circuitului oscilant</h2>
+
+        <p>
+          Circuitul oscilant ideal conține două elemente reactive:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Condensatorul $C$</strong>
+            <p>
+              Înmagazinează energie în câmpul electric dintre armături.
+            </p>
+            <div class="formula">
+              $$W_E=\frac{q^2}{2C}=\frac12Cu^2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Bobina $L$</strong>
+            <p>
+              Înmagazinează energie în câmpul magnetic produs de curent.
+            </p>
+            <div class="formula">
+              $$W_B=\frac12Li^2$$
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Dacă rezistența este neglijabilă, energia totală se conservă:
+        </p>
+
+        <div class="formula">
+          $$W=W_E+W_B=\frac{q^2}{2C}+\frac12Li^2=\text{constant}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          condensatorul nu „produce” oscilația singur, iar bobina nu o produce singură; oscilația apare prin cuplajul energetic dintre $C$ și $L$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Stare inițială</span>
+        <h2>Încărcarea inițială a condensatorului</h2>
+
+        <p>
+          Presupunem că la momentul $t=0$ condensatorul este încărcat cu sarcina maximă $Q_m$, iar curentul prin bobină este nul:
+        </p>
+
+        <div class="formula">
+          $$q(0)=Q_m,\qquad i(0)=0$$
+        </div>
+
+        <p>
+          Energia este inițial numai electrică:
+        </p>
+
+        <div class="formula">
+          $$W(0)=\frac{Q_m^2}{2C}$$
+        </div>
+
+        <p>
+          Când condensatorul începe să se descarce prin bobină, curentul crește, câmpul magnetic al bobinei crește,
+          iar energia electrică se transformă în energie magnetică.
+        </p>
+
+        <div class="exam">
+          <strong>Moment important:</strong>
+          când $q=0$, condensatorul este descărcat, dar curentul este maxim, deci energia este integral magnetică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ecuație diferențială</span>
+        <h2>Ecuația oscilațiilor libere în circuitul $LC$</h2>
+
+        <p>
+          Pentru circuitul ideal $LC$, aplicăm legea lui Kirchhoff:
+        </p>
+
+        <div class="formula">
+          $$u_L+u_C=0$$
+        </div>
+
+        <p>
+          Tensiunile sunt:
+        </p>
+
+        <div class="formula">
+          $$u_L=L\frac{di}{dt},\qquad u_C=\frac{q}{C}$$
+        </div>
+
+        <p>
+          Deoarece $i=dq/dt$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$L\frac{d^2q}{dt^2}+\frac{q}{C}=0$$
+        </div>
+
+        <p>
+          Împărțind prin $L$:
+        </p>
+
+        <div class="formula">
+          $$\frac{d^2q}{dt^2}+\frac{1}{LC}q=0$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          aceasta este ecuația oscilatorului armonic, cu $\omega_0^2=1/(LC)$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Soluții sinusoidale</span>
+        <h2>Sarcina și curentul în circuitul $LC$</h2>
+
+        <p>
+          Ecuația:
+        </p>
+
+        <div class="formula">
+          $$\frac{d^2q}{dt^2}+\omega_0^2q=0$$
+        </div>
+
+        <p>
+          are soluția:
+        </p>
+
+        <div class="formula">
+          $$q(t)=Q_m\cos(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          Curentul este derivata sarcinii:
+        </p>
+
+        <div class="formula">
+          $$i(t)=\frac{dq}{dt}=-\omega_0Q_m\sin(\omega_0t+\varphi_0)$$
+        </div>
+
+        <p>
+          Amplitudinea curentului este:
+        </p>
+
+        <div class="formula">
+          $$I_m=\omega_0Q_m$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $q$ și $i$ sunt defazate cu $\pi/2$: sarcina este maximă când curentul este nul, iar curentul este maxim când sarcina este nulă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formula Thomson</span>
+        <h2>Pulsația, perioada și frecvența proprie</h2>
+
+        <p>
+          Pulsația proprie a circuitului oscilant ideal este:
+        </p>
+
+        <div class="formula">
+          $$\omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+
+        <p>
+          Perioada oscilațiilor libere este formula lui Thomson:
+        </p>
+
+        <div class="formula">
+          $$T_0=2\pi\sqrt{LC}$$
+        </div>
+
+        <p>
+          Frecvența proprie este:
+        </p>
+
+        <div class="formula">
+          $$f_0=\frac1{T_0}=\frac1{2\pi\sqrt{LC}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Crește $L$</strong>
+            <p>
+              Oscilația devine mai lentă; $T_0$ crește și $f_0$ scade.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Crește $C$</strong>
+            <p>
+              Oscilația devine mai lentă; energia electrică se acumulează mai mult pentru aceeași tensiune.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Schimb energetic</span>
+        <h2>Conservarea energiei în circuitul $LC$</h2>
+
+        <p>
+          Energia electrică și energia magnetică sunt:
+        </p>
+
+        <div class="formula">
+          $$W_E=\frac{q^2}{2C},\qquad W_B=\frac12Li^2$$
+        </div>
+
+        <p>
+          Pentru $q(t)=Q_m\cos\omega_0t$:
+        </p>
+
+        <div class="formula">
+          $$W_E=\frac{Q_m^2}{2C}\cos^2\omega_0t$$
+        </div>
+
+        <p>
+          Deoarece $i(t)=-\omega_0Q_m\sin\omega_0t$ și $\omega_0^2=1/(LC)$:
+        </p>
+
+        <div class="formula">
+          $$W_B=\frac12L\omega_0^2Q_m^2\sin^2\omega_0t=\frac{Q_m^2}{2C}\sin^2\omega_0t$$
+        </div>
+
+        <p>
+          Energia totală este:
+        </p>
+
+        <div class="formula">
+          $$W=W_E+W_B=\frac{Q_m^2}{2C}=\frac12LI_m^2=\text{constant}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia oscilează între câmpul electric și câmpul magnetic, dar suma rămâne constantă în circuitul ideal.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Analogie</span>
+        <h2>Analogia cu oscilatorul mecanic</h2>
+
+        <p>
+          Circuitul $LC$ ideal este analog cu sistemul mecanic masă–resort.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Oscilator mecanic</th>
+                <th>Circuit oscilant $LC$</th>
+                <th>Rol fizic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Elongație $x$</td>
+                <td>Sarcină $q$</td>
+                <td>Mărimea care oscilează.</td>
+              </tr>
+              <tr>
+                <td>Viteză $v=dx/dt$</td>
+                <td>Curent $i=dq/dt$</td>
+                <td>Rata de variație a coordonatei.</td>
+              </tr>
+              <tr>
+                <td>Masă $m$</td>
+                <td>Inductanță $L$</td>
+                <td>Inerție mecanică / electromagnetică.</td>
+              </tr>
+              <tr>
+                <td>Constanta elastică $k$</td>
+                <td>Inversul capacității $1/C$</td>
+                <td>Restaurare mecanică / electrică.</td>
+              </tr>
+              <tr>
+                <td>$E_p=\frac12kx^2$</td>
+                <td>$W_E=\frac{q^2}{2C}$</td>
+                <td>Energie potențială / electrică.</td>
+              </tr>
+              <tr>
+                <td>$E_c=\frac12mv^2$</td>
+                <td>$W_B=\frac12Li^2$</td>
+                <td>Energie cinetică / magnetică.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Utilitate didactică:</strong>
+          analogia ajută elevul să transfere ideea de oscilație liberă, amortizare și rezonanță din mecanică în electromagnetism.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spațiul fazelor</span>
+        <h2>Reprezentarea în planul $(q,i)$</h2>
+
+        <p>
+          Pentru circuitul $LC$ ideal, energia totală:
+        </p>
+
+        <div class="formula">
+          $$\frac{q^2}{2C}+\frac12Li^2=W$$
+        </div>
+
+        <p>
+          poate fi scrisă sub forma:
+        </p>
+
+        <div class="formula">
+          $$\frac{q^2}{Q_m^2}+\frac{i^2}{I_m^2}=1$$
+        </div>
+
+        <p>
+          În planul fazelor $(q,i)$, traiectoria este o elipsă. Dacă se folosesc variabile scalate,
+          traiectoria devine cerc.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Elipsă de fază pentru circuitul LC">
+            <defs>
+              <marker id="arrowPhaseC28" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <line x1="130" y1="165" x2="650" y2="165" stroke="#64748b" stroke-width="3" marker-end="url(#arrowPhaseC28)"></line>
+            <line x1="380" y1="275" x2="380" y2="55" stroke="#64748b" stroke-width="3" marker-end="url(#arrowPhaseC28)"></line>
+            <ellipse cx="380" cy="165" rx="190" ry="85" fill="none" stroke="#2563eb" stroke-width="6"></ellipse>
+            <text x="650" y="154" fill="#64748b" font-size="24" font-weight="900">q</text>
+            <text x="395" y="62" fill="#64748b" font-size="24" font-weight="900">i</text>
+            <text x="305" y="300" fill="#64748b" font-size="20">energie totală constantă</text>
+          </svg>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          graficul $q(t)$ este sinusoidal în timp, iar graficul fazic $i(q)$ este o curbă în planul stărilor; nu reprezintă același lucru.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Circuit real</span>
+        <h2>Oscilații amortizate în circuitul $RLC$</h2>
+
+        <p>
+          Într-un circuit real există rezistență $R$, iar o parte din energie se transformă ireversibil în căldură prin efect Joule.
+          Pentru circuitul $RLC$ serie liber, legea lui Kirchhoff dă:
+        </p>
+
+        <div class="formula">
+          $$u_L+u_R+u_C=0$$
+        </div>
+
+        <p>
+          Cu:
+        </p>
+
+        <div class="formula">
+          $$u_L=L\frac{di}{dt},\qquad u_R=Ri,\qquad u_C=\frac{q}{C}$$
+        </div>
+
+        <p>
+          și $i=dq/dt$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$L\frac{d^2q}{dt^2}+R\frac{dq}{dt}+\frac{q}{C}=0$$
+        </div>
+
+        <p>
+          Forma normalizată este:
+        </p>
+
+        <div class="formula">
+          $$\frac{d^2q}{dt^2}+2\beta\frac{dq}{dt}+\omega_0^2q=0$$
+        </div>
+
+        <div class="formula">
+          $$\beta=\frac{R}{2L},\qquad \omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Regimuri amortizate</span>
+        <h2>Subamortizat, critic și supraamortizat</h2>
+
+        <p>
+          Caracterul mișcării depinde de comparația dintre $\beta$ și $\omega_0$.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Regim subamortizat</strong>
+            <div class="formula">
+              $$\beta<\omega_0$$
+            </div>
+            <p>
+              Oscilațiile persistă, dar amplitudinea scade exponențial.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Regim critic</strong>
+            <div class="formula">
+              $$\beta=\omega_0$$
+            </div>
+            <p>
+              Sistemul revine la echilibru fără oscilații, în timpul minim.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Regim supraamortizat</strong>
+            <div class="formula">
+              $$\beta>\omega_0$$
+            </div>
+            <p>
+              Sistemul revine lent la echilibru, fără oscilații.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezistența critică</strong>
+            <div class="formula">
+              $$R_c=2\sqrt{\frac{L}{C}}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>În majoritatea problemelor de oscilații:</strong>
+          se consideră regimul subamortizat, deoarece numai acolo oscilațiile sunt vizibile.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Subamortizare</span>
+        <h2>Soluția oscilațiilor amortizate</h2>
+
+        <p>
+          Pentru $\beta<\omega_0$, soluția are forma:
+        </p>
+
+        <div class="formula">
+          $$q(t)=Q_0e^{-\beta t}\cos(\omega t+\varphi_0)$$
+        </div>
+
+        <p>
+          unde pulsația amortizată este:
+        </p>
+
+        <div class="formula">
+          $$\omega=\sqrt{\omega_0^2-\beta^2}$$
+        </div>
+
+        <p>
+          Amplitudinea scade exponențial:
+        </p>
+
+        <div class="formula">
+          $$A(t)=A_0e^{-\beta t}$$
+        </div>
+
+        <p>
+          Energia scade aproximativ ca:
+        </p>
+
+        <div class="formula">
+          $$W(t)\propto A^2(t)=A_0^2e^{-2\beta t}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          amortizarea amplitudinii are factor $e^{-\beta t}$, iar amortizarea energiei are factor $e^{-2\beta t}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Factor de calitate</span>
+        <h2>Calitatea circuitului oscilant</h2>
+
+        <p>
+          Factorul de calitate $Q_f$ măsoară cât de slab amortizat este circuitul:
+        </p>
+
+        <div class="formula">
+          $$Q_f=2\pi\frac{\text{energia înmagazinată}}{\text{energia pierdută într-o perioadă}}$$
+        </div>
+
+        <p>
+          Pentru un circuit $RLC$ serie slab amortizat:
+        </p>
+
+        <div class="formula">
+          $$Q_f=\frac{\omega_0L}{R}=\frac1{\omega_0CR}=\frac1R\sqrt{\frac{L}{C}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$Q_f$ mare</strong>
+            <p>
+              Amortizare mică, oscilații persistente, rezonanță îngustă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>$Q_f$ mic</strong>
+            <p>
+              Amortizare mare, oscilații rapid atenuate, selectivitate mică.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Notație:</strong>
+          $Q_f$ este factor de calitate; nu trebuie confundat cu sarcina electrică $Q$ sau cu puterea reactivă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Decrement</span>
+        <h2>Decrementul logaritmic</h2>
+
+        <p>
+          Pentru oscilațiile amortizate, raportul a două amplitudini succesive este constant:
+        </p>
+
+        <div class="formula">
+          $$\frac{A_n}{A_{n+1}}=e^{\beta T}$$
+        </div>
+
+        <p>
+          Decrementul logaritmic este:
+        </p>
+
+        <div class="formula">
+          $$\delta=\ln\frac{A_n}{A_{n+1}}=\beta T$$
+        </div>
+
+        <p>
+          Pentru amortizare slabă:
+        </p>
+
+        <div class="formula">
+          $$Q_f\approx\frac{\pi}{\delta}$$
+        </div>
+
+        <div class="exam">
+          <strong>Utilitate experimentală:</strong>
+          măsurând amplitudinile succesive ale oscilațiilor, se poate estima amortizarea și factorul de calitate al circuitului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Oscilații forțate</span>
+        <h2>Circuitul $RLC$ alimentat sinusoidal</h2>
+
+        <p>
+          Dacă circuitul $RLC$ serie este alimentat de o sursă sinusoidală:
+        </p>
+
+        <div class="formula">
+          $$u(t)=U_m\sin\omega t$$
+        </div>
+
+        <p>
+          ecuația pentru sarcină devine:
+        </p>
+
+        <div class="formula">
+          $$L\frac{d^2q}{dt^2}+R\frac{dq}{dt}+\frac{q}{C}=U_m\sin\omega t$$
+        </div>
+
+        <p>
+          După stingerea regimului tranzitoriu, rămâne regimul permanent forțat, în care toate mărimile oscilează
+          cu frecvența sursei, nu cu frecvența proprie.
+        </p>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          în regim forțat permanent, frecvența oscilațiilor este impusă de generator.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Amplitudine forțată</span>
+        <h2>Curentul în circuitul $RLC$ serie</h2>
+
+        <p>
+          În regim sinusoidal staționar, impedanța circuitului $RLC$ serie este:
+        </p>
+
+        <div class="formula">
+          $$Z=\sqrt{R^2+\left(\omega L-\frac1{\omega C}\right)^2}$$
+        </div>
+
+        <p>
+          Valoarea efectivă a curentului este:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{U}{Z}$$
+        </div>
+
+        <p>
+          Amplitudinea curentului este:
+        </p>
+
+        <div class="formula">
+          $$I_m=\frac{U_m}{\sqrt{R^2+\left(\omega L-\frac1{\omega C}\right)^2}}$$
+        </div>
+
+        <p>
+          Defazajul dintre tensiune și curent este:
+        </p>
+
+        <div class="formula">
+          $$\tan\varphi=\frac{\omega L-\frac1{\omega C}}{R}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în regim forțat, pulsația din reactanțe este pulsația sursei $\omega$, nu neapărat pulsația proprie $\omega_0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rezonanță</span>
+        <h2>Rezonanța în circuitul oscilant forțat</h2>
+
+        <p>
+          Rezonanța serie apare când reactanța inductivă și reactanța capacitivă sunt egale:
+        </p>
+
+        <div class="formula">
+          $$\omega L=\frac1{\omega C}$$
+        </div>
+
+        <p>
+          Pulsația de rezonanță este:
+        </p>
+
+        <div class="formula">
+          $$\omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+
+        <p>
+          La rezonanță:
+        </p>
+
+        <div class="formula">
+          $$Z_{\min}=R,\qquad I_{\max}=\frac{U}{R},\qquad \varphi=0$$
+        </div>
+
+        <p>
+          Puterea activă este maximă:
+        </p>
+
+        <div class="formula">
+          $$P_{\max}=UI_{\max}=\frac{U^2}{R}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          rezonanța apare când sursa furnizează energie în ritmul natural al schimbului dintre câmpul electric și câmpul magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Bandă de trecere</span>
+        <h2>Lățimea de bandă și selectivitatea</h2>
+
+        <p>
+          Curba de rezonanță a curentului are un maxim la $\omega_0$. Frecvențele de semiputere $\omega_1$ și $\omega_2$
+          sunt definite prin:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{I_{\max}}{\sqrt2}$$
+        </div>
+
+        <p>
+          Lățimea de bandă este:
+        </p>
+
+        <div class="formula">
+          $$\Delta\omega=\omega_2-\omega_1$$
+        </div>
+
+        <p>
+          Pentru circuitul $RLC$ serie:
+        </p>
+
+        <div class="formula">
+          $$\Delta\omega=\frac{R}{L}$$
+        </div>
+
+        <p>
+          Factorul de calitate poate fi exprimat prin:
+        </p>
+
+        <div class="formula">
+          $$Q_f=\frac{\omega_0}{\Delta\omega}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Bandă îngustă</strong>
+            <p>
+              Selectivitate mare; circuitul răspunde puternic doar aproape de $\omega_0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Bandă largă</strong>
+            <p>
+              Selectivitate mică; amortizarea este mai mare.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Circuit paralel</span>
+        <h2>Observații despre circuitul oscilant paralel</h2>
+
+        <p>
+          Un circuit $LC$ paralel poate susține, de asemenea, schimb periodic de energie între condensator și bobină.
+          În regim ideal, condiția frecvenței proprii rămâne:
+        </p>
+
+        <div class="formula">
+          $$\omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+
+        <p>
+          În regim forțat, circuitul paralel are comportament complementar celui serie:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$RLC$ serie</strong>
+            <p>
+              La rezonanță impedanța este minimă, iar curentul total este maxim.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>$RLC$ paralel ideal</strong>
+            <p>
+              La rezonanță impedanța echivalentă este maximă, iar curentul furnizat de sursă este minim.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu aplica automat concluziile circuitului serie la circuitul paralel; condiția $\omega_0=1/\sqrt{LC}$ rămâne, dar impedanța are comportament diferit.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Aplicații</span>
+        <h2>Oscilații electromagnetice și emisie</h2>
+
+        <p>
+          Circuitul oscilant este modelul de bază pentru generarea și selectarea oscilațiilor electromagnetice.
+          Când circuitul este cuplat cu un sistem radiant, energia electromagnetică poate fi emisă sub formă de unde.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Oscilator radio</strong>
+            <p>
+              Circuitul $LC$ stabilește frecvența de oscilație.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Acord radio</strong>
+            <p>
+              Prin variația capacității $C$ se selectează frecvența dorită.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Filtre electrice</strong>
+            <p>
+              Circuitele rezonante lasă să treacă preferențial anumite domenii de frecvență.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Antene</strong>
+            <p>
+              Transformă energia oscilațiilor electrice în energie radiată electromagnetic.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu C29:</strong>
+          oscilațiile electromagnetice variabile în timp conduc natural la undele electromagnetice descrise prin ecuațiile lui Maxwell.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Perioada unui circuit $LC$</h2>
+
+        <p>
+          Un circuit oscilant ideal are $L=0{,}20\,\text{H}$ și $C=50\,\mu\text{F}$.
+          Determinați perioada și frecvența oscilațiilor libere.
+        </p>
+
+        <p>
+          Transformăm capacitatea:
+        </p>
+
+        <div class="formula">
+          $$C=50\,\mu\text{F}=50\cdot10^{-6}\,\text{F}=5\cdot10^{-5}\,\text{F}$$
+        </div>
+
+        <p>
+          Formula Thomson:
+        </p>
+
+        <div class="formula">
+          $$T_0=2\pi\sqrt{LC}$$
+        </div>
+
+        <div class="formula">
+          $$T_0=2\pi\sqrt{0{,}20\cdot5\cdot10^{-5}}=2\pi\sqrt{10^{-5}}$$
+        </div>
+
+        <div class="formula">
+          $$T_0\approx2\pi\cdot3{,}16\cdot10^{-3}=1{,}99\cdot10^{-2}\,\text{s}$$
+        </div>
+
+        <div class="formula">
+          $$f_0=\frac1{T_0}\approx50{,}3\,\text{Hz}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $T_0\approx0{,}0199\,\text{s}$ și $f_0\approx50{,}3\,\text{Hz}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Energia inițială a condensatorului</h2>
+
+        <p>
+          Condensatorul unui circuit $LC$ are capacitatea $C=2\,\mu\text{F}$ și este încărcat inițial la tensiunea
+          $U_0=100\,\text{V}$. Determinați energia totală a oscilațiilor.
+        </p>
+
+        <div class="formula">
+          $$W=\frac12CU_0^2$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$C=2\cdot10^{-6}\,\text{F}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$W=\frac12\cdot2\cdot10^{-6}\cdot100^2=10^{-2}\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          energia totală este $W=0{,}01\,\text{J}$ în circuitul ideal.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Curentul maxim în circuitul $LC$</h2>
+
+        <p>
+          Circuitul din problema precedentă are inductanța $L=0{,}50\,\text{H}$.
+          Determinați curentul maxim.
+        </p>
+
+        <p>
+          La momentul în care energia este integral magnetică:
+        </p>
+
+        <div class="formula">
+          $$W=\frac12LI_m^2$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$I_m=\sqrt{\frac{2W}{L}}$$
+        </div>
+
+        <div class="formula">
+          $$I_m=\sqrt{\frac{2\cdot0{,}01}{0{,}50}}=\sqrt{0{,}04}=0{,}20\,\text{A}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          curentul maxim este $I_m=0{,}20\,\text{A}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Regimul amortizat</h2>
+
+        <p>
+          Un circuit $RLC$ serie are $R=10\,\Omega$, $L=0{,}50\,\text{H}$ și $C=200\,\mu\text{F}$.
+          Determinați $\beta$, $\omega_0$ și precizați regimul.
+        </p>
+
+        <div class="formula">
+          $$\beta=\frac{R}{2L}=\frac{10}{2\cdot0{,}50}=10\,\text{s}^{-1}$$
+        </div>
+
+        <p>
+          Capacitatea:
+        </p>
+
+        <div class="formula">
+          $$C=200\cdot10^{-6}=2\cdot10^{-4}\,\text{F}$$
+        </div>
+
+        <div class="formula">
+          $$\omega_0=\frac1{\sqrt{LC}}=\frac1{\sqrt{0{,}50\cdot2\cdot10^{-4}}}
+          =\frac1{\sqrt{10^{-4}}}=100\,\text{rad/s}$$
+        </div>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          $$\beta<\omega_0$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          circuitul este subamortizat; apar oscilații amortizate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Factorul de calitate</h2>
+
+        <p>
+          Un circuit $RLC$ serie are $R=5\,\Omega$, $L=0{,}20\,\text{H}$ și $C=50\,\mu\text{F}$.
+          Determinați factorul de calitate.
+        </p>
+
+        <div class="formula">
+          $$Q_f=\frac1R\sqrt{\frac{L}{C}}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$C=50\cdot10^{-6}=5\cdot10^{-5}\,\text{F}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$Q_f=\frac15\sqrt{\frac{0{,}20}{5\cdot10^{-5}}}
+          =0{,}2\sqrt{4000}$$
+        </div>
+
+        <div class="formula">
+          $$Q_f\approx0{,}2\cdot63{,}25=12{,}65$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          circuitul are selectivitate relativ bună și amortizare moderată.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 6</span>
+        <h2>Lățimea de bandă</h2>
+
+        <p>
+          Un circuit $RLC$ serie are frecvența de rezonanță $f_0=1000\,\text{Hz}$ și factorul de calitate
+          $Q_f=20$. Determinați lățimea de bandă în hertzi.
+        </p>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          $$Q_f=\frac{f_0}{\Delta f}$$
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          $$\Delta f=\frac{f_0}{Q_f}=\frac{1000}{20}=50\,\text{Hz}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          lățimea de bandă este $\Delta f=50\,\text{Hz}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Formule și semnificații</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Situație</th>
+                <th>Relație</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Circuit $LC$ ideal</td>
+                <td>$\frac{d^2q}{dt^2}+\frac1{LC}q=0$</td>
+                <td>Oscilații electromagnetice libere neamortizate.</td>
+              </tr>
+              <tr>
+                <td>Pulsație proprie</td>
+                <td>$\omega_0=1/\sqrt{LC}$</td>
+                <td>Frecvența naturală a schimbului energetic.</td>
+              </tr>
+              <tr>
+                <td>Formula Thomson</td>
+                <td>$T_0=2\pi\sqrt{LC}$</td>
+                <td>Perioada oscilațiilor libere.</td>
+              </tr>
+              <tr>
+                <td>Energie totală</td>
+                <td>$W=\frac{q^2}{2C}+\frac12Li^2$</td>
+                <td>Se conservă în circuitul ideal.</td>
+              </tr>
+              <tr>
+                <td>Circuit $RLC$ liber</td>
+                <td>$Lq''+Rq'+q/C=0$</td>
+                <td>Oscilații amortizate prin rezistență.</td>
+              </tr>
+              <tr>
+                <td>Amortizare</td>
+                <td>$\beta=R/(2L)$</td>
+                <td>Caracterizează scăderea amplitudinii.</td>
+              </tr>
+              <tr>
+                <td>Oscilații forțate</td>
+                <td>$I=U/Z$</td>
+                <td>Frecvența este impusă de sursă.</td>
+              </tr>
+              <tr>
+                <td>Rezonanță</td>
+                <td>$\omega_0=1/\sqrt{LC}$</td>
+                <td>Curent maxim în $RLC$ serie.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          în oscilații libere frecvența este proprie circuitului; în oscilații forțate frecvența este impusă de sursă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Circuitul oscilant se predă eficient prin analogie cu oscilatorul mecanic, prin simulări și prin experimente
+          cu circuite $LC/RLC$ de joasă tensiune.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Observarea oscilațiilor amortizate într-un circuit $RLC$ cu osciloscopul după încărcarea inițială a condensatorului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Determinarea frecvenței proprii prin modificarea lui $C$ și compararea cu formula Thomson.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare a transferului energetic $W_E\leftrightarrow W_B$, a amortizării și a curbei de rezonanță.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc surse de joasă tensiune; condensatoarele se descarcă înainte de manipulare;
+              bobinele nu se lasă alimentate excesiv; se evită scurtcircuitele.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să identifice analogia cu oscilatorul armonic și să explice, nu doar să calculeze,
+          transferul periodic dintre cele două forme de energie.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se scrie $T=2\pi/\sqrt{LC}$.</td>
+                <td>Aceasta are dimensiune greșită.</td>
+                <td>$T=2\pi\sqrt{LC}$ și $\omega_0=1/\sqrt{LC}$.</td>
+              </tr>
+              <tr>
+                <td>Se consideră $q$ și $i$ maxime simultan.</td>
+                <td>Energia nu ar fi conservată corect în $LC$ ideal.</td>
+                <td>$q$ și $i$ sunt defazate cu $\pi/2$.</td>
+              </tr>
+              <tr>
+                <td>Se ignoră rezistența în circuitul real.</td>
+                <td>Rezistența produce pierderi Joule și amortizare.</td>
+                <td>$Lq''+Rq'+q/C=0$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă oscilațiile libere cu cele forțate.</td>
+                <td>Au frecvențe impuse diferit.</td>
+                <td>Libere: frecvența proprie; forțate: frecvența sursei.</td>
+              </tr>
+              <tr>
+                <td>Se confundă $Q_f$ cu sarcina $Q$.</td>
+                <td>Au semnificații fizice diferite.</td>
+                <td>Folosește $Q_f$ pentru factorul de calitate și $q,Q$ pentru sarcină.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          începe problemele de circuit oscilant prin identificarea regimului: ideal $LC$, real amortizat $RLC$ sau forțat sinusoidal.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Circuitul oscilant ideal este format dintr-un condensator și o bobină. Condensatorul înmagazinează energie
+          în câmpul electric, iar bobina înmagazinează energie în câmpul magnetic:
+        </p>
+
+        <div class="formula">
+          $$W_E=\frac{q^2}{2C},\qquad W_B=\frac12Li^2$$
+        </div>
+
+        <p>
+          În circuitul $LC$ ideal energia totală se conservă:
+        </p>
+
+        <div class="formula">
+          $$W=\frac{q^2}{2C}+\frac12Li^2=\text{constant}$$
+        </div>
+
+        <p>
+          Aplicând legea lui Kirchhoff, obținem:
+        </p>
+
+        <div class="formula">
+          $$L\frac{d^2q}{dt^2}+\frac{q}{C}=0$$
+        </div>
+
+        <p>
+          sau:
+        </p>
+
+        <div class="formula">
+          $$\frac{d^2q}{dt^2}+\omega_0^2q=0,\qquad \omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+
+        <p>
+          Sarcina și curentul variază sinusoidal și sunt defazate cu $\pi/2$:
+        </p>
+
+        <div class="formula">
+          $$q=Q_m\cos(\omega_0t+\varphi_0),\qquad i=\frac{dq}{dt}$$
+        </div>
+
+        <p>
+          Într-un circuit real $RLC$, rezistența determină disiparea energiei prin efect Joule și oscilațiile devin amortizate:
+        </p>
+
+        <div class="formula">
+          $$Lq''+Rq'+\frac{q}{C}=0$$
+        </div>
+
+        <p>
+          În regim forțat, circuitul este alimentat de o sursă sinusoidală și răspunde cu frecvența sursei.
+          Rezonanța apare când:
+        </p>
+
+        <div class="formula">
+          $$\omega L=\frac1{\omega C},\qquad \omega_0=\frac1{\sqrt{LC}}$$
+        </div>
+
+        <p>
+          La rezonanță serie, impedanța este minimă, curentul este maxim, iar factorul de putere devine unitar.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C28</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Circuit $LC$ ideal</strong>
+            <div class="formula">
+              $$Lq''+\frac{q}{C}=0$$
+              $$q''+\frac1{LC}q=0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Oscilații libere</strong>
+            <div class="formula">
+              $$q=Q_m\cos(\omega_0t+\varphi_0)$$
+              $$i=\frac{dq}{dt}$$
+              $$I_m=\omega_0Q_m$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Thomson</strong>
+            <div class="formula">
+              $$\omega_0=\frac1{\sqrt{LC}}$$
+              $$T_0=2\pi\sqrt{LC}$$
+              $$f_0=\frac1{2\pi\sqrt{LC}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energie</strong>
+            <div class="formula">
+              $$W_E=\frac{q^2}{2C}$$
+              $$W_B=\frac12Li^2$$
+              $$W=W_E+W_B$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Oscilații amortizate</strong>
+            <div class="formula">
+              $$Lq''+Rq'+\frac{q}{C}=0$$
+              $$\beta=\frac{R}{2L}$$
+              $$\omega=\sqrt{\omega_0^2-\beta^2}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Rezonanță și calitate</strong>
+            <div class="formula">
+              $$Z=\sqrt{R^2+\left(\omega L-\frac1{\omega C}\right)^2}$$
+              $$Q_f=\frac{\omega_0L}{R}$$
+              $$\Delta\omega=\frac{R}{L}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un condensator încărcat este conectat la o bobină. Determinați perioada oscilațiilor, curentul maxim,
+          energia totală și apoi discutați cum se modifică rezultatele dacă circuitul are rezistență nenulă.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C29-ecuatiile-lui-maxwell-unde-electromagnetice.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-28.html">Fișa de lucru C28</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 30</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-28.html">Fișa C28</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c28", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c28");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
