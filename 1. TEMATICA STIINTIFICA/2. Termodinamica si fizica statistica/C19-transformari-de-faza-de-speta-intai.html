@@ -5,59 +5,13 @@
   <title>C19 – Transformări de fază de speța întâi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
-    }
+    * { box-sizing: border-box; }
 
     .topbar {
       position: sticky;
@@ -74,8 +28,8 @@
     }
 
     .topbar strong {
-      font-size: 0.95rem;
       color: var(--accent);
+      font-size: 0.95rem;
     }
 
     .theme-toggle {
@@ -84,7 +38,7 @@
       color: var(--text);
       border-radius: 999px;
       padding: 0.55rem 0.9rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
 
@@ -98,20 +52,11 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 6.8rem;
     }
 
     .page.active {
       display: flex;
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
     }
 
     .eyebrow {
@@ -125,57 +70,9 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
-    p {
-      margin: 0.75rem 0;
-    }
-
-    ul, ol {
-      padding-left: 1.35rem;
-    }
-
-    li {
-      margin: 0.55rem 0;
-    }
-
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -196,6 +93,34 @@
       color: var(--accent-2);
     }
 
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
     .svgbox {
       margin: 1rem 0;
       background: var(--formula-bg);
@@ -205,10 +130,11 @@
       overflow-x: auto;
     }
 
-    svg {
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -217,25 +143,26 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
     }
 
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
       padding: 1rem;
       border-radius: 16px;
-      margin-top: 1rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
     }
 
-    html[data-theme="dark"] .warning {
-      background: #33260c;
-    }
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
 
     .pager {
       position: fixed;
@@ -244,7 +171,7 @@
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr auto 1fr auto auto;
       gap: 0.6rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
@@ -283,35 +210,25 @@
       color: white;
     }
 
-    .bottom-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .bottom-links a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 16px;
-      font-weight: 900;
-      color: white;
-      background: var(--accent);
-    }
-
-    .bottom-links a:nth-child(2) {
-      background: var(--accent-2);
-    }
-
-    .bottom-links a:nth-child(3) {
+    .pager a.chapter {
       background: #7c3aed;
     }
 
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .grid,
@@ -324,13 +241,13 @@
         border-radius: 22px;
       }
 
-      .pager a {
+      .page-status {
         grid-column: 1 / -1;
+        order: -1;
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+      .pager a {
+        grid-column: 1 / -1;
       }
     }
   </style>
@@ -339,7 +256,7 @@
 <body>
   <div class="topbar">
     <strong>C19 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -347,45 +264,118 @@
       <article class="card">
         <span class="eyebrow">Lecția 19</span>
         <h1>Transformări de fază de speța întâi</h1>
+
         <p class="lead">
-          Topirea, vaporizarea și sublimarea sunt exemple de <span class="mark">transformări de fază de
-          speța întâi</span>: trecerea de la o stare de agregare la alta, la o temperatură care rămâne
-          constantă pe toată durata transformării, la presiune dată, cu schimb de căldură latentă.
+          Transformările de fază de speța întâi sunt procese în care o substanță trece dintr-o fază
+          în alta cu schimb de căldură latentă și cu variație discontinuă a unor mărimi precum volumul
+          specific și entropia. Lecția tratează topirea, solidificarea, vaporizarea, condensarea,
+          sublimarea, ecuația Clausius–Clapeyron și punctul triplu.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          pe durata unei transformări de fază, toată căldura primită (sau cedată) servește la
-          <strong>reorganizarea structurii interne</strong> a substanței, nu la creșterea temperaturii.
+          în timpul schimbării de fază, la presiune dată, temperatura rămâne constantă cât timp coexistă
+          cele două faze; căldura schimbată modifică structura internă, nu temperatura.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 280" role="img" aria-label="Cele trei stări de agregare și cele șase transformări de fază">
-            <circle cx="150" cy="140" r="70" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-width="4"/>
-            <text x="150" y="145" fill="#2563eb" font-size="24" text-anchor="middle">solid</text>
-            <circle cx="380" cy="140" r="70" fill="rgba(15,118,110,0.14)" stroke="#0f766e" stroke-width="4"/>
-            <text x="380" y="145" fill="#0f766e" font-size="24" text-anchor="middle">lichid</text>
-            <circle cx="610" cy="140" r="70" fill="rgba(239,68,68,0.14)" stroke="#ef4444" stroke-width="4"/>
-            <text x="610" y="145" fill="#ef4444" font-size="24" text-anchor="middle">gaz</text>
-            <line x1="220" y1="120" x2="310" y2="120" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <line x1="310" y1="160" x2="220" y2="160" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <text x="225" y="105" fill="#64748b" font-size="18">topire</text>
-            <text x="225" y="185" fill="#64748b" font-size="18">solidificare</text>
-            <line x1="450" y1="120" x2="540" y2="120" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <line x1="540" y1="160" x2="450" y2="160" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <text x="450" y="105" fill="#64748b" font-size="18">vaporizare</text>
-            <text x="450" y="185" fill="#64748b" font-size="18">condensare</text>
-            <path d="M170 220 C 300 270, 460 270, 590 220" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <path d="M590 240 C 460 285, 300 285, 170 240" fill="none" stroke="#64748b" stroke-width="4" marker-end="url(#a1)"/>
-            <text x="330" y="260" fill="#64748b" font-size="18">sublimare</text>
-            <text x="330" y="300" fill="#64748b" font-size="18">desublimare</text>
+          <svg viewBox="0 0 760 330" role="img" aria-label="Cele trei faze și transformările dintre ele">
             <defs>
-              <marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
+              <marker id="arrowPhaseC19" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
               </marker>
             </defs>
+
+            <circle cx="155" cy="145" r="72" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-width="5"></circle>
+            <text x="155" y="153" text-anchor="middle" fill="#2563eb" font-size="26" font-weight="700">solid</text>
+
+            <circle cx="380" cy="145" r="72" fill="rgba(15,118,110,0.14)" stroke="#0f766e" stroke-width="5"></circle>
+            <text x="380" y="153" text-anchor="middle" fill="#0f766e" font-size="26" font-weight="700">lichid</text>
+
+            <circle cx="605" cy="145" r="72" fill="rgba(239,68,68,0.14)" stroke="#ef4444" stroke-width="5"></circle>
+            <text x="605" y="153" text-anchor="middle" fill="#ef4444" font-size="26" font-weight="700">vapori</text>
+
+            <line x1="225" y1="120" x2="305" y2="120" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></line>
+            <text x="232" y="103" fill="#64748b" font-size="19">topire</text>
+
+            <line x1="305" y1="170" x2="225" y2="170" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></line>
+            <text x="220" y="198" fill="#64748b" font-size="19">solidificare</text>
+
+            <line x1="450" y1="120" x2="530" y2="120" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></line>
+            <text x="448" y="103" fill="#64748b" font-size="19">vaporizare</text>
+
+            <line x1="530" y1="170" x2="450" y2="170" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></line>
+            <text x="448" y="198" fill="#64748b" font-size="19">condensare</text>
+
+            <path d="M160 230 C 285 300, 475 300, 600 230" fill="none" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></path>
+            <text x="335" y="303" fill="#64748b" font-size="19">sublimare</text>
+
+            <path d="M600 250 C 475 325, 285 325, 160 250" fill="none" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPhaseC19)"></path>
+            <text x="322" y="327" fill="#64748b" font-size="19">desublimare</text>
           </svg>
-          <p class="caption">Fiecare săgeată reprezintă o transformare de fază de speța întâi, însoțită de schimb de căldură latentă.</p>
+
+          <p class="caption">
+            Trecerea dintre două faze este însoțită de absorbție sau cedare de căldură latentă.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C19?</h2>
+
+        <p>
+          Tema cere trei rezultate majore: identificarea transformărilor de fază de speța întâi,
+          utilizarea ecuației Clausius–Clapeyron și interpretarea punctului triplu.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Transformări de fază</strong>
+            <p>
+              Topire, solidificare, vaporizare, condensare, sublimare și desublimare;
+              temperatură constantă la presiune constantă; căldură latentă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Mărimi caracteristice</strong>
+            <p>
+              Căldură latentă specifică $L$, volum specific $v$, entropie specifică $s$,
+              presiune de saturație și temperatură de schimbare de fază.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Clausius–Clapeyron</strong>
+            <p>
+              Relația dintre panta curbei de coexistență și căldura latentă:
+              $dp/dT=L/[T(v_2-v_1)]$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Punctul triplu</strong>
+            <p>
+              Starea termodinamică în care coexistă în echilibru cele trei faze:
+              solidă, lichidă și gazoasă.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          definește transformarea de speța întâi, explică rolul căldurii latente, apoi leagă
+          curba de echilibru de ecuația Clausius–Clapeyron și de punctul triplu.
         </div>
       </article>
     </section>
@@ -393,42 +383,12 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Definiție</span>
-        <h2>Ce înseamnă „speța întâi”</h2>
+        <h2>Ce este o transformare de fază de speța întâi?</h2>
 
         <p>
-          O transformare de fază este de <span class="mark">speța întâi</span> atunci când, la presiune
-          constantă, ea are loc la <strong>temperatură constantă</strong> și este însoțită de o
-          <strong>variație bruscă a volumului</strong> (deci a densității) substanței.
-        </p>
-
-        <div class="grid">
-          <div class="mini">
-            <strong>Ce rămâne constant</strong>
-            <p>Temperatura, pe toată durata transformării — atâta timp cât ambele faze coexistă.</p>
-          </div>
-          <div class="mini">
-            <strong>Ce se schimbă brusc</strong>
-            <p>Volumul specific și energia internă a substanței, la trecerea completă dintr-o fază în alta.</p>
-          </div>
-        </div>
-
-        <div class="warning">
-          <strong>Atenție:</strong>
-          nu confunda transformarea de fază cu simpla încălzire a unei singure faze. Cât timp o substanță
-          se topește sau fierbe, termometrul introdus în amestecul de faze <strong>nu</strong> arată o
-          creștere a temperaturii.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Energie schimbată</span>
-        <h2>Căldura latentă</h2>
-
-        <p>
-          <span class="mark">Căldura latentă</span> este căldura necesară pentru schimbarea completă a
-          stării de agregare a unei mase $m$ de substanță, fără variație de temperatură:
+          O transformare de fază de <span class="mark">speța întâi</span> este o transformare în care,
+          la presiune constantă, substanța schimbă faza la temperatură constantă și absoarbe sau cedează
+          o cantitate finită de căldură numită căldură latentă.
         </p>
 
         <div class="formula">
@@ -436,209 +396,1100 @@
         </div>
 
         <p>
-          unde $L$ este <span class="mark">căldura latentă specifică</span> (J/kg), caracteristică fiecărei
-          substanțe și fiecărui tip de transformare.
+          Mărimile de stare extensive, precum entropia și volumul, au variații finite între cele două faze.
+          De aceea aceste transformări sunt numite „de ordinul întâi” sau „de speța întâi”.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>Topirea gheții</strong>
-            <p>$L_{topire}\approx 3{,}34\times10^{5}\,\text{J/kg}$ la $0\,^\circ\text{C}$.</p>
+            <strong>Temperatura</strong>
+            <p>
+              Rămâne constantă cât timp coexistă cele două faze în echilibru.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>Vaporizarea apei</strong>
-            <p>$L_{vaporizare}\approx 2{,}26\times10^{6}\,\text{J/kg}$ la $100\,^\circ\text{C}$.</p>
+            <strong>Energia internă</strong>
+            <p>
+              Se modifică deoarece se schimbă aranjamentul molecular și energia de interacțiune.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Volumul specific</strong>
+            <p>
+              Se schimbă brusc, mai ales la vaporizare, unde volumul vaporilor este mult mai mare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Entropia</strong>
+            <p>
+              Are salt finit:
+              $\Delta S=Q_{\text{rev}}/T$.
+            </p>
           </div>
         </div>
-
-        <div class="exam">
-          <strong>Interpretare microscopică:</strong>
-          căldura latentă este energia necesară pentru a rupe (sau, la solidificare/condensare, pentru a
-          forma) legăturile dintre moleculele substanței, nu pentru a le accelera mișcarea de agitație
-          termică.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Solid ↔ lichid</span>
-        <h2>Topirea și solidificarea. Anomalia apei</h2>
-
-        <p>
-          Punctul de topire depinde, în general, de presiune. Pentru majoritatea substanțelor, creșterea
-          presiunii <strong>ridică</strong> temperatura de topire — solidul, mai dens decât lichidul, este
-          favorizat de presiune.
-        </p>
 
         <div class="warning">
-          <strong>Excepție — anomalia apei:</strong>
-          gheața este <em>mai puțin</em> densă decât apa lichidă, deci curba de topire a apei are pantă
-          negativă în diagrama $p$–$T$: creșterea presiunii <strong>scade</strong> punctul ei de topire.
-        </div>
-
-        <div class="exam">
-          <strong>Formulare de examen:</strong>
-          la apă, spre deosebire de majoritatea substanțelor, solidul (gheața) este mai puțin dens decât
-          lichidul — de aceea gheața plutește, iar creșterea presiunii favorizează faza lichidă.
+          <strong>Capcană:</strong>
+          în timpul fierberii apei la presiune constantă, temperatura nu crește peste punctul de fierbere
+          până când lichidul nu s-a vaporizat complet.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Lichid ↔ gaz</span>
-        <h2>Evaporare, fierbere, vapori saturanți</h2>
+        <span class="eyebrow">Faze și echilibru</span>
+        <h2>Fază, componentă și echilibru de fază</h2>
+
+        <p>
+          O <span class="mark">fază</span> este o porțiune omogenă a unui sistem, cu aceleași proprietăți
+          fizice macroscopice. Apa lichidă și vaporii de apă sunt două faze diferite ale aceleiași substanțe.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Fază solidă</strong>
+            <p>
+              Moleculele oscilează în jurul unor poziții de echilibru; forma este proprie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Fază lichidă</strong>
+            <p>
+              Volumul este aproape propriu, dar forma se adaptează vasului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Fază gazoasă</strong>
+            <p>
+              Moleculele sunt mult mai depărtate; volumul depinde puternic de presiune și temperatură.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Echilibru de fază</strong>
+            <p>
+              Două faze coexistă fără schimb net de masă când presiunea și temperatura sunt compatibile
+              cu curba de coexistență.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\text{echilibru fazic} \Rightarrow T=\text{constant},\quad p=\text{constant},\quad \mu_1=\mu_2$$
+        </div>
+
+        <p>
+          Simbolul $\mu$ reprezintă potențialul chimic; la nivel de concurs poate fi interpretat ca
+          o condiție de echilibru termodinamic între faze.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Căldură latentă</span>
+        <h2>Căldura latentă specifică</h2>
+
+        <p>
+          Căldura latentă specifică $L$ este cantitatea de căldură necesară pentru schimbarea fazei
+          unității de masă, la temperatură și presiune constante.
+        </p>
+
+        <div class="formula">
+          $$L=\frac{Q}{m}$$
+        </div>
+
+        <div class="formula">
+          $$Q=mL$$
+        </div>
+
+        <p>
+          Unitatea SI este:
+        </p>
+
+        <div class="formula">
+          $$[L]=\text{J/kg}$$
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Transformare</th>
+                <th>Căldură schimbată</th>
+                <th>Semn pentru sistem</th>
+                <th>Interpretare microscopică</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Topire</td>
+                <td>$Q=mL_t$</td>
+                <td>$Q>0$</td>
+                <td>Se slăbește ordinea rețelei solide.</td>
+              </tr>
+              <tr>
+                <td>Solidificare</td>
+                <td>$Q=-mL_t$</td>
+                <td>$Q<0$</td>
+                <td>Se formează structura solidă.</td>
+              </tr>
+              <tr>
+                <td>Vaporizare</td>
+                <td>$Q=mL_v$</td>
+                <td>$Q>0$</td>
+                <td>Moleculele părăsesc faza lichidă.</td>
+              </tr>
+              <tr>
+                <td>Condensare</td>
+                <td>$Q=-mL_v$</td>
+                <td>$Q<0$</td>
+                <td>Moleculele revin în faza lichidă.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          căldura latentă de vaporizare este, de regulă, mult mai mare decât căldura latentă de topire.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curba de încălzire</span>
+        <h2>Încălzirea unei substanțe cu schimbare de fază</h2>
+
+        <p>
+          La încălzirea unei substanțe, temperatura crește în interiorul unei faze, dar rămâne constantă
+          în timpul transformării de fază.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Curba de încălzire cu platouri de topire și fierbere">
+            <defs>
+              <marker id="arrowHeatCurveX19" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+              <marker id="arrowHeatCurveY19" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <line x1="90" y1="300" x2="690" y2="300" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowHeatCurveX19)"></line>
+            <line x1="100" y1="310" x2="100" y2="45" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowHeatCurveY19)"></line>
+
+            <polyline points="125,260 220,210 330,210 440,125 570,125 650,75"
+                      fill="none" stroke="#2563eb" stroke-width="6" stroke-linecap="round"
+                      stroke-linejoin="round"></polyline>
+
+            <text x="690" y="330" fill="#64748b" font-size="22">Q</text>
+            <text x="65" y="55" fill="#64748b" font-size="22">T</text>
+
+            <text x="130" y="285" fill="#64748b" font-size="18">solid</text>
+            <text x="245" y="198" fill="#0f766e" font-size="18">topire</text>
+            <text x="370" y="165" fill="#64748b" font-size="18">lichid</text>
+            <text x="470" y="112" fill="#ef4444" font-size="18">fierbere</text>
+            <text x="610" y="75" fill="#64748b" font-size="18">vapori</text>
+
+            <line x1="100" y1="210" x2="330" y2="210" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"></line>
+            <line x1="100" y1="125" x2="570" y2="125" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 5"></line>
+            <text x="60" y="216" fill="#64748b" font-size="17">$T_t$</text>
+            <text x="60" y="131" fill="#64748b" font-size="17">$T_f$</text>
+          </svg>
+
+          <p class="caption">
+            Pe porțiunile oblice temperatura crește; pe platouri are loc schimbarea de fază la temperatură constantă.
+          </p>
+        </div>
+
+        <div class="formula">
+          $$Q_{\text{total}}=mc_{\text{solid}}\Delta T_1+mL_t+mc_{\text{lichid}}\Delta T_2+mL_v+mc_{\text{vapori}}\Delta T_3$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în problemele cu gheață, apă și vapori trebuie adunate pe rând toate etapele fizice reale.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Solid–lichid</span>
+        <h2>Topirea și solidificarea</h2>
+
+        <p>
+          Topirea este trecerea din faza solidă în faza lichidă, iar solidificarea este procesul invers.
+          La o presiune dată, topirea unei substanțe pure are loc la o temperatură bine definită.
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{topire}}=mL_t$$
+        </div>
+
+        <div class="formula">
+          $$Q_{\text{solidificare}}=-mL_t$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Majoritatea substanțelor</strong>
+            <p>
+              Lichidul are volum mai mare decât solidul, deci creșterea presiunii ridică temperatura de topire.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Apa</strong>
+            <p>
+              Gheața are volum mai mare decât apa lichidă; creșterea presiunii scade temperatura de topire.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație clasică:</strong>
+          patinajul este explicat parțial prin topirea locală a gheții sub presiune și prin frecare,
+          care formează un strat subțire de apă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lichid–vapori</span>
+        <h2>Evaporare, fierbere și condensare</h2>
+
+        <p>
+          Vaporizarea este trecerea din lichid în vapori. Ea poate avea loc prin evaporare sau prin fierbere.
+        </p>
 
         <div class="grid">
           <div class="mini">
             <strong>Evaporarea</strong>
-            <p>Are loc doar la <strong>suprafața</strong> liberă a lichidului, la orice temperatură, cu
-            atât mai intensă cu cât temperatura este mai mare.</p>
+            <p>
+              Are loc la suprafața lichidului, la orice temperatură. Moleculele cu energie suficientă
+              părăsesc faza lichidă.
+            </p>
           </div>
+
           <div class="mini">
             <strong>Fierberea</strong>
-            <p>Are loc în <strong>toată masa</strong> lichidului, doar la temperatura de fierbere, atunci
-            când presiunea vaporilor saturanți egalează presiunea exterioară.</p>
+            <p>
+              Are loc în tot volumul lichidului când presiunea vaporilor saturați devine egală cu presiunea exterioară.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Condensarea</strong>
+            <p>
+              Este procesul invers vaporizării; vaporii cedează căldură și trec în lichid.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Căldura latentă</strong>
+            <div class="formula">
+              $$Q_{\text{vap}}=mL_v$$
+              $$Q_{\text{cond}}=-mL_v$$
+            </div>
           </div>
         </div>
 
-        <p>
-          <span class="mark">Vaporii saturanți</span> sunt vaporii aflați în echilibru dinamic cu lichidul
-          lor (viteza de evaporare egală cu viteza de condensare). Presiunea lor, $p_s$, depinde
-          <strong>numai de temperatură</strong>, nu de volumul disponibil.
-        </p>
-
-        <div class="formula">
-          $$T_{fierbere}: \quad p_s(T)=p_{exterior}$$
-        </div>
-
-        <div class="warning">
-          <strong>Capcană frecventă:</strong>
-          spre deosebire de un gaz ideal, presiunea vaporilor saturanți nu crește dacă micșorezi volumul
-          vasului — surplusul de vapori pur și simplu condensează, menținând $p_s$ neschimbată la aceeași
-          temperatură.
+        <div class="exam">
+          <strong>Condiție de fierbere:</strong>
+          $$p_{\text{vapori saturați}}(T)=p_{\text{ext}}$$
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Diagrama de stare</span>
-        <h2>Diagrama de fază $p$–$T$</h2>
+        <span class="eyebrow">Vapori saturați</span>
+        <h2>Presiunea vaporilor saturați</h2>
 
         <p>
-          În planul presiune–temperatură, cele trei transformări de fază apar ca trei curbe, care se
-          întâlnesc într-un singur punct.
+          Într-un vas închis, un lichid și vaporii săi pot ajunge la echilibru dinamic:
+          numărul de molecule care părăsesc lichidul este egal cu numărul moleculelor care revin în lichid.
         </p>
 
-        <div class="svgbox">
-          <svg viewBox="0 0 700 300" role="img" aria-label="Diagrama de fază presiune-temperatură cu punct triplu și punct critic">
-            <line x1="70" y1="260" x2="640" y2="260" stroke="#64748b" stroke-width="3"/>
-            <line x1="90" y1="275" x2="90" y2="30" stroke="#64748b" stroke-width="3"/>
-            <path d="M200 260 C 190 180, 180 100, 175 40" fill="none" stroke="#2563eb" stroke-width="5"/>
-            <path d="M200 260 C 300 220, 420 150, 520 70" fill="none" stroke="#ef4444" stroke-width="5"/>
-            <path d="M200 260 C 150 220, 120 180, 100 140" fill="none" stroke="#0f766e" stroke-width="5"/>
-            <circle cx="200" cy="260" r="7" fill="#111"/>
-            <circle cx="520" cy="70" r="7" fill="#111"/>
-            <text x="205" y="255" fill="#111" font-size="18">punct triplu</text>
-            <text x="500" y="55" fill="#111" font-size="18">punct critic</text>
-            <text x="160" y="90" fill="#2563eb" font-size="18">topire</text>
-            <text x="380" y="150" fill="#ef4444" font-size="18">vaporizare</text>
-            <text x="110" y="180" fill="#0f766e" font-size="18">sublimare</text>
-            <text x="60" y="45" fill="#64748b" font-size="22">p</text>
-            <text x="630" y="280" fill="#64748b" font-size="22">T</text>
-            <text x="230" y="140" fill="#122033" font-size="20">solid</text>
-            <text x="380" y="220" fill="#122033" font-size="20">lichid</text>
-            <text x="500" y="240" fill="#122033" font-size="20">gaz</text>
-          </svg>
-          <p class="caption">Cele trei curbe (topire, vaporizare, sublimare) se întâlnesc în punctul triplu; curba de vaporizare se termină în punctul critic.</p>
+        <p>
+          Presiunea exercitată de vapori în această stare se numește
+          <span class="mark">presiune a vaporilor saturați</span>.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Dependență de temperatură</strong>
+            <p>
+              Presiunea vaporilor saturați crește rapid cu temperatura.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Independență de volum</strong>
+            <p>
+              Dacă rămân ambele faze, presiunea de saturație depinde numai de temperatură.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$p_s=p_s(T)$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          vaporii saturați nu se comportă, în general, ca un gaz ideal simplu în apropierea condensării.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Solid–vapori</span>
+        <h2>Sublimarea și desublimarea</h2>
+
+        <p>
+          Sublimarea este trecerea directă din solid în vapori, fără fază lichidă intermediară.
+          Desublimarea este procesul invers: vaporii trec direct în solid.
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{sublimare}}=mL_s$$
+        </div>
+
+        <div class="formula">
+          $$Q_{\text{desublimare}}=-mL_s$$
         </div>
 
         <div class="grid">
           <div class="mini">
-            <strong>Punctul triplu</strong>
-            <p>Unica pereche $(p,T)$ la care solidul, lichidul și gazul coexistă simultan în echilibru.</p>
+            <strong>Exemple</strong>
+            <p>
+              Gheața carbonică sublimează la presiune atmosferică; iodul poate sublima vizibil la încălzire.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>Punctul critic</strong>
-            <p>Dincolo de el, dispare orice distincție dintre lichid și gaz — substanța devine un fluid
-            supercritic.</p>
+            <strong>Interpretare</strong>
+            <p>
+              Energia absorbită permite moleculelor să părăsească direct structura solidă.
+            </p>
           </div>
+        </div>
+
+        <p>
+          Pentru o substanță dată, căldura latentă de sublimare este aproximativ suma căldurii latente
+          de topire și a celei de vaporizare la temperaturi apropiate:
+        </p>
+
+        <div class="formula">
+          $$L_s\approx L_t+L_v$$
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Interpretare grafică</span>
-        <h2>Graficul temperatură–căldură la încălzire</h2>
+        <span class="eyebrow">Diagramă de fază</span>
+        <h2>Diagrama $p$–$T$ a unei substanțe pure</h2>
 
         <p>
-          Dacă furnizăm căldură cu debit constant unei substanțe solide, la presiune constantă, graficul
-          temperaturii în funcție de căldura primită arată alternanța dintre <strong>creșteri</strong> (o
-          singură fază se încălzește) și <strong>paliere</strong> (are loc o transformare de fază).
+          Diagrama de fază în coordonate $p$–$T$ arată domeniile de stabilitate ale fazelor și curbele
+          pe care coexistă două faze în echilibru.
         </p>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Grafic temperatura in functie de caldura primita la incalzire">
-            <line x1="60" y1="220" x2="650" y2="220" stroke="#64748b" stroke-width="3"/>
-            <line x1="80" y1="235" x2="80" y2="35" stroke="#64748b" stroke-width="3"/>
-            <path d="M100 200 L 180 150 L 320 150 L 400 60 L 560 60 L 630 30"
-                  fill="none" stroke="#2563eb" stroke-width="6"/>
-            <text x="630" y="245" fill="#64748b" font-size="20">Q</text>
-            <text x="45" y="45" fill="#64748b" font-size="20">T</text>
-            <text x="200" y="140" fill="#2563eb" font-size="17">palier: topire</text>
-            <text x="420" y="50" fill="#2563eb" font-size="17">palier: fierbere</text>
+          <svg viewBox="0 0 760 390" role="img" aria-label="Diagramă de fază p T cu punct triplu și punct critic">
+            <defs>
+              <marker id="arrowPTxC19" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+              <marker id="arrowPTyC19" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <line x1="95" y1="320" x2="700" y2="320" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPTxC19)"></line>
+            <line x1="105" y1="330" x2="105" y2="50" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPTyC19)"></line>
+
+            <path d="M210 245 C 180 190, 160 130, 145 75" fill="none"
+                  stroke="#2563eb" stroke-width="5" stroke-linecap="round"></path>
+            <path d="M210 245 C 300 205, 400 180, 525 165" fill="none"
+                  stroke="#0f766e" stroke-width="5" stroke-linecap="round"></path>
+            <path d="M210 245 C 275 280, 360 303, 470 315" fill="none"
+                  stroke="#ef4444" stroke-width="5" stroke-linecap="round"></path>
+
+            <circle cx="210" cy="245" r="8" fill="#7c3aed"></circle>
+            <text x="225" y="245" fill="#7c3aed" font-size="20" font-weight="700">punct triplu</text>
+
+            <circle cx="525" cy="165" r="8" fill="#0f766e"></circle>
+            <text x="540" y="160" fill="#0f766e" font-size="20" font-weight="700">punct critic</text>
+
+            <text x="160" y="140" fill="#2563eb" font-size="24" font-weight="700">solid</text>
+            <text x="330" y="130" fill="#0f766e" font-size="24" font-weight="700">lichid</text>
+            <text x="470" y="270" fill="#ef4444" font-size="24" font-weight="700">vapori</text>
+
+            <text x="704" y="350" fill="#64748b" font-size="24">T</text>
+            <text x="70" y="58" fill="#64748b" font-size="24">p</text>
           </svg>
-          <p class="caption">Segmentele înclinate corespund încălzirii unei singure faze ($Q=mc\Delta T$); palierele orizontale corespund transformărilor de fază ($Q=mL$).</p>
+
+          <p class="caption">
+            Curbele separă domeniile fazelor. Pe fiecare curbă coexistă două faze; în punctul triplu coexistă trei.
+          </p>
         </div>
 
-        <div class="exam">
-          <strong>Reținem:</strong>
-          lungimea unui palier (pe axa căldurii) este proporțională cu masa substanței și cu căldura latentă
-          a transformării respective — nu depinde de căldura specifică a substanței.
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Curbă</th>
+                <th>Faze în echilibru</th>
+                <th>Transformare asociată</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Curba de topire</td>
+                <td>solid + lichid</td>
+                <td>topire / solidificare</td>
+              </tr>
+              <tr>
+                <td>Curba de vaporizare</td>
+                <td>lichid + vapori</td>
+                <td>vaporizare / condensare</td>
+              </tr>
+              <tr>
+                <td>Curba de sublimare</td>
+                <td>solid + vapori</td>
+                <td>sublimare / desublimare</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Problemă rezolvată</span>
-        <h2>Model de rezolvare pentru examen</h2>
+        <span class="eyebrow">Punct special</span>
+        <h2>Punctul triplu</h2>
 
         <p>
-          Calculați căldura totală necesară pentru a transforma $m=2\,\text{kg}$ de gheață aflată la
-          $0\,^\circ\text{C}$ în abur la $100\,^\circ\text{C}$, la presiune atmosferică normală. Se cunosc
-          $L_{topire}=3{,}34\times10^{5}\,\text{J/kg}$, $c_{apă}=4180\,\text{J/(kg·K)}$,
-          $L_{vaporizare}=2{,}26\times10^{6}\,\text{J/kg}$.
+          Punctul triplu este starea unică de presiune și temperatură în care coexistă în echilibru
+          faza solidă, faza lichidă și faza gazoasă ale aceleiași substanțe.
         </p>
 
-        <p><strong>1. Topirea gheții (la $0\,^\circ\text{C}$, temperatură constantă):</strong></p>
         <div class="formula">
-          $$Q_1=mL_{topire}=2\cdot3{,}34\times10^{5}=6{,}68\times10^{5}\,\text{J}$$
+          $$\text{solid} \rightleftarrows \text{lichid} \rightleftarrows \text{vapori}$$
         </div>
 
-        <p><strong>2. Încălzirea apei de la $0\,^\circ\text{C}$ la $100\,^\circ\text{C}$:</strong></p>
-        <div class="formula">
-          $$Q_2=mc\Delta T=2\cdot4180\cdot100=8{,}36\times10^{5}\,\text{J}$$
-        </div>
+        <p>
+          În diagrama $p$–$T$, punctul triplu este intersecția celor trei curbe de coexistență:
+          sublimare, topire și vaporizare.
+        </p>
 
-        <p><strong>3. Vaporizarea apei (la $100\,^\circ\text{C}$, temperatură constantă):</strong></p>
-        <div class="formula">
-          $$Q_3=mL_{vaporizare}=2\cdot2{,}26\times10^{6}=4{,}52\times10^{6}\,\text{J}$$
-        </div>
+        <div class="grid">
+          <div class="mini">
+            <strong>Semnificație fizică</strong>
+            <p>
+              Sistemul poate conține simultan cele trei faze, în echilibru termodinamic.
+            </p>
+          </div>
 
-        <p><strong>4. Căldura totală:</strong></p>
-        <div class="formula">
-          $$Q=Q_1+Q_2+Q_3\approx 6{,}02\times10^{6}\,\text{J}$$
+          <div class="mini">
+            <strong>Semnificație grafică</strong>
+            <p>
+              Este un punct, nu o zonă: presiunea și temperatura sunt fixate.
+            </p>
+          </div>
         </div>
 
         <div class="exam">
-          <strong>Răspuns final:</strong>
-          sunt necesari aproximativ $6\,\text{MJ}$, din care cea mai mare parte ($4{,}52\,\text{MJ}$) este
-          consumată la vaporizare — vaporizarea „costă” de peste 6 ori mai multă energie decât topirea,
-          pentru aceeași masă.
+          <strong>Exemplu cunoscut:</strong>
+          pentru apă, punctul triplu este folosit ca reper metrologic în termodinamică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Punct critic</span>
+        <h2>Punctul critic și dispariția distincției lichid–vapori</h2>
+
+        <p>
+          Curba de vaporizare se termină în punctul critic. Dincolo de acesta nu mai există o separare
+          clară între lichid și vapori; substanța se află în stare de fluid supercritic.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Sub punctul critic</strong>
+            <p>
+              Lichidul și vaporii sunt faze distincte și pot coexista pe curba de vaporizare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Deasupra punctului critic</strong>
+            <p>
+              Nu se mai observă menisc între lichid și vapori; proprietățile se modifică continuu.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Important pentru C19:</strong>
+          punctul critic nu înlocuiește punctul triplu. Punctul triplu implică trei faze în echilibru,
+          punctul critic marchează sfârșitul curbei lichid–vapori.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Clapeyron</span>
+        <h2>Ecuația Clapeyron pentru echilibrul de fază</h2>
+
+        <p>
+          Pe o curbă de coexistență, două faze sunt în echilibru. Dacă trecerea din faza 1 în faza 2
+          necesită căldura latentă specifică $L$, panta curbei de echilibru este:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T(v_2-v_1)}$$
+        </div>
+
+        <p>
+          unde $v_1$ și $v_2$ sunt volumele specifice ale celor două faze:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{V}{m}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>$L$</strong>
+            <p>
+              Căldura latentă specifică a transformării, în $\text{J/kg}$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>$T$</strong>
+            <p>
+              Temperatura absolută de echilibru, în kelvin.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>$v_2-v_1$</strong>
+            <p>
+              Saltul de volum specific dintre faze.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>$dp/dT$</strong>
+            <p>
+              Panta curbei de coexistență în diagrama $p$–$T$.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formă molară:</strong>
+          $$\frac{dp}{dT}=\frac{\Lambda}{T(V_{m,2}-V_{m,1})}$$
+          unde $\Lambda$ este căldura latentă molară.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere</span>
+        <h2>De unde vine ecuația Clausius–Clapeyron?</h2>
+
+        <p>
+          Pentru un ciclu Carnot infinitesimal care schimbă faza unei mase $m$, căldura absorbită
+          la temperatura $T$ este:
+        </p>
+
+        <div class="formula">
+          $$Q=mL$$
+        </div>
+
+        <p>
+          Randamentul ciclului Carnot elementar este:
+        </p>
+
+        <div class="formula">
+          $$\eta=\frac{dT}{T}$$
+        </div>
+
+        <p>
+          Lucrul mecanic elementar este aria mică din diagrama $p$–$V$:
+        </p>
+
+        <div class="formula">
+          $$dW=m(v_2-v_1)\,dp$$
+        </div>
+
+        <p>
+          Dar:
+        </p>
+
+        <div class="formula">
+          $$\eta=\frac{dW}{Q}$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\frac{m(v_2-v_1)\,dp}{mL}=\frac{dT}{T}$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T(v_2-v_1)}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          cu cât căldura latentă este mai mare și saltul de volum este mai mic, cu atât curba de echilibru
+          este mai abruptă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Clausius–Clapeyron</span>
+        <h2>Aproximația pentru vaporizare</h2>
+
+        <p>
+          Pentru vaporizare, volumul specific al vaporilor este mult mai mare decât volumul specific
+          al lichidului:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{vapori}}\gg v_{\text{lichid}}$$
+        </div>
+
+        <p>
+          Atunci:
+        </p>
+
+        <div class="formula">
+          $$v_2-v_1\approx v_{\text{vapori}}$$
+        </div>
+
+        <p>
+          Dacă vaporii sunt aproximați ca gaz ideal:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{vapori}}=\frac{RT}{Mp}$$
+        </div>
+
+        <p>
+          Înlocuind în ecuația Clapeyron:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T}\cdot\frac{Mp}{RT}$$
+        </div>
+
+        <p>
+          Obținem forma Clausius–Clapeyron:
+        </p>
+
+        <div class="formula">
+          $$\frac{1}{p}\frac{dp}{dT}=\frac{ML}{RT^2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Formă molară:</strong>
+          dacă $\Lambda=ML$ este căldura latentă molară,
+          $$\frac{d\ln p}{dT}=\frac{\Lambda}{RT^2}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formă integrată</span>
+        <h2>Dependența presiunii de saturație de temperatură</h2>
+
+        <p>
+          Dacă presupunem că $\Lambda$ este aproximativ constantă pe intervalul de temperatură studiat,
+          ecuația Clausius–Clapeyron se integrează:
+        </p>
+
+        <div class="formula">
+          $$\frac{d\ln p}{dT}=\frac{\Lambda}{RT^2}$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\ln p=-\frac{\Lambda}{RT}+C$$
+        </div>
+
+        <p>
+          Între două stări de saturație:
+        </p>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}=-\frac{\Lambda}{R}\left(\frac{1}{T_2}-\frac{1}{T_1}\right)$$
+        </div>
+
+        <p>
+          Echivalent:
+        </p>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}=\frac{\Lambda}{R}\left(\frac{1}{T_1}-\frac{1}{T_2}\right)$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          temperaturile se introduc obligatoriu în kelvin, iar $\Lambda$ trebuie exprimată în J/mol.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Semnul pantei</span>
+        <h2>Interpretarea pantei curbelor de coexistență</h2>
+
+        <p>
+          Ecuația:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T(v_2-v_1)}$$
+        </div>
+
+        <p>
+          arată că semnul pantei depinde de semnul lui $v_2-v_1$, deoarece $L>0$ și $T>0$.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Vaporizare</strong>
+            <p>
+              $v_{\text{vapori}}>v_{\text{lichid}}$, deci panta curbei lichid–vapori este pozitivă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Sublimare</strong>
+            <p>
+              $v_{\text{vapori}}>v_{\text{solid}}$, deci panta curbei solid–vapori este pozitivă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Topire obișnuită</strong>
+            <p>
+              Dacă $v_{\text{lichid}}>v_{\text{solid}}$, atunci panta curbei solid–lichid este pozitivă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Topirea gheții</strong>
+            <p>
+              Pentru apă, $v_{\text{lichid}}<v_{\text{gheață}}$, deci panta curbei de topire este negativă.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          pentru apă, creșterea presiunii favorizează faza cu volum mai mic: apa lichidă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Calorimetrie</span>
+        <h2>Transformări de fază în bilanțuri termice</h2>
+
+        <p>
+          În problemele de calorimetrie, schimbarea de fază se introduce prin termenul $mL$,
+          alături de termenii de încălzire sau răcire $mc\Delta T$.
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{încălzire}}=mc(T_f-T_i)$$
+        </div>
+
+        <div class="formula">
+          $$Q_{\text{fază}}=mL$$
+        </div>
+
+        <p>
+          Bilanțul termic pentru un sistem izolat este:
+        </p>
+
+        <div class="formula">
+          $$\sum_i Q_i=0$$
+        </div>
+
+        <div class="exam">
+          <strong>Algoritm:</strong>
+          identifici temperatura de schimbare de fază, împarți procesul în etape,
+          scrii fiecare termen energetic și aplici bilanțul $\sum Q_i=0$.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu se poate topi gheață la $-10^\circ\text{C}$ direct cu $Q=mL_t$.
+          Mai întâi se încălzește gheața până la $0^\circ\text{C}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Topirea gheții</h2>
+
+        <p>
+          Determinați căldura necesară pentru topirea completă a masei
+          $m=0{,}20\,\text{kg}$ de gheață aflată deja la $0^\circ\text{C}$.
+          Se dă $L_t=3{,}34\cdot10^5\,\text{J/kg}$.
+        </p>
+
+        <p>
+          Deoarece gheața este deja la temperatura de topire:
+        </p>
+
+        <div class="formula">
+          $$Q=mL_t$$
+        </div>
+
+        <div class="formula">
+          $$Q=0{,}20\cdot3{,}34\cdot10^5=6{,}68\cdot10^4\,\text{J}$$
+        </div>
+
+        <div class="formula">
+          $$Q=66{,}8\,\text{kJ}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          această energie nu crește temperatura; ea produce schimbarea structurii solide în lichid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Încălzire, topire și încălzirea apei rezultate</h2>
+
+        <p>
+          O masă $m=0{,}10\,\text{kg}$ de gheață la $-10^\circ\text{C}$ este transformată în apă
+          la $20^\circ\text{C}$. Se dau:
+          $c_{\text{gheață}}=2100\,\text{J/(kg·K)}$,
+          $L_t=3{,}34\cdot10^5\,\text{J/kg}$,
+          $c_{\text{apă}}=4200\,\text{J/(kg·K)}$.
+        </p>
+
+        <p>
+          Etapa 1: încălzirea gheții de la $-10^\circ\text{C}$ la $0^\circ\text{C}$:
+        </p>
+
+        <div class="formula">
+          $$Q_1=mc_{\text{gheață}}\Delta T
+          =0{,}10\cdot2100\cdot10=2100\,\text{J}$$
+        </div>
+
+        <p>
+          Etapa 2: topirea gheții la $0^\circ\text{C}$:
+        </p>
+
+        <div class="formula">
+          $$Q_2=mL_t=0{,}10\cdot3{,}34\cdot10^5=33400\,\text{J}$$
+        </div>
+
+        <p>
+          Etapa 3: încălzirea apei de la $0^\circ\text{C}$ la $20^\circ\text{C}$:
+        </p>
+
+        <div class="formula">
+          $$Q_3=mc_{\text{apă}}\Delta T=0{,}10\cdot4200\cdot20=8400\,\text{J}$$
+        </div>
+
+        <p>
+          Căldura totală:
+        </p>
+
+        <div class="formula">
+          $$Q=Q_1+Q_2+Q_3=43900\,\text{J}=43{,}9\,\text{kJ}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Presiunea de saturație din Clausius–Clapeyron</h2>
+
+        <p>
+          Căldura latentă molară de vaporizare a unei substanțe este
+          $\Lambda=40\,000\,\text{J/mol}$. La temperatura $T_1=300\,\text{K}$,
+          presiunea vaporilor saturați este $p_1=2{,}0\cdot10^4\,\text{Pa}$.
+          Estimați presiunea la $T_2=320\,\text{K}$.
+          Se ia $R=8{,}31\,\text{J/(mol·K)}$.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}=\frac{\Lambda}{R}\left(\frac{1}{T_1}-\frac{1}{T_2}\right)$$
+        </div>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}=
+          \frac{40000}{8{,}31}\left(\frac{1}{300}-\frac{1}{320}\right)$$
+        </div>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}\approx1{,}003$$
+        </div>
+
+        <div class="formula">
+          $$\frac{p_2}{p_1}\approx e^{1{,}003}\approx2{,}73$$
+        </div>
+
+        <div class="formula">
+          $$p_2\approx2{,}73\cdot2{,}0\cdot10^4=5{,}46\cdot10^4\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          creșterea temperaturii produce creșterea rapidă a presiunii vaporilor saturați.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Panta curbei de echilibru</h2>
+
+        <p>
+          O substanță are căldura latentă specifică de topire
+          $L=1{,}0\cdot10^5\,\text{J/kg}$ la $T=300\,\text{K}$.
+          Volumele specifice sunt:
+          $v_s=8{,}0\cdot10^{-4}\,\text{m}^3/\text{kg}$ și
+          $v_l=9{,}0\cdot10^{-4}\,\text{m}^3/\text{kg}$.
+          Determinați panta curbei de topire.
+        </p>
+
+        <p>
+          Folosim ecuația Clapeyron:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T(v_l-v_s)}$$
+        </div>
+
+        <div class="formula">
+          $$v_l-v_s=(9{,}0-8{,}0)\cdot10^{-4}=1{,}0\cdot10^{-4}\,\text{m}^3/\text{kg}$$
+        </div>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{1{,}0\cdot10^5}{300\cdot1{,}0\cdot10^{-4}}
+          =3{,}33\cdot10^6\,\text{Pa/K}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          panta este pozitivă deoarece faza lichidă are volum specific mai mare decât faza solidă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema se predă eficient prin combinarea curbei de încălzire cu experimente simple de topire,
+          evaporare și condensare.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Se încălzește gheață într-un vas și se măsoară temperatura din minut în minut.
+              Elevii identifică platoul de topire.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Condensarea vaporilor pe o suprafață rece arată cedarea căldurii latente.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Diagrame $p$–$T$ interactive pentru identificarea fazei în funcție de presiune și temperatură.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc surse de încălzire controlate, ochelari de protecție și clești pentru vase calde;
+              nu se obturează recipiente încălzite.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să explice de ce temperatura rămâne constantă în timpul topirii sau fierberii,
+          deși sistemul primește căldură.
         </div>
       </article>
     </section>
@@ -648,60 +1499,159 @@
         <span class="eyebrow">Capcane de examen</span>
         <h2>Greșeli frecvente și corectarea lor</h2>
 
-        <ul>
-          <li>
-            <strong>Confuzia evaporare–fierbere:</strong>
-            evaporarea are loc la suprafață, la orice temperatură; fierberea are loc în toată masa
-            lichidului, doar la temperatura la care $p_s=p_{exterior}$.
-          </li>
-          <li>
-            <strong>Ideea că temperatura crește în timpul topirii/fierberii:</strong>
-            fals — temperatura rămâne constantă cât timp coexistă ambele faze.
-          </li>
-          <li>
-            <strong>Presiunea vaporilor saturanți tratată ca la un gaz ideal:</strong>
-            $p_s$ depinde doar de temperatură, nu de volumul vasului.
-          </li>
-          <li>
-            <strong>Generalizarea greșită a pantei curbei de topire:</strong>
-            majoritatea substanțelor au pantă pozitivă, dar apa este o excepție notabilă (pantă negativă).
-          </li>
-          <li>
-            <strong>Confuzia punct triplu — punct critic:</strong>
-            punctul triplu este unde coexistă toate cele trei faze; punctul critic este unde dispare
-            distincția lichid–gaz.
-          </li>
-        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se folosește $Q=mc\Delta T$ în timpul topirii.</td>
+                <td>Temperatura nu se modifică în timpul schimbării de fază.</td>
+                <td>Se folosește $Q=mL$.</td>
+              </tr>
+              <tr>
+                <td>Se introduce temperatura în Celsius în Clausius–Clapeyron.</td>
+                <td>Relația folosește temperatura absolută.</td>
+                <td>Se transformă în kelvin.</td>
+              </tr>
+              <tr>
+                <td>Se confundă evaporarea cu fierberea.</td>
+                <td>Evaporarea are loc la suprafață, fierberea în tot volumul.</td>
+                <td>Fierberea apare când $p_s(T)=p_{\text{ext}}$.</td>
+              </tr>
+              <tr>
+                <td>Se consideră punctul triplu o regiune.</td>
+                <td>În diagrama $p$–$T$ este o stare unică.</td>
+                <td>Punctul triplu are valori fixate ale lui $p$ și $T$.</td>
+              </tr>
+              <tr>
+                <td>Se afirmă că toate curbele de topire au pantă pozitivă.</td>
+                <td>Apa are anomalie: gheața are volum specific mai mare decât apa lichidă.</td>
+                <td>Panta depinde de semnul lui $v_l-v_s$.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="exam">
-          <strong>Formulare bună la proba scrisă:</strong>
-          „Pe durata transformării de fază, la presiune constantă, temperatura rămâne constantă, iar căldura
-          schimbată este $Q=mL$, unde $L$ este căldura latentă specifică a transformării respective.”
+        <div class="warning">
+          <strong>De reținut:</strong>
+          formulele pentru faze se aplică numai după ce ai stabilit starea inițială, starea finală și
+          eventualele etape intermediare.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Verificare rapidă</span>
-        <h2>Itemi pentru autoevaluare</h2>
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
 
-        <ol>
-          <li>Enumerați cele șase transformări de fază și grupați-le pe perechi opuse.</li>
-          <li>Definiți căldura latentă specifică și precizați unitatea ei de măsură.</li>
-          <li>Explicați diferența dintre evaporare și fierbere.</li>
-          <li>Ce reprezintă punctul triplu și ce reprezintă punctul critic într-o diagramă $p$–$T$?</li>
-          <li>De ce are apa o comportare anormală la topire, față de majoritatea substanțelor?</li>
-          <li>Calculați căldura necesară pentru a topi $500\,\text{g}$ de gheață aflată deja la $0\,^\circ\text{C}$.</li>
-        </ol>
+        <p>
+          Transformările de fază de speța întâi sunt transformări în care o substanță trece dintr-o fază
+          în alta cu schimb de căldură latentă și cu variație discontinuă a volumului specific și a entropiei.
+          Exemplele principale sunt topirea, solidificarea, vaporizarea, condensarea, sublimarea și desublimarea.
+        </p>
+
+        <p>
+          La presiune constantă, transformarea are loc la temperatură constantă cât timp coexistă fazele.
+          Căldura schimbată nu produce creșterea temperaturii, ci modificarea structurii interne:
+        </p>
 
         <div class="formula">
-          $$Q=mL,\qquad T_{fierbere}:\ p_s(T)=p_{exterior},\qquad \text{punct triplu} \ne \text{punct critic}$$
+          $$Q=mL$$
+        </div>
+
+        <p>
+          Echilibrul dintre două faze este reprezentat în diagrama $p$–$T$ printr-o curbă de coexistență.
+          Panta acestei curbe este dată de ecuația Clapeyron:
+        </p>
+
+        <div class="formula">
+          $$\frac{dp}{dT}=\frac{L}{T(v_2-v_1)}$$
+        </div>
+
+        <p>
+          Pentru vaporizare, deoarece volumul vaporilor este mult mai mare decât al lichidului, iar vaporii
+          pot fi aproximați ca gaz ideal, se obține forma Clausius–Clapeyron:
+        </p>
+
+        <div class="formula">
+          $$\ln\frac{p_2}{p_1}=\frac{\Lambda}{R}\left(\frac{1}{T_1}-\frac{1}{T_2}\right)$$
+        </div>
+
+        <p>
+          Punctul triplu este starea în care coexistă simultan fazele solidă, lichidă și gazoasă.
+          El corespunde intersecției celor trei curbe de echilibru din diagrama de fază.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C19</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Căldură latentă</strong>
+            <div class="formula">
+              $$Q=mL$$
+              $$L=\frac{Q}{m}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Bilanț calorimetric</strong>
+            <div class="formula">
+              $$\sum_i Q_i=0$$
+              $$Q=mc\Delta T+mL$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ecuația Clapeyron</strong>
+            <div class="formula">
+              $$\frac{dp}{dT}=\frac{L}{T(v_2-v_1)}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Clausius–Clapeyron</strong>
+            <div class="formula">
+              $$\frac{d\ln p}{dT}=\frac{\Lambda}{RT^2}$$
+              $$\ln\frac{p_2}{p_1}=\frac{\Lambda}{R}\left(\frac{1}{T_1}-\frac{1}{T_2}\right)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Punct triplu</strong>
+            <div class="formula">
+              $$\text{solid}+\text{lichid}+\text{vapori}\quad\text{în echilibru}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Fierbere</strong>
+            <div class="formula">
+              $$p_s(T)=p_{\text{ext}}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o masă de gheață la temperatură negativă este introdusă în apă caldă. Stabiliți starea finală
+          prin bilanț termic, incluzând încălzirea gheții, topirea și eventuala încălzire a apei rezultate.
         </div>
 
         <div class="bottom-links">
-          <a href="C20-tensiunea-superficiala-si-fenomene-capilare.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="C20-fenomene-superficiale-in-lichide.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-19.html">Fișa de lucru C19</a>
           <a href="index.html">Înapoi la capitol</a>
         </div>
       </article>
@@ -709,23 +1659,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
-    <a href="index.html">Înapoi la capitol</a>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 25</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-19.html">Fișa C19</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -753,6 +1711,8 @@
       if (event.key === "ArrowRight") nextPage();
       if (event.key === "ArrowLeft") prevPage();
     });
+
+    updatePageStatus();
   </script>
 </body>
 </html>
