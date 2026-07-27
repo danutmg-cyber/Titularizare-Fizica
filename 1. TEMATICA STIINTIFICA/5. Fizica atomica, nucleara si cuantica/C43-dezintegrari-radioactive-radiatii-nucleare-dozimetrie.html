@@ -1,1 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C43 – Dezintegrări radioactive. Radiații nucleare. Dozimetrie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active { display: flex; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    p { margin: 0.75rem 0; }
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 330px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+
+    .step {
+      counter-increment: step;
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      border-radius: 16px;
+      padding: 0.85rem;
+    }
+
+    .step::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 950;
+      margin-right: 0.45rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.45rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .grid-3,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C43 • Fizică atomică, nucleară și cuantică • Radioactivitate • Radiații nucleare • Dozimetrie</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 43</span>
+        <h1>Dezintegrări radioactive. Radiații nucleare. Interacția radiației cu substanța. Dozimetrie. Radioprotecție</h1>
+
+        <p class="lead">
+          Lecția tratează legea dezintegrării radioactive, activitatea surselor, tipurile de radiații nucleare,
+          interacția radiațiilor cu materia, mărimile dozimetrice și principiile de radioprotecție.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          radioactivitatea este un fenomen statistic de transformare nucleară spontană. Numărul de nuclee nedezintegrate
+          scade exponențial, iar dozimetria cuantifică energia depusă în substanță și efectul biologic al radiației.
+        </div>
+
+        <div class="formula">
+          $$N(t)=N_0e^{-\lambda t},\qquad A(t)=\lambda N(t)=A_0e^{-\lambda t}$$
+          $$T_{1/2}=\frac{\ln2}{\lambda},\qquad D=\frac{E_{\text{abs}}}{m},\qquad H=w_R D$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Radioactivitate și ecranare">
+            <defs>
+              <marker id="arrowC43IntroBlue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC43IntroRed" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="45" y="55" width="300" height="195" rx="24" fill="#e0f2fe" stroke="#64748b" stroke-width="2"></rect>
+            <text x="195" y="42" fill="#64748b" font-size="18" text-anchor="middle">dezintegrări radioactive</text>
+            <circle cx="160" cy="150" r="38" fill="#2563eb"></circle>
+            <text x="160" y="156" fill="white" font-size="18" text-anchor="middle">nucleu</text>
+            <line x1="200" y1="135" x2="300" y2="92" stroke="#ef4444" stroke-width="4"
+                  marker-end="url(#arrowC43IntroRed)" stroke-linecap="round"></line>
+            <line x1="200" y1="150" x2="310" y2="150" stroke="#f59e0b" stroke-width="4"
+                  marker-end="url(#arrowC43IntroBlue)" stroke-linecap="round"></line>
+            <line x1="200" y1="165" x2="300" y2="210" stroke="#10b981" stroke-width="4"
+                  marker-end="url(#arrowC43IntroBlue)" stroke-linecap="round"></line>
+            <text x="306" y="90" fill="#ef4444" font-size="16">α</text>
+            <text x="318" y="155" fill="#f59e0b" font-size="16">β</text>
+            <text x="306" y="218" fill="#10b981" font-size="16">γ</text>
+
+            <rect x="415" y="55" width="300" height="195" rx="24" fill="#fef3c7" stroke="#64748b" stroke-width="2"></rect>
+            <text x="565" y="42" fill="#64748b" font-size="18" text-anchor="middle">radioprotecție</text>
+            <rect x="470" y="90" width="28" height="125" rx="5" fill="#94a3b8"></rect>
+            <text x="484" y="238" fill="#64748b" font-size="15" text-anchor="middle">hârtie</text>
+            <rect x="545" y="90" width="28" height="125" rx="5" fill="#64748b"></rect>
+            <text x="559" y="238" fill="#64748b" font-size="15" text-anchor="middle">Al</text>
+            <rect x="620" y="90" width="40" height="125" rx="5" fill="#334155"></rect>
+            <text x="640" y="238" fill="#64748b" font-size="15" text-anchor="middle">Pb/beton</text>
+            <line x1="435" y1="120" x2="468" y2="120" stroke="#ef4444" stroke-width="4"
+                  marker-end="url(#arrowC43IntroRed)" stroke-linecap="round"></line>
+            <line x1="435" y1="155" x2="543" y2="155" stroke="#f59e0b" stroke-width="4"
+                  marker-end="url(#arrowC43IntroBlue)" stroke-linecap="round"></line>
+            <line x1="435" y1="190" x2="618" y2="190" stroke="#10b981" stroke-width="4"
+                  marker-end="url(#arrowC43IntroBlue)" stroke-linecap="round"></line>
+          </svg>
+          <p class="caption">
+            Radiațiile $\alpha$, $\beta$ și $\gamma$ au puteri de ionizare și penetrare diferite; ecranarea se alege după tipul radiației.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Radioactivitate</span>
+        <h2>Definiție și caracter statistic</h2>
+
+        <p>
+          Radioactivitatea este transformarea spontană a nucleelor instabile, însoțită de emisia de particule sau radiații electromagnetice.
+          Pentru un nucleu individual nu se poate prezice momentul dezintegrării, dar pentru un ansamblu mare se obține o lege statistică precisă.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Radioactivitate naturală</strong>
+            <p>
+              Apare la izotopi existenți în natură sau în serii radioactive naturale.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Radioactivitate artificială</strong>
+            <p>
+              Apare la nuclee obținute prin reacții nucleare, activare sau procese tehnologice controlate.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$P(\text{dezintegrare în }dt)=\lambda\,dt$$
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de barem:</strong>
+          constanta radioactivă $\lambda$ reprezintă probabilitatea de dezintegrare pe unitatea de timp pentru un nucleu.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea dezintegrării</span>
+        <h2>Deducerea legii radioactive</h2>
+
+        <p>
+          Într-un interval mic $dt$, numărul de nuclee care se dezintegrează este proporțional cu numărul de nuclee radioactive prezente:
+        </p>
+
+        <div class="formula">
+          $$dN=-\lambda N\,dt$$
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            Separăm variabilele:
+            $$\frac{dN}{N}=-\lambda\,dt$$
+          </div>
+          <div class="step">
+            Integrăm de la $0$ la $t$:
+            $$\int_{N_0}^{N(t)}\frac{dN}{N}=-\lambda\int_0^t dt$$
+          </div>
+          <div class="step">
+            Obținem:
+            $$\ln\frac{N(t)}{N_0}=-\lambda t$$
+          </div>
+          <div class="step">
+            Rezultă legea exponențială:
+            $$N(t)=N_0e^{-\lambda t}$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          scăderea nu este liniară în timp; aceeași fracțiune se dezintegrează în fiecare timp de înjumătățire.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Activitate</span>
+        <h2>Activitatea unei surse radioactive</h2>
+
+        <p>
+          Activitatea este numărul de dezintegrări pe unitatea de timp:
+        </p>
+
+        <div class="formula">
+          $$A=-\frac{dN}{dt}=\lambda N$$
+        </div>
+
+        <p>
+          Deoarece $N(t)$ scade exponențial, activitatea scade la fel:
+        </p>
+
+        <div class="formula">
+          $$A(t)=A_0e^{-\lambda t}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Unitatea SI</strong>
+            <div class="formula">
+              $$1\,\text{Bq}=1\,\text{s}^{-1}$$
+            </div>
+            <p>
+              Un becquerel înseamnă o dezintegrare pe secundă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Unitate istorică</strong>
+            <div class="formula">
+              $$1\,\text{Ci}=3{,}7\cdot10^{10}\,\text{Bq}$$
+            </div>
+            <p>
+              Curie este o unitate veche, încă întâlnită în probleme sau documentație.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          activitatea măsoară frecvența dezintegrărilor, nu direct doza absorbită de un organism.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Timp de înjumătățire</span>
+        <h2>Relația dintre $T_{1/2}$ și $\lambda$</h2>
+
+        <p>
+          Timpul de înjumătățire este intervalul după care rămâne jumătate din numărul inițial de nuclee radioactive:
+        </p>
+
+        <div class="formula">
+          $$N(T_{1/2})=\frac{N_0}{2}$$
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            Pornim de la legea:
+            $$N(t)=N_0e^{-\lambda t}$$
+          </div>
+          <div class="step">
+            Pentru $t=T_{1/2}$:
+            $$\frac{N_0}{2}=N_0e^{-\lambda T_{1/2}}$$
+          </div>
+          <div class="step">
+            Simplificăm:
+            $$\frac12=e^{-\lambda T_{1/2}}$$
+          </div>
+          <div class="step">
+            Logaritmăm:
+            $$T_{1/2}=\frac{\ln2}{\lambda}$$
+          </div>
+        </div>
+
+        <div class="formula">
+          $$N(t)=N_0\left(\frac12\right)^{t/T_{1/2}},\qquad
+          A(t)=A_0\left(\frac12\right)^{t/T_{1/2}}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Tipuri de dezintegrări</span>
+        <h2>Dezintegrarea $\alpha$</h2>
+
+        <p>
+          În dezintegrarea $\alpha$, nucleul emite o particulă alfa, adică un nucleu de heliu $^{4}_{2}He$.
+        </p>
+
+        <div class="formula">
+          $$^{A}_{Z}X\rightarrow^{A-4}_{Z-2}Y+^{4}_{2}\alpha+Q$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Conservări</strong>
+            <div class="formula">
+              $$A=A-4+4,\qquad Z=Z-2+2$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Exemplu</strong>
+            <div class="formula">
+              $$^{238}_{92}U\rightarrow^{234}_{90}Th+^{4}_{2}\alpha+Q$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Caracteristici:</strong>
+          radiația $\alpha$ este puternic ionizantă, dar are penetrare mică; este oprită de o foaie de hârtie sau de stratul superficial al pielii.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          pericolul radiației $\alpha$ este mare în cazul contaminării interne, deoarece energia se depune pe distanțe foarte mici.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Tipuri de dezintegrări</span>
+        <h2>Dezintegrări $\beta^-$, $\beta^+$ și captură electronică</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Beta minus</strong>
+            <p>
+              Un neutron se transformă în proton, electron și antineutrin:
+            </p>
+            <div class="formula">
+              $$n\rightarrow p+e^-+\bar\nu_e$$
+              $$^{A}_{Z}X\rightarrow^{A}_{Z+1}Y+e^-+\bar\nu_e$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Beta plus</strong>
+            <p>
+              Un proton se transformă în neutron, pozitron și neutrin:
+            </p>
+            <div class="formula">
+              $$p\rightarrow n+e^++\nu_e$$
+              $$^{A}_{Z}X\rightarrow^{A}_{Z-1}Y+e^++\nu_e$$
+            </div>
+          </div>
+        </div>
+
+        <div class="mini">
+          <strong>Captură electronică</strong>
+          <p>
+            Nucleul captează un electron orbital, iar un proton se transformă în neutron:
+          </p>
+          <div class="formula">
+            $$^{A}_{Z}X+e^-\rightarrow^{A}_{Z-1}Y+\nu_e$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în dezintegrarea $\beta$, numărul de masă $A$ rămâne constant, dar numărul atomic $Z$ se modifică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Radiație gamma</span>
+        <h2>Emisia $\gamma$ și stările excitate nucleare</h2>
+
+        <p>
+          După o dezintegrare $\alpha$ sau $\beta$, nucleul fiică poate rămâne într-o stare excitată.
+          Revenirea la o stare de energie mai mică se face prin emisia unui foton gamma.
+        </p>
+
+        <div class="formula">
+          $$^{A}_{Z}X^*\rightarrow^{A}_{Z}X+\gamma$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Nu modifică nucleul</strong>
+            <p>
+              Emisia $\gamma$ nu schimbă $A$ și $Z$; schimbă numai energia internă a nucleului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Radiație electromagnetică</strong>
+            <p>
+              Fotonii gamma nu au sarcină electrică și au putere de penetrare mare.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$E_\gamma=h\nu=\frac{hc}{\lambda}=\Delta E_{\text{nuclear}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Caracteristici:</strong>
+          radiația $\gamma$ este mai puțin ionizantă pe unitatea de lungime decât $\alpha$, dar este mult mai penetrantă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Radiații nucleare</span>
+        <h2>Comparația $\alpha$, $\beta$, $\gamma$ și neutroni</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Radiație</th>
+                <th>Natură</th>
+                <th>Sarcină</th>
+                <th>Ionizare</th>
+                <th>Penetrare</th>
+                <th>Ecranare tipică</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$\alpha$</td>
+                <td>Nucleu $^4_2He$</td>
+                <td>$+2e$</td>
+                <td>Foarte mare</td>
+                <td>Mică</td>
+                <td>Hârtie, strat superficial, aer.</td>
+              </tr>
+              <tr>
+                <td>$\beta^-$ / $\beta^+$</td>
+                <td>Electron / pozitron</td>
+                <td>$-e$ / $+e$</td>
+                <td>Medie</td>
+                <td>Medie</td>
+                <td>Plastic, aluminiu, materiale ușoare.</td>
+              </tr>
+              <tr>
+                <td>$\gamma$</td>
+                <td>Foton nuclear</td>
+                <td>0</td>
+                <td>Indirectă</td>
+                <td>Mare</td>
+                <td>Plumb, beton, apă groasă.</td>
+              </tr>
+              <tr>
+                <td>neutroni</td>
+                <td>Particule neutre</td>
+                <td>0</td>
+                <td>Indirectă, prin reacții nucleare</td>
+                <td>Mare</td>
+                <td>Materiale hidrogenate, apă, parafină, beton.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          ecranarea radiației $\beta$ cu materiale foarte dense poate produce radiație de frânare; de aceea se preferă materiale cu număr atomic mic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Interacția cu substanța</span>
+        <h2>Mecanisme principale</h2>
+
+        <p>
+          Radiațiile interacționează cu substanța prin ionizare, excitare, împrăștiere, absorbție și reacții nucleare.
+          Mecanismul dominant depinde de natura radiației și de energia ei.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Particule încărcate</strong>
+            <p>
+              Interacționează intens prin forțe Coulomb cu electronii atomici, producând ionizare și excitare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Fotoni $\gamma$</strong>
+            <p>
+              Interacționează indirect prin efect fotoelectric, Compton și producere de perechi, în funcție de energie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Neutroni</strong>
+            <p>
+              Interacționează prin ciocniri elastice/inelastice și reacții nucleare, deoarece nu au sarcină electrică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Transfer liniar de energie</strong>
+            <p>
+              LET caracterizează energia transferată mediului pe unitatea de lungime de drum.
+            </p>
+            <div class="formula">
+              $$LET\simeq-\frac{dE}{dx}$$
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Atenuare</span>
+        <h2>Legea atenuării radiațiilor gamma</h2>
+
+        <p>
+          Pentru un fascicul îngust, aproximativ monoenergetic, de fotoni $\gamma$, intensitatea scade exponențial cu grosimea materialului:
+        </p>
+
+        <div class="formula">
+          $$I(x)=I_0e^{-\mu x}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Coeficient liniar de atenuare</strong>
+            <p>
+              $\mu$ depinde de material și de energia fotonilor.
+            </p>
+            <div class="formula">
+              $$[\mu]_{SI}=\text{m}^{-1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Strat de semiabsorbție</strong>
+            <p>
+              Grosimea care reduce intensitatea la jumătate este:
+            </p>
+            <div class="formula">
+              $$x_{1/2}=\frac{\ln2}{\mu}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          legea exponențială simplă este un model pentru geometrie și energie bine definite; în situații reale apar împrăștiere, spectru larg și factori de acumulare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Dozimetrie</span>
+        <h2>Mărimi dozimetrice fundamentale</h2>
+
+        <p>
+          Dozimetria cuantifică energia depusă de radiații în materie și efectele posibile asupra țesuturilor biologice.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mărime</th>
+                <th>Simbol</th>
+                <th>Definiție</th>
+                <th>Unitate SI</th>
+                <th>Interpretare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Doză absorbită</td>
+                <td>$D$</td>
+                <td>$D=E_{\text{abs}}/m$</td>
+                <td>gray, $1\,\text{Gy}=1\,\text{J/kg}$</td>
+                <td>Energia depusă pe unitatea de masă.</td>
+              </tr>
+              <tr>
+                <td>Doză echivalentă</td>
+                <td>$H$</td>
+                <td>$H=w_R D$</td>
+                <td>sievert, Sv</td>
+                <td>Include eficacitatea biologică a tipului de radiație.</td>
+              </tr>
+              <tr>
+                <td>Doză efectivă</td>
+                <td>$E$</td>
+                <td>$E=\sum_T w_T H_T$</td>
+                <td>sievert, Sv</td>
+                <td>Ține seama de sensibilitatea diferitelor țesuturi.</td>
+              </tr>
+              <tr>
+                <td>Debit de doză</td>
+                <td>$\dot D$, $\dot H$</td>
+                <td>Doză pe unitatea de timp</td>
+                <td>Gy/s sau Sv/s</td>
+                <td>Important pentru durata expunerii.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          gray măsoară energia absorbită, iar sievert introduce efectul biologic ponderat al radiației.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Radioprotecție</span>
+        <h2>Principii fundamentale</h2>
+
+        <p>
+          Radioprotecția urmărește reducerea expunerii nejustificate și limitarea efectelor biologice ale radiațiilor ionizante.
+        </p>
+
+        <div class="grid-3">
+          <div class="mini">
+            <strong>Timp</strong>
+            <p>
+              Se reduce durata expunerii.
+            </p>
+            <div class="formula">
+              $$D\propto t$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Distanță</strong>
+            <p>
+              Pentru o sursă punctiformă, intensitatea scade aproximativ cu pătratul distanței.
+            </p>
+            <div class="formula">
+              $$I\propto\frac1{r^2}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ecranare</strong>
+            <p>
+              Se interpun materiale adecvate tipului de radiație și energiei acesteia.
+            </p>
+            <div class="formula">
+              $$I=I_0e^{-\mu x}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Principii generale:</strong>
+          justificarea expunerii, optimizarea protecției și respectarea limitelor de doză sunt reperele conceptuale ale radioprotecției.
+        </div>
+
+        <div class="warning">
+          <strong>În laboratorul școlar:</strong>
+          nu se folosesc surse radioactive neautorizate; tema se predă prin simulări, date experimentale, modele și discuții de siguranță.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Calcul cu timpul de înjumătățire</h2>
+
+        <p>
+          O probă radioactivă are activitatea inițială $A_0=800\,\text{Bq}$ și timpul de înjumătățire $T_{1/2}=6\,\text{h}$.
+          Determinați activitatea după $18\,\text{h}$.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Numărul de perioade de înjumătățire:
+            $$n=\frac{t}{T_{1/2}}=\frac{18}{6}=3$$
+          </div>
+          <div class="step">
+            Activitatea după $n$ perioade:
+            $$A=A_0\left(\frac12\right)^n$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$A=800\left(\frac12\right)^3=800\cdot\frac18=100\,\text{Bq}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          activitatea probei după $18\,\text{h}$ este $100\,\text{Bq}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Determinarea constantei radioactive</h2>
+
+        <p>
+          Un radionuclid are timpul de înjumătățire $T_{1/2}=10\,\text{zile}$.
+          Determinați constanta radioactivă în $\text{zi}^{-1}$ și în $\text{s}^{-1}$.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Relația:
+            $$\lambda=\frac{\ln2}{T_{1/2}}$$
+          </div>
+          <div class="step">
+            În zile:
+            $$\lambda=\frac{0{,}693}{10}=6{,}93\cdot10^{-2}\,\text{zi}^{-1}$$
+          </div>
+          <div class="step">
+            Transformăm:
+            $$10\,\text{zile}=10\cdot24\cdot3600=864000\,\text{s}$$
+          </div>
+          <div class="step">
+            În SI:
+            $$\lambda=\frac{0{,}693}{864000}=8{,}02\cdot10^{-7}\,\text{s}^{-1}$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          unitatea lui $\lambda$ este inversul unității timpului folosite pentru $T_{1/2}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Doza absorbită și doza echivalentă</h2>
+
+        <p>
+          O masă de țesut de $m=0{,}20\,\text{kg}$ absoarbe energia $E_{\text{abs}}=4{,}0\cdot10^{-3}\,\text{J}$
+          de la o radiație cu factor de ponderare $w_R=1$.
+          Determinați doza absorbită și doza echivalentă.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Doza absorbită:
+            $$D=\frac{E_{\text{abs}}}{m}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$D=\frac{4{,}0\cdot10^{-3}}{0{,}20}=2{,}0\cdot10^{-2}\,\text{Gy}$$
+          </div>
+          <div class="step">
+            Doza echivalentă:
+            $$H=w_R D$$
+          </div>
+          <div class="step">
+            Pentru $w_R=1$:
+            $$H=1\cdot2{,}0\cdot10^{-2}=2{,}0\cdot10^{-2}\,\text{Sv}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $D=0{,}020\,\text{Gy}$ și $H=0{,}020\,\text{Sv}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Atenuarea radiației gamma</h2>
+
+        <p>
+          Un ecran are coeficientul de atenuare $\mu=0{,}35\,\text{cm}^{-1}$.
+          Ce grosime este necesară pentru reducerea intensității la $25\%$ din valoarea inițială?
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Legea atenuării:
+            $$\frac{I}{I_0}=e^{-\mu x}$$
+          </div>
+          <div class="step">
+            Cerința:
+            $$\frac{I}{I_0}=0{,}25$$
+          </div>
+          <div class="step">
+            Logaritmăm:
+            $$0{,}25=e^{-\mu x}\Rightarrow x=\frac{\ln4}{\mu}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$x=\frac{1{,}386}{0{,}35}=3{,}96\,\text{cm}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          grosimea necesară este aproximativ $4{,}0\,\text{cm}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică</span>
+        <h2>Secvență didactică de 10 minute</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Evenimentul instruirii</th>
+                <th>Obiectiv operațional</th>
+                <th>Activitatea profesorului</th>
+                <th>Activitatea elevilor</th>
+                <th>Strategii și mijloace</th>
+                <th>Evaluare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Captarea atenției</td>
+                <td>Elevii disting radioactivitatea de radiația electromagnetică obișnuită.</td>
+                <td>Prezintă simbolul de avertizare și o simulare de dezintegrare aleatoare.</td>
+                <td>Observă caracterul statistic al fenomenului.</td>
+                <td>Conversație euristică, simulare TIC.</td>
+                <td>Întrebare orală: „Putem prezice dezintegrarea unui nucleu?”</td>
+              </tr>
+              <tr>
+                <td>Dirijarea învățării</td>
+                <td>Elevii formulează legea dezintegrării radioactive.</td>
+                <td>Deduçe $dN=-\lambda Ndt$ și obține $N=N_0e^{-\lambda t}$.</td>
+                <td>Identifică sensul fizic al lui $\lambda$ și $T_{1/2}$.</td>
+                <td>Modelare matematică, grafic exponențial.</td>
+                <td>Item scurt: relația $T_{1/2}=\ln2/\lambda$.</td>
+              </tr>
+              <tr>
+                <td>Aplicare</td>
+                <td>Elevii calculează activitatea după mai multe înjumătățiri.</td>
+                <td>Oferă o problemă cu $A_0$, $T_{1/2}$ și $t$.</td>
+                <td>Aplică formula $A=A_0(1/2)^{t/T_{1/2}}$.</td>
+                <td>Rezolvare de probleme, lucru în perechi.</td>
+                <td>Corectare pe barem: formulă, calcul, unitate.</td>
+              </tr>
+              <tr>
+                <td>Transfer și siguranță</td>
+                <td>Elevii formulează principii de radioprotecție.</td>
+                <td>Discută timp, distanță, ecranare și tipuri de radiații.</td>
+                <td>Asociază ecranarea cu radiația $\alpha$, $\beta$, $\gamma$.</td>
+                <td>Problematizare, studiu de caz, TIC.</td>
+                <td>Exit ticket: o mărime dozimetrică + o regulă de protecție.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Laborator și NTSM</span>
+        <h2>Integrarea experimentului și siguranța</h2>
+
+        <p>
+          În laboratorul școlar, tema se predă în mod responsabil prin simulări, modele, fișe de date și eventual surse didactice omologate,
+          conform reglementărilor instituționale. Nu se improvizează surse radioactive.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Activități recomandate</strong>
+            <ul>
+              <li>simulare pentru dezintegrare exponențială;</li>
+              <li>model cu zaruri sau monede pentru caracterul statistic;</li>
+              <li>analiza unui grafic $N(t)$ sau $A(t)$;</li>
+              <li>probleme cu doza absorbită și ecranare;</li>
+              <li>discuție de radioprotecție pe scenarii sigure.</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <ul>
+              <li>se folosesc numai surse autorizate și ecranate;</li>
+              <li>se evită orice contact direct cu surse radioactive;</li>
+              <li>se păstrează distanța și timpul minim de expunere;</li>
+              <li>sursele se depozitează numai în containere marcate;</li>
+              <li>elevii nu manipulează surse radioactive neautorizate.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Răspuns didactic matur:</strong>
+          accentul cade pe modelare, interpretarea datelor și radioprotecție, nu pe manipularea directă a materialelor radioactive.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane</span>
+        <h2>Greșeli frecvente la examen</h2>
+
+        <ul>
+          <li>
+            <strong>Activitate vs doză:</strong>
+            activitatea este număr de dezintegrări pe secundă; doza absorbită este energie pe kilogram.
+          </li>
+          <li>
+            <strong>$T_{1/2}$:</strong>
+            timpul de înjumătățire nu depinde de cantitatea inițială de substanță radioactivă.
+          </li>
+          <li>
+            <strong>Dezintegrarea $\alpha$:</strong>
+            $A$ scade cu 4 și $Z$ scade cu 2.
+          </li>
+          <li>
+            <strong>Dezintegrarea $\beta^-$:</strong>
+            $A$ rămâne constant, iar $Z$ crește cu 1.
+          </li>
+          <li>
+            <strong>Gamma:</strong>
+            emisia $\gamma$ nu schimbă $A$ și $Z$, ci doar energia nucleului.
+          </li>
+          <li>
+            <strong>Radioprotecție:</strong>
+            materialul de ecranare trebuie ales după natura radiației; nu există „un singur ecran universal”.
+          </li>
+        </ul>
+
+        <div class="formula">
+          $$N=N_0e^{-\lambda t},\qquad A=\lambda N,\qquad
+          T_{1/2}=\frac{\ln2}{\lambda}$$
+          $$D=\frac{E}{m},\qquad H=w_R D,\qquad I=I_0e^{-\mu x}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral și autoevaluare</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          „Dezintegrările radioactive sunt transformări spontane ale nucleelor instabile. Fenomenul are caracter statistic:
+          pentru un nucleu individual nu putem prezice momentul dezintegrării, dar pentru un număr mare de nuclee legea este
+          $N(t)=N_0e^{-\lambda t}$. Activitatea sursei este $A=-dN/dt=\lambda N$ și se măsoară în becquerel. Timpul de înjumătățire
+          este $T_{1/2}=\ln2/\lambda$ și reprezintă timpul după care rămâne jumătate din numărul inițial de nuclee.”
+        </p>
+
+        <p>
+          „Principalele radiații nucleare sunt $\alpha$, $\beta$, $\gamma$ și neutronii. În dezintegrarea $\alpha$, nucleul emite
+          un nucleu de heliu și scad $A$ cu 4 și $Z$ cu 2. În dezintegrarea $\beta^-$, un neutron se transformă în proton,
+          electron și antineutrin, iar $Z$ crește cu 1. Radiația $\gamma$ este electromagnetică și apare la dezexcitarea nucleului,
+          fără schimbarea lui $A$ și $Z$. Interacția radiațiilor cu substanța produce ionizare, excitare, împrăștiere, absorbție
+          sau reacții nucleare.”
+        </p>
+
+        <p>
+          „Dozimetria introduce doza absorbită $D=E/m$, măsurată în gray, doza echivalentă $H=w_RD$, măsurată în sievert,
+          și doza efectivă, care ține seama de sensibilitatea țesuturilor. Radioprotecția se bazează pe trei reguli practice:
+          reducerea timpului de expunere, mărirea distanței față de sursă și folosirea ecranării adecvate. Didactic, această temă
+          trebuie predată prin simulări, modele, analiză de date și discuții de siguranță, fără improvizarea surselor radioactive.”
+        </p>
+
+        <h2>Itemi de verificare rapidă</h2>
+        <ol>
+          <li>Deducați legea $N(t)=N_0e^{-\lambda t}$.</li>
+          <li>Definiți activitatea și unitatea becquerel.</li>
+          <li>Demonstrați relația $T_{1/2}=\ln2/\lambda$.</li>
+          <li>Scrieți transformările nucleare pentru dezintegrările $\alpha$, $\beta^-$ și $\beta^+$.</li>
+          <li>Explicați de ce emisia $\gamma$ nu modifică $A$ și $Z$.</li>
+          <li>Comparați puterea de ionizare și penetrare pentru $\alpha$, $\beta$, $\gamma$.</li>
+          <li>Definiți doza absorbită, doza echivalentă și doza efectivă.</li>
+          <li>Formulați trei reguli de radioprotecție și două norme NTSM pentru laboratorul școlar.</li>
+        </ol>
+
+        <div class="bottom-links">
+          <a href="Fise%20de%20lucru/fisa-43.html">Fișa de lucru C43</a>
+          <a href="Fise%20de%20lucru/index.html">Index fișe</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 20</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c43", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c43");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    updatePageStatus();
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+  </script>
+</body>
+</html>
