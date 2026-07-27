@@ -1,1 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C42 – Reacții nucleare. Fisiune. Fuziune. Reactor nuclear</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active { display: flex; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    p { margin: 0.75rem 0; }
+    ul, ol { padding-left: 1.35rem; }
+    li { margin: 0.55rem 0; }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 330px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+
+    .step {
+      counter-increment: step;
+      border: 1px solid var(--border);
+      background: var(--formula-bg);
+      border-radius: 16px;
+      padding: 0.85rem;
+    }
+
+    .step::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 950;
+      margin-right: 0.45rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.45rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.45rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      line-height: 1.2;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .grid-3,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+        width: min(700px, calc(100% - 1rem));
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .pager a { grid-column: 1 / -1; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C42 • Fizică atomică, nucleară și cuantică • Reacții nucleare • Fisiune • Fuziune • Reactor</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 42</span>
+        <h1>Reacții nucleare. Legi de conservare. Fisiunea și fuziunea nucleară. Reactorul nuclear</h1>
+
+        <p class="lead">
+          Lecția sintetizează modul de scriere și analiză a reacțiilor nucleare, legile de conservare,
+          calculul energiei de reacție, mecanismul fisiunii și fuziunii nucleare, precum și principiul de funcționare
+          al reactorului nuclear.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          reacțiile nucleare se tratează prin conservarea numărului de masă, a sarcinii, a energiei,
+          a impulsului și a momentului cinetic. Energia eliberată provine din variația masei de repaus:
+          <span class="mark">$\Delta E=\Delta mc^2$</span>.
+        </div>
+
+        <div class="formula">
+          $$Q=\left(m_{\text{inițial}}-m_{\text{final}}\right)c^2,\qquad 1\,u\,c^2\simeq931{,}5\,\text{MeV}$$
+          $$^{235}_{92}\mathrm U+n\rightarrow \text{fragmente}+2\text{–}3\,n+Q$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Fisiune, fuziune și reactor nuclear">
+            <defs>
+              <marker id="arrowC42IntroBlue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC42IntroRed" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <rect x="40" y="55" width="315" height="195" rx="24" fill="#e0f2fe" stroke="#64748b" stroke-width="2"></rect>
+            <text x="198" y="42" fill="#64748b" font-size="18" text-anchor="middle">fisiune</text>
+            <circle cx="190" cy="150" r="36" fill="#2563eb"></circle>
+            <text x="190" y="156" fill="white" font-size="18" text-anchor="middle">U</text>
+            <line x1="80" y1="150" x2="150" y2="150" stroke="#ef4444" stroke-width="4"
+                  marker-end="url(#arrowC42IntroRed)" stroke-linecap="round"></line>
+            <text x="95" y="135" fill="#ef4444" font-size="15">n</text>
+            <circle cx="285" cy="105" r="24" fill="#10b981"></circle>
+            <circle cx="285" cy="195" r="24" fill="#f59e0b"></circle>
+            <line x1="224" y1="138" x2="260" y2="115" stroke="#2563eb" stroke-width="4"
+                  marker-end="url(#arrowC42IntroBlue)" stroke-linecap="round"></line>
+            <line x1="224" y1="162" x2="260" y2="185" stroke="#2563eb" stroke-width="4"
+                  marker-end="url(#arrowC42IntroBlue)" stroke-linecap="round"></line>
+            <line x1="220" y1="150" x2="322" y2="150" stroke="#ef4444" stroke-width="3"
+                  stroke-dasharray="7,5" marker-end="url(#arrowC42IntroRed)"></line>
+
+            <rect x="405" y="55" width="315" height="195" rx="24" fill="#fef3c7" stroke="#64748b" stroke-width="2"></rect>
+            <text x="562" y="42" fill="#64748b" font-size="18" text-anchor="middle">fuziune</text>
+            <circle cx="500" cy="150" r="25" fill="#2563eb"></circle>
+            <text x="500" y="156" fill="white" font-size="17" text-anchor="middle">D</text>
+            <circle cx="590" cy="150" r="25" fill="#ef4444"></circle>
+            <text x="590" y="156" fill="white" font-size="17" text-anchor="middle">T</text>
+            <line x1="525" y1="150" x2="565" y2="150" stroke="#64748b" stroke-width="3"
+                  stroke-dasharray="6,5"></line>
+            <line x1="615" y1="135" x2="675" y2="95" stroke="#ef4444" stroke-width="4"
+                  marker-end="url(#arrowC42IntroRed)" stroke-linecap="round"></line>
+            <line x1="615" y1="165" x2="675" y2="205" stroke="#2563eb" stroke-width="4"
+                  marker-end="url(#arrowC42IntroBlue)" stroke-linecap="round"></line>
+            <text x="675" y="88" fill="#ef4444" font-size="15">n</text>
+            <text x="675" y="225" fill="#2563eb" font-size="15">He</text>
+          </svg>
+          <p class="caption">
+            Fisiunea desparte un nucleu greu în fragmente, iar fuziunea unește nuclee ușoare. Ambele pot elibera energie nucleară.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Nucleul atomic</span>
+        <h2>Notația nucleară și mărimi fundamentale</h2>
+
+        <p>
+          Un nucleu se notează prin:
+        </p>
+
+        <div class="formula">
+          $$^{A}_{Z}X$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Numărul atomic $Z$</strong>
+            <p>
+              Reprezintă numărul de protoni. Determină sarcina nucleară:
+            </p>
+            <div class="formula">
+              $$Q_{\text{nucleu}}=+Ze$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Numărul de masă $A$</strong>
+            <p>
+              Reprezintă numărul total de nucleoni:
+            </p>
+            <div class="formula">
+              $$A=Z+N$$
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Particulă</th>
+                <th>Notație</th>
+                <th>Sarcină</th>
+                <th>Număr de masă</th>
+                <th>Rol în reacții</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Proton</td>
+                <td>$^1_1p$ sau $p$</td>
+                <td>$+e$</td>
+                <td>1</td>
+                <td>Schimbă $Z$ când este absorbit sau emis.</td>
+              </tr>
+              <tr>
+                <td>Neutron</td>
+                <td>$^1_0n$ sau $n$</td>
+                <td>0</td>
+                <td>1</td>
+                <td>Inițiază fisiunea și participă la reacții nucleare.</td>
+              </tr>
+              <tr>
+                <td>Particulă alfa</td>
+                <td>$^4_2\alpha$ sau $^4_2He$</td>
+                <td>$+2e$</td>
+                <td>4</td>
+                <td>Nucleu de heliu.</td>
+              </tr>
+              <tr>
+                <td>Foton gamma</td>
+                <td>$\gamma$</td>
+                <td>0</td>
+                <td>0</td>
+                <td>Transportă energie și impuls.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reacții nucleare</span>
+        <h2>Definiție și scriere simbolică</h2>
+
+        <p>
+          O reacție nucleară este transformarea nucleelor prin interacțiunea cu particule proiectil sau prin ciocniri între nuclee.
+          Forma generală este:
+        </p>
+
+        <div class="formula">
+          $$a+X\rightarrow Y+b$$
+        </div>
+
+        <p>
+          Se poate scrie și compact:
+        </p>
+
+        <div class="formula">
+          $$X(a,b)Y$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Exemplu</strong>
+            <div class="formula">
+              $$^{14}_{7}N+^{4}_{2}\alpha\rightarrow^{17}_{8}O+^{1}_{1}p$$
+            </div>
+            <p>
+              Este o reacție indusă de particule alfa.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Verificare rapidă</strong>
+            <div class="formula">
+              $$14+4=17+1,\qquad 7+2=8+1$$
+            </div>
+            <p>
+              Se conservă numărul de nucleoni și sarcina electrică.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>La examen:</strong>
+          orice reacție nucleară trebuie verificată prin conservarea lui $A$ și $Z$, apoi prin bilanț energetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legi de conservare</span>
+        <h2>Conservări în reacții nucleare</h2>
+
+        <p>
+          Reacțiile nucleare respectă simultan mai multe legi de conservare. Cele mai folosite în problemele de titularizare sunt:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Numărul de masă</strong>
+            <div class="formula">
+              $$\sum A_{\text{inițial}}=\sum A_{\text{final}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Sarcina electrică</strong>
+            <div class="formula">
+              $$\sum Z_{\text{inițial}}=\sum Z_{\text{final}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energia totală</strong>
+            <div class="formula">
+              $$E_{\text{repaus}}+E_c=\text{constant}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Impulsul</strong>
+            <div class="formula">
+              $$\sum\vec p_{\text{inițial}}=\sum\vec p_{\text{final}}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Conservare</th>
+                <th>Ce verifică</th>
+                <th>Observație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$A$</td>
+                <td>Conservarea numărului de nucleoni</td>
+                <td>Nu înseamnă conservarea masei de repaus.</td>
+              </tr>
+              <tr>
+                <td>$Z$</td>
+                <td>Conservarea sarcinii electrice</td>
+                <td>Include și particule încărcate emise.</td>
+              </tr>
+              <tr>
+                <td>Energia</td>
+                <td>Bilanțul dintre masă și energie cinetică</td>
+                <td>Masa de repaus se poate transforma în energie cinetică și radiație.</td>
+              </tr>
+              <tr>
+                <td>Impulsul</td>
+                <td>Direcții și energii de recul</td>
+                <td>Este esențial în reacții cu două corpuri finale.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia reacției</span>
+        <h2>Valoarea $Q$ a unei reacții nucleare</h2>
+
+        <p>
+          Energia de reacție, sau valoarea $Q$, se definește prin diferența dintre masele de repaus inițiale și finale:
+        </p>
+
+        <div class="formula">
+          $$Q=\left(\sum m_i-\sum m_f\right)c^2$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Reacție exoenergetică</strong>
+            <div class="formula">
+              $$Q>0$$
+            </div>
+            <p>
+              Masa finală este mai mică decât masa inițială. Se eliberează energie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Reacție endoenergetică</strong>
+            <div class="formula">
+              $$Q<0$$
+            </div>
+            <p>
+              Reacția necesită energie de intrare. Există energie de prag.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$Q(\text{MeV})=\Delta m(u)\cdot 931{,}5$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          dacă se folosesc mase atomice, electronii se simplifică numai când numărul total de electroni este același înainte și după reacție.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia de legătură</span>
+        <h2>Defect de masă și stabilitate nucleară</h2>
+
+        <p>
+          Masa unui nucleu este mai mică decât suma maselor nucleonilor liberi. Diferența este defectul de masă:
+        </p>
+
+        <div class="formula">
+          $$\Delta m=Zm_p+(A-Z)m_n-m_{\text{nucleu}}$$
+        </div>
+
+        <p>
+          Energia de legătură este:
+        </p>
+
+        <div class="formula">
+          $$E_b=\Delta mc^2$$
+        </div>
+
+        <p>
+          Pentru a compara stabilitatea nucleelor se folosește energia de legătură pe nucleon:
+        </p>
+
+        <div class="formula">
+          $$\varepsilon_b=\frac{E_b}{A}$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Curba energiei de legătură pe nucleon">
+            <defs>
+              <marker id="arrowC42Bind" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+            <line x1="90" y1="235" x2="680" y2="235" stroke="#64748b" stroke-width="2" marker-end="url(#arrowC42Bind)"></line>
+            <line x1="110" y1="250" x2="110" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#arrowC42Bind)"></line>
+            <text x="690" y="241" fill="#64748b" font-size="17">A</text>
+            <text x="75" y="65" fill="#64748b" font-size="17">Eb/A</text>
+            <path d="M125 225 C160 120, 245 78, 330 82 C430 86, 520 105, 650 130"
+                  fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"></path>
+            <circle cx="330" cy="82" r="8" fill="#ef4444"></circle>
+            <text x="330" y="62" fill="#ef4444" font-size="17" text-anchor="middle">Fe, Ni</text>
+            <text x="190" y="105" fill="#10b981" font-size="17">fuziune</text>
+            <text x="555" y="115" fill="#f59e0b" font-size="17">fisiune</text>
+          </svg>
+          <p class="caption">
+            Fuziunea nucleelor ușoare și fisiunea nucleelor grele duc spre stări cu energie de legătură pe nucleon mai mare.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fisiune</span>
+        <h2>Fisiunea nucleară</h2>
+
+        <p>
+          Fisiunea este scindarea unui nucleu greu în două fragmente de masă intermediară, însoțită de emisia unor neutroni
+          și de eliberarea unei energii mari.
+        </p>
+
+        <div class="formula">
+          $$^{235}_{92}\mathrm U+^{1}_{0}n\rightarrow^{236}_{92}\mathrm U^*
+          \rightarrow^{141}_{56}\mathrm Ba+^{92}_{36}\mathrm Kr+3\,^{1}_{0}n+Q$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Originea energiei</strong>
+            <p>
+              Fragmentele de fisiune sunt mai bine legate pe nucleon decât nucleul greu inițial.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Produse de fisiune</strong>
+            <p>
+              Fragmentele sunt, de obicei, radioactive și emit radiații până ajung spre stabilitate.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Valoare de ordin de mărime:</strong>
+          o fisiune a lui $^{235}U$ eliberează aproximativ $200\,\text{MeV}$, distribuiți în energia fragmentelor, neutroni, fotoni $\gamma$ și dezintegrări ulterioare.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu orice neutron produce fisiune; probabilitatea depinde de energia neutronului și de nucleul țintă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reacție în lanț</span>
+        <h2>Factorul de multiplicare</h2>
+
+        <p>
+          Neutronii emiși într-o fisiune pot produce noi fisiuni. Astfel apare reacția în lanț.
+          Evoluția ei este caracterizată prin factorul de multiplicare:
+        </p>
+
+        <div class="formula">
+          $$k=\frac{\text{numărul de neutroni din generația următoare}}
+          {\text{numărul de neutroni din generația curentă}}$$
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Regim</th>
+                <th>Condiție</th>
+                <th>Interpretare</th>
+                <th>Exemplu de control</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Subcritic</td>
+                <td>$k<1$</td>
+                <td>Reacția se stinge.</td>
+                <td>Se introduc bare absorbante sau scade densitatea neutronilor.</td>
+              </tr>
+              <tr>
+                <td>Critic</td>
+                <td>$k=1$</td>
+                <td>Puterea rămâne constantă.</td>
+                <td>Regim staționar de reactor.</td>
+              </tr>
+              <tr>
+                <td>Supracritic</td>
+                <td>$k>1$</td>
+                <td>Numărul de fisiuni crește.</td>
+                <td>Regim de pornire controlată sau, necontrolat, creștere periculoasă.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Important:</strong>
+          într-un reactor energetic se urmărește menținerea controlată a regimului critic, nu o reacție explozivă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reactor nuclear</span>
+        <h2>Principiul de funcționare</h2>
+
+        <p>
+          Reactorul nuclear este un sistem în care reacția de fisiune în lanț este controlată, iar energia eliberată este transformată
+          în energie termică, apoi în energie mecanică și electrică.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            În combustibilul nuclear au loc fisiuni induse de neutroni.
+          </div>
+          <div class="step">
+            Moderatorul încetinește neutronii, crescând probabilitatea de fisiune pentru combustibilul adecvat.
+          </div>
+          <div class="step">
+            Barele de control absorb neutroni și reglează factorul de multiplicare $k$.
+          </div>
+          <div class="step">
+            Agentul de răcire preia căldura produsă în zona activă.
+          </div>
+          <div class="step">
+            Căldura produce abur care antrenează turbina și generatorul electric.
+          </div>
+        </div>
+
+        <div class="formula">
+          $$E_{\text{nucleară}}\rightarrow E_{\text{termică}}\rightarrow E_{\text{mecanică}}\rightarrow E_{\text{electrică}}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Componente</span>
+        <h2>Elementele principale ale reactorului</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Componentă</th>
+                <th>Rol fizic</th>
+                <th>Observație didactică</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Combustibil nuclear</td>
+                <td>Conține nuclee fisionabile sau fertile.</td>
+                <td>Este sursa energiei prin fisiune.</td>
+              </tr>
+              <tr>
+                <td>Moderator</td>
+                <td>Reduce energia cinetică a neutronilor.</td>
+                <td>Transferă energie prin ciocniri fără a absorbi excesiv neutroni.</td>
+              </tr>
+              <tr>
+                <td>Bare de control</td>
+                <td>Absorb neutroni.</td>
+                <td>Reglează puterea reactorului.</td>
+              </tr>
+              <tr>
+                <td>Agent de răcire</td>
+                <td>Preia căldura din zona activă.</td>
+                <td>Asigură transferul energetic către instalația termică.</td>
+              </tr>
+              <tr>
+                <td>Vas / zonă activă</td>
+                <td>Conține combustibilul și mediul de reacție.</td>
+                <td>Trebuie proiectat pentru temperatură, presiune și radiații.</td>
+              </tr>
+              <tr>
+                <td>Ecran biologic</td>
+                <td>Atenuează radiațiile.</td>
+                <td>Protejează personalul și mediul exterior.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare scurtă:</strong>
+          combustibilul produce fisiuni, moderatorul încetinește neutronii, barele de control absorb neutronii,
+          răcitorul transportă căldura, iar ecranarea reduce expunerea la radiații.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Neutroni</span>
+        <h2>Economia neutronilor și controlul reactorului</h2>
+
+        <p>
+          Controlul reactorului este, în esență, controlul bilanțului neutronilor.
+          Un neutron emis prin fisiune poate produce o nouă fisiune, poate fi absorbit fără fisiune sau poate scăpa din zona activă.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Surse de neutroni</strong>
+            <ul>
+              <li>neutroni prompt emiși imediat în fisiune;</li>
+              <li>neutroni întârziați emiși de unele produse de fisiune.</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <strong>Pierderi de neutroni</strong>
+            <ul>
+              <li>absorbție în materiale nefisionabile;</li>
+              <li>absorbție în barele de control;</li>
+              <li>scăpare prin limitele zonei active.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$k_{\text{ef}}=\frac{\text{neutroni utili pentru fisiuni viitoare}}
+          {\text{neutroni din generația precedentă}}$$
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          neutronii întârziați sunt esențiali pentru controlul practic al reactorului, deoarece fac evoluția puterii mai lentă și reglabilă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fuziune</span>
+        <h2>Fuziunea nucleară</h2>
+
+        <p>
+          Fuziunea este unirea unor nuclee ușoare pentru formarea unui nucleu mai greu, cu eliberare de energie
+          dacă produsul final are energie de legătură pe nucleon mai mare.
+        </p>
+
+        <div class="formula">
+          $$^{2}_{1}H+^{3}_{1}H\rightarrow^{4}_{2}He+^{1}_{0}n+17{,}6\,\text{MeV}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Bariera Coulomb</strong>
+            <p>
+              Nucleele pozitive se resping electric. Pentru fuziune trebuie apropiate la distanțe nucleare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Condiții</strong>
+            <p>
+              Sunt necesare temperaturi foarte mari, densitate suficientă și timp de confinare adecvat.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Comparație:</strong>
+          fisiunea folosește nuclee grele și neutroni; fuziunea folosește nuclee ușoare și cere depășirea barierei Coulomb.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fisiune vs fuziune</span>
+        <h2>Comparație sistematică</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Criteriu</th>
+                <th>Fisiune</th>
+                <th>Fuziune</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Proces</td>
+                <td>Scindarea unui nucleu greu.</td>
+                <td>Unirea nucleelor ușoare.</td>
+              </tr>
+              <tr>
+                <td>Exemplu</td>
+                <td>$^{235}U+n\rightarrow$ fragmente $+$ neutroni $+Q$</td>
+                <td>$D+T\rightarrow \alpha+n+17{,}6\,\text{MeV}$</td>
+              </tr>
+              <tr>
+                <td>Condiție-cheie</td>
+                <td>Menținerea reacției în lanț controlate.</td>
+                <td>Depășirea barierei Coulomb și confinarea plasmei.</td>
+              </tr>
+              <tr>
+                <td>Originea energiei</td>
+                <td>Fragmentele au energie de legătură pe nucleon mai mare.</td>
+                <td>Nucleul rezultat este mai bine legat pe nucleon.</td>
+              </tr>
+              <tr>
+                <td>Control</td>
+                <td>Prin moderare, absorbție de neutroni și răcire.</td>
+                <td>Prin temperatură, densitate, confinare și stabilitate a plasmei.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          ambele procese pot elibera energie, dar mecanismele și condițiile de realizare sunt diferite.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Completarea unei reacții nucleare și calculul $Q$</h2>
+
+        <p>
+          Completați reacția:
+        </p>
+
+        <div class="formula">
+          $$^{27}_{13}Al+^{4}_{2}\alpha\rightarrow^{30}_{15}P+X$$
+        </div>
+
+        <p>
+          Apoi determinați $Q$, știind masele atomice:
+          $m(^{27}Al)=26{,}9815\,u$,
+          $m(\alpha)=4{,}0026\,u$,
+          $m(^{30}P)=29{,}9783\,u$,
+          $m(n)=1{,}0087\,u$.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Conservarea numărului de masă:
+            $$27+4=30+A_X\Rightarrow A_X=1$$
+          </div>
+          <div class="step">
+            Conservarea sarcinii:
+            $$13+2=15+Z_X\Rightarrow Z_X=0$$
+            Deci $X=^{1}_{0}n$.
+          </div>
+          <div class="step">
+            Masa inițială:
+            $$m_i=26{,}9815+4{,}0026=30{,}9841\,u$$
+          </div>
+          <div class="step">
+            Masa finală:
+            $$m_f=29{,}9783+1{,}0087=30{,}9870\,u$$
+          </div>
+          <div class="step">
+            Energia de reacție:
+            $$Q=(m_i-m_f)c^2=(-0{,}0029\,u)\cdot931{,}5\simeq-2{,}70\,\text{MeV}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          particula emisă este neutronul, iar reacția este endoenergetică, $Q\simeq-2{,}70\,\text{MeV}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Energia eliberată la fisiunea unui kilogram de $^{235}U$</h2>
+
+        <p>
+          Estimați energia eliberată prin fisiunea completă a $1\,\text{kg}$ de $^{235}U$,
+          considerând $200\,\text{MeV}$ pentru fiecare fisiune.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Numărul de moli:
+            $$\nu=\frac{m}{M}=\frac{1000\,\text{g}}{235\,\text{g/mol}}\simeq4{,}26\,\text{mol}$$
+          </div>
+          <div class="step">
+            Numărul de nuclee:
+            $$N=\nu N_A\simeq4{,}26\cdot6{,}02\cdot10^{23}
+            \simeq2{,}56\cdot10^{24}$$
+          </div>
+          <div class="step">
+            Energia unei fisiuni:
+            $$200\,\text{MeV}=200\cdot10^6\cdot1{,}6\cdot10^{-19}\,\text{J}
+            =3{,}2\cdot10^{-11}\,\text{J}$$
+          </div>
+          <div class="step">
+            Energia totală:
+            $$E=N E_f\simeq2{,}56\cdot10^{24}\cdot3{,}2\cdot10^{-11}
+            \simeq8{,}2\cdot10^{13}\,\text{J}$$
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Interpretare:</strong>
+          densitatea energetică nucleară este foarte mare deoarece energia provine din variații de masă nucleară, nu din reacții chimice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Numărul de fisiuni pe secundă într-un reactor</h2>
+
+        <p>
+          Un reactor produce puterea termică $P=1{,}0\,\text{GW}$.
+          Considerați energia medie eliberată pe fisiune $E_f=200\,\text{MeV}$.
+          Determinați numărul de fisiuni pe secundă.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Transformăm energia pe fisiune:
+            $$E_f=200\,\text{MeV}=3{,}2\cdot10^{-11}\,\text{J}$$
+          </div>
+          <div class="step">
+            Puterea este energie pe unitatea de timp:
+            $$P=\frac{\Delta E}{\Delta t}=N_fE_f$$
+          </div>
+          <div class="step">
+            Numărul de fisiuni pe secundă:
+            $$N_f=\frac{P}{E_f}=\frac{1{,}0\cdot10^9}{3{,}2\cdot10^{-11}}
+            \simeq3{,}1\cdot10^{19}\,\text{s}^{-1}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          reactorul necesită aproximativ $3{,}1\cdot10^{19}$ fisiuni pe secundă pentru această putere termică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată</span>
+        <h2>Energia reacției de fuziune D–T</h2>
+
+        <p>
+          Reacția:
+        </p>
+
+        <div class="formula">
+          $$^{2}_{1}H+^{3}_{1}H\rightarrow^{4}_{2}He+^{1}_{0}n+17{,}6\,\text{MeV}$$
+        </div>
+
+        <p>
+          Produce un neutron și o particulă alfa. Determinați energia eliberată în jouli pentru $10^{20}$ reacții.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            Energia unei reacții:
+            $$17{,}6\,\text{MeV}=17{,}6\cdot10^6\cdot1{,}6\cdot10^{-19}\,\text{J}$$
+          </div>
+          <div class="step">
+            Calcul:
+            $$E_1=2{,}816\cdot10^{-12}\,\text{J}$$
+          </div>
+          <div class="step">
+            Pentru $N=10^{20}$ reacții:
+            $$E=NE_1=10^{20}\cdot2{,}816\cdot10^{-12}
+            =2{,}816\cdot10^8\,\text{J}$$
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          energia totală este aproximativ $2{,}8\cdot10^8\,\text{J}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică</span>
+        <h2>Secvență didactică de 10 minute</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Evenimentul instruirii</th>
+                <th>Obiectiv operațional</th>
+                <th>Activitatea profesorului</th>
+                <th>Activitatea elevilor</th>
+                <th>Strategii și mijloace</th>
+                <th>Evaluare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Captarea atenției</td>
+                <td>Elevii identifică sursa energiei nucleare.</td>
+                <td>Compară energia chimică și energia nucleară prin ordin de mărime.</td>
+                <td>Formulează ipoteze despre rolul defectului de masă.</td>
+                <td>Conversație euristică, problematizare.</td>
+                <td>Întrebare orală: „De unde vine energia eliberată?”</td>
+              </tr>
+              <tr>
+                <td>Dirijarea învățării</td>
+                <td>Elevii aplică legile de conservare în reacții nucleare.</td>
+                <td>Scrie o reacție incompletă și cere determinarea particulei necunoscute.</td>
+                <td>Conservă $A$ și $Z$ și completează reacția.</td>
+                <td>Modelare, lucru la tablă, fișă scurtă.</td>
+                <td>Item: determinarea lui $A_X$ și $Z_X$.</td>
+              </tr>
+              <tr>
+                <td>Aplicare</td>
+                <td>Elevii calculează valoarea $Q$.</td>
+                <td>Oferă mase în unități atomice și relația $1u c^2=931{,}5\,\text{MeV}$.</td>
+                <td>Calculează $\Delta m$ și interpretează semnul lui $Q$.</td>
+                <td>Rezolvare de probleme, lucru în perechi.</td>
+                <td>Corectare pe barem: formulă, masă, energie, interpretare.</td>
+              </tr>
+              <tr>
+                <td>Transfer</td>
+                <td>Elevii explică reactorul ca sistem controlat.</td>
+                <td>Prezintă schema combustibil–moderator–bare de control–răcire.</td>
+                <td>Asociază fiecare componentă cu rolul fizic.</td>
+                <td>Diagramă, simulare TIC, discuție dirijată.</td>
+                <td>Exit ticket: „Ce face moderatorul? Ce fac barele de control?”</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Laborator și NTSM</span>
+        <h2>Integrarea experimentului și siguranța</h2>
+
+        <p>
+          În laboratorul școlar, reacțiile nucleare și funcționarea reactorului se predau prin modele, simulări,
+          analiză de date și probleme, nu prin experimente cu materiale radioactive sau surse de neutroni.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Activități recomandate</strong>
+            <ul>
+              <li>simulare TIC pentru reacția în lanț;</li>
+              <li>model cu bile pentru conservarea lui $A$ și $Z$;</li>
+              <li>analiză de grafic pentru energia de legătură pe nucleon;</li>
+              <li>probleme numerice cu $Q$ și $\Delta mc^2$.</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <ul>
+              <li>nu se utilizează materiale radioactive neautorizate;</li>
+              <li>nu se improvizează surse de radiații sau neutroni;</li>
+              <li>se folosesc numai surse didactice omologate, sub supraveghere;</li>
+              <li>se discută principiile timp minim, distanță și ecranare;</li>
+              <li>se respectă instrucțiunile laboratorului și ale instituției.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Răspuns didactic matur:</strong>
+          pentru tema reactorului nuclear, accentul experimental se mută pe simulare, modelare și interpretarea datelor,
+          deoarece securitatea radiologică este prioritară.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane</span>
+        <h2>Greșeli frecvente la examen</h2>
+
+        <ul>
+          <li>
+            <strong>Conservarea lui $A$ vs. conservarea masei:</strong>
+            se conservă numărul de nucleoni, nu masa de repaus totală.
+          </li>
+          <li>
+            <strong>Semnul lui $Q$:</strong>
+            $Q>0$ înseamnă energie eliberată; $Q<0$ înseamnă energie absorbită.
+          </li>
+          <li>
+            <strong>Mase atomice:</strong>
+            electronii se simplifică doar dacă bilanțul atomic este corect.
+          </li>
+          <li>
+            <strong>Fisiune vs fu
