@@ -1,1 +1,1678 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C23 – Curentul electric continuu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C23 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 23</span>
+        <h1>Curentul electric continuu</h1>
+
+        <p class="lead">
+          Curentul electric continuu este mișcarea ordonată a purtătorilor de sarcină într-un circuit,
+          în condiții în care sensul convențional și intensitatea rămân constante în timp.
+          Lecția tratează intensitatea curentului, tensiunea electromotoare, ecuația de continuitate,
+          legea lui Ohm, teoremele lui Kirchhoff și legea lui Joule.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          într-un circuit de curent continuu, legile de conservare se exprimă prin Kirchhoff:
+          conservarea sarcinii în noduri și conservarea energiei pe ochiuri.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Circuit simplu de curent continuu">
+            <defs>
+              <marker id="arrowC23" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="110" y="85" width="540" height="160" rx="24"
+                  fill="none" stroke="#64748b" stroke-width="6"></rect>
+
+            <line x1="210" y1="245" x2="210" y2="165" stroke="#ef4444" stroke-width="8" stroke-linecap="round"></line>
+            <line x1="238" y1="225" x2="238" y2="185" stroke="#ef4444" stroke-width="8" stroke-linecap="round"></line>
+            <text x="185" y="280" fill="#ef4444" font-size="21" font-weight="800">sursă</text>
+
+            <rect x="485" y="125" width="95" height="80" rx="14"
+                  fill="rgba(37,99,235,0.12)" stroke="#2563eb" stroke-width="5"></rect>
+            <text x="532" y="174" text-anchor="middle" fill="#2563eb" font-size="30" font-weight="900">R</text>
+
+            <line x1="330" y1="85" x2="430" y2="85" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC23)"></line>
+            <text x="365" y="65" fill="#2563eb" font-size="22" font-weight="800">I</text>
+
+            <text x="280" y="300" fill="#64748b" font-size="20">
+              generator + rezistor: transformare energie chimică în energie electrică și termică
+            </text>
+          </svg>
+
+          <p class="caption">
+            Sensul convențional al curentului este sensul deplasării sarcinilor pozitive.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C23?</h2>
+
+        <p>
+          Tema C23 cere trecerea de la modelul microscopic al mișcării purtătorilor de sarcină la legile
+          macroscopice ale circuitelor de curent continuu.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Curent electric</strong>
+            <p>
+              Intensitate $I$, densitate de curent $\vec j$, viteză de drift și regim staționar.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Tensiune electromotoare</strong>
+            <p>
+              Lucrul forțelor neelectrostatice pe unitatea de sarcină în interiorul sursei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Legi de circuit</strong>
+            <p>
+              Legea lui Ohm pentru porțiune de circuit, pentru circuit întreg și teoremele lui Kirchhoff.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Efect termic</strong>
+            <p>
+              Puterea electrică și legea Joule–Lenz pentru energia transformată în căldură.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          definești $I$ și $\vec j$, scrii ecuația de continuitate, explici t.e.m., aplici Ohm și Kirchhoff,
+          apoi interpretezi energetic prin $P=UI$ și $Q=I^2Rt$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Definiție</span>
+        <h2>Intensitatea curentului electric</h2>
+
+        <p>
+          Curentul electric reprezintă mișcarea ordonată a purtătorilor de sarcină. Intensitatea curentului
+          printr-o secțiune a conductorului este sarcina care traversează secțiunea în unitatea de timp:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{\Delta q}{\Delta t}$$
+        </div>
+
+        <p>
+          În formă instantanee:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{dq}{dt}$$
+        </div>
+
+        <p>
+          Unitatea SI este amperul:
+        </p>
+
+        <div class="formula">
+          $$[I]=\text{A}=\frac{\text{C}}{\text{s}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Curent continuu</strong>
+            <p>
+              Intensitatea și sensul convențional rămân constante în timp.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Curent variabil</strong>
+            <p>
+              Intensitatea se modifică în timp; poate fi pulsatoriu sau alternativ.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          electronii se deplasează în sens opus curentului convențional.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Densitate de curent</span>
+        <h2>Densitatea curentului electric</h2>
+
+        <p>
+          Pentru o distribuție de curent printr-o suprafață, introducem vectorul densitate de curent $\vec j$.
+          Curentul prin suprafața $S$ este:
+        </p>
+
+        <div class="formula">
+          $$I=\int_S \vec j\cdot d\vec S$$
+        </div>
+
+        <p>
+          Dacă $\vec j$ este uniform și perpendicular pe secțiune:
+        </p>
+
+        <div class="formula">
+          $$I=jS$$
+        </div>
+
+        <p>
+          Modelul microscopic pentru purtători de sarcină cu concentrație $n$, sarcină $q$ și viteză medie
+          de drift $\vec v_d$ este:
+        </p>
+
+        <div class="formula">
+          $$\vec j=nq\vec v_d$$
+        </div>
+
+        <div class="exam">
+          <strong>Unitate:</strong>
+          $$[j]=\text{A/m}^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conservarea sarcinii</span>
+        <h2>Ecuația de continuitate</h2>
+
+        <p>
+          Sarcina electrică se conservă. Pentru un volum fix, variația sarcinii din interior este egală
+          cu opusul fluxului de curent care iese prin suprafața închisă ce delimitează volumul.
+        </p>
+
+        <div class="formula">
+          $$\frac{dQ_{\text{int}}}{dt}=-\oint_S\vec j\cdot d\vec S$$
+        </div>
+
+        <p>
+          În formă locală, ecuația de continuitate este:
+        </p>
+
+        <div class="formula">
+          $$\frac{\partial \rho}{\partial t}+\nabla\cdot\vec j=0$$
+        </div>
+
+        <p>
+          unde $\rho$ este densitatea volumică de sarcină.
+        </p>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          dacă într-o regiune curentul are divergență pozitivă, sarcina din acea regiune scade în timp.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Regim staționar</span>
+        <h2>Curentul continuu staționar</h2>
+
+        <p>
+          În regim staționar, distribuția de sarcină nu se modifică în timp:
+        </p>
+
+        <div class="formula">
+          $$\frac{\partial \rho}{\partial t}=0$$
+        </div>
+
+        <p>
+          Din ecuația de continuitate rezultă:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec j=0$$
+        </div>
+
+        <p>
+          Pentru un conductor fără ramificații, intensitatea curentului este aceeași în orice secțiune:
+        </p>
+
+        <div class="formula">
+          $$I_1=I_2=\cdots=I$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          viteza de drift a electronilor este mică, dar stabilirea câmpului electric în circuit se propagă
+          foarte rapid prin conductor.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sursă electrică</span>
+        <h2>Tensiunea electromotoare</h2>
+
+        <p>
+          Tensiunea electromotoare a unei surse, notată $\mathcal E$, este lucrul mecanic efectuat de forțele
+          neelectrostatice pentru transportul unității de sarcină prin interiorul sursei.
+        </p>
+
+        <div class="formula">
+          $$\mathcal E=\frac{A_{\text{neel}}}{q}$$
+        </div>
+
+        <p>
+          Unitatea este voltul:
+        </p>
+
+        <div class="formula">
+          $$[\mathcal E]=\text{V}$$
+        </div>
+
+        <p>
+          Forțele neelectrostatice pot fi de natură chimică, mecanică, termică sau electromagnetică, în funcție
+          de tipul generatorului.
+        </p>
+
+        <div class="exam">
+          <strong>Distincție:</strong>
+          t.e.m. $\mathcal E$ caracterizează sursa; tensiunea la borne $U$ depinde și de curentul debitat
+          și de rezistența internă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sursă reală</span>
+        <h2>Generator real cu rezistență internă</h2>
+
+        <p>
+          O sursă reală este modelată printr-o sursă ideală de t.e.m. $\mathcal E$ în serie cu o rezistență internă $r$.
+          Când sursa debitează curent $I$, o parte din energie se pierde în interiorul sursei.
+        </p>
+
+        <div class="formula">
+          $$U=\mathcal E-Ir$$
+        </div>
+
+        <p>
+          Pentru circuitul simplu format din generator real și rezistor exterior $R$:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{\mathcal E}{R+r}$$
+        </div>
+
+        <p>
+          Tensiunea la bornele rezistorului exterior este:
+        </p>
+
+        <div class="formula">
+          $$U_R=IR=\mathcal E-Ir$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          la mers în gol, $I=0$, deci $U=\mathcal E$. În sarcină, $U<\mathcal E$ pentru generator.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea lui Ohm</span>
+        <h2>Legea lui Ohm pentru o porțiune de circuit</h2>
+
+        <p>
+          Pentru un conductor ohmic, tensiunea la borne este direct proporțională cu intensitatea curentului:
+        </p>
+
+        <div class="formula">
+          $$U=RI$$
+        </div>
+
+        <p>
+          Echivalent:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{U}{R}$$
+        </div>
+
+        <p>
+          Rezistența electrică se măsoară în ohmi:
+        </p>
+
+        <div class="formula">
+          $$[R]=\Omega=\frac{\text{V}}{\text{A}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Caracteristică liniară</strong>
+            <p>
+              Pentru conductor ohmic, graficul $U(I)$ este o dreaptă care trece prin origine.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezistor</strong>
+            <p>
+              Element de circuit caracterizat ideal printr-o rezistență constantă $R$.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Formă microscopică</span>
+        <h2>Legea locală a lui Ohm</h2>
+
+        <p>
+          Într-un mediu conductor omogen și izotrop, densitatea curentului este proporțională cu intensitatea
+          câmpului electric:
+        </p>
+
+        <div class="formula">
+          $$\vec j=\sigma \vec E$$
+        </div>
+
+        <p>
+          unde $\sigma$ este conductivitatea electrică. Rezistivitatea este inversul conductivității:
+        </p>
+
+        <div class="formula">
+          $$\rho_e=\frac{1}{\sigma}$$
+        </div>
+
+        <p>
+          Forma echivalentă este:
+        </p>
+
+        <div class="formula">
+          $$\vec E=\rho_e\vec j$$
+        </div>
+
+        <div class="warning">
+          <strong>Notație:</strong>
+          $\rho_e$ este rezistivitate electrică, nu densitate de masă și nu densitate de sarcină.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rezistență</span>
+        <h2>Rezistența unui conductor omogen</h2>
+
+        <p>
+          Pentru un conductor cilindric sau prismatic, omogen, de lungime $l$ și secțiune transversală $S$:
+        </p>
+
+        <div class="formula">
+          $$R=\rho_e\frac{l}{S}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Lungime mai mare</strong>
+            <p>
+              Rezistența crește proporțional cu lungimea conductorului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Secțiune mai mare</strong>
+            <p>
+              Rezistența scade când secțiunea conductorului crește.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Material</strong>
+            <p>
+              Rezistivitatea depinde de material și temperatură.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Unitate</strong>
+            <div class="formula">
+              $$[\rho_e]=\Omega\cdot\text{m}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          un fir lung și subțire are rezistență mai mare decât un fir scurt și gros din același material.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Temperatură</span>
+        <h2>Dependența rezistenței de temperatură</h2>
+
+        <p>
+          Pentru metale, rezistența crește aproximativ liniar cu temperatura pe intervale moderate:
+        </p>
+
+        <div class="formula">
+          $$R=R_0[1+\alpha(T-T_0)]$$
+        </div>
+
+        <p>
+          unde $\alpha$ este coeficientul termic al rezistenței.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Metale</strong>
+            <p>
+              În general, $\alpha>0$: creșterea temperaturii intensifică agitația rețelei și crește rezistența.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Semiconductori</strong>
+            <p>
+              Rezistența poate scădea cu temperatura, deoarece crește concentrația purtătorilor mobili.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula liniară este o aproximație; nu se aplică universal pentru orice material și orice temperatură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Rezistoare</span>
+        <h2>Gruparea rezistoarelor</h2>
+
+        <p>
+          Rezistoarele pot fi grupate în serie, în paralel sau mixt.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Grupare</th>
+                <th>Mărime comună</th>
+                <th>Relație echivalentă</th>
+                <th>Observație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Serie</td>
+                <td>același curent</td>
+                <td>$R_s=R_1+R_2+\cdots$</td>
+                <td>Tensiunea totală este suma tensiunilor parțiale.</td>
+              </tr>
+              <tr>
+                <td>Paralel</td>
+                <td>aceeași tensiune</td>
+                <td>$\frac1{R_p}=\frac1{R_1}+\frac1{R_2}+\cdots$</td>
+                <td>Curentul total este suma curenților pe ramuri.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula">
+          $$R_{\text{paralel, 2 rez.}}=\frac{R_1R_2}{R_1+R_2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Memorare:</strong>
+          pentru rezistoare, seria mărește rezistența echivalentă, iar paralelul o micșorează.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Putere</span>
+        <h2>Puterea electrică</h2>
+
+        <p>
+          Puterea electrică transferată unui receptor este energia transferată în unitatea de timp:
+        </p>
+
+        <div class="formula">
+          $$P=\frac{W}{t}$$
+        </div>
+
+        <p>
+          Pentru un element de circuit străbătut de curentul $I$ și aflat la tensiunea $U$:
+        </p>
+
+        <div class="formula">
+          $$P=UI$$
+        </div>
+
+        <p>
+          Pentru un rezistor ohmic:
+        </p>
+
+        <div class="formula">
+          $$P=RI^2=\frac{U^2}{R}$$
+        </div>
+
+        <div class="exam">
+          <strong>Unitate:</strong>
+          $$[P]=\text{W}=\text{J/s}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Efect termic</span>
+        <h2>Legea lui Joule–Lenz</h2>
+
+        <p>
+          Într-un rezistor, energia electrică se transformă în energie internă, încălzind conductorul.
+          Căldura degajată în timpul $t$ este:
+        </p>
+
+        <div class="formula">
+          $$Q_J=I^2Rt$$
+        </div>
+
+        <p>
+          Forme echivalente:
+        </p>
+
+        <div class="formula">
+          $$Q_J=UIt=\frac{U^2}{R}t$$
+        </div>
+
+        <p>
+          Relația se obține din $P=I^2R$ și $Q_J=Pt$.
+        </p>
+
+        <div class="exam">
+          <strong>Aplicații:</strong>
+          rezistențe de încălzire, siguranțe fuzibile, bec cu filament, aparate electrocasnice.
+        </div>
+
+        <div class="warning">
+          <strong>NTSM:</strong>
+          efectul Joule poate produce supraîncălzire și incendii dacă intensitatea curentului depășește limitele circuitului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Kirchhoff I</span>
+        <h2>Prima teoremă a lui Kirchhoff</h2>
+
+        <p>
+          Prima teoremă a lui Kirchhoff exprimă conservarea sarcinii în nodurile unui circuit.
+          Suma intensităților curenților care intră într-un nod este egală cu suma intensităților curenților
+          care ies din nod.
+        </p>
+
+        <div class="formula">
+          $$\sum I_{\text{intră}}=\sum I_{\text{ies}}$$
+        </div>
+
+        <p>
+          Cu semne algebrice:
+        </p>
+
+        <div class="formula">
+          $$\sum_k I_k=0$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 290" role="img" aria-label="Nod de circuit pentru prima teoremă Kirchhoff">
+            <defs>
+              <marker id="arrowNodeC23" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <circle cx="380" cy="145" r="12" fill="#0f766e"></circle>
+
+            <line x1="110" y1="145" x2="350" y2="145" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowNodeC23)"></line>
+            <line x1="410" y1="145" x2="640" y2="80" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowNodeC23)"></line>
+            <line x1="410" y1="145" x2="640" y2="210" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowNodeC23)"></line>
+
+            <text x="190" y="125" fill="#0f766e" font-size="24" font-weight="800">I1</text>
+            <text x="545" y="80" fill="#0f766e" font-size="24" font-weight="800">I2</text>
+            <text x="545" y="235" fill="#0f766e" font-size="24" font-weight="800">I3</text>
+            <text x="280" y="270" fill="#64748b" font-size="22">I1 = I2 + I3</text>
+          </svg>
+
+          <p class="caption">
+            Nodul nu acumulează sarcină în regim staționar.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Kirchhoff II</span>
+        <h2>A doua teoremă a lui Kirchhoff</h2>
+
+        <p>
+          A doua teoremă a lui Kirchhoff exprimă conservarea energiei într-un ochi de circuit.
+          Suma algebrică a variațiilor de potențial pe un ochi închis este nulă.
+        </p>
+
+        <div class="formula">
+          $$\sum \Delta V_k=0$$
+        </div>
+
+        <p>
+          Pentru un ochi cu surse și rezistențe:
+        </p>
+
+        <div class="formula">
+          $$\sum \mathcal E_k-\sum I_jR_j=0$$
+        </div>
+
+        <p>
+          Semnele se stabilesc în funcție de sensul ales de parcurgere a ochiului și de polaritățile elementelor.
+        </p>
+
+        <div class="exam">
+          <strong>Metodă sigură:</strong>
+          alegi sensuri arbitrare pentru curenți; dacă rezultatul unui curent este negativ, sensul real este opus celui ales.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Metodă de lucru</span>
+        <h2>Rezolvarea circuitelor cu legile lui Kirchhoff</h2>
+
+        <p>
+          Pentru circuite care nu se reduc simplu prin serie/paralel, se folosesc sistematic teoremele lui Kirchhoff.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>1. Alegerea sensurilor</strong>
+            <p>
+              Alege sensuri arbitrare pentru curenții din ramuri și pentru parcurgerea ochiurilor.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Noduri</strong>
+            <p>
+              Scrie prima teoremă Kirchhoff pentru noduri independente.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Ochiuri</strong>
+            <p>
+              Scrie a doua teoremă Kirchhoff pentru ochiuri independente.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Sistem</strong>
+            <p>
+              Rezolvă sistemul algebric și interpretează semnul curenților.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu toate ecuațiile scrise sunt independente. Ai nevoie de atâtea ecuații independente câte necunoscute.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Randament</span>
+        <h2>Randamentul generatorului</h2>
+
+        <p>
+          Pentru un generator real cu t.e.m. $\mathcal E$, rezistență internă $r$ și curent $I$,
+          puterea totală dezvoltată de sursă este:
+        </p>
+
+        <div class="formula">
+          $$P_{\text{total}}=\mathcal E I$$
+        </div>
+
+        <p>
+          Puterea utilă pe circuitul exterior este:
+        </p>
+
+        <div class="formula">
+          $$P_u=UI=I^2R$$
+        </div>
+
+        <p>
+          Randamentul generatorului este:
+        </p>
+
+        <div class="formula">
+          $$\eta=\frac{P_u}{P_{\text{total}}}=\frac{U}{\mathcal E}=\frac{R}{R+r}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          cu cât rezistența internă este mai mică față de rezistența externă, cu atât randamentul este mai mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transfer maxim</span>
+        <h2>Puterea maximă pe rezistența exterioară</h2>
+
+        <p>
+          Pentru un generator real conectat la un rezistor exterior $R$, curentul este:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{\mathcal E}{R+r}$$
+        </div>
+
+        <p>
+          Puterea pe rezistorul exterior:
+        </p>
+
+        <div class="formula">
+          $$P_R=I^2R=\frac{\mathcal E^2R}{(R+r)^2}$$
+        </div>
+
+        <p>
+          Puterea este maximă când:
+        </p>
+
+        <div class="formula">
+          $$R=r$$
+        </div>
+
+        <p>
+          Atunci:
+        </p>
+
+        <div class="formula">
+          $$P_{\max}=\frac{\mathcal E^2}{4r}$$
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          condiția de putere maximă nu înseamnă randament maxim; pentru $R=r$, randamentul este $50\%$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Măsurare</span>
+        <h2>Ampermetrul și voltmetrul</h2>
+
+        <p>
+          Instrumentele de măsură trebuie conectate astfel încât să perturbe cât mai puțin circuitul.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Ampermetrul</strong>
+            <p>
+              Se leagă în serie cu elementul prin care se măsoară curentul.
+              Ideal are rezistență internă nulă.
+            </p>
+            <div class="formula">
+              $$R_A\approx0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Voltmetrul</strong>
+            <p>
+              Se leagă în paralel cu elementul la bornele căruia se măsoară tensiunea.
+              Ideal are rezistență internă foarte mare.
+            </p>
+            <div class="formula">
+              $$R_V\to\infty$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Capcană practică:</strong>
+          un ampermetru conectat direct la bornele unei surse poate produce scurtcircuit.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Legea lui Ohm și puterea</h2>
+
+        <p>
+          Un rezistor de rezistență $R=12\,\Omega$ este conectat la tensiunea $U=24\,\text{V}$.
+          Determinați curentul și puterea disipată.
+        </p>
+
+        <p>
+          Din legea lui Ohm:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{U}{R}=\frac{24}{12}=2\,\text{A}$$
+        </div>
+
+        <p>
+          Puterea:
+        </p>
+
+        <div class="formula">
+          $$P=UI=24\cdot2=48\,\text{W}$$
+        </div>
+
+        <p>
+          Verificare:
+        </p>
+
+        <div class="formula">
+          $$P=I^2R=2^2\cdot12=48\,\text{W}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $I=2\,\text{A}$ și $P=48\,\text{W}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Generator real</h2>
+
+        <p>
+          Un generator are t.e.m. $\mathcal E=12\,\text{V}$ și rezistența internă $r=1\,\Omega$.
+          Este conectat la un rezistor exterior $R=5\,\Omega$. Determinați curentul, tensiunea la borne
+          și randamentul.
+        </p>
+
+        <div class="formula">
+          $$I=\frac{\mathcal E}{R+r}=\frac{12}{5+1}=2\,\text{A}$$
+        </div>
+
+        <div class="formula">
+          $$U=IR=2\cdot5=10\,\text{V}$$
+        </div>
+
+        <div class="formula">
+          $$\eta=\frac{U}{\mathcal E}=\frac{10}{12}=0{,}833$$
+        </div>
+
+        <div class="formula">
+          $$\eta\approx83{,}3\%$$
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          pierderea internă de tensiune este $Ir=2\,\text{V}$, deci $U=\mathcal E-Ir=10\,\text{V}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Teoremele lui Kirchhoff</h2>
+
+        <p>
+          Într-un nod intră curenții $I_1=3\,\text{A}$ și $I_2=2\,\text{A}$.
+          Din nod ies curenții $I_3=1{,}5\,\text{A}$ și $I_4$. Determinați $I_4$.
+        </p>
+
+        <p>
+          Aplicăm prima teoremă Kirchhoff:
+        </p>
+
+        <div class="formula">
+          $$I_1+I_2=I_3+I_4$$
+        </div>
+
+        <div class="formula">
+          $$3+2=1{,}5+I_4$$
+        </div>
+
+        <div class="formula">
+          $$I_4=3{,}5\,\text{A}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          nodul nu acumulează sarcină; curentul total care intră este egal cu cel care iese.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Legea Joule–Lenz</h2>
+
+        <p>
+          Un rezistor de $R=20\,\Omega$ este străbătut de curentul $I=3\,\text{A}$ timp de
+          $t=5\,\text{min}$. Determinați căldura degajată.
+        </p>
+
+        <p>
+          Transformăm timpul:
+        </p>
+
+        <div class="formula">
+          $$t=5\,\text{min}=300\,\text{s}$$
+        </div>
+
+        <p>
+          Aplicăm legea Joule–Lenz:
+        </p>
+
+        <div class="formula">
+          $$Q_J=I^2Rt$$
+        </div>
+
+        <div class="formula">
+          $$Q_J=3^2\cdot20\cdot300=54000\,\text{J}$$
+        </div>
+
+        <div class="formula">
+          $$Q_J=54\,\text{kJ}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia electrică se transformă în energie internă a rezistorului și mediului înconjurător.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Grupare mixtă de rezistoare</h2>
+
+        <p>
+          Rezistoarele $R_1=6\,\Omega$ și $R_2=3\,\Omega$ sunt legate în paralel.
+          Gruparea este apoi legată în serie cu $R_3=4\,\Omega$.
+          Determinați rezistența echivalentă.
+        </p>
+
+        <p>
+          Paralelul $R_1$ și $R_2$:
+        </p>
+
+        <div class="formula">
+          $$R_{12}=\frac{R_1R_2}{R_1+R_2}=\frac{6\cdot3}{6+3}=2\,\Omega$$
+        </div>
+
+        <p>
+          Serie cu $R_3$:
+        </p>
+
+        <div class="formula">
+          $$R_{\text{eq}}=R_{12}+R_3=2+4=6\,\Omega$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu se adună toate rezistențele, deoarece $R_1$ și $R_2$ nu sunt în serie, ci în paralel.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Formule și semnificații</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mărime / lege</th>
+                <th>Relație</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Intensitate</td>
+                <td>$I=dq/dt$</td>
+                <td>Sarcina transportată în unitatea de timp.</td>
+              </tr>
+              <tr>
+                <td>Densitate de curent</td>
+                <td>$I=\int_S\vec j\cdot d\vec S$</td>
+                <td>Distribuția curentului pe secțiune.</td>
+              </tr>
+              <tr>
+                <td>Continuitate</td>
+                <td>$\partial\rho/\partial t+\nabla\cdot\vec j=0$</td>
+                <td>Conservarea locală a sarcinii.</td>
+              </tr>
+              <tr>
+                <td>T.e.m.</td>
+                <td>$\mathcal E=A_{\text{neel}}/q$</td>
+                <td>Energia furnizată unității de sarcină în sursă.</td>
+              </tr>
+              <tr>
+                <td>Ohm</td>
+                <td>$U=RI$</td>
+                <td>Relația dintre tensiune și curent pentru conductor ohmic.</td>
+              </tr>
+              <tr>
+                <td>Kirchhoff I</td>
+                <td>$\sum I_k=0$</td>
+                <td>Conservarea sarcinii în noduri.</td>
+              </tr>
+              <tr>
+                <td>Kirchhoff II</td>
+                <td>$\sum \mathcal E-\sum IR=0$</td>
+                <td>Conservarea energiei pe ochiuri.</td>
+              </tr>
+              <tr>
+                <td>Joule–Lenz</td>
+                <td>$Q_J=I^2Rt$</td>
+                <td>Energie termică degajată în rezistor.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema este potrivită pentru activități experimentale frontale și pentru rezolvarea de circuite
+          în echipe, cu accent pe măsurare, reprezentare grafică și interpretare energetică.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Verificarea legii lui Ohm prin măsurarea perechilor $(U,I)$ pentru un rezistor și trasarea graficului $U(I)$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Evidențierea efectului Joule prin încălzirea unui fir rezistiv străbătut de curent.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare de circuite pentru aplicarea teoremelor lui Kirchhoff și verificarea sensurilor curenților.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc tensiuni joase, se evită scurtcircuitele, se verifică polaritatea surselor și nu se ating
+              conductori sau rezistori supraîncălziți.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să lege măsurătorile electrice de modelul matematic $U=RI$ și de conservarea sarcinii
+          și energiei în circuit.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se confundă t.e.m. cu tensiunea la borne.</td>
+                <td>Sursa reală are rezistență internă.</td>
+                <td>$U=\mathcal E-Ir$ pentru generator în sarcină.</td>
+              </tr>
+              <tr>
+                <td>Se conectează ampermetrul în paralel.</td>
+                <td>Poate produce scurtcircuit.</td>
+                <td>Ampermetrul se conectează în serie.</td>
+              </tr>
+              <tr>
+                <td>Se adună rezistențele aflate în paralel.</td>
+                <td>Aceasta este regula pentru serie.</td>
+                <td>În paralel: $\frac1{R_p}=\sum\frac1{R_i}$.</td>
+              </tr>
+              <tr>
+                <td>Se uită rezistența internă a sursei.</td>
+                <td>Curentul real este mai mic decât $\mathcal E/R$.</td>
+                <td>$I=\mathcal E/(R+r)$.</td>
+              </tr>
+              <tr>
+                <td>Se aplică $P=U^2/R$ cu tensiunea greșită.</td>
+                <td>Formula cere tensiunea pe rezistorul respectiv.</td>
+                <td>Identifică mai întâi elementul și tensiunea la bornele sale.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          în problemele de circuit, primul pas este schema clară cu sensuri, noduri, ochiuri și polarități.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Curentul electric continuu reprezintă mișcarea ordonată a purtătorilor de sarcină,
+          cu intensitate constantă în timp. Intensitatea este definită prin sarcina care traversează
+          o secțiune în unitatea de timp:
+        </p>
+
+        <div class="formula">
+          $$I=\frac{dq}{dt}$$
+        </div>
+
+        <p>
+          Descrierea locală se face prin densitatea de curent $\vec j$, iar conservarea sarcinii este exprimată
+          prin ecuația de continuitate:
+        </p>
+
+        <div class="formula">
+          $$\frac{\partial\rho}{\partial t}+\nabla\cdot\vec j=0$$
+        </div>
+
+        <p>
+          Pentru conductorii ohmici, legea lui Ohm dă relația dintre tensiune și curent:
+        </p>
+
+        <div class="formula">
+          $$U=RI$$
+        </div>
+
+        <p>
+          Sursele electrice sunt caracterizate prin tensiunea electromotoare:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E=\frac{A_{\text{neel}}}{q}$$
+        </div>
+
+        <p>
+          În cazul unei surse reale cu rezistență internă $r$, tensiunea la borne este $U=\mathcal E-Ir$.
+          Circuitele mai complexe se rezolvă cu teoremele lui Kirchhoff: prima exprimă conservarea sarcinii
+          în noduri, iar a doua conservarea energiei pe ochiuri.
+        </p>
+
+        <div class="formula">
+          $$\sum I_k=0,\qquad \sum\mathcal E_k-\sum I_jR_j=0$$
+        </div>
+
+        <p>
+          Energia disipată prin efect Joule într-un rezistor este:
+        </p>
+
+        <div class="formula">
+          $$Q_J=I^2Rt$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C23</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Curent</strong>
+            <div class="formula">
+              $$I=\frac{dq}{dt}$$
+              $$I=\int_S\vec j\cdot d\vec S$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Continuitate</strong>
+            <div class="formula">
+              $$\frac{\partial\rho}{\partial t}+\nabla\cdot\vec j=0$$
+              $$\nabla\cdot\vec j=0\quad\text{staționar}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>T.e.m. și generator</strong>
+            <div class="formula">
+              $$\mathcal E=\frac{A_{\text{neel}}}{q}$$
+              $$U=\mathcal E-Ir$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ohm</strong>
+            <div class="formula">
+              $$U=RI$$
+              $$R=\rho_e\frac{l}{S}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Kirchhoff</strong>
+            <div class="formula">
+              $$\sum I_k=0$$
+              $$\sum\mathcal E_k-\sum I_jR_j=0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Putere și Joule</strong>
+            <div class="formula">
+              $$P=UI=I^2R=\frac{U^2}{R}$$
+              $$Q_J=I^2Rt$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un generator real alimentează o grupare mixtă de rezistoare. Determinați curentul total,
+          tensiunea la borne, curenții prin ramuri, puterile disipate și randamentul generatorului.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C24-campul-magnetic-al-curentilor-electrici-stationari.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-23.html">Fișa de lucru C23</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 29</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-23.html">Fișa C23</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c23", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c23");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
