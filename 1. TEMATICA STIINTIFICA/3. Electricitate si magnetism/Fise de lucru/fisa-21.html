@@ -1,1 +1,963 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C21 – Câmpul electrostatic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 {
+      margin-top: 0;
+    }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 260px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li {
+      margin: 0.35rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C21 • Câmpul electrostatic</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C21</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Câmpul electrostatic</h1>
+
+      <p class="lead">
+        Fișa recapitulează legea lui Coulomb, intensitatea câmpului electric, potențialul electrostatic,
+        diferența de potențial, lucrul forței electrostatice, fluxul electric și teorema lui Gauss.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Legea lui Coulomb</strong>
+          <div class="formula">
+            $$F=k\frac{|q_1q_2|}{r^2},\qquad k=\frac1{4\pi\varepsilon_0}$$
+          </div>
+          <p>Forța este centrală, atractivă pentru sarcini de semne opuse și repulsivă pentru sarcini de același semn.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Intensitatea câmpului electric</strong>
+          <div class="formula">
+            $$\vec E=\frac{\vec F}{q_0},\qquad E=k\frac{|Q|}{r^2}$$
+          </div>
+          <p>$\vec E$ este mărime vectorială. Câmpurile se compun prin suprapunere vectorială.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Potențialul electrostatic</strong>
+          <div class="formula">
+            $$V=\frac{E_p}{q},\qquad V=k\frac{Q}{r}$$
+          </div>
+          <p>$V$ este mărime scalară. Potențialele se adună algebric, cu semn.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Gauss</strong>
+          <div class="formula">
+            $$\Phi_E=\int_S\vec E\cdot d\vec S,\qquad
+            \oint_S\vec E\cdot d\vec S=\frac{Q_{\text{int}}}{\varepsilon_0}$$
+          </div>
+          <p>Teorema lui Gauss este eficientă pentru distribuții cu simetrie sferică, cilindrică sau plană.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mărime</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sarcină electrică</td>
+              <td>$q=ne$</td>
+              <td>C</td>
+              <td>Semnul sarcinii contează în formulele vectoriale și energetice.</td>
+            </tr>
+            <tr>
+              <td>Forță Coulomb</td>
+              <td>$F=k|q_1q_2|/r^2$</td>
+              <td>N</td>
+              <td>Forța este pe dreapta care unește sarcinile.</td>
+            </tr>
+            <tr>
+              <td>Câmp electric</td>
+              <td>$\vec E=\vec F/q_0$</td>
+              <td>N/C sau V/m</td>
+              <td>Se adună vectorial.</td>
+            </tr>
+            <tr>
+              <td>Potențial</td>
+              <td>$V=E_p/q$</td>
+              <td>V</td>
+              <td>Se adună algebric.</td>
+            </tr>
+            <tr>
+              <td>Lucru mecanic</td>
+              <td>$L_{A\to B}=q(V_A-V_B)$</td>
+              <td>J</td>
+              <td>Câmpul electrostatic este conservativ.</td>
+            </tr>
+            <tr>
+              <td>Flux electric</td>
+              <td>$\Phi_E=ES\cos\alpha$</td>
+              <td>N·m²/C</td>
+              <td>$\alpha$ este unghiul cu normala la suprafață.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Legea lui Coulomb arată că forța dintre două sarcini punctiforme este proporțională cu:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">suma sarcinilor și distanța</option>
+          <option value="b">produsul sarcinilor și inversul pătratului distanței</option>
+          <option value="c">diferența sarcinilor și pătratul distanței</option>
+          <option value="d">numai cu mediul dintre sarcini</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Definiția intensității câmpului electric este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$\vec E=\vec F/q_0$</option>
+          <option value="b">$E=qV$</option>
+          <option value="c">$E=Q/S$</option>
+          <option value="d">$E=IR$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Potențialul electrostatic este:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">o mărime vectorială care se adună vectorial</option>
+          <option value="b">forța pe unitatea de sarcină</option>
+          <option value="c">energia potențială pe unitatea de sarcină</option>
+          <option value="d">fluxul câmpului printr-o suprafață închisă</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Teorema lui Gauss pentru câmpul electric este:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">$\oint_S\vec B\cdot d\vec S=0$</option>
+          <option value="b">$F=BIl$</option>
+          <option value="c">$U=RI$</option>
+          <option value="d">$\oint_S\vec E\cdot d\vec S=Q_{\text{int}}/\varepsilon_0$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Relația locală dintre câmpul electric și potențial este:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$\vec E=\nabla V$</option>
+          <option value="b">$\vec E=-\nabla V$</option>
+          <option value="c">$V=-\nabla\vec E$</option>
+          <option value="d">$E=Vd$</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Datele numerice sunt afișate cu aproximații rezonabile pentru calcul de examen.
+      </p>
+
+      <article class="item">
+        <h3>4. Forța Coulombiană <span class="points">5 p</span></h3>
+        <p>
+          Două sarcini punctiforme
+          <span class="formula-inline">$q_1$</span> = <span class="var" id="e4q1"></span> $\mu\text{C}$ și
+          <span class="formula-inline">$q_2$</span> = <span class="var" id="e4q2"></span> $\mu\text{C}$
+          se află în vid la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e4r"></span> cm.
+          Determinați modulul forței electrostatice.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Câmpul unei sarcini punctiforme <span class="points">5 p</span></h3>
+        <p>
+          O sarcină
+          <span class="formula-inline">$Q$</span> = <span class="var" id="e5Q"></span> $\mu\text{C}$
+          produce câmp electric într-un punct aflat la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e5r"></span> cm.
+          Determinați intensitatea câmpului electric.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Potențial și energie potențială <span class="points">5 p</span></h3>
+        <p>
+          O sarcină sursă
+          <span class="formula-inline">$Q$</span> = <span class="var" id="e6Q"></span> nC
+          produce potențial într-un punct aflat la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e6r"></span> m.
+          În acel punct se află sarcina
+          <span class="formula-inline">$q$</span> = <span class="var" id="e6q"></span> nC.
+          Determinați $V$ și $E_p$.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Suprapunerea câmpurilor pe o dreaptă <span class="points">5 p</span></h3>
+        <p>
+          Două sarcini pozitive
+          <span class="formula-inline">$q_1$</span> = <span class="var" id="e7q1"></span> $\mu\text{C}$ și
+          <span class="formula-inline">$q_2$</span> = <span class="var" id="e7q2"></span> $\mu\text{C}$
+          se află la distanța
+          <span class="formula-inline">$d$</span> = <span class="var" id="e7d"></span> cm.
+          Determinați modulul câmpului electric în punctul de mijloc al segmentului.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Punctul în care câmpul rezultant este nul <span class="points">5 p</span></h3>
+        <p>
+          Două sarcini pozitive
+          <span class="formula-inline">$q_1$</span> = <span class="var" id="e8q1"></span> $\mu\text{C}$ și
+          <span class="formula-inline">$q_2$</span> = <span class="var" id="e8q2"></span> $\mu\text{C}$
+          sunt fixate pe o dreaptă la distanța
+          <span class="formula-inline">$d$</span> = <span class="var" id="e8d"></span> cm.
+          Determinați distanța $x$ față de $q_1$, între sarcini, unde câmpul electric rezultant este nul.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Câmp uniform între plăci <span class="points">5 p</span></h3>
+        <p>
+          Între două plăci plane există tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e9U"></span> V,
+          iar distanța dintre plăci este
+          <span class="formula-inline">$d$</span> = <span class="var" id="e9d"></span> cm.
+          O sarcină
+          <span class="formula-inline">$q$</span> = <span class="var" id="e9q"></span> nC
+          este plasată în câmp. Determinați $E$ și modulul forței electrice.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Lucrul forței electrostatice <span class="points">5 p</span></h3>
+        <p>
+          O sarcină
+          <span class="formula-inline">$q$</span> = <span class="var" id="e10q"></span> $\mu\text{C}$
+          se deplasează între două puncte între care diferența de potențial este
+          <span class="formula-inline">$U$</span> = <span class="var" id="e10U"></span> V.
+          Determinați lucrul mecanic efectuat de câmpul electric.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Flux electric printr-o suprafață plană <span class="points">5 p</span></h3>
+        <p>
+          Un câmp electric uniform de intensitate
+          <span class="formula-inline">$E$</span> = <span class="var" id="e11E"></span> N/C
+          străbate o suprafață plană de arie
+          <span class="formula-inline">$S$</span> = <span class="var" id="e11S"></span> m².
+          Unghiul dintre câmp și normala la suprafață este
+          <span class="formula-inline">$\alpha$</span> = <span class="var" id="e11a"></span>°.
+          Determinați fluxul electric.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Teorema lui Gauss <span class="points">5 p</span></h3>
+        <p>
+          O suprafață închisă conține sarcinile
+          <span class="formula-inline">$q_1$</span> = <span class="var" id="e12q1"></span> nC,
+          <span class="formula-inline">$q_2$</span> = <span class="var" id="e12q2"></span> nC și
+          <span class="formula-inline">$q_3$</span> = <span class="var" id="e12q3"></span> nC.
+          Determinați fluxul electric total prin suprafață.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Sferă încărcată uniform – exterior <span class="points">5 p</span></h3>
+        <p>
+          O distribuție sferică încărcată are sarcina totală
+          <span class="formula-inline">$Q$</span> = <span class="var" id="e13Q"></span> nC.
+          Determinați $E$ și $V$ într-un punct exterior aflat la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e13r"></span> m
+          față de centru, considerând $V(\infty)=0$.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Plan infinit încărcat uniform <span class="points">5 p</span></h3>
+        <p>
+          Un plan infinit are densitatea superficială de sarcină
+          <span class="formula-inline">$\sigma$</span> = <span class="var" id="e14s"></span> nC/m².
+          Determinați intensitatea câmpului electric produs de plan, în vid.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Explicați diferența dintre intensitatea câmpului electric și potențialul electrostatic.
+          Includeți în răspuns tipul mărimii, formula de definiție și modul de compunere pentru mai multe sarcini.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Discutați afirmația: „Într-un punct câmpul electric poate fi nul, dar potențialul electric poate fi nenul.”
+          Folosiți un exemplu cu două sarcini punctiforme.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru predarea liniilor câmpului electric, folosind experiment demonstrativ
+          sau simulare TIC. Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor,
+          evaluarea rapidă și două norme de protecția muncii.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate și interpretare: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare și limbaj fizic: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se recomandă notarea formulelor vectoriale cu atenție la semn și direcție.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C21-campul-electrostatic.html">Înapoi la lecția C21</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-22.html">Fișa următoare C22</a>
+    </nav>
+  </main>
+
+  <script>
+    const k = 9e9;
+    const eps0 = 8.85e-12;
+    const storageKey = "values-fisa-c21";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function fmt(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.001) || ax >= 100000) {
+        return x.toExponential(digits - 1).replace(".", ",").replace("e", "\\cdot10^{") + "}";
+      }
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const v = {
+        e4q1: rnd(2, 8),
+        e4q2: rnd(3, 10),
+        e4r: rnd(20, 60, 5),
+
+        e5Q: rnd(1, 9),
+        e5r: rnd(10, 50, 5),
+
+        e6Q: choose([-9, -8, -7, -6, -5, -4, 3, 4, 5, 6, 7, 8]),
+        e6r: rnd(0.20, 0.80, 0.05),
+        e6q: choose([-6, -4, -3, 2, 3, 5, 6]),
+
+        e7q1: rnd(2, 9),
+        e7q2: rnd(1, 8),
+        e7d: rnd(30, 80, 10),
+
+        e8q1: rnd(1, 9),
+        e8q2: rnd(1, 9),
+        e8d: rnd(30, 90, 10),
+
+        e9U: rnd(200, 1200, 100),
+        e9d: rnd(2, 8),
+        e9q: rnd(2, 9),
+
+        e10q: rnd(2, 10),
+        e10U: rnd(50, 400, 50),
+
+        e11E: rnd(100, 900, 100),
+        e11S: rnd(0.10, 0.80, 0.10),
+        e11a: choose([0, 30, 45, 60]),
+
+        e12q1: rnd(2, 9),
+        e12q2: -rnd(1, 8),
+        e12q3: rnd(3, 10),
+
+        e13Q: rnd(2, 12),
+        e13r: rnd(0.20, 1.00, 0.10),
+
+        e14s: rnd(2, 20)
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const r4 = v.e4r / 100;
+      const F4 = k * (v.e4q1 * 1e-6) * (v.e4q2 * 1e-6) / (r4 * r4);
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        $$F=k\\frac{|q_1q_2|}{r^2}$$
+        $$q_1=${v.e4q1}\\cdot10^{-6}\\,\\text{C},\\quad q_2=${v.e4q2}\\cdot10^{-6}\\,\\text{C},\\quad r=${fixed(r4, 2)}\\,\\text{m}$$
+        $$F=${fmt(F4)}\\,\\text{N}$$
+        Interacțiunea este repulsivă dacă sarcinile au același semn și atractivă dacă au semne opuse.
+      `);
+
+      const r5 = v.e5r / 100;
+      const E5 = k * (v.e5Q * 1e-6) / (r5 * r5);
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        $$E=k\\frac{|Q|}{r^2}$$
+        $$Q=${v.e5Q}\\cdot10^{-6}\\,\\text{C},\\quad r=${fixed(r5, 2)}\\,\\text{m}$$
+        $$E=${fmt(E5)}\\,\\text{N/C}$$
+        Pentru $Q>0$, câmpul este radial spre exterior.
+      `);
+
+      const Q6 = v.e6Q * 1e-9;
+      const q6 = v.e6q * 1e-9;
+      const V6 = k * Q6 / v.e6r;
+      const Ep6 = q6 * V6;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        $$V=k\\frac{Q}{r}$$
+        $$V=${fmt(V6)}\\,\\text{V}$$
+        Energia potențială:
+        $$E_p=qV$$
+        $$E_p=${fmt(Ep6)}\\,\\text{J}$$
+        Semnul lui $V$ este semnul sarcinii sursă $Q$, iar semnul lui $E_p$ depinde de produsul $Qq$.
+      `);
+
+      const d7 = v.e7d / 100;
+      const half7 = d7 / 2;
+      const E71 = k * v.e7q1 * 1e-6 / (half7 * half7);
+      const E72 = k * v.e7q2 * 1e-6 / (half7 * half7);
+      const E7 = Math.abs(E71 - E72);
+      const sense7 = v.e7q1 > v.e7q2 ? "de la sarcina mai mare spre sarcina mai mică" : "de la sarcina mai mare spre sarcina mai mică, în sens opus cazului $q_1>q_2$";
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        În punctul de mijloc, distanța față de fiecare sarcină este:
+        $$r=\\frac d2=${fixed(half7, 2)}\\,\\text{m}$$
+        Câmpurile au sensuri opuse, deoarece sarcinile sunt pozitive:
+        $$E_1=k\\frac{q_1}{r^2}=${fmt(E71)}\\,\\text{N/C}$$
+        $$E_2=k\\frac{q_2}{r^2}=${fmt(E72)}\\,\\text{N/C}$$
+        $$E=|E_1-E_2|=${fmt(E7)}\\,\\text{N/C}$$
+        Sensul rezultant este ${sense7}.
+      `);
+
+      const d8 = v.e8d / 100;
+      const x8 = d8 * Math.sqrt(v.e8q1) / (Math.sqrt(v.e8q1) + Math.sqrt(v.e8q2));
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Între două sarcini pozitive, câmpurile au sensuri opuse. Condiția $E_1=E_2$ este:
+        $$k\\frac{q_1}{x^2}=k\\frac{q_2}{(d-x)^2}$$
+        $$\\frac{\\sqrt{q_1}}{x}=\\frac{\\sqrt{q_2}}{d-x}$$
+        $$x=\\frac{d\\sqrt{q_1}}{\\sqrt{q_1}+\\sqrt{q_2}}$$
+        $$x=${fmt(x8)}\\,\\text{m}=${fmt(x8 * 100)}\\,\\text{cm}$$
+        Punctul este între cele două sarcini, mai aproape de sarcina mai mică.
+      `);
+
+      const d9 = v.e9d / 100;
+      const E9 = v.e9U / d9;
+      const F9 = v.e9q * 1e-9 * E9;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Pentru câmp uniform:
+        $$E=\\frac{U}{d}$$
+        $$d=${fixed(d9, 2)}\\,\\text{m}$$
+        $$E=${fmt(E9)}\\,\\text{V/m}$$
+        Forța electrică:
+        $$F=|q|E$$
+        $$F=${fmt(F9)}\\,\\text{N}$$
+      `);
+
+      const W10 = v.e10q * 1e-6 * v.e10U;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        $$L=qU$$
+        $$q=${v.e10q}\\cdot10^{-6}\\,\\text{C}$$
+        $$L=${fmt(W10)}\\,\\text{J}$$
+        Dacă sarcina pozitivă se deplasează în sensul scăderii potențialului, câmpul efectuează lucru pozitiv.
+      `);
+
+      const phi11 = v.e11E * v.e11S * Math.cos(v.e11a * Math.PI / 180);
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        $$\\Phi_E=ES\\cos\\alpha$$
+        $$\\Phi_E=${v.e11E}\\cdot${String(v.e11S).replace(".", ",")}\\cdot\\cos ${v.e11a}^{\\circ}$$
+        $$\\Phi_E=${fmt(phi11)}\\,\\text{N·m}^2/\\text{C}$$
+        Fluxul este maxim pentru $\\alpha=0^\\circ$ și nul pentru $\\alpha=90^\\circ$.
+      `);
+
+      const qtot12nC = v.e12q1 + v.e12q2 + v.e12q3;
+      const phi12 = qtot12nC * 1e-9 / eps0;
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        Sarcina totală închisă:
+        $$Q_{\\text{int}}=(${v.e12q1}${v.e12q2 < 0 ? "" : "+"}${v.e12q2}+${v.e12q3})\\,\\text{nC}=${qtot12nC}\\,\\text{nC}$$
+        Teorema lui Gauss:
+        $$\\Phi_E=\\frac{Q_{\\text{int}}}{\\varepsilon_0}$$
+        $$\\Phi_E=${fmt(phi12)}\\,\\text{N·m}^2/\\text{C}$$
+        Sarcinile exterioare suprafeței nu contribuie la fluxul net prin suprafața închisă.
+      `);
+
+      const Q13 = v.e13Q * 1e-9;
+      const E13 = k * Q13 / (v.e13r * v.e13r);
+      const V13 = k * Q13 / v.e13r;
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        În exteriorul unei distribuții sferice, câmpul este ca al unei sarcini punctiforme plasate în centru:
+        $$E=k\\frac{|Q|}{r^2}=${fmt(E13)}\\,\\text{N/C}$$
+        $$V=k\\frac{Q}{r}=${fmt(V13)}\\,\\text{V}$$
+        Acesta este un rezultat direct al teoremei lui Gauss pentru simetrie sferică.
+      `);
+
+      const sigma14 = v.e14s * 1e-9;
+      const E14 = sigma14 / (2 * eps0);
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        Pentru un plan infinit încărcat uniform:
+        $$E=\\frac{\\sigma}{2\\varepsilon_0}$$
+        $$\\sigma=${v.e14s}\\cdot10^{-9}\\,\\text{C/m}^2$$
+        $$E=${fmt(E14)}\\,\\text{N/C}$$
+        Câmpul este perpendicular pe plan și are același modul de ambele părți.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c21", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c21");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
