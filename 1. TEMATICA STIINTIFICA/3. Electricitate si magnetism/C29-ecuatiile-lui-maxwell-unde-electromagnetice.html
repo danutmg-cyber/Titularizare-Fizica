@@ -1,1 +1,1814 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C29 – Ecuațiile lui Maxwell în vid. Unde electromagnetice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 930px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C29 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 29</span>
+        <h1>Ecuațiile lui Maxwell în vid. Unde electromagnetice</h1>
+
+        <p class="lead">
+          Ecuațiile lui Maxwell sintetizează legile fundamentale ale electromagnetismului clasic.
+          În vid, ele arată că un câmp electric variabil produce câmp magnetic, iar un câmp magnetic variabil
+          produce câmp electric. Din această cuplare rezultă undele electromagnetice, care se propagă în vid
+          cu viteza luminii.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          existența undelor electromagnetice rezultă matematic din ecuațiile lui Maxwell fără surse:
+          câmpurile $\vec E$ și $\vec B$ se regenerează reciproc și satisfac ecuații de undă cu viteza
+          $c=1/\sqrt{\mu_0\varepsilon_0}$.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Undă electromagnetică plană">
+            <defs>
+              <marker id="arrowC29Blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC29Green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrowC29Red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <line x1="80" y1="165" x2="690" y2="165" stroke="#64748b" stroke-width="3" marker-end="url(#arrowC29Blue)"></line>
+            <text x="690" y="148" fill="#64748b" font-size="22" font-weight="900">propagare</text>
+
+            <path d="M 80 165 C 130 70, 180 260, 230 165 S 330 70, 380 165 S 480 260, 530 165 S 630 70, 680 165"
+                  fill="none" stroke="#2563eb" stroke-width="6" stroke-linecap="round"></path>
+            <text x="155" y="74" fill="#2563eb" font-size="24" font-weight="900">E</text>
+
+            <path d="M 80 165 C 130 235, 180 95, 230 165 S 330 235, 380 165 S 480 95, 530 165 S 630 235, 680 165"
+                  fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round"></path>
+            <text x="150" y="260" fill="#0f766e" font-size="24" font-weight="900">B</text>
+
+            <line x1="560" y1="165" x2="635" y2="100" stroke="#ef4444" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowC29Red)"></line>
+            <text x="618" y="92" fill="#ef4444" font-size="24" font-weight="900">S</text>
+
+            <text x="150" y="305" fill="#64748b" font-size="20">
+              undă transversală: câmpurile E și B sunt perpendiculare între ele și pe direcția de propagare
+            </text>
+          </svg>
+
+          <p class="caption">
+            Vectorul Poynting $\vec S$ indică direcția transportului de energie electromagnetică.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C29?</h2>
+
+        <p>
+          Tema C29 finalizează capitolul de electromagnetism: de la câmpuri statice și inducție se trece
+          la forma completă a ecuațiilor Maxwell și la propagarea câmpurilor sub formă de unde electromagnetice.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Ecuațiile lui Maxwell</strong>
+            <p>
+              Formele integrală și diferențială pentru câmpurile $\vec E$ și $\vec B$ în vid.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Curentul de deplasare</strong>
+            <p>
+              Termenul introdus de Maxwell pentru consistența legii Ampère cu conservarea sarcinii.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Ecuația undei</strong>
+            <p>
+              Deducerea ecuațiilor de undă pentru $\vec E$ și $\vec B$ în vid fără surse.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Unde electromagnetice</strong>
+            <p>
+              Viteză, relația $E=cB$, energie, vector Poynting, presiune de radiație și spectru electromagnetic.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          scrii cele patru ecuații, explici rolul curentului de deplasare, deduci ecuația undei și arăți că
+          viteza rezultată este $c=1/\sqrt{\mu_0\varepsilon_0}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză fundamentală</span>
+        <h2>Cele patru ecuații Maxwell în vid</h2>
+
+        <p>
+          În vid, în prezența eventuală a sarcinilor și curenților liberi, ecuațiile lui Maxwell în formă diferențială sunt:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec E=\frac{\rho}{\varepsilon_0}$$
+          $$\nabla\cdot\vec B=0$$
+          $$\nabla\times\vec E=-\frac{\partial \vec B}{\partial t}$$
+          $$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial \vec E}{\partial t}$$
+        </div>
+
+        <p>
+          În vid liber, fără sarcini și fără curenți, se ia:
+        </p>
+
+        <div class="formula">
+          $$\rho=0,\qquad \vec j=0$$
+        </div>
+
+        <p>
+          Atunci ecuațiile se reduc la un sistem cuplat pentru câmpurile $\vec E$ și $\vec B$.
+        </p>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          „în vid” nu înseamnă neapărat „fără câmpuri”; înseamnă mediu fără polarizare și magnetizare materială.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Gauss electric</span>
+        <h2>Prima ecuație Maxwell: sursele câmpului electric</h2>
+
+        <p>
+          Forma integrală a legii lui Gauss pentru câmpul electric este:
+        </p>
+
+        <div class="formula">
+          $$\oint_S\vec E\cdot d\vec S=\frac{Q_{\text{int}}}{\varepsilon_0}$$
+        </div>
+
+        <p>
+          Forma locală este:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec E=\frac{\rho}{\varepsilon_0}$$
+        </div>
+
+        <p>
+          Această ecuație afirmă că sarcina electrică este sursă sau puț pentru câmpul electric.
+          Sarcinile pozitive sunt surse ale liniilor de câmp, iar sarcinile negative sunt zone unde liniile intră.
+        </p>
+
+        <div class="exam">
+          <strong>Legătură cu C21:</strong>
+          pentru o sarcină punctiformă, legea lui Gauss conduce la
+          $$E=\frac{1}{4\pi\varepsilon_0}\frac{|q|}{r^2}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Gauss magnetic</span>
+        <h2>A doua ecuație Maxwell: inexistența monopolilor magnetici</h2>
+
+        <p>
+          Forma integrală este:
+        </p>
+
+        <div class="formula">
+          $$\oint_S\vec B\cdot d\vec S=0$$
+        </div>
+
+        <p>
+          Forma locală:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec B=0$$
+        </div>
+
+        <p>
+          Aceasta arată că fluxul magnetic total prin orice suprafață închisă este nul.
+          Liniile câmpului magnetic sunt linii închise: nu pornesc și nu se termină pe sarcini magnetice izolate.
+        </p>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          un magnet are întotdeauna poli nord și sud împreună; nu se poate izola un singur pol magnetic
+          în cadrul electromagnetismului clasic.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $\nabla\cdot\vec B=0$ nu spune că $\vec B=0$, ci că nu există surse scalare ale câmpului magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Faraday</span>
+        <h2>A treia ecuație Maxwell: câmp electric indus</h2>
+
+        <p>
+          Legea Faraday–Lenz în formă integrală este:
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec E\cdot d\vec l=-\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Forma locală este:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times\vec E=-\frac{\partial \vec B}{\partial t}$$
+        </div>
+
+        <p>
+          Un câmp magnetic variabil în timp produce un câmp electric turbionar.
+          Spre deosebire de câmpul electrostatic, câmpul electric indus are circulație nenulă pe contururi închise.
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec E_i\cdot d\vec l\neq0$$
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu C26:</strong>
+          t.e.m. indusă este circulația câmpului electric indus pe circuit:
+          $$\mathcal E_i=\oint_C\vec E_i\cdot d\vec l$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ampère–Maxwell</span>
+        <h2>A patra ecuație Maxwell: curenți și câmp electric variabil</h2>
+
+        <p>
+          Forma integrală completă a legii Ampère–Maxwell este:
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec B\cdot d\vec l=\mu_0 I_{\text{străbătut}}+\mu_0\varepsilon_0\frac{d\Phi_E}{dt}$$
+        </div>
+
+        <p>
+          Forma locală este:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial \vec E}{\partial t}$$
+        </div>
+
+        <p>
+          Primul termen, $\mu_0\vec j$, reprezintă efectul curentului de conducție.
+          Al doilea termen, $\mu_0\varepsilon_0\partial \vec E/\partial t$, arată că un câmp electric variabil
+          produce câmp magnetic.
+        </p>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          fără termenul Maxwell, nu ar rezulta simetria necesară propagării undelor electromagnetice în vid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curent de deplasare</span>
+        <h2>De ce a introdus Maxwell termenul $\varepsilon_0\,\partial\vec E/\partial t$?</h2>
+
+        <p>
+          Curentul de deplasare are densitatea:
+        </p>
+
+        <div class="formula">
+          $$\vec j_d=\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+        </div>
+
+        <p>
+          Curentul total care produce câmp magnetic în legea Ampère–Maxwell este:
+        </p>
+
+        <div class="formula">
+          $$\vec j_{\text{total}}=\vec j+\vec j_d$$
+        </div>
+
+        <p>
+          Într-un condensator care se încarcă, între armături nu există curent de conducție prin dielectric ideal,
+          dar câmpul electric dintre armături variază. Termenul de deplasare permite existența câmpului magnetic
+          în jurul circuitului și păstrează continuitatea descrierii.
+        </p>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          curentul de deplasare nu este transport macroscopic de sarcini prin vid; este efectul câmpului electric variabil în timp.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Conservarea sarcinii</span>
+        <h2>Consistența cu ecuația de continuitate</h2>
+
+        <p>
+          Conservarea sarcinii este exprimată prin:
+        </p>
+
+        <div class="formula">
+          $$\frac{\partial\rho}{\partial t}+\nabla\cdot\vec j=0$$
+        </div>
+
+        <p>
+          Luăm divergența ecuației Ampère–Maxwell:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot(\nabla\times\vec B)=\nabla\cdot\left(\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}\right)$$
+        </div>
+
+        <p>
+          Deoarece divergența unui rotor este nulă:
+        </p>
+
+        <div class="formula">
+          $$0=\mu_0\nabla\cdot\vec j+\mu_0\varepsilon_0\frac{\partial}{\partial t}(\nabla\cdot\vec E)$$
+        </div>
+
+        <p>
+          Folosind $\nabla\cdot\vec E=\rho/\varepsilon_0$, rezultă:
+        </p>
+
+        <div class="formula">
+          $$0=\mu_0\nabla\cdot\vec j+\mu_0\frac{\partial\rho}{\partial t}$$
+        </div>
+
+        <div class="formula">
+          $$\frac{\partial\rho}{\partial t}+\nabla\cdot\vec j=0$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          termenul Maxwell face legea Ampère compatibilă cu conservarea locală a sarcinii.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Vid liber</span>
+        <h2>Ecuațiile Maxwell fără surse</h2>
+
+        <p>
+          Pentru propagarea undelor electromagnetice în vid liber, considerăm:
+        </p>
+
+        <div class="formula">
+          $$\rho=0,\qquad \vec j=0$$
+        </div>
+
+        <p>
+          Sistemul devine:
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec E=0$$
+          $$\nabla\cdot\vec B=0$$
+          $$\nabla\times\vec E=-\frac{\partial\vec B}{\partial t}$$
+          $$\nabla\times\vec B=\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+        </div>
+
+        <p>
+          Ultimele două ecuații arată cuplajul dinamic:
+          un câmp magnetic variabil generează câmp electric, iar un câmp electric variabil generează câmp magnetic.
+        </p>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          în vid, unda electromagnetică nu are nevoie de mediu material; ea este oscilația cuplată a câmpurilor.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere</span>
+        <h2>Ecuația undei pentru câmpul electric</h2>
+
+        <p>
+          Pornim de la legea Faraday în vid:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times\vec E=-\frac{\partial\vec B}{\partial t}$$
+        </div>
+
+        <p>
+          Aplicăm operatorul rotor:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times(\nabla\times\vec E)=-\frac{\partial}{\partial t}(\nabla\times\vec B)$$
+        </div>
+
+        <p>
+          Folosim ecuația Ampère–Maxwell fără curenți:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times\vec B=\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+        </div>
+
+        <p>
+          Obținem:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times(\nabla\times\vec E)=-\mu_0\varepsilon_0\frac{\partial^2\vec E}{\partial t^2}$$
+        </div>
+
+        <p>
+          Identitatea vectorială:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times(\nabla\times\vec E)=\nabla(\nabla\cdot\vec E)-\nabla^2\vec E$$
+        </div>
+
+        <p>
+          iar în vid liber $\nabla\cdot\vec E=0$, deci:
+        </p>
+
+        <div class="formula">
+          $$\nabla^2\vec E-\mu_0\varepsilon_0\frac{\partial^2\vec E}{\partial t^2}=0$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere</span>
+        <h2>Ecuația undei pentru câmpul magnetic și viteza luminii</h2>
+
+        <p>
+          Similar, pornind de la:
+        </p>
+
+        <div class="formula">
+          $$\nabla\times\vec B=\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+        </div>
+
+        <p>
+          și aplicând rotorul, se obține:
+        </p>
+
+        <div class="formula">
+          $$\nabla^2\vec B-\mu_0\varepsilon_0\frac{\partial^2\vec B}{\partial t^2}=0$$
+        </div>
+
+        <p>
+          Ecuația undei are forma generală:
+        </p>
+
+        <div class="formula">
+          $$\nabla^2\vec F-\frac1{v^2}\frac{\partial^2\vec F}{\partial t^2}=0$$
+        </div>
+
+        <p>
+          Comparând, rezultă viteza undelor electromagnetice în vid:
+        </p>
+
+        <div class="formula">
+          $$c=\frac1{\sqrt{\mu_0\varepsilon_0}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie fundamentală:</strong>
+          lumina este undă electromagnetică, deoarece viteza calculată din constante electrice și magnetice coincide cu viteza luminii în vid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Undă plană</span>
+        <h2>Soluția de undă plană electromagnetică</h2>
+
+        <p>
+          O undă electromagnetică plană care se propagă pe axa $Ox$ poate fi descrisă prin:
+        </p>
+
+        <div class="formula">
+          $$\vec E(x,t)=E_0\cos(kx-\omega t)\,\vec e_y$$
+        </div>
+
+        <div class="formula">
+          $$\vec B(x,t)=B_0\cos(kx-\omega t)\,\vec e_z$$
+        </div>
+
+        <p>
+          Mărimile caracteristice sunt:
+        </p>
+
+        <div class="formula">
+          $$k=\frac{2\pi}{\lambda},\qquad \omega=2\pi f$$
+        </div>
+
+        <p>
+          Relația de dispersie în vid este:
+        </p>
+
+        <div class="formula">
+          $$\omega=ck$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          faza $kx-\omega t$ constantă descrie deplasarea fronturilor de undă cu viteza $c=\omega/k$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Geometrie</span>
+        <h2>Caracterul transversal al undelor electromagnetice</h2>
+
+        <p>
+          Pentru o undă plană în vid, câmpurile sunt perpendiculare între ele și perpendiculare pe direcția de propagare:
+        </p>
+
+        <div class="formula">
+          $$\vec E\perp\vec B,\qquad \vec E\perp\vec k,\qquad \vec B\perp\vec k$$
+        </div>
+
+        <p>
+          Sensul de propagare este dat de produsul vectorial:
+        </p>
+
+        <div class="formula">
+          $$\vec E\times\vec B$$
+        </div>
+
+        <p>
+          Dacă $\vec E$ este pe direcția $Oy$, iar $\vec B$ este pe direcția $Oz$, unda se propagă pe direcția $Ox$.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Undă transversală</strong>
+            <p>
+              Oscilațiile câmpurilor sunt normale pe direcția de propagare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>În fază</strong>
+            <p>
+              În vid, maximele lui $E$ și $B$ apar simultan și în aceleași puncte.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          câmpurile nu oscilează „în lungul” propagării, ci transversal față de direcția undei.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Relații de amplitudine</span>
+        <h2>Legătura dintre $E$, $B$, $\lambda$ și $f$</h2>
+
+        <p>
+          Pentru unda electromagnetică plană în vid:
+        </p>
+
+        <div class="formula">
+          $$\frac{E_0}{B_0}=c$$
+        </div>
+
+        <p>
+          În orice moment și punct al undei plane:
+        </p>
+
+        <div class="formula">
+          $$E=cB$$
+        </div>
+
+        <p>
+          Între lungimea de undă, frecvență și viteză:
+        </p>
+
+        <div class="formula">
+          $$c=\lambda f$$
+        </div>
+
+        <p>
+          Mai general:
+        </p>
+
+        <div class="formula">
+          $$v=\lambda f$$
+        </div>
+
+        <p>
+          În vid, $v=c$.
+        </p>
+
+        <div class="exam">
+          <strong>Aplicație rapidă:</strong>
+          pentru frecvență mare, lungimea de undă este mică:
+          $$\lambda=\frac{c}{f}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie</span>
+        <h2>Densitatea energiei și vectorul Poynting</h2>
+
+        <p>
+          Câmpurile electromagnetic transportă energie. În vid, densitatea energiei electrice este:
+        </p>
+
+        <div class="formula">
+          $$w_E=\frac12\varepsilon_0E^2$$
+        </div>
+
+        <p>
+          Densitatea energiei magnetice este:
+        </p>
+
+        <div class="formula">
+          $$w_B=\frac{B^2}{2\mu_0}$$
+        </div>
+
+        <p>
+          Pentru o undă plană în vid, cele două contribuții sunt egale în orice punct:
+        </p>
+
+        <div class="formula">
+          $$w_E=w_B$$
+        </div>
+
+        <p>
+          Densitatea totală este:
+        </p>
+
+        <div class="formula">
+          $$w=w_E+w_B=\varepsilon_0E^2=\frac{B^2}{\mu_0}$$
+        </div>
+
+        <p>
+          Fluxul de energie este descris de vectorul Poynting:
+        </p>
+
+        <div class="formula">
+          $$\vec S=\frac1{\mu_0}\vec E\times\vec B$$
+        </div>
+
+        <div class="exam">
+          <strong>Intensitatea medie:</strong>
+          $$I=\langle S\rangle=\frac12\varepsilon_0cE_0^2=\frac12\frac{c}{\mu_0}B_0^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Impuls electromagnetic</span>
+        <h2>Presiunea de radiație</h2>
+
+        <p>
+          Undele electromagnetice transportă nu doar energie, ci și impuls. Când radiația cade pe o suprafață,
+          poate exercita presiune.
+        </p>
+
+        <p>
+          Pentru absorbție totală:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{abs}}=\frac{I}{c}$$
+        </div>
+
+        <p>
+          Pentru reflexie totală pe o suprafață ideal reflectătoare:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{refl}}=\frac{2I}{c}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Intensitate mai mare</strong>
+            <p>
+              Presiunea de radiație crește proporțional cu intensitatea undei.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Reflexie</strong>
+            <p>
+              Presiunea este dublă față de absorbție, deoarece impulsul se schimbă mai mult.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          presiunea de radiație este mică la nivel uzual, dar devine relevantă în astrofizică și în propulsia cu vele solare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spectru</span>
+        <h2>Spectrul electromagnetic</h2>
+
+        <p>
+          Undele electromagnetice formează un spectru larg, ordonat după frecvență sau lungime de undă.
+          Toate se propagă în vid cu aceeași viteză $c$, dar diferă prin frecvență, lungime de undă și energie transportată.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Domeniu</th>
+                <th>Frecvență relativă</th>
+                <th>Lungime de undă relativă</th>
+                <th>Exemple / aplicații</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Unde radio</td>
+                <td>mică</td>
+                <td>mare</td>
+                <td>comunicații radio, televiziune, antene</td>
+              </tr>
+              <tr>
+                <td>Microunde</td>
+                <td>mai mare</td>
+                <td>cm–mm</td>
+                <td>radar, comunicații, încălzire cu microunde</td>
+              </tr>
+              <tr>
+                <td>Infraroșu</td>
+                <td>sub vizibil</td>
+                <td>mai mare decât lumina roșie</td>
+                <td>radiație termică, telecomenzi, termografie</td>
+              </tr>
+              <tr>
+                <td>Vizibil</td>
+                <td>intermediar</td>
+                <td>sute de nanometri</td>
+                <td>vedere, optică</td>
+              </tr>
+              <tr>
+                <td>Ultraviolet</td>
+                <td>peste vizibil</td>
+                <td>mai mică decât violetul</td>
+                <td>fluorescență, sterilizare, efecte fotochimice</td>
+              </tr>
+              <tr>
+                <td>Raze X</td>
+                <td>mare</td>
+                <td>foarte mică</td>
+                <td>radiografie, difracție pe cristale</td>
+              </tr>
+              <tr>
+                <td>Raze gamma</td>
+                <td>foarte mare</td>
+                <td>extrem de mică</td>
+                <td>procese nucleare, astrofizică, medicină nucleară</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          lumina vizibilă este doar o porțiune mică a spectrului electromagnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Polarizare</span>
+        <h2>Polarizarea undelor electromagnetice</h2>
+
+        <p>
+          Polarizarea descrie orientarea vectorului câmp electric $\vec E$ într-o undă electromagnetică.
+          Pentru o undă plană care se propagă într-o direcție fixă, câmpul electric poate oscila pe o direcție constantă
+          sau poate avea o orientare variabilă în timp.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Polarizare liniară</strong>
+            <p>
+              Vectorul $\vec E$ oscilează mereu pe aceeași direcție transversală.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Polarizare circulară</strong>
+            <p>
+              Vârful vectorului $\vec E$ descrie un cerc într-un plan perpendicular pe propagare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Polarizare eliptică</strong>
+            <p>
+              Caz general: vârful lui $\vec E$ descrie o elipsă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Unde nepolarizate</strong>
+            <p>
+              Orientarea câmpului electric variază aleatoriu în timp.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu optica:</strong>
+          polarizarea luminii demonstrează caracterul transversal al undelor electromagnetice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Surse și detectare</span>
+        <h2>Generarea undelor electromagnetice</h2>
+
+        <p>
+          Undele electromagnetice sunt generate de sarcini accelerate. Un curent variabil într-o antenă produce
+          câmpuri electrice și magnetice variabile, care se propagă în spațiu.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Antena emițătoare</strong>
+            <p>
+              Sarcinile accelerate din conductor emit unde electromagnetice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Antena receptoare</strong>
+            <p>
+              Unda incidentă induce curent alternativ în conductor.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Circuit acordat</strong>
+            <p>
+              Un circuit $LC$ selectează frecvența dorită prin rezonanță.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Transport de informație</strong>
+            <p>
+              Modulația permite imprimarea unui semnal util pe o undă purtătoare.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          fără sarcini accelerate nu apare radiație electromagnetică propagativă; câmpurile statice nu transportă unde în vid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Medii materiale</span>
+        <h2>Propagarea în medii și indicele de refracție</h2>
+
+        <p>
+          Într-un mediu material liniar, omogen și izotrop, viteza undei electromagnetice este:
+        </p>
+
+        <div class="formula">
+          $$v=\frac1{\sqrt{\mu\varepsilon}}$$
+        </div>
+
+        <p>
+          Indicele de refracție este:
+        </p>
+
+        <div class="formula">
+          $$n=\frac{c}{v}$$
+        </div>
+
+        <p>
+          Pentru medii nemagnetice uzuale, unde $\mu_r\approx1$, se folosește aproximativ:
+        </p>
+
+        <div class="formula">
+          $$n\approx\sqrt{\varepsilon_r}$$
+        </div>
+
+        <p>
+          Această legătură pregătește trecerea spre optică: reflexia, refracția, interferența și difracția sunt
+          fenomene ale undelor electromagnetice în domeniul optic.
+        </p>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          frecvența undei nu se schimbă la trecerea dintr-un mediu în altul; se schimbă viteza și lungimea de undă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Viteza undelor electromagnetice în vid</h2>
+
+        <p>
+          Folosind $\varepsilon_0=8{,}85\cdot10^{-12}\,\text{F/m}$ și
+          $\mu_0=4\pi\cdot10^{-7}\,\text{H/m}$, estimați viteza undelor electromagnetice în vid.
+        </p>
+
+        <div class="formula">
+          $$c=\frac1{\sqrt{\mu_0\varepsilon_0}}$$
+        </div>
+
+        <p>
+          Numeric:
+        </p>
+
+        <div class="formula">
+          $$c=\frac1{\sqrt{4\pi\cdot10^{-7}\cdot8{,}85\cdot10^{-12}}}$$
+        </div>
+
+        <div class="formula">
+          $$c\approx3{,}0\cdot10^8\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          rezultatul identifică undele electromagnetice cu lumina în vid.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Lungimea de undă a unei unde radio</h2>
+
+        <p>
+          O stație radio emite la frecvența $f=100\,\text{MHz}$.
+          Determinați lungimea de undă în vid.
+        </p>
+
+        <p>
+          Transformăm frecvența:
+        </p>
+
+        <div class="formula">
+          $$f=100\,\text{MHz}=100\cdot10^6\,\text{Hz}=10^8\,\text{Hz}$$
+        </div>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$c=\lambda f$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\lambda=\frac{c}{f}=\frac{3\cdot10^8}{10^8}=3\,\text{m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          lungimea de undă este $\lambda=3\,\text{m}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Relația dintre amplitudinile $E_0$ și $B_0$</h2>
+
+        <p>
+          O undă electromagnetică plană în vid are amplitudinea câmpului electric
+          $E_0=600\,\text{V/m}$. Determinați amplitudinea câmpului magnetic.
+        </p>
+
+        <p>
+          În vid:
+        </p>
+
+        <div class="formula">
+          $$E_0=cB_0$$
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          $$B_0=\frac{E_0}{c}=\frac{600}{3\cdot10^8}=2\cdot10^{-6}\,\text{T}$$
+        </div>
+
+        <div class="formula">
+          $$B_0=2\,\mu\text{T}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          câmpul magnetic asociat unei unde luminoase poate avea valori mici în tesla, deși câmpul electric este semnificativ.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Intensitatea unei unde electromagnetice</h2>
+
+        <p>
+          O undă electromagnetică plană are amplitudinea câmpului electric $E_0=300\,\text{V/m}$.
+          Estimați intensitatea medie în vid.
+        </p>
+
+        <div class="formula">
+          $$I=\frac12\varepsilon_0cE_0^2$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$I=\frac12\cdot8{,}85\cdot10^{-12}\cdot3\cdot10^8\cdot(300)^2$$
+        </div>
+
+        <div class="formula">
+          $$I\approx119\,\text{W/m}^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          intensitatea medie este aproximativ $1{,}2\cdot10^2\,\text{W/m}^2$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Presiunea de radiație</h2>
+
+        <p>
+          O undă electromagnetică de intensitate $I=900\,\text{W/m}^2$ cade normal pe o suprafață perfect absorbantă.
+          Determinați presiunea de radiație.
+        </p>
+
+        <div class="formula">
+          $$p_{\text{abs}}=\frac{I}{c}$$
+        </div>
+
+        <div class="formula">
+          $$p_{\text{abs}}=\frac{900}{3\cdot10^8}=3\cdot10^{-6}\,\text{Pa}$$
+        </div>
+
+        <p>
+          Dacă suprafața ar fi perfect reflectătoare:
+        </p>
+
+        <div class="formula">
+          $$p_{\text{refl}}=\frac{2I}{c}=6\cdot10^{-6}\,\text{Pa}$$
+        </div>
+
+        <div class="warning">
+          <strong>Interpretare:</strong>
+          presiunea de radiație este mică, dar măsurabilă și importantă în sisteme cu intensități mari sau durate lungi.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 6</span>
+        <h2>Verificarea caracterului transversal</h2>
+
+        <p>
+          O undă se propagă pe direcția $Ox$, iar câmpul electric este:
+        </p>
+
+        <div class="formula">
+          $$\vec E=E_0\cos(kx-\omega t)\,\vec e_y$$
+        </div>
+
+        <p>
+          Determinați direcția câmpului magnetic pentru ca energia să se propage pe $+Ox$.
+        </p>
+
+        <p>
+          Direcția transportului de energie este dată de:
+        </p>
+
+        <div class="formula">
+          $$\vec S=\frac1{\mu_0}\vec E\times\vec B$$
+        </div>
+
+        <p>
+          Avem nevoie ca:
+        </p>
+
+        <div class="formula">
+          $$\vec e_y\times\vec B\parallel\vec e_x$$
+        </div>
+
+        <p>
+          Cum:
+        </p>
+
+        <div class="formula">
+          $$\vec e_y\times\vec e_z=\vec e_x$$
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          $$\vec B=B_0\cos(kx-\omega t)\,\vec e_z$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          câmpul magnetic este orientat pe $Oz$, în fază cu $\vec E$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Ecuații, forme și semnificații</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Lege</th>
+                <th>Formă integrală</th>
+                <th>Formă locală</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Gauss electric</td>
+                <td>$\oint_S\vec E\cdot d\vec S=Q_{\text{int}}/\varepsilon_0$</td>
+                <td>$\nabla\cdot\vec E=\rho/\varepsilon_0$</td>
+                <td>Sarcinile electrice sunt surse ale câmpului electric.</td>
+              </tr>
+              <tr>
+                <td>Gauss magnetic</td>
+                <td>$\oint_S\vec B\cdot d\vec S=0$</td>
+                <td>$\nabla\cdot\vec B=0$</td>
+                <td>Nu există monopoli magnetici în teoria clasică.</td>
+              </tr>
+              <tr>
+                <td>Faraday–Lenz</td>
+                <td>$\oint_C\vec E\cdot d\vec l=-d\Phi_B/dt$</td>
+                <td>$\nabla\times\vec E=-\partial\vec B/\partial t$</td>
+                <td>Câmpul magnetic variabil produce câmp electric indus.</td>
+              </tr>
+              <tr>
+                <td>Ampère–Maxwell</td>
+                <td>$\oint_C\vec B\cdot d\vec l=\mu_0I+\mu_0\varepsilon_0d\Phi_E/dt$</td>
+                <td>$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\partial\vec E/\partial t$</td>
+                <td>Curenții și câmpul electric variabil produc câmp magnetic.</td>
+              </tr>
+              <tr>
+                <td>Ecuația undei</td>
+                <td>—</td>
+                <td>$\nabla^2\vec E-\mu_0\varepsilon_0\partial^2\vec E/\partial t^2=0$</td>
+                <td>Propagarea undelor electromagnetice în vid.</td>
+              </tr>
+              <tr>
+                <td>Viteza luminii</td>
+                <td>—</td>
+                <td>$c=1/\sqrt{\mu_0\varepsilon_0}$</td>
+                <td>Legătura dintre constantele electromagnetice și optică.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          nu confunda forma integrală cu forma locală. Forma integrală descrie fluxuri și circulații pe suprafețe și contururi; forma locală descrie comportarea câmpului punct cu punct.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema este abstractă, deci se predă eficient prin organizarea ideilor în jurul unor fenomene cunoscute:
+          inducție, curent de deplasare, antene, lumină și transfer de energie.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Evidențierea polarizării luminii cu doi polarizori; se discută caracterul transversal al undelor electromagnetice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare 3D pentru undă electromagnetică plană: $\vec E$, $\vec B$ și direcția de propagare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezolvare de probleme</strong>
+            <p>
+              Probleme cu $c=\lambda f$, $E=cB$, intensitatea undei, presiunea de radiație și formele Maxwell.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Laserele se folosesc numai la puteri didactice și nu se îndreaptă spre ochi; sursele de microunde sau radio se folosesc
+              numai conform instrucțiunilor; circuitele de antenă se alimentează la tensiuni joase.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să treacă de la formule izolate la modelul unitar: câmpurile variabile se generează reciproc și transportă energie.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se scrie legea Ampère fără termenul Maxwell.</td>
+                <td>Forma incompletă nu descrie câmpurile variabile și undele EM.</td>
+                <td>$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\partial\vec E/\partial t$.</td>
+              </tr>
+              <tr>
+                <td>Se afirmă că unda electromagnetică are nevoie de mediu material.</td>
+                <td>Ecuațiile Maxwell admit soluții de undă în vid.</td>
+                <td>Undele EM se propagă în vid cu $c=1/\sqrt{\mu_0\varepsilon_0}$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă direcția lui $\vec E$ cu direcția de propagare.</td>
+                <td>Unda EM în vid este transversală.</td>
+                <td>$\vec E\perp\vec B\perp\vec k$.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $E=B/c$.</td>
+                <td>Relația corectă în vid este $E=cB$.</td>
+                <td>$B=E/c$.</td>
+              </tr>
+              <tr>
+                <td>Se uită media temporală la intensitate.</td>
+                <td>Intensitatea unei unde sinusoidale este media vectorului Poynting.</td>
+                <td>$I=\langle S\rangle=\frac12\varepsilon_0cE_0^2$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă spectrul EM cu lumina vizibilă.</td>
+                <td>Vizibilul este doar o mică porțiune.</td>
+                <td>Undele radio, microundele, IR, vizibilul, UV, X și gamma sunt toate unde electromagnetice.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          la Maxwell, semnificația fizică este la fel de importantă ca forma matematică: flux, circulație, sursă, rotor, propagare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Ecuațiile lui Maxwell reprezintă sinteza electromagnetismului clasic. În vid, ele descriu sursele câmpului electric,
+          inexistența monopolilor magnetici, inducția electromagnetică și producerea câmpului magnetic de către curenți
+          și câmpuri electrice variabile.
+        </p>
+
+        <div class="formula">
+          $$\nabla\cdot\vec E=\frac{\rho}{\varepsilon_0},\qquad \nabla\cdot\vec B=0$$
+          $$\nabla\times\vec E=-\frac{\partial\vec B}{\partial t}$$
+          $$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+        </div>
+
+        <p>
+          Primul enunț spune că sarcina electrică este sursa câmpului electric. Al doilea exprimă faptul că liniile
+          câmpului magnetic sunt închise. A treia ecuație arată că un câmp magnetic variabil produce un câmp electric
+          indus. A patra ecuație, completată de Maxwell cu termenul de curent de deplasare, arată că un câmp electric
+          variabil produce câmp magnetic.
+        </p>
+
+        <p>
+          În vid liber, unde $\rho=0$ și $\vec j=0$, ecuațiile devin un sistem cuplat pentru $\vec E$ și $\vec B$.
+          Aplicând rotorul ecuației Faraday și folosind ecuația Ampère–Maxwell, se obține:
+        </p>
+
+        <div class="formula">
+          $$\nabla^2\vec E-\mu_0\varepsilon_0\frac{\partial^2\vec E}{\partial t^2}=0$$
+        </div>
+
+        <p>
+          Analog:
+        </p>
+
+        <div class="formula">
+          $$\nabla^2\vec B-\mu_0\varepsilon_0\frac{\partial^2\vec B}{\partial t^2}=0$$
+        </div>
+
+        <p>
+          Acestea sunt ecuații de undă, cu viteza:
+        </p>
+
+        <div class="formula">
+          $$c=\frac1{\sqrt{\mu_0\varepsilon_0}}$$
+        </div>
+
+        <p>
+          Într-o undă electromagnetică plană, câmpurile sunt transversale, perpendiculare între ele și în fază,
+          iar relația dintre amplitudini este $E_0=cB_0$. Energia transportată este descrisă de vectorul Poynting:
+        </p>
+
+        <div class="formula">
+          $$\vec S=\frac1{\mu_0}\vec E\times\vec B$$
+        </div>
+
+        <p>
+          Astfel, ecuațiile lui Maxwell explică unitar lumina, undele radio și întregul spectru electromagnetic.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C29</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Maxwell în vid</strong>
+            <div class="formula">
+              $$\nabla\cdot\vec E=\frac{\rho}{\varepsilon_0}$$
+              $$\nabla\cdot\vec B=0$$
+              $$\nabla\times\vec E=-\frac{\partial\vec B}{\partial t}$$
+              $$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Vid liber</strong>
+            <div class="formula">
+              $$\rho=0,\qquad \vec j=0$$
+              $$\nabla\cdot\vec E=0,\qquad \nabla\cdot\vec B=0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ecuații de undă</strong>
+            <div class="formula">
+              $$\nabla^2\vec E-\mu_0\varepsilon_0\frac{\partial^2\vec E}{\partial t^2}=0$$
+              $$\nabla^2\vec B-\mu_0\varepsilon_0\frac{\partial^2\vec B}{\partial t^2}=0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Viteză</strong>
+            <div class="formula">
+              $$c=\frac1{\sqrt{\mu_0\varepsilon_0}}$$
+              $$c=\lambda f=\frac{\omega}{k}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Undă plană</strong>
+            <div class="formula">
+              $$\vec E=E_0\cos(kx-\omega t)\,\vec e_y$$
+              $$\vec B=B_0\cos(kx-\omega t)\,\vec e_z$$
+              $$E_0=cB_0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energie și impuls</strong>
+            <div class="formula">
+              $$\vec S=\frac1{\mu_0}\vec E\times\vec B$$
+              $$I=\langle S\rangle=\frac12\varepsilon_0cE_0^2$$
+              $$p_{\text{abs}}=\frac{I}{c},\qquad p_{\text{refl}}=\frac{2I}{c}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          pornind de la ecuațiile lui Maxwell în vid fără surse, deduceți ecuația undei pentru $\vec E$,
+          determinați viteza de propagare, apoi calculați $B_0$, intensitatea medie și presiunea de radiație
+          pentru o undă cu amplitudinea electrică dată.
+        </div>
+
+        <div class="bottom-links">
+          <a href="../4.%20Optica/index.html">Capitolul următor: Optică</a>
+          <a href="Fise%20de%20lucru/fisa-29.html">Fișa de lucru C29</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 30</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-29.html">Fișa C29</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c29", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c29");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
