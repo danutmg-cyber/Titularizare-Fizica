@@ -1,1 +1,1642 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C26 – Inducția electromagnetică</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C26 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 26</span>
+        <h1>Inducția electromagnetică</h1>
+
+        <p class="lead">
+          Inducția electromagnetică este fenomenul prin care variația fluxului magnetic printr-un circuit
+          produce tensiune electromotoare indusă și, dacă circuitul este închis, curent electric indus.
+          Lecția tratează fluxul magnetic, legea Faraday–Lenz, t.e.m. de mișcare, autoinducția,
+          inductanța, energia câmpului magnetic și aplicațiile principale.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          inducția electromagnetică exprimă legătura dintre câmpul magnetic variabil și câmpul electric indus.
+          Semnul minus din legea Faraday–Lenz exprimă opoziția cauzală a curentului indus față de variația fluxului magnetic.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Magnet care intră într-o bobină și produce curent indus">
+            <defs>
+              <marker id="arrowC26Blue" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC26Green" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <rect x="100" y="120" width="105" height="90" rx="16" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="5"></rect>
+            <text x="152" y="156" text-anchor="middle" fill="#ef4444" font-size="24" font-weight="900">N</text>
+            <text x="152" y="190" text-anchor="middle" fill="#2563eb" font-size="24" font-weight="900">S</text>
+
+            <line x1="215" y1="165" x2="305" y2="165" stroke="#2563eb" stroke-width="6"
+                  stroke-linecap="round" marker-end="url(#arrowC26Blue)"></line>
+            <text x="245" y="138" fill="#2563eb" font-size="22" font-weight="900">v</text>
+
+            <path d="M 390 85 C 345 85, 345 245, 390 245
+                     M 430 85 C 385 85, 385 245, 430 245
+                     M 470 85 C 425 85, 425 245, 470 245
+                     M 510 85 C 465 85, 465 245, 510 245"
+                  fill="none" stroke="#0f766e" stroke-width="6" stroke-linecap="round"></path>
+
+            <line x1="390" y1="85" x2="580" y2="85" stroke="#0f766e" stroke-width="5"></line>
+            <line x1="390" y1="245" x2="580" y2="245" stroke="#0f766e" stroke-width="5"></line>
+            <circle cx="620" cy="165" r="42" fill="rgba(37,99,235,0.10)" stroke="#2563eb" stroke-width="5"></circle>
+            <text x="620" y="174" text-anchor="middle" fill="#2563eb" font-size="27" font-weight="900">G</text>
+
+            <path d="M 580 85 C 650 95, 650 235, 580 245" fill="none" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC26Green)"></path>
+
+            <text x="342" y="295" fill="#64748b" font-size="20">variația fluxului magnetic produce curent indus</text>
+          </svg>
+
+          <p class="caption">
+            Curentul indus există numai dacă circuitul este închis; t.e.m. indusă apare și într-un circuit deschis.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C26?</h2>
+
+        <p>
+          Tema C26 cere explicarea fenomenului de inducție electromagnetică, formularea legii Faraday–Lenz,
+          interpretarea regulii lui Lenz și aplicarea autoinducției la bobine și circuite.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Flux magnetic</strong>
+            <p>
+              Mărimea care măsoară câmpul magnetic ce străbate o suprafață.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Faraday–Lenz</strong>
+            <p>
+              T.e.m. indusă este proporțională cu viteza de variație a fluxului magnetic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Autoinducție</strong>
+            <p>
+              Curentul variabil dintr-un circuit produce flux magnetic variabil prin același circuit.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Inductanță</strong>
+            <p>
+              Mărime care caracterizează capacitatea circuitului de a se opune variației curentului.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          definești fluxul $\Phi_B$, scrii $\mathcal E_i=-d\Phi_B/dt$,
+          explici semnul Lenz, apoi introduci autoinducția $\mathcal E_L=-L\,dI/dt$ și energia $W=\frac12LI^2$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Flux magnetic</span>
+        <h2>Definiția fluxului magnetic</h2>
+
+        <p>
+          Fluxul magnetic printr-o suprafață $S$ este:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=\int_S\vec B\cdot d\vec S$$
+        </div>
+
+        <p>
+          Pentru câmp magnetic uniform și suprafață plană:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=BS\cos\alpha$$
+        </div>
+
+        <p>
+          unde $\alpha$ este unghiul dintre vectorul $\vec B$ și normala la suprafață.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Flux maxim</strong>
+            <p>
+              Dacă $\alpha=0^\circ$, atunci $\Phi_B=BS$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Flux nul</strong>
+            <p>
+              Dacă $\alpha=90^\circ$, atunci $\Phi_B=0$.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Unitate:</strong>
+          $$[\Phi_B]=\text{Wb}=\text{T·m}^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fenomen</span>
+        <h2>Când apare inducția electromagnetică?</h2>
+
+        <p>
+          Inducția electromagnetică apare atunci când fluxul magnetic prin circuit se modifică în timp.
+          Fluxul poate varia prin:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Variația câmpului magnetic</strong>
+            <div class="formula">
+              $$B=B(t)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Variația ariei circuitului</strong>
+            <div class="formula">
+              $$S=S(t)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Variația orientării</strong>
+            <div class="formula">
+              $$\alpha=\alpha(t)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Mișcare relativă</strong>
+            <p>
+              Magnetul, conductorul sau circuitul se deplasează astfel încât fluxul magnetic se schimbă.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          un câmp magnetic constant nu induce curent într-un circuit fix. Este necesară variația fluxului magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea Faraday</span>
+        <h2>Tensiunea electromotoare indusă</h2>
+
+        <p>
+          Legea inducției electromagnetice afirmă că tensiunea electromotoare indusă într-un circuit este egală
+          cu opusul vitezei de variație a fluxului magnetic prin circuit:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Pentru o bobină cu $N$ spire identice, străbătute de același flux:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-N\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Dacă variația are loc într-un interval finit:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_{i,\text{med}}=-N\frac{\Delta\Phi_B}{\Delta t}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          modulul t.e.m. induse este mai mare când fluxul variază mai rapid sau când bobina are mai multe spire.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Legea Lenz</span>
+        <h2>Sensul curentului indus</h2>
+
+        <p>
+          Semnul minus din legea Faraday–Lenz exprimă regula lui Lenz:
+          curentul indus are un asemenea sens încât câmpul magnetic produs de el se opune variației fluxului magnetic
+          care l-a generat.
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Fluxul crește</strong>
+            <p>
+              Curentul indus produce un câmp care tinde să micșoreze fluxul.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Fluxul scade</strong>
+            <p>
+              Curentul indus produce un câmp care tinde să mențină fluxul.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Conservarea energiei:</strong>
+          regula lui Lenz împiedică apariția unui curent indus care ar amplifica spontan cauza sa.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Caz practic</span>
+        <h2>Conductor mobil într-un câmp magnetic uniform</h2>
+
+        <p>
+          Considerăm o tijă conductoare de lungime $l$, care se deplasează cu viteza $v$ perpendicular pe un câmp
+          magnetic uniform $\vec B$. Sarcinile din conductor sunt supuse forței magnetice:
+        </p>
+
+        <div class="formula">
+          $$\vec F_m=q\vec v\times\vec B$$
+        </div>
+
+        <p>
+          Separarea sarcinilor produce un câmp electric interior. La echilibru:
+        </p>
+
+        <div class="formula">
+          $$qE=qvB$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$E=vB$$
+        </div>
+
+        <p>
+          Tensiunea electromotoare de mișcare este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=Blv$$
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          formula $\mathcal E=Blv$ este valabilă pentru configurația perpendiculară: $\vec v\perp\vec B$ și tija perpendiculară pe viteză.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Circuit mobil</span>
+        <h2>Tijă pe șine conductoare</h2>
+
+        <p>
+          O tijă conductoare alunecă pe două șine într-un câmp magnetic uniform perpendicular pe planul circuitului.
+          Aria circuitului variază:
+        </p>
+
+        <div class="formula">
+          $$S=lx$$
+        </div>
+
+        <p>
+          Fluxul este:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=BS=Blx$$
+        </div>
+
+        <p>
+          Deoarece $v=dx/dt$:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-\frac{d\Phi_B}{dt}=-Bl\frac{dx}{dt}=-Blv$$
+        </div>
+
+        <p>
+          Modulul t.e.m. induse este:
+        </p>
+
+        <div class="formula">
+          $$|\mathcal E_i|=Blv$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare energetică:</strong>
+          pentru a menține tija în mișcare uniformă, trebuie efectuat lucru mecanic exterior, transformat în energie electrică și termică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forță de frânare</span>
+        <h2>Forța magnetică de frânare inductivă</h2>
+
+        <p>
+          Dacă circuitul tijei mobile are rezistența totală $R$, curentul indus are modulul:
+        </p>
+
+        <div class="formula">
+          $$I_i=\frac{\mathcal E_i}{R}=\frac{Blv}{R}$$
+        </div>
+
+        <p>
+          Tija parcursă de curent se află în câmp magnetic și este supusă forței:
+        </p>
+
+        <div class="formula">
+          $$F_m=BI_il$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$F_m=B l\frac{Blv}{R}=\frac{B^2l^2v}{R}$$
+        </div>
+
+        <p>
+          Sensul acestei forțe se opune mișcării, conform regulii lui Lenz.
+        </p>
+
+        <div class="exam">
+          <strong>Putere:</strong>
+          $$P_{\text{mec}}=F_mv=\frac{B^2l^2v^2}{R}=I_i^2R$$
+          Puterea mecanică furnizată se transformă în căldură Joule.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Câmp electric indus</span>
+        <h2>Forma integrală Maxwell–Faraday</h2>
+
+        <p>
+          Legea inducției nu descrie doar circuite conductoare. Un câmp magnetic variabil produce un câmp electric
+          indus, chiar și în absența unui conductor.
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec E_i\cdot d\vec l=-\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Spre deosebire de câmpul electrostatic, câmpul electric indus nu este conservativ:
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec E_i\cdot d\vec l\neq0$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Câmp electrostatic</strong>
+            <div class="formula">
+              $$\oint_C\vec E_{el}\cdot d\vec l=0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Câmp electric indus</strong>
+            <div class="formula">
+              $$\oint_C\vec E_i\cdot d\vec l=-\frac{d\Phi_B}{dt}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          câmpul electric indus are linii închise; nu poate fi descris global printr-un potențial electrostatic simplu.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciclu generator</span>
+        <h2>Spiră care se rotește într-un câmp magnetic uniform</h2>
+
+        <p>
+          O spiră de arie $S$ se rotește cu viteza unghiulară $\omega$ într-un câmp magnetic uniform $B$.
+          Dacă unghiul dintre normala la spiră și câmp este $\alpha=\omega t$, fluxul este:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=BS\cos\omega t$$
+        </div>
+
+        <p>
+          T.e.m. indusă este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-\frac{d\Phi_B}{dt}=BS\omega\sin\omega t$$
+        </div>
+
+        <p>
+          Pentru o bobină cu $N$ spire:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=NBS\omega\sin\omega t$$
+        </div>
+
+        <p>
+          Amplitudinea t.e.m. induse este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_0=NBS\omega$$
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          aceasta este ideea de bază a generatorului de curent alternativ.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Inducție mutuală</span>
+        <h2>Inducția mutuală între două circuite</h2>
+
+        <p>
+          Dacă variația curentului dintr-un circuit produce variația fluxului magnetic printr-un alt circuit,
+          apare inducție mutuală.
+        </p>
+
+        <p>
+          Fluxul prin circuitul 2 produs de curentul $I_1$ din circuitul 1 este:
+        </p>
+
+        <div class="formula">
+          $$\Phi_{21}=M I_1$$
+        </div>
+
+        <p>
+          unde $M$ este inductanța mutuală. T.e.m. indusă în circuitul 2 este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_2=-M\frac{dI_1}{dt}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          inducția mutuală este principiul de funcționare al transformatoarelor și al cuplajului inductiv.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          inducția mutuală cere variația curentului, nu doar existența unui curent constant.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Autoinducție</span>
+        <h2>Fenomenul de autoinducție</h2>
+
+        <p>
+          Autoinducția este fenomenul prin care variația curentului dintr-un circuit produce o t.e.m. indusă
+          chiar în acel circuit.
+        </p>
+
+        <p>
+          Fluxul magnetic propriu prin circuit este proporțional cu intensitatea curentului:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=LI$$
+        </div>
+
+        <p>
+          Pentru $N$ spire, se folosește adesea fluxul total înlănțuit:
+        </p>
+
+        <div class="formula">
+          $$\Psi=N\Phi_B=LI$$
+        </div>
+
+        <p>
+          T.e.m. de autoinducție este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_L=-L\frac{dI}{dt}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          autoinducția se opune variației curentului: la creștere se opune creșterii, la scădere se opune scăderii.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Inductanță</span>
+        <h2>Inductanța electrică</h2>
+
+        <p>
+          Inductanța $L$ este mărimea care caracterizează legătura dintre fluxul magnetic propriu înlănțuit
+          și curent:
+        </p>
+
+        <div class="formula">
+          $$L=\frac{\Psi}{I}$$
+        </div>
+
+        <p>
+          Unitatea SI este henry:
+        </p>
+
+        <div class="formula">
+          $$[L]=\text{H}=\frac{\text{Wb}}{\text{A}}=\frac{\text{V·s}}{\text{A}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Inductanță mare</strong>
+            <p>
+              Circuitul se opune mai puternic variațiilor rapide ale curentului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Dependență</strong>
+            <p>
+              $L$ depinde de geometria circuitului și de permeabilitatea mediului magnetic.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          inductanța nu este curent și nu este flux; este coeficientul de proporționalitate dintre fluxul înlănțuit și curent.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Bobină</span>
+        <h2>Inductanța unui solenoid lung</h2>
+
+        <p>
+          Pentru un solenoid lung, cu $N$ spire, lungime $l$, secțiune $S$ și miez de permeabilitate $\mu$,
+          câmpul magnetic interior este:
+        </p>
+
+        <div class="formula">
+          $$B=\mu nI=\mu\frac{N}{l}I$$
+        </div>
+
+        <p>
+          Fluxul printr-o spiră:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=BS=\mu\frac{N}{l}IS$$
+        </div>
+
+        <p>
+          Fluxul total înlănțuit:
+        </p>
+
+        <div class="formula">
+          $$\Psi=N\Phi_B=\mu\frac{N^2S}{l}I$$
+        </div>
+
+        <p>
+          Rezultă inductanța solenoidului lung:
+        </p>
+
+        <div class="formula">
+          $$L=\mu\frac{N^2S}{l}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          inductanța crește cu pătratul numărului de spire și cu permeabilitatea miezului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Circuit RL</span>
+        <h2>Stabilirea curentului într-un circuit cu bobină</h2>
+
+        <p>
+          Pentru un circuit serie format dintr-o sursă de t.e.m. $\mathcal E$, o rezistență $R$ și o bobină de inductanță $L$,
+          la închiderea circuitului apare t.e.m. de autoinducție:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_L=-L\frac{dI}{dt}$$
+        </div>
+
+        <p>
+          Ecuația circuitului este:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E-RI-L\frac{dI}{dt}=0$$
+        </div>
+
+        <p>
+          Soluția pentru curentul de stabilire este:
+        </p>
+
+        <div class="formula">
+          $$I(t)=I_{\infty}\left(1-e^{-t/\tau}\right)$$
+        </div>
+
+        <p>
+          unde:
+        </p>
+
+        <div class="formula">
+          $$I_{\infty}=\frac{\mathcal E}{R},\qquad \tau=\frac{L}{R}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          curentul prin bobină nu poate varia brusc; bobina se opune variației curentului, nu curentului constant.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia bobinei</span>
+        <h2>Energia câmpului magnetic</h2>
+
+        <p>
+          La stabilirea curentului prin bobină, sursa efectuează lucru mecanic pentru a construi câmpul magnetic.
+          Energia înmagazinată într-o bobină de inductanță $L$, străbătută de curentul $I$, este:
+        </p>
+
+        <div class="formula">
+          $$W_m=\frac12LI^2$$
+        </div>
+
+        <p>
+          Pentru un câmp magnetic într-un mediu liniar, densitatea energiei magnetice este:
+        </p>
+
+        <div class="formula">
+          $$w_m=\frac{B^2}{2\mu}$$
+        </div>
+
+        <p>
+          În vid:
+        </p>
+
+        <div class="formula">
+          $$w_m=\frac{B^2}{2\mu_0}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          energia nu este „în curent”, ci în câmpul magnetic asociat curentului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Transformator</span>
+        <h2>Principiul transformatorului ideal</h2>
+
+        <p>
+          Transformatorul funcționează prin inducție mutuală între două bobine cuplate magnetic:
+          primarul creează un flux magnetic variabil, iar secundarul este străbătut de acest flux.
+        </p>
+
+        <p>
+          Pentru transformator ideal:
+        </p>
+
+        <div class="formula">
+          $$\frac{U_2}{U_1}=\frac{N_2}{N_1}$$
+        </div>
+
+        <p>
+          Conservarea puterii ideale:
+        </p>
+
+        <div class="formula">
+          $$U_1I_1=U_2I_2$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\frac{I_2}{I_1}=\frac{N_1}{N_2}$$
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          transformatorul nu funcționează ideal în curent continuu staționar, deoarece este necesar flux magnetic variabil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curenți turbionari</span>
+        <h2>Curenți Foucault și aplicații</h2>
+
+        <p>
+          Curenții Foucault sunt curenți induși în mase conductoare atunci când fluxul magnetic prin acestea se modifică.
+          Ei se închid local în interiorul materialului.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Efect util</strong>
+            <p>
+              Frânare electromagnetică, încălzire prin inducție, detectoare de metale.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Efect nedorit</strong>
+            <p>
+              Pierderi energetice și încălzire în miezurile transformatoarelor sau motoarelor.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Reducere</strong>
+            <p>
+              Miezurile se laminează pentru a crește rezistența electrică pe traseele curenților turbionari.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Lenz</strong>
+            <p>
+              Curenții Foucault produc câmpuri care se opun variației fluxului care îi generează.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Exemplu didactic:</strong>
+          un magnet care cade printr-un tub de cupru este frânat de curenții Foucault induși în pereții tubului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>T.e.m. indusă prin variația fluxului</h2>
+
+        <p>
+          Printr-o bobină cu $N=200$ spire, fluxul magnetic printr-o spiră scade uniform de la
+          $5\cdot10^{-3}\,\text{Wb}$ la $1\cdot10^{-3}\,\text{Wb}$ în timpul $\Delta t=0{,}2\,\text{s}$.
+          Determinați modulul t.e.m. medii induse.
+        </p>
+
+        <div class="formula">
+          $$|\mathcal E_i|=N\left|\frac{\Delta\Phi_B}{\Delta t}\right|$$
+        </div>
+
+        <div class="formula">
+          $$|\Delta\Phi_B|=|1\cdot10^{-3}-5\cdot10^{-3}|=4\cdot10^{-3}\,\text{Wb}$$
+        </div>
+
+        <div class="formula">
+          $$|\mathcal E_i|=200\cdot\frac{4\cdot10^{-3}}{0{,}2}=4\,\text{V}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          t.e.m. medie indusă are modulul $4\,\text{V}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Tijă mobilă în câmp magnetic</h2>
+
+        <p>
+          O tijă de lungime $l=0{,}40\,\text{m}$ se deplasează cu viteza $v=3\,\text{m/s}$
+          perpendicular pe un câmp magnetic uniform $B=0{,}50\,\text{T}$.
+          Determinați t.e.m. indusă.
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=Blv$$
+        </div>
+
+        <div class="formula">
+          $$\mathcal E_i=0{,}50\cdot0{,}40\cdot3=0{,}60\,\text{V}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          sarcinile din tijă sunt separate de forța magnetică $q\vec v\times\vec B$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Curent indus și forță de frânare</h2>
+
+        <p>
+          Tija din problema precedentă închide un circuit de rezistență totală $R=0{,}30\,\Omega$.
+          Determinați curentul indus și forța magnetică de frânare.
+        </p>
+
+        <p>
+          Curentul indus:
+        </p>
+
+        <div class="formula">
+          $$I_i=\frac{\mathcal E_i}{R}=\frac{0{,}60}{0{,}30}=2\,\text{A}$$
+        </div>
+
+        <p>
+          Forța magnetică:
+        </p>
+
+        <div class="formula">
+          $$F_m=BI_il=0{,}50\cdot2\cdot0{,}40=0{,}40\,\text{N}$$
+        </div>
+
+        <div class="warning">
+          <strong>Sens:</strong>
+          forța magnetică este opusă vitezei tijei, conform regulii lui Lenz.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Inductanța unui solenoid</h2>
+
+        <p>
+          Un solenoid lung are $N=1000$ spire, secțiunea $S=10\,\text{cm}^2$ și lungimea
+          $l=50\,\text{cm}$. Determinați inductanța în aer.
+        </p>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$S=10\,\text{cm}^2=10^{-3}\,\text{m}^2,\qquad l=0{,}50\,\text{m}$$
+        </div>
+
+        <p>
+          Aplicăm:
+        </p>
+
+        <div class="formula">
+          $$L=\mu_0\frac{N^2S}{l}$$
+        </div>
+
+        <div class="formula">
+          $$L=4\pi\cdot10^{-7}\frac{(1000)^2\cdot10^{-3}}{0{,}50}$$
+        </div>
+
+        <div class="formula">
+          $$L=8\pi\cdot10^{-4}\,\text{H}\approx2{,}51\cdot10^{-3}\,\text{H}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $L\approx2{,}51\,\text{mH}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>T.e.m. de autoinducție</h2>
+
+        <p>
+          Curentul printr-o bobină cu inductanța $L=0{,}40\,\text{H}$ crește uniform de la $0$ la
+          $5\,\text{A}$ în timpul $\Delta t=0{,}10\,\text{s}$. Determinați modulul t.e.m. de autoinducție.
+        </p>
+
+        <div class="formula">
+          $$|\mathcal E_L|=L\left|\frac{\Delta I}{\Delta t}\right|$$
+        </div>
+
+        <div class="formula">
+          $$|\mathcal E_L|=0{,}40\cdot\frac{5}{0{,}10}=20\,\text{V}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          t.e.m. de autoinducție se opune creșterii curentului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 6</span>
+        <h2>Energia magnetică a bobinei</h2>
+
+        <p>
+          O bobină cu inductanța $L=0{,}25\,\text{H}$ este străbătută de curentul $I=4\,\text{A}$.
+          Determinați energia câmpului magnetic.
+        </p>
+
+        <div class="formula">
+          $$W_m=\frac12LI^2$$
+        </div>
+
+        <div class="formula">
+          $$W_m=\frac12\cdot0{,}25\cdot4^2=2\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          energia magnetică înmagazinată este $2\,\text{J}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Formule și semnificații</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mărime / lege</th>
+                <th>Relație</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Flux magnetic</td>
+                <td>$\Phi_B=\int_S\vec B\cdot d\vec S$</td>
+                <td>Câmpul magnetic care străbate o suprafață.</td>
+              </tr>
+              <tr>
+                <td>Flux uniform</td>
+                <td>$\Phi_B=BS\cos\alpha$</td>
+                <td>Valabil pentru câmp uniform și suprafață plană.</td>
+              </tr>
+              <tr>
+                <td>Faraday–Lenz</td>
+                <td>$\mathcal E_i=-N\frac{d\Phi_B}{dt}$</td>
+                <td>T.e.m. indusă prin variația fluxului.</td>
+              </tr>
+              <tr>
+                <td>T.e.m. de mișcare</td>
+                <td>$\mathcal E_i=Blv$</td>
+                <td>Tijă mobilă perpendiculară pe $\vec B$.</td>
+              </tr>
+              <tr>
+                <td>Inducție mutuală</td>
+                <td>$\mathcal E_2=-M\frac{dI_1}{dt}$</td>
+                <td>Flux variabil produs de alt circuit.</td>
+              </tr>
+              <tr>
+                <td>Autoinducție</td>
+                <td>$\mathcal E_L=-L\frac{dI}{dt}$</td>
+                <td>Opoziție față de variația curentului propriu.</td>
+              </tr>
+              <tr>
+                <td>Inductanță solenoid</td>
+                <td>$L=\mu\frac{N^2S}{l}$</td>
+                <td>Crește cu $N^2$ și cu permeabilitatea miezului.</td>
+              </tr>
+              <tr>
+                <td>Energie magnetică</td>
+                <td>$W_m=\frac12LI^2$</td>
+                <td>Energie înmagazinată în câmpul magnetic.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          pentru a stabili sensul curentului indus nu porni de la semnul formulei, ci de la regula lui Lenz:
+          câmpul indus se opune variației fluxului, nu câmpului magnetic în sine.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Inducția electromagnetică se predă eficient prin experimente demonstrative clare, deoarece fenomenul
+          este direct observabil prin deviația galvanometrului.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Introducerea și scoaterea unui magnet dintr-o bobină conectată la galvanometru; se observă deviații opuse.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Variația numărului de spire, a vitezei magnetului și a miezului magnetic pentru compararea t.e.m. induse.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulări pentru flux, sensul curentului indus, generator, transformator și curenți Foucault.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc tensiuni joase; bobinele nu se lasă alimentate mult timp; condensatoarele și sursele se descarcă
+              înainte de manipulare; magneții puternici se manevrează cu atenție.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să lege observația experimentală de variația fluxului magnetic și să poată anticipa sensul curentului indus.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se spune că orice câmp magnetic produce curent indus.</td>
+                <td>Inducția cere variația fluxului magnetic.</td>
+                <td>$\mathcal E_i=-d\Phi_B/dt$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă opoziția față de flux cu opoziția față de variația fluxului.</td>
+                <td>Lenz se referă la cauza variației, nu la existența fluxului.</td>
+                <td>Curentul indus se opune modificării fluxului.</td>
+              </tr>
+              <tr>
+                <td>Se uită factorul $N$ la bobină.</td>
+                <td>T.e.m. totală este suma contribuțiilor spirelor.</td>
+                <td>$\mathcal E_i=-N\,d\Phi_B/dt$.</td>
+              </tr>
+              <tr>
+                <td>Se aplică $\mathcal E=Blv$ în orice configurație.</td>
+                <td>Formula simplă cere perpendicularitate.</td>
+                <td>În general, se folosește fluxul sau componenta perpendiculară potrivită.</td>
+              </tr>
+              <tr>
+                <td>Se consideră că bobina se opune curentului constant.</td>
+                <td>Autoinducția apare la variația curentului.</td>
+                <td>$\mathcal E_L=-L\,dI/dt$.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          în problemele de inducție, primul pas este identificarea mărimii care variază: $B$, $S$, $\alpha$ sau poziția circuitului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Inducția electromagnetică este fenomenul prin care variația fluxului magnetic printr-un circuit
+          produce tensiune electromotoare indusă. Fluxul magnetic este:
+        </p>
+
+        <div class="formula">
+          $$\Phi_B=\int_S\vec B\cdot d\vec S$$
+        </div>
+
+        <p>
+          Pentru câmp uniform și suprafață plană, $\Phi_B=BS\cos\alpha$.
+          Legea fundamentală este legea Faraday–Lenz:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Pentru o bobină cu $N$ spire:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=-N\frac{d\Phi_B}{dt}$$
+        </div>
+
+        <p>
+          Semnul minus exprimă regula lui Lenz: curentul indus are sensul pentru care câmpul magnetic creat
+          se opune variației fluxului care l-a produs. Această regulă este o expresie a conservării energiei.
+        </p>
+
+        <p>
+          În cazul unei tije conductoare care se deplasează perpendicular pe un câmp magnetic uniform,
+          apare t.e.m. de mișcare:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_i=Blv$$
+        </div>
+
+        <p>
+          Autoinducția apare când variația curentului dintr-un circuit produce o t.e.m. indusă în același circuit:
+        </p>
+
+        <div class="formula">
+          $$\mathcal E_L=-L\frac{dI}{dt}$$
+        </div>
+
+        <p>
+          Inductanța $L$ caracterizează opoziția circuitului la variația curentului, iar energia câmpului magnetic
+          al bobinei este:
+        </p>
+
+        <div class="formula">
+          $$W_m=\frac12LI^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C26</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Flux magnetic</strong>
+            <div class="formula">
+              $$\Phi_B=\int_S\vec B\cdot d\vec S$$
+              $$\Phi_B=BS\cos\alpha$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Faraday–Lenz</strong>
+            <div class="formula">
+              $$\mathcal E_i=-\frac{d\Phi_B}{dt}$$
+              $$\mathcal E_i=-N\frac{d\Phi_B}{dt}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>T.e.m. de mișcare</strong>
+            <div class="formula">
+              $$\mathcal E_i=Blv$$
+              $$I_i=\frac{Blv}{R}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Autoinducție</strong>
+            <div class="formula">
+              $$\Psi=LI$$
+              $$\mathcal E_L=-L\frac{dI}{dt}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Inductanță</strong>
+            <div class="formula">
+              $$L=\frac{\Psi}{I}$$
+              $$L_{\text{solenoid}}=\mu\frac{N^2S}{l}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energie magnetică</strong>
+            <div class="formula">
+              $$W_m=\frac12LI^2$$
+              $$w_m=\frac{B^2}{2\mu}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o bobină cu $N$ spire este introdusă într-un câmp magnetic variabil. Determinați t.e.m. indusă,
+          sensul curentului indus prin regula lui Lenz și energia înmagazinată dacă bobina are inductanța $L$
+          și este străbătută de un curent final $I$.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C27-curentul-electric-alternativ-circuite-rlc.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-26.html">Fișa de lucru C26</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 27</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-26.html">Fișa C26</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c26", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c26");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
