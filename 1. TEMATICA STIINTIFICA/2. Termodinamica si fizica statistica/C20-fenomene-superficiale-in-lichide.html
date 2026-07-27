@@ -1,1 +1,1396 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C20 – Fenomene superficiale în lichide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C20 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 20</span>
+        <h1>Fenomene superficiale în lichide</h1>
+
+        <p class="lead">
+          Fenomenele superficiale apar deoarece moleculele de la suprafața unui lichid se află într-o
+          stare energetică diferită față de moleculele din interior. Lecția tratează tensiunea superficială,
+          energia superficială, presiunea Laplace, umezirea, unghiul de contact și capilaritatea.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          suprafața liberă a lichidului se comportă ca o membrană elastică tensionată, iar lichidul tinde
+          să-și micșoreze aria suprafeței libere.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Suprafața liberă a lichidului și forțe moleculare">
+            <defs>
+              <marker id="arrowMolC20" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="80" y="155" width="600" height="120" rx="14"
+                  fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="4"></rect>
+            <line x1="90" y1="155" x2="670" y2="155" stroke="#0f766e" stroke-width="6"
+                  stroke-linecap="round"></line>
+
+            <circle cx="190" cy="205" r="11" fill="#2563eb"></circle>
+            <circle cx="245" cy="215" r="11" fill="#2563eb"></circle>
+            <circle cx="310" cy="200" r="11" fill="#2563eb"></circle>
+            <circle cx="380" cy="220" r="11" fill="#2563eb"></circle>
+            <circle cx="455" cy="205" r="11" fill="#2563eb"></circle>
+            <circle cx="520" cy="225" r="11" fill="#2563eb"></circle>
+            <circle cx="590" cy="205" r="11" fill="#2563eb"></circle>
+
+            <circle cx="260" cy="145" r="11" fill="#ef4444"></circle>
+            <circle cx="385" cy="145" r="11" fill="#ef4444"></circle>
+            <circle cx="510" cy="145" r="11" fill="#ef4444"></circle>
+
+            <line x1="260" y1="145" x2="260" y2="190" stroke="#2563eb" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowMolC20)"></line>
+            <line x1="385" y1="145" x2="385" y2="190" stroke="#2563eb" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowMolC20)"></line>
+            <line x1="510" y1="145" x2="510" y2="190" stroke="#2563eb" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowMolC20)"></line>
+
+            <text x="150" y="75" fill="#64748b" font-size="23" font-weight="700">
+              moleculele de la suprafață au interacții necompensate
+            </text>
+            <text x="180" y="305" fill="#64748b" font-size="20">
+              rezultatul macroscopic: tensiune superficială și minimizarea ariei
+            </text>
+          </svg>
+
+          <p class="caption">
+            În interior, forțele moleculare se compensează statistic. La suprafață, rezultanta este orientată
+            spre interiorul lichidului.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C20?</h2>
+
+        <p>
+          Tema C20 cere explicarea fenomenelor superficiale în lichide, cu accent pe
+          <span class="mark">tensiunea superficială</span> și <span class="mark">capilaritate</span>.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Originea moleculară</strong>
+            <p>
+              Forțe de coeziune între moleculele lichidului, strat superficial, energie superficială
+              și tendința de micșorare a ariei suprafeței libere.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Tensiunea superficială</strong>
+            <p>
+              Definiție mecanică și energetică, unități, forța tangentă la contur și lucru mecanic
+              pentru creșterea ariei suprafeței.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Suprafețe curbe</strong>
+            <p>
+              Suprapresiunea Laplace în picături, bule și filme lichide.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Capilaritate</strong>
+            <p>
+              Umezire, unghi de contact, ridicare sau coborâre capilară și legea lui Jurin.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          explică întâi modelul molecular, definește coeficientul de tensiune superficială,
+          apoi aplică relațiile la forțe superficiale, picături și capilare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Origine microscopică</span>
+        <h2>Forțe de coeziune și strat superficial</h2>
+
+        <p>
+          Moleculele unui lichid se atrag între ele prin forțe intermoleculare. În interiorul lichidului,
+          o moleculă este atrasă aproape simetric de moleculele vecine, astfel încât rezultanta medie
+          a forțelor este nulă.
+        </p>
+
+        <p>
+          La suprafața liberă, moleculele nu mai au vecini în toate direcțiile. Rezultanta forțelor
+          moleculare este orientată spre interiorul lichidului. De aceea, suprafața lichidului are
+          energie mai mare decât aceeași cantitate de lichid aflată în interior.
+        </p>
+
+        <div class="formula">
+          $$\text{molecule la suprafață} \Rightarrow E_{\text{potențială mai mare}}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Coeziune</strong>
+            <p>
+              Atracția dintre molecule de aceeași natură; explică tendința lichidului de a forma picături.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Adeziune</strong>
+            <p>
+              Atracția dintre moleculele lichidului și moleculele unui solid; explică umezirea pereților.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          suprafața nu este o membrană separată de lichid, ci un strat de molecule cu energie diferită.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Definiție</span>
+        <h2>Tensiunea superficială</h2>
+
+        <p>
+          Tensiunea superficială este proprietatea suprafeței unui lichid de a se comporta ca o peliculă
+          întinsă, care tinde să-și micșoreze aria.
+        </p>
+
+        <p>
+          Coeficientul de tensiune superficială se notează de obicei cu $\sigma$ și poate fi definit
+          mecanic prin raportul dintre forța tangentă la suprafață și lungimea conturului pe care acționează.
+        </p>
+
+        <div class="formula">
+          $$\sigma=\frac{F}{l}$$
+        </div>
+
+        <p>
+          Unitatea SI:
+        </p>
+
+        <div class="formula">
+          $$[\sigma]=\frac{\text{N}}{\text{m}}$$
+        </div>
+
+        <p>
+          Aceeași mărime are și interpretare energetică:
+        </p>
+
+        <div class="formula">
+          $$[\sigma]=\frac{\text{J}}{\text{m}^2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          $\sigma$ măsoară energia necesară pentru creșterea ariei suprafeței libere cu o unitate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forță superficială</span>
+        <h2>Forța datorată tensiunii superficiale</h2>
+
+        <p>
+          Forța de tensiune superficială este tangentă la suprafața lichidului și perpendiculară pe
+          conturul pe care acționează.
+        </p>
+
+        <div class="formula">
+          $$F=\sigma l$$
+        </div>
+
+        <p>
+          Pentru o peliculă de săpun există două suprafețe libere, deci forța poate deveni:
+        </p>
+
+        <div class="formula">
+          $$F=2\sigma l$$
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Peliculă de săpun cu tijă mobilă și forță superficială">
+            <defs>
+              <marker id="arrowFilmC20" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <rect x="170" y="80" width="350" height="180" rx="8"
+                  fill="rgba(37,99,235,0.12)" stroke="#2563eb" stroke-width="4"></rect>
+            <line x1="520" y1="75" x2="520" y2="265" stroke="#64748b" stroke-width="10"
+                  stroke-linecap="round"></line>
+            <line x1="565" y1="170" x2="675" y2="170" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowFilmC20)"></line>
+
+            <text x="585" y="150" fill="#0f766e" font-size="24" font-weight="700">F</text>
+            <text x="528" y="178" fill="#64748b" font-size="23">l</text>
+            <text x="230" y="175" fill="#2563eb" font-size="24" font-weight="700">peliculă</text>
+            <text x="160" y="300" fill="#64748b" font-size="20">
+              pentru două fețe ale peliculei: F = 2σl
+            </text>
+          </svg>
+
+          <p class="caption">
+            O tijă mobilă care delimitează o peliculă este trasă de forțele superficiale de pe cele două fețe.
+          </p>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          factorul $2$ apare numai când există două suprafețe libere, ca la pelicula de săpun.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie superficială</span>
+        <h2>Lucrul mecanic de creștere a suprafeței</h2>
+
+        <p>
+          Pentru a mări aria suprafeței libere a unui lichid trebuie efectuat lucru mecanic împotriva
+          forțelor de tensiune superficială.
+        </p>
+
+        <div class="formula">
+          $$dW=\sigma\,dA$$
+        </div>
+
+        <p>
+          Dacă tensiunea superficială este constantă:
+        </p>
+
+        <div class="formula">
+          $$W=\sigma\,\Delta A$$
+        </div>
+
+        <p>
+          Pentru o peliculă de săpun cu două fețe:
+        </p>
+
+        <div class="formula">
+          $$W=2\sigma\,\Delta A$$
+        </div>
+
+        <p>
+          Aceasta arată de ce picăturile tind să fie sferice: pentru un volum dat, sfera are aria minimă.
+        </p>
+
+        <div class="exam">
+          <strong>Concluzie de examen:</strong>
+          tensiunea superficială poate fi definită și ca energie superficială pe unitatea de arie:
+          $$\sigma=\frac{dW}{dA}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Factori de influență</span>
+        <h2>Temperatura și impuritățile</h2>
+
+        <p>
+          Tensiunea superficială depinde de natura lichidului, de temperatura sa și de substanțele dizolvate.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Creșterea temperaturii</strong>
+            <p>
+              În general, tensiunea superficială scade când temperatura crește, deoarece agitația termică
+              slăbește efectul coeziunii moleculare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Substanțe tensioactive</strong>
+            <p>
+              Detergenții și săpunurile reduc tensiunea superficială a apei și facilitează umezirea suprafețelor.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Lichide diferite</strong>
+            <p>
+              Mercurul are tensiune superficială mare, iar apa are tensiune superficială relativ ridicată
+              datorită legăturilor de hidrogen.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Impurități</strong>
+            <p>
+              Impuritățile pot modifica puternic tensiunea superficială, de aceea experimentele cer lichide curate.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          nu trata $\sigma$ ca universală. Ea depinde de perechea lichid–mediu și de temperatură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Umezire</span>
+        <h2>Unghiul de contact</h2>
+
+        <p>
+          Când un lichid atinge un solid, forma suprafeței lângă perete depinde de competiția dintre
+          forțele de coeziune lichid–lichid și adeziune lichid–solid.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Lichid care umezește solidul</strong>
+            <p>
+              Adeziunea este suficient de mare, lichidul se întinde pe solid, iar unghiul de contact
+              este mai mic de $90^\circ$.
+            </p>
+            <div class="formula">
+              $$\theta<90^\circ$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Lichid care nu umezește solidul</strong>
+            <p>
+              Coeziunea domină, lichidul se strânge în picături, iar unghiul de contact este mai mare
+              de $90^\circ$.
+            </p>
+            <div class="formula">
+              $$\theta>90^\circ$$
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Condiția de echilibru la linia de contact este dată de ecuația lui Young:
+        </p>
+
+        <div class="formula">
+          $$\sigma_{SV}=\sigma_{SL}+\sigma_{LV}\cos\theta$$
+        </div>
+
+        <div class="exam">
+          <strong>Exemple:</strong>
+          apa umezește sticla curată; mercurul nu umezește sticla și formează menisc convex.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capilaritate</span>
+        <h2>Ridicarea și coborârea capilară</h2>
+
+        <p>
+          Capilaritatea este fenomenul de ridicare sau coborâre a lichidului într-un tub foarte subțire,
+          ca urmare a tensiunii superficiale și a umezării pereților.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 360" role="img" aria-label="Ridicare capilară într-un tub subțire">
+            <defs>
+              <marker id="arrowCapC20" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <rect x="110" y="210" width="540" height="95" rx="12"
+                  fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-width="4"></rect>
+            <line x1="110" y1="210" x2="650" y2="210" stroke="#2563eb" stroke-width="5"></line>
+
+            <rect x="340" y="65" width="80" height="240" rx="8"
+                  fill="rgba(255,255,255,0.28)" stroke="#64748b" stroke-width="4"></rect>
+            <path d="M342 125 Q380 105 418 125 L418 305 L342 305 Z"
+                  fill="rgba(37,99,235,0.35)" stroke="#2563eb" stroke-width="3"></path>
+
+            <line x1="435" y1="210" x2="435" y2="125" stroke="#0f766e" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowCapC20)"></line>
+            <text x="450" y="172" fill="#0f766e" font-size="24" font-weight="700">h</text>
+            <text x="310" y="330" fill="#64748b" font-size="20">tub capilar</text>
+            <text x="180" y="95" fill="#64748b" font-size="21">
+              lichid care umezește: menisc concav și ridicare
+            </text>
+          </svg>
+
+          <p class="caption">
+            Pentru lichidele care umezesc pereții, componenta verticală a tensiunii superficiale ridică lichidul.
+          </p>
+        </div>
+
+        <p>
+          Legea lui Jurin:
+        </p>
+
+        <div class="formula">
+          $$h=\frac{2\sigma\cos\theta}{\rho g r}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          ridicarea capilară este mai mare în tuburi mai subțiri și pentru lichide cu tensiune superficială mai mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Suprafețe curbe</span>
+        <h2>Presiunea Laplace</h2>
+
+        <p>
+          O suprafață lichidă curbată separă două regiuni cu presiuni diferite. Diferența de presiune
+          se numește suprapresiune Laplace.
+        </p>
+
+        <p>
+          Pentru o suprafață cu razele principale de curbură $R_1$ și $R_2$:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\sigma\left(\frac{1}{R_1}+\frac{1}{R_2}\right)$$
+        </div>
+
+        <p>
+          Pentru o picătură sferică:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{2\sigma}{R}$$
+        </div>
+
+        <p>
+          Pentru o bulă de săpun, deoarece există două suprafețe:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{4\sigma}{R}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          picătura are o singură suprafață lichid–aer; bula de săpun are două suprafețe lichid–aer.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Picături și bule</span>
+        <h2>De ce picăturile mici sunt aproape sferice?</h2>
+
+        <p>
+          Pentru un volum dat, sfera are aria minimă. Deoarece energia superficială este proporțională
+          cu aria, lichidul tinde să formeze suprafețe cât mai mici.
+        </p>
+
+        <div class="formula">
+          $$E_s=\sigma A$$
+        </div>
+
+        <p>
+          Pentru o picătură sferică:
+        </p>
+
+        <div class="formula">
+          $$A=4\pi R^2,\qquad V=\frac43\pi R^3$$
+        </div>
+
+        <p>
+          Picăturile mici sunt dominate de tensiunea superficială. Picăturile mari sunt deformate mai mult
+          de greutate.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Picături mici</strong>
+            <p>
+              Tensiunea superficială domină; forma este aproape sferică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Picături mari</strong>
+            <p>
+              Greutatea devine importantă; picătura se aplatizează.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          coalescența a două picături reduce aria totală și eliberează energie superficială.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Aplicații</span>
+        <h2>Manifestări și aplicații ale fenomenelor superficiale</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Insecte pe suprafața apei</strong>
+            <p>
+              Suprafața apei poate susține corpuri foarte ușoare dacă pelicula superficială nu este ruptă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Detergenți</strong>
+            <p>
+              Detergenții reduc tensiunea superficială și permit apei să pătrundă mai ușor în pori și fibre.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Ascensiunea sevei</strong>
+            <p>
+              Capilaritatea contribuie la ridicarea lichidelor în canale foarte subțiri, alături de alte mecanisme biologice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Medicină și biologie</strong>
+            <p>
+              Surfactanții reduc tensiunea superficială în suprafețe lichide biologice, stabilizând structuri foarte mici.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură interdisciplinară:</strong>
+          fenomenul capilar apare în soluri, materiale poroase, hârtie, textile și tuburi biologice fine.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Experiment</span>
+        <h2>Determinarea tensiunii superficiale</h2>
+
+        <p>
+          Tensiunea superficială poate fi determinată experimental prin mai multe metode, în funcție de
+          aparatura disponibilă și de nivelul clasei.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Metodă</th>
+                <th>Principiu</th>
+                <th>Relație utilizată</th>
+                <th>Observații</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Metoda capilară</td>
+                <td>Se măsoară înălțimea de ridicare într-un tub subțire.</td>
+                <td>$h=\frac{2\sigma\cos\theta}{\rho gr}$</td>
+                <td>Necesită tub curat și rază cunoscută.</td>
+              </tr>
+              <tr>
+                <td>Metoda inelului</td>
+                <td>Se măsoară forța necesară pentru desprinderea unui inel de pe suprafață.</td>
+                <td>$F\sim\sigma l$</td>
+                <td>Necesită corecții pentru măsurători precise.</td>
+              </tr>
+              <tr>
+                <td>Metoda picăturilor</td>
+                <td>Se corelează greutatea picăturii desprinse cu forța superficială.</td>
+                <td>$mg\sim2\pi r\sigma$</td>
+                <td>Metodă simplă, dar aproximativă.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>NTSM:</strong>
+          se evită folosirea mercurului în laboratorul școlar; capilarele de sticlă se manipulează cu grijă,
+          iar lichidele se păstrează în recipiente etichetate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Forța de tensiune superficială</h2>
+
+        <p>
+          O tijă mobilă de lungime $l=8\,\text{cm}$ delimitează o peliculă de săpun.
+          Coeficientul de tensiune superficială este $\sigma=0{,}030\,\text{N/m}$.
+          Determinați forța exercitată asupra tijei.
+        </p>
+
+        <p>
+          Pelicula de săpun are două suprafețe, deci:
+        </p>
+
+        <div class="formula">
+          $$F=2\sigma l$$
+        </div>
+
+        <p>
+          Transformăm lungimea:
+        </p>
+
+        <div class="formula">
+          $$l=8\,\text{cm}=0{,}08\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$F=2\cdot0{,}030\cdot0{,}08=4{,}8\cdot10^{-3}\,\text{N}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          forța este $F=4{,}8\,\text{mN}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Lucrul mecanic pentru mărirea unei pelicule</h2>
+
+        <p>
+          O peliculă de săpun își mărește aria unei fețe cu
+          $\Delta A=12\,\text{cm}^2$. Coeficientul de tensiune superficială este
+          $\sigma=0{,}025\,\text{N/m}$. Determinați lucrul mecanic necesar.
+        </p>
+
+        <p>
+          Pentru două fețe:
+        </p>
+
+        <div class="formula">
+          $$W=2\sigma\Delta A$$
+        </div>
+
+        <p>
+          Transformăm aria:
+        </p>
+
+        <div class="formula">
+          $$\Delta A=12\,\text{cm}^2=12\cdot10^{-4}\,\text{m}^2=1{,}2\cdot10^{-3}\,\text{m}^2$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$W=2\cdot0{,}025\cdot1{,}2\cdot10^{-3}=6{,}0\cdot10^{-5}\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          lucrul mecanic crește energia superficială a peliculei.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Ridicarea capilară a apei</h2>
+
+        <p>
+          Apa urcă într-un tub capilar de rază $r=0{,}50\,\text{mm}$.
+          Se dau: $\sigma=0{,}072\,\text{N/m}$, $\rho=1000\,\text{kg/m}^3$,
+          $g=10\,\text{m/s}^2$, iar pentru sticlă curată $\theta\simeq0^\circ$.
+          Determinați înălțimea de ridicare.
+        </p>
+
+        <p>
+          Folosim legea lui Jurin:
+        </p>
+
+        <div class="formula">
+          $$h=\frac{2\sigma\cos\theta}{\rho gr}$$
+        </div>
+
+        <p>
+          Deoarece $\cos0^\circ=1$ și $r=0{,}50\,\text{mm}=5\cdot10^{-4}\,\text{m}$:
+        </p>
+
+        <div class="formula">
+          $$h=\frac{2\cdot0{,}072}{1000\cdot10\cdot5\cdot10^{-4}}$$
+        </div>
+
+        <div class="formula">
+          $$h=2{,}88\cdot10^{-2}\,\text{m}=2{,}88\,\text{cm}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          dacă raza tubului se micșorează, înălțimea capilară crește.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Suprapresiunea într-o picătură</h2>
+
+        <p>
+          O picătură de apă are raza $R=1{,}0\,\text{mm}$.
+          Se dă $\sigma=0{,}072\,\text{N/m}$.
+          Determinați diferența de presiune dintre interiorul și exteriorul picăturii.
+        </p>
+
+        <p>
+          Pentru o picătură sferică:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{2\sigma}{R}$$
+        </div>
+
+        <p>
+          Transformăm raza:
+        </p>
+
+        <div class="formula">
+          $$R=1{,}0\,\text{mm}=10^{-3}\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{2\cdot0{,}072}{10^{-3}}=144\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          presiunea este mai mare în interiorul picăturii decât în exterior.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Coborârea capilară a mercurului</h2>
+
+        <p>
+          Mercurul nu umezește sticla, iar unghiul de contact este mai mare de $90^\circ$.
+          Explicați de ce nivelul mercurului într-un tub capilar este mai coborât decât nivelul exterior.
+        </p>
+
+        <p>
+          Legea capilarității este:
+        </p>
+
+        <div class="formula">
+          $$h=\frac{2\sigma\cos\theta}{\rho gr}$$
+        </div>
+
+        <p>
+          Pentru mercur pe sticlă:
+        </p>
+
+        <div class="formula">
+          $$\theta>90^\circ\quad\Rightarrow\quad \cos\theta<0$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$h<0$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          valoarea negativă a lui $h$ indică o coborâre capilară, nu o ridicare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema poate fi predată eficient prin observații simple și măsurători accesibile elevilor.
+          Este important ca elevii să conecteze fenomenul vizibil cu modelul molecular.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Agrafă sau ac așezat cu grijă pe suprafața apei; după adăugarea unei picături de detergent,
+              obiectul se scufundă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Măsurarea ridicării apei în tuburi capilare de raze diferite și verificarea dependenței
+              $h\propto1/r$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare cu molecule la suprafața lichidului pentru evidențierea forțelor necompensate.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se evită mercurul; capilarele de sticlă se manipulează atent; lichidele se colectează
+              în recipiente potrivite și nu se gustă substanțele folosite.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să explice simultan fenomenul macroscopic și cauza microscopică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se confundă tensiunea superficială cu presiunea.</td>
+                <td>Tensiunea superficială are unitatea N/m, nu Pa.</td>
+                <td>$\sigma=F/l$ sau $\sigma=dW/dA$.</td>
+              </tr>
+              <tr>
+                <td>Se uită factorul $2$ la pelicula de săpun.</td>
+                <td>Pelicula are două suprafețe libere.</td>
+                <td>$F=2\sigma l$, $W=2\sigma\Delta A$.</td>
+              </tr>
+              <tr>
+                <td>Se aplică ridicare capilară pentru orice lichid.</td>
+                <td>Dacă $\theta>90^\circ$, $\cos\theta<0$.</td>
+                <td>Poate apărea coborâre capilară.</td>
+              </tr>
+              <tr>
+                <td>Se confundă picătura cu bula de săpun.</td>
+                <td>Bula are două suprafețe, picătura una.</td>
+                <td>Picătură: $\Delta p=2\sigma/R$; bulă: $\Delta p=4\sigma/R$.</td>
+              </tr>
+              <tr>
+                <td>Se lasă raza capilarului în mm.</td>
+                <td>Formula lui Jurin cere unități SI.</td>
+                <td>Transformă $r$ în metri.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          la fiecare problemă stabilește mai întâi câte suprafețe libere există și dacă lichidul umezește solidul.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Fenomenele superficiale în lichide apar din cauza forțelor intermoleculare. O moleculă aflată
+          în interiorul lichidului este atrasă aproape simetric de moleculele vecine, în timp ce o moleculă
+          de la suprafață are interacții necompensate, orientate spre interior. De aceea suprafața liberă
+          are energie superficială, iar lichidul tinde să-și micșoreze aria.
+        </p>
+
+        <p>
+          Coeficientul de tensiune superficială $\sigma$ se definește mecanic prin:
+        </p>
+
+        <div class="formula">
+          $$\sigma=\frac{F}{l}$$
+        </div>
+
+        <p>
+          și energetic prin:
+        </p>
+
+        <div class="formula">
+          $$\sigma=\frac{dW}{dA}$$
+        </div>
+
+        <p>
+          Pe suprafețe curbe apare o diferență de presiune. Pentru o picătură sferică:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{2\sigma}{R}$$
+        </div>
+
+        <p>
+          iar pentru o bulă de săpun:
+        </p>
+
+        <div class="formula">
+          $$\Delta p=\frac{4\sigma}{R}$$
+        </div>
+
+        <p>
+          Capilaritatea apare din combinația tensiunii superficiale cu adeziunea dintre lichid și pereții
+          tubului. Înălțimea de ridicare sau coborâre este:
+        </p>
+
+        <div class="formula">
+          $$h=\frac{2\sigma\cos\theta}{\rho gr}$$
+        </div>
+
+        <p>
+          Dacă lichidul umezește peretele, $\theta<90^\circ$ și lichidul urcă; dacă nu umezește,
+          $\theta>90^\circ$ și apare coborâre capilară.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C20</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Tensiune superficială</strong>
+            <div class="formula">
+              $$\sigma=\frac{F}{l}$$
+              $$[\sigma]=\text{N/m}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energie superficială</strong>
+            <div class="formula">
+              $$dW=\sigma\,dA$$
+              $$W=\sigma\Delta A$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Peliculă cu două fețe</strong>
+            <div class="formula">
+              $$F=2\sigma l$$
+              $$W=2\sigma\Delta A$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Presiune Laplace</strong>
+            <div class="formula">
+              $$\Delta p=\sigma\left(\frac1{R_1}+\frac1{R_2}\right)$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Picătură / bulă</strong>
+            <div class="formula">
+              $$\Delta p_{\text{picătură}}=\frac{2\sigma}{R}$$
+              $$\Delta p_{\text{bulă}}=\frac{4\sigma}{R}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Capilaritate</strong>
+            <div class="formula">
+              $$h=\frac{2\sigma\cos\theta}{\rho gr}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          se dă un tub capilar de rază $r$ introdus într-un lichid de densitate $\rho$ și tensiune
+          superficială $\sigma$. Determinați ridicarea capilară, discutați semnul lui $h$ în funcție
+          de unghiul de contact și interpretați fizic rezultatul.
+        </div>
+
+        <div class="bottom-links">
+          <a href="../3.%20Electricitate%20si%20magnetism/index.html">Capitolul următor</a>
+          <a href="Fise%20de%20lucru/fisa-20.html">Fișa de lucru C20</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 22</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-20.html">Fișa C20</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c20", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c20");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
