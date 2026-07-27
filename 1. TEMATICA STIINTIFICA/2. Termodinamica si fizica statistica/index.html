@@ -1,1 +1,667 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Termodinamică și fizică statistică – Titularizare Fizică</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08em;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--accent);
+      font-size: 1.7rem;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 0.92rem;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.85rem 1rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-weight: 750;
+    }
+
+    .toolbar button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.85rem 1rem;
+      background: var(--accent);
+      color: white;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .toolbar button.secondary {
+      background: var(--accent-2);
+    }
+
+    .progress-wrap {
+      margin-top: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      height: 16px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.25s ease;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .lesson-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: var(--card);
+      padding: clamp(1rem, 2.8vw, 1.6rem);
+      overflow: hidden;
+    }
+
+    .lesson-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 8px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+
+    .lesson-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3.25rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      background: var(--accent);
+      color: white;
+      font-weight: 950;
+    }
+
+    .status {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.65rem;
+      background: color-mix(in srgb, var(--formula-bg) 80%, transparent);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .lesson-card.done .status {
+      background: color-mix(in srgb, var(--accent-2) 18%, transparent);
+      color: var(--accent-2);
+      border-color: color-mix(in srgb, var(--accent-2) 50%, var(--border));
+    }
+
+    .lesson-card h2 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+    }
+
+    .lesson-card p {
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0.8rem 0;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.25rem 0.55rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .actions a,
+    .actions button {
+      display: block;
+      border: 0;
+      border-radius: 16px;
+      padding: 0.85rem;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 950;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .actions a.primary {
+      color: white;
+      background: var(--accent);
+    }
+
+    .actions a.secondary {
+      color: white;
+      background: var(--accent-2);
+    }
+
+    .actions button {
+      grid-column: 1 / -1;
+      background: color-mix(in srgb, var(--formula-bg) 90%, transparent);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .chapter-link {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .chapter-link strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 1.4rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 950;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 820px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .stats,
+      .cards,
+      .chapter-grid,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .toolbar,
+      .actions button,
+      .footer-nav {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .lesson-card {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Capitolul 2 • Termodinamică și fizică statistică</strong>
+    <div class="top-actions">
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button type="button" onclick="window.print()">Tipărește indexul</button>
+      <a href="../index.html">Tematica științifică</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="mark">1. TEMATICA ȘTIINȚIFICĂ • Capitolul 2</span>
+      <h1>Termodinamică și fizică statistică</h1>
+
+      <p class="lead">
+        Index interactiv pentru lecțiile C16–C20. Capitolul acoperă modelul gazului ideal,
+        principiile termodinamicii, entropia, mașinile termice, transformările de fază și
+        fenomenele superficiale în lichide.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>5</strong>
+          <span>lecții</span>
+        </div>
+        <div class="stat">
+          <strong>5</strong>
+          <span>fișe interactive</span>
+        </div>
+        <div class="stat">
+          <strong>100+</strong>
+          <span>formule și aplicații</span>
+        </div>
+        <div class="stat">
+          <strong>2</strong>
+          <span>principii fundamentale</span>
+        </div>
+      </div>
+
+      <div class="progress-wrap" aria-label="Progres lecții marcate ca parcurse">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <p id="progressText" class="lead">Progres: 0 / 5 lecții marcate ca parcurse.</p>
+
+      <div class="toolbar">
+        <input
+          class="search"
+          id="searchInput"
+          type="search"
+          placeholder="Caută: gaz ideal, Carnot, entropie, Clausius, capilaritate..."
+          oninput="renderCards()"
+        />
+        <button type="button" onclick="markAllDone()">Marchează toate</button>
+        <button class="secondary" type="button" onclick="resetProgress()">Resetează progresul</button>
+      </div>
+    </section>
+
+    <section class="cards" id="cards"></section>
+
+    <section class="empty" id="emptyState">
+      Nu există lecții care să corespundă filtrului curent.
+    </section>
+
+    <section class="card">
+      <h2>Traseu recomandat de învățare</h2>
+
+      <div class="chapter-grid">
+        <a class="chapter-link" href="C16-teoria-cinetico-moleculara-a-gazului-ideal.html">
+          <strong>Pasul 1 – Model microscopic</strong>
+          Începe cu gazul ideal: $pV=NkT=\nu RT$ și $p=\frac13nm\langle v^2\rangle$.
+        </a>
+
+        <a class="chapter-link" href="C17-principiul-intai-al-termodinamicii.html">
+          <strong>Pasul 2 – Conservarea energiei</strong>
+          Aplică $Q=\Delta U+L$ pe transformări și probleme de calorimetrie.
+        </a>
+
+        <a class="chapter-link" href="C18-principiul-al-doilea-al-termodinamicii.html">
+          <strong>Pasul 3 – Sensul proceselor</strong>
+          Învață entropia, ireversibilitatea și limita Carnot $\eta_C=1-\frac{T_2}{T_1}$.
+        </a>
+
+        <a class="chapter-link" href="C19-transformari-de-faza-de-speta-intai.html">
+          <strong>Pasul 4 – Transformări de fază</strong>
+          Lucrează cu $Q=mL$, ecuația Clapeyron și punctul triplu.
+        </a>
+
+        <a class="chapter-link" href="C20-fenomene-superficiale-in-lichide.html">
+          <strong>Pasul 5 – Fenomene superficiale</strong>
+          Finalizează cu $\sigma$, presiunea Laplace și legea lui Jurin.
+        </a>
+
+        <a class="chapter-link" href="Fise%20de%20lucru/index.html">
+          <strong>Fișe de lucru</strong>
+          Exersează fiecare lecție cu itemi, probleme cu valori variabile și rezolvări generate.
+        </a>
+      </div>
+
+      <div class="exam">
+        <strong>Problemă tipică de examen:</strong>
+        un mol de gaz ideal parcurge o transformare izobară urmată de o transformare izotermă.
+        Determină $Q$, $L$, $\Delta U$ pe fiecare etapă, apoi discută dacă procesul invers este spontan
+        folosind principiul al doilea.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Legături utile</h2>
+
+      <div class="footer-nav">
+        <a href="../1.%20Mecanica/index.html">Capitolul anterior: Mecanică</a>
+        <a href="Fise%20de%20lucru/index.html">Fișe de lucru termodinamică</a>
+        <a href="../3.%20Electricitate%20si%20magnetism/index.html">Capitolul următor</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "progress-termodinamica";
+    const THEME_KEY = "theme-termodinamica-index";
+
+    const lessons = [
+      {
+        id: "c16",
+        code: "C16",
+        title: "Teoria cinetico-moleculară a gazului ideal",
+        lesson: "C16-teoria-cinetico-moleculara-a-gazului-ideal.html",
+        fisa: "Fise%20de%20lucru/fisa-16.html",
+        summary: "Ipotezele gazului ideal, concentrație moleculară, presiune cinetică, energia cinetică medie, viteza pătratică medie, ecuațiile de stare și energia internă.",
+        formula: "$p=\\frac13nm\\langle v^2\\rangle$, $pV=NkT=\\nu RT$",
+        tags: ["gaz ideal", "teoria cinetico-moleculară", "viteză rms", "energie cinetică", "ecuație de stare"]
+      },
+      {
+        id: "c17",
+        code: "C17",
+        title: "Principiul întâi al termodinamicii",
+        lesson: "C17-principiul-intai-al-termodinamicii.html",
+        fisa: "Fise%20de%20lucru/fisa-17.html",
+        summary: "Conservarea energiei în termodinamică, lucru mecanic, energie internă, coeficienți calorici, relația lui Mayer și calorimetrie.",
+        formula: "$Q=\\Delta U+L$, $C_p-C_V=R$",
+        tags: ["principiul I", "energie internă", "lucru mecanic", "calorimetrie", "Mayer"]
+      },
+      {
+        id: "c18",
+        code: "C18",
+        title: "Principiul al doilea al termodinamicii",
+        lesson: "C18-principiul-al-doilea-al-termodinamicii.html",
+        fisa: "Fise%20de%20lucru/fisa-18.html",
+        summary: "Procese reversibile și ireversibile, entropie, inegalitatea lui Clausius, motor termic, frigider, pompă de căldură și ciclu Carnot.",
+        formula: "$dS=\\frac{\\delta Q_{rev}}{T}$, $\\eta_C=1-\\frac{T_2}{T_1}$",
+        tags: ["principiul II", "entropie", "Carnot", "mașini termice", "frigider"]
+      },
+      {
+        id: "c19",
+        code: "C19",
+        title: "Transformări de fază de speța întâi",
+        lesson: "C19-transformari-de-faza-de-speta-intai.html",
+        fisa: "Fise%20de%20lucru/fisa-19.html",
+        summary: "Căldură latentă, curbe de încălzire, bilanțuri cu faze, ecuația Clapeyron, forma Clausius–Clapeyron, punctul triplu și punctul critic.",
+        formula: "$Q=mL$, $\\frac{dp}{dT}=\\frac{L}{T(v_2-v_1)}$",
+        tags: ["faze", "căldură latentă", "Clapeyron", "punct triplu", "vapori saturați"]
+      },
+      {
+        id: "c20",
+        code: "C20",
+        title: "Fenomene superficiale în lichide",
+        lesson: "C20-fenomene-superficiale-in-lichide.html",
+        fisa: "Fise%20de%20lucru/fisa-20.html",
+        summary: "Tensiune superficială, energie superficială, umezire, unghi de contact, presiune Laplace, picături, bule și capilaritate.",
+        formula: "$\\sigma=\\frac{F}{l}$, $h=\\frac{2\\sigma\\cos\\theta}{\\rho gr}$",
+        tags: ["tensiune superficială", "capilaritate", "Laplace", "Jurin", "umezire"]
+      }
+    ];
+
+    function loadProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch (error) {
+        localStorage.removeItem(STORAGE_KEY);
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+
+    function toggleDone(id) {
+      const progress = loadProgress();
+      progress[id] = !progress[id];
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function markAllDone() {
+      const progress = {};
+      lessons.forEach((item) => progress[item.id] = true);
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function resetProgress() {
+      localStorage.removeItem(STORAGE_KEY);
+      renderCards();
+    }
+
+    function updateProgress(progress) {
+      const done = lessons.filter((item) => progress[item.id]).length;
+      const percent = Math.round((done / lessons.length) * 100);
+
+      document.getElementById("progressBar").style.width = `${percent}%`;
+      document.getElementById("progressText").textContent =
+        `Progres: ${done} / ${lessons.length} lecții marcate ca parcurse.`;
+    }
+
+    function renderCards() {
+      const progress = loadProgress();
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      const filtered = lessons.filter((item) => {
+        const haystack = [
+          item.code,
+          item.title,
+          item.summary,
+          item.formula,
+          item.tags.join(" ")
+        ].join(" ").toLowerCase();
+
+        return haystack.includes(query);
+      });
+
+      const cards = document.getElementById("cards");
+      const emptyState = document.getElementById("emptyState");
+
+      cards.innerHTML = filtered.map((item) => {
+        const done = Boolean(progress[item.id]);
+        const tags = item.tags.map((tag) => `<span class="tag">${tag}</span>`).join("");
+
+        return `
+          <article class="lesson-card ${done ? "done" : ""}">
+            <div class="lesson-head">
+              <span class="badge">${item.code}</span>
+              <span class="status">${done ? "parcursă" : "neparcursă"}</span>
+            </div>
+
+            <h2>${item.title}</h2>
+            <p>${item.summary}</p>
+
+            <div class="formula">
+              ${item.formula}
+            </div>
+
+            <div class="tags">
+              ${tags}
+            </div>
+
+            <div class="actions">
+              <a class="primary" href="${item.lesson}">Deschide lecția</a>
+              <a class="secondary" href="${item.fisa}">Deschide fișa</a>
+              <button type="button" onclick="toggleDone('${item.id}')">
+                ${done ? "Debifează lecția" : "Marchează ca parcursă"}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      emptyState.style.display = filtered.length ? "none" : "block";
+      updateProgress(progress);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([cards]);
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
