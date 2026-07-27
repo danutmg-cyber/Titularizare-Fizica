@@ -1,1 +1,997 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C25 – Particule încărcate în câmpuri electrice și magnetice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 { margin-top: 0; }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show { display: block; }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 280px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li { margin: 0.35rem 0; }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C25 • Particule încărcate în câmpuri electrice și magnetice</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C25</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Mișcarea particulelor încărcate în câmpuri electrice și magnetice uniforme</h1>
+
+      <p class="lead">
+        Fișa consolidează forța Lorentz, accelerarea particulelor în câmp electric, mișcarea circulară și elicoidală
+        în câmp magnetic, selectorul de viteze, spectrometrul de masă, experimentul Millikan și efectul Hall.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Forța Lorentz</strong>
+          <div class="formula">
+            $$\vec F=q(\vec E+\vec v\times\vec B)$$
+            $$F_B=|q|vB\sin\alpha$$
+          </div>
+          <p>Forța electrică poate modifica energia cinetică; forța magnetică schimbă direcția vitezei, nu modulul ei.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Câmp electric uniform</strong>
+          <div class="formula">
+            $$\vec a=\frac{q}{m}\vec E,\qquad \Delta E_c=qU$$
+            $$v=\sqrt{\frac{2|q|U}{m}}$$
+          </div>
+          <p>Pentru intrare transversală, traiectoria este parabolică.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Câmp magnetic uniform</strong>
+          <div class="formula">
+            $$R=\frac{mv_{\perp}}{|q|B},\qquad
+            \omega=\frac{|q|B}{m}$$
+            $$T=\frac{2\pi m}{|q|B},\qquad
+            p=v_{\parallel}T$$
+          </div>
+          <p>Pentru $\vec v\perp\vec B$, traiectoria este circulară; pentru viteză oblică, traiectoria este elicoidală.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Millikan și Hall</strong>
+          <div class="formula">
+            $$|q|E=mg,\qquad q=ne$$
+            $$U_H=\frac{IB}{nqt}$$
+          </div>
+          <p>Millikan evidențiază cuantificarea sarcinii, iar Hall permite determinarea semnului și concentrației purtătorilor.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Situație</th>
+              <th>Relație</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Forța Lorentz</td>
+              <td>$\vec F=q(\vec E+\vec v\times\vec B)$</td>
+              <td>Pentru electron, sensul este opus celui obținut pentru sarcină pozitivă.</td>
+            </tr>
+            <tr>
+              <td>Accelerare prin tensiune</td>
+              <td>$\frac12mv^2=|q|U$</td>
+              <td>Se folosește energia cinetică pozitivă.</td>
+            </tr>
+            <tr>
+              <td>Mișcare circulară în $B$</td>
+              <td>$R=mv/(|q|B)$</td>
+              <td>Valabil pentru $\vec v\perp\vec B$.</td>
+            </tr>
+            <tr>
+              <td>Frecvență ciclotronică</td>
+              <td>$f=|q|B/(2\pi m)$</td>
+              <td>În regim nerelativist nu depinde de viteză.</td>
+            </tr>
+            <tr>
+              <td>Selector de viteze</td>
+              <td>$v=E/B$</td>
+              <td>Particulele trec nedeviate când forțele electrică și magnetică se compensează.</td>
+            </tr>
+            <tr>
+              <td>Spectrometru de masă</td>
+              <td>$m/|q|=B^2R^2/(2U)$</td>
+              <td>Se combină accelerarea electrică și curbarea magnetică.</td>
+            </tr>
+            <tr>
+              <td>Efect Hall</td>
+              <td>$U_H=IB/(nqt)$</td>
+              <td>Semnul tensiunii Hall indică semnul purtătorilor majoritari.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Forța Lorentz asupra unei particule de sarcină $q$ este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$\vec F=q(\vec E+\vec v\times\vec B)$</option>
+          <option value="b">$\vec F=q(\vec E+\vec B)$</option>
+          <option value="c">$\vec F=m\vec E+q\vec B$</option>
+          <option value="d">$\vec F=q\vec v/q\vec B$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Forța magnetică asupra unei particule încărcate este nulă când:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">$\vec v\perp\vec B$</option>
+          <option value="b">$q$ este pozitivă</option>
+          <option value="c">$\vec v\parallel\vec B$ sau $v=0$</option>
+          <option value="d">$B$ este uniform</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. În câmp magnetic uniform, în absența câmpului electric, forța magnetică:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">mărește energia cinetică</option>
+          <option value="b">nu efectuează lucru mecanic</option>
+          <option value="c">micșorează obligatoriu viteza</option>
+          <option value="d">este paralelă cu viteza</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Într-un selector de viteze, particulele trec nedeviate pentru:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">$v=EB$</option>
+          <option value="b">$v=B/E$</option>
+          <option value="c">$v=qE/(mB)$</option>
+          <option value="d">$v=E/B$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Efectul Hall permite determinarea:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">semnului și concentrației purtătorilor de sarcină</option>
+          <option value="b">numai a masei electronului</option>
+          <option value="c">numai a accelerației gravitaționale</option>
+          <option value="d">numai a permitivității vidului</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Rezolvările folosesc unități SI și interpretarea sensului fizic.
+      </p>
+
+      <article class="item">
+        <h3>4. Accelerarea unui electron printr-o tensiune <span class="points">5 p</span></h3>
+        <p>
+          Un electron pornește din repaus și este accelerat prin diferența de potențial
+          <span class="formula-inline">$U$</span> = <span class="var" id="e4U"></span> V.
+          Determinați viteza finală în aproximație nerelativistă.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Raza traiectoriei unui proton <span class="points">5 p</span></h3>
+        <p>
+          Un proton cu viteza
+          <span class="formula-inline">$v$</span> = <span class="var" id="e5v"></span>$\cdot10^6$ m/s
+          intră perpendicular într-un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e5B"></span> T.
+          Determinați raza traiectoriei.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Frecvența ciclotronică a unui ion <span class="points">5 p</span></h3>
+        <p>
+          Un ion are sarcina
+          <span class="formula-inline">$q$</span> = <span class="var" id="e6z"></span>$e$
+          și masa
+          <span class="formula-inline">$m$</span> = <span class="var" id="e6A"></span>$u$.
+          Ionul se află într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e6B"></span> T.
+          Determinați frecvența și perioada mișcării circulare.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Mișcare elicoidală în câmp magnetic <span class="points">5 p</span></h3>
+        <p>
+          Un proton intră oblic într-un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e7B"></span> T.
+          Componentele vitezei sunt
+          <span class="formula-inline">$v_{\perp}$</span> = <span class="var" id="e7vp"></span>$\cdot10^5$ m/s și
+          <span class="formula-inline">$v_{\parallel}$</span> = <span class="var" id="e7vl"></span>$\cdot10^5$ m/s.
+          Determinați raza elicei și pasul ei.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Devierea electronului în câmp electric transversal <span class="points">5 p</span></h3>
+        <p>
+          Un electron intră cu viteza
+          <span class="formula-inline">$v_0$</span> = <span class="var" id="e8v"></span>$\cdot10^6$ m/s
+          într-o regiune de lungime
+          <span class="formula-inline">$L$</span> = <span class="var" id="e8L"></span> cm,
+          unde există câmp electric uniform transversal
+          <span class="formula-inline">$E$</span> = <span class="var" id="e8E"></span> kV/m.
+          Determinați modulul devierii la ieșire.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Selector de viteze <span class="points">5 p</span></h3>
+        <p>
+          Într-un selector de viteze se aplică un câmp electric
+          <span class="formula-inline">$E$</span> = <span class="var" id="e9E"></span> kV/m
+          și un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e9B"></span> mT,
+          perpendiculare între ele.
+          Determinați viteza particulelor care trec nedeviate.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Spectrometru de masă <span class="points">5 p</span></h3>
+        <p>
+          O particulă este accelerată prin tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e10U"></span> V,
+          apoi intră perpendicular într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e10B"></span> T.
+          Raza traiectoriei este
+          <span class="formula-inline">$R$</span> = <span class="var" id="e10R"></span> cm.
+          Determinați raportul $m/|q|$.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Experiment Millikan simplificat <span class="points">5 p</span></h3>
+        <p>
+          O picătură de ulei de masă
+          <span class="formula-inline">$m$</span> = <span class="var" id="e11m"></span>$\cdot10^{-15}$ kg
+          este menținută în echilibru între două plăci aflate la distanța
+          <span class="formula-inline">$d$</span> = <span class="var" id="e11d"></span> mm.
+          Tensiunea aplicată este
+          <span class="formula-inline">$U$</span> = <span class="var" id="e11U"></span> V.
+          Determinați sarcina picăturii și numărul de sarcini elementare.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Tensiunea Hall <span class="points">5 p</span></h3>
+        <p>
+          O plăcuță conductoare de grosime
+          <span class="formula-inline">$t$</span> = <span class="var" id="e12t"></span> mm
+          este străbătută de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e12I"></span> A
+          și se află într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e12B"></span> T.
+          Concentrația purtătorilor este
+          <span class="formula-inline">$n$</span> = <span class="var" id="e12n"></span>$\cdot10^{28}$ m$^{-3}$.
+          Determinați modulul tensiunii Hall.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Timpul pentru semicerc în câmp magnetic <span class="points">5 p</span></h3>
+        <p>
+          Un proton descrie o semicircumferință într-un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e13B"></span> T,
+          cu viteza perpendiculară pe câmp. Determinați timpul necesar pentru parcurgerea semicercului.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Modulul forței magnetice <span class="points">5 p</span></h3>
+        <p>
+          O particulă cu sarcina
+          <span class="formula-inline">$q$</span> = <span class="var" id="e14q"></span> $\mu$C
+          se deplasează cu viteza
+          <span class="formula-inline">$v$</span> = <span class="var" id="e14v"></span>$\cdot10^5$ m/s
+          într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e14B"></span> T.
+          Unghiul dintre $\vec v$ și $\vec B$ este
+          <span class="formula-inline">$\alpha$</span> = <span class="var" id="e14a"></span>°.
+          Determinați modulul forței magnetice.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Explicați forța Lorentz, precizând contribuția electrică, contribuția magnetică, direcția forței magnetice
+          și diferența dintre acțiunea câmpului electric și acțiunea câmpului magnetic asupra energiei cinetice.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Deduceți relația $R=mv/(|q|B)$ pentru mișcarea circulară a unei particule încărcate în câmp magnetic uniform.
+          Discutați ce se schimbă pentru o particulă cu sarcină negativă.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru predarea forței Lorentz folosind simulare TIC sau demonstrație cu fascicul
+          de electroni. Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor, evaluarea rapidă
+          și două norme de protecția muncii privind câmpurile, sursele electrice sau tuburile catodice.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, sens fizic sau interpretare: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: C, V, T, m/s, m, Hz, s, N, kg/C și V.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C25-miscarea-particulelor-incarcate-in-campuri-electrice-si-magnetice.html">Înapoi la lecția C25</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-26.html">Fișa următoare C26</a>
+    </nav>
+  </main>
+
+  <script>
+    const e = 1.6e-19;
+    const me = 9.11e-31;
+    const mp = 1.67e-27;
+    const u = 1.66e-27;
+    const g = 10;
+    const storageKey = "values-fisa-c25";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const nMillikan = rnd(1, 8);
+      const dMillikan = rnd(3, 8);
+      const uMillikan = rnd(600, 2000, 200);
+      const massMantissa = nMillikan * e * uMillikan / (g * dMillikan * 1e-3) / 1e-15;
+
+      const v = {
+        e4U: rnd(200, 3000, 200),
+
+        e5v: rnd(1, 7),
+        e5B: rnd(0.10, 0.80, 0.10),
+
+        e6z: choose([1, 2, 3]),
+        e6A: choose([2, 4, 12, 16, 20, 40]),
+        e6B: rnd(0.20, 1.20, 0.10),
+
+        e7B: rnd(0.10, 0.90, 0.10),
+        e7vp: rnd(1, 8),
+        e7vl: rnd(1, 8),
+
+        e8v: rnd(3, 10),
+        e8L: rnd(2, 10),
+        e8E: rnd(10, 80, 10),
+
+        e9E: rnd(10, 100, 10),
+        e9B: rnd(50, 500, 50),
+
+        e10U: rnd(500, 3000, 250),
+        e10B: rnd(0.10, 0.80, 0.10),
+        e10R: rnd(5, 30, 5),
+
+        e11m: +massMantissa.toFixed(2),
+        e11d: dMillikan,
+        e11U: uMillikan,
+        e11n: nMillikan,
+
+        e12t: rnd(1, 5),
+        e12I: rnd(1, 8),
+        e12B: rnd(0.10, 0.80, 0.10),
+        e12n: choose([2, 3, 4, 5, 6, 8]),
+
+        e13B: rnd(0.10, 0.90, 0.10),
+
+        e14q: rnd(1, 9),
+        e14v: rnd(1, 9),
+        e14B: rnd(0.10, 0.90, 0.10),
+        e14a: choose([30, 45, 60, 90])
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const v4 = Math.sqrt(2 * e * v.e4U / me);
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        Energia cinetică finală provine din lucrul câmpului electric:
+        $$\\frac12m_ev^2=eU$$
+        $$v=\\sqrt{\\frac{2eU}{m_e}}$$
+        $$v=\\sqrt{\\frac{2\\cdot1{,}6\\cdot10^{-19}\\cdot${v.e4U}}{9{,}11\\cdot10^{-31}}}=${tex(v4)}\\,\\text{m/s}$$
+        Aproximația este nerelativistă; la tensiuni mult mai mari se verifică raportul $v/c$.
+      `);
+
+      const speed5 = v.e5v * 1e6;
+      const R5 = mp * speed5 / (e * v.e5B);
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        Forța magnetică este forță centripetă:
+        $$|q|vB=\\frac{mv^2}{R}$$
+        $$R=\\frac{mv}{|q|B}$$
+        $$R=\\frac{1{,}67\\cdot10^{-27}\\cdot${tex(speed5)}}{1{,}6\\cdot10^{-19}\\cdot${String(v.e5B).replace(".", ",")}}=${tex(R5)}\\,\\text{m}$$
+        Pentru proton, sensul rotației este cel dat de regula mâinii drepte.
+      `);
+
+      const q6 = v.e6z * e;
+      const m6 = v.e6A * u;
+      const f6 = q6 * v.e6B / (2 * Math.PI * m6);
+      const T6 = 1 / f6;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        $$q=${v.e6z}e=${tex(q6)}\\,\\text{C}$$
+        $$m=${v.e6A}u=${v.e6A}\\cdot1{,}66\\cdot10^{-27}=${tex(m6)}\\,\\text{kg}$$
+        Frecvența ciclotronică:
+        $$f=\\frac{|q|B}{2\\pi m}$$
+        $$f=\\frac{${tex(q6)}\\cdot${String(v.e6B).replace(".", ",")}}{2\\pi\\cdot${tex(m6)}}=${tex(f6)}\\,\\text{Hz}$$
+        Perioada:
+        $$T=\\frac1f=${tex(T6)}\\,\\text{s}$$
+      `);
+
+      const vp7 = v.e7vp * 1e5;
+      const vl7 = v.e7vl * 1e5;
+      const R7 = mp * vp7 / (e * v.e7B);
+      const T7 = 2 * Math.PI * mp / (e * v.e7B);
+      const pitch7 = vl7 * T7;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        Componenta perpendiculară produce rotația:
+        $$R=\\frac{mv_{\\perp}}{|q|B}$$
+        $$R=\\frac{1{,}67\\cdot10^{-27}\\cdot${tex(vp7)}}{1{,}6\\cdot10^{-19}\\cdot${String(v.e7B).replace(".", ",")}}=${tex(R7)}\\,\\text{m}$$
+        Perioada:
+        $$T=\\frac{2\\pi m}{|q|B}=${tex(T7)}\\,\\text{s}$$
+        Pasul elicei:
+        $$p=v_{\\parallel}T=${tex(vl7)}\\cdot${tex(T7)}=${tex(pitch7)}\\,\\text{m}$$
+      `);
+
+      const E8 = v.e8E * 1000;
+      const L8 = v.e8L / 100;
+      const speed8 = v.e8v * 1e6;
+      const y8 = e * E8 * L8 * L8 / (2 * me * speed8 * speed8);
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Timpul petrecut în regiunea cu câmp:
+        $$t=\\frac{L}{v_0}$$
+        Accelerația transversală în modul:
+        $$a=\\frac{eE}{m_e}$$
+        Deviația:
+        $$y=\\frac12at^2=\\frac{eEL^2}{2m_ev_0^2}$$
+        $$E=${v.e8E}\\,\\text{kV/m}=${tex(E8)}\\,\\text{V/m},\\quad L=${v.e8L}\\,\\text{cm}=${tex(L8)}\\,\\text{m}$$
+        $$y=${tex(y8)}\\,\\text{m}=${tex(y8 * 1000)}\\,\\text{mm}$$
+        Sensul devierii electronului este opus sensului câmpului electric.
+      `);
+
+      const E9 = v.e9E * 1000;
+      const B9 = v.e9B * 1e-3;
+      const speed9 = E9 / B9;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Pentru trecere nedeviată:
+        $$|q|E=|q|vB$$
+        $$v=\\frac{E}{B}$$
+        $$E=${v.e9E}\\,\\text{kV/m}=${tex(E9)}\\,\\text{V/m},\\quad B=${v.e9B}\\,\\text{mT}=${tex(B9)}\\,\\text{T}$$
+        $$v=\\frac{${tex(E9)}}{${tex(B9)}}=${tex(speed9)}\\,\\text{m/s}$$
+        Relația nu depinde de masa sau sarcina particulei.
+      `);
+
+      const R10 = v.e10R / 100;
+      const mOverQ10 = v.e10B * v.e10B * R10 * R10 / (2 * v.e10U);
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        Din accelerare:
+        $$\\frac12mv^2=|q|U$$
+        Din mișcarea circulară:
+        $$R=\\frac{mv}{|q|B}$$
+        Eliminând $v$:
+        $$\\frac{m}{|q|}=\\frac{B^2R^2}{2U}$$
+        $$R=${v.e10R}\\,\\text{cm}=${tex(R10)}\\,\\text{m}$$
+        $$\\frac{m}{|q|}=\\frac{${String(v.e10B).replace(".", ",")}^2\\cdot(${tex(R10)})^2}{2\\cdot${v.e10U}}=${tex(mOverQ10)}\\,\\text{kg/C}$$
+      `);
+
+      const mass11 = v.e11m * 1e-15;
+      const d11 = v.e11d * 1e-3;
+      const q11 = mass11 * g * d11 / v.e11U;
+      const n11 = q11 / e;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Câmpul dintre plăci:
+        $$E=\\frac{U}{d}$$
+        La echilibru:
+        $$|q|E=mg$$
+        Deci:
+        $$|q|=\\frac{mgd}{U}$$
+        $$m=${String(v.e11m).replace(".", ",")}\\cdot10^{-15}\\,\\text{kg},\\quad d=${v.e11d}\\,\\text{mm}=${tex(d11)}\\,\\text{m}$$
+        $$|q|=\\frac{${tex(mass11)}\\cdot10\\cdot${tex(d11)}}{${v.e11U}}=${tex(q11)}\\,\\text{C}$$
+        Numărul de sarcini elementare:
+        $$n=\\frac{|q|}{e}=\\frac{${tex(q11)}}{1{,}6\\cdot10^{-19}}=${tex(n11)}$$
+        Sarcina picăturii este multiplu al sarcinii elementare.
+      `);
+
+      const t12 = v.e12t * 1e-3;
+      const n12 = v.e12n * 1e28;
+      const UH12 = v.e12I * v.e12B / (n12 * e * t12);
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        Pentru modulul tensiunii Hall:
+        $$U_H=\\frac{IB}{n|q|t}$$
+        $$t=${v.e12t}\\,\\text{mm}=${tex(t12)}\\,\\text{m},\\quad n=${v.e12n}\\cdot10^{28}\\,\\text{m}^{-3}$$
+        $$U_H=\\frac{${v.e12I}\\cdot${String(v.e12B).replace(".", ",")}}{${v.e12n}\\cdot10^{28}\\cdot1{,}6\\cdot10^{-19}\\cdot${tex(t12)}}=${tex(UH12)}\\,\\text{V}$$
+        $$U_H=${tex(UH12 / 1e-6)}\\,\\mu\\text{V}$$
+        Semnul tensiunii Hall depinde de semnul purtătorilor majoritari.
+      `);
+
+      const T13 = 2 * Math.PI * mp / (e * v.e13B);
+      const half13 = T13 / 2;
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Perioada mișcării circulare în câmp magnetic este:
+        $$T=\\frac{2\\pi m}{|q|B}$$
+        Pentru un semicerc:
+        $$t=\\frac{T}{2}=\\frac{\\pi m}{|q|B}$$
+        $$t=\\frac{\\pi\\cdot1{,}67\\cdot10^{-27}}{1{,}6\\cdot10^{-19}\\cdot${String(v.e13B).replace(".", ",")}}=${tex(half13)}\\,\\text{s}$$
+        Timpul nu depinde de viteza protonului în aproximația nerelativistă.
+      `);
+
+      const q14 = v.e14q * 1e-6;
+      const speed14 = v.e14v * 1e5;
+      const sin14 = Math.sin(v.e14a * Math.PI / 180);
+      const F14 = q14 * speed14 * v.e14B * sin14;
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        $$F_B=|q|vB\\sin\\alpha$$
+        $$q=${v.e14q}\\,\\mu\\text{C}=${tex(q14)}\\,\\text{C},\\quad v=${v.e14v}\\cdot10^5=${tex(speed14)}\\,\\text{m/s}$$
+        $$F_B=${tex(q14)}\\cdot${tex(speed14)}\\cdot${String(v.e14B).replace(".", ",")}\\cdot\\sin ${v.e14a}^{\\circ}=${tex(F14)}\\,\\text{N}$$
+        Forța este perpendiculară pe planul determinat de $\\vec v$ și $\\vec B$.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c25", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c25");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
