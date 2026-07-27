@@ -5,59 +5,13 @@
   <title>C16 – Teoria cinetico-moleculară a gazului ideal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
-    }
+    * { box-sizing: border-box; }
 
     .topbar {
       position: sticky;
@@ -74,8 +28,8 @@
     }
 
     .topbar strong {
-      font-size: 0.95rem;
       color: var(--accent);
+      font-size: 0.95rem;
     }
 
     .theme-toggle {
@@ -84,7 +38,7 @@
       color: var(--text);
       border-radius: 999px;
       padding: 0.55rem 0.9rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
 
@@ -98,20 +52,11 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 6.5rem;
     }
 
     .page.active {
       display: flex;
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
     }
 
     .eyebrow {
@@ -125,57 +70,9 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
-    p {
-      margin: 0.75rem 0;
-    }
-
-    ul, ol {
-      padding-left: 1.35rem;
-    }
-
-    li {
-      margin: 0.55rem 0;
-    }
-
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -196,6 +93,34 @@
       color: var(--accent-2);
     }
 
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
     .svgbox {
       margin: 1rem 0;
       background: var(--formula-bg);
@@ -205,10 +130,11 @@
       overflow-x: auto;
     }
 
-    svg {
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -217,25 +143,26 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
     }
 
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
       padding: 1rem;
       border-radius: 16px;
-      margin-top: 1rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
     }
 
-    html[data-theme="dark"] .warning {
-      background: #33260c;
-    }
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
 
     .pager {
       position: fixed;
@@ -244,7 +171,7 @@
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr auto 1fr auto;
       gap: 0.6rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
@@ -283,35 +210,21 @@
       color: white;
     }
 
-    .bottom-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .bottom-links a {
-      display: block;
-      text-decoration: none;
+    .page-status {
       text-align: center;
-      padding: 1rem;
-      border-radius: 16px;
       font-weight: 900;
-      color: white;
-      background: var(--accent);
-    }
-
-    .bottom-links a:nth-child(2) {
-      background: var(--accent-2);
-    }
-
-    .bottom-links a:nth-child(3) {
-      background: #7c3aed;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .grid,
@@ -324,13 +237,13 @@
         border-radius: 22px;
       }
 
-      .pager a {
+      .page-status {
         grid-column: 1 / -1;
+        order: -1;
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+      .pager a {
+        grid-column: 1 / -1;
       }
     }
   </style>
@@ -339,7 +252,7 @@
 <body>
   <div class="topbar">
     <strong>C16 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
@@ -347,39 +260,98 @@
       <article class="card">
         <span class="eyebrow">Lecția 16</span>
         <h1>Teoria cinetico-moleculară a gazului ideal</h1>
+
         <p class="lead">
-          Teoria cinetico-moleculară explică <span class="mark">proprietățile macroscopice ale gazelor</span>
-          (presiune, temperatură, volum) pornind de la mișcarea haotică a unui număr enorm de molecule.
-          Pentru examen, trebuie să stăpânești atât ipotezele modelului, cât și deducerea riguroasă a
-          ecuației fundamentale.
+          Lecția explică proprietățile macroscopice ale gazului ideal — presiune, volum, temperatură,
+          energie internă — pornind de la mișcarea microscopică haotică a moleculelor.
+          Scopul este să legăm modelul molecular de ecuațiile de stare ale gazului ideal.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          presiunea și temperatura nu sunt proprietăți ale unei singure molecule, ci
-          <strong>efecte statistice</strong> ale mișcării unui număr foarte mare de molecule.
+          presiunea și temperatura nu sunt proprietăți ale unei singure molecule, ci mărimi statistice
+          definite pentru un număr foarte mare de particule.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 300" role="img" aria-label="Molecule de gaz în agitație termică într-un vas">
-            <rect x="60" y="30" width="580" height="240" rx="14" fill="none" stroke="#64748b" stroke-width="4"/>
-            <circle cx="150" cy="90" r="8" fill="#ef4444"/>
-            <circle cx="260" cy="150" r="8" fill="#2563eb"/>
-            <circle cx="400" cy="80" r="8" fill="#0f766e"/>
-            <circle cx="500" cy="200" r="8" fill="#ef4444"/>
-            <circle cx="330" cy="220" r="8" fill="#2563eb"/>
-            <circle cx="580" cy="120" r="8" fill="#0f766e"/>
-            <circle cx="200" cy="230" r="8" fill="#ef4444"/>
-            <line x1="150" y1="90" x2="200" y2="60" stroke="#ef4444" stroke-width="3"/>
-            <line x1="260" y1="150" x2="310" y2="110" stroke="#2563eb" stroke-width="3"/>
-            <line x1="400" y1="80" x2="440" y2="120" stroke="#0f766e" stroke-width="3"/>
-            <line x1="500" y1="200" x2="560" y2="230" stroke="#ef4444" stroke-width="3"/>
-            <line x1="330" y1="220" x2="290" y2="180" stroke="#2563eb" stroke-width="3"/>
-            <line x1="580" y1="120" x2="610" y2="80" stroke="#0f766e" stroke-width="3"/>
-            <line x1="200" y1="230" x2="150" y2="200" stroke="#ef4444" stroke-width="3"/>
-            <text x="330" y="285" fill="#64748b" font-size="20">agitație termică — mișcare haotică, rectilinie între ciocniri</text>
+          <svg viewBox="0 0 760 320" role="img" aria-label="Molecule de gaz într-un vas">
+            <defs>
+              <marker id="arrowGasC16" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="70" y="45" width="620" height="220" rx="18"
+                  fill="none" stroke="#64748b" stroke-width="4"></rect>
+
+            <circle cx="150" cy="95" r="9" fill="#ef4444"></circle>
+            <line x1="150" y1="95" x2="215" y2="70" stroke="#2563eb" stroke-width="3"
+                  stroke-linecap="round" marker-end="url(#arrowGasC16)"></line>
+
+            <circle cx="270" cy="170" r="9" fill="#0f766e"></circle>
+            <line x1="270" y1="170" x2="330" y2="125" stroke="#2563eb" stroke-width="3"
+                  stroke-linecap="round" marker-end="url(#arrowGasC16)"></line>
+
+            <circle cx="430" cy="105" r="9" fill="#f59e0b"></circle>
+            <line x1="430" y1="105" x2="380" y2="145" stroke="#2563eb" stroke-width="3"
+                  stroke-linecap="round" marker-end="url(#arrowGasC16)"></line>
+
+            <circle cx="575" cy="205" r="9" fill="#7c3aed"></circle>
+            <line x1="575" y1="205" x2="635" y2="235" stroke="#2563eb" stroke-width="3"
+                  stroke-linecap="round" marker-end="url(#arrowGasC16)"></line>
+
+            <circle cx="355" cy="230" r="9" fill="#ef4444"></circle>
+            <line x1="355" y1="230" x2="300" y2="205" stroke="#2563eb" stroke-width="3"
+                  stroke-linecap="round" marker-end="url(#arrowGasC16)"></line>
+
+            <text x="120" y="300" fill="#64748b" font-size="19">
+              mișcare haotică + ciocniri elastice → presiune macroscopică
+            </text>
           </svg>
-          <p class="caption">Fiecare moleculă se mișcă rectiliniu și uniform între două ciocniri; ciocnirile cu pereții vasului produc, statistic, presiunea gazului.</p>
+
+          <p class="caption">
+            Moleculele se deplasează rectiliniu și uniform între ciocniri. Ciocnirile cu pereții produc
+            impulsuri mecanice; media statistică a acestor impulsuri dă presiunea.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C16?</h2>
+
+        <p>
+          Tema C16 cere două componente inseparabile:
+          <span class="mark">teoria cinetico-moleculară</span> și
+          <span class="mark">ecuațiile de stare ale gazului ideal</span>.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Partea microscopică</strong>
+            <p>
+              Molecule, agitație termică, ciocniri elastice, energie cinetică medie,
+              viteza pătratică medie, distribuție statistică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Partea macroscopică</strong>
+            <p>
+              Presiune, temperatură, volum, număr de moli, ecuația $pV=NkT$ și forma molară
+              $pV=\nu RT$.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          începe cu ipotezele modelului, deduce presiunea microscopic,
+          apoi obține relațiile $p=\frac13 nm\langle v^2\rangle$,
+          $\overline E_c=\frac32kT$ și $pV=NkT=\nu RT$.
         </div>
       </article>
     </section>
@@ -387,40 +359,82 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Model fizic</span>
-        <h2>Ipotezele teoriei cinetico-moleculare</h2>
+        <h2>Gazul ideal ca model</h2>
 
         <p>
-          <span class="mark">Gazul ideal</span> este un model idealizat, construit pe cinci ipoteze
-          fundamentale, care simplifică suficient realitatea pentru a permite un calcul statistic riguros.
+          Un <span class="mark">gaz ideal</span> este un model limită în care moleculele sunt tratate
+          ca particule punctiforme, aflate în mișcare dezordonată, iar interacțiunile dintre ele sunt
+          neglijabile în afara ciocnirilor.
         </p>
+
+        <div class="formula">
+          $$E_{\text{total}}\approx E_{\text{cinetică de translație}}$$
+        </div>
+
+        <p>
+          Modelul este bun pentru gaze rarefiate, la presiuni mici și temperaturi suficient de mari,
+          când distanța medie dintre molecule este mult mai mare decât dimensiunea lor.
+        </p>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          „ideal” nu înseamnă „real perfect”, ci „model teoretic simplificat”.
+          Gazele reale se apropie de comportarea ideală în anumite condiții.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ipoteze</span>
+        <h2>Ipotezele teoriei cinetico-moleculare</h2>
 
         <div class="grid">
           <div class="mini">
             <strong>1. Număr foarte mare de molecule</strong>
-            <p>Gazul conține un număr enorm de molecule (de ordinul $N_A=6{,}02\times10^{23}$), aflate în agitație termică permanentă.</p>
+            <p>
+              Gazul conține $N$ molecule, cu $N$ foarte mare. De aceea mărimile observate sunt medii statistice.
+            </p>
           </div>
+
           <div class="mini">
             <strong>2. Molecule punctiforme</strong>
-            <p>Dimensiunile proprii ale moleculelor sunt neglijabile față de distanțele dintre ele.</p>
+            <p>
+              Volumul propriu al moleculelor se neglijează față de volumul vasului.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>3. Fără interacțiuni la distanță</strong>
-            <p>Moleculele nu se atrag și nu se resping decât în momentul ciocnirii directe.</p>
+            <strong>3. Mișcare haotică</strong>
+            <p>
+              Direcțiile vitezelor sunt distribuite aleatoriu; nu există direcție privilegiată în echilibru.
+            </p>
           </div>
+
           <div class="mini">
             <strong>4. Ciocniri perfect elastice</strong>
-            <p>La ciocnire, se conservă atât impulsul, cât și energia cinetică totală a sistemului.</p>
+            <p>
+              La ciocniri se conservă impulsul și energia cinetică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>5. Fără interacțiuni la distanță</strong>
+            <p>
+              Între două ciocniri, moleculele se mișcă rectiliniu și uniform.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Echilibru termic</strong>
+            <p>
+              Temperatura este aceeași în tot gazul, iar distribuția vitezelor este stabilă statistic.
+            </p>
           </div>
         </div>
 
         <div class="formula">
-          Între două ciocniri: mișcare rectilinie și uniformă (fără forțe care acționează asupra moleculei)
-        </div>
-
-        <div class="exam">
-          <strong>Formulare de examen:</strong>
-          gazul ideal este modelul în care singura interacțiune dintre molecule este ciocnirea perfect
-          elastică, iar energia potențială de interacțiune este neglijabilă în raport cu energia cinetică.
+          $$\langle v_x^2\rangle=\langle v_y^2\rangle=\langle v_z^2\rangle=\frac13\langle v^2\rangle$$
         </div>
       </article>
     </section>
@@ -428,10 +442,10 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Mărimi statistice</span>
-        <h2>Concentrația de molecule și presiunea ca efect statistic</h2>
+        <h2>Concentrația moleculară și medierea</h2>
 
         <p>
-          <span class="mark">Concentrația de molecule</span> este numărul de molecule din unitatea de volum:
+          Concentrația moleculară este numărul de molecule din unitatea de volum:
         </p>
 
         <div class="formula">
@@ -439,162 +453,419 @@
         </div>
 
         <p>
-          Presiunea unui gaz asupra pereților vasului nu este produsă de o singură ciocnire, ci de
-          <span class="mark">suma statistică</span> a unui număr enorm de ciocniri, repetate de un număr
-          imens de ori pe secundă.
+          Simbolul $\langle\cdot\rangle$ indică o medie statistică. De exemplu,
+          $\langle v^2\rangle$ este media pătratelor vitezelor tuturor moleculelor.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>La nivel microscopic</strong>
-            <p>Fiecare moleculă produce, la ciocnirea cu peretele, o forță instantanee, discontinuă în timp.</p>
+            <strong>Viteză medie</strong>
+            <div class="formula">
+              $$\langle v\rangle=\frac{v_1+v_2+\dots+v_N}{N}$$
+            </div>
           </div>
+
           <div class="mini">
-            <strong>La nivel macroscopic</strong>
-            <p>Suma acestor forțe, mediată pe un număr imens de molecule, apare ca o forță constantă, deci ca o presiune bine definită.</p>
+            <strong>Media pătratelor vitezelor</strong>
+            <div class="formula">
+              $$\langle v^2\rangle=\frac{v_1^2+v_2^2+\dots+v_N^2}{N}$$
+            </div>
           </div>
         </div>
 
-        <div class="warning">
-          <strong>Atenție:</strong>
-          presiunea unui gaz nu poate fi definită pentru o singură moleculă — este, prin natura ei, o
-          mărime <strong>statistică</strong>, care are sens doar pentru un număr mare de molecule.
+        <div class="exam">
+          <strong>Important:</strong>
+          în teoria cinetică, relațiile pentru presiune și temperatură folosesc
+          $\langle v^2\rangle$, nu simplu $\langle v\rangle$.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Deducere</span>
+        <span class="eyebrow">Deducere I</span>
+        <h2>Ciocnirea unei molecule cu peretele</h2>
+
+        <p>
+          Considerăm o moleculă de masă $m$ într-un vas cubic de latură $L$.
+          Componenta vitezei pe axa $Ox$ este $v_x$.
+          La ciocnirea elastică cu peretele perpendicular pe $Ox$, viteza își schimbă semnul:
+        </p>
+
+        <div class="formula">
+          $$v_x\rightarrow -v_x$$
+        </div>
+
+        <p>
+          Impulsul moleculei pe direcția $Ox$ se modifică de la $mv_x$ la $-mv_x$.
+          Modulul variației impulsului este:
+        </p>
+
+        <div class="formula">
+          $$|\Delta p_x|=2mv_x$$
+        </div>
+
+        <p>
+          Timpul dintre două ciocniri succesive cu același perete este:
+        </p>
+
+        <div class="formula">
+          $$\Delta t=\frac{2L}{v_x}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere II</span>
+        <h2>Forța medie produsă de o moleculă</h2>
+
+        <p>
+          Forța medie exercitată de o moleculă asupra peretelui este rata de transfer a impulsului:
+        </p>
+
+        <div class="formula">
+          $$F_x=\frac{\Delta p_x}{\Delta t}$$
+        </div>
+
+        <p>
+          Înlocuind expresiile obținute:
+        </p>
+
+        <div class="formula">
+          $$F_x=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$$
+        </div>
+
+        <p>
+          Pentru toate moleculele:
+        </p>
+
+        <div class="formula">
+          $$F_{\text{total}}=\frac{m}{L}\sum_{j=1}^{N}v_{xj}^2$$
+        </div>
+
+        <p>
+          Deoarece aria peretelui este $S=L^2$, presiunea este:
+        </p>
+
+        <div class="formula">
+          $$p=\frac{F_{\text{total}}}{L^2}=\frac{m}{L^3}\sum_{j=1}^{N}v_{xj}^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Deducere III</span>
         <h2>Ecuația fundamentală a teoriei cinetico-moleculare</h2>
 
         <p>
-          Considerăm $N$ molecule identice, de masă $m$, într-un vas cubic de latură $L$ ($V=L^3$). O
-          moleculă cu viteza $v_x$ pe direcția $Ox$ ciocnește elastic peretele perpendicular pe $Ox$:
-          variația impulsului ei la o ciocnire este $\Delta p=2mv_x$, iar timpul dintre două ciocniri
-          succesive cu același perete este $\Delta t=\dfrac{2L}{v_x}$.
+          Cum $V=L^3$, iar media statistică a pătratelor componentelor vitezei este:
         </p>
 
         <div class="formula">
-          $$F=\frac{\Delta p}{\Delta t}=\frac{2mv_x}{2L/v_x}=\frac{mv_x^2}{L}$$
+          $$\langle v_x^2\rangle=\frac{1}{N}\sum_{j=1}^{N}v_{xj}^2$$
         </div>
 
         <p>
-          Însumând contribuția tuturor moleculelor și folosind izotropia mișcării
-          ($\langle v_x^2\rangle=\langle v_y^2\rangle=\langle v_z^2\rangle=\tfrac13\langle v^2\rangle$),
-          presiunea pe perete ($p=F_{total}/L^2$) devine:
+          rezultă:
         </p>
 
         <div class="formula">
-          $$p=\frac{1}{3}nm\langle v^2\rangle$$
+          $$p=\frac{Nm}{V}\langle v_x^2\rangle$$
         </div>
 
         <p>
-          Aceasta este <span class="mark">ecuația fundamentală a teoriei cinetico-moleculare</span>, scrisă
-          adesea și în forma echivalentă, folosind energia cinetică medie de translație
-          $\overline{E}_c=\tfrac12 m\langle v^2\rangle$:
+          Prin izotropie:
         </p>
 
         <div class="formula">
-          $$p=\frac{2}{3}n\,\overline{E}_c$$
+          $$\langle v_x^2\rangle=\frac13\langle v^2\rangle$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$p=\frac13\,nm\langle v^2\rangle$$
         </div>
 
         <div class="exam">
-          <strong>Reținem:</strong>
-          presiunea este proporțională atât cu concentrația de molecule, cât și cu energia lor cinetică
-          medie de translație.
+          <strong>Formulă de bază:</strong>
+          $$p=\frac13\rho\langle v^2\rangle$$
+          unde $\rho=nm$ este densitatea gazului.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Interpretare microscopică</span>
-        <h2>Temperatura — o măsură a energiei cinetice medii</h2>
+        <span class="eyebrow">Interpretare</span>
+        <h2>Presiunea și energia cinetică medie</h2>
 
         <p>
-          Comparând ecuația fundamentală $p=\tfrac13 nm\langle v^2\rangle$ cu ecuația de stare (dedusă în
-          pagina următoare) $p=nkT$, unde $k=1{,}38\times10^{-23}\,\text{J/K}$ este
-          <span class="mark">constanta lui Boltzmann</span>, obținem relația centrală a teoriei
-          cinetico-moleculare:
+          Energia cinetică medie de translație a unei molecule este:
         </p>
 
         <div class="formula">
-          $$\overline{E}_c=\frac12 m\langle v^2\rangle=\frac{3}{2}kT$$
+          $$\overline E_c=\frac12m\langle v^2\rangle$$
         </div>
 
         <p>
-          De aici rezultă și <span class="mark">viteza pătratică medie</span> a moleculelor:
+          Din ecuația fundamentală:
         </p>
 
         <div class="formula">
-          $$v_{pm}=\sqrt{\langle v^2\rangle}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}}$$
+          $$p=\frac13nm\langle v^2\rangle$$
+        </div>
+
+        <p>
+          obținem:
+        </p>
+
+        <div class="formula">
+          $$p=\frac23 n\overline E_c$$
         </div>
 
         <div class="grid">
           <div class="mini">
-            <strong>$k$ — constanta lui Boltzmann</strong>
-            <p>$k=1{,}38\times10^{-23}\,\text{J/K}$, legată de constanta gazelor prin $R=N_A k$.</p>
+            <strong>Crește concentrația $n$</strong>
+            <p>crește numărul de ciocniri cu pereții, deci presiunea crește.</p>
           </div>
-          <div class="mini">
-            <strong>$M$ — masa molară</strong>
-            <p>Masa unui mol de substanță; $m=M/N_A$ este masa unei singure molecule.</p>
-          </div>
-        </div>
 
-        <div class="exam">
-          <strong>Formulare de examen:</strong>
-          temperatura absolută este, la nivel microscopic, o măsură directă a energiei cinetice medii de
-          translație a moleculelor — nu are sens fizic pentru o singură moleculă, ci doar ca mărime
-          statistică.
+          <div class="mini">
+            <strong>Crește energia cinetică medie</strong>
+            <p>ciocnirile sunt mai intense, deci presiunea crește.</p>
+          </div>
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Distribuția vitezelor</span>
-        <h2>Legea de distribuție Maxwell</h2>
+        <span class="eyebrow">Temperatura</span>
+        <h2>Temperatura ca măsură a agitației termice</h2>
 
         <p>
-          Nu toate moleculele au aceeași viteză. La o temperatură dată, vitezele moleculelor se distribuie
-          statistic după <span class="mark">legea de distribuție Maxwell</span>: puține molecule au viteze
-          foarte mici sau foarte mari, iar cele mai multe au viteze apropiate de o valoare caracteristică.
+          Pentru gazul ideal, temperatura absolută este proporțională cu energia cinetică medie
+          de translație a moleculelor:
         </p>
 
-        <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Curba de distribuție Maxwell a vitezelor moleculare">
-            <line x1="60" y1="220" x2="650" y2="220" stroke="#64748b" stroke-width="3"/>
-            <line x1="70" y1="230" x2="70" y2="30" stroke="#64748b" stroke-width="3"/>
-            <path d="M70 218 C140 210, 190 40, 260 40 S 380 150, 470 195 S 600 218, 640 219"
-                  fill="none" stroke="#2563eb" stroke-width="6"/>
-            <line x1="260" y1="40" x2="260" y2="220" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 5"/>
-            <line x1="300" y1="70" x2="300" y2="220" stroke="#0f766e" stroke-width="3" stroke-dasharray="6 5"/>
-            <line x1="330" y1="95" x2="330" y2="220" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 5"/>
-            <text x="640" y="240" fill="#64748b" font-size="22">v</text>
-            <text x="45" y="35" fill="#64748b" font-size="22">f(v)</text>
-            <text x="220" y="255" fill="#f59e0b" font-size="19">v_p</text>
-            <text x="290" y="255" fill="#0f766e" font-size="19">v̄</text>
-            <text x="345" y="255" fill="#ef4444" font-size="19">v_pm</text>
-          </svg>
-          <p class="caption">Cele trei viteze caracteristice: $v_p$ (cea mai probabilă), $\bar v$ (viteza medie), $v_{pm}$ (viteza pătratică medie) — mereu în ordinea $v_p<\bar v<v_{pm}$.</p>
+        <div class="formula">
+          $$\overline E_c=\frac32kT$$
         </div>
 
-        <div class="grid">
-          <div class="mini">
-            <strong>Efectul temperaturii</strong>
-            <p>La creșterea temperaturii, curba se lățește și maximul se deplasează spre viteze mai mari.</p>
-          </div>
-          <div class="mini">
-            <strong>Aria de sub curbă</strong>
-            <p>Rămâne constantă (egală cu 1), deoarece reprezintă totalitatea moleculelor gazului.</p>
-          </div>
+        <p>
+          Aici $k$ este constanta lui Boltzmann:
+        </p>
+
+        <div class="formula">
+          $$k=1{,}38\cdot10^{-23}\,\text{J/K}$$
+        </div>
+
+        <p>
+          Relația arată că temperatura are sens statistic:
+          o moleculă izolată are energie cinetică, dar nu are „temperatură” în sens termodinamic.
+        </p>
+
+        <div class="exam">
+          <strong>Concluzie de examen:</strong>
+          temperatura absolută $T$ este o măsură macroscopică a energiei cinetice medii de agitație
+          termică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Viteze moleculare</span>
+        <h2>Viteza pătratică medie</h2>
+
+        <p>
+          Viteza pătratică medie se definește prin:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{rms}}=\sqrt{\langle v^2\rangle}$$
+        </div>
+
+        <p>
+          Din relația:
+        </p>
+
+        <div class="formula">
+          $$\frac12m\langle v^2\rangle=\frac32kT$$
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{rms}}=\sqrt{\frac{3kT}{m}}$$
+        </div>
+
+        <p>
+          În formă molară, folosind $m=M/N_A$ și $R=N_Ak$:
+        </p>
+
+        <div class="formula">
+          $$v_{\text{rms}}=\sqrt{\frac{3RT}{M}}$$
         </div>
 
         <div class="warning">
-          <strong>Atenție:</strong>
-          $v_p$, $\bar v$ și $v_{pm}$ sunt trei mărimi diferite, nu sinonime. Confuzia lor este o greșeală
-          frecventă la examen.
+          <strong>Atenție la unități:</strong>
+          masa molară $M$ trebuie exprimată în $\text{kg/mol}$, nu în $\text{g/mol}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Constante</span>
+        <h2>Legătura dintre $k$, $N_A$ și $R$</h2>
+
+        <p>
+          La nivel microscopic lucrăm cu numărul de molecule $N$ și constanta lui Boltzmann $k$.
+          La nivel macroscopic lucrăm cu numărul de moli $\nu$ și constanta gazelor ideale $R$.
+        </p>
+
+        <div class="formula">
+          $$N=\nu N_A$$
+        </div>
+
+        <div class="formula">
+          $$R=N_Ak$$
+        </div>
+
+        <div class="formula">
+          $$R=8{,}31\,\text{J/(mol·K)}$$
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nivel</th>
+                <th>Mărimi folosite</th>
+                <th>Ecuație tipică</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Microscopic</td>
+                <td>$N$, $k$, $m$</td>
+                <td>$pV=NkT$</td>
+              </tr>
+              <tr>
+                <td>Molar</td>
+                <td>$\nu$, $R$, $M$</td>
+                <td>$pV=\nu RT$</td>
+              </tr>
+              <tr>
+                <td>Masă totală</td>
+                <td>$m_{\text{gaz}}$, $M$</td>
+                <td>$\nu=m_{\text{gaz}}/M$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ecuații de stare</span>
+        <h2>Ecuația de stare a gazului ideal</h2>
+
+        <p>
+          Combinând:
+        </p>
+
+        <div class="formula">
+          $$p=\frac23n\overline E_c,\qquad \overline E_c=\frac32kT$$
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          $$p=nkT$$
+        </div>
+
+        <p>
+          Cum $n=N/V$, obținem forma moleculară:
+        </p>
+
+        <div class="formula">
+          $$pV=NkT$$
+        </div>
+
+        <p>
+          Folosind $N=\nu N_A$ și $R=N_Ak$, obținem forma molară:
+        </p>
+
+        <div class="formula">
+          $$pV=\nu RT$$
+        </div>
+
+        <p>
+          Dacă $\nu=m_{\text{gaz}}/M$, atunci:
+        </p>
+
+        <div class="formula">
+          $$pV=\frac{m_{\text{gaz}}}{M}RT$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Cazuri particulare</span>
+        <h2>Legile gazului ideal</h2>
+
+        <p>
+          Ecuația generală $pV=\nu RT$ conduce la legile clasice ale gazelor când una dintre mărimile
+          de stare rămâne constantă.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Transformare</th>
+                <th>Mărime constantă</th>
+                <th>Lege</th>
+                <th>Relație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Izotermă</td>
+                <td>$T=\text{const}$</td>
+                <td>Boyle–Mariotte</td>
+                <td>$pV=\text{const}$</td>
+              </tr>
+              <tr>
+                <td>Izobară</td>
+                <td>$p=\text{const}$</td>
+                <td>Gay-Lussac</td>
+                <td>$V/T=\text{const}$</td>
+              </tr>
+              <tr>
+                <td>Izocoră</td>
+                <td>$V=\text{const}$</td>
+                <td>Charles</td>
+                <td>$p/T=\text{const}$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula">
+          $$\frac{p_1V_1}{T_1}=\frac{p_2V_2}{T_2}\qquad(\nu=\text{const})$$
         </div>
       </article>
     </section>
@@ -602,112 +873,285 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Grade de libertate</span>
-        <h2>Energia internă și teorema echipartiției</h2>
+        <h2>Teorema echipartiției energiei</h2>
 
         <p>
-          <span class="mark">Teorema echipartiției energiei</span> afirmă că fiecărui grad de libertate al
-          unei molecule îi revine, în medie, aceeași energie: $\tfrac12 kT$ per moleculă, adică
-          $\tfrac12 RT$ per mol.
+          Teorema echipartiției afirmă că, la echilibru termic, fiecărui grad de libertate pătratic
+          îi revine energia medie:
         </p>
 
-        <div class="grid">
-          <div class="mini">
-            <strong>Gaz monoatomic ($i=3$)</strong>
-            <p>Doar 3 grade de libertate de translație (pe $Ox$, $Oy$, $Oz$) — ex. heliu, argon.</p>
-          </div>
-          <div class="mini">
-            <strong>Gaz diatomic ($i=5$)</strong>
-            <p>3 grade de translație + 2 de rotație — ex. $O_2$, $N_2$, deci și aerul.</p>
-          </div>
+        <div class="formula">
+          $$\frac12kT\quad\text{per moleculă}$$
         </div>
 
         <p>
-          Energia internă a unui gaz ideal, pentru $\nu$ moli, este suma energiilor cinetice ale tuturor
-          moleculelor de pe toate gradele lor de libertate:
+          Pentru o moleculă cu $i$ grade de libertate:
+        </p>
+
+        <div class="formula">
+          $$\overline E=\frac{i}{2}kT$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Gaz monoatomic</strong>
+            <p>
+              $i=3$: trei grade de libertate de translație.
+            </p>
+            <div class="formula">
+              $$\overline E=\frac32kT$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Gaz diatomic la temperaturi obișnuite</strong>
+            <p>
+              $i\approx5$: trei de translație și două de rotație.
+            </p>
+            <div class="formula">
+              $$\overline E\approx\frac52kT$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          energia care produce presiunea este energia cinetică de translație; gradele rotaționale contribuie
+          la energia internă, dar nu direct la presiunea cinetică translatională.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energia internă</span>
+        <h2>Energia internă a gazului ideal</h2>
+
+        <p>
+          Pentru un gaz ideal, energia internă este suma energiilor microscopice ale moleculelor.
+          În modelul ideal, nu există energie potențială de interacțiune între molecule.
+        </p>
+
+        <div class="formula">
+          $$U=N\cdot\frac{i}{2}kT$$
+        </div>
+
+        <p>
+          Cum $N=\nu N_A$ și $R=N_Ak$, rezultă:
         </p>
 
         <div class="formula">
           $$U=\frac{i}{2}\nu RT$$
         </div>
 
-        <div class="exam">
-          <strong>Reținem:</strong>
-          pentru gazul ideal, energia internă depinde <strong>numai</strong> de temperatură, nu și de
-          volum sau presiune — spre deosebire de gazele reale.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Legătură cu macroscopicul</span>
-        <h2>Ecuația de stare a gazului ideal</h2>
-
         <p>
-          Rescriind ecuația fundamentală $p=\tfrac23 n\overline{E}_c$ și înlocuind
-          $\overline{E}_c=\tfrac32 kT$, se obține direct ecuația de stare a gazului ideal, cunoscută și ca
-          <span class="mark">legea Clapeyron–Mendeleev</span>:
+          Pentru gaz monoatomic:
         </p>
 
         <div class="formula">
-          $$pV=NkT=\nu RT$$
+          $$U=\frac32\nu RT$$
         </div>
 
         <p>
-          Aceasta arată că teoria cinetico-moleculară nu este doar o poveste calitativă, ci
-          <strong>deduce</strong> ecuația de stare, în loc să o postuleze.
+          Pentru gaz diatomic idealizat la temperaturi obișnuite:
         </p>
 
-        <table style="width:100%; border-collapse:collapse; margin-top:0.5rem;">
-          <tr>
-            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izotermă</strong> ($T=\text{const}$)</td>
-            <td style="border:1px solid var(--border); padding:0.6rem;">$pV=\text{const}$ — legea Boyle–Mariotte</td>
-          </tr>
-          <tr>
-            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izobară</strong> ($p=\text{const}$)</td>
-            <td style="border:1px solid var(--border); padding:0.6rem;">$V/T=\text{const}$ — legea Gay-Lussac</td>
-          </tr>
-          <tr>
-            <td style="border:1px solid var(--border); padding:0.6rem;"><strong>Izocoră</strong> ($V=\text{const}$)</td>
-            <td style="border:1px solid var(--border); padding:0.6rem;">$p/T=\text{const}$ — legea lui Charles</td>
-          </tr>
-        </table>
+        <div class="formula">
+          $$U\approx\frac52\nu RT$$
+        </div>
 
         <div class="exam">
-          <strong>Formulare de examen:</strong>
-          cele trei legi ale gazelor (Boyle-Mariotte, Gay-Lussac, Charles) sunt cazuri particulare ale
-          ecuației de stare $pV=\nu RT$, obținute prin fixarea unei mărimi de stare.
+          <strong>Rezultat esențial:</strong>
+          energia internă a gazului ideal depinde numai de temperatură.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Problemă rezolvată</span>
-        <h2>Model de rezolvare pentru examen</h2>
+        <span class="eyebrow">Fizică statistică</span>
+        <h2>Distribuția vitezelor — idee calitativă</h2>
 
         <p>
-          Calculați viteza pătratică medie a moleculelor de azot ($N_2$, masă molară
-          $M=28\,\text{g/mol}=0{,}028\,\text{kg/mol}$) la temperatura $T=300\,\text{K}$. Se cunoaște
+          Într-un gaz aflat la echilibru termic, moleculele nu au toate aceeași viteză.
+          Există o distribuție a vitezelor: unele molecule sunt lente, altele au viteze apropiate de medie,
+          iar un număr mai mic au viteze mari.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Crește temperatura</strong>
+            <p>
+              distribuția se deplasează spre viteze mai mari, iar $v_{\text{rms}}$ crește.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Crește masa moleculară</strong>
+            <p>
+              la aceeași temperatură, viteza pătratică medie scade.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$v_{\text{rms}}\propto\sqrt{T},\qquad v_{\text{rms}}\propto\frac{1}{\sqrt{M}}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          moleculele ușoare, precum hidrogenul, au viteze medii mai mari decât moleculele grele
+          la aceeași temperatură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Presiunea din date microscopice</h2>
+
+        <p>
+          Un gaz ideal are concentrația moleculară
+          $n=2{,}5\cdot10^{25}\,\text{m}^{-3}$.
+          Masa unei molecule este
+          $m=4{,}8\cdot10^{-26}\,\text{kg}$, iar
+          $v_{\text{rms}}=500\,\text{m/s}$.
+          Calculați presiunea gazului.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$p=\frac13nm\langle v^2\rangle=\frac13nmv_{\text{rms}}^2$$
+        </div>
+
+        <div class="formula">
+          $$p=\frac13\cdot2{,}5\cdot10^{25}\cdot4{,}8\cdot10^{-26}\cdot500^2$$
+        </div>
+
+        <div class="formula">
+          $$p=1{,}0\cdot10^5\,\text{Pa}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          rezultatul este de ordinul presiunii atmosferice, deci este fizic rezonabil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Viteza pătratică medie a azotului</h2>
+
+        <p>
+          Calculați $v_{\text{rms}}$ pentru azot molecular $N_2$ la temperatura
+          $T=300\,\text{K}$. Se dă $M=28\,\text{g/mol}=0{,}028\,\text{kg/mol}$ și
           $R=8{,}31\,\text{J/(mol·K)}$.
         </p>
 
-        <p><strong>1. Alegerea formulei:</strong> viteza pătratică medie se calculează din energia cinetică medie de translație, exprimată prin constanta $R$ și masa molară:</p>
         <div class="formula">
-          $$v_{pm}=\sqrt{\frac{3RT}{M}}$$
+          $$v_{\text{rms}}=\sqrt{\frac{3RT}{M}}$$
         </div>
 
-        <p><strong>2. Înlocuirea valorilor numerice:</strong></p>
         <div class="formula">
-          $$v_{pm}=\sqrt{\frac{3\cdot 8{,}31\cdot 300}{0{,}028}}=\sqrt{\frac{7479}{0{,}028}}=\sqrt{267\,107}\approx 517\,\text{m/s}$$
+          $$v_{\text{rms}}=\sqrt{\frac{3\cdot8{,}31\cdot300}{0{,}028}}$$
         </div>
 
-        <p><strong>3. Verificarea ordinului de mărime:</strong> 517 m/s este comparabil cu viteza sunetului în aer (~340 m/s), ceea ce este fizic rezonabil pentru molecule ușoare la temperatura camerei.</p>
+        <div class="formula">
+          $$v_{\text{rms}}\approx517\,\text{m/s}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          dacă folosești $M=28$ în loc de $0{,}028\,\text{kg/mol}$, obții un rezultat greșit
+          cu un factor foarte mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Ecuația de stare în formă molară</h2>
+
+        <p>
+          Un recipient conține $\nu=2\,\text{mol}$ de gaz ideal la temperatura
+          $T=300\,\text{K}$ și volumul $V=0{,}050\,\text{m}^3$.
+          Determinați presiunea.
+        </p>
+
+        <div class="formula">
+          $$pV=\nu RT$$
+        </div>
+
+        <div class="formula">
+          $$p=\frac{\nu RT}{V}$$
+        </div>
+
+        <div class="formula">
+          $$p=\frac{2\cdot8{,}31\cdot300}{0{,}050}=99\,720\,\text{Pa}$$
+        </div>
+
+        <div class="formula">
+          $$p\approx 1{,}0\cdot10^5\,\text{Pa}$$
+        </div>
 
         <div class="exam">
-          <strong>Răspuns final:</strong>
-          la $T=300\,\text{K}$, moleculele de azot au o viteză pătratică medie de aproximativ
-          $517\,\text{m/s}$.
+          <strong>Interpretare:</strong>
+          presiunea este aproximativ egală cu presiunea atmosferică.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Experiment și didactică</span>
+        <h2>Cum poate fi predată tema prin modelare și experiment</h2>
+
+        <p>
+          Tema se pretează la o alternanță între model teoretic, simulare și experiment didactic.
+          Profesorul poate porni de la observarea macroscopică a presiunii și poate coborî spre modelul molecular.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              seringă închisă: comprimarea aerului arată creșterea presiunii când volumul scade.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Simulare TIC</strong>
+            <p>
+              model cu particule într-o cutie: creșterea temperaturii duce la viteze mai mari și ciocniri mai intense.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezolvare de probleme</strong>
+            <p>
+              calculul lui $v_{\text{rms}}$, determinarea presiunii și folosirea ecuației $pV=\nu RT$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              nu se încălzesc recipiente închise rigid; se evită suprapresiuni și se folosesc surse de căldură controlate.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare orală în 3 minute:</strong>
+          modelul cinetic explică presiunea prin ciocniri moleculare și temperatura prin energia cinetică medie;
+          ecuația de stare rezultă din aceste legături statistice.
         </div>
       </article>
     </section>
@@ -715,63 +1159,112 @@
     <section class="page">
       <article class="card">
         <span class="eyebrow">Capcane de examen</span>
-        <h2>Greșeli frecvente și corectarea lor</h2>
+        <h2>Erori frecvente și corectarea lor</h2>
 
-        <ul>
-          <li>
-            <strong>Confuzia celor trei viteze caracteristice:</strong>
-            $v_p$ (cea mai probabilă), $\bar v$ (media) și $v_{pm}$ (pătratică medie) sunt distincte, cu
-            $v_p<\bar v<v_{pm}$.
-          </li>
-          <li>
-            <strong>Uitarea conversiei masei molare:</strong>
-            în formulele cu $R$, masa molară trebuie folosită în kg/mol, nu în g/mol.
-          </li>
-          <li>
-            <strong>Atribuirea presiunii/temperaturii unei singure molecule:</strong>
-            ambele sunt mărimi statistice, definite doar pentru un ansamblu mare de molecule.
-          </li>
-          <li>
-            <strong>Confuzia dintre gradele de libertate:</strong>
-            gazele monoatomice au $i=3$, cele diatomice (inclusiv aerul) au $i=5$ la temperaturi uzuale.
-          </li>
-          <li>
-            <strong>Ignorarea faptului că $U$ depinde doar de $T$:</strong>
-            pentru gazul ideal, energia internă nu depinde de presiune sau volum, spre deosebire de gazele
-            reale.
-          </li>
-        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>„O moleculă are temperatură.”</td>
+                <td>Temperatura este mărime statistică.</td>
+                <td>O moleculă are energie cinetică; gazul are temperatură.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $\langle v\rangle$ în loc de $\langle v^2\rangle$.</td>
+                <td>Presiunea depinde de transferul de impuls, proporțional cu $v_x^2$.</td>
+                <td>$p=\frac13nm\langle v^2\rangle$.</td>
+              </tr>
+              <tr>
+                <td>Masa molară se lasă în g/mol.</td>
+                <td>Formula $v_{\text{rms}}=\sqrt{3RT/M}$ cere unități SI.</td>
+                <td>$M$ se exprimă în $\text{kg/mol}$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă $n$ cu $\nu$.</td>
+                <td>$n$ este concentrație moleculară, $\nu$ este număr de moli.</td>
+                <td>$n=N/V$, iar $\nu=N/N_A$.</td>
+              </tr>
+              <tr>
+                <td>Se afirmă că gazul ideal are energie potențială de interacțiune.</td>
+                <td>În modelul ideal interacțiunile la distanță sunt neglijate.</td>
+                <td>$U$ depinde numai de $T$.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="exam">
-          <strong>Formulare bună la proba scrisă:</strong>
-          „Aplic teoria cinetico-moleculară: presiunea gazului este efectul statistic al ciocnirilor
-          moleculelor cu pereții vasului, iar temperatura absolută este proporțională cu energia cinetică
-          medie de translație a moleculelor.”
+        <div class="warning">
+          <strong>De reținut:</strong>
+          presiunea, temperatura și energia internă sunt punți între microfizică și termodinamică.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Verificare rapidă</span>
-        <h2>Itemi pentru autoevaluare</h2>
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C16</h2>
 
-        <ol>
-          <li>Enumerați cele cinci ipoteze ale teoriei cinetico-moleculare a gazului ideal.</li>
-          <li>Scrieți ecuația fundamentală a teoriei cinetico-moleculare, în ambele forme echivalente.</li>
-          <li>Explicați legătura dintre temperatura absolută și energia cinetică medie de translație.</li>
-          <li>Care sunt cele trei viteze caracteristice ale distribuției Maxwell și cum se ordonează ele?</li>
-          <li>Câte grade de libertate au moleculele unui gaz diatomic și ce energie internă rezultă?</li>
-          <li>Calculați energia cinetică medie de translație a unei molecule la $T=400\,\text{K}$.</li>
-        </ol>
+        <div class="grid">
+          <div class="mini">
+            <strong>Concentrație moleculară</strong>
+            <div class="formula">
+              $$n=\frac{N}{V}$$
+            </div>
+          </div>
 
-        <div class="formula">
-          $$\overline{E}_c=\frac{3}{2}kT,\qquad v_{pm}=\sqrt{\frac{3RT}{M}},\qquad pV=\nu RT$$
+          <div class="mini">
+            <strong>Ecuația fundamentală</strong>
+            <div class="formula">
+              $$p=\frac13nm\langle v^2\rangle$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energia cinetică medie</strong>
+            <div class="formula">
+              $$\overline E_c=\frac32kT$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Viteza pătratică medie</strong>
+            <div class="formula">
+              $$v_{\text{rms}}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ecuația de stare</strong>
+            <div class="formula">
+              $$pV=NkT=\nu RT$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Energia internă</strong>
+            <div class="formula">
+              $$U=\frac{i}{2}\nu RT$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          deduceți relația $p=\frac13nm\langle v^2\rangle$, apoi arătați că
+          $pV=NkT$ folosind $\overline E_c=\frac32kT$.
         </div>
 
         <div class="bottom-links">
           <a href="C17-principiul-intai-al-termodinamicii.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="Fise%20de%20lucru/fisa-16.html">Fișa de lucru C16</a>
           <a href="index.html">Înapoi la capitol</a>
         </div>
       </article>
@@ -779,23 +1272,30 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 22</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
     <a href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -823,6 +1323,8 @@
       if (event.key === "ArrowRight") nextPage();
       if (event.key === "ArrowLeft") prevPage();
     });
+
+    updatePageStatus();
   </script>
 </body>
 </html>
