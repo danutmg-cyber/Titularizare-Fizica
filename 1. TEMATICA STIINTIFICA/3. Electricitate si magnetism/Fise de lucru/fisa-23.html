@@ -1,1 +1,993 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C23 – Curentul electric continuu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 {
+      margin-top: 0;
+    }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 280px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li {
+      margin: 0.35rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C23 • Curentul electric continuu</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C23</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Curentul electric continuu</h1>
+
+      <p class="lead">
+        Fișa consolidează intensitatea curentului electric, densitatea de curent, tensiunea electromotoare,
+        legea lui Ohm, rezistența electrică, grupările de rezistoare, teoremele lui Kirchhoff, puterea electrică
+        și legea Joule–Lenz.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Intensitatea curentului electric</strong>
+          <div class="formula">
+            $$I=\frac{\Delta q}{\Delta t},\qquad I=\frac{dq}{dt}$$
+          </div>
+          <p>În regim continuu staționar, intensitatea și sensul curentului rămân constante în timp.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Densitatea de curent și continuitatea</strong>
+          <div class="formula">
+            $$I=\int_S\vec j\cdot d\vec S,\qquad
+            \frac{\partial \rho}{\partial t}+\nabla\cdot\vec j=0$$
+          </div>
+          <p>Ecuația de continuitate exprimă local conservarea sarcinii electrice.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Legea lui Ohm și rezistența</strong>
+          <div class="formula">
+            $$U=RI,\qquad R=\rho_e\frac{l}{S}$$
+          </div>
+          <p>Pentru conductor ohmic, raportul $U/I$ este constant la temperatură constantă.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Generator real și legea Joule</strong>
+          <div class="formula">
+            $$I=\frac{\mathcal E}{R+r},\qquad Q_J=I^2Rt$$
+          </div>
+          <p>Sursa reală are rezistență internă $r$, iar rezistorul transformă energia electrică în căldură.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mărime / lege</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Intensitate</td>
+              <td>$I=dq/dt$</td>
+              <td>A</td>
+              <td>Se transformă corect timpul în secunde.</td>
+            </tr>
+            <tr>
+              <td>Densitate de curent</td>
+              <td>$j=I/S$</td>
+              <td>A/m²</td>
+              <td>Secțiunea în mm² se transformă în m².</td>
+            </tr>
+            <tr>
+              <td>Viteză de drift</td>
+              <td>$v_d=I/(n|q|S)$</td>
+              <td>m/s</td>
+              <td>Nu se confundă cu viteza de propagare a semnalului electric.</td>
+            </tr>
+            <tr>
+              <td>T.e.m.</td>
+              <td>$\mathcal E=A_{\text{neel}}/q$</td>
+              <td>V</td>
+              <td>Caracterizează sursa, nu doar receptorul exterior.</td>
+            </tr>
+            <tr>
+              <td>Ohm</td>
+              <td>$U=RI$</td>
+              <td>V</td>
+              <td>Se aplică pe elementul pentru care sunt cunoscute $U$, $R$, $I$.</td>
+            </tr>
+            <tr>
+              <td>Kirchhoff I</td>
+              <td>$\sum I_{\text{intră}}=\sum I_{\text{ies}}$</td>
+              <td>A</td>
+              <td>Exprimă conservarea sarcinii în nod.</td>
+            </tr>
+            <tr>
+              <td>Kirchhoff II</td>
+              <td>$\sum\mathcal E-\sum IR=0$</td>
+              <td>V</td>
+              <td>Exprimă conservarea energiei pe ochi.</td>
+            </tr>
+            <tr>
+              <td>Putere și Joule</td>
+              <td>$P=UI=I^2R$, $Q_J=I^2Rt$</td>
+              <td>W, J</td>
+              <td>Puterea se calculează cu tensiunea de pe elementul analizat.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Intensitatea curentului electric este definită prin:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$I=dq/dt$</option>
+          <option value="b">$I=U/R^2$</option>
+          <option value="c">$I=Rt$</option>
+          <option value="d">$I=qU$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Pentru un generator real care debitează curent, tensiunea la borne este:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">$U=\mathcal E+Ir$</option>
+          <option value="b">$U=Ir-\mathcal E$</option>
+          <option value="c">$U=\mathcal E-Ir$</option>
+          <option value="d">$U=\mathcal E/R$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Prima teoremă a lui Kirchhoff exprimă:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">conservarea energiei pe ochi</option>
+          <option value="b">conservarea sarcinii într-un nod</option>
+          <option value="c">legea inducției electromagnetice</option>
+          <option value="d">efectul Joule</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Căldura degajată într-un rezistor parcurs de curent continuu este:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">$Q=IR/t$</option>
+          <option value="b">$Q=R/(I^2t)$</option>
+          <option value="c">$Q=It/R$</option>
+          <option value="d">$Q=I^2Rt$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Rezistoarele legate în paralel au comună:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">tensiunea la borne</option>
+          <option value="b">rezistența</option>
+          <option value="c">curentul prin fiecare ramură</option>
+          <option value="d">puterea disipată</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Rezolvările folosesc unități SI și formulele cerute la examen.
+      </p>
+
+      <article class="item">
+        <h3>4. Intensitatea curentului electric <span class="points">5 p</span></h3>
+        <p>
+          Printr-o secțiune a unui conductor trece sarcina
+          <span class="formula-inline">$q$</span> = <span class="var" id="e4q"></span> C
+          în timpul
+          <span class="formula-inline">$t$</span> = <span class="var" id="e4t"></span> s.
+          Determinați intensitatea curentului electric.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Rezistența unui fir conductor <span class="points">5 p</span></h3>
+        <p>
+          Un fir are lungimea
+          <span class="formula-inline">$l$</span> = <span class="var" id="e5l"></span> m,
+          secțiunea
+          <span class="formula-inline">$S$</span> = <span class="var" id="e5S"></span> mm²
+          și rezistivitatea
+          <span class="formula-inline">$\rho_e$</span> = <span class="var" id="e5rho"></span> $\cdot10^{-8}\,\Omega\text{m}$.
+          Determinați rezistența firului.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Legea lui Ohm și puterea <span class="points">5 p</span></h3>
+        <p>
+          Un rezistor de rezistență
+          <span class="formula-inline">$R$</span> = <span class="var" id="e6R"></span> $\Omega$
+          este conectat la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e6U"></span> V.
+          Determinați curentul și puterea disipată.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Generator real <span class="points">5 p</span></h3>
+        <p>
+          Un generator are t.e.m.
+          <span class="formula-inline">$\mathcal E$</span> = <span class="var" id="e7emf"></span> V
+          și rezistența internă
+          <span class="formula-inline">$r$</span> = <span class="var" id="e7r"></span> $\Omega$.
+          El alimentează un rezistor exterior
+          <span class="formula-inline">$R$</span> = <span class="var" id="e7R"></span> $\Omega$.
+          Determinați $I$, tensiunea la borne și randamentul.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Legea Joule–Lenz <span class="points">5 p</span></h3>
+        <p>
+          Un rezistor de
+          <span class="formula-inline">$R$</span> = <span class="var" id="e8R"></span> $\Omega$
+          este străbătut de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e8I"></span> A
+          timp de
+          <span class="formula-inline">$t$</span> = <span class="var" id="e8t"></span> min.
+          Determinați căldura degajată.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Prima teoremă Kirchhoff <span class="points">5 p</span></h3>
+        <p>
+          Într-un nod intră curenții
+          <span class="formula-inline">$I_1$</span> = <span class="var" id="e9I1"></span> A și
+          <span class="formula-inline">$I_2$</span> = <span class="var" id="e9I2"></span> A.
+          Din nod ies curentul
+          <span class="formula-inline">$I_3$</span> = <span class="var" id="e9I3"></span> A
+          și curentul necunoscut
+          <span class="formula-inline">$I_4$</span>.
+          Determinați $I_4$.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Grupare mixtă de rezistoare <span class="points">5 p</span></h3>
+        <p>
+          Rezistoarele
+          <span class="formula-inline">$R_1$</span> = <span class="var" id="e10R1"></span> $\Omega$
+          și
+          <span class="formula-inline">$R_2$</span> = <span class="var" id="e10R2"></span> $\Omega$
+          sunt legate în paralel. Gruparea este legată apoi în serie cu
+          <span class="formula-inline">$R_3$</span> = <span class="var" id="e10R3"></span> $\Omega$
+          la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e10U"></span> V.
+          Determinați rezistența echivalentă și curentul total.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Ramuri paralele și verificarea KCL <span class="points">5 p</span></h3>
+        <p>
+          Două rezistoare
+          <span class="formula-inline">$R_1$</span> = <span class="var" id="e11R1"></span> $\Omega$
+          și
+          <span class="formula-inline">$R_2$</span> = <span class="var" id="e11R2"></span> $\Omega$
+          sunt legate în paralel la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e11U"></span> V.
+          Determinați curenții prin ramuri și curentul total.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Variația rezistenței cu temperatura <span class="points">5 p</span></h3>
+        <p>
+          Un conductor are rezistența
+          <span class="formula-inline">$R_0$</span> = <span class="var" id="e12R0"></span> $\Omega$
+          la temperatura inițială. Coeficientul termic este
+          <span class="formula-inline">$\alpha$</span> = <span class="var" id="e12a"></span> $\cdot10^{-3}\,\text{K}^{-1}$,
+          iar temperatura crește cu
+          <span class="formula-inline">$\Delta T$</span> = <span class="var" id="e12dT"></span> K.
+          Determinați rezistența finală.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Transfer maxim de putere <span class="points">5 p</span></h3>
+        <p>
+          Un generator real are
+          <span class="formula-inline">$\mathcal E$</span> = <span class="var" id="e13emf"></span> V
+          și
+          <span class="formula-inline">$r$</span> = <span class="var" id="e13r"></span> $\Omega$.
+          Determinați rezistența exterioară pentru putere maximă, puterea maximă și randamentul în această situație.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Viteza de drift a electronilor <span class="points">5 p</span></h3>
+        <p>
+          Un conductor metalic este străbătut de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e14I"></span> A.
+          Secțiunea conductorului este
+          <span class="formula-inline">$S$</span> = <span class="var" id="e14S"></span> mm²,
+          iar concentrația electronilor liberi este
+          <span class="formula-inline">$n$</span> = <span class="var" id="e14n"></span> $\cdot10^{28}\,\text{m}^{-3}$.
+          Determinați viteza de drift.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Explicați diferența dintre tensiunea electromotoare $\mathcal E$ și tensiunea la borne $U$
+          pentru un generator real. Includeți relația $U=\mathcal E-Ir$ și interpretarea pierderii interne.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Arătați cum prima și a doua teoremă Kirchhoff exprimă, respectiv, conservarea sarcinii și conservarea energiei.
+          Folosiți un exemplu cu un nod și un ochi de circuit.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru verificarea experimentală a legii lui Ohm.
+          Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor, evaluarea rapidă,
+          instrumentele folosite și două norme de protecția muncii privind circuitele electrice.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate și interpretare: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: A, V, $\Omega$, W, J, A/m² și m/s.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C23-curentul-electric-continuu.html">Înapoi la lecția C23</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-24.html">Fișa următoare C24</a>
+    </nav>
+  </main>
+
+  <script>
+    const e = 1.6e-19;
+    const storageKey = "values-fisa-c23";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const I1 = rnd(2, 8);
+      const I2 = rnd(2, 8);
+      const I3 = rnd(1, I1 + I2 - 1);
+
+      const v = {
+        e4q: rnd(12, 90, 6),
+        e4t: rnd(3, 18, 3),
+
+        e5l: rnd(5, 60, 5),
+        e5S: rnd(0.5, 4.0, 0.5),
+        e5rho: choose([1.7, 2.8, 5.6, 10.0]),
+
+        e6R: rnd(5, 60, 5),
+        e6U: rnd(20, 240, 20),
+
+        e7emf: rnd(6, 24, 3),
+        e7r: rnd(1, 5),
+        e7R: rnd(4, 20, 2),
+
+        e8R: rnd(5, 40, 5),
+        e8I: rnd(1, 6),
+        e8t: rnd(2, 12, 2),
+
+        e9I1: I1,
+        e9I2: I2,
+        e9I3: I3,
+
+        e10R1: rnd(4, 20, 2),
+        e10R2: rnd(4, 20, 2),
+        e10R3: rnd(3, 15, 3),
+        e10U: rnd(24, 120, 12),
+
+        e11R1: rnd(6, 30, 3),
+        e11R2: rnd(6, 30, 3),
+        e11U: rnd(12, 120, 12),
+
+        e12R0: rnd(10, 80, 10),
+        e12a: choose([3.8, 4.0, 4.2, 4.5]),
+        e12dT: rnd(20, 100, 20),
+
+        e13emf: rnd(6, 30, 3),
+        e13r: rnd(1, 8),
+
+        e14I: rnd(1, 8),
+        e14S: rnd(0.5, 4.0, 0.5),
+        e14n: choose([6.0, 7.5, 8.5, 9.0])
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const I4 = v.e4q / v.e4t;
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        $$I=\\frac{q}{t}$$
+        $$I=\\frac{${v.e4q}}{${v.e4t}}=${tex(I4)}\\,\\text{A}$$
+        Intensitatea arată sarcina care traversează secțiunea conductorului în unitatea de timp.
+      `);
+
+      const rho5 = v.e5rho * 1e-8;
+      const S5 = v.e5S * 1e-6;
+      const R5 = rho5 * v.e5l / S5;
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        $$R=\\rho_e\\frac{l}{S}$$
+        $$\\rho_e=${String(v.e5rho).replace(".", ",")}\\cdot10^{-8}\\,\\Omega\\text{m},\\quad S=${String(v.e5S).replace(".", ",")}\\,\\text{mm}^2=${tex(S5)}\\,\\text{m}^2$$
+        $$R=${tex(R5)}\\,\\Omega$$
+        Rezistența crește cu lungimea firului și scade când secțiunea crește.
+      `);
+
+      const I6 = v.e6U / v.e6R;
+      const P6 = v.e6U * I6;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        $$I=\\frac{U}{R}=\\frac{${v.e6U}}{${v.e6R}}=${tex(I6)}\\,\\text{A}$$
+        $$P=UI=${v.e6U}\\cdot${tex(I6)}=${tex(P6)}\\,\\text{W}$$
+        Verificare: $P=I^2R$.
+      `);
+
+      const I7 = v.e7emf / (v.e7R + v.e7r);
+      const U7 = I7 * v.e7R;
+      const eta7 = U7 / v.e7emf;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        Pentru generator real:
+        $$I=\\frac{\\mathcal E}{R+r}$$
+        $$I=\\frac{${v.e7emf}}{${v.e7R}+${v.e7r}}=${tex(I7)}\\,\\text{A}$$
+        Tensiunea la borne:
+        $$U=IR=${tex(I7)}\\cdot${v.e7R}=${tex(U7)}\\,\\text{V}$$
+        Randamentul:
+        $$\\eta=\\frac{U}{\\mathcal E}=\\frac{${tex(U7)}}{${v.e7emf}}=${tex(eta7)}\\approx${tex(eta7 * 100)}\\%$$
+      `);
+
+      const t8 = v.e8t * 60;
+      const Q8 = v.e8I * v.e8I * v.e8R * t8;
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        $$t=${v.e8t}\\,\\text{min}=${t8}\\,\\text{s}$$
+        $$Q_J=I^2Rt$$
+        $$Q_J=${v.e8I}^2\\cdot${v.e8R}\\cdot${t8}=${tex(Q8)}\\,\\text{J}$$
+        Efectul Joule reprezintă transformarea energiei electrice în energie internă.
+      `);
+
+      const I9 = v.e9I1 + v.e9I2 - v.e9I3;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Aplicăm prima teoremă Kirchhoff:
+        $$I_1+I_2=I_3+I_4$$
+        $$I_4=I_1+I_2-I_3$$
+        $$I_4=${v.e9I1}+${v.e9I2}-${v.e9I3}=${tex(I9)}\\,\\text{A}$$
+        Nodul nu acumulează sarcină în regim staționar.
+      `);
+
+      const R12p10 = v.e10R1 * v.e10R2 / (v.e10R1 + v.e10R2);
+      const Req10 = R12p10 + v.e10R3;
+      const It10 = v.e10U / Req10;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        Paralelul $R_1$ și $R_2$:
+        $$R_{12}=\\frac{R_1R_2}{R_1+R_2}=\\frac{${v.e10R1}\\cdot${v.e10R2}}{${v.e10R1}+${v.e10R2}}=${tex(R12p10)}\\,\\Omega$$
+        Serie cu $R_3$:
+        $$R_{\\text{eq}}=R_{12}+R_3=${tex(R12p10)}+${v.e10R3}=${tex(Req10)}\\,\\Omega$$
+        Curentul total:
+        $$I=\\frac{U}{R_{\\text{eq}}}=\\frac{${v.e10U}}{${tex(Req10)}}=${tex(It10)}\\,\\text{A}$$
+      `);
+
+      const I11a = v.e11U / v.e11R1;
+      const I11b = v.e11U / v.e11R2;
+      const I11t = I11a + I11b;
+      const Req11 = v.e11U / I11t;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        În paralel, tensiunea este aceeași:
+        $$I_1=\\frac{U}{R_1}=\\frac{${v.e11U}}{${v.e11R1}}=${tex(I11a)}\\,\\text{A}$$
+        $$I_2=\\frac{U}{R_2}=\\frac{${v.e11U}}{${v.e11R2}}=${tex(I11b)}\\,\\text{A}$$
+        Prin Kirchhoff I:
+        $$I=I_1+I_2=${tex(I11a)}+${tex(I11b)}=${tex(I11t)}\\,\\text{A}$$
+        Rezistența echivalentă verifică $R_{\\text{eq}}=U/I=${tex(Req11)}\\,\\Omega$.
+      `);
+
+      const alpha12 = v.e12a * 1e-3;
+      const R12 = v.e12R0 * (1 + alpha12 * v.e12dT);
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        Pentru metale, aproximativ:
+        $$R=R_0(1+\\alpha\\Delta T)$$
+        $$\\alpha=${String(v.e12a).replace(".", ",")}\\cdot10^{-3}\\,\\text{K}^{-1}$$
+        $$R=${v.e12R0}\\left(1+${String(v.e12a).replace(".", ",")}\\cdot10^{-3}\\cdot${v.e12dT}\\right)=${tex(R12)}\\,\\Omega$$
+        Creșterea temperaturii mărește rezistența metalului în acest model liniar.
+      `);
+
+      const R13opt = v.e13r;
+      const P13 = v.e13emf * v.e13emf / (4 * v.e13r);
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Pentru putere maximă transferată rezistenței exterioare:
+        $$R_{\\text{opt}}=r=${v.e13r}\\,\\Omega$$
+        Puterea maximă:
+        $$P_{\\max}=\\frac{\\mathcal E^2}{4r}=\\frac{${v.e13emf}^2}{4\\cdot${v.e13r}}=${tex(P13)}\\,\\text{W}$$
+        Randamentul:
+        $$\\eta=\\frac{R}{R+r}=\\frac{r}{2r}=\\frac12=50\\%$$
+        Condiția de putere maximă nu coincide cu randamentul maxim.
+      `);
+
+      const S14 = v.e14S * 1e-6;
+      const n14 = v.e14n * 1e28;
+      const vd14 = v.e14I / (n14 * e * S14);
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        Model microscopic:
+        $$I=n|e|Sv_d$$
+        $$v_d=\\frac{I}{n|e|S}$$
+        $$S=${String(v.e14S).replace(".", ",")}\\,\\text{mm}^2=${tex(S14)}\\,\\text{m}^2$$
+        $$n=${String(v.e14n).replace(".", ",")}\\cdot10^{28}\\,\\text{m}^{-3},\\qquad |e|=1{,}6\\cdot10^{-19}\\,\\text{C}$$
+        $$v_d=${tex(vd14)}\\,\\text{m/s}$$
+        Viteza de drift este mică, deși efectul electric se stabilește rapid în circuit.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c23", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c23");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
