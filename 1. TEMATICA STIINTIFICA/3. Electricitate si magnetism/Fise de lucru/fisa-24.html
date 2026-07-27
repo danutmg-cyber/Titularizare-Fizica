@@ -1,1 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C24 – Câmpul magnetic al curenților electrici staționari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 {
+      margin-top: 0;
+    }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 280px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li {
+      margin: 0.35rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C24 • Câmpul magnetic al curenților electrici staționari</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C24</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Câmpul magnetic al curenților electrici staționari</h1>
+
+      <p class="lead">
+        Fișa consolidează legea Biot–Savart, câmpul magnetic produs de firul rectiliniu lung,
+        spiră, bobină, solenoid și toroid, forța Laplace și interacțiunea magnetică dintre curenți electrici.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Legea Biot–Savart</strong>
+          <div class="formula">
+            $$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec r}{r^3}$$
+            $$dB=\frac{\mu_0}{4\pi}\frac{I\,dl\,\sin\theta}{r^2}$$
+          </div>
+          <p>Elementul de curent produce un câmp magnetic perpendicular pe planul determinat de $d\vec l$ și $\vec r$.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Distribuții uzuale</strong>
+          <div class="formula">
+            $$B_{\text{fir}}=\frac{\mu_0I}{2\pi r},\qquad
+            B_{\text{spiră}}=\frac{\mu_0I}{2R}$$
+            $$B_{\text{solenoid}}=\mu_0nI,\qquad
+            B_{\text{toroid}}=\frac{\mu_0NI}{2\pi r}$$
+          </div>
+          <p>Formula se alege numai după geometria sistemului.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Forța Laplace</strong>
+          <div class="formula">
+            $$d\vec F=I\,d\vec l\times\vec B$$
+            $$F=BIl\sin\alpha$$
+          </div>
+          <p>Forța este maximă când conductorul este perpendicular pe câmp și nulă când este paralel cu acesta.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Interacțiunea curenților</strong>
+          <div class="formula">
+            $$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$$
+          </div>
+          <p>Curenții paraleli de același sens se atrag, iar curenții de sensuri opuse se resping.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Situație</th>
+              <th>Relație</th>
+              <th>Condiții de aplicare</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Element de curent</td>
+              <td>$dB=\frac{\mu_0}{4\pi}\frac{I\,dl\,\sin\theta}{r^2}$</td>
+              <td>Contribuție elementară, direcția se stabilește cu produsul vectorial.</td>
+            </tr>
+            <tr>
+              <td>Fir rectiliniu lung</td>
+              <td>$B=\mu_0I/(2\pi r)$</td>
+              <td>Punct aflat la distanța $r$ față de conductor.</td>
+            </tr>
+            <tr>
+              <td>Spiră circulară</td>
+              <td>$B=\mu_0I/(2R)$</td>
+              <td>În centrul spirei.</td>
+            </tr>
+            <tr>
+              <td>Bobină circulară cu $N$ spire</td>
+              <td>$B=\mu_0NI/(2R)$</td>
+              <td>În centrul bobinei, aproximativ.</td>
+            </tr>
+            <tr>
+              <td>Solenoid lung</td>
+              <td>$B=\mu_0nI$, $n=N/l$</td>
+              <td>În interior, departe de capete.</td>
+            </tr>
+            <tr>
+              <td>Toroid ideal</td>
+              <td>$B=\mu_0NI/(2\pi r)$</td>
+              <td>În interiorul toroidului, la raza $r$.</td>
+            </tr>
+            <tr>
+              <td>Forță pe conductor</td>
+              <td>$F=BIl\sin\alpha$</td>
+              <td>Câmp magnetic uniform, conductor rectiliniu.</td>
+            </tr>
+            <tr>
+              <td>Fire paralele</td>
+              <td>$F/l=\mu_0I_1I_2/(2\pi d)$</td>
+              <td>Fire rectilinii lungi, paralele, la distanța $d$.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Liniile câmpului magnetic produs de un fir rectiliniu lung parcurs de curent sunt:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">radiale, orientate spre fir</option>
+          <option value="b">cercuri concentrice cu firul</option>
+          <option value="c">paralele cu firul</option>
+          <option value="d">linii deschise care pornesc din sarcini magnetice</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Legea Biot–Savart pentru un element de curent conține produsul vectorial:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$d\vec l\times\vec r$</option>
+          <option value="b">$\vec E\times\vec v$</option>
+          <option value="c">$\vec F\times\vec p$</option>
+          <option value="d">$\vec B\times\vec B$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Pentru un fir rectiliniu lung, inducția magnetică la distanța $r$ este:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">$B=\mu_0Ir/(2\pi)$</option>
+          <option value="b">$B=\mu_0I/(2R)$</option>
+          <option value="c">$B=\mu_0I/(2\pi r)$</option>
+          <option value="d">$B=\mu_0nI$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Două conductoare rectilinii paralele parcurse de curenți de același sens:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">nu interacționează</option>
+          <option value="b">se resping</option>
+          <option value="c">au câmp magnetic nul între ele întotdeauna</option>
+          <option value="d">se atrag</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Forța magnetică pe un conductor rectiliniu este nulă dacă:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">conductorul este perpendicular pe câmp</option>
+          <option value="b">conductorul este paralel cu câmpul</option>
+          <option value="c">intensitatea curentului este mare</option>
+          <option value="d">câmpul magnetic este uniform</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Rezolvările folosesc unități SI și sensuri stabilite prin regula mâinii drepte.
+      </p>
+
+      <article class="item">
+        <h3>4. Câmpul unui fir rectiliniu lung <span class="points">5 p</span></h3>
+        <p>
+          Un conductor rectiliniu lung este parcurs de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e4I"></span> A.
+          Determinați inducția magnetică la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e4r"></span> cm față de conductor.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Câmpul în centrul unei spire circulare <span class="points">5 p</span></h3>
+        <p>
+          O spiră circulară de rază
+          <span class="formula-inline">$R$</span> = <span class="var" id="e5R"></span> cm
+          este parcursă de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e5I"></span> A.
+          Determinați inducția magnetică în centrul spirei.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Bobină circulară cu mai multe spire <span class="points">5 p</span></h3>
+        <p>
+          O bobină circulară are
+          <span class="formula-inline">$N$</span> = <span class="var" id="e6N"></span> spire,
+          raza
+          <span class="formula-inline">$R$</span> = <span class="var" id="e6R"></span> cm
+          și este parcursă de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e6I"></span> A.
+          Determinați câmpul magnetic în centrul bobinei.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Câmpul unui solenoid lung <span class="points">5 p</span></h3>
+        <p>
+          Un solenoid lung are
+          <span class="formula-inline">$N$</span> = <span class="var" id="e7N"></span> spire,
+          lungimea
+          <span class="formula-inline">$l$</span> = <span class="var" id="e7l"></span> cm
+          și este parcurs de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e7I"></span> A.
+          Determinați câmpul magnetic în interior.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Câmpul magnetic într-un toroid <span class="points">5 p</span></h3>
+        <p>
+          Un toroid are
+          <span class="formula-inline">$N$</span> = <span class="var" id="e8N"></span> spire,
+          este parcurs de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e8I"></span> A
+          și are raza medie
+          <span class="formula-inline">$r$</span> = <span class="var" id="e8r"></span> cm.
+          Determinați inducția magnetică în interiorul toroidului.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Forța Laplace <span class="points">5 p</span></h3>
+        <p>
+          Un conductor rectiliniu de lungime
+          <span class="formula-inline">$l$</span> = <span class="var" id="e9l"></span> cm
+          este parcurs de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e9I"></span> A
+          într-un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e9B"></span> T.
+          Unghiul dintre conductor și câmp este
+          <span class="formula-inline">$\alpha$</span> = <span class="var" id="e9a"></span>°.
+          Determinați modulul forței magnetice.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Interacțiunea a două conductoare paralele <span class="points">5 p</span></h3>
+        <p>
+          Două conductoare rectilinii lungi, paralele, sunt parcurse de curenții
+          <span class="formula-inline">$I_1$</span> = <span class="var" id="e10I1"></span> A și
+          <span class="formula-inline">$I_2$</span> = <span class="var" id="e10I2"></span> A.
+          Distanța dintre conductoare este
+          <span class="formula-inline">$d$</span> = <span class="var" id="e10d"></span> cm.
+          Determinați forța pe unitatea de lungime și precizați natura interacțiunii pentru curenți de același sens.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Momentul cuplului magnetic asupra unei bobine <span class="points">5 p</span></h3>
+        <p>
+          O bobină plană cu
+          <span class="formula-inline">$N$</span> = <span class="var" id="e11N"></span> spire
+          și aria unei spire
+          <span class="formula-inline">$S$</span> = <span class="var" id="e11S"></span> cm²
+          este parcursă de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e11I"></span> A
+          într-un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e11B"></span> T.
+          Normala la bobină face unghiul
+          <span class="formula-inline">$\theta$</span> = <span class="var" id="e11t"></span>° cu câmpul.
+          Determinați momentul cuplului magnetic.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Suprapunerea câmpurilor a două fire paralele <span class="points">5 p</span></h3>
+        <p>
+          Două fire rectilinii lungi sunt perpendiculare pe planul foii și se află la distanța
+          <span class="formula-inline">$d$</span> = <span class="var" id="e12d"></span> cm.
+          Ele sunt parcurse de curenții
+          <span class="formula-inline">$I_1$</span> = <span class="var" id="e12I1"></span> A și
+          <span class="formula-inline">$I_2$</span> = <span class="var" id="e12I2"></span> A, în
+          <span class="var" id="e12mode"></span>.
+          Determinați modulul câmpului magnetic în punctul de mijloc dintre fire.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Contribuția Biot–Savart a unui element de conductor <span class="points">5 p</span></h3>
+        <p>
+          Un element de conductor de lungime
+          <span class="formula-inline">$dl$</span> = <span class="var" id="e13dl"></span> cm
+          este parcurs de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e13I"></span> A.
+          Punctul de observație este la distanța
+          <span class="formula-inline">$r$</span> = <span class="var" id="e13r"></span> cm,
+          iar unghiul dintre $d\vec l$ și $\vec r$ este
+          <span class="formula-inline">$\theta$</span> = <span class="var" id="e13t"></span>°.
+          Determinați contribuția elementară $dB$.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Curentul necesar într-un solenoid <span class="points">5 p</span></h3>
+        <p>
+          Un solenoid lung are
+          <span class="formula-inline">$N$</span> = <span class="var" id="e14N"></span> spire
+          și lungimea
+          <span class="formula-inline">$l$</span> = <span class="var" id="e14l"></span> cm.
+          Determinați curentul necesar pentru ca inducția magnetică în interior să fie
+          <span class="formula-inline">$B$</span> = <span class="var" id="e14B"></span> mT.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Enunțați legea Biot–Savart și explicați semnificația fiecărui factor din relația
+          $dB=\frac{\mu_0}{4\pi}\frac{I\,dl\,\sin\theta}{r^2}$.
+          Precizați cum se stabilește direcția lui $d\vec B$.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Deduceți relația forței pe unitatea de lungime dintre două conductoare rectilinii lungi, paralele:
+          $\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$.
+          Discutați sensul interacțiunii pentru curenți de același sens și pentru curenți de sensuri opuse.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru evidențierea câmpului magnetic produs de un conductor rectiliniu
+          parcurs de curent. Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor,
+          evaluarea rapidă, mijloacele utilizate și două norme de protecția muncii.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, sens sau interpretare: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: T, mT, $\mu\text{T}$, A, m, N, N/m și N·m.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C24-campul-magnetic-al-curentilor-electrici-stationari.html">Înapoi la lecția C24</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-25.html">Fișa următoare C25</a>
+    </nav>
+  </main>
+
+  <script>
+    const mu0 = 4 * Math.PI * 1e-7;
+    const storageKey = "values-fisa-c24";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const mode = choose(["același sens", "sensuri opuse"]);
+
+      const v = {
+        e4I: rnd(4, 20, 2),
+        e4r: rnd(2, 20, 2),
+
+        e5R: rnd(5, 30, 5),
+        e5I: rnd(2, 12, 2),
+
+        e6N: rnd(20, 100, 10),
+        e6R: rnd(5, 25, 5),
+        e6I: rnd(1, 8),
+
+        e7N: rnd(300, 1200, 100),
+        e7l: rnd(20, 80, 10),
+        e7I: rnd(1, 6),
+
+        e8N: rnd(200, 900, 100),
+        e8I: rnd(1, 6),
+        e8r: rnd(5, 25, 5),
+
+        e9l: rnd(10, 80, 10),
+        e9I: rnd(2, 10),
+        e9B: rnd(0.10, 0.80, 0.10),
+        e9a: choose([30, 45, 60, 90]),
+
+        e10I1: rnd(3, 12),
+        e10I2: rnd(3, 12),
+        e10d: rnd(2, 12, 2),
+
+        e11N: rnd(20, 120, 10),
+        e11S: rnd(20, 200, 20),
+        e11I: rnd(1, 8),
+        e11B: rnd(0.10, 0.60, 0.10),
+        e11t: choose([30, 45, 60, 90]),
+
+        e12d: rnd(4, 20, 2),
+        e12I1: rnd(2, 12, 2),
+        e12I2: rnd(2, 12, 2),
+        e12mode: mode,
+
+        e13dl: rnd(1, 8),
+        e13I: rnd(2, 12),
+        e13r: rnd(5, 30, 5),
+        e13t: choose([30, 45, 60, 90]),
+
+        e14N: rnd(300, 1500, 100),
+        e14l: rnd(20, 100, 10),
+        e14B: rnd(1, 10)
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const r4 = v.e4r / 100;
+      const B4 = mu0 * v.e4I / (2 * Math.PI * r4);
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        Pentru conductor rectiliniu lung:
+        $$B=\\frac{\\mu_0I}{2\\pi r}$$
+        $$r=${v.e4r}\\,\\text{cm}=${tex(r4)}\\,\\text{m}$$
+        $$B=\\frac{4\\pi\\cdot10^{-7}\\cdot${v.e4I}}{2\\pi\\cdot${tex(r4)}}=${tex(B4)}\\,\\text{T}=${tex(B4 / 1e-6)}\\,\\mu\\text{T}$$
+        Sensul liniilor de câmp se stabilește cu regula mâinii drepte.
+      `);
+
+      const R5 = v.e5R / 100;
+      const B5 = mu0 * v.e5I / (2 * R5);
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        În centrul unei spire circulare:
+        $$B=\\frac{\\mu_0I}{2R}$$
+        $$R=${v.e5R}\\,\\text{cm}=${tex(R5)}\\,\\text{m}$$
+        $$B=\\frac{4\\pi\\cdot10^{-7}\\cdot${v.e5I}}{2\\cdot${tex(R5)}}=${tex(B5)}\\,\\text{T}=${tex(B5 / 1e-6)}\\,\\mu\\text{T}$$
+      `);
+
+      const R6 = v.e6R / 100;
+      const B6 = mu0 * v.e6N * v.e6I / (2 * R6);
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        Pentru bobină circulară cu $N$ spire:
+        $$B=\\frac{\\mu_0NI}{2R}$$
+        $$R=${v.e6R}\\,\\text{cm}=${tex(R6)}\\,\\text{m}$$
+        $$B=\\frac{4\\pi\\cdot10^{-7}\\cdot${v.e6N}\\cdot${v.e6I}}{2\\cdot${tex(R6)}}=${tex(B6)}\\,\\text{T}=${tex(B6 / 1e-3)}\\,\\text{mT}$$
+        Câmpul crește proporțional cu numărul de spire și cu intensitatea curentului.
+      `);
+
+      const l7 = v.e7l / 100;
+      const n7 = v.e7N / l7;
+      const B7 = mu0 * n7 * v.e7I;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        Pentru solenoid lung:
+        $$B=\\mu_0nI,\qquad n=\\frac{N}{l}$$
+        $$l=${v.e7l}\\,\\text{cm}=${tex(l7)}\\,\\text{m},\\qquad n=\\frac{${v.e7N}}{${tex(l7)}}=${tex(n7)}\\,\\text{m}^{-1}$$
+        $$B=4\\pi\\cdot10^{-7}\\cdot${tex(n7)}\\cdot${v.e7I}=${tex(B7)}\\,\\text{T}=${tex(B7 / 1e-3)}\\,\\text{mT}$$
+      `);
+
+      const r8 = v.e8r / 100;
+      const B8 = mu0 * v.e8N * v.e8I / (2 * Math.PI * r8);
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Pentru toroid ideal:
+        $$B=\\frac{\\mu_0NI}{2\\pi r}$$
+        $$r=${v.e8r}\\,\\text{cm}=${tex(r8)}\\,\\text{m}$$
+        $$B=\\frac{4\\pi\\cdot10^{-7}\\cdot${v.e8N}\\cdot${v.e8I}}{2\\pi\\cdot${tex(r8)}}=${tex(B8)}\\,\\text{T}=${tex(B8 / 1e-3)}\\,\\text{mT}$$
+        Formula descrie câmpul în interiorul toroidului ideal.
+      `);
+
+      const l9 = v.e9l / 100;
+      const sin9 = Math.sin(v.e9a * Math.PI / 180);
+      const F9 = v.e9B * v.e9I * l9 * sin9;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        $$F=BIl\\sin\\alpha$$
+        $$l=${v.e9l}\\,\\text{cm}=${tex(l9)}\\,\\text{m},\\qquad \\sin ${v.e9a}^{\\circ}=${tex(sin9)}$$
+        $$F=${String(v.e9B).replace(".", ",")}\\cdot${v.e9I}\\cdot${tex(l9)}\\cdot${tex(sin9)}=${tex(F9)}\\,\\text{N}$$
+        Direcția forței se stabilește cu regula produsului vectorial $\\vec F=I\\vec l\\times\\vec B$.
+      `);
+
+      const d10 = v.e10d / 100;
+      const FperL10 = mu0 * v.e10I1 * v.e10I2 / (2 * Math.PI * d10);
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        $$\\frac{F}{l}=\\frac{\\mu_0I_1I_2}{2\\pi d}$$
+        $$d=${v.e10d}\\,\\text{cm}=${tex(d10)}\\,\\text{m}$$
+        $$\\frac{F}{l}=\\frac{4\\pi\\cdot10^{-7}\\cdot${v.e10I1}\\cdot${v.e10I2}}{2\\pi\\cdot${tex(d10)}}=${tex(FperL10)}\\,\\text{N/m}$$
+        Pentru curenți de același sens, conductoarele se atrag; pentru sensuri opuse, se resping.
+      `);
+
+      const S11 = v.e11S * 1e-4;
+      const sin11 = Math.sin(v.e11t * Math.PI / 180);
+      const M11 = v.e11N * v.e11I * S11 * v.e11B * sin11;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Momentul magnetic al bobinei:
+        $$m=NIS$$
+        Momentul cuplului:
+        $$M=mB\\sin\\theta=NISB\\sin\\theta$$
+        $$S=${v.e11S}\\,\\text{cm}^2=${tex(S11)}\\,\\text{m}^2$$
+        $$M=${v.e11N}\\cdot${v.e11I}\\cdot${tex(S11)}\\cdot${String(v.e11B).replace(".", ",")}\\cdot\\sin ${v.e11t}^{\\circ}=${tex(M11)}\\,\\text{N·m}$$
+      `);
+
+      const d12 = v.e12d / 100;
+      const r12 = d12 / 2;
+      const B121 = mu0 * v.e12I1 / (2 * Math.PI * r12);
+      const B122 = mu0 * v.e12I2 / (2 * Math.PI * r12);
+      const same = v.e12mode === "același sens";
+      const B12 = same ? Math.abs(B121 - B122) : B121 + B122;
+      const relation = same ? "La mijloc, pentru curenți de același sens, câmpurile au sensuri opuse." : "La mijloc, pentru curenți de sensuri opuse, câmpurile au același sens.";
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        Punctul de mijloc se află la distanța:
+        $$r=\\frac d2=${tex(r12)}\\,\\text{m}$$
+        $$B_1=\\frac{\\mu_0I_1}{2\\pi r}=${tex(B121)}\\,\\text{T}$$
+        $$B_2=\\frac{\\mu_0I_2}{2\\pi r}=${tex(B122)}\\,\\text{T}$$
+        ${relation}
+        $$B_{\\text{rez}}=${same ? "|B_1-B_2|" : "B_1+B_2"}=${tex(B12)}\\,\\text{T}=${tex(B12 / 1e-6)}\\,\\mu\\text{T}$$
+      `);
+
+      const dl13 = v.e13dl / 100;
+      const r13 = v.e13r / 100;
+      const sin13 = Math.sin(v.e13t * Math.PI / 180);
+      const dB13 = (mu0 / (4 * Math.PI)) * v.e13I * dl13 * sin13 / (r13 * r13);
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Pentru un element de conductor:
+        $$dB=\\frac{\\mu_0}{4\\pi}\\frac{I\\,dl\\,\\sin\\theta}{r^2}$$
+        $$dl=${v.e13dl}\\,\\text{cm}=${tex(dl13)}\\,\\text{m},\\qquad r=${v.e13r}\\,\\text{cm}=${tex(r13)}\\,\\text{m}$$
+        $$dB=10^{-7}\\frac{${v.e13I}\\cdot${tex(dl13)}\\cdot\\sin ${v.e13t}^{\\circ}}{(${tex(r13)})^2}=${tex(dB13)}\\,\\text{T}$$
+        Direcția lui $d\\vec B$ se stabilește cu regula mâinii drepte pentru $d\\vec l\\times\\vec r$.
+      `);
+
+      const l14 = v.e14l / 100;
+      const B14 = v.e14B * 1e-3;
+      const I14 = B14 * l14 / (mu0 * v.e14N);
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        Pentru solenoid lung:
+        $$B=\\mu_0\\frac{N}{l}I$$
+        De aici:
+        $$I=\\frac{Bl}{\\mu_0N}$$
+        $$B=${v.e14B}\\,\\text{mT}=${tex(B14)}\\,\\text{T},\\qquad l=${v.e14l}\\,\\text{cm}=${tex(l14)}\\,\\text{m}$$
+        $$I=\\frac{${tex(B14)}\\cdot${tex(l14)}}{4\\pi\\cdot10^{-7}\\cdot${v.e14N}}=${tex(I14)}\\,\\text{A}$$
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c24", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c24");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
