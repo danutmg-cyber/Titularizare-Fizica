@@ -2,62 +2,16 @@
 <html lang="ro" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <title>C18 – Principiul al II-lea al termodinamicii</title>
+  <title>C18 – Principiul al doilea al termodinamicii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
-    }
+    * { box-sizing: border-box; }
 
     .topbar {
       position: sticky;
@@ -74,8 +28,8 @@
     }
 
     .topbar strong {
-      font-size: 0.95rem;
       color: var(--accent);
+      font-size: 0.95rem;
     }
 
     .theme-toggle {
@@ -84,7 +38,7 @@
       color: var(--text);
       border-radius: 999px;
       padding: 0.55rem 0.9rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
 
@@ -98,20 +52,11 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 6.8rem;
     }
 
     .page.active {
       display: flex;
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
     }
 
     .eyebrow {
@@ -125,57 +70,9 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
-    p {
-      margin: 0.75rem 0;
-    }
-
-    ul, ol {
-      padding-left: 1.35rem;
-    }
-
-    li {
-      margin: 0.55rem 0;
-    }
-
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -196,6 +93,34 @@
       color: var(--accent-2);
     }
 
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
     .svgbox {
       margin: 1rem 0;
       background: var(--formula-bg);
@@ -205,10 +130,11 @@
       overflow-x: auto;
     }
 
-    svg {
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -217,25 +143,26 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
     }
 
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
       padding: 1rem;
       border-radius: 16px;
-      margin-top: 1rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
     }
 
-    html[data-theme="dark"] .warning {
-      background: #33260c;
-    }
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
 
     .pager {
       position: fixed;
@@ -244,7 +171,7 @@
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr auto 1fr auto auto;
       gap: 0.6rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
@@ -283,35 +210,25 @@
       color: white;
     }
 
-    .bottom-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .bottom-links a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 16px;
-      font-weight: 900;
-      color: white;
-      background: var(--accent);
-    }
-
-    .bottom-links a:nth-child(2) {
-      background: var(--accent-2);
-    }
-
-    .bottom-links a:nth-child(3) {
+    .pager a.chapter {
       background: #7c3aed;
     }
 
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .grid,
@@ -324,13 +241,13 @@
         border-radius: 22px;
       }
 
-      .pager a {
+      .page-status {
         grid-column: 1 / -1;
+        order: -1;
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+      .pager a {
+        grid-column: 1 / -1;
       }
     }
   </style>
@@ -339,44 +256,152 @@
 <body>
   <div class="topbar">
     <strong>C18 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
     <section class="page active">
       <article class="card">
         <span class="eyebrow">Lecția 18</span>
-        <h1>Principiul al II-lea al termodinamicii</h1>
+        <h1>Principiul al doilea al termodinamicii</h1>
+
         <p class="lead">
-          Principiul I spune că energia se conservă, dar nu spune nimic despre
-          <span class="mark">sensul</span> în care se desfășoară procesele naturale. Principiul al II-lea
-          completează acest gol: el arată de ce căldura trece de la sine de la cald spre rece și niciodată
-          invers, și de ce nicio mașină termică nu poate avea randament de 100%.
+          Principiul întâi al termodinamicii exprimă conservarea energiei, dar nu stabilește
+          sensul natural al proceselor. Principiul al doilea explică ireversibilitatea,
+          limitele conversiei căldurii în lucru mecanic și introduce mărimea de stare numită entropie.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          principiul I spune <em>ce</em> se conservă; principiul al II-lea spune <em>în ce sens</em> se
-          pot desfășura, de fapt, procesele din natură.
+          principiul întâi spune că energia se conservă; principiul al doilea spune că nu orice
+          transformare compatibilă cu conservarea energiei este posibilă spontan.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Căldura trece de la sine doar de la sursa caldă spre sursa rece">
-            <circle cx="150" cy="130" r="70" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="4"/>
-            <text x="150" y="135" fill="#ef4444" font-size="24" text-anchor="middle">T₁ (cald)</text>
-            <circle cx="550" cy="130" r="70" fill="rgba(37,99,235,0.14)" stroke="#2563eb" stroke-width="4"/>
-            <text x="550" y="135" fill="#2563eb" font-size="24" text-anchor="middle">T₂ (rece)</text>
-            <line x1="230" y1="110" x2="470" y2="110" stroke="#0f766e" stroke-width="6" marker-end="url(#arrowQ)"/>
+          <svg viewBox="0 0 760 320" role="img" aria-label="Căldura trece spontan de la corp cald la corp rece">
             <defs>
-              <marker id="arrowQ" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto">
-                <path d="M0,0 L0,8 L10,4 z" fill="#0f766e"/>
+              <marker id="arrowHeatC18" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
               </marker>
             </defs>
-            <text x="300" y="95" fill="#0f766e" font-size="22">Q — de la sine</text>
-            <line x1="470" y1="160" x2="230" y2="160" stroke="#94a3b8" stroke-width="4" stroke-dasharray="8 6"/>
-            <text x="300" y="185" fill="#94a3b8" font-size="20">de la sine — imposibil (Clausius)</text>
+
+            <circle cx="170" cy="150" r="78" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="5"></circle>
+            <text x="170" y="145" text-anchor="middle" fill="#ef4444" font-size="25" font-weight="700">corp cald</text>
+            <text x="170" y="178" text-anchor="middle" fill="#ef4444" font-size="23">$T_1$</text>
+
+            <circle cx="590" cy="150" r="78" fill="rgba(37,99,235,0.16)" stroke="#2563eb" stroke-width="5"></circle>
+            <text x="590" y="145" text-anchor="middle" fill="#2563eb" font-size="25" font-weight="700">corp rece</text>
+            <text x="590" y="178" text-anchor="middle" fill="#2563eb" font-size="23">$T_2$</text>
+
+            <line x1="260" y1="125" x2="500" y2="125" stroke="#0f766e" stroke-width="6"
+                  stroke-linecap="round" marker-end="url(#arrowHeatC18)"></line>
+            <text x="350" y="105" fill="#0f766e" font-size="24" font-weight="700">spontan</text>
+
+            <line x1="500" y1="185" x2="260" y2="185" stroke="#94a3b8" stroke-width="4"
+                  stroke-linecap="round" stroke-dasharray="9 7"></line>
+            <text x="310" y="220" fill="#64748b" font-size="21">sens invers: posibil doar cu lucru exterior</text>
           </svg>
-          <p class="caption">Căldura trece spontan doar dinspre corpul cald spre corpul rece; sensul invers nu este niciodată spontan, oricât de mare ar fi diferența de temperatură.</p>
+
+          <p class="caption">
+            Căldura trece spontan de la temperatura mai mare la temperatura mai mică.
+            Sensul invers nu este spontan și cere intervenție externă.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C18?</h2>
+
+        <p>
+          Tema C18 se organizează în patru nuclee: principiul al doilea, reversibilitate și
+          ireversibilitate, entropie și mașini termice.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Principiul al doilea</strong>
+            <p>
+              Enunțurile Clausius și Kelvin–Planck, imposibilitatea anumitor procese și sensul
+              natural al transformărilor.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Procese reversibile și ireversibile</strong>
+            <p>
+              Transformări cvasistatice, frecare, difuzie, schimb de căldură la diferență finită
+              de temperatură, randament real sub limita Carnot.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Entropia</strong>
+            <p>
+              Definiția pentru procese reversibile, inegalitatea lui Clausius, variația entropiei
+              sistemelor izolate.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Mașini termice</strong>
+            <p>
+              Randament, ciclu Carnot, motor termic, frigider, pompă de căldură și coeficienți
+              de performanță.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          enunți principiul, îl interpretezi fizic, introduci entropia și aplici rezultatele la
+          mașina Carnot și la limitele randamentului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">De ce este necesar?</span>
+        <h2>Principiul I nu stabilește sensul proceselor</h2>
+
+        <p>
+          Principiul întâi permite bilanțul energetic:
+        </p>
+
+        <div class="formula">
+          $$Q=\Delta U+L$$
+        </div>
+
+        <p>
+          Dar el nu explică de ce unele procese au sens preferat. De exemplu, principiul I nu
+          interzice ca un corp rece să cedeze spontan căldură unui corp cald, atâta timp cât
+          energia s-ar conserva. Experiența arată însă că acest proces nu are loc spontan.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Compatibil cu principiul I</strong>
+            <p>
+              Conservarea energiei nu este încălcată dacă energia ar trece de la rece la cald.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Interzis de principiul II</strong>
+            <p>
+              Transferul spontan de căldură de la rece la cald nu are loc fără lucru mecanic exterior.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          principiul al doilea nu înlocuiește principiul întâi. El îl completează printr-o condiție
+          de sens și de posibilitate a proceselor.
         </div>
       </article>
     </section>
@@ -387,85 +412,284 @@
         <h2>Enunțurile Clausius și Kelvin–Planck</h2>
 
         <p>
-          Principiul al II-lea are mai multe formulări, aparent diferite, dar riguros
-          <span class="mark">echivalente</span> între ele.
+          Principiul al doilea poate fi formulat în moduri diferite, echivalente fizic.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>Formularea lui Clausius</strong>
-            <p>Căldura nu poate trece de la sine (fără alt efect asupra mediului exterior) de la un corp
-            cu temperatură mai scăzută la un corp cu temperatură mai ridicată.</p>
+            <strong>Formularea Clausius</strong>
+            <p>
+              Căldura nu poate trece de la sine de la un corp cu temperatură mai mică la un corp
+              cu temperatură mai mare, fără alt efect asupra mediului exterior.
+            </p>
           </div>
+
           <div class="mini">
             <strong>Formularea Kelvin–Planck</strong>
-            <p>Este imposibil de construit o mașină termică ce funcționează ciclic și transformă integral,
-            într-un ciclu, căldura primită de la o singură sursă în lucru mecanic, fără niciun alt efect.</p>
+            <p>
+              Este imposibilă construirea unei mașini termice ciclice care să transforme integral
+              căldura primită de la o singură sursă în lucru mecanic.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Consecință:</strong>
+          o mașină termică are nevoie de cel puțin două surse termice și trebuie să cedeze o parte
+          din căldură sursei reci.
+        </div>
+
+        <div class="warning">
+          <strong>Observație:</strong>
+          frigiderul transferă căldură de la rece la cald, dar nu spontan: el consumă lucru mecanic
+          din exterior.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Procese reale</span>
+        <h2>Procese reversibile și ireversibile</h2>
+
+        <p>
+          Un proces este <span class="mark">reversibil</span> dacă poate fi parcurs în sens invers,
+          prin aceleași stări de echilibru, fără modificări nete în sistem și mediu. Este o idealizare.
+        </p>
+
+        <p>
+          Un proces este <span class="mark">ireversibil</span> dacă are un sens natural și nu poate
+          fi inversat fără intervenție externă și fără efecte permanente asupra mediului.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Reversibil</strong>
+            <p>
+              Cvasistatic, fără frecare, fără turbulență, fără diferențe finite de temperatură.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Ireversibil</strong>
+            <p>
+              Frecare, expansiune liberă, difuzie, amestecare, curgere vâscoasă, transfer termic
+              la diferență finită de temperatură.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\text{proces real} \Rightarrow \text{ireversibilități} \Rightarrow \text{randament mai mic}$$
+        </div>
+
+        <div class="exam">
+          <strong>Cheie de examen:</strong>
+          ciclul Carnot este reversibil; de aceea stabilește limita superioară a randamentului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Entropia</span>
+        <h2>Entropia ca mărime de stare</h2>
+
+        <p>
+          Entropia $S$ este o mărime de stare care caracterizează sensul proceselor termodinamice
+          și gradul de ireversibilitate. Pentru un proces reversibil elementar:
+        </p>
+
+        <div class="formula">
+          $$dS=\frac{\delta Q_{\text{rev}}}{T}$$
+        </div>
+
+        <p>
+          Pentru o transformare reversibilă finită:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=\int_1^2 \frac{\delta Q_{\text{rev}}}{T}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Mărime de stare</strong>
+            <p>
+              $\Delta S$ depinde numai de stările inițială și finală, nu de drumul real urmat.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Unitate SI</strong>
+            <p>
+              Deoarece $S$ este energie împărțită la temperatură:
+            </p>
+            <div class="formula">
+              $$[S]=\text{J/K}$$
+            </div>
           </div>
         </div>
 
         <div class="warning">
           <strong>Atenție:</strong>
-          niciuna dintre formulări nu contrazice principiul I. Ambele admit că energia se conservă — ele
-          interzic doar anumite <strong>direcții</strong> de transformare a energiei, nu transformarea în
-          sine.
+          pentru un proces ireversibil, $\Delta S$ se calculează imaginând un drum reversibil între
+          aceleași stări, deoarece $dS=\delta Q_{\text{rev}}/T$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Calcul practic</span>
+        <h2>Variația entropiei în procese simple</h2>
+
+        <p>
+          Dacă un sistem primește reversibil căldura $Q_{\text{rev}}$ la temperatură constantă $T$:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=\frac{Q_{\text{rev}}}{T}$$
+        </div>
+
+        <p>
+          Pentru încălzirea reversibilă a unui corp cu capacitate calorică constantă $C$:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=\int_{T_1}^{T_2}\frac{C\,dT}{T}=C\ln\frac{T_2}{T_1}$$
+        </div>
+
+        <p>
+          Pentru o masă $m$ cu căldura specifică $c$:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=mc\ln\frac{T_2}{T_1}$$
+        </div>
+
+        <p>
+          Pentru un gaz ideal:
+        </p>
+
+        <div class="formula">
+          $$\Delta S=\nu C_V\ln\frac{T_2}{T_1}+\nu R\ln\frac{V_2}{V_1}$$
         </div>
 
         <div class="exam">
-          <strong>Reținem:</strong>
-          un frigider „încalcă” aparent formularea lui Clausius (scoate căldură din interiorul rece), dar
-          face asta doar cu <strong>consum</strong> de lucru mecanic din exterior — exact ceea ce principiul
-          II permite.
+          <strong>Temperaturi absolute:</strong>
+          în formulele cu logaritm se folosesc temperaturi în kelvin.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Sensul proceselor</span>
-        <h2>Procese reversibile și ireversibile</h2>
+        <span class="eyebrow">Inegalitate fundamentală</span>
+        <h2>Inegalitatea lui Clausius</h2>
 
         <p>
-          <span class="mark">Procesul reversibil</span> este o idealizare: o transformare cvasistatică, fără
-          frecare și fără diferențe finite de temperatură, care poate fi parcursă în ambele sensuri, prin
-          exact aceleași stări de echilibru intermediare.
+          Pentru orice ciclu termodinamic:
         </p>
 
-        <p>
-          <span class="mark">Procesul ireversibil</span> este orice proces real: are un sens preferat și nu
-          poate reveni spontan la starea inițială fără o intervenție din exterior care lasă urme permanente
-          în mediul înconjurător.
-        </p>
+        <div class="formula">
+          $$\oint \frac{\delta Q}{T}\le 0$$
+        </div>
 
         <div class="grid">
           <div class="mini">
-            <strong>Exemple de ireversibilitate</strong>
-            <p>Frecarea, difuzia unui gaz în vid, amestecarea a două lichide, transferul de căldură între
-            corpuri cu temperaturi diferite.</p>
+            <strong>Ciclu reversibil</strong>
+            <div class="formula">
+              $$\oint \frac{\delta Q_{\text{rev}}}{T}=0$$
+            </div>
           </div>
+
           <div class="mini">
-            <strong>De ce contează la examen</strong>
-            <p>Randamentul maxim posibil (Carnot) se atinge <em>numai</em> pentru cicluri complet
-            reversibile — orice ireversibilitate reală scade randamentul sub această limită.</p>
+            <strong>Ciclu ireversibil</strong>
+            <div class="formula">
+              $$\oint \frac{\delta Q}{T}<0$$
+            </div>
           </div>
+        </div>
+
+        <p>
+          Pentru un proces oarecare între două stări:
+        </p>
+
+        <div class="formula">
+          $$dS\ge \frac{\delta Q}{T}$$
+        </div>
+
+        <p>
+          Egalitatea apare pentru procese reversibile, iar inegalitatea strictă pentru procese ireversibile.
+        </p>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $\delta Q$ nu este diferențială exactă, dar $dS$ este diferențială exactă, deoarece $S$
+          este mărime de stare.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Mașina termică</span>
-        <h2>Schema generală și randamentul</h2>
+        <span class="eyebrow">Sistem izolat</span>
+        <h2>Principiul creșterii entropiei</h2>
 
         <p>
-          O <span class="mark">mașină termică</span> funcționează ciclic între o sursă caldă (temperatura
-          $T_1$) și o sursă rece ($T_2$): preia căldura $Q_1$ de la sursa caldă, cedează căldura $Q_2$
-          sursei reci și produce lucrul mecanic net $L$.
+          Pentru un sistem izolat termic și mecanic, nu există schimb de căldură sau lucru mecanic
+          cu exteriorul. Principiul al doilea se exprimă prin:
         </p>
 
+        <div class="formula">
+          $$\Delta S_{\text{izolat}}\ge 0$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Proces reversibil</strong>
+            <div class="formula">
+              $$\Delta S_{\text{izolat}}=0$$
+            </div>
+            <p>
+              Este cazul limită ideal.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Proces ireversibil</strong>
+            <div class="formula">
+              $$\Delta S_{\text{izolat}}>0$$
+            </div>
+            <p>
+              Este cazul proceselor reale.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          entropia unui sistem izolat nu scade; ea rămâne constantă în procese reversibile și crește
+          în procese ireversibile.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          entropia unei părți a sistemului poate scădea local, dar entropia totală a sistemului izolat
+          crește sau rămâne constantă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mașini termice</span>
+        <h2>Schema generală a unui motor termic</h2>
+
         <p>
-          Aplicând principiul I unui ciclu complet ($\Delta U=0$, deoarece sistemul revine la starea
-          inițială):
+          O mașină termică funcționează ciclic între două surse: primește căldura $Q_1$ de la sursa caldă,
+          cedează căldura $Q_2$ sursei reci și produce lucrul mecanic $L$.
         </p>
 
         <div class="formula">
@@ -473,210 +697,601 @@
         </div>
 
         <p>
-          <span class="mark">Randamentul</span> mașinii termice este raportul dintre lucrul mecanic produs
-          și căldura primită de la sursa caldă:
+          Randamentul este:
         </p>
 
         <div class="formula">
-          $$\eta=\frac{L}{Q_1}=1-\frac{Q_2}{Q_1}$$
+          $$\eta=\frac{L}{Q_1}=\frac{Q_1-Q_2}{Q_1}=1-\frac{Q_2}{Q_1}$$
         </div>
 
-        <div class="warning">
-          <strong>Consecință directă a principiului II:</strong>
-          deoarece $Q_2>0$ întotdeauna (formularea Kelvin–Planck), rezultă $\eta<1$ pentru orice mașină
-          termică reală — randamentul de 100% este imposibil.
+        <div class="svgbox">
+          <svg viewBox="0 0 760 340" role="img" aria-label="Schema motorului termic">
+            <defs>
+              <marker id="arrowEngineC18" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrowEngineRedC18" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+              <marker id="arrowEngineBlueC18" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <rect x="260" y="120" width="240" height="95" rx="18" fill="rgba(15,118,110,0.14)"
+                  stroke="#0f766e" stroke-width="4"></rect>
+            <text x="380" y="175" text-anchor="middle" fill="#0f766e" font-size="25" font-weight="700">motor termic</text>
+
+            <rect x="245" y="35" width="270" height="55" rx="15" fill="rgba(239,68,68,0.16)"
+                  stroke="#ef4444" stroke-width="4"></rect>
+            <text x="380" y="70" text-anchor="middle" fill="#ef4444" font-size="22">sursă caldă $T_1$</text>
+
+            <rect x="245" y="260" width="270" height="55" rx="15" fill="rgba(37,99,235,0.16)"
+                  stroke="#2563eb" stroke-width="4"></rect>
+            <text x="380" y="295" text-anchor="middle" fill="#2563eb" font-size="22">sursă rece $T_2$</text>
+
+            <line x1="380" y1="92" x2="380" y2="116" stroke="#ef4444" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowEngineRedC18)"></line>
+            <text x="400" y="112" fill="#ef4444" font-size="21">$Q_1$</text>
+
+            <line x1="380" y1="217" x2="380" y2="255" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowEngineBlueC18)"></line>
+            <text x="400" y="245" fill="#2563eb" font-size="21">$Q_2$</text>
+
+            <line x1="503" y1="168" x2="640" y2="168" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowEngineC18)"></line>
+            <text x="575" y="150" fill="#0f766e" font-size="22">$L$</text>
+          </svg>
+
+          <p class="caption">
+            Într-un ciclu, $\Delta U=0$, deci lucrul mecanic produs este diferența dintre căldura primită
+            și căldura cedată.
+          </p>
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Ciclul ideal</span>
+        <span class="eyebrow">Consecință</span>
+        <h2>Randamentul de 100% este imposibil</h2>
+
+        <p>
+          Din formularea Kelvin–Planck rezultă că un motor termic nu poate transforma toată căldura
+          primită de la o singură sursă în lucru mecanic.
+        </p>
+
+        <div class="formula">
+          $$Q_2>0\qquad \Rightarrow\qquad \eta=1-\frac{Q_2}{Q_1}<1$$
+        </div>
+
+        <p>
+          Orice motor termic real cedează o parte din căldură mediului sau sursei reci. Ireversibilitățile
+          reale, precum frecarea, pierderile termice și turbulența, reduc randamentul.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Motor ideal reversibil</strong>
+            <p>
+              Poate atinge randamentul Carnot, dar nu poate ajunge la $100\%$ dacă $T_2>0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Motor real</strong>
+            <p>
+              Are randament mai mic decât randamentul Carnot între aceleași două temperaturi.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Relație de examen:</strong>
+          $$\eta_{\text{real}}<\eta_{\text{Carnot}}<1$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciclul reversibil ideal</span>
         <h2>Ciclul Carnot</h2>
 
         <p>
-          <span class="mark">Ciclul Carnot</span> este ciclul reversibil de referință, alcătuit din patru
-          transformări, între aceleași două temperaturi $T_1$ (cald) și $T_2$ (rece):
+          Ciclul Carnot este ciclul reversibil care funcționează între două surse de temperaturi
+          $T_1$ și $T_2$, cu $T_1>T_2$.
         </p>
 
         <ol>
-          <li><strong>Destindere izotermă</strong> la $T_1$ — gazul primește căldura $Q_1$.</li>
-          <li><strong>Destindere adiabatică</strong> — temperatura scade de la $T_1$ la $T_2$.</li>
-          <li><strong>Comprimare izotermă</strong> la $T_2$ — gazul cedează căldura $Q_2$.</li>
-          <li><strong>Comprimare adiabatică</strong> — temperatura crește înapoi de la $T_2$ la $T_1$.</li>
+          <li><strong>Destindere izotermă la $T_1$:</strong> sistemul primește căldura $Q_1$.</li>
+          <li><strong>Destindere adiabatică reversibilă:</strong> temperatura scade de la $T_1$ la $T_2$.</li>
+          <li><strong>Comprimare izotermă la $T_2$:</strong> sistemul cedează căldura $Q_2$.</li>
+          <li><strong>Comprimare adiabatică reversibilă:</strong> temperatura revine de la $T_2$ la $T_1$.</li>
         </ol>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Ciclul Carnot în diagrama presiune-volum">
-            <line x1="70" y1="220" x2="640" y2="220" stroke="#64748b" stroke-width="3"/>
-            <line x1="90" y1="235" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
-            <path d="M140 70 C 220 90, 300 110, 380 130" fill="none" stroke="#ef4444" stroke-width="5"/>
-            <path d="M380 130 C 460 150, 520 175, 570 200" fill="none" stroke="#94a3b8" stroke-width="5"/>
-            <path d="M570 200 C 480 205, 380 195, 300 175" fill="none" stroke="#2563eb" stroke-width="5"/>
-            <path d="M300 175 C 240 150, 180 110, 140 70" fill="none" stroke="#94a3b8" stroke-width="5"/>
-            <text x="640" y="240" fill="#64748b" font-size="22">V</text>
-            <text x="55" y="45" fill="#64748b" font-size="22">p</text>
-            <text x="180" y="65" fill="#ef4444" font-size="18">izotermă T₁ (Q₁)</text>
-            <text x="440" y="230" fill="#2563eb" font-size="18">izotermă T₂ (Q₂)</text>
-            <text x="440" y="150" fill="#94a3b8" font-size="18">adiabatice</text>
-            <text x="330" y="150" fill="#0f766e" font-size="20">L = aria ciclului</text>
-          </svg>
-          <p class="caption">Aria închisă de cele patru curbe reprezintă lucrul mecanic net produs într-un ciclu.</p>
-        </div>
+          <svg viewBox="0 0 760 330" role="img" aria-label="Ciclul Carnot în diagrama p V">
+            <defs>
+              <marker id="arrowPvC18" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
 
-        <div class="exam">
-          <strong>Reținem:</strong>
-          toate cele patru transformări sunt reversibile — de aceea ciclul Carnot este ciclul cu cel mai
-          mare randament posibil între două temperaturi date.
+            <line x1="90" y1="270" x2="675" y2="270" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPvC18)"></line>
+            <line x1="105" y1="285" x2="105" y2="45" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPvC18)"></line>
+
+            <path d="M170 80 C 255 100, 335 120, 415 150" fill="none"
+                  stroke="#ef4444" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M415 150 C 500 170, 560 205, 610 240" fill="none"
+                  stroke="#94a3b8" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M610 240 C 500 250, 390 235, 300 210" fill="none"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M300 210 C 245 170, 205 125, 170 80" fill="none"
+                  stroke="#94a3b8" stroke-width="6" stroke-linecap="round"></path>
+
+            <text x="680" y="300" fill="#64748b" font-size="24">V</text>
+            <text x="70" y="55" fill="#64748b" font-size="24">p</text>
+            <text x="205" y="75" fill="#ef4444" font-size="19">izotermă $T_1$</text>
+            <text x="445" y="290" fill="#2563eb" font-size="19">izotermă $T_2$</text>
+            <text x="485" y="165" fill="#64748b" font-size="19">adiabatice</text>
+            <text x="350" y="190" fill="#0f766e" font-size="22" font-weight="700">L = aria</text>
+          </svg>
+
+          <p class="caption">
+            Aria ciclului în diagrama $p$–$V$ reprezintă lucrul mecanic net produs într-un ciclu.
+          </p>
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Teorema lui Carnot</span>
-        <h2>Randamentul Carnot — limita superioară universală</h2>
+        <span class="eyebrow">Teorema Carnot</span>
+        <h2>Randamentul Carnot</h2>
 
         <p>
-          Pentru ciclul Carnot, se poate arăta (folosind entropia, pe pagina următoare) că
-          $\dfrac{Q_2}{Q_1}=\dfrac{T_2}{T_1}$, deci randamentul depinde <strong>doar</strong> de
-          temperaturile absolute ale celor două surse:
+          Pentru ciclul Carnot reversibil, raportul căldurilor schimbate este egal cu raportul
+          temperaturilor absolute:
         </p>
 
         <div class="formula">
-          $$\eta_{Carnot}=1-\frac{T_2}{T_1}$$
+          $$\frac{Q_2}{Q_1}=\frac{T_2}{T_1}$$
         </div>
 
-        <p><span class="mark">Teorema lui Carnot</span> afirmă că niciun motor termic care funcționează
-        între temperaturile $T_1$ și $T_2$ nu poate avea un randament mai mare decât $\eta_{Carnot}$,
-        indiferent de substanța de lucru folosită.</p>
+        <p>
+          Rezultă randamentul:
+        </p>
 
-        <div class="grid">
-          <div class="mini">
-            <strong>$\eta=1-\dfrac{Q_2}{Q_1}$</strong>
-            <p>Valabil pentru <em>orice</em> mașină termică, reversibilă sau nu.</p>
-          </div>
-          <div class="mini">
-            <strong>$\eta_{Carnot}=1-\dfrac{T_2}{T_1}$</strong>
-            <p>Valabil <em>numai</em> pentru ciclul Carnot (reversibil) — este limita superioară absolută.</p>
-          </div>
+        <div class="formula">
+          $$\eta_C=1-\frac{T_2}{T_1}$$
+        </div>
+
+        <p>
+          Teorema lui Carnot afirmă că nicio mașină termică ce funcționează între aceleași două
+          temperaturi nu poate avea randament mai mare decât mașina Carnot.
+        </p>
+
+        <div class="formula">
+          $$\eta\le \eta_C=1-\frac{T_2}{T_1}$$
         </div>
 
         <div class="warning">
-          <strong>Capcană frecventă:</strong>
-          temperaturile din formula randamentului Carnot trebuie exprimate obligatoriu în
-          <strong>kelvin</strong>, niciodată în grade Celsius.
+          <strong>Atenție:</strong>
+          temperaturile din formula Carnot trebuie exprimate în kelvin. Nu se folosesc grade Celsius.
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          randamentul depinde numai de temperaturile surselor, nu de natura substanței de lucru.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Mărime de stare</span>
-        <h2>Entropia — a doua formulare a principiului II</h2>
+        <span class="eyebrow">Frigider și pompă de căldură</span>
+        <h2>Mașini frigorifice</h2>
 
         <p>
-          <span class="mark">Entropia</span> $S$ este o mărime de stare care măsoară gradul de dezordine
-          (sau numărul de moduri microscopice compatibile cu o stare macroscopică). Variația ei, pentru un
-          proces reversibil, este:
+          O mașină frigorifică transferă căldura $Q_2$ de la sursa rece către sursa caldă,
+          consumând lucru mecanic $L$ din exterior.
         </p>
 
         <div class="formula">
-          $$\Delta S=\int\frac{\delta Q_{rev}}{T}$$
+          $$Q_1=Q_2+L$$
         </div>
 
         <p>
-          Principiul al II-lea se poate reformula direct în termeni de entropie:
+          Coeficientul de performanță al frigiderului este:
         </p>
 
         <div class="formula">
-          $$\Delta S_{sistem\ izolat}\ge 0$$
+          $$\varepsilon_f=\frac{Q_2}{L}=\frac{Q_2}{Q_1-Q_2}$$
         </div>
+
+        <p>
+          Pentru o pompă de căldură, efectul util este căldura livrată sursei calde:
+        </p>
+
+        <div class="formula">
+          $$\varepsilon_p=\frac{Q_1}{L}=\frac{Q_1}{Q_1-Q_2}$$
+        </div>
+
+        <p>
+          Pentru ciclul Carnot invers:
+        </p>
+
+        <div class="formula">
+          $$\varepsilon_{f,C}=\frac{T_2}{T_1-T_2},\qquad
+          \varepsilon_{p,C}=\frac{T_1}{T_1-T_2}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          coeficientul frigorific poate fi mai mare decât 1. El nu este randament, ci raport între
+          efect util și lucru mecanic consumat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Entropie în Carnot</span>
+        <h2>Entropia explică randamentul Carnot</h2>
+
+        <p>
+          Într-un ciclu reversibil, variația totală a entropiei este zero:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_{\text{ciclu}}=0$$
+        </div>
+
+        <p>
+          În ciclul Carnot, schimburile de căldură au loc izoterm:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_1=\frac{Q_1}{T_1}$$
+        </div>
+
+        <div class="formula">
+          $$\Delta S_2=-\frac{Q_2}{T_2}$$
+        </div>
+
+        <p>
+          Pentru ciclu reversibil:
+        </p>
+
+        <div class="formula">
+          $$\frac{Q_1}{T_1}-\frac{Q_2}{T_2}=0$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$\frac{Q_2}{Q_1}=\frac{T_2}{T_1}$$
+        </div>
+
+        <p>
+          Înlocuind în $\eta=1-Q_2/Q_1$, obținem:
+        </p>
+
+        <div class="formula">
+          $$\eta_C=1-\frac{T_2}{T_1}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Exemple</span>
+        <h2>Procese ireversibile importante</h2>
 
         <div class="grid">
           <div class="mini">
-            <strong>Proces reversibil</strong>
-            <p>Entropia totală (sistem + mediu) rămâne constantă: $\Delta S_{total}=0$.</p>
+            <strong>Transfer de căldură la diferență finită</strong>
+            <p>
+              Căldura trece spontan de la cald la rece. Entropia totală crește.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>Proces ireversibil</strong>
-            <p>Entropia totală crește mereu: $\Delta S_{total}>0$ — acesta este sensul „săgeții timpului”.</p>
+            <strong>Expansiune liberă</strong>
+            <p>
+              Gazul se destinde în vid fără lucru mecanic și fără schimb de căldură, dar entropia crește.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Frecarea</strong>
+            <p>
+              Energia mecanică se transformă în energie internă; procesul invers spontan nu apare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Difuzia</strong>
+            <p>
+              Moleculele se amestecă spontan, iar separarea spontană este practic imposibilă.
+            </p>
           </div>
         </div>
 
+        <div class="formula">
+          $$\Delta S_{\text{univers}}=\Delta S_{\text{sistem}}+\Delta S_{\text{mediu}}>0$$
+        </div>
+
         <div class="exam">
-          <strong>Formulare de examen:</strong>
-          entropia unui sistem izolat nu poate scădea niciodată; ea crește în orice proces real
-          (ireversibil) și rămâne constantă doar în cazul ideal al proceselor reversibile.
+          <strong>Formulare sigură:</strong>
+          ireversibilitatea este asociată cu producerea de entropie.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Funcționare inversă</span>
-        <h2>Frigidere și pompe de căldură</h2>
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Randamentul unui motor termic</h2>
 
         <p>
-          Un <span class="mark">frigider</span> (sau o pompă de căldură) parcurge ciclul Carnot în sens
-          invers: consumă lucru mecanic $L$ din exterior tocmai pentru a transfera căldură de la sursa rece
-          la sursa caldă — exact sensul interzis „de la sine” de formularea lui Clausius.
+          Un motor termic primește de la sursa caldă căldura $Q_1=2000\,\text{J}$ și cedează
+          sursei reci căldura $Q_2=1200\,\text{J}$. Determinați lucrul mecanic și randamentul.
+        </p>
+
+        <p>
+          Aplicăm principiul întâi pe ciclu:
+        </p>
+
+        <div class="formula">
+          $$L=Q_1-Q_2$$
+        </div>
+
+        <div class="formula">
+          $$L=2000-1200=800\,\text{J}$$
+        </div>
+
+        <p>
+          Randamentul este:
+        </p>
+
+        <div class="formula">
+          $$\eta=\frac{L}{Q_1}=\frac{800}{2000}=0{,}40=40\%$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          doar $40\%$ din căldura primită este transformată în lucru mecanic util; restul este cedat
+          sursei reci.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Motor Carnot între două temperaturi</h2>
+
+        <p>
+          O mașină Carnot funcționează între $T_1=600\,\text{K}$ și $T_2=300\,\text{K}$.
+          Primește într-un ciclu $Q_1=1500\,\text{J}$. Determinați randamentul, lucrul mecanic
+          și căldura cedată.
+        </p>
+
+        <p>
+          Randamentul Carnot:
+        </p>
+
+        <div class="formula">
+          $$\eta_C=1-\frac{T_2}{T_1}=1-\frac{300}{600}=0{,}5$$
+        </div>
+
+        <p>
+          Lucrul mecanic:
+        </p>
+
+        <div class="formula">
+          $$L=\eta_CQ_1=0{,}5\cdot1500=750\,\text{J}$$
+        </div>
+
+        <p>
+          Căldura cedată:
+        </p>
+
+        <div class="formula">
+          $$Q_2=Q_1-L=1500-750=750\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Verificare:</strong>
+          $$\frac{Q_2}{Q_1}=\frac{750}{1500}=0{,}5=\frac{T_2}{T_1}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Creșterea entropiei la transfer de căldură</h2>
+
+        <p>
+          O cantitate de căldură $Q=600\,\text{J}$ trece de la un rezervor cald la
+          $T_1=500\,\text{K}$ spre un rezervor rece la $T_2=300\,\text{K}$. Determinați variația
+          totală a entropiei.
+        </p>
+
+        <p>
+          Rezervorul cald cedează căldură:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_1=-\frac{Q}{T_1}=-\frac{600}{500}=-1{,}2\,\text{J/K}$$
+        </div>
+
+        <p>
+          Rezervorul rece primește căldură:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_2=\frac{Q}{T_2}=\frac{600}{300}=2\,\text{J/K}$$
+        </div>
+
+        <p>
+          Entropia totală:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_{\text{tot}}=\Delta S_1+\Delta S_2=-1{,}2+2=0{,}8\,\text{J/K}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          $\Delta S_{\text{tot}}>0$, deci transferul spontan de căldură este ireversibil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Coeficient frigorific</h2>
+
+        <p>
+          Un frigider extrage din interior căldura $Q_2=900\,\text{J}$ și consumă lucrul mecanic
+          $L=300\,\text{J}$ într-un ciclu. Determinați căldura cedată mediului și coeficientul frigorific.
+        </p>
+
+        <p>
+          Căldura cedată mediului:
+        </p>
+
+        <div class="formula">
+          $$Q_1=Q_2+L=900+300=1200\,\text{J}$$
+        </div>
+
+        <p>
+          Coeficientul frigorific:
+        </p>
+
+        <div class="formula">
+          $$\varepsilon_f=\frac{Q_2}{L}=\frac{900}{300}=3$$
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          $\varepsilon_f=3$ nu înseamnă randament de $300\%$. Înseamnă că pentru fiecare joule de lucru
+          mecanic consumat se extrag $3\,\text{J}$ de căldură din spațiul rece.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Motor, frigider, pompă de căldură</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dispozitiv</th>
+                <th>Efect util</th>
+                <th>Relație energetică</th>
+                <th>Indicator de performanță</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Motor termic</td>
+                <td>Produce lucru mecanic $L$</td>
+                <td>$L=Q_1-Q_2$</td>
+                <td>$\eta=L/Q_1$</td>
+              </tr>
+              <tr>
+                <td>Frigider</td>
+                <td>Extrage căldura $Q_2$ din sursa rece</td>
+                <td>$Q_1=Q_2+L$</td>
+                <td>$\varepsilon_f=Q_2/L$</td>
+              </tr>
+              <tr>
+                <td>Pompă de căldură</td>
+                <td>Livrează căldura $Q_1$ sursei calde</td>
+                <td>$Q_1=Q_2+L$</td>
+                <td>$\varepsilon_p=Q_1/L$</td>
+              </tr>
+              <tr>
+                <td>Carnot</td>
+                <td>Limită reversibilă ideală</td>
+                <td>$Q_2/Q_1=T_2/T_1$</td>
+                <td>$\eta_C=1-T_2/T_1$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Metodă:</strong>
+          stabilește întâi care este efectul util: lucru mecanic la motor, căldură extrasă la frigider,
+          căldură livrată la pompă de căldură.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Principiul al doilea se predă eficient prin experiențe și modele care evidențiază sensul
+          proceselor naturale.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>Frigider — eficiența frigorifică</strong>
-            <p>Interesează căldura extrasă din spațiul rece per unitate de lucru mecanic consumat:</p>
-            <div class="formula">$$\varepsilon=\frac{Q_2}{L}$$</div>
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Contact termic între două corpuri la temperaturi diferite: temperatura evoluează spre echilibru,
+              nu în sens invers.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>Pompă de căldură — coeficient de performanță</strong>
-            <p>Interesează căldura cedată spațiului cald per unitate de lucru mecanic consumat:</p>
-            <div class="formula">$$COP=\frac{Q_1}{L}$$</div>
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare cu particule: difuzia sau amestecarea arată creșterea dezordinii microscopice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezolvare de probleme</strong>
+            <p>
+              Randament Carnot, bilanț energetic al motorului, coeficient frigorific, variație de entropie.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc surse termice controlate; se evită contactul direct cu obiecte fierbinți și se
+              protejează elevii de vapori sau lichide încălzite.
+            </p>
           </div>
         </div>
 
         <div class="exam">
-          <strong>Reținem:</strong>
-          spre deosebire de randamentul unei mașini termice (întotdeauna subunitar), eficiența frigorifică
-          $\varepsilon$ poate fi supraunitară — un frigider bun mută mai multă căldură decât lucrul mecanic
-          consumat pentru asta.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Problemă rezolvată</span>
-        <h2>Model de rezolvare pentru examen</h2>
-
-        <p>
-          O mașină termică funcționează după ciclul Carnot între temperaturile $T_1=600\,\text{K}$ și
-          $T_2=300\,\text{K}$, primind de la sursa caldă $Q_1=1200\,\text{J}$. Calculați randamentul, lucrul
-          mecanic produs într-un ciclu și căldura cedată sursei reci.
-        </p>
-
-        <p><strong>1. Randamentul Carnot:</strong></p>
-        <div class="formula">
-          $$\eta=1-\frac{T_2}{T_1}=1-\frac{300}{600}=0{,}5=50\%$$
-        </div>
-
-        <p><strong>2. Lucrul mecanic produs:</strong></p>
-        <div class="formula">
-          $$L=\eta\, Q_1=0{,}5\cdot1200=600\,\text{J}$$
-        </div>
-
-        <p><strong>3. Căldura cedată sursei reci, din principiul I:</strong></p>
-        <div class="formula">
-          $$Q_2=Q_1-L=1200-600=600\,\text{J}$$
-        </div>
-
-        <p><strong>4. Verificare:</strong> $\dfrac{Q_2}{T_2}=\dfrac{600}{300}=2$ și $\dfrac{Q_1}{T_1}=\dfrac{1200}{600}=2$ — cele două rapoarte coincid, confirmând că ciclul este reversibil.</p>
-
-        <div class="exam">
-          <strong>Răspuns final:</strong>
-          randamentul este $50\%$, mașina produce $600\,\text{J}$ lucru mecanic pe ciclu și cedează
-          $600\,\text{J}$ sursei reci.
+          <strong>Competență didactică:</strong>
+          elevul trebuie să distingă între conservarea energiei și degradarea posibilității de transformare
+          integrală a căldurii în lucru mecanic.
         </div>
       </article>
     </section>
@@ -686,61 +1301,163 @@
         <span class="eyebrow">Capcane de examen</span>
         <h2>Greșeli frecvente și corectarea lor</h2>
 
-        <ul>
-          <li>
-            <strong>Confuzia dintre $\eta=1-Q_2/Q_1$ și $\eta_{Carnot}=1-T_2/T_1$:</strong>
-            a doua formulă este valabilă <em>numai</em> pentru ciclul Carnot reversibil.
-          </li>
-          <li>
-            <strong>Folosirea temperaturii în grade Celsius:</strong>
-            formula randamentului Carnot cere obligatoriu temperaturi absolute (kelvin).
-          </li>
-          <li>
-            <strong>Interpretarea greșită „energia se pierde”:</strong>
-            energia se conservă mereu (principiul I); principiul II spune doar că nu toată căldura poate
-            deveni lucru mecanic.
-          </li>
-          <li>
-            <strong>Confuzia dintre randamentul motorului și eficiența frigorifică:</strong>
-            $\eta<1$ mereu, dar $\varepsilon$ poate fi supraunitar.
-          </li>
-          <li>
-            <strong>Ideea că entropia unui sistem <em>oarecare</em> nu poate niciodată scădea:</strong>
-            legea se aplică sistemului <strong>izolat</strong> (sistem + mediu); entropia unei părți poate
-            scădea local, dacă altundeva crește mai mult.
-          </li>
-        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se afirmă că principiul II contrazice principiul I.</td>
+                <td>Principiul I conservă energia; principiul II stabilește sensul proceselor.</td>
+                <td>Cele două principii sunt complementare.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $\eta_C=1-T_2/T_1$ cu temperaturi în Celsius.</td>
+                <td>Raportul temperaturilor cere scară absolută.</td>
+                <td>Transformă temperaturile în kelvin.</td>
+              </tr>
+              <tr>
+                <td>Se aplică formula Carnot oricărui motor real.</td>
+                <td>Formula exactă este pentru ciclul reversibil Carnot.</td>
+                <td>Pentru motor real: $\eta<\eta_C$.</td>
+              </tr>
+              <tr>
+                <td>Se confundă randamentul cu coeficientul frigorific.</td>
+                <td>Randamentul se referă la motor; coeficientul frigorific la frigider.</td>
+                <td>$\eta=L/Q_1$, iar $\varepsilon_f=Q_2/L$.</td>
+              </tr>
+              <tr>
+                <td>Se spune că entropia nu poate scădea niciodată.</td>
+                <td>Entropia unei părți poate scădea dacă mediul crește mai mult.</td>
+                <td>Entropia totală a sistemului izolat nu scade.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="exam">
-          <strong>Formulare bună la proba scrisă:</strong>
-          „Conform principiului al II-lea al termodinamicii, randamentul oricărei mașini termice reale care
-          funcționează între $T_1$ și $T_2$ este cel mult egal cu randamentul Carnot corespunzător,
-          $\eta_{Carnot}=1-T_2/T_1$.”
+        <div class="warning">
+          <strong>De reținut:</strong>
+          în orice problemă cu principiul al doilea, verifică sensul schimburilor de căldură și temperatura
+          absolută a surselor.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Verificare rapidă</span>
-        <h2>Itemi pentru autoevaluare</h2>
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
 
-        <ol>
-          <li>Enunțați formulările Clausius și Kelvin–Planck ale principiului al II-lea și arătați că nu contrazic principiul I.</li>
-          <li>Definiți randamentul unei mașini termice și arătați de ce este întotdeauna subunitar.</li>
-          <li>Descrieți cele patru transformări ale ciclului Carnot.</li>
-          <li>Enunțați teorema lui Carnot privind randamentul maxim.</li>
-          <li>Ce se întâmplă cu entropia unui sistem izolat în care are loc un proces ireversibil?</li>
-          <li>O mașină Carnot funcționează între $400\,\text{K}$ și $250\,\text{K}$. Calculați randamentul ei.</li>
-        </ol>
+        <p>
+          Principiul al doilea al termodinamicii completează principiul conservării energiei prin
+          stabilirea sensului natural al proceselor. Formularea Clausius afirmă că este imposibil ca
+          unicul efect al unui proces să fie trecerea căldurii de la un corp rece la unul cald. Formularea
+          Kelvin–Planck afirmă că este imposibilă o mașină termică ciclică ce transformă integral căldura
+          primită de la o singură sursă în lucru mecanic.
+        </p>
+
+        <p>
+          Acest principiu introduce distincția dintre procese reversibile și ireversibile. Procesele reale
+          sunt ireversibile și sunt însoțite de producere de entropie. Entropia este mărime de stare,
+          definită pentru procese reversibile prin:
+        </p>
 
         <div class="formula">
-          $$\eta=1-\frac{Q_2}{Q_1},\qquad \eta_{Carnot}=1-\frac{T_2}{T_1},\qquad \Delta S_{izolat}\ge 0$$
+          $$dS=\frac{\delta Q_{\text{rev}}}{T}$$
+        </div>
+
+        <p>
+          Pentru un sistem izolat:
+        </p>
+
+        <div class="formula">
+          $$\Delta S_{\text{izolat}}\ge0$$
+        </div>
+
+        <p>
+          În aplicațiile cu mașini termice, principiul al doilea arată că randamentul este mereu subunitar.
+          Pentru ciclul Carnot reversibil, randamentul maxim între două surse de temperaturi $T_1$ și $T_2$
+          este:
+        </p>
+
+        <div class="formula">
+          $$\eta_C=1-\frac{T_2}{T_1}$$
+        </div>
+
+        <p>
+          Orice motor real are randament mai mic decât această limită din cauza ireversibilităților.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C18</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Motor termic</strong>
+            <div class="formula">
+              $$L=Q_1-Q_2$$
+              $$\eta=\frac{L}{Q_1}=1-\frac{Q_2}{Q_1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Carnot</strong>
+            <div class="formula">
+              $$\frac{Q_2}{Q_1}=\frac{T_2}{T_1}$$
+              $$\eta_C=1-\frac{T_2}{T_1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Entropie</strong>
+            <div class="formula">
+              $$dS=\frac{\delta Q_{\text{rev}}}{T}$$
+              $$\Delta S=\int_1^2\frac{\delta Q_{\text{rev}}}{T}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Sistem izolat</strong>
+            <div class="formula">
+              $$\Delta S_{\text{izolat}}\ge0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Clausius</strong>
+            <div class="formula">
+              $$\oint\frac{\delta Q}{T}\le0$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Frigider</strong>
+            <div class="formula">
+              $$\varepsilon_f=\frac{Q_2}{L}$$
+              $$\varepsilon_{f,C}=\frac{T_2}{T_1-T_2}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o mașină Carnot funcționează între două surse la $T_1$ și $T_2$, primește $Q_1$ pe ciclu.
+          Determinați $\eta$, $L$, $Q_2$ și verificați relația entropică
+          $\frac{Q_1}{T_1}=\frac{Q_2}{T_2}$.
         </div>
 
         <div class="bottom-links">
-          <a href="C19-gazele-reale-ecuatia-van-der-waals.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="C19-transformari-de-faza-de-speta-intai.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-18.html">Fișa de lucru C18</a>
           <a href="index.html">Înapoi la capitol</a>
         </div>
       </article>
@@ -748,23 +1465,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
-    <a href="index.html">Înapoi la capitol</a>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 25</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-18.html">Fișa C18</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -792,6 +1517,8 @@
       if (event.key === "ArrowRight") nextPage();
       if (event.key === "ArrowLeft") prevPage();
     });
+
+    updatePageStatus();
   </script>
 </body>
 </html>
