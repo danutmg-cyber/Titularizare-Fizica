@@ -1,1 +1,956 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C29 – Ecuațiile lui Maxwell. Unde electromagnetice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 950px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 { margin-top: 0; }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show { display: block; }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 300px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li { margin: 0.35rem 0; }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C29 • Ecuațiile lui Maxwell. Unde electromagnetice</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C29</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Ecuațiile lui Maxwell în vid. Unde electromagnetice</h1>
+
+      <p class="lead">
+        Fișa consolidează ecuațiile lui Maxwell în vid, curentul de deplasare, deducerea ecuației undei,
+        viteza luminii, caracterul transversal al undelor electromagnetice, relația $E=cB$,
+        vectorul Poynting, intensitatea și presiunea de radiație.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Ecuațiile Maxwell în vid</strong>
+          <div class="formula">
+            $$\nabla\cdot\vec E=\frac{\rho}{\varepsilon_0}$$
+            $$\nabla\cdot\vec B=0$$
+            $$\nabla\times\vec E=-\frac{\partial\vec B}{\partial t}$$
+            $$\nabla\times\vec B=\mu_0\vec j+\mu_0\varepsilon_0\frac{\partial\vec E}{\partial t}$$
+          </div>
+          <p>
+            Sistemul leagă sursele câmpului electric, inexistența monopolilor magnetici, inducția și curentul de deplasare.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Vid fără surse</strong>
+          <div class="formula">
+            $$\rho=0,\qquad \vec j=0$$
+            $$\nabla\cdot\vec E=0,\qquad \nabla\cdot\vec B=0$$
+          </div>
+          <p>
+            Câmpurile variabile se generează reciproc și pot exista sub formă de unde electromagnetice.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Ecuațiile undei</strong>
+          <div class="formula">
+            $$\nabla^2\vec E-\mu_0\varepsilon_0\frac{\partial^2\vec E}{\partial t^2}=0$$
+            $$\nabla^2\vec B-\mu_0\varepsilon_0\frac{\partial^2\vec B}{\partial t^2}=0$$
+          </div>
+          <p>
+            Prin comparație cu ecuația undei, viteza de propagare în vid este $c=1/\sqrt{\mu_0\varepsilon_0}$.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Undă plană în vid</strong>
+          <div class="formula">
+            $$\vec E=E_0\cos(kx-\omega t)\,\vec e_y$$
+            $$\vec B=B_0\cos(kx-\omega t)\,\vec e_z$$
+            $$E_0=cB_0,\qquad c=\lambda f$$
+          </div>
+          <p>
+            Unda este transversală: $\vec E\perp\vec B\perp\vec k$.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gauss electric</td>
+              <td>$\oint_S\vec E\cdot d\vec S=Q_{\text{int}}/\varepsilon_0$</td>
+              <td>N·m²/C</td>
+              <td>Sarcinile electrice sunt surse ale câmpului electric.</td>
+            </tr>
+            <tr>
+              <td>Gauss magnetic</td>
+              <td>$\oint_S\vec B\cdot d\vec S=0$</td>
+              <td>Wb</td>
+              <td>Liniile câmpului magnetic sunt închise.</td>
+            </tr>
+            <tr>
+              <td>Faraday–Lenz</td>
+              <td>$\oint_C\vec E\cdot d\vec l=-d\Phi_B/dt$</td>
+              <td>V</td>
+              <td>Câmpul magnetic variabil produce câmp electric turbionar.</td>
+            </tr>
+            <tr>
+              <td>Ampère–Maxwell</td>
+              <td>$\oint_C\vec B\cdot d\vec l=\mu_0I+\mu_0\varepsilon_0d\Phi_E/dt$</td>
+              <td>T·m</td>
+              <td>Termenul Maxwell este esențial pentru undele EM.</td>
+            </tr>
+            <tr>
+              <td>Curent de deplasare</td>
+              <td>$I_d=\varepsilon_0\,d\Phi_E/dt$</td>
+              <td>A</td>
+              <td>Nu este transport de sarcini prin vid.</td>
+            </tr>
+            <tr>
+              <td>Viteza în vid</td>
+              <td>$c=1/\sqrt{\mu_0\varepsilon_0}$</td>
+              <td>m/s</td>
+              <td>Identifică lumina ca undă electromagnetică.</td>
+            </tr>
+            <tr>
+              <td>Vector Poynting</td>
+              <td>$\vec S=\frac1{\mu_0}\vec E\times\vec B$</td>
+              <td>W/m²</td>
+              <td>Indică direcția transportului de energie.</td>
+            </tr>
+            <tr>
+              <td>Intensitate medie</td>
+              <td>$I=\langle S\rangle=\frac12\varepsilon_0cE_0^2$</td>
+              <td>W/m²</td>
+              <td>Valabilă pentru undă sinusoidală plană în vid.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Termenul Maxwell din legea Ampère–Maxwell este:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">$\mu_0\vec j$</option>
+          <option value="b">$\rho/\varepsilon_0$</option>
+          <option value="c">$\mu_0\varepsilon_0\,\partial\vec E/\partial t$</option>
+          <option value="d">$-\partial\vec B/\partial t$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Ecuația $\nabla\cdot\vec B=0$ exprimă:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">existența sarcinilor electrice</option>
+          <option value="b">inexistența monopolilor magnetici în electromagnetismul clasic</option>
+          <option value="c">legea Joule–Lenz</option>
+          <option value="d">mișcarea particulelor în câmp electric</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Viteza undelor electromagnetice în vid este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$c=1/\sqrt{\mu_0\varepsilon_0}$</option>
+          <option value="b">$c=\sqrt{\mu_0\varepsilon_0}$</option>
+          <option value="c">$c=\mu_0/\varepsilon_0$</option>
+          <option value="d">$c=\lambda/\omega$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Într-o undă electromagnetică plană în vid:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">$\vec E$ este paralel cu $\vec B$</option>
+          <option value="b">$\vec E$ este pe direcția de propagare</option>
+          <option value="c">$\vec B$ este nul</option>
+          <option value="d">$\vec E\perp\vec B\perp\vec k$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Relația corectă dintre amplitudinile câmpurilor într-o undă EM în vid este:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$B_0=cE_0$</option>
+          <option value="b">$E_0=cB_0$</option>
+          <option value="c">$E_0=B_0/c$</option>
+          <option value="d">$E_0B_0=0$</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Se folosesc aproximațiile $\varepsilon_0=8{,}85\cdot10^{-12}\,\text{F/m}$,
+        $\mu_0=4\pi\cdot10^{-7}\,\text{H/m}$ și $c=3\cdot10^8\,\text{m/s}$.
+      </p>
+
+      <article class="item">
+        <h3>4. Lungimea de undă a unei unde radio <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică se propagă în vid cu frecvența
+          <span class="formula-inline">$f$</span> = <span class="var" id="e4f"></span> MHz.
+          Determinați lungimea de undă.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Frecvența unei unde cu lungime de undă dată <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică în vid are lungimea de undă
+          <span class="formula-inline">$\lambda$</span> = <span class="var" id="e5lambda"></span> cm.
+          Determinați frecvența undei.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Relația dintre amplitudinile $E_0$ și $B_0$ <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică plană în vid are amplitudinea câmpului electric
+          <span class="formula-inline">$E_0$</span> = <span class="var" id="e6E"></span> V/m.
+          Determinați amplitudinea câmpului magnetic.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Intensitatea medie a undei <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică sinusoidală în vid are amplitudinea câmpului electric
+          <span class="formula-inline">$E_0$</span> = <span class="var" id="e7E"></span> V/m.
+          Determinați intensitatea medie.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Amplitudinea câmpului electric din intensitate <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică plană în vid are intensitatea medie
+          <span class="formula-inline">$I$</span> = <span class="var" id="e8I"></span> W/m².
+          Determinați amplitudinea câmpului electric.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Vectorul Poynting instantaneu <span class="points">5 p</span></h3>
+        <p>
+          La un moment dat, într-o undă electromagnetică, câmpurile sunt perpendiculare și au modulele
+          <span class="formula-inline">$E$</span> = <span class="var" id="e9E"></span> V/m și
+          <span class="formula-inline">$B$</span> = <span class="var" id="e9B"></span> $\mu\text{T}$.
+          Determinați modulul vectorului Poynting.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Presiunea de radiație <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică de intensitate
+          <span class="formula-inline">$I$</span> = <span class="var" id="e10I"></span> W/m² cade normal pe o suprafață.
+          Determinați presiunea pentru absorbție totală și pentru reflexie totală.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Curentul de deplasare între plăcile unui condensator <span class="points">5 p</span></h3>
+        <p>
+          Între plăcile unui condensator, aria unei armături este
+          <span class="formula-inline">$S$</span> = <span class="var" id="e11S"></span> cm².
+          Câmpul electric crește cu
+          <span class="formula-inline">$\Delta E$</span> = <span class="var" id="e11dE"></span> kV/m
+          în timpul
+          <span class="formula-inline">$\Delta t$</span> = <span class="var" id="e11dt"></span> ms.
+          Determinați curentul de deplasare.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Numărul de undă și pulsația <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică plană în vid are lungimea de undă
+          <span class="formula-inline">$\lambda$</span> = <span class="var" id="e12lambda"></span> m.
+          Determinați $f$, $k$ și $\omega$.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Densitatea energiei electromagnetice <span class="points">5 p</span></h3>
+        <p>
+          Într-o undă electromagnetică plană în vid, câmpul electric instantaneu are modulul
+          <span class="formula-inline">$E$</span> = <span class="var" id="e13E"></span> V/m.
+          Determinați densitatea totală a energiei electromagnetice în acel moment.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Energia transportată printr-o suprafață <span class="points">5 p</span></h3>
+        <p>
+          O undă electromagnetică de intensitate medie
+          <span class="formula-inline">$I$</span> = <span class="var" id="e14I"></span> W/m²
+          cade normal pe o suprafață de arie
+          <span class="formula-inline">$S$</span> = <span class="var" id="e14S"></span> cm²
+          timp de
+          <span class="formula-inline">$t$</span> = <span class="var" id="e14t"></span> s.
+          Determinați energia transportată prin suprafață.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Scrieți cele patru ecuații Maxwell în vid și precizați semnificația fizică a fiecăreia:
+          surse ale câmpului electric, flux magnetic nul prin suprafață închisă, inducție electromagnetică,
+          curent de conducție și curent de deplasare.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Deducere / interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Pornind de la ecuațiile Maxwell fără surse, deduceți ecuația undei pentru câmpul electric:
+          $\nabla^2\vec E-\mu_0\varepsilon_0\partial^2\vec E/\partial t^2=0$.
+          Explicați de ce rezultă $c=1/\sqrt{\mu_0\varepsilon_0}$.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru predarea caracterului transversal al undelor electromagnetice
+          folosind simulare TIC sau demonstrație cu polarizori. Includeți obiectivul operațional, activitatea profesorului,
+          activitatea elevilor, evaluarea rapidă, mijloacele didactice și două norme de protecția muncii
+          pentru surse optice, lasere sau echipamente electrice.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, direcție sau interpretare fizică: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: m, Hz, rad/s, T, V/m, W/m², Pa, A, J/m³ și J.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C29-ecuatiile-lui-maxwell-unde-electromagnetice.html">Înapoi la lecția C29</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="../index.html">Înapoi la capitol</a>
+    </nav>
+  </main>
+
+  <script>
+    const eps0 = 8.85e-12;
+    const mu0 = 4 * Math.PI * 1e-7;
+    const c = 3e8;
+    const storageKey = "values-fisa-c29";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const v = {
+        e4f: choose([30, 50, 60, 100, 150, 300, 600, 900]),
+
+        e5lambda: choose([10, 20, 30, 50, 100, 200, 300]),
+
+        e6E: rnd(100, 1200, 100),
+
+        e7E: rnd(100, 1200, 100),
+
+        e8I: rnd(50, 1000, 50),
+
+        e9E: rnd(100, 900, 100),
+        e9B: rnd(1, 8),
+
+        e10I: rnd(100, 1200, 100),
+
+        e11S: rnd(100, 1000, 100),
+        e11dE: rnd(10, 100, 10),
+        e11dt: rnd(2, 20, 2),
+
+        e12lambda: choose([0.25, 0.50, 0.75, 1.00, 2.00, 3.00, 5.00]),
+
+        e13E: rnd(100, 1500, 100),
+
+        e14I: rnd(100, 1200, 100),
+        e14S: rnd(50, 500, 50),
+        e14t: rnd(2, 20, 2)
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const f4 = v.e4f * 1e6;
+      const lambda4 = c / f4;
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        În vid:
+        $$c=\\lambda f$$
+        $$f=${v.e4f}\\,\\text{MHz}=${tex(f4)}\\,\\text{Hz}$$
+        $$\\lambda=\\frac{c}{f}=\\frac{3\\cdot10^8}{${tex(f4)}}=${tex(lambda4)}\\,\\text{m}$$
+        Undele cu frecvență mai mare au lungime de undă mai mică.
+      `);
+
+      const lambda5 = v.e5lambda / 100;
+      const f5 = c / lambda5;
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        $$c=\\lambda f$$
+        $$\\lambda=${v.e5lambda}\\,\\text{cm}=${tex(lambda5)}\\,\\text{m}$$
+        $$f=\\frac{c}{\\lambda}=\\frac{3\\cdot10^8}{${tex(lambda5)}}=${tex(f5)}\\,\\text{Hz}$$
+        $$f=${tex(f5 / 1e9)}\\,\\text{GHz}$$
+      `);
+
+      const B6 = v.e6E / c;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        Pentru undă electromagnetică plană în vid:
+        $$E_0=cB_0$$
+        $$B_0=\\frac{E_0}{c}$$
+        $$B_0=\\frac{${v.e6E}}{3\\cdot10^8}=${tex(B6)}\\,\\text{T}$$
+        $$B_0=${tex(B6 / 1e-6)}\\,\\mu\\text{T}$$
+      `);
+
+      const I7 = 0.5 * eps0 * c * v.e7E * v.e7E;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        Intensitatea medie a unei unde sinusoidale plane în vid este:
+        $$I=\\frac12\\varepsilon_0cE_0^2$$
+        $$I=\\frac12\\cdot8{,}85\\cdot10^{-12}\\cdot3\\cdot10^8\\cdot${v.e7E}^2$$
+        $$I=${tex(I7)}\\,\\text{W/m}^2$$
+      `);
+
+      const E8 = Math.sqrt(2 * v.e8I / (eps0 * c));
+      const B8 = E8 / c;
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Pornim de la:
+        $$I=\\frac12\\varepsilon_0cE_0^2$$
+        De aici:
+        $$E_0=\\sqrt{\\frac{2I}{\\varepsilon_0c}}$$
+        $$E_0=\\sqrt{\\frac{2\\cdot${v.e8I}}{8{,}85\\cdot10^{-12}\\cdot3\\cdot10^8}}=${tex(E8)}\\,\\text{V/m}$$
+        Câmpul magnetic asociat ar fi:
+        $$B_0=\\frac{E_0}{c}=${tex(B8)}\\,\\text{T}$$
+      `);
+
+      const B9 = v.e9B * 1e-6;
+      const S9 = v.e9E * B9 / mu0;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Pentru $\\vec E\\perp\\vec B$:
+        $$S=\\frac1{\\mu_0}EB$$
+        $$B=${v.e9B}\\,\\mu\\text{T}=${tex(B9)}\\,\\text{T}$$
+        $$S=\\frac{${v.e9E}\\cdot${tex(B9)}}{4\\pi\\cdot10^{-7}}=${tex(S9)}\\,\\text{W/m}^2$$
+        Direcția vectorului Poynting este dată de $\\vec E\\times\\vec B$.
+      `);
+
+      const pAbs10 = v.e10I / c;
+      const pRefl10 = 2 * v.e10I / c;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        Pentru absorbție totală:
+        $$p_{\\text{abs}}=\\frac{I}{c}$$
+        $$p_{\\text{abs}}=\\frac{${v.e10I}}{3\\cdot10^8}=${tex(pAbs10)}\\,\\text{Pa}$$
+        Pentru reflexie totală:
+        $$p_{\\text{refl}}=\\frac{2I}{c}=${tex(pRefl10)}\\,\\text{Pa}$$
+        Reflexia produce presiune dublă deoarece schimbarea impulsului este mai mare.
+      `);
+
+      const S11 = v.e11S * 1e-4;
+      const dE11 = v.e11dE * 1000;
+      const dt11 = v.e11dt * 1e-3;
+      const Id11 = eps0 * S11 * dE11 / dt11;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Curentul de deplasare:
+        $$I_d=\\varepsilon_0\\frac{d\\Phi_E}{dt}$$
+        Pentru câmp uniform perpendicular pe armături:
+        $$\\Phi_E=ES$$
+        deci:
+        $$I_d=\\varepsilon_0S\\frac{\\Delta E}{\\Delta t}$$
+        $$S=${v.e11S}\\,\\text{cm}^2=${tex(S11)}\\,\\text{m}^2$$
+        $$\\Delta E=${v.e11dE}\\,\\text{kV/m}=${tex(dE11)}\\,\\text{V/m},\\qquad \\Delta t=${v.e11dt}\\,\\text{ms}=${tex(dt11)}\\,\\text{s}$$
+        $$I_d=8{,}85\\cdot10^{-12}\\cdot${tex(S11)}\\cdot\\frac{${tex(dE11)}}{${tex(dt11)}}=${tex(Id11)}\\,\\text{A}$$
+      `);
+
+      const f12 = c / v.e12lambda;
+      const k12 = 2 * Math.PI / v.e12lambda;
+      const w12 = 2 * Math.PI * f12;
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        $$f=\\frac{c}{\\lambda}$$
+        $$f=\\frac{3\\cdot10^8}{${String(v.e12lambda).replace(".", ",")}}=${tex(f12)}\\,\\text{Hz}$$
+        Numărul de undă:
+        $$k=\\frac{2\\pi}{\\lambda}=\\frac{2\\pi}{${String(v.e12lambda).replace(".", ",")}}=${tex(k12)}\\,\\text{rad/m}$$
+        Pulsația:
+        $$\\omega=2\\pi f=${tex(w12)}\\,\\text{rad/s}$$
+        Verificare:
+        $$\\omega=ck$$
+      `);
+
+      const w13 = eps0 * v.e13E * v.e13E;
+      const B13 = v.e13E / c;
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Într-o undă electromagnetică plană în vid:
+        $$w=w_E+w_B=\\varepsilon_0E^2$$
+        deoarece $w_E=w_B$.
+        $$w=8{,}85\\cdot10^{-12}\\cdot${v.e13E}^2=${tex(w13)}\\,\\text{J/m}^3$$
+        Câmpul magnetic instantaneu corespunzător este:
+        $$B=\\frac{E}{c}=${tex(B13)}\\,\\text{T}$$
+      `);
+
+      const S14 = v.e14S * 1e-4;
+      const W14 = v.e14I * S14 * v.e14t;
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        Energia transportată este:
+        $$W=ISt$$
+        $$S=${v.e14S}\\,\\text{cm}^2=${tex(S14)}\\,\\text{m}^2$$
+        $$W=${v.e14I}\\cdot${tex(S14)}\\cdot${v.e14t}=${tex(W14)}\\,\\text{J}$$
+        Intensitatea reprezintă energia transportată în unitatea de timp prin unitatea de suprafață.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c29", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c29");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
