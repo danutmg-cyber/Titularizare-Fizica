@@ -1,1 +1,1545 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C25 – Mișcarea particulelor încărcate în câmpuri electrice și magnetice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C25 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 25</span>
+        <h1>Mișcarea particulelor încărcate electric în câmpuri electrice și magnetice uniforme</h1>
+
+        <p class="lead">
+          Lecția tratează forța Lorentz, mișcarea particulelor încărcate în câmp electric uniform,
+          mișcarea circulară și elicoidală în câmp magnetic uniform, selectorul de viteze, spectrometrul de masă,
+          experimentul Millikan și efectul Hall.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          câmpul electric poate modifica energia cinetică a particulei, iar câmpul magnetic uniform nu modifică
+          modulul vitezei, ci numai direcția acesteia, deoarece forța magnetică este perpendiculară pe viteză.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Particulă încărcată în câmpuri electrice și magnetice">
+            <defs>
+              <marker id="arrowC25" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+              <marker id="arrowC25Red" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+            </defs>
+
+            <circle cx="210" cy="165" r="22" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="5"></circle>
+            <text x="210" y="174" text-anchor="middle" fill="#ef4444" font-size="28" font-weight="900">+</text>
+
+            <line x1="245" y1="165" x2="390" y2="165" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC25)"></line>
+            <text x="300" y="145" fill="#2563eb" font-size="24" font-weight="900">v</text>
+
+            <line x1="210" y1="135" x2="210" y2="60" stroke="#ef4444" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC25Red)"></line>
+            <text x="225" y="88" fill="#ef4444" font-size="24" font-weight="900">F</text>
+
+            <g fill="#0f766e" font-size="30" font-weight="900">
+              <text x="500" y="90">×</text><text x="560" y="90">×</text><text x="620" y="90">×</text>
+              <text x="500" y="150">×</text><text x="560" y="150">×</text><text x="620" y="150">×</text>
+              <text x="500" y="210">×</text><text x="560" y="210">×</text><text x="620" y="210">×</text>
+            </g>
+
+            <text x="472" y="270" fill="#0f766e" font-size="21" font-weight="800">B intră în plan</text>
+            <text x="105" y="295" fill="#64748b" font-size="20">
+              Forța Lorentz combină acțiunea câmpului electric și a câmpului magnetic.
+            </text>
+          </svg>
+
+          <p class="caption">
+            Pentru $q>0$, sensul forței magnetice se stabilește cu regula mâinii drepte pentru $\vec v\times\vec B$.
+            Pentru $q<0$, sensul este opus.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C25?</h2>
+
+        <p>
+          Tema C25 leagă electrostatica și magnetostatica de dinamica particulelor încărcate.
+          Se urmărește descrierea traiectoriei și a energiei particulei în câmpuri uniforme.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Forța Lorentz</strong>
+            <p>
+              Forța totală asupra sarcinii $q$ aflate în câmpuri $\vec E$ și $\vec B$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Câmp electric uniform</strong>
+            <p>
+              Mișcare uniform accelerată, variația energiei cinetice și accelerarea prin diferență de potențial.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Câmp magnetic uniform</strong>
+            <p>
+              Mișcare circulară, mișcare elicoidală, pulsație ciclotronică și rază de curbură.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experimente și aplicații</strong>
+            <p>
+              Millikan, efectul Hall, selector de viteze, spectrometru de masă, ciclotron.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          scrii forța Lorentz, separi cazurile $\vec E$ și $\vec B$, discuți energia, apoi aplici formulele
+          la Millikan și Hall.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lege fundamentală</span>
+        <h2>Forța Lorentz</h2>
+
+        <p>
+          Forța exercitată asupra unei particule de sarcină $q$, care se deplasează cu viteza $\vec v$
+          într-un câmp electric $\vec E$ și într-un câmp magnetic $\vec B$, este:
+        </p>
+
+        <div class="formula">
+          $$\vec F=q(\vec E+\vec v\times\vec B)$$
+        </div>
+
+        <p>
+          Cele două contribuții sunt:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Forța electrică</strong>
+            <div class="formula">
+              $$\vec F_E=q\vec E$$
+            </div>
+            <p>
+              Este paralelă sau antiparalelă cu $\vec E$, în funcție de semnul sarcinii.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Forța magnetică</strong>
+            <div class="formula">
+              $$\vec F_B=q\vec v\times\vec B$$
+            </div>
+            <p>
+              Este perpendiculară pe $\vec v$ și pe $\vec B$.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$F_B=|q|vB\sin\alpha$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          dacă particula este în repaus, forța magnetică este nulă, deoarece $v=0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Câmp electric uniform</span>
+        <h2>Mișcarea în câmp electric uniform</h2>
+
+        <p>
+          Într-un câmp electric uniform, forța asupra particulei este constantă:
+        </p>
+
+        <div class="formula">
+          $$\vec F=q\vec E$$
+        </div>
+
+        <p>
+          Din principiul al doilea al dinamicii rezultă accelerația:
+        </p>
+
+        <div class="formula">
+          $$\vec a=\frac{q}{m}\vec E$$
+        </div>
+
+        <p>
+          Dacă viteza inițială este paralelă cu $\vec E$, mișcarea este rectilinie uniform variată:
+        </p>
+
+        <div class="formula">
+          $$v=v_0+\frac{qE}{m}t$$
+          $$x=x_0+v_0t+\frac12\frac{qE}{m}t^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Semn fizic:</strong>
+          pentru $q>0$, accelerația are sensul câmpului; pentru $q<0$, accelerația are sens opus câmpului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Accelerare electrică</span>
+        <h2>Energia câștigată prin diferență de potențial</h2>
+
+        <p>
+          Lucrul forței electrice la deplasarea sarcinii $q$ prin diferența de potențial $U$ este:
+        </p>
+
+        <div class="formula">
+          $$L=qU$$
+        </div>
+
+        <p>
+          Dacă lucrul se transformă în energie cinetică:
+        </p>
+
+        <div class="formula">
+          $$\Delta E_c=qU$$
+        </div>
+
+        <p>
+          Pentru o particulă pornită din repaus:
+        </p>
+
+        <div class="formula">
+          $$\frac12mv^2=|q|U$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2|q|U}{m}}$$
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          în formula vitezei folosim energia cinetică pozitivă, deci apare $|q|U$ dacă $U$ este luată ca modul al diferenței acceleratoare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Câmp electric transversal</span>
+        <h2>Devierea particulei în câmp electric uniform</h2>
+
+        <p>
+          Dacă particula intră cu viteza inițială $\vec v_0$ perpendiculară pe câmpul electric uniform,
+          mișcarea se descompune în două direcții:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Pe direcția inițială</strong>
+            <div class="formula">
+              $$x=v_0t$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Pe direcția câmpului</strong>
+            <div class="formula">
+              $$y=\frac12\frac{qE}{m}t^2$$
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Eliminând timpul $t=x/v_0$, obținem traiectoria parabolică:
+        </p>
+
+        <div class="formula">
+          $$y=\frac{qE}{2mv_0^2}x^2$$
+        </div>
+
+        <div class="exam">
+          <strong>Analog mecanic:</strong>
+          mișcarea seamănă cu mișcarea proiectilului în câmp gravitațional uniform, dar accelerația este $a=qE/m$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Câmp magnetic uniform</span>
+        <h2>Mișcarea perpendiculară pe câmpul magnetic</h2>
+
+        <p>
+          Dacă particula intră într-un câmp magnetic uniform cu viteza perpendiculară pe $\vec B$,
+          forța magnetică are modulul:
+        </p>
+
+        <div class="formula">
+          $$F_B=|q|vB$$
+        </div>
+
+        <p>
+          Această forță este perpendiculară pe viteză și joacă rol de forță centripetă:
+        </p>
+
+        <div class="formula">
+          $$|q|vB=\frac{mv^2}{R}$$
+        </div>
+
+        <p>
+          Raza traiectoriei circulare este:
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv}{|q|B}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          în câmp magnetic uniform, pentru $\vec v\perp\vec B$, traiectoria este cerc.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Frecvență ciclotronică</span>
+        <h2>Pulsația, perioada și frecvența mișcării circulare</h2>
+
+        <p>
+          Pentru mișcarea circulară într-un câmp magnetic uniform:
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv}{|q|B}$$
+        </div>
+
+        <p>
+          Pulsația mișcării este:
+        </p>
+
+        <div class="formula">
+          $$\omega=\frac{v}{R}=\frac{|q|B}{m}$$
+        </div>
+
+        <p>
+          Perioada și frecvența sunt:
+        </p>
+
+        <div class="formula">
+          $$T=\frac{2\pi}{\omega}=\frac{2\pi m}{|q|B}$$
+          $$f=\frac1T=\frac{|q|B}{2\pi m}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în regim nerelativist, $T$ nu depinde de viteza particulei, ci de $m$, $q$ și $B$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mișcare elicoidală</span>
+        <h2>Cazul vitezei oblice față de câmpul magnetic</h2>
+
+        <p>
+          Dacă viteza inițială are o componentă paralelă și una perpendiculară pe câmp:
+        </p>
+
+        <div class="formula">
+          $$\vec v=\vec v_{\parallel}+\vec v_{\perp}$$
+        </div>
+
+        <p>
+          componenta perpendiculară determină mișcarea circulară, iar componenta paralelă rămâne constantă.
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv_{\perp}}{|q|B}$$
+          $$T=\frac{2\pi m}{|q|B}$$
+        </div>
+
+        <p>
+          Traiectoria este o elice. Pasul elicei este distanța parcursă paralel cu câmpul într-o perioadă:
+        </p>
+
+        <div class="formula">
+          $$p=v_{\parallel}T=\frac{2\pi mv_{\parallel}}{|q|B}$$
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          particulele încărcate din magnetosferă pot executa mișcări elicoidale în jurul liniilor câmpului magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Energie</span>
+        <h2>Lucrul forței magnetice</h2>
+
+        <p>
+          Forța magnetică este mereu perpendiculară pe viteza particulei:
+        </p>
+
+        <div class="formula">
+          $$\vec F_B\perp\vec v$$
+        </div>
+
+        <p>
+          Puterea instantanee a forței magnetice este:
+        </p>
+
+        <div class="formula">
+          $$P_B=\vec F_B\cdot\vec v=0$$
+        </div>
+
+        <p>
+          Prin urmare, câmpul magnetic nu modifică energia cinetică a particulei:
+        </p>
+
+        <div class="formula">
+          $$\Delta E_c=0\quad\text{în câmp magnetic pur}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          câmpul magnetic schimbă direcția vitezei, dar nu modulul acesteia.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Câmpuri încrucișate</span>
+        <h2>Selectorul de viteze</h2>
+
+        <p>
+          Într-un selector de viteze, câmpurile $\vec E$ și $\vec B$ sunt uniforme și perpendiculare între ele,
+          iar particula se deplasează perpendicular pe ambele.
+        </p>
+
+        <p>
+          Pentru particulele care trec nedeviate, forța electrică și forța magnetică se compensează:
+        </p>
+
+        <div class="formula">
+          $$|q|E=|q|vB$$
+        </div>
+
+        <p>
+          Rezultă viteza selectată:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{E}{B}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          relația nu depinde de $q$ și $m$; selectorul permite alegerea particulelor după viteză.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spectrometru de masă</span>
+        <h2>Separarea particulelor după raportul $m/q$</h2>
+
+        <p>
+          Într-un spectrometru de masă simplificat, particulele sunt accelerate printr-o tensiune $U$,
+          apoi intră perpendicular într-un câmp magnetic uniform.
+        </p>
+
+        <p>
+          Accelerarea electrică dă:
+        </p>
+
+        <div class="formula">
+          $$\frac12mv^2=|q|U$$
+        </div>
+
+        <p>
+          În câmp magnetic:
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv}{|q|B}$$
+        </div>
+
+        <p>
+          Eliminând viteza, se obține:
+        </p>
+
+        <div class="formula">
+          $$\frac{m}{|q|}=\frac{B^2R^2}{2U}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          raza traiectoriei depinde de raportul $m/q$, ceea ce permite separarea izotopilor.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Ciclotron</span>
+        <h2>Principiul ciclotronului</h2>
+
+        <p>
+          Ciclotronul accelerează particule încărcate folosind un câmp magnetic uniform și un câmp electric alternativ
+          aplicat între doi electrozi semicirculari.
+        </p>
+
+        <p>
+          Frecvența de rotație a particulei în câmp magnetic este:
+        </p>
+
+        <div class="formula">
+          $$f=\frac{|q|B}{2\pi m}$$
+        </div>
+
+        <p>
+          Pentru accelerare eficientă, câmpul electric alternativ trebuie sincronizat cu această frecvență.
+        </p>
+
+        <div class="formula">
+          $$f_{\text{generator}}=f_{\text{ciclotron}}$$
+        </div>
+
+        <div class="warning">
+          <strong>Limită:</strong>
+          la viteze relativiste, masa relativistă efectivă crește, iar frecvența ciclotronică nu mai rămâne constantă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Experiment clasic</span>
+        <h2>Experimentul Millikan</h2>
+
+        <p>
+          Experimentul Millikan a permis determinarea sarcinii elementare prin studiul echilibrului picăturilor
+          de ulei încărcate electric între două plăci plane paralele.
+        </p>
+
+        <p>
+          Câmpul electric dintre plăci este:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{U}{d}$$
+        </div>
+
+        <p>
+          În cazul simplificat al echilibrului unei picături, forța electrică poate compensa greutatea:
+        </p>
+
+        <div class="formula">
+          $$|q|E=mg$$
+        </div>
+
+        <p>
+          De aici:
+        </p>
+
+        <div class="formula">
+          $$|q|=\frac{mg}{E}=\frac{mgd}{U}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzia esențială:</strong>
+          sarcinile măsurate sunt multipli întregi ai sarcinii elementare:
+          $$q=ne$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Millikan riguros</span>
+        <h2>Forțe asupra picăturii de ulei</h2>
+
+        <p>
+          În descrierea mai completă, asupra picăturii acționează greutatea, forța electrică, forța arhimedică
+          și forța de rezistență vâscoasă.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Greutatea</strong>
+            <div class="formula">
+              $$G=mg$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Forța electrică</strong>
+            <div class="formula">
+              $$F_e=|q|E$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Forța arhimedică</strong>
+            <div class="formula">
+              $$F_A=\rho_{\text{aer}}Vg$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Rezistența Stokes</strong>
+            <div class="formula">
+              $$F_v=6\pi\eta rv$$
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Pentru o prezentare de examen la nivel preuniversitar, este suficient să se evidențieze ideea de echilibru
+          și cuantificarea sarcinii:
+        </p>
+
+        <div class="formula">
+          $$q=ne,\qquad n\in\mathbb Z$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          Millikan nu măsoară direct un singur electron, ci arată că sarcina picăturilor apare în multipli ai unei valori elementare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Efect galvanomagnetic</span>
+        <h2>Efectul Hall</h2>
+
+        <p>
+          Efectul Hall apare când un conductor sau semiconductor străbătut de curent este plasat într-un câmp magnetic
+          perpendicular pe direcția curentului. Purtătorii de sarcină sunt deviați de forța Lorentz și se acumulează
+          pe fețele laterale.
+        </p>
+
+        <p>
+          În regim staționar, forța magnetică este compensată de forța electrică Hall:
+        </p>
+
+        <div class="formula">
+          $$|q|E_H=|q|v_dB$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$E_H=v_dB$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          tensiunea Hall permite determinarea semnului purtătorilor de sarcină și a concentrației lor.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Hall cantitativ</span>
+        <h2>Tensiunea Hall și coeficientul Hall</h2>
+
+        <p>
+          Pentru o placă de grosime $t$, străbătută de curentul $I$, într-un câmp magnetic $B$ perpendicular
+          pe placă, tensiunea Hall are forma:
+        </p>
+
+        <div class="formula">
+          $$U_H=\frac{IB}{nqt}$$
+        </div>
+
+        <p>
+          Coeficientul Hall este:
+        </p>
+
+        <div class="formula">
+          $$R_H=\frac{1}{nq}$$
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          $$U_H=R_H\frac{IB}{t}$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Semnul lui $R_H$</strong>
+            <p>
+              Indică semnul purtătorilor majoritari.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modulul lui $R_H$</strong>
+            <p>
+              Permite estimarea concentrației purtătorilor: $n=1/(|q||R_H|)$.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          în semiconductori, semnul tensiunii Hall este un criteriu experimental pentru electroni sau goluri ca purtători majoritari.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Accelerarea unui electron printr-o tensiune</h2>
+
+        <p>
+          Un electron pornește din repaus și este accelerat prin diferența de potențial $U=1000\,\text{V}$.
+          Determinați viteza finală în aproximație nerelativistă.
+        </p>
+
+        <div class="formula">
+          $$\frac12mv^2=eU$$
+        </div>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2eU}{m}}$$
+        </div>
+
+        <p>
+          Cu $e=1{,}6\cdot10^{-19}\,\text{C}$ și $m_e=9{,}11\cdot10^{-31}\,\text{kg}$:
+        </p>
+
+        <div class="formula">
+          $$v=\sqrt{\frac{2\cdot1{,}6\cdot10^{-19}\cdot1000}{9{,}11\cdot10^{-31}}}$$
+        </div>
+
+        <div class="formula">
+          $$v\approx1{,}88\cdot10^7\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          viteza este încă substanțial mai mică decât $c$, dar la tensiuni mai mari apar corecții relativiste.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Raza traiectoriei într-un câmp magnetic</h2>
+
+        <p>
+          Un proton cu viteza $v=2\cdot10^6\,\text{m/s}$ intră perpendicular într-un câmp magnetic uniform
+          $B=0{,}20\,\text{T}$. Determinați raza traiectoriei.
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv}{|q|B}$$
+        </div>
+
+        <p>
+          Pentru proton: $m_p=1{,}67\cdot10^{-27}\,\text{kg}$ și $q=e=1{,}6\cdot10^{-19}\,\text{C}$.
+        </p>
+
+        <div class="formula">
+          $$R=\frac{1{,}67\cdot10^{-27}\cdot2\cdot10^6}{1{,}6\cdot10^{-19}\cdot0{,}20}$$
+        </div>
+
+        <div class="formula">
+          $$R\approx0{,}104\,\text{m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          raza este aproximativ $10{,}4\,\text{cm}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Frecvența ciclotronică</h2>
+
+        <p>
+          Determinați frecvența ciclotronică a unui ion cu $q=2e$ și masa $m=6{,}64\cdot10^{-27}\,\text{kg}$,
+          aflat într-un câmp magnetic $B=0{,}50\,\text{T}$.
+        </p>
+
+        <div class="formula">
+          $$f=\frac{|q|B}{2\pi m}$$
+        </div>
+
+        <p>
+          Sarcina este:
+        </p>
+
+        <div class="formula">
+          $$q=2e=3{,}2\cdot10^{-19}\,\text{C}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$f=\frac{3{,}2\cdot10^{-19}\cdot0{,}50}{2\pi\cdot6{,}64\cdot10^{-27}}$$
+        </div>
+
+        <div class="formula">
+          $$f\approx3{,}84\cdot10^6\,\text{Hz}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $f\approx3{,}84\,\text{MHz}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Selector de viteze</h2>
+
+        <p>
+          Un fascicul de particule trece nedeviat prin câmpuri perpendiculare $E=3{,}0\cdot10^4\,\text{V/m}$
+          și $B=0{,}15\,\text{T}$. Determinați viteza particulelor selectate.
+        </p>
+
+        <div class="formula">
+          $$v=\frac{E}{B}$$
+        </div>
+
+        <div class="formula">
+          $$v=\frac{3{,}0\cdot10^4}{0{,}15}=2{,}0\cdot10^5\,\text{m/s}$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          numai particulele cu această viteză trec rectiliniu; cele mai lente sau mai rapide sunt deviate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Experiment Millikan simplificat</h2>
+
+        <p>
+          O picătură de ulei de masă $m=3{,}2\cdot10^{-15}\,\text{kg}$ este menținută în echilibru
+          între două plăci aflate la distanța $d=5\,\text{mm}$, între care se aplică tensiunea
+          $U=1000\,\text{V}$. Determinați sarcina picăturii, folosind $g=10\,\text{m/s}^2$.
+        </p>
+
+        <p>
+          Câmpul electric este:
+        </p>
+
+        <div class="formula">
+          $$E=\frac{U}{d}=\frac{1000}{5\cdot10^{-3}}=2\cdot10^5\,\text{V/m}$$
+        </div>
+
+        <p>
+          La echilibru:
+        </p>
+
+        <div class="formula">
+          $$|q|E=mg$$
+        </div>
+
+        <div class="formula">
+          $$|q|=\frac{mg}{E}=\frac{3{,}2\cdot10^{-15}\cdot10}{2\cdot10^5}$$
+        </div>
+
+        <div class="formula">
+          $$|q|=1{,}6\cdot10^{-19}\,\text{C}$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          sarcina picăturii este egală cu sarcina elementară, în acest model simplificat.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 6</span>
+        <h2>Efectul Hall</h2>
+
+        <p>
+          O plăcuță conductoare de grosime $t=1\,\text{mm}$ este străbătută de curentul $I=2\,\text{A}$
+          și se află într-un câmp magnetic $B=0{,}50\,\text{T}$. Concentrația purtătorilor este
+          $n=8\cdot10^{28}\,\text{m}^{-3}$. Determinați tensiunea Hall.
+        </p>
+
+        <div class="formula">
+          $$U_H=\frac{IB}{n e t}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$t=1\,\text{mm}=10^{-3}\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$U_H=\frac{2\cdot0{,}50}{8\cdot10^{28}\cdot1{,}6\cdot10^{-19}\cdot10^{-3}}$$
+        </div>
+
+        <div class="formula">
+          $$U_H\approx7{,}8\cdot10^{-8}\,\text{V}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          în metale tensiunea Hall este foarte mică, deoarece concentrația purtătorilor este mare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Formule și semnificații</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Situație</th>
+                <th>Relație</th>
+                <th>Semnificație</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Forța Lorentz</td>
+                <td>$\vec F=q(\vec E+\vec v\times\vec B)$</td>
+                <td>Forța totală asupra particulei încărcate.</td>
+              </tr>
+              <tr>
+                <td>Câmp electric uniform</td>
+                <td>$\vec a=\frac qm\vec E$</td>
+                <td>Mișcare uniform accelerată.</td>
+              </tr>
+              <tr>
+                <td>Accelerare prin tensiune</td>
+                <td>$\Delta E_c=qU$</td>
+                <td>Forța electrică poate modifica energia cinetică.</td>
+              </tr>
+              <tr>
+                <td>Câmp magnetic, $v\perp B$</td>
+                <td>$R=\frac{mv}{|q|B}$</td>
+                <td>Mișcare circulară uniformă.</td>
+              </tr>
+              <tr>
+                <td>Frecvență ciclotronică</td>
+                <td>$f=\frac{|q|B}{2\pi m}$</td>
+                <td>Nu depinde de viteză în regim nerelativist.</td>
+              </tr>
+              <tr>
+                <td>Selector de viteze</td>
+                <td>$v=E/B$</td>
+                <td>Particulele nedeviate au viteza selectată.</td>
+              </tr>
+              <tr>
+                <td>Millikan</td>
+                <td>$|q|E=mg$, $q=ne$</td>
+                <td>Determinarea sarcinii elementare.</td>
+              </tr>
+              <tr>
+                <td>Efect Hall</td>
+                <td>$U_H=\frac{IB}{nqt}$</td>
+                <td>Determinarea semnului și concentrației purtătorilor.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          nu confunda sensul forței pentru sarcini pozitive cu sensul forței pentru electroni; la $q<0$, sensul forței Lorentz este opus celui dat de $\vec E+\vec v\times\vec B$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema se predă eficient prin alternarea reprezentărilor vectoriale cu experimente demonstrative și aplicații tehnologice.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Devierea unui fascicul de electroni în câmp electric sau magnetic, folosind tub catodic sau simulare.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simularea traiectoriei pentru $\vec E$, $\vec B$, câmpuri încrucișate și mișcare elicoidală.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Rezolvare de probleme</strong>
+            <p>
+              Probleme cu raza traiectoriei, selectorul de viteze, Millikan și tensiunea Hall.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se evită sursele de înaltă tensiune neprotejate; magneții puternici se manipulează cu grijă;
+              tuburile și sursele se folosesc numai sub supraveghere.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să recunoască natura vectorială a forței Lorentz și să prezică forma traiectoriei înainte de calcul.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se aplică $F_B=qvB$ și când $\vec v\parallel\vec B$.</td>
+                <td>Atunci $\sin\alpha=0$.</td>
+                <td>$F_B=|q|vB\sin\alpha$.</td>
+              </tr>
+              <tr>
+                <td>Se consideră că $B$ schimbă energia cinetică.</td>
+                <td>Forța magnetică este perpendiculară pe viteză.</td>
+                <td>$P_B=\vec F_B\cdot\vec v=0$.</td>
+              </tr>
+              <tr>
+                <td>Se uită semnul sarcinii.</td>
+                <td>Electronul este deviat în sens opus sarcinii pozitive.</td>
+                <td>Aplică regula mâinii drepte și inversează sensul pentru $q<0$.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $R=mv/qB$ fără modul.</td>
+                <td>Raza este pozitivă.</td>
+                <td>$R=mv/(|q|B)$.</td>
+              </tr>
+              <tr>
+                <td>Se introduce temperatura sau tensiunea Hall cu unități neconvertite.</td>
+                <td>Formulele cer SI.</td>
+                <td>mm în m, kV în V, cm în m, nC în C.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          înainte de calcule, stabilește configurația: câmp electric pur, câmp magnetic pur sau câmpuri încrucișate.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Mișcarea particulelor încărcate în câmpuri electrice și magnetice este descrisă prin forța Lorentz:
+        </p>
+
+        <div class="formula">
+          $$\vec F=q(\vec E+\vec v\times\vec B)$$
+        </div>
+
+        <p>
+          În câmp electric uniform, forța este $\vec F=q\vec E$, deci particula are accelerația
+          $\vec a=q\vec E/m$. Câmpul electric poate efectua lucru mecanic și poate modifica energia cinetică:
+        </p>
+
+        <div class="formula">
+          $$\Delta E_c=qU$$
+        </div>
+
+        <p>
+          În câmp magnetic uniform, partea magnetică a forței este perpendiculară pe viteză. Dacă viteza este
+          perpendiculară pe câmp, particula descrie o mișcare circulară:
+        </p>
+
+        <div class="formula">
+          $$R=\frac{mv}{|q|B},\qquad T=\frac{2\pi m}{|q|B}$$
+        </div>
+
+        <p>
+          Dacă viteza are și componentă paralelă cu câmpul, traiectoria devine elicoidală. În câmpuri electrice
+          și magnetice încrucișate, particulele pot trece nedeviate dacă:
+        </p>
+
+        <div class="formula">
+          $$v=\frac{E}{B}$$
+        </div>
+
+        <p>
+          Experimentul Millikan evidențiază cuantificarea sarcinii electrice, $q=ne$, iar efectul Hall arată
+          devierea purtătorilor de sarcină într-un conductor parcurs de curent aflat în câmp magnetic.
+          Prin tensiunea Hall se poate determina semnul purtătorilor și concentrația lor.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C25</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Forța Lorentz</strong>
+            <div class="formula">
+              $$\vec F=q(\vec E+\vec v\times\vec B)$$
+              $$F_B=|q|vB\sin\alpha$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Câmp electric</strong>
+            <div class="formula">
+              $$\vec a=\frac qm\vec E$$
+              $$\Delta E_c=qU$$
+              $$v=\sqrt{\frac{2|q|U}{m}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Câmp magnetic</strong>
+            <div class="formula">
+              $$R=\frac{mv_{\perp}}{|q|B}$$
+              $$\omega=\frac{|q|B}{m}$$
+              $$T=\frac{2\pi m}{|q|B}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Elice magnetică</strong>
+            <div class="formula">
+              $$p=v_{\parallel}T$$
+              $$p=\frac{2\pi mv_{\parallel}}{|q|B}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Câmpuri încrucișate</strong>
+            <div class="formula">
+              $$|q|E=|q|vB$$
+              $$v=\frac{E}{B}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Millikan și Hall</strong>
+            <div class="formula">
+              $$|q|E=mg,\qquad q=ne$$
+              $$U_H=\frac{IB}{nqt}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          o particulă este accelerată printr-o tensiune $U$, apoi intră perpendicular într-un câmp magnetic uniform.
+          Determinați viteza, raza traiectoriei, perioada mișcării și discutați ce se schimbă dacă particula are sarcină negativă.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C26-inductia-electromagnetica.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-25.html">Fișa de lucru C25</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 28</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-25.html">Fișa C25</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c25", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c25");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
