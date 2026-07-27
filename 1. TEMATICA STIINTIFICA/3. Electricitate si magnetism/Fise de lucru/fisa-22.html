@@ -1,1 +1,987 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C22 – Conductoare în echilibru electrostatic. Condensatoare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 {
+      margin-top: 0;
+    }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show {
+      display: block;
+    }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 280px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li {
+      margin: 0.35rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C22 • Conductoare în echilibru electrostatic. Condensatoare</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C22</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Conductoare în echilibru electrostatic. Condensatoare</h1>
+
+      <p class="lead">
+        Fișa consolidează proprietățile conductoarelor în echilibru electrostatic, capacitatea electrică,
+        condensatorul plan, sferic și cilindric, energia condensatorului și grupările de condensatoare.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Conductor în echilibru electrostatic</strong>
+          <div class="formula">
+            $$\vec E_{\text{int}}=0,\qquad V=\text{constant}$$
+          </div>
+          <p>Sarcina netă a conductorului se află pe suprafață; componenta tangențială a câmpului la suprafață este nulă.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Câmp la suprafața conductorului</strong>
+          <div class="formula">
+            $$E_n=\frac{\sigma}{\varepsilon_0}$$
+          </div>
+          <p>Imediat în exteriorul conductorului, câmpul este normal pe suprafață.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Capacitate electrică</strong>
+          <div class="formula">
+            $$C=\frac{Q}{V}\quad\text{conductor izolat},\qquad C=\frac{Q}{U}\quad\text{condensator}$$
+          </div>
+          <p>Capacitatea depinde de geometrie și de dielectric, nu de sarcina sau tensiunea aleasă.</p>
+        </div>
+
+        <div class="mini">
+          <strong>Energie în condensator</strong>
+          <div class="formula">
+            $$W=\frac12CU^2=\frac12QU=\frac{Q^2}{2C}$$
+          </div>
+          <p>Energia este înmagazinată în câmpul electric dintre armături.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sistem</th>
+              <th>Relație</th>
+              <th>Condiții / observații</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sferă conductoare izolată</td>
+              <td>$C=4\pi\varepsilon R$</td>
+              <td>În vid: $\varepsilon=\varepsilon_0$.</td>
+            </tr>
+            <tr>
+              <td>Condensator plan</td>
+              <td>$C=\varepsilon S/d$</td>
+              <td>Plăci paralele; efecte de margine neglijabile.</td>
+            </tr>
+            <tr>
+              <td>Condensator sferic</td>
+              <td>$C=4\pi\varepsilon\frac{R_1R_2}{R_2-R_1}$</td>
+              <td>Armături sferice concentrice.</td>
+            </tr>
+            <tr>
+              <td>Condensator cilindric</td>
+              <td>$C=2\pi\varepsilon\frac{l}{\ln(b/a)}$</td>
+              <td>Cilindri coaxiali, $b>a$.</td>
+            </tr>
+            <tr>
+              <td>Paralel</td>
+              <td>$C_p=C_1+C_2+\cdots$</td>
+              <td>Aceeași tensiune pe fiecare condensator.</td>
+            </tr>
+            <tr>
+              <td>Serie</td>
+              <td>$\frac1{C_s}=\frac1{C_1}+\frac1{C_2}+\cdots$</td>
+              <td>Aceeași sarcină pe fiecare condensator.</td>
+            </tr>
+            <tr>
+              <td>Densitatea energiei electrice</td>
+              <td>$w=\frac12\varepsilon E^2$</td>
+              <td>Pentru mediu dielectric liniar.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. În interiorul unui conductor aflat în echilibru electrostatic:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">câmpul electric este maxim</option>
+          <option value="b">câmpul electric este nul</option>
+          <option value="c">potențialul variază liniar</option>
+          <option value="d">sarcina se distribuie uniform în volum</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Capacitatea unui condensator se definește prin:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$C=Q/U$</option>
+          <option value="b">$C=U/Q$</option>
+          <option value="c">$C=QU$</option>
+          <option value="d">$C=I/U$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Capacitatea condensatorului plan crește dacă:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">distanța dintre armături crește</option>
+          <option value="b">aria armăturilor scade</option>
+          <option value="c">se introduce un dielectric cu $\varepsilon_r>1$</option>
+          <option value="d">se scade permitivitatea mediului</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. La condensatoare legate în serie, mărimea comună este:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">capacitatea</option>
+          <option value="b">energia</option>
+          <option value="c">tensiunea</option>
+          <option value="d">sarcina</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Energia unui condensator încărcat poate fi scrisă:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$W=CU$</option>
+          <option value="b">$W=\frac12CU^2$</option>
+          <option value="c">$W=C/U$</option>
+          <option value="d">$W=2Q/U$</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Toate calculele folosesc unități SI în rezolvare.
+      </p>
+
+      <article class="item">
+        <h3>4. Sferă conductoare izolată <span class="points">5 p</span></h3>
+        <p>
+          O sferă conductoare izolată are raza
+          <span class="formula-inline">$R$</span> = <span class="var" id="e4R"></span> cm
+          și sarcina
+          <span class="formula-inline">$Q$</span> = <span class="var" id="e4Q"></span> nC.
+          Determinați capacitatea sferei și potențialul ei în vid.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Câmp la suprafața conductorului <span class="points">5 p</span></h3>
+        <p>
+          Suprafața unui conductor aflat în echilibru electrostatic are densitatea superficială de sarcină
+          <span class="formula-inline">$\sigma$</span> = <span class="var" id="e5s"></span> nC/m².
+          Determinați modulul câmpului electric imediat în exteriorul conductorului.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Condensator plan <span class="points">5 p</span></h3>
+        <p>
+          Un condensator plan are aria armăturilor
+          <span class="formula-inline">$S$</span> = <span class="var" id="e6S"></span> cm²,
+          distanța dintre armături
+          <span class="formula-inline">$d$</span> = <span class="var" id="e6d"></span> mm
+          și dielectric cu
+          <span class="formula-inline">$\varepsilon_r$</span> = <span class="var" id="e6er"></span>.
+          Determinați capacitatea.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Sarcina și energia unui condensator <span class="points">5 p</span></h3>
+        <p>
+          Un condensator cu
+          <span class="formula-inline">$C$</span> = <span class="var" id="e7C"></span> $\mu\text{F}$
+          este conectat la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e7U"></span> V.
+          Determinați sarcina de pe o armătură și energia înmagazinată.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Introducerea dielectricului într-un condensator izolat <span class="points">5 p</span></h3>
+        <p>
+          Un condensator izolat are inițial capacitatea
+          <span class="formula-inline">$C_0$</span> = <span class="var" id="e8C0"></span> pF
+          și tensiunea
+          <span class="formula-inline">$U_0$</span> = <span class="var" id="e8U0"></span> V.
+          Se introduce complet un dielectric cu
+          <span class="formula-inline">$\varepsilon_r$</span> = <span class="var" id="e8er"></span>.
+          Determinați noua capacitate, noua tensiune și noua energie.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Condensatoare în paralel <span class="points">5 p</span></h3>
+        <p>
+          Condensatoarele
+          <span class="formula-inline">$C_1$</span> = <span class="var" id="e9C1"></span> $\mu\text{F}$,
+          <span class="formula-inline">$C_2$</span> = <span class="var" id="e9C2"></span> $\mu\text{F}$ și
+          <span class="formula-inline">$C_3$</span> = <span class="var" id="e9C3"></span> $\mu\text{F}$
+          sunt legate în paralel la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e9U"></span> V.
+          Determinați capacitatea echivalentă și sarcina totală.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Condensatoare în serie <span class="points">5 p</span></h3>
+        <p>
+          Condensatoarele
+          <span class="formula-inline">$C_1$</span> = <span class="var" id="e10C1"></span> $\mu\text{F}$,
+          <span class="formula-inline">$C_2$</span> = <span class="var" id="e10C2"></span> $\mu\text{F}$ și
+          <span class="formula-inline">$C_3$</span> = <span class="var" id="e10C3"></span> $\mu\text{F}$
+          sunt legate în serie la tensiunea
+          <span class="formula-inline">$U$</span> = <span class="var" id="e10U"></span> V.
+          Determinați capacitatea echivalentă și sarcina comună.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Grupare mixtă <span class="points">5 p</span></h3>
+        <p>
+          Condensatoarele
+          <span class="formula-inline">$C_1$</span> = <span class="var" id="e11C1"></span> $\mu\text{F}$ și
+          <span class="formula-inline">$C_2$</span> = <span class="var" id="e11C2"></span> $\mu\text{F}$
+          sunt legate în paralel. Gruparea este legată apoi în serie cu
+          <span class="formula-inline">$C_3$</span> = <span class="var" id="e11C3"></span> $\mu\text{F}$.
+          Determinați capacitatea echivalentă.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Condensator sferic <span class="points">5 p</span></h3>
+        <p>
+          Un condensator sferic are razele
+          <span class="formula-inline">$R_1$</span> = <span class="var" id="e12R1"></span> cm și
+          <span class="formula-inline">$R_2$</span> = <span class="var" id="e12R2"></span> cm,
+          cu dielectric de permitivitate relativă
+          <span class="formula-inline">$\varepsilon_r$</span> = <span class="var" id="e12er"></span>.
+          Determinați capacitatea.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Condensator cilindric <span class="points">5 p</span></h3>
+        <p>
+          Un condensator cilindric coaxial are raza interioară
+          <span class="formula-inline">$a$</span> = <span class="var" id="e13a"></span> mm,
+          raza exterioară
+          <span class="formula-inline">$b$</span> = <span class="var" id="e13b"></span> mm,
+          lungimea
+          <span class="formula-inline">$l$</span> = <span class="var" id="e13l"></span> cm
+          și dielectric cu
+          <span class="formula-inline">$\varepsilon_r$</span> = <span class="var" id="e13er"></span>.
+          Determinați capacitatea.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Densitatea energiei câmpului electric <span class="points">5 p</span></h3>
+        <p>
+          Într-un dielectric cu
+          <span class="formula-inline">$\varepsilon_r$</span> = <span class="var" id="e14er"></span>,
+          câmpul electric uniform are intensitatea
+          <span class="formula-inline">$E$</span> = <span class="var" id="e14E"></span> kV/m.
+          Determinați densitatea energiei electrice.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Enunțați și explicați proprietățile conductorului în echilibru electrostatic:
+          câmp interior, potențial, distribuția sarcinii, orientarea câmpului la suprafață.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Demonstrație / deducere <span class="points">5 p</span></h3>
+        <p>
+          Deducați formula capacității condensatorului plan $C=\varepsilon S/d$ pornind de la
+          $E=U/d$, $E=\sigma/\varepsilon$ și $\sigma=Q/S$.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru predarea condensatorului plan.
+          Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor,
+          evaluarea rapidă și două norme de protecția muncii privind sursele electrice și condensatoarele.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate și interpretare: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare matematică sau fizică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: F, pF, $\mu\text{F}$, V, C, J și J/m³.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C22-conductoare-in-echilibru-electrostatic-condensatoare.html">Înapoi la lecția C22</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-23.html">Fișa următoare C23</a>
+    </nav>
+  </main>
+
+  <script>
+    const eps0 = 8.85e-12;
+    const k = 9e9;
+    const pi = Math.PI;
+    const storageKey = "values-fisa-c22";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = x.toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function ro(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const r1 = rnd(3, 8);
+      const r2 = r1 + rnd(4, 10);
+      const a13 = rnd(1, 4);
+      const b13 = a13 + rnd(3, 8);
+
+      const v = {
+        e4R: rnd(4, 15),
+        e4Q: rnd(2, 12),
+
+        e5s: rnd(5, 40, 5),
+
+        e6S: rnd(100, 600, 50),
+        e6d: rnd(1, 6),
+        e6er: choose([1, 2, 3, 4, 5]),
+
+        e7C: rnd(2, 12),
+        e7U: rnd(50, 300, 50),
+
+        e8C0: rnd(20, 100, 10),
+        e8U0: rnd(100, 500, 50),
+        e8er: choose([2, 3, 4, 5]),
+
+        e9C1: rnd(2, 10),
+        e9C2: rnd(2, 10),
+        e9C3: rnd(2, 10),
+        e9U: rnd(50, 250, 50),
+
+        e10C1: rnd(2, 10),
+        e10C2: rnd(2, 10),
+        e10C3: rnd(2, 10),
+        e10U: rnd(60, 240, 30),
+
+        e11C1: rnd(2, 12),
+        e11C2: rnd(2, 12),
+        e11C3: rnd(3, 15),
+
+        e12R1: r1,
+        e12R2: r2,
+        e12er: choose([1, 2, 3, 4]),
+
+        e13a: a13,
+        e13b: b13,
+        e13l: rnd(20, 80, 10),
+        e13er: choose([1, 2, 3, 4]),
+
+        e14er: choose([1, 2, 3, 4, 5]),
+        e14E: rnd(10, 80, 10)
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const R4 = v.e4R / 100;
+      const Q4 = v.e4Q * 1e-9;
+      const C4 = 4 * pi * eps0 * R4;
+      const V4 = Q4 / C4;
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        $$C=4\\pi\\varepsilon_0R$$
+        $$R=${fixed(R4, 2)}\\,\\text{m}$$
+        $$C=${tex(C4)}\\,\\text{F}=${tex(C4 / 1e-12)}\\,\\text{pF}$$
+        $$V=\\frac{Q}{C}=\\frac{${v.e4Q}\\cdot10^{-9}}{${tex(C4)}}=${tex(V4)}\\,\\text{V}$$
+        Capacitatea sferei crește proporțional cu raza.
+      `);
+
+      const sigma5 = v.e5s * 1e-9;
+      const E5 = sigma5 / eps0;
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        Pentru conductor în echilibru electrostatic:
+        $$E_n=\\frac{\\sigma}{\\varepsilon_0}$$
+        $$\\sigma=${v.e5s}\\cdot10^{-9}\\,\\text{C/m}^2$$
+        $$E_n=${tex(E5)}\\,\\text{N/C}$$
+        Câmpul este perpendicular pe suprafața conductorului.
+      `);
+
+      const S6 = v.e6S * 1e-4;
+      const d6 = v.e6d * 1e-3;
+      const eps6 = eps0 * v.e6er;
+      const C6 = eps6 * S6 / d6;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        $$C=\\varepsilon\\frac{S}{d}=\\varepsilon_0\\varepsilon_r\\frac{S}{d}$$
+        $$S=${v.e6S}\\,\\text{cm}^2=${tex(S6)}\\,\\text{m}^2,\qquad d=${v.e6d}\\,\\text{mm}=${tex(d6)}\\,\\text{m}$$
+        $$C=${tex(C6)}\\,\\text{F}=${tex(C6 / 1e-12)}\\,\\text{pF}$$
+        Capacitatea crește dacă $S$ și $\\varepsilon_r$ cresc sau dacă $d$ scade.
+      `);
+
+      const C7 = v.e7C * 1e-6;
+      const Q7 = C7 * v.e7U;
+      const W7 = 0.5 * C7 * v.e7U * v.e7U;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        $$Q=CU$$
+        $$Q=${v.e7C}\\cdot10^{-6}\\cdot${v.e7U}=${tex(Q7)}\\,\\text{C}=${tex(Q7 / 1e-6)}\\,\\mu\\text{C}$$
+        $$W=\\frac12CU^2$$
+        $$W=\\frac12\\cdot${v.e7C}\\cdot10^{-6}\\cdot${v.e7U}^2=${tex(W7)}\\,\\text{J}=${tex(W7 / 1e-3)}\\,\\text{mJ}$$
+      `);
+
+      const C80 = v.e8C0 * 1e-12;
+      const U80 = v.e8U0;
+      const W80 = 0.5 * C80 * U80 * U80;
+      const C8p = v.e8er * C80;
+      const U8p = U80 / v.e8er;
+      const W8p = W80 / v.e8er;
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Condensatorul este izolat, deci sarcina rămâne constantă:
+        $$Q=\\text{constant}$$
+        Capacitatea devine:
+        $$C'=\\varepsilon_r C_0=${v.e8er}\\cdot${v.e8C0}\\,\\text{pF}=${tex(C8p / 1e-12)}\\,\\text{pF}$$
+        Tensiunea devine:
+        $$U'=\\frac{U_0}{\\varepsilon_r}=\\frac{${v.e8U0}}{${v.e8er}}=${tex(U8p)}\\,\\text{V}$$
+        Energia inițială:
+        $$W_0=\\frac12C_0U_0^2=${tex(W80)}\\,\\text{J}$$
+        Energia finală:
+        $$W'=\\frac{W_0}{\\varepsilon_r}=${tex(W8p)}\\,\\text{J}$$
+      `);
+
+      const C9eq = v.e9C1 + v.e9C2 + v.e9C3;
+      const Q9uC = C9eq * v.e9U;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        În paralel, tensiunea este aceeași și capacitățile se adună:
+        $$C_{\\text{eq}}=C_1+C_2+C_3=${v.e9C1}+${v.e9C2}+${v.e9C3}=${C9eq}\\,\\mu\\text{F}$$
+        Sarcina totală:
+        $$Q=C_{\\text{eq}}U=${C9eq}\\,\\mu\\text{F}\\cdot${v.e9U}\\,\\text{V}=${Q9uC}\\,\\mu\\text{C}$$
+        Pentru fiecare condensator: $Q_i=C_iU$.
+      `);
+
+      const inv10 = 1 / v.e10C1 + 1 / v.e10C2 + 1 / v.e10C3;
+      const C10eq = 1 / inv10;
+      const Q10uC = C10eq * v.e10U;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        În serie, sarcina este aceeași:
+        $$\\frac1{C_{\\text{eq}}}=\\frac1{C_1}+\\frac1{C_2}+\\frac1{C_3}$$
+        $$C_{\\text{eq}}=${tex(C10eq)}\\,\\mu\\text{F}$$
+        Sarcina comună:
+        $$Q=C_{\\text{eq}}U=${tex(C10eq)}\\cdot${v.e10U}=${tex(Q10uC)}\\,\\mu\\text{C}$$
+        Tensiunea pe fiecare condensator s-ar calcula cu $U_i=Q/C_i$.
+      `);
+
+      const C11p = v.e11C1 + v.e11C2;
+      const C11eq = C11p * v.e11C3 / (C11p + v.e11C3);
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Mai întâi reducem paralelul:
+        $$C_{12}=C_1+C_2=${v.e11C1}+${v.e11C2}=${C11p}\\,\\mu\\text{F}$$
+        Apoi $C_{12}$ este în serie cu $C_3$:
+        $$C_{\\text{eq}}=\\frac{C_{12}C_3}{C_{12}+C_3}$$
+        $$C_{\\text{eq}}=\\frac{${C11p}\\cdot${v.e11C3}}{${C11p}+${v.e11C3}}=${tex(C11eq)}\\,\\mu\\text{F}$$
+      `);
+
+      const R12a = v.e12R1 / 100;
+      const R12b = v.e12R2 / 100;
+      const C12 = 4 * pi * eps0 * v.e12er * (R12a * R12b) / (R12b - R12a);
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        $$C=4\\pi\\varepsilon_0\\varepsilon_r\\frac{R_1R_2}{R_2-R_1}$$
+        $$R_1=${tex(R12a)}\\,\\text{m},\\qquad R_2=${tex(R12b)}\\,\\text{m}$$
+        $$C=${tex(C12)}\\,\\text{F}=${tex(C12 / 1e-12)}\\,\\text{pF}$$
+        Când $R_2\\to\\infty$, relația devine $C=4\\pi\\varepsilon R_1$.
+      `);
+
+      const a13 = v.e13a * 1e-3;
+      const b13 = v.e13b * 1e-3;
+      const l13 = v.e13l / 100;
+      const C13 = 2 * pi * eps0 * v.e13er * l13 / Math.log(b13 / a13);
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        $$C=2\\pi\\varepsilon_0\\varepsilon_r\\frac{l}{\\ln(b/a)}$$
+        $$a=${tex(a13)}\\,\\text{m},\\quad b=${tex(b13)}\\,\\text{m},\\quad l=${tex(l13)}\\,\\text{m}$$
+        $$\\ln(b/a)=\\ln(${tex(b13 / a13)})=${tex(Math.log(b13 / a13))}$$
+        $$C=${tex(C13)}\\,\\text{F}=${tex(C13 / 1e-12)}\\,\\text{pF}$$
+      `);
+
+      const E14 = v.e14E * 1000;
+      const eps14 = eps0 * v.e14er;
+      const w14 = 0.5 * eps14 * E14 * E14;
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        $$w=\\frac12\\varepsilon E^2=\\frac12\\varepsilon_0\\varepsilon_rE^2$$
+        $$E=${v.e14E}\\,\\text{kV/m}=${tex(E14)}\\,\\text{V/m}$$
+        $$w=\\frac12\\cdot8{,}85\\cdot10^{-12}\\cdot${v.e14er}\\cdot(${tex(E14)})^2$$
+        $$w=${tex(w14)}\\,\\text{J/m}^3$$
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c22", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c22");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
