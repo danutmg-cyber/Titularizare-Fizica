@@ -1,1 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa 18 – Principiul al doilea al termodinamicii</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-actions button,
+    .top-actions a {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .sheet {
+      display: grid;
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .meta-grid,
+    .grid-2 {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .meta-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .field,
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+    }
+
+    .field strong,
+    .mini strong {
+      color: var(--accent);
+    }
+
+    .line {
+      display: inline-block;
+      min-width: 160px;
+      border-bottom: 2px dotted var(--muted);
+      height: 1.3em;
+      vertical-align: bottom;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title h2 { margin-bottom: 0; }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border-radius: 18px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .item h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .answer-space {
+      min-height: 90px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+    }
+
+    .answer-space.medium { min-height: 130px; }
+    .answer-space.tall { min-height: 185px; }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .quiz-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem;
+      background: var(--card);
+    }
+
+    .quiz-card p {
+      margin-top: 0;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .quiz-card label {
+      display: block;
+      margin: 0.35rem 0;
+      cursor: pointer;
+    }
+
+    .quiz-result {
+      margin-top: 0.8rem;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    details {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .solution-box {
+      border-left: 5px solid var(--accent);
+      background: color-mix(in srgb, var(--card) 80%, transparent);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin: 0.8rem 0;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .footer-nav a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media (max-width: 760px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-grid,
+      .grid-2,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .footer-nav,
+      details.no-print {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .card,
+      .item {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .answer-space {
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa 18 • Principiul al doilea al termodinamicii</strong>
+    <div class="top-actions">
+      <button type="button" onclick="generateValues()">Generează alte valori</button>
+      <button type="button" onclick="checkQuiz()">Verifică mini-testul</button>
+      <button type="button" onclick="window.print()">Tipărește</button>
+      <button type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <a href="../C18-principiul-al-doilea-al-termodinamicii.html">Înapoi la lecție</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet">
+      <section class="card">
+        <span class="mark">Fișă de lucru 18</span>
+        <h1>Principiul al doilea al termodinamicii. Entropie. Mașini termice</h1>
+
+        <p class="lead">
+          Fișă interactivă pentru procese reversibile și ireversibile, entropie,
+          randamentul mașinilor termice, ciclul Carnot, frigider și pompă de căldură.
+        </p>
+
+        <div class="exam">
+          <strong>Timp recomandat:</strong> 85 minute.
+          <strong>Punctaj:</strong> 90 puncte + 10 puncte din oficiu.
+          Temperaturile din formulele termodinamice se introduc în kelvin.
+        </div>
+
+        <div class="meta-grid">
+          <div class="field"><strong>Nume:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Clasa / grupa:</strong> <span class="line"></span></div>
+          <div class="field"><strong>Data:</strong> <span class="line"></span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>A. Noțiuni care trebuie reținute</h2>
+          <span class="points">sinteză</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <strong>1. Principiul al doilea</strong>
+            <p>
+              Stabilește sensul natural al proceselor și limitele transformării căldurii în lucru mecanic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>2. Formularea Clausius</strong>
+            <p>
+              Căldura nu trece spontan de la un corp rece la un corp cald fără alt efect exterior.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>3. Formularea Kelvin–Planck</strong>
+            <p>
+              Nu există motor termic ciclic care să transforme integral căldura primită de la o singură sursă în lucru mecanic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>4. Entropia</strong>
+            <div class="formula">
+              $$dS=\frac{\delta Q_{\text{rev}}}{T}$$
+              $$\Delta S=\int_1^2\frac{\delta Q_{\text{rev}}}{T}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>5. Sistem izolat</strong>
+            <div class="formula">
+              $$\Delta S_{\text{izolat}}\ge0$$
+            </div>
+            <p>
+              Egalitate pentru proces reversibil, inegalitate strictă pentru proces ireversibil.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>6. Motor termic</strong>
+            <div class="formula">
+              $$L=Q_1-Q_2$$
+              $$\eta=\frac{L}{Q_1}=1-\frac{Q_2}{Q_1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>7. Motor Carnot</strong>
+            <div class="formula">
+              $$\frac{Q_2}{Q_1}=\frac{T_2}{T_1}$$
+              $$\eta_C=1-\frac{T_2}{T_1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>8. Frigider și pompă de căldură</strong>
+            <div class="formula">
+              $$\varepsilon_f=\frac{Q_2}{L}$$
+              $$\varepsilon_p=\frac{Q_1}{L}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcane:</strong>
+          randamentul Carnot se calculează cu temperaturi absolute;
+          coeficientul frigorific poate fi mai mare decât 1;
+          entropia unei părți poate scădea, dar entropia totală a sistemului izolat nu scade.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>B. Itemi obiectivi și semiobiectivi</h2>
+          <span class="points">20 p</span>
+        </div>
+
+        <div class="item">
+          <h3>1. Completează tabelul. 8 p</h3>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Noțiune</th>
+                  <th>Relație / enunț</th>
+                  <th>Interpretare</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Formularea Clausius</td>
+                  <td></td>
+                  <td>Stabilește sensul spontan al transferului termic.</td>
+                </tr>
+                <tr>
+                  <td>Formularea Kelvin–Planck</td>
+                  <td></td>
+                  <td>Interzice randamentul de 100% pentru motorul ciclic monoterm.</td>
+                </tr>
+                <tr>
+                  <td>Entropie</td>
+                  <td></td>
+                  <td>Mărime de stare asociată sensului proceselor.</td>
+                </tr>
+                <tr>
+                  <td>Sistem izolat</td>
+                  <td></td>
+                  <td>Entropia totală nu scade.</td>
+                </tr>
+                <tr>
+                  <td>Motor termic</td>
+                  <td></td>
+                  <td>Primește $Q_1$, cedează $Q_2$, produce $L$.</td>
+                </tr>
+                <tr>
+                  <td>Randament</td>
+                  <td></td>
+                  <td>Raport între lucrul util și căldura primită.</td>
+                </tr>
+                <tr>
+                  <td>Motor Carnot</td>
+                  <td></td>
+                  <td>Motor reversibil ideal.</td>
+                </tr>
+                <tr>
+                  <td>Frigider</td>
+                  <td></td>
+                  <td>Extrage căldură din sursa rece cu consum de lucru mecanic.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>2. Mini-test interactiv. 6 p</h3>
+
+          <div class="quiz" id="quiz">
+            <div class="quiz-card">
+              <p>1. Principiul al doilea al termodinamicii stabilește:</p>
+              <label><input type="radio" name="q1" value="1"> sensul natural al proceselor</label>
+              <label><input type="radio" name="q1" value="0"> conservarea impulsului</label>
+              <label><input type="radio" name="q1" value="0"> legea inerției</label>
+            </div>
+
+            <div class="quiz-card">
+              <p>2. Randamentul unui motor termic este:</p>
+              <label><input type="radio" name="q2" value="1"> $\eta=L/Q_1$</label>
+              <label><input type="radio" name="q2" value="0"> $\eta=Q_1/L$</label>
+              <label><input type="radio" name="q2" value="0"> $\eta=Q_2/Q_1$</label>
+            </div>
+
+            <div class="quiz-card">
+              <p>3. Randamentul Carnot este:</p>
+              <label><input type="radio" name="q3" value="1"> $\eta_C=1-T_2/T_1$</label>
+              <label><input type="radio" name="q3" value="0"> $\eta_C=1-T_1/T_2$</label>
+              <label><input type="radio" name="q3" value="0"> $\eta_C=T_1+T_2$</label>
+            </div>
+
+            <div class="quiz-card">
+              <p>4. Pentru un sistem izolat:</p>
+              <label><input type="radio" name="q4" value="1"> $\Delta S_{\text{izolat}}\ge0$</label>
+              <label><input type="radio" name="q4" value="0"> $\Delta S_{\text{izolat}}<0$ mereu</label>
+              <label><input type="radio" name="q4" value="0"> $S=0$ mereu</label>
+            </div>
+
+            <div class="quiz-card">
+              <p>5. Coeficientul frigorific este:</p>
+              <label><input type="radio" name="q5" value="1"> $\varepsilon_f=Q_2/L$</label>
+              <label><input type="radio" name="q5" value="0"> $\varepsilon_f=L/Q_2$</label>
+              <label><input type="radio" name="q5" value="0"> $\varepsilon_f=Q_1/Q_2$</label>
+            </div>
+
+            <div class="quiz-card">
+              <p>6. Temperaturile din formula Carnot trebuie exprimate în:</p>
+              <label><input type="radio" name="q6" value="1"> kelvin</label>
+              <label><input type="radio" name="q6" value="0"> grade Celsius</label>
+              <label><input type="radio" name="q6" value="0"> jouli</label>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult">Apasă „Verifică mini-testul”.</div>
+        </div>
+
+        <div class="item">
+          <h3>3. Completează relațiile. 6 p</h3>
+
+          <div class="grid-2">
+            <div>
+              <p>$L=$ <span class="line"></span> pentru motor termic</p>
+              <p>$\eta=$ <span class="line"></span></p>
+              <p>$\eta_C=$ <span class="line"></span></p>
+            </div>
+            <div>
+              <p>$dS=$ <span class="line"></span></p>
+              <p>$\Delta S_{\text{izolat}}$ <span class="line"></span></p>
+              <p>$\varepsilon_f=$ <span class="line"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>C. Exerciții cu valori variabile</h2>
+          <span class="points">55 p</span>
+        </div>
+
+        <div class="item">
+          <h3>4. Motor termic. 5 p</h3>
+          <p>
+            Un motor termic primește căldura $Q_1$ =
+            <span class="var" id="e4Q1"></span> J și cedează sursei reci
+            căldura $Q_2$ = <span class="var" id="e4Q2"></span> J.
+            Determină lucrul mecanic produs și randamentul.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>5. Motor Carnot. 5 p</h3>
+          <p>
+            O mașină Carnot funcționează între temperaturile
+            $T_1$ = <span class="var" id="e5T1"></span> K și
+            $T_2$ = <span class="var" id="e5T2"></span> K.
+            Primește căldura $Q_1$ = <span class="var" id="e5Q1"></span> J.
+            Determină $\eta_C$, $L$ și $Q_2$.
+          </p>
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>6. Verificarea posibilității unui motor real. 5 p</h3>
+          <p>
+            Un motor funcționează între $T_1$ =
+            <span class="var" id="e6T1"></span> K și
+            $T_2$ = <span class="var" id="e6T2"></span> K.
+            Constructorul declară randamentul $\eta$ =
+            <span class="var" id="e6eta"></span>%.
+            Verifică dacă afirmația este compatibilă cu principiul al doilea.
+          </p>
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>7. Creșterea entropiei la transfer de căldură. 5 p</h3>
+          <p>
+            Căldura $Q$ = <span class="var" id="e7Q"></span> J trece spontan
+            de la un rezervor cald cu temperatura $T_1$ =
+            <span class="var" id="e7T1"></span> K la un rezervor rece cu
+            temperatura $T_2$ = <span class="var" id="e7T2"></span> K.
+            Determină variația totală a entropiei.
+          </p>
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>8. Entropia la destindere izotermă. 5 p</h3>
+          <p>
+            $\nu$ = <span class="var" id="e8nu"></span> mol de gaz ideal
+            se destinde izoterm de la $V_1$ =
+            <span class="var" id="e8V1"></span> L la
+            $V_2$ = <span class="var" id="e8V2"></span> L.
+            Determină variația entropiei gazului.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>9. Entropia la încălzirea unui corp. 5 p</h3>
+          <p>
+            Un corp de masă $m$ = <span class="var" id="e9m"></span> kg
+            și căldură specifică $c$ =
+            <span class="var" id="e9c"></span> J/(kg·K) se încălzește
+            de la $t_1$ = <span class="var" id="e9t1"></span> °C la
+            $t_2$ = <span class="var" id="e9t2"></span> °C.
+            Determină variația entropiei.
+          </p>
+          <div class="answer-space tall"></div>
+        </div>
+
+        <div class="item">
+          <h3>10. Frigider. 5 p</h3>
+          <p>
+            Un frigider extrage din sursa rece căldura $Q_2$ =
+            <span class="var" id="e10Q2"></span> J și consumă lucrul mecanic
+            $L$ = <span class="var" id="e10L"></span> J.
+            Determină căldura cedată sursei calde și coeficientul frigorific.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>11. Pompă de căldură. 5 p</h3>
+          <p>
+            O pompă de căldură livrează sursei calde căldura $Q_1$ =
+            <span class="var" id="e11Q1"></span> J și consumă lucrul mecanic
+            $L$ = <span class="var" id="e11L"></span> J.
+            Determină căldura extrasă din sursa rece și coeficientul de performanță.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>12. Frigider Carnot. 5 p</h3>
+          <p>
+            Un frigider Carnot funcționează între sursa caldă la
+            $T_1$ = <span class="var" id="e12T1"></span> K și sursa rece la
+            $T_2$ = <span class="var" id="e12T2"></span> K.
+            Determină coeficientul frigorific maxim.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>13. Motor cu randament dat. 5 p</h3>
+          <p>
+            Un motor termic are randamentul $\eta$ =
+            <span class="var" id="e13eta"></span>% și primește pe ciclu
+            căldura $Q_1$ = <span class="var" id="e13Q1"></span> J.
+            Determină lucrul mecanic produs și căldura cedată.
+          </p>
+          <div class="answer-space medium"></div>
+        </div>
+
+        <div class="item">
+          <h3>14. Variația entropiei unui gaz ideal. 5 p</h3>
+          <p>
+            $\nu$ = <span class="var" id="e14nu"></span> mol de gaz ideal monoatomic
+            trece de la $T_1$ = <span class="var" id="e14T1"></span> K,
+            $V_1$ = <span class="var" id="e14V1"></span> L la
+            $T_2$ = <span class="var" id="e14T2"></span> K,
+            $V_2$ = <span class="var" id="e14V2"></span> L.
+            Determină $\Delta S$.
+          </p>
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>D. Problemă conceptuală tip examen</h2>
+          <span class="points">15 p</span>
+        </div>
+
+        <div class="item">
+          <h3>15. Principiul al doilea, entropie și mașini termice. 15 p</h3>
+
+          <p>
+            Redactează un răspuns structurat în care:
+          </p>
+
+          <ul>
+            <li>enunți formulările Clausius și Kelvin–Planck ale principiului al doilea;</li>
+            <li>explici diferența dintre proces reversibil și proces ireversibil;</li>
+            <li>definești entropia prin $dS=\delta Q_{\text{rev}}/T$;</li>
+            <li>interpretezi relația $\Delta S_{\text{izolat}}\ge0$;</li>
+            <li>deduci randamentul motorului Carnot;</li>
+            <li>compari motorul termic, frigiderul și pompa de căldură.</li>
+          </ul>
+
+          <div class="answer-space tall"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Barem orientativ</h2>
+          <span class="points">100 p</span>
+        </div>
+
+        <ul>
+          <li><strong>10 p</strong> din oficiu.</li>
+          <li><strong>B. Itemi obiectivi și semiobiectivi – 20 p:</strong> item 1: 8 p; item 2: 6 p; item 3: 6 p.</li>
+          <li><strong>C. Exerciții cu valori variabile – 55 p:</strong> itemii 4–14, câte 5 p fiecare.</li>
+          <li><strong>D. Problemă conceptuală – 15 p:</strong> formulări 3 p, reversibilitate 2 p, entropie 3 p, Carnot 4 p, comparații aplicative 3 p.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Rezolvări pentru setul curent de valori</h2>
+          <span class="points">autocorectare</span>
+        </div>
+
+        <details class="no-print">
+          <summary>Deschide rezolvările generate automat</summary>
+          <div id="solutions"></div>
+        </details>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Legături utile</h2>
+          <span class="points">navigare</span>
+        </div>
+
+        <div class="footer-nav">
+          <a href="../C18-principiul-al-doilea-al-termodinamicii.html">Înapoi la lecția C18</a>
+          <a href="index.html">Index fișe termodinamică</a>
+          <a href="fisa-19.html">Fișa următoare</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const R = 8.31;
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c18", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-fisa-c18");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    function choose(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function fmt(value, decimals = 2) {
+      const n = Number(value);
+      const fixed = n.toFixed(decimals);
+      return fixed.replace(/\.?0+$/, "").replace(".", ",");
+    }
+
+    function tex(value, decimals = 2) {
+      return fmt(value, decimals).replace(",", "{,}");
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const total = 6;
+
+      for (let i = 1; i <= total; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && selected.value === "1") score++;
+      }
+
+      document.getElementById("quizResult").textContent =
+        `Rezultat: ${score} / ${total} răspunsuri corecte. Punctaj orientativ: ${score} p din 6 p.`;
+    }
+
+    function generateValues() {
+      const e4Q1 = choose([1600, 1800, 2000, 2400, 3000]);
+      const e4Q2 = choose([600, 800, 1000, 1200, 1500]);
+
+      const e8V1 = choose([5, 10, 12, 15]);
+      const e8V2 = e8V1 * choose([2, 3, 4]);
+
+      const e9t1 = choose([20, 25, 30, 35]);
+      const e9t2 = e9t1 + choose([30, 40, 50, 60]);
+
+      const e14T1 = choose([280, 300, 320]);
+      const e14T2 = e14T1 + choose([40, 60, 80]);
+      const e14V1 = choose([10, 15, 20]);
+      const e14V2 = e14V1 * choose([2, 3]);
+
+      const data = {
+        e4: {
+          Q1: e4Q1,
+          Q2: Math.min(e4Q2, e4Q1 - 300)
+        },
+        e5: {
+          T1: choose([500, 600, 700, 800]),
+          T2: choose([250, 300, 350]),
+          Q1: choose([1200, 1500, 2000, 2400])
+        },
+        e6: {
+          T1: choose([500, 600, 700]),
+          T2: choose([250, 300, 350]),
+          eta: choose([35, 45, 55, 65, 75])
+        },
+        e7: {
+          Q: choose([300, 500, 600, 800, 1000]),
+          T1: choose([450, 500, 600]),
+          T2: choose([280, 300, 320])
+        },
+        e8: {
+          nu: choose([0.5, 1, 1.5, 2]),
+          V1: e8V1,
+          V2: e8V2
+        },
+        e9: {
+          m: choose([0.2, 0.3, 0.5, 0.8]),
+          c: choose([420, 900, 2100, 4200]),
+          t1: e9t1,
+          t2: e9t2
+        },
+        e10: {
+          Q2: choose([600, 800, 900, 1200, 1500]),
+          L: choose([200, 300, 400, 500])
+        },
+        e11: {
+          Q1: choose([1800, 2000, 2500, 3000]),
+          L: choose([300, 400, 500, 600])
+        },
+        e12: {
+          T1: choose([300, 320, 340, 360]),
+          T2: choose([260, 270, 280, 290])
+        },
+        e13: {
+          eta: choose([25, 30, 35, 40, 45]),
+          Q1: choose([1500, 2000, 2500, 3000])
+        },
+        e14: {
+          nu: choose([0.5, 1, 1.5]),
+          T1: e14T1,
+          T2: e14T2,
+          V1: e14V1,
+          V2: e14V2
+        }
+      };
+
+      localStorage.setItem("values-fisa-c18", JSON.stringify(data));
+      renderValues(data);
+      renderSolutions(data);
+    }
+
+    function renderValues(data) {
+      setText("e4Q1", fmt(data.e4.Q1, 0));
+      setText("e4Q2", fmt(data.e4.Q2, 0));
+
+      setText("e5T1", fmt(data.e5.T1, 0));
+      setText("e5T2", fmt(data.e5.T2, 0));
+      setText("e5Q1", fmt(data.e5.Q1, 0));
+
+      setText("e6T1", fmt(data.e6.T1, 0));
+      setText("e6T2", fmt(data.e6.T2, 0));
+      setText("e6eta", fmt(data.e6.eta, 0));
+
+      setText("e7Q", fmt(data.e7.Q, 0));
+      setText("e7T1", fmt(data.e7.T1, 0));
+      setText("e7T2", fmt(data.e7.T2, 0));
+
+      setText("e8nu", fmt(data.e8.nu, 1));
+      setText("e8V1", fmt(data.e8.V1, 0));
+      setText("e8V2", fmt(data.e8.V2, 0));
+
+      setText("e9m", fmt(data.e9.m, 2));
+      setText("e9c", fmt(data.e9.c, 0));
+      setText("e9t1", fmt(data.e9.t1, 0));
+      setText("e9t2", fmt(data.e9.t2, 0));
+
+      setText("e10Q2", fmt(data.e10.Q2, 0));
+      setText("e10L", fmt(data.e10.L, 0));
+
+      setText("e11Q1", fmt(data.e11.Q1, 0));
+      setText("e11L", fmt(data.e11.L, 0));
+
+      setText("e12T1", fmt(data.e12.T1, 0));
+      setText("e12T2", fmt(data.e12.T2, 0));
+
+      setText("e13eta", fmt(data.e13.eta, 0));
+      setText("e13Q1", fmt(data.e13.Q1, 0));
+
+      setText("e14nu", fmt(data.e14.nu, 1));
+      setText("e14T1", fmt(data.e14.T1, 0));
+      setText("e14T2", fmt(data.e14.T2, 0));
+      setText("e14V1", fmt(data.e14.V1, 0));
+      setText("e14V2", fmt(data.e14.V2, 0));
+    }
+
+    function renderSolutions(data) {
+      const e4L = data.e4.Q1 - data.e4.Q2;
+      const e4eta = e4L / data.e4.Q1;
+
+      const e5eta = 1 - data.e5.T2 / data.e5.T1;
+      const e5L = e5eta * data.e5.Q1;
+      const e5Q2 = data.e5.Q1 - e5L;
+
+      const e6etaC = 1 - data.e6.T2 / data.e6.T1;
+      const e6etaReal = data.e6.eta / 100;
+      const e6Possible = e6etaReal <= e6etaC;
+
+      const e7dShot = -data.e7.Q / data.e7.T1;
+      const e7dScold = data.e7.Q / data.e7.T2;
+      const e7dStotal = e7dShot + e7dScold;
+
+      const e8dS = data.e8.nu * R * Math.log(data.e8.V2 / data.e8.V1);
+
+      const e9T1K = data.e9.t1 + 273.15;
+      const e9T2K = data.e9.t2 + 273.15;
+      const e9dS = data.e9.m * data.e9.c * Math.log(e9T2K / e9T1K);
+
+      const e10Q1 = data.e10.Q2 + data.e10.L;
+      const e10eps = data.e10.Q2 / data.e10.L;
+
+      const e11Q2 = data.e11.Q1 - data.e11.L;
+      const e11eps = data.e11.Q1 / data.e11.L;
+
+      const e12eps = data.e12.T2 / (data.e12.T1 - data.e12.T2);
+
+      const e13eta = data.e13.eta / 100;
+      const e13L = e13eta * data.e13.Q1;
+      const e13Q2 = data.e13.Q1 - e13L;
+
+      const e14Cv = 1.5 * R;
+      const e14dS =
+        data.e14.nu * e14Cv * Math.log(data.e14.T2 / data.e14.T1) +
+        data.e14.nu * R * Math.log(data.e14.V2 / data.e14.V1);
+
+      const html = `
+        <div class="solution-box">
+          <h3>4. Motor termic</h3>
+          <div class="formula">
+            $$L=Q_1-Q_2$$
+            $$L=${tex(data.e4.Q1, 0)}-${tex(data.e4.Q2, 0)}=${tex(e4L, 0)}\\,\\text{J}$$
+            $$\\eta=\\frac{L}{Q_1}=\\frac{${tex(e4L, 0)}}{${tex(data.e4.Q1, 0)}}=${tex(e4eta, 4)}$$
+            $$\\eta=${tex(100 * e4eta, 2)}\\%$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>5. Motor Carnot</h3>
+          <div class="formula">
+            $$\\eta_C=1-\\frac{T_2}{T_1}$$
+            $$\\eta_C=1-\\frac{${tex(data.e5.T2, 0)}}{${tex(data.e5.T1, 0)}}=${tex(e5eta, 4)}=${tex(100 * e5eta, 2)}\\%$$
+            $$L=\\eta_C Q_1=${tex(e5eta, 4)}\\cdot${tex(data.e5.Q1, 0)}=${tex(e5L, 2)}\\,\\text{J}$$
+            $$Q_2=Q_1-L=${tex(data.e5.Q1, 0)}-${tex(e5L, 2)}=${tex(e5Q2, 2)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>6. Verificarea motorului real</h3>
+          <div class="formula">
+            $$\\eta_C=1-\\frac{T_2}{T_1}$$
+            $$\\eta_C=1-\\frac{${tex(data.e6.T2, 0)}}{${tex(data.e6.T1, 0)}}=${tex(e6etaC, 4)}=${tex(100 * e6etaC, 2)}\\%$$
+            $$\\eta_{\\text{declarat}}=${tex(data.e6.eta, 0)}\\%$$
+          </div>
+          <p>
+            ${e6Possible
+              ? "Randamentul declarat nu depășește limita Carnot, deci nu este interzis de principiul al doilea. Totuși, un motor real trebuie să aibă randament strict mai mic decât limita Carnot."
+              : "Randamentul declarat depășește limita Carnot, deci afirmația este imposibilă fizic."}
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <h3>7. Entropia la transfer de căldură</h3>
+          <div class="formula">
+            $$\\Delta S_1=-\\frac{Q}{T_1}=-\\frac{${tex(data.e7.Q, 0)}}{${tex(data.e7.T1, 0)}}=${tex(e7dShot, 4)}\\,\\text{J/K}$$
+            $$\\Delta S_2=\\frac{Q}{T_2}=\\frac{${tex(data.e7.Q, 0)}}{${tex(data.e7.T2, 0)}}=${tex(e7dScold, 4)}\\,\\text{J/K}$$
+            $$\\Delta S_{\\text{total}}=\\Delta S_1+\\Delta S_2=${tex(e7dStotal, 4)}\\,\\text{J/K}$$
+          </div>
+          <p>Deoarece $\Delta S_{\text{total}}>0$, procesul este ireversibil.</p>
+        </div>
+
+        <div class="solution-box">
+          <h3>8. Destindere izotermă</h3>
+          <div class="formula">
+            $$\\Delta S=\\nu R\\ln\\frac{V_2}{V_1}$$
+            $$\\Delta S=${tex(data.e8.nu, 1)}\\cdot8{,}31\\cdot\\ln\\frac{${tex(data.e8.V2, 0)}}{${tex(data.e8.V1, 0)}}$$
+            $$\\Delta S=${tex(e8dS, 4)}\\,\\text{J/K}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>9. Încălzirea unui corp</h3>
+          <div class="formula">
+            $$T_1=${tex(data.e9.t1, 0)}+273{,}15=${tex(e9T1K, 2)}\\,\\text{K}$$
+            $$T_2=${tex(data.e9.t2, 0)}+273{,}15=${tex(e9T2K, 2)}\\,\\text{K}$$
+            $$\\Delta S=mc\\ln\\frac{T_2}{T_1}$$
+            $$\\Delta S=${tex(data.e9.m, 2)}\\cdot${tex(data.e9.c, 0)}\\cdot
+            \\ln\\frac{${tex(e9T2K, 2)}}{${tex(e9T1K, 2)}}$$
+            $$\\Delta S=${tex(e9dS, 4)}\\,\\text{J/K}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>10. Frigider</h3>
+          <div class="formula">
+            $$Q_1=Q_2+L$$
+            $$Q_1=${tex(data.e10.Q2, 0)}+${tex(data.e10.L, 0)}=${tex(e10Q1, 0)}\\,\\text{J}$$
+            $$\\varepsilon_f=\\frac{Q_2}{L}=\\frac{${tex(data.e10.Q2, 0)}}{${tex(data.e10.L, 0)}}=${tex(e10eps, 3)}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>11. Pompă de căldură</h3>
+          <div class="formula">
+            $$Q_1=Q_2+L\\Rightarrow Q_2=Q_1-L$$
+            $$Q_2=${tex(data.e11.Q1, 0)}-${tex(data.e11.L, 0)}=${tex(e11Q2, 0)}\\,\\text{J}$$
+            $$\\varepsilon_p=\\frac{Q_1}{L}=\\frac{${tex(data.e11.Q1, 0)}}{${tex(data.e11.L, 0)}}=${tex(e11eps, 3)}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>12. Frigider Carnot</h3>
+          <div class="formula">
+            $$\\varepsilon_{f,C}=\\frac{T_2}{T_1-T_2}$$
+            $$\\varepsilon_{f,C}=\\frac{${tex(data.e12.T2, 0)}}{${tex(data.e12.T1, 0)}-${tex(data.e12.T2, 0)}}$$
+            $$\\varepsilon_{f,C}=${tex(e12eps, 4)}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>13. Motor cu randament dat</h3>
+          <div class="formula">
+            $$\\eta=${tex(data.e13.eta, 0)}\\%=${tex(e13eta, 2)}$$
+            $$L=\\eta Q_1=${tex(e13eta, 2)}\\cdot${tex(data.e13.Q1, 0)}=${tex(e13L, 2)}\\,\\text{J}$$
+            $$Q_2=Q_1-L=${tex(data.e13.Q1, 0)}-${tex(e13L, 2)}=${tex(e13Q2, 2)}\\,\\text{J}$$
+          </div>
+        </div>
+
+        <div class="solution-box">
+          <h3>14. Entropia gazului ideal monoatomic</h3>
+          <div class="formula">
+            $$C_V=\\frac32R=12{,}465\\,\\text{J/(mol·K)}$$
+            $$\\Delta S=\\nu C_V\\ln\\frac{T_2}{T_1}+\\nu R\\ln\\frac{V_2}{V_1}$$
+            $$\\Delta S=${tex(data.e14.nu, 1)}\\cdot12{,}465\\cdot
+            \\ln\\frac{${tex(data.e14.T2, 0)}}{${tex(data.e14.T1, 0)}}
+            +${tex(data.e14.nu, 1)}\\cdot8{,}31\\cdot
+            \\ln\\frac{${tex(data.e14.V2, 0)}}{${tex(data.e14.V1, 0)}}$$
+            $$\\Delta S=${tex(e14dS, 4)}\\,\\text{J/K}$$
+          </div>
+        </div>
+      `;
+
+      document.getElementById("solutions").innerHTML = html;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById("solutions")]);
+      }
+    }
+
+    function loadValues() {
+      const saved = localStorage.getItem("values-fisa-c18");
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          renderValues(data);
+          renderSolutions(data);
+          return;
+        } catch (e) {
+          localStorage.removeItem("values-fisa-c18");
+        }
+      }
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
