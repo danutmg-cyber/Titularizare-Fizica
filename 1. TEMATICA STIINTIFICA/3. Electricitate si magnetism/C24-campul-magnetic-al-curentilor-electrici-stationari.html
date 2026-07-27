@@ -1,1 +1,1521 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>C24 – Câmpul magnetic al curenților electrici staționari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 88%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.55rem 0.9rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+      display: none;
+      align-items: center;
+      padding: 1.2rem 0 6.8rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--accent);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.78em;
+    }
+
+    .lead {
+      font-size: 1.08em;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .svgbox {
+      margin: 1rem 0;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 0.8rem;
+      overflow-x: auto;
+    }
+
+    .svgbox > svg {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92em;
+      margin-top: 0.4rem;
+    }
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      width: min(1100px, calc(100% - 1rem));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto auto;
+      gap: 0.6rem;
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.55rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 25;
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1rem;
+      font-size: 0.92em;
+      font-weight: 900;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .pager button {
+      background: var(--accent);
+      color: white;
+    }
+
+    .pager button.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .pager a.chapter {
+      background: #7c3aed;
+    }
+
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>C24 • Electricitate și magnetism • Pregătire Titularizare/Definitivat</strong>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+  </div>
+
+  <main>
+    <section class="page active">
+      <article class="card">
+        <span class="eyebrow">Lecția 24</span>
+        <h1>Câmpul magnetic al curenților electrici staționari</h1>
+
+        <p class="lead">
+          Curenții electrici staționari produc câmp magnetic. Lecția tratează vectorul inducție magnetică,
+          liniile câmpului magnetic, legea Biot–Savart, câmpul firului rectiliniu, al spirei, al solenoidului,
+          teorema lui Ampère și interacțiunea magnetică a curenților electrici.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          câmpul magnetic produs de un curent staționar are linii închise, iar forța magnetică acționează
+          asupra conductoarelor străbătute de curent numai dacă acestea se află într-un câmp magnetic.
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 330" role="img" aria-label="Câmp magnetic în jurul unui conductor rectiliniu">
+            <defs>
+              <marker id="arrowC24Circle" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <circle cx="380" cy="165" r="118" fill="none" stroke="#2563eb" stroke-width="5" stroke-dasharray="10 8"></circle>
+            <circle cx="380" cy="165" r="72" fill="none" stroke="#2563eb" stroke-width="4" stroke-dasharray="8 7"></circle>
+            <line x1="380" y1="260" x2="380" y2="70" stroke="#0f766e" stroke-width="12" stroke-linecap="round"></line>
+            <circle cx="380" cy="165" r="24" fill="#0f766e"></circle>
+            <circle cx="380" cy="165" r="8" fill="white"></circle>
+            <text x="410" y="90" fill="#0f766e" font-size="24" font-weight="900">I iese din plan</text>
+            <path d="M 488 165 A 108 108 0 0 1 440 252" fill="none" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC24Circle)"></path>
+            <text x="496" y="240" fill="#2563eb" font-size="24" font-weight="900">B</text>
+          </svg>
+
+          <p class="caption">
+            Regula mâinii drepte: degetul mare indică sensul curentului, iar degetele curbate indică sensul liniilor câmpului magnetic.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C24?</h2>
+
+        <p>
+          Tema C24 introduce magnetostatica: câmpul magnetic produs de curenți electrici staționari și forțele
+          magnetice dintre conductoare parcurse de curenți.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Câmp magnetic</strong>
+            <p>
+              Vectorul $\vec B$, linii de câmp, unitatea tesla și proprietatea $\nabla\cdot\vec B=0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Legea Biot–Savart</strong>
+            <p>
+              Calculul contribuției $d\vec B$ produse de un element de conductor parcurs de curent.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Distribuții uzuale</strong>
+            <p>
+              Fir rectiliniu lung, spiră circulară, bobină, solenoid lung și toroid.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Interacțiunea curenților</strong>
+            <p>
+              Forța Laplace asupra unui conductor și forța dintre două fire paralele.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns bun la examen:</strong>
+          enunți Biot–Savart, deduci $B=\mu_0I/(2\pi r)$ pentru fir lung, explici forța
+          $d\vec F=I\,d\vec l\times\vec B$ și obții interacțiunea dintre curenți paraleli.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Mărime fundamentală</span>
+        <h2>Vectorul inducție magnetică $\vec B$</h2>
+
+        <p>
+          Câmpul magnetic este descris prin vectorul inducție magnetică $\vec B$.
+          Acesta caracterizează acțiunea magnetică asupra sarcinilor în mișcare și asupra conductorilor parcurși de curent.
+        </p>
+
+        <div class="formula">
+          $$\vec F_m=q\vec v\times\vec B$$
+        </div>
+
+        <p>
+          Pentru un conductor rectiliniu de lungime $l$, parcurs de curent $I$, într-un câmp magnetic uniform:
+        </p>
+
+        <div class="formula">
+          $$\vec F=I\vec l\times\vec B$$
+        </div>
+
+        <p>
+          Modulul forței este:
+        </p>
+
+        <div class="formula">
+          $$F=BIl\sin\alpha$$
+        </div>
+
+        <div class="exam">
+          <strong>Unitate:</strong>
+          $$[B]=\text{T}=\frac{\text{N}}{\text{A·m}}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Linii de câmp</span>
+        <h2>Proprietăți ale câmpului magnetic</h2>
+
+        <p>
+          Liniile câmpului magnetic sunt curbe orientate tangent la vectorul $\vec B$ în fiecare punct.
+          Spre deosebire de liniile câmpului electrostatic, liniile câmpului magnetic sunt închise.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Linii închise</strong>
+            <p>
+              Nu încep și nu se termină pe „sarcini magnetice”, deoarece nu s-au observat monopoli magnetici izolați.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Densitate de linii</strong>
+            <p>
+              Unde liniile sunt mai dese, câmpul magnetic este mai intens.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Regula mâinii drepte</strong>
+            <p>
+              Stabilește sensul liniilor de câmp în jurul curenților electrici.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Flux magnetic</strong>
+            <div class="formula">
+              $$\Phi_B=\int_S\vec B\cdot d\vec S$$
+            </div>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\oint_S\vec B\cdot d\vec S=0$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          liniile câmpului magnetic nu sunt traiectorii ale particulelor, ci reprezentări ale direcției lui $\vec B$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Reguli de sens</span>
+        <h2>Regula mâinii drepte</h2>
+
+        <p>
+          Pentru un conductor rectiliniu, degetul mare al mâinii drepte indică sensul curentului convențional,
+          iar degetele curbate indică sensul câmpului magnetic.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Curent iese din plan</strong>
+            <p>
+              Simbol: punct $\odot$. Câmpul este orientat trigonometric în jurul conductorului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Curent intră în plan</strong>
+            <p>
+              Simbol: cruce $\otimes$. Câmpul este orientat orar în jurul conductorului.
+            </p>
+          </div>
+        </div>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 280" role="img" aria-label="Regula mâinii drepte pentru curent intră și iese din plan">
+            <defs>
+              <marker id="arrowC24Sense" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <circle cx="230" cy="140" r="75" fill="none" stroke="#2563eb" stroke-width="5"></circle>
+            <circle cx="230" cy="140" r="28" fill="#0f766e"></circle>
+            <circle cx="230" cy="140" r="8" fill="white"></circle>
+            <path d="M 305 140 A 75 75 0 0 1 230 215" fill="none" stroke="#2563eb" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC24Sense)"></path>
+            <text x="185" y="250" fill="#64748b" font-size="22">curent iese</text>
+
+            <circle cx="530" cy="140" r="75" fill="none" stroke="#ef4444" stroke-width="5"></circle>
+            <circle cx="530" cy="140" r="28" fill="rgba(239,68,68,0.18)" stroke="#ef4444" stroke-width="4"></circle>
+            <line x1="516" y1="126" x2="544" y2="154" stroke="#ef4444" stroke-width="6" stroke-linecap="round"></line>
+            <line x1="544" y1="126" x2="516" y2="154" stroke="#ef4444" stroke-width="6" stroke-linecap="round"></line>
+            <path d="M 605 140 A 75 75 0 0 0 530 65" fill="none" stroke="#ef4444" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowC24Sense)"></path>
+            <text x="485" y="250" fill="#64748b" font-size="22">curent intră</text>
+          </svg>
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          înainte de orice calcul vectorial, marchează sensul curentului și al câmpului magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lege fundamentală</span>
+        <h2>Legea Biot–Savart</h2>
+
+        <p>
+          Un element de conductor $d\vec l$, parcurs de curentul staționar $I$, produce într-un punct aflat
+          la vectorul de poziție $\vec r$ o contribuție elementară la câmpul magnetic:
+        </p>
+
+        <div class="formula">
+          $$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec r}{r^3}$$
+        </div>
+
+        <p>
+          Echivalent, folosind vectorul unitar $\vec u_r$:
+        </p>
+
+        <div class="formula">
+          $$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec u_r}{r^2}$$
+        </div>
+
+        <p>
+          Modulul contribuției este:
+        </p>
+
+        <div class="formula">
+          $$dB=\frac{\mu_0}{4\pi}\frac{I\,dl\,\sin\theta}{r^2}$$
+        </div>
+
+        <div class="exam">
+          <strong>Constanta magnetică:</strong>
+          $$\mu_0=4\pi\cdot10^{-7}\,\text{N/A}^2$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Fir rectiliniu</span>
+        <h2>Câmpul magnetic al unui conductor rectiliniu lung</h2>
+
+        <p>
+          Pentru un fir rectiliniu foarte lung, parcurs de curentul $I$, câmpul magnetic la distanța $r$
+          față de fir este tangent la cercurile concentrice cu firul.
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0 I}{2\pi r}$$
+        </div>
+
+        <p>
+          Relația arată că inducția magnetică este direct proporțională cu intensitatea curentului și invers proporțională
+          cu distanța față de conductor.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Dacă $I$ se dublează</strong>
+            <p>
+              $B$ se dublează.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Dacă $r$ se dublează</strong>
+            <p>
+              $B$ se înjumătățește.
+            </p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula este valabilă pentru fir lung sau pentru puncte aflate suficient de departe de capetele firului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Spiră circulară</span>
+        <h2>Câmpul magnetic în centrul unei spire</h2>
+
+        <p>
+          Pentru o spiră circulară de rază $R$, parcursă de curentul $I$, legea Biot–Savart conduce la inducția
+          magnetică în centrul spirei:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0 I}{2R}$$
+        </div>
+
+        <p>
+          Pentru o bobină cu $N$ spire identice, câmpul în centru devine:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0 N I}{2R}$$
+        </div>
+
+        <p>
+          Sensul câmpului se stabilește prin regula mâinii drepte: degetele urmăresc sensul curentului,
+          iar degetul mare indică sensul lui $\vec B$ pe axa spirei.
+        </p>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          în centrul spirei, toate elementele de curent contribuie cu vectori $d\vec B$ orientați pe aceeași axă.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Solenoid</span>
+        <h2>Câmpul magnetic al unui solenoid lung</h2>
+
+        <p>
+          Solenoidul este o bobină lungă formată din multe spire apropiate. În interiorul unui solenoid lung,
+          câmpul magnetic este aproape uniform și orientat de-a lungul axei solenoidului.
+        </p>
+
+        <div class="formula">
+          $$B=\mu_0 n I$$
+        </div>
+
+        <p>
+          unde:
+        </p>
+
+        <div class="formula">
+          $$n=\frac{N}{l}$$
+        </div>
+
+        <p>
+          este numărul de spire pe unitatea de lungime.
+          Cu miez magnetic liniar, în aproximație ideală:
+        </p>
+
+        <div class="formula">
+          $$B=\mu nI=\mu_0\mu_r nI$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula $B=\mu_0nI$ descrie interiorul solenoidului lung; la capete câmpul nu mai este perfect uniform.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Toroid</span>
+        <h2>Câmpul magnetic al toroidului</h2>
+
+        <p>
+          Toroidul este o bobină închisă în formă de inel. Dacă are $N$ spire și este parcurs de curentul $I$,
+          liniile câmpului magnetic sunt aproximativ cercuri concentrice în interiorul toroidului.
+        </p>
+
+        <p>
+          Aplicând teorema lui Ampère pe un cerc de rază $r$ în interiorul toroidului:
+        </p>
+
+        <div class="formula">
+          $$B\cdot2\pi r=\mu_0NI$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0NI}{2\pi r}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          în afara toroidului ideal, câmpul magnetic este foarte mic, deoarece liniile sunt concentrate în interior.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Teoremă utilă</span>
+        <h2>Teorema lui Ampère în magnetostatică</h2>
+
+        <p>
+          Pentru curenți staționari, circulația câmpului magnetic pe o curbă închisă este proporțională
+          cu curentul total care străbate suprafața delimitată de curbă:
+        </p>
+
+        <div class="formula">
+          $$\oint_C\vec B\cdot d\vec l=\mu_0 I_{\text{străbătut}}$$
+        </div>
+
+        <p>
+          Teorema este eficientă pentru distribuții cu simetrie mare: fir rectiliniu infinit, solenoid lung,
+          toroid ideal.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Fir lung</strong>
+            <div class="formula">
+              $$B\cdot2\pi r=\mu_0I$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Solenoid lung</strong>
+            <div class="formula">
+              $$Bl=\mu_0NI$$
+            </div>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          teorema lui Ampère este valabilă general în magnetostatică, dar permite calcul simplu al lui $B$
+          numai când simetria este potrivită.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Forța Laplace</span>
+        <h2>Forța magnetică asupra unui conductor parcurs de curent</h2>
+
+        <p>
+          Un element de conductor parcurs de curentul $I$, aflat în câmp magnetic $\vec B$, este supus forței:
+        </p>
+
+        <div class="formula">
+          $$d\vec F=I\,d\vec l\times\vec B$$
+        </div>
+
+        <p>
+          Pentru un conductor rectiliniu de lungime $l$ într-un câmp uniform:
+        </p>
+
+        <div class="formula">
+          $$\vec F=I\vec l\times\vec B$$
+        </div>
+
+        <p>
+          Modulul forței este:
+        </p>
+
+        <div class="formula">
+          $$F=BIl\sin\alpha$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Forță maximă</strong>
+            <p>
+              Dacă $\alpha=90^\circ$, atunci $F=BIl$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Forță nulă</strong>
+            <p>
+              Dacă conductorul este paralel cu $\vec B$, atunci $F=0$.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Cuplu magnetic</span>
+        <h2>Momentul forțelor asupra unei spire</h2>
+
+        <p>
+          O spiră plană parcursă de curent, aflată într-un câmp magnetic uniform, este supusă unui cuplu de forțe
+          care tinde să orienteze normala spirei paralel cu câmpul.
+        </p>
+
+        <p>
+          Momentul magnetic al spirei este:
+        </p>
+
+        <div class="formula">
+          $$\vec m=I\vec S$$
+        </div>
+
+        <p>
+          Pentru o bobină cu $N$ spire:
+        </p>
+
+        <div class="formula">
+          $$\vec m=NI\vec S$$
+        </div>
+
+        <p>
+          Momentul cuplului magnetic:
+        </p>
+
+        <div class="formula">
+          $$\vec M=\vec m\times\vec B$$
+        </div>
+
+        <p>
+          Modulul:
+        </p>
+
+        <div class="formula">
+          $$M=mB\sin\theta=NI SB\sin\theta$$
+        </div>
+
+        <div class="exam">
+          <strong>Aplicație:</strong>
+          principiul de funcționare al galvanometrului și al motorului electric se bazează pe acest cuplu magnetic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Curenți paraleli</span>
+        <h2>Interacțiunea magnetică a două conductoare paralele</h2>
+
+        <p>
+          Două conductoare rectilinii lungi, paralele, aflate la distanța $d$, parcurse de curenții $I_1$ și $I_2$,
+          interacționează magnetic.
+        </p>
+
+        <p>
+          Câmpul produs de conductorul 1 la poziția conductorului 2 este:
+        </p>
+
+        <div class="formula">
+          $$B_1=\frac{\mu_0I_1}{2\pi d}$$
+        </div>
+
+        <p>
+          Forța asupra unei porțiuni de lungime $l$ din conductorul 2 este:
+        </p>
+
+        <div class="formula">
+          $$F_2=I_2lB_1$$
+        </div>
+
+        <p>
+          Deci forța pe unitatea de lungime este:
+        </p>
+
+        <div class="formula">
+          $$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$$
+        </div>
+
+        <div class="exam">
+          <strong>Sens:</strong>
+          curenții paraleli de același sens se atrag; curenții paraleli de sensuri opuse se resping.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Interpretare energetică</span>
+        <h2>De ce se atrag curenții de același sens?</h2>
+
+        <p>
+          Fie două fire paralele cu curenți de același sens. Câmpul magnetic produs de primul fir acționează
+          asupra celui de-al doilea prin forța Laplace:
+        </p>
+
+        <div class="formula">
+          $$d\vec F=I_2\,d\vec l\times\vec B_1$$
+        </div>
+
+        <p>
+          Regula mâinii drepte arată că forța este orientată spre primul fir. Analog, primul fir este atras
+          spre al doilea. Pentru curenți de sensuri opuse, produsul vectorial schimbă sensul forței, iar firele se resping.
+        </p>
+
+        <div class="svgbox">
+          <svg viewBox="0 0 760 300" role="img" aria-label="Atracția curenților paraleli de același sens">
+            <defs>
+              <marker id="arrowC24Force" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+              <marker id="arrowC24Current" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#2563eb"></path>
+              </marker>
+            </defs>
+
+            <line x1="260" y1="245" x2="260" y2="55" stroke="#2563eb" stroke-width="9" stroke-linecap="round" marker-end="url(#arrowC24Current)"></line>
+            <line x1="500" y1="245" x2="500" y2="55" stroke="#2563eb" stroke-width="9" stroke-linecap="round" marker-end="url(#arrowC24Current)"></line>
+
+            <line x1="260" y1="150" x2="360" y2="150" stroke="#0f766e" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowC24Force)"></line>
+            <line x1="500" y1="150" x2="400" y2="150" stroke="#0f766e" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowC24Force)"></line>
+
+            <text x="230" y="40" fill="#2563eb" font-size="24" font-weight="900">I1</text>
+            <text x="510" y="40" fill="#2563eb" font-size="24" font-weight="900">I2</text>
+            <text x="325" y="130" fill="#0f766e" font-size="22">F</text>
+            <text x="420" y="130" fill="#0f766e" font-size="22">F</text>
+            <text x="310" y="280" fill="#64748b" font-size="21">curenți de același sens → atracție</text>
+          </svg>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Câmpul unui fir rectiliniu lung</h2>
+
+        <p>
+          Un conductor rectiliniu lung este parcurs de curentul $I=10\,\text{A}$.
+          Determinați inducția magnetică la distanța $r=5\,\text{cm}$.
+        </p>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0I}{2\pi r}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$r=5\,\text{cm}=5\cdot10^{-2}\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{4\pi\cdot10^{-7}\cdot10}{2\pi\cdot5\cdot10^{-2}}$$
+        </div>
+
+        <div class="formula">
+          $$B=4\cdot10^{-5}\,\text{T}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $B=40\,\mu\text{T}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Câmpul în centrul unei spire</h2>
+
+        <p>
+          O spiră circulară de rază $R=10\,\text{cm}$ este parcursă de curentul $I=4\,\text{A}$.
+          Determinați inducția magnetică în centrul spirei.
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0I}{2R}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$R=10\,\text{cm}=0{,}10\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{4\pi\cdot10^{-7}\cdot4}{2\cdot0{,}10}$$
+        </div>
+
+        <div class="formula">
+          $$B=8\pi\cdot10^{-6}\,\text{T}\approx2{,}51\cdot10^{-5}\,\text{T}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $B\approx25{,}1\,\mu\text{T}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Câmpul unui solenoid lung</h2>
+
+        <p>
+          Un solenoid lung are $N=800$ spire pe lungimea $l=40\,\text{cm}$ și este parcurs de curentul
+          $I=2\,\text{A}$. Determinați câmpul magnetic în interior.
+        </p>
+
+        <p>
+          Numărul de spire pe unitatea de lungime:
+        </p>
+
+        <div class="formula">
+          $$n=\frac{N}{l}=\frac{800}{0{,}40}=2000\,\text{m}^{-1}$$
+        </div>
+
+        <p>
+          Aplicăm:
+        </p>
+
+        <div class="formula">
+          $$B=\mu_0nI$$
+        </div>
+
+        <div class="formula">
+          $$B=4\pi\cdot10^{-7}\cdot2000\cdot2$$
+        </div>
+
+        <div class="formula">
+          $$B=16\pi\cdot10^{-4}\,\text{T}\approx5{,}03\cdot10^{-3}\,\text{T}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          $B\approx5{,}03\,\text{mT}$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Forța Laplace asupra unui conductor</h2>
+
+        <p>
+          Un conductor rectiliniu de lungime $l=20\,\text{cm}$ este parcurs de curentul $I=5\,\text{A}$
+          și este așezat perpendicular pe un câmp magnetic uniform $B=0{,}30\,\text{T}$.
+          Determinați forța magnetică.
+        </p>
+
+        <p>
+          Pentru $\alpha=90^\circ$:
+        </p>
+
+        <div class="formula">
+          $$F=BIl$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$l=20\,\text{cm}=0{,}20\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$F=0{,}30\cdot5\cdot0{,}20=0{,}30\,\text{N}$$
+        </div>
+
+        <div class="warning">
+          <strong>Direcția:</strong>
+          se stabilește cu regula produsului vectorial $\vec F=I\vec l\times\vec B$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 5</span>
+        <h2>Forța dintre doi curenți paraleli</h2>
+
+        <p>
+          Două conductoare rectilinii lungi, paralele, sunt străbătute de curenții $I_1=6\,\text{A}$
+          și $I_2=8\,\text{A}$. Distanța dintre ele este $d=4\,\text{cm}$.
+          Determinați forța pe unitatea de lungime.
+        </p>
+
+        <div class="formula">
+          $$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$d=4\,\text{cm}=4\cdot10^{-2}\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$\frac{F}{l}=\frac{4\pi\cdot10^{-7}\cdot6\cdot8}{2\pi\cdot4\cdot10^{-2}}$$
+        </div>
+
+        <div class="formula">
+          $$\frac{F}{l}=2{,}4\cdot10^{-4}\,\text{N/m}$$
+        </div>
+
+        <div class="exam">
+          <strong>Sens:</strong>
+          dacă cei doi curenți au același sens, firele se atrag; dacă au sensuri opuse, se resping.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 6</span>
+        <h2>Câmpul magnetic într-un toroid</h2>
+
+        <p>
+          Un toroid are $N=500$ spire și este parcurs de curentul $I=1{,}5\,\text{A}$.
+          Determinați câmpul magnetic la raza medie $r=10\,\text{cm}$.
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0NI}{2\pi r}$$
+        </div>
+
+        <p>
+          Transformăm:
+        </p>
+
+        <div class="formula">
+          $$r=10\,\text{cm}=0{,}10\,\text{m}$$
+        </div>
+
+        <p>
+          Calcul:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{4\pi\cdot10^{-7}\cdot500\cdot1{,}5}{2\pi\cdot0{,}10}$$
+        </div>
+
+        <div class="formula">
+          $$B=1{,}5\cdot10^{-3}\,\text{T}=1{,}5\,\text{mT}$$
+        </div>
+
+        <div class="exam">
+          <strong>Observație:</strong>
+          formula este valabilă în interiorul toroidului ideal, pe o circumferință de rază $r$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Formule pentru câmpuri magnetice uzuale</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sistem</th>
+                <th>Relație</th>
+                <th>Condiții de aplicare</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Biot–Savart</td>
+                <td>$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec r}{r^3}$</td>
+                <td>Element de conductor parcurs de curent staționar.</td>
+              </tr>
+              <tr>
+                <td>Fir rectiliniu lung</td>
+                <td>$B=\frac{\mu_0I}{2\pi r}$</td>
+                <td>Punct la distanța $r$ față de fir.</td>
+              </tr>
+              <tr>
+                <td>Spiră circulară</td>
+                <td>$B=\frac{\mu_0I}{2R}$</td>
+                <td>În centrul spirei.</td>
+              </tr>
+              <tr>
+                <td>Bobină cu $N$ spire</td>
+                <td>$B=\frac{\mu_0NI}{2R}$</td>
+                <td>În centrul bobinei circulare, aproximativ.</td>
+              </tr>
+              <tr>
+                <td>Solenoid lung</td>
+                <td>$B=\mu_0nI$</td>
+                <td>În interior, departe de capete.</td>
+              </tr>
+              <tr>
+                <td>Toroid</td>
+                <td>$B=\frac{\mu_0NI}{2\pi r}$</td>
+                <td>În interiorul toroidului ideal.</td>
+              </tr>
+              <tr>
+                <td>Forță pe conductor</td>
+                <td>$F=BIl\sin\alpha$</td>
+                <td>Câmp uniform, conductor rectiliniu.</td>
+              </tr>
+              <tr>
+                <td>Fire paralele</td>
+                <td>$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$</td>
+                <td>Fire rectilinii lungi, paralele.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană majoră:</strong>
+          nu folosi formula firului lung pentru spiră sau solenoid. Identifică geometria înainte de a scrie relația.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Lecția se predă eficient prin demonstrații cu ac magnetic, busolă, conductoare parcurse de curent și simulări
+          ale liniilor câmpului magnetic.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Evidențierea câmpului magnetic în jurul unui conductor rectiliniu cu ajutorul busolelor mici.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Experiment frontal</strong>
+            <p>
+              Determinarea sensului câmpului magnetic pentru o spiră sau un solenoid folosind regula mâinii drepte.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Modelare TIC</strong>
+            <p>
+              Simulare pentru câmpul unui fir, al unei spire, al unui solenoid și pentru forța dintre curenți paraleli.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Se folosesc tensiuni joase, se evită scurtcircuitele, conductoarele încălzite nu se ating,
+              iar sursele se deconectează după experiment.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să coreleze observația experimentală cu modelul vectorial $\vec B$ și cu relația dintre
+          curent, câmp magnetic și forță.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Capcane de examen</span>
+        <h2>Greșeli frecvente și corectarea lor</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Se confundă $\vec B$ cu $\vec E$.</td>
+                <td>Câmpul magnetic acționează pe sarcini în mișcare sau pe curenți.</td>
+                <td>Folosește $\vec F=q\vec v\times\vec B$ sau $\vec F=I\vec l\times\vec B$.</td>
+              </tr>
+              <tr>
+                <td>Se adună modulele câmpurilor fără vectori.</td>
+                <td>$\vec B$ este mărime vectorială.</td>
+                <td>Descompune pe axe sau folosește simetria.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $B=\mu_0I/(2\pi r)$ pentru o spiră.</td>
+                <td>Formula aparține firului rectiliniu lung.</td>
+                <td>Pentru centrul spirei: $B=\mu_0I/(2R)$.</td>
+              </tr>
+              <tr>
+                <td>Se uită factorul $N$ la bobină sau solenoid.</td>
+                <td>Contribuțiile spirelor se suprapun.</td>
+                <td>Bobină: $B\propto NI$; solenoid: $B=\mu_0nI$.</td>
+              </tr>
+              <tr>
+                <td>Se greșește sensul forței dintre curenți.</td>
+                <td>Este o problemă de produs vectorial și regulă a mâinii drepte.</td>
+                <td>Același sens: atracție; sensuri opuse: respingere.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>De reținut:</strong>
+          la magnetostatică, o schiță corectă cu sensuri valorează cât jumătate din rezolvare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
+
+        <p>
+          Curenții electrici staționari produc câmp magnetic. Mărimea care descrie câmpul magnetic este inducția
+          magnetică $\vec B$, iar liniile câmpului magnetic sunt linii închise, cu sens stabilit prin regula mâinii drepte.
+        </p>
+
+        <p>
+          Legea fundamentală pentru calculul câmpului produs de un element de curent este legea Biot–Savart:
+        </p>
+
+        <div class="formula">
+          $$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec r}{r^3}$$
+        </div>
+
+        <p>
+          Din această lege se obțin rezultate importante. Pentru un conductor rectiliniu lung:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0I}{2\pi r}$$
+        </div>
+
+        <p>
+          Pentru centrul unei spire circulare:
+        </p>
+
+        <div class="formula">
+          $$B=\frac{\mu_0I}{2R}$$
+        </div>
+
+        <p>
+          Iar pentru un solenoid lung:
+        </p>
+
+        <div class="formula">
+          $$B=\mu_0nI$$
+        </div>
+
+        <p>
+          Câmpul magnetic exercită forțe asupra conductoarelor parcurse de curent:
+        </p>
+
+        <div class="formula">
+          $$d\vec F=I\,d\vec l\times\vec B$$
+        </div>
+
+        <p>
+          Aplicând această relație la două fire paralele, rezultă:
+        </p>
+
+        <div class="formula">
+          $$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$$
+        </div>
+
+        <p>
+          Curenții de același sens se atrag, iar curenții de sensuri opuse se resping.
+          Aceasta este interacțiunea magnetică fundamentală dintre curenții electrici staționari.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C24</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Biot–Savart</strong>
+            <div class="formula">
+              $$d\vec B=\frac{\mu_0}{4\pi}\frac{I\,d\vec l\times\vec r}{r^3}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Fir rectiliniu lung</strong>
+            <div class="formula">
+              $$B=\frac{\mu_0I}{2\pi r}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Spiră circulară</strong>
+            <div class="formula">
+              $$B=\frac{\mu_0I}{2R}$$
+              $$B_N=\frac{\mu_0NI}{2R}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Solenoid și toroid</strong>
+            <div class="formula">
+              $$B_{\text{solenoid}}=\mu_0nI$$
+              $$B_{\text{toroid}}=\frac{\mu_0NI}{2\pi r}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Ampère</strong>
+            <div class="formula">
+              $$\oint_C\vec B\cdot d\vec l=\mu_0I_{\text{străbătut}}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Forțe magnetice</strong>
+            <div class="formula">
+              $$d\vec F=I\,d\vec l\times\vec B$$
+              $$\frac{F}{l}=\frac{\mu_0I_1I_2}{2\pi d}$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          două conductoare rectilinii paralele sunt parcurse de curenți cunoscuți. Determinați câmpul produs de unul
+          în poziția celuilalt, forța pe unitatea de lungime și sensul interacțiunii. Apoi comparați cu câmpul unui solenoid lung.
+        </div>
+
+        <div class="bottom-links">
+          <a href="C25-miscarea-particulelor-incarcate-in-campuri-electrice-si-magnetice.html">Lecția următoare</a>
+          <a href="Fise%20de%20lucru/fisa-24.html">Fișa de lucru C24</a>
+          <a href="index.html">Înapoi la capitol</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <nav class="pager" aria-label="Navigare lecție">
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 27</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-24.html">Fișa C24</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
+  </nav>
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function showPage(index) {
+      pages[currentPage].classList.remove("active");
+      currentPage = Math.max(0, Math.min(index, pages.length - 1));
+      pages[currentPage].classList.add("active");
+      updatePageStatus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([pages[currentPage]]);
+      }
+    }
+
+    function nextPage() {
+      showPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      showPage(currentPage - 1);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-c24", nextTheme);
+    }
+
+    const savedTheme = localStorage.getItem("theme-c24");
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") nextPage();
+      if (event.key === "ArrowLeft") prevPage();
+    });
+
+    updatePageStatus();
+  </script>
+</body>
+</html>
