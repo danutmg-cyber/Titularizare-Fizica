@@ -1,1 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C28 – Circuitul oscilant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 { margin-top: 0; }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show { display: block; }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 300px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li { margin: 0.35rem 0; }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C28 • Circuitul oscilant</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C28</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Circuitul oscilant</h1>
+
+      <p class="lead">
+        Fișa consolidează circuitul oscilant $LC$, oscilațiile electromagnetice libere, amortizate și forțate,
+        formula Thomson, conservarea energiei, factorul de calitate, decrementul logaritmic, lățimea de bandă
+        și rezonanța circuitului $RLC$.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Circuit $LC$ ideal</strong>
+          <div class="formula">
+            $$L\frac{d^2q}{dt^2}+\frac{q}{C}=0$$
+            $$\frac{d^2q}{dt^2}+\omega_0^2q=0$$
+            $$\omega_0=\frac1{\sqrt{LC}}$$
+          </div>
+          <p>
+            Sarcina oscilează sinusoidal, iar curentul este derivata sarcinii: $i=dq/dt$.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Formula Thomson</strong>
+          <div class="formula">
+            $$T_0=2\pi\sqrt{LC}$$
+            $$f_0=\frac1{2\pi\sqrt{LC}}$$
+          </div>
+          <p>
+            Creșterea lui $L$ sau $C$ mărește perioada și micșorează frecvența proprie.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Energie electromagnetică</strong>
+          <div class="formula">
+            $$W_E=\frac{q^2}{2C},\qquad W_B=\frac12Li^2$$
+            $$W=W_E+W_B=\text{constant}$$
+          </div>
+          <p>
+            În circuitul ideal, energia se transformă periodic din energie electrică în energie magnetică și invers.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Oscilații amortizate și forțate</strong>
+          <div class="formula">
+            $$Lq''+Rq'+\frac{q}{C}=0$$
+            $$\beta=\frac{R}{2L},\qquad Q_f=\frac{\omega_0L}{R}$$
+          </div>
+          <p>
+            Rezistența produce pierderi Joule; o sursă sinusoidală produce oscilații forțate la frecvența ei.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Concept</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pulsație proprie</td>
+              <td>$\omega_0=1/\sqrt{LC}$</td>
+              <td>rad/s</td>
+              <td>Se transformă $L$ în H și $C$ în F.</td>
+            </tr>
+            <tr>
+              <td>Perioada Thomson</td>
+              <td>$T_0=2\pi\sqrt{LC}$</td>
+              <td>s</td>
+              <td>Nu se scrie greșit $2\pi/\sqrt{LC}$.</td>
+            </tr>
+            <tr>
+              <td>Sarcină</td>
+              <td>$q=Q_m\cos(\omega_0t+\varphi_0)$</td>
+              <td>C</td>
+              <td>$q$ și $i$ sunt defazate cu $\pi/2$.</td>
+            </tr>
+            <tr>
+              <td>Curent maxim</td>
+              <td>$I_m=\omega_0Q_m$</td>
+              <td>A</td>
+              <td>Curentul este maxim când sarcina condensatorului este nulă.</td>
+            </tr>
+            <tr>
+              <td>Energie totală</td>
+              <td>$W=Q_m^2/(2C)=LI_m^2/2$</td>
+              <td>J</td>
+              <td>Se conservă numai în circuitul ideal.</td>
+            </tr>
+            <tr>
+              <td>Amortizare</td>
+              <td>$\beta=R/(2L)$</td>
+              <td>s$^{-1}$</td>
+              <td>Amplitudinea scade ca $e^{-\beta t}$.</td>
+            </tr>
+            <tr>
+              <td>Factor de calitate</td>
+              <td>$Q_f=\omega_0L/R$</td>
+              <td>adimensional</td>
+              <td>$Q_f$ mare înseamnă amortizare mică și rezonanță îngustă.</td>
+            </tr>
+            <tr>
+              <td>Lățime de bandă</td>
+              <td>$\Delta\omega=R/L$</td>
+              <td>rad/s</td>
+              <td>Pentru circuit $RLC$ serie.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Ecuația oscilațiilor libere într-un circuit $LC$ ideal este:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$Lq'+q/C=0$</option>
+          <option value="b">$Lq''+q/C=0$</option>
+          <option value="c">$Rq'+q/C=U$</option>
+          <option value="d">$q''-LCq=0$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Formula Thomson pentru perioada circuitului oscilant este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$T_0=2\pi\sqrt{LC}$</option>
+          <option value="b">$T_0=2\pi/\sqrt{LC}$</option>
+          <option value="c">$T_0=LC/2\pi$</option>
+          <option value="d">$T_0=R/L$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. În circuitul $LC$ ideal, când sarcina condensatorului este maximă:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">curentul este maxim</option>
+          <option value="b">energia magnetică este maximă</option>
+          <option value="c">curentul este nul și energia este electrică</option>
+          <option value="d">energia totală este nulă</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. Într-un circuit $RLC$ real, amortizarea este produsă în principal de:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">capacitatea condensatorului</option>
+          <option value="b">inductanța bobinei ideale</option>
+          <option value="c">frecvența proprie</option>
+          <option value="d">rezistența electrică și efectul Joule</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. În oscilații forțate, după stingerea regimului tranzitoriu, frecvența oscilației este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">frecvența sursei externe</option>
+          <option value="b">întotdeauna $1/(2\pi LC)$</option>
+          <option value="c">zero</option>
+          <option value="d">independentă de sursă</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Rezolvările urmăresc modelul $LC$, apoi extinderea la $RLC$ amortizat și forțat.
+      </p>
+
+      <article class="item">
+        <h3>4. Perioada și frecvența proprie <span class="points">5 p</span></h3>
+        <p>
+          Un circuit oscilant ideal are
+          <span class="formula-inline">$L$</span> = <span class="var" id="e4L"></span> mH și
+          <span class="formula-inline">$C$</span> = <span class="var" id="e4C"></span> $\mu\text{F}$.
+          Determinați $\omega_0$, $T_0$ și $f_0$.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. Energia inițială a condensatorului <span class="points">5 p</span></h3>
+        <p>
+          Condensatorul unui circuit $LC$ are capacitatea
+          <span class="formula-inline">$C$</span> = <span class="var" id="e5C"></span> $\mu\text{F}$
+          și este încărcat inițial la tensiunea
+          <span class="formula-inline">$U_0$</span> = <span class="var" id="e5U"></span> V.
+          Determinați energia totală a oscilațiilor în circuitul ideal.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. Curentul maxim din conservarea energiei <span class="points">5 p</span></h3>
+        <p>
+          Circuitul are
+          <span class="formula-inline">$L$</span> = <span class="var" id="e6L"></span> mH,
+          <span class="formula-inline">$C$</span> = <span class="var" id="e6C"></span> $\mu\text{F}$,
+          iar condensatorul este încărcat inițial la
+          <span class="formula-inline">$U_0$</span> = <span class="var" id="e6U"></span> V.
+          Determinați curentul maxim.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Sarcina și curentul la un moment dat <span class="points">5 p</span></h3>
+        <p>
+          Într-un circuit $LC$ ideal, amplitudinea sarcinii este
+          <span class="formula-inline">$Q_m$</span> = <span class="var" id="e7Q"></span> $\mu\text{C}$,
+          iar pulsația proprie este
+          <span class="formula-inline">$\omega_0$</span> = <span class="var" id="e7w"></span> rad/s.
+          Determinați $q$ și $i$ pentru
+          <span class="formula-inline">$\omega_0t$</span> = <span class="var" id="e7angle"></span>°,
+          considerând $q=Q_m\cos\omega_0t$.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Clasificarea regimului amortizat <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e8R"></span> $\Omega$,
+          <span class="formula-inline">$L$</span> = <span class="var" id="e8L"></span> mH și
+          <span class="formula-inline">$C$</span> = <span class="var" id="e8C"></span> $\mu\text{F}$.
+          Determinați $\beta$, $\omega_0$ și precizați regimul.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Rezistența critică <span class="points">5 p</span></h3>
+        <p>
+          Pentru un circuit $RLC$ liber cu
+          <span class="formula-inline">$L$</span> = <span class="var" id="e9L"></span> mH și
+          <span class="formula-inline">$C$</span> = <span class="var" id="e9C"></span> $\mu\text{F}$,
+          determinați rezistența critică $R_c$.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. Pulsația amortizată <span class="points">5 p</span></h3>
+        <p>
+          Un circuit subamortizat are pulsația proprie
+          <span class="formula-inline">$\omega_0$</span> = <span class="var" id="e10w0"></span> rad/s
+          și coeficientul de amortizare
+          <span class="formula-inline">$\beta$</span> = <span class="var" id="e10b"></span> s$^{-1}$.
+          Determinați pulsația amortizată $\omega$.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Decrementul logaritmic <span class="points">5 p</span></h3>
+        <p>
+          Amplitudinea unei oscilații scade de la
+          <span class="formula-inline">$A_n$</span> = <span class="var" id="e11A1"></span> V la
+          <span class="formula-inline">$A_{n+1}$</span> = <span class="var" id="e11A2"></span> V
+          între două maxime succesive. Determinați decrementul logaritmic $\delta$ și factorul de calitate aproximativ.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Factorul de calitate al circuitului $RLC$ serie <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e12R"></span> $\Omega$,
+          <span class="formula-inline">$L$</span> = <span class="var" id="e12L"></span> mH și
+          <span class="formula-inline">$C$</span> = <span class="var" id="e12C"></span> $\mu\text{F}$.
+          Determinați $\omega_0$ și $Q_f$.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Lățimea de bandă <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e13R"></span> $\Omega$
+          și
+          <span class="formula-inline">$L$</span> = <span class="var" id="e13L"></span> mH.
+          Determinați $\Delta\omega$ și $\Delta f$.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Oscilații forțate: curentul într-un circuit $RLC$ <span class="points">5 p</span></h3>
+        <p>
+          Un circuit $RLC$ serie are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e14R"></span> $\Omega$,
+          <span class="formula-inline">$L$</span> = <span class="var" id="e14L"></span> mH,
+          <span class="formula-inline">$C$</span> = <span class="var" id="e14C"></span> $\mu\text{F}$.
+          Este alimentat la tensiunea efectivă
+          <span class="formula-inline">$U$</span> = <span class="var" id="e14U"></span> V
+          și frecvența
+          <span class="formula-inline">$f$</span> = <span class="var" id="e14f"></span> Hz.
+          Determinați impedanța și curentul efectiv.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Explicați schimbul de energie într-un circuit $LC$ ideal. Includeți expresiile
+          $W_E=q^2/(2C)$ și $W_B=Li^2/2$ și precizați momentele în care fiecare formă de energie este maximă.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Deducere / interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Deducați ecuația oscilațiilor libere $Lq''+q/C=0$ pornind de la legea lui Kirchhoff pentru circuitul $LC$.
+          Arătați analogia cu oscilatorul mecanic masă–resort.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru evidențierea oscilațiilor electromagnetice amortizate
+          cu un circuit $RLC$ și osciloscop. Includeți obiectivul operațional, activitatea profesorului,
+          activitatea elevilor, evaluarea rapidă, mijloacele didactice și două norme de protecția muncii
+          privind condensatoarele, bobinele și sursele electrice.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, regim sau interpretare fizică: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: H, F, rad/s, Hz, s, C, A, J, $\Omega$.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C28-circuitul-oscilant.html">Înapoi la lecția C28</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-29.html">Fișa următoare C29</a>
+    </nav>
+  </main>
+
+  <script>
+    const storageKey = "values-fisa-c28";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const A1 = rnd(4, 12);
+      const A2 = rnd(1, A1 - 1);
+
+      const w0 = rnd(600, 1800, 100);
+      const beta = rnd(50, Math.max(100, w0 - 200), 50);
+
+      const v = {
+        e4L: rnd(50, 500, 50),
+        e4C: choose([10, 22, 47, 68, 100, 220]),
+
+        e5C: choose([1, 2, 4, 5, 10, 20]),
+        e5U: rnd(50, 400, 50),
+
+        e6L: rnd(50, 500, 50),
+        e6C: choose([1, 2, 4, 5, 10, 20, 47]),
+        e6U: rnd(50, 400, 50),
+
+        e7Q: rnd(5, 80, 5),
+        e7w: rnd(100, 1000, 100),
+        e7angle: choose([30, 45, 60, 90, 120, 135]),
+
+        e8R: rnd(5, 80, 5),
+        e8L: rnd(100, 1000, 100),
+        e8C: choose([10, 22, 47, 68, 100, 220]),
+
+        e9L: rnd(100, 1000, 100),
+        e9C: choose([10, 22, 47, 68, 100, 220]),
+
+        e10w0: w0,
+        e10b: beta,
+
+        e11A1: A1,
+        e11A2: A2,
+
+        e12R: rnd(2, 50, 2),
+        e12L: rnd(100, 1000, 100),
+        e12C: choose([10, 22, 47, 68, 100, 220]),
+
+        e13R: rnd(2, 80, 2),
+        e13L: rnd(100, 1000, 100),
+
+        e14R: rnd(10, 100, 10),
+        e14L: rnd(50, 500, 50),
+        e14C: choose([10, 22, 47, 68, 100, 220]),
+        e14U: rnd(50, 250, 25),
+        e14f: choose([50, 60, 100, 200, 400, 800])
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const L4 = v.e4L * 1e-3;
+      const C4 = v.e4C * 1e-6;
+      const w4 = 1 / Math.sqrt(L4 * C4);
+      const T4 = 2 * Math.PI * Math.sqrt(L4 * C4);
+      const f4 = 1 / T4;
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        $$L=${v.e4L}\\,\\text{mH}=${tex(L4)}\\,\\text{H},\\qquad C=${v.e4C}\\,\\mu\\text{F}=${tex(C4)}\\,\\text{F}$$
+        $$\\omega_0=\\frac1{\\sqrt{LC}}=\\frac1{\\sqrt{${tex(L4)}\\cdot${tex(C4)}}}=${tex(w4)}\\,\\text{rad/s}$$
+        $$T_0=2\\pi\\sqrt{LC}=${tex(T4)}\\,\\text{s}$$
+        $$f_0=\\frac1{T_0}=${tex(f4)}\\,\\text{Hz}$$
+      `);
+
+      const C5 = v.e5C * 1e-6;
+      const W5 = 0.5 * C5 * v.e5U * v.e5U;
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        Energia inițială a condensatorului devine energia totală a oscilațiilor:
+        $$W=\\frac12CU_0^2$$
+        $$C=${v.e5C}\\,\\mu\\text{F}=${tex(C5)}\\,\\text{F}$$
+        $$W=\\frac12\\cdot${tex(C5)}\\cdot${v.e5U}^2=${tex(W5)}\\,\\text{J}$$
+        În circuitul ideal $LC$, această energie totală se conservă.
+      `);
+
+      const L6 = v.e6L * 1e-3;
+      const C6 = v.e6C * 1e-6;
+      const W6 = 0.5 * C6 * v.e6U * v.e6U;
+      const I6 = Math.sqrt(2 * W6 / L6);
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        Energia electrică inițială:
+        $$W=\\frac12CU_0^2$$
+        $$W=\\frac12\\cdot${tex(C6)}\\cdot${v.e6U}^2=${tex(W6)}\\,\\text{J}$$
+        La curent maxim, energia este magnetică:
+        $$W=\\frac12LI_m^2$$
+        $$I_m=\\sqrt{\\frac{2W}{L}}=\\sqrt{\\frac{2\\cdot${tex(W6)}}{${tex(L6)}}}=${tex(I6)}\\,\\text{A}$$
+      `);
+
+      const Q7 = v.e7Q * 1e-6;
+      const angle7 = v.e7angle * Math.PI / 180;
+      const q7 = Q7 * Math.cos(angle7);
+      const i7 = -v.e7w * Q7 * Math.sin(angle7);
+      const Im7 = v.e7w * Q7;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        $$q=Q_m\\cos\\omega_0t$$
+        $$i=\\frac{dq}{dt}=-\\omega_0Q_m\\sin\\omega_0t$$
+        $$Q_m=${v.e7Q}\\,\\mu\\text{C}=${tex(Q7)}\\,\\text{C}$$
+        Pentru $\\omega_0t=${v.e7angle}^{\\circ}$:
+        $$q=${tex(Q7)}\\cos ${v.e7angle}^{\\circ}=${tex(q7)}\\,\\text{C}$$
+        $$i=-${v.e7w}\\cdot${tex(Q7)}\\sin ${v.e7angle}^{\\circ}=${tex(i7)}\\,\\text{A}$$
+        Amplitudinea curentului este:
+        $$I_m=\\omega_0Q_m=${tex(Im7)}\\,\\text{A}$$
+      `);
+
+      const L8 = v.e8L * 1e-3;
+      const C8 = v.e8C * 1e-6;
+      const beta8 = v.e8R / (2 * L8);
+      const w08 = 1 / Math.sqrt(L8 * C8);
+      const Rc8 = 2 * Math.sqrt(L8 / C8);
+      let regim8 = "subamortizat";
+      if (Math.abs(beta8 - w08) / w08 < 0.03) regim8 = "aproape critic";
+      if (beta8 > w08) regim8 = "supraamortizat";
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        $$\\beta=\\frac{R}{2L},\\qquad \\omega_0=\\frac1{\\sqrt{LC}}$$
+        $$L=${v.e8L}\\,\\text{mH}=${tex(L8)}\\,\\text{H},\\qquad C=${v.e8C}\\,\\mu\\text{F}=${tex(C8)}\\,\\text{F}$$
+        $$\\beta=\\frac{${v.e8R}}{2\\cdot${tex(L8)}}=${tex(beta8)}\\,\\text{s}^{-1}$$
+        $$\\omega_0=${tex(w08)}\\,\\text{rad/s}$$
+        Rezistența critică:
+        $$R_c=2\\sqrt{\\frac{L}{C}}=${tex(Rc8)}\\,\\Omega$$
+        Deoarece $R=${v.e8R}\\,\\Omega$, regimul este <strong>${regim8}</strong>.
+      `);
+
+      const L9 = v.e9L * 1e-3;
+      const C9 = v.e9C * 1e-6;
+      const Rc9 = 2 * Math.sqrt(L9 / C9);
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Regimul critic apare pentru:
+        $$\\beta=\\omega_0$$
+        $$\\frac{R_c}{2L}=\\frac1{\\sqrt{LC}}$$
+        Deci:
+        $$R_c=2\\sqrt{\\frac{L}{C}}$$
+        $$L=${v.e9L}\\,\\text{mH}=${tex(L9)}\\,\\text{H},\\qquad C=${v.e9C}\\,\\mu\\text{F}=${tex(C9)}\\,\\text{F}$$
+        $$R_c=2\\sqrt{\\frac{${tex(L9)}}{${tex(C9)}}}=${tex(Rc9)}\\,\\Omega$$
+      `);
+
+      const w10 = Math.sqrt(v.e10w0 * v.e10w0 - v.e10b * v.e10b);
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        Pentru regim subamortizat:
+        $$\\omega=\\sqrt{\\omega_0^2-\\beta^2}$$
+        $$\\omega=\\sqrt{${v.e10w0}^2-${v.e10b}^2}=${tex(w10)}\\,\\text{rad/s}$$
+        Pulsația amortizată este mai mică decât pulsația proprie neamortizată.
+      `);
+
+      const delta11 = Math.log(v.e11A1 / v.e11A2);
+      const Q11 = Math.PI / delta11;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Decrementul logaritmic:
+        $$\\delta=\\ln\\frac{A_n}{A_{n+1}}$$
+        $$\\delta=\\ln\\frac{${v.e11A1}}{${v.e11A2}}=${tex(delta11)}$$
+        Pentru amortizare slabă:
+        $$Q_f\\approx\\frac{\\pi}{\\delta}$$
+        $$Q_f\\approx\\frac{\\pi}{${tex(delta11)}}=${tex(Q11)}$$
+        Un decrement mai mic înseamnă amortizare mai slabă.
+      `);
+
+      const L12 = v.e12L * 1e-3;
+      const C12 = v.e12C * 1e-6;
+      const w12 = 1 / Math.sqrt(L12 * C12);
+      const Q12 = w12 * L12 / v.e12R;
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        $$\\omega_0=\\frac1{\\sqrt{LC}}$$
+        $$L=${v.e12L}\\,\\text{mH}=${tex(L12)}\\,\\text{H},\\qquad C=${v.e12C}\\,\\mu\\text{F}=${tex(C12)}\\,\\text{F}$$
+        $$\\omega_0=${tex(w12)}\\,\\text{rad/s}$$
+        Factorul de calitate:
+        $$Q_f=\\frac{\\omega_0L}{R}$$
+        $$Q_f=\\frac{${tex(w12)}\\cdot${tex(L12)}}{${v.e12R}}=${tex(Q12)}$$
+        Cu cât $R$ este mai mic, cu atât circuitul este mai selectiv.
+      `);
+
+      const L13 = v.e13L * 1e-3;
+      const dw13 = v.e13R / L13;
+      const df13 = dw13 / (2 * Math.PI);
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Pentru circuit $RLC$ serie:
+        $$\\Delta\\omega=\\frac{R}{L}$$
+        $$L=${v.e13L}\\,\\text{mH}=${tex(L13)}\\,\\text{H}$$
+        $$\\Delta\\omega=\\frac{${v.e13R}}{${tex(L13)}}=${tex(dw13)}\\,\\text{rad/s}$$
+        Deoarece $\\omega=2\\pi f$:
+        $$\\Delta f=\\frac{\\Delta\\omega}{2\\pi}=${tex(df13)}\\,\\text{Hz}$$
+      `);
+
+      const L14 = v.e14L * 1e-3;
+      const C14 = v.e14C * 1e-6;
+      const w14 = 2 * Math.PI * v.e14f;
+      const XL14 = w14 * L14;
+      const XC14 = 1 / (w14 * C14);
+      const Z14 = Math.sqrt(v.e14R * v.e14R + Math.pow(XL14 - XC14, 2));
+      const I14 = v.e14U / Z14;
+      const caracter14 = XL14 > XC14 ? "inductiv" : "capacitiv";
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        $$\\omega=2\\pi f=2\\pi\\cdot${v.e14f}=${tex(w14)}\\,\\text{rad/s}$$
+        $$L=${v.e14L}\\,\\text{mH}=${tex(L14)}\\,\\text{H},\\qquad C=${v.e14C}\\,\\mu\\text{F}=${tex(C14)}\\,\\text{F}$$
+        $$X_L=\\omega L=${tex(XL14)}\\,\\Omega$$
+        $$X_C=\\frac1{\\omega C}=${tex(XC14)}\\,\\Omega$$
+        $$Z=\\sqrt{R^2+(X_L-X_C)^2}$$
+        $$Z=\\sqrt{${v.e14R}^2+(${tex(XL14)}-${tex(XC14)})^2}=${tex(Z14)}\\,\\Omega$$
+        $$I=\\frac{U}{Z}=\\frac{${v.e14U}}{${tex(Z14)}}=${tex(I14)}\\,\\text{A}$$
+        Circuitul are caracter ${caracter14} la această frecvență.
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c28", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c28");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
