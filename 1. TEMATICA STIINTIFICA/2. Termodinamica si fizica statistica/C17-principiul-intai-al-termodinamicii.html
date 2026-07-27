@@ -2,62 +2,16 @@
 <html lang="ro" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <title>C17 – Principiul I al termodinamicii</title>
+  <title>C17 – Principiul întâi al termodinamicii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+
+  <script src="../../assets/js/mathjax-config.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
-    :root {
-      --bg: #f6f8fb;
-      --card: #ffffff;
-      --text: #122033;
-      --muted: #526173;
-      --accent: #2563eb;
-      --accent-2: #0f766e;
-      --marker: #fff3a3;
-      --formula-bg: #eef6ff;
-      --border: #dbe4ef;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
-      --radius: 22px;
-      --font: clamp(18px, 2.2vw, 23px);
-      --title: clamp(30px, 5vw, 52px);
-      --subtitle: clamp(22px, 3.5vw, 34px);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #08111f;
-      --card: #111c2e;
-      --text: #eef5ff;
-      --muted: #b6c3d5;
-      --accent: #60a5fa;
-      --accent-2: #5eead4;
-      --marker: #6b5d12;
-      --formula-bg: #172842;
-      --border: #29415f;
-      --shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: var(--font);
-      line-height: 1.65;
-    }
+    * { box-sizing: border-box; }
 
     .topbar {
       position: sticky;
@@ -74,8 +28,8 @@
     }
 
     .topbar strong {
-      font-size: 0.95rem;
       color: var(--accent);
+      font-size: 0.95rem;
     }
 
     .theme-toggle {
@@ -84,7 +38,7 @@
       color: var(--text);
       border-radius: 999px;
       padding: 0.55rem 0.9rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
     }
 
@@ -98,20 +52,11 @@
       min-height: calc(100vh - 72px);
       display: none;
       align-items: center;
-      padding: 1.2rem 0 6rem;
+      padding: 1.2rem 0 6.8rem;
     }
 
     .page.active {
       display: flex;
-    }
-
-    .card {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 4vw, 2.4rem);
     }
 
     .eyebrow {
@@ -125,57 +70,9 @@
       font-size: 0.78em;
     }
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin: 0.35rem 0 1rem;
-    }
-
-    h1 {
-      font-size: var(--title);
-    }
-
-    h2 {
-      font-size: var(--subtitle);
-    }
-
-    h3 {
-      font-size: clamp(22px, 3vw, 30px);
-    }
-
-    p {
-      margin: 0.75rem 0;
-    }
-
-    ul, ol {
-      padding-left: 1.35rem;
-    }
-
-    li {
-      margin: 0.55rem 0;
-    }
-
     .lead {
       font-size: 1.08em;
       color: var(--muted);
-    }
-
-    .mark {
-      background: linear-gradient(transparent 45%, var(--marker) 45%);
-      padding: 0 0.18rem;
-      border-radius: 0.2rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .formula {
-      margin: 1rem 0;
-      padding: 1rem;
-      background: var(--formula-bg);
-      border: 1px solid var(--border);
-      border-left: 7px solid var(--accent);
-      border-radius: 16px;
-      overflow-x: auto;
-      font-size: 1.05em;
     }
 
     .grid {
@@ -196,6 +93,34 @@
       color: var(--accent-2);
     }
 
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    .table-wrap table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    .table-wrap th,
+    .table-wrap td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table-wrap th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
     .svgbox {
       margin: 1rem 0;
       background: var(--formula-bg);
@@ -205,10 +130,11 @@
       overflow-x: auto;
     }
 
-    svg {
+    .svgbox > svg {
       width: 100%;
-      min-width: 300px;
+      min-width: 320px;
       height: auto;
+      display: block;
     }
 
     .caption {
@@ -217,25 +143,26 @@
       margin-top: 0.4rem;
     }
 
-    .exam {
-      border-left: 7px solid var(--accent-2);
-      background: color-mix(in srgb, var(--formula-bg) 75%, transparent);
-      padding: 1rem;
-      border-radius: 16px;
-      margin-top: 1rem;
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1.5rem;
     }
 
-    .warning {
-      border-left: 7px solid #f59e0b;
-      background: color-mix(in srgb, #fef3c7 70%, var(--card));
+    .bottom-links a {
+      display: block;
+      text-decoration: none;
+      text-align: center;
       padding: 1rem;
       border-radius: 16px;
-      margin-top: 1rem;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
     }
 
-    html[data-theme="dark"] .warning {
-      background: #33260c;
-    }
+    .bottom-links a:nth-child(2) { background: var(--accent-2); }
+    .bottom-links a:nth-child(3) { background: #7c3aed; }
 
     .pager {
       position: fixed;
@@ -244,7 +171,7 @@
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 1rem));
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr auto 1fr auto auto;
       gap: 0.6rem;
       background: color-mix(in srgb, var(--card) 92%, transparent);
       border: 1px solid var(--border);
@@ -283,35 +210,25 @@
       color: white;
     }
 
-    .bottom-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .bottom-links a {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 16px;
-      font-weight: 900;
-      color: white;
-      background: var(--accent);
-    }
-
-    .bottom-links a:nth-child(2) {
-      background: var(--accent-2);
-    }
-
-    .bottom-links a:nth-child(3) {
+    .pager a.chapter {
       background: #7c3aed;
     }
 
+    .page-status {
+      text-align: center;
+      font-weight: 900;
+      color: var(--muted);
+      padding: 0.55rem 0.8rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     @media (max-width: 760px) {
-      body {
-        line-height: 1.55;
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .grid,
@@ -324,13 +241,13 @@
         border-radius: 22px;
       }
 
-      .pager a {
+      .page-status {
         grid-column: 1 / -1;
+        order: -1;
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+      .pager a {
+        grid-column: 1 / -1;
       }
     }
   </style>
@@ -339,41 +256,171 @@
 <body>
   <div class="topbar">
     <strong>C17 • Termodinamică și fizică statistică • Pregătire Titularizare/Definitivat</strong>
-    <button class="theme-toggle" onclick="toggleTheme()">Zi / Noapte</button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()">Zi / Noapte</button>
   </div>
 
   <main>
     <section class="page active">
       <article class="card">
         <span class="eyebrow">Lecția 17</span>
-        <h1>Principiul I al termodinamicii</h1>
+        <h1>Principiul întâi al termodinamicii</h1>
+
         <p class="lead">
-          Principiul I este <span class="mark">legea conservării energiei</span> aplicată sistemelor
-          termodinamice: căldura primită de un sistem se regăsește fie în creșterea energiei sale interne,
-          fie în lucrul mecanic pe care sistemul îl efectuează asupra exteriorului.
+          Lecția tratează conservarea energiei în sisteme termodinamice, legătura dintre
+          căldură, lucru mecanic și energie internă, coeficienții calorici și aplicațiile de
+          calorimetrie. Tema este centrală pentru problemele cu gaze ideale, transformări
+          termodinamice și bilanțuri energetice.
         </p>
 
         <div class="exam">
           <strong>Ideea-cheie pentru examen:</strong>
-          energia nu se pierde și nu apare din nimic — ea doar <strong>se transformă</strong>, între
-          energie internă, căldură și lucru mecanic.
+          principiul întâi este legea conservării energiei aplicată sistemelor termodinamice:
+          energia poate fi transferată prin căldură și lucru mecanic, iar variația energiei interne
+          este efectul net al acestor transferuri.
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 280" role="img" aria-label="Piston cu gaz care primește căldură și efectuează lucru mecanic">
-            <rect x="120" y="70" width="220" height="160" fill="none" stroke="#64748b" stroke-width="4"/>
-            <rect x="120" y="70" width="220" height="160" fill="rgba(37,99,235,0.10)"/>
-            <rect x="325" y="55" width="20" height="190" fill="#94a3b8"/>
-            <line x1="345" y1="150" x2="430" y2="150" stroke="#64748b" stroke-width="6"/>
-            <path d="M430 120 L470 150 L430 180 Z" fill="#0f766e"/>
-            <text x="440" y="110" fill="#0f766e" font-size="22">L</text>
-            <path d="M170 40 C180 20, 200 20, 210 40" stroke="#ef4444" stroke-width="5" fill="none"/>
-            <path d="M210 40 C220 20, 240 20, 250 40" stroke="#ef4444" stroke-width="5" fill="none"/>
-            <path d="M250 40 C260 20, 280 20, 290 40" stroke="#ef4444" stroke-width="5" fill="none"/>
-            <text x="160" y="20" fill="#ef4444" font-size="22">Q (căldură primită)</text>
-            <text x="200" y="160" fill="#2563eb" font-size="24">gaz, U</text>
+          <svg viewBox="0 0 760 320" role="img" aria-label="Gaz într-un cilindru cu piston care primește căldură și efectuează lucru mecanic">
+            <defs>
+              <marker id="arrowHeatC17" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#ef4444"></path>
+              </marker>
+              <marker id="arrowWorkC17" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <rect x="115" y="90" width="260" height="150" rx="8"
+                  fill="rgba(37,99,235,0.12)" stroke="#64748b" stroke-width="4"></rect>
+            <rect x="350" y="75" width="25" height="180" rx="4"
+                  fill="#94a3b8" stroke="#64748b" stroke-width="3"></rect>
+            <line x1="375" y1="165" x2="515" y2="165" stroke="#0f766e" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowWorkC17)"></line>
+            <text x="530" y="173" fill="#0f766e" font-size="24" font-weight="700">L</text>
+
+            <line x1="245" y1="45" x2="245" y2="82" stroke="#ef4444" stroke-width="5"
+                  stroke-linecap="round" marker-end="url(#arrowHeatC17)"></line>
+            <text x="205" y="35" fill="#ef4444" font-size="24" font-weight="700">Q</text>
+
+            <circle cx="165" cy="130" r="7" fill="#2563eb"></circle>
+            <circle cx="225" cy="190" r="7" fill="#2563eb"></circle>
+            <circle cx="300" cy="145" r="7" fill="#2563eb"></circle>
+            <circle cx="275" cy="215" r="7" fill="#2563eb"></circle>
+
+            <text x="180" y="165" fill="#2563eb" font-size="24" font-weight="700">gaz</text>
+            <text x="180" y="197" fill="#2563eb" font-size="22">energie internă U</text>
+            <text x="120" y="285" fill="#64748b" font-size="19">
+              Q primit → crește U și/sau produce lucru mecanic L
+            </text>
           </svg>
-          <p class="caption">Căldura $Q$ primită de gaz se regăsește parțial în creșterea energiei interne $U$ și parțial în lucrul mecanic $L$ efectuat prin deplasarea pistonului.</p>
+
+          <p class="caption">
+            Gazul primește căldură $Q$, își poate modifica energia internă $U$ și poate efectua lucru
+            mecanic $L$ prin deplasarea pistonului.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Încadrare în programă</span>
+        <h2>Ce trebuie stăpânit la C17?</h2>
+
+        <p>
+          Tema C17 are trei nuclee: <span class="mark">principiul întâi</span>,
+          <span class="mark">coeficienții calorici</span> și
+          <span class="mark">calorimetria</span>.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Principiul întâi</strong>
+            <p>
+              Formulare, convenție de semne, energie internă, lucru mecanic de dilatare,
+              aplicații la transformări izocore, izobare, izoterme și adiabatice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Coeficienți calorici</strong>
+            <p>
+              Capacitate calorică, căldură specifică, căldură molară, $C_V$, $C_p$,
+              relația lui Mayer și raportul adiabatic $\gamma=C_p/C_V$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Calorimetrie</strong>
+            <p>
+              Ecuația bilanțului termic, amestecuri de corpuri, calorimetru,
+              echivalent în apă și determinarea căldurii specifice.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Competență de examen</strong>
+            <p>
+              Identifici procesul, alegi expresiile corecte pentru $Q$, $\Delta U$ și $L$,
+              apoi aplici conservarea energiei cu semne coerente.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns complet:</strong>
+          un subiect bun pornește de la definiția sistemului termodinamic, stabilește convenția
+          de semne, scrie $Q=\Delta U+L$, apoi particularizează termenii în funcție de proces.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sistem termodinamic</span>
+        <h2>Sistem, exterior și stare termodinamică</h2>
+
+        <p>
+          Un <span class="mark">sistem termodinamic</span> este porțiunea de materie separată
+          conceptual de mediul exterior. Sistemul poate schimba energie cu exteriorul prin căldură,
+          lucru mecanic sau schimb de substanță.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Sistem izolat</strong>
+            <p>
+              Nu schimbă nici energie, nici substanță cu exteriorul. Pentru un sistem izolat,
+              energia totală rămâne constantă.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Sistem închis</strong>
+            <p>
+              Nu schimbă substanță, dar poate schimba energie sub formă de căldură sau lucru mecanic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Sistem deschis</strong>
+            <p>
+              Schimbă atât energie, cât și substanță cu exteriorul.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Stare termodinamică</strong>
+            <p>
+              Este caracterizată prin mărimi de stare precum $p$, $V$, $T$, $U$, $\rho$.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula">
+          $$\text{stare de echilibru} \Rightarrow p,\ V,\ T,\ U\ \text{bine definite}$$
         </div>
       </article>
     </section>
@@ -384,75 +431,175 @@
         <h2>Mărimi de stare și mărimi de proces</h2>
 
         <p>
-          Pentru a înțelege principiul I, trebuie distinse clar două categorii de mărimi.
+          În termodinamică trebuie distinse clar mărimile care caracterizează starea sistemului
+          de mărimile care caracterizează un transfer energetic.
         </p>
 
         <div class="grid">
           <div class="mini">
-            <strong>Energia internă $U$ — mărime de stare</strong>
-            <p>Depinde doar de starea sistemului (pentru gazul ideal, doar de temperatură), nu de „drumul” prin care s-a ajuns la ea. Variația ei, $\Delta U$, este aceeași indiferent de transformare.</p>
+            <strong>Energia internă $U$</strong>
+            <p>
+              Este mărime de stare. Valoarea ei depinde numai de starea sistemului.
+              Pentru gazul ideal, $U$ depinde numai de temperatură.
+            </p>
           </div>
+
           <div class="mini">
-            <strong>Căldura $Q$ și lucrul mecanic $L$ — mărimi de proces</strong>
-            <p>Depind de tipul transformării (drumul urmat), nu doar de starea inițială și finală. Nu are sens să vorbim despre „căldura conținută” într-un sistem.</p>
+            <strong>Variația $\Delta U$</strong>
+            <p>
+              Depinde numai de starea inițială și finală, nu de drumul termodinamic:
+            </p>
+            <div class="formula">
+              $$\Delta U=U_2-U_1$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Căldura $Q$</strong>
+            <p>
+              Este mărime de proces. Nu există „căldura conținută” într-un corp;
+              există energie transferată prin interacțiune termică.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Lucrul mecanic $L$</strong>
+            <p>
+              Este mărime de proces. Valoarea sa depinde de modul în care sistemul trece
+              de la starea inițială la starea finală.
+            </p>
           </div>
         </div>
 
         <div class="warning">
-          <strong>Atenție:</strong>
-          un gaz <strong>nu conține</strong> căldură sau lucru mecanic — el conține energie internă.
-          Căldura și lucrul mecanic sunt forme prin care energia se <strong>transferă</strong>, nu mărimi
-          pe care sistemul le „posedă”.
+          <strong>Capcană de examen:</strong>
+          sistemul are energie internă, nu „căldură internă”. Căldura și lucrul mecanic sunt moduri
+          de transfer al energiei.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Formulare</span>
-        <h2>Enunțul principiului I și convenția de semne</h2>
+        <span class="eyebrow">Principiul I</span>
+        <h2>Enunțul și convenția de semne</h2>
 
         <p>
-          <span class="mark">Principiul I al termodinamicii</span> se scrie:
+          Folosim convenția standard din multe manuale de liceu și concurs:
+          $Q>0$ când sistemul primește căldură, iar $L>0$ când sistemul efectuează lucru mecanic
+          asupra exteriorului.
         </p>
 
         <div class="formula">
           $$Q=\Delta U+L$$
         </div>
 
-        <p>unde:</p>
-
-        <div class="grid">
-          <div class="mini">
-            <strong>$Q$ — căldura schimbată</strong>
-            <p>$Q>0$ dacă sistemul <em>primește</em> căldură din exterior; $Q<0$ dacă cedează căldură.</p>
-          </div>
-          <div class="mini">
-            <strong>$L$ — lucrul mecanic</strong>
-            <p>$L>0$ dacă sistemul efectuează lucru mecanic <em>asupra</em> exteriorului (se destinde); $L<0$ dacă exteriorul efectuează lucru mecanic asupra sistemului (este comprimat).</p>
-          </div>
-        </div>
+        <p>
+          Echivalent:
+        </p>
 
         <div class="formula">
           $$\Delta U=Q-L$$
         </div>
 
+        <div class="grid">
+          <div class="mini">
+            <strong>$Q>0$</strong>
+            <p>Sistemul primește căldură de la exterior.</p>
+          </div>
+
+          <div class="mini">
+            <strong>$Q<0$</strong>
+            <p>Sistemul cedează căldură exteriorului.</p>
+          </div>
+
+          <div class="mini">
+            <strong>$L>0$</strong>
+            <p>Sistemul se destinde și efectuează lucru mecanic.</p>
+          </div>
+
+          <div class="mini">
+            <strong>$L<0$</strong>
+            <p>Sistemul este comprimat; exteriorul efectuează lucru mecanic asupra sistemului.</p>
+          </div>
+        </div>
+
         <div class="exam">
           <strong>Formulare de examen:</strong>
-          căldura primită de un sistem se consumă pentru creșterea energiei interne și pentru lucrul
-          mecanic efectuat de sistem asupra mediului exterior.
+          căldura primită de un sistem este folosită pentru creșterea energiei interne și pentru
+          lucrul mecanic efectuat de sistem asupra mediului exterior.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Lucrul mecanic</span>
-        <h2>Lucrul mecanic de dilatare — interpretare grafică</h2>
+        <span class="eyebrow">Energia internă</span>
+        <h2>Energia internă a gazului ideal</h2>
 
         <p>
-          Lucrul mecanic elementar efectuat de un gaz la o variație infinitezimală de volum este
-          $\delta L=p\,dV$. Pentru o transformare finită între volumele $V_1$ și $V_2$:
+          Energia internă este energia microscopică totală a particulelor sistemului:
+          energie cinetică de agitație termică și, pentru sisteme reale, energie potențială de interacțiune.
+        </p>
+
+        <p>
+          Pentru gazul ideal, interacțiunile dintre molecule sunt neglijate, deci energia internă depinde
+          numai de temperatură.
+        </p>
+
+        <div class="formula">
+          $$U=\frac{i}{2}\nu RT$$
+        </div>
+
+        <p>
+          Variația energiei interne este:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=\frac{i}{2}\nu R\Delta T$$
+        </div>
+
+        <p>
+          Se mai scrie:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=\nu C_V\Delta T$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Gaz monoatomic</strong>
+            <div class="formula">
+              $$i=3,\qquad C_V=\frac32R$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Gaz diatomic idealizat</strong>
+            <div class="formula">
+              $$i\approx5,\qquad C_V\approx\frac52R$$
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Lucru mecanic</span>
+        <h2>Lucrul mecanic de dilatare</h2>
+
+        <p>
+          Pentru un gaz care produce deplasarea unui piston, lucrul mecanic elementar este:
+        </p>
+
+        <div class="formula">
+          $$\delta L=p\,dV$$
+        </div>
+
+        <p>
+          Pentru o transformare finită:
         </p>
 
         <div class="formula">
@@ -460,196 +607,932 @@
         </div>
 
         <div class="svgbox">
-          <svg viewBox="0 0 700 260" role="img" aria-label="Lucrul mecanic ca arie sub graficul presiune-volum">
-            <line x1="70" y1="220" x2="640" y2="220" stroke="#64748b" stroke-width="3"/>
-            <line x1="90" y1="235" x2="90" y2="35" stroke="#64748b" stroke-width="3"/>
-            <path d="M150 90 C 260 100, 400 140, 560 170" fill="none" stroke="#2563eb" stroke-width="6"/>
-            <polygon points="150,90 150,220 560,220 560,170 400,140 260,100" fill="rgba(37,99,235,0.18)"/>
-            <line x1="150" y1="220" x2="150" y2="90" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 4"/>
-            <line x1="560" y1="220" x2="560" y2="170" stroke="#94a3b8" stroke-width="3" stroke-dasharray="6 4"/>
-            <text x="630" y="245" fill="#64748b" font-size="22">V</text>
-            <text x="55" y="45" fill="#64748b" font-size="22">p</text>
-            <text x="130" y="245" fill="#64748b" font-size="18">V₁</text>
-            <text x="545" y="245" fill="#64748b" font-size="18">V₂</text>
-            <text x="320" y="200" fill="#2563eb" font-size="22">L = aria hașurată</text>
+          <svg viewBox="0 0 760 320" role="img" aria-label="Lucrul mecanic ca arie sub graficul p V">
+            <defs>
+              <marker id="arrowPVxC17" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+              <marker id="arrowPVyC17" viewBox="0 0 10 6" markerWidth="10" markerHeight="6"
+                      refX="9" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+                <path d="M0,1.4 L9,3 L0,4.6 Z" fill="#64748b"></path>
+              </marker>
+            </defs>
+
+            <line x1="90" y1="255" x2="675" y2="255" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPVxC17)"></line>
+            <line x1="100" y1="265" x2="100" y2="45" stroke="#64748b" stroke-width="4"
+                  stroke-linecap="round" marker-end="url(#arrowPVyC17)"></line>
+
+            <path d="M170 85 C 270 105, 420 145, 570 190" fill="none"
+                  stroke="#2563eb" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M170 85 C 270 105, 420 145, 570 190 L570 255 L170 255 Z"
+                  fill="rgba(37,99,235,0.18)"></path>
+
+            <line x1="170" y1="255" x2="170" y2="85" stroke="#94a3b8" stroke-width="3"
+                  stroke-dasharray="7 5"></line>
+            <line x1="570" y1="255" x2="570" y2="190" stroke="#94a3b8" stroke-width="3"
+                  stroke-dasharray="7 5"></line>
+
+            <text x="675" y="285" fill="#64748b" font-size="24">V</text>
+            <text x="60" y="55" fill="#64748b" font-size="24">p</text>
+            <text x="150" y="285" fill="#64748b" font-size="20">V₁</text>
+            <text x="550" y="285" fill="#64748b" font-size="20">V₂</text>
+            <text x="305" y="230" fill="#2563eb" font-size="24" font-weight="700">L = aria</text>
           </svg>
-          <p class="caption">În orice diagramă $p$–$V$, lucrul mecanic efectuat de gaz este dat de aria de sub curba transformării, între $V_1$ și $V_2$.</p>
+
+          <p class="caption">
+            În diagrama $p$–$V$, lucrul mecanic efectuat de gaz este aria de sub curba transformării.
+          </p>
         </div>
 
         <div class="exam">
-          <strong>Reținem:</strong>
-          forma ariei — deci valoarea lucrului mecanic — depinde de drumul urmat între cele două stări,
-          confirmând că $L$ este o mărime de proces.
+          <strong>Semn:</strong>
+          la destindere $V_2>V_1$, deci $L>0$; la comprimare $V_2<V_1$, deci $L<0$.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Transformare izocoră</span>
-        <h2>Principiul I la volum constant</h2>
+        <span class="eyebrow">Coeficienți calorici</span>
+        <h2>Capacitate calorică, căldură specifică, căldură molară</h2>
 
         <p>
-          În transformarea <span class="mark">izocoră</span> ($V=\text{const}$), gazul nu își schimbă
-          volumul, deci nu efectuează lucru mecanic:
+          Coeficienții calorici caracterizează cantitatea de căldură necesară pentru a modifica
+          temperatura unui corp sau a unei cantități de substanță.
         </p>
-
-        <div class="formula">
-          $$L=0 \quad\Rightarrow\quad Q=\Delta U=\nu C_V\Delta T$$
-        </div>
-
-        <p>
-          unde $C_V$ este <span class="mark">căldura molară la volum constant</span>. Toată căldura primită
-          se regăsește integral în creșterea energiei interne.
-        </p>
-
-        <div class="exam">
-          <strong>Aplicație directă:</strong>
-          acesta este motivul pentru care $C_V$ se definește tocmai prin căldura schimbată la volum
-          constant: $C_V=\left(\dfrac{\delta Q}{\nu\,dT}\right)_V$.
-        </div>
-      </article>
-    </section>
-
-    <section class="page">
-      <article class="card">
-        <span class="eyebrow">Transformare izobară</span>
-        <h2>Principiul I la presiune constantă. Relația lui Mayer</h2>
-
-        <p>
-          În transformarea <span class="mark">izobară</span> ($p=\text{const}$), lucrul mecanic se
-          calculează direct:
-        </p>
-
-        <div class="formula">
-          $$L=p\,\Delta V=\nu R\Delta T$$
-        </div>
-
-        <p>
-          iar căldura schimbată este $Q=\nu C_p\Delta T$, unde $C_p$ este căldura molară la presiune
-          constantă. Cum $\Delta U=\nu C_V\Delta T$ indiferent de tipul transformării (energia internă a
-          gazului ideal depinde doar de $T$), din principiul I rezultă:
-        </p>
-
-        <div class="formula">
-          $$\nu C_p\Delta T=\nu C_V\Delta T+\nu R\Delta T \quad\Rightarrow\quad C_p-C_V=R$$
-        </div>
-
-        <p>Aceasta este <span class="mark">relația lui Mayer</span>.</p>
 
         <div class="grid">
           <div class="mini">
-            <strong>$C_V=\dfrac{i}{2}R$</strong>
-            <p>Căldura molară la volum constant, dependentă de gradele de libertate $i$.</p>
+            <strong>Capacitatea calorică</strong>
+            <div class="formula">
+              $$C=\frac{\delta Q}{dT}$$
+            </div>
+            <p>Unitatea SI: $\text{J/K}$.</p>
           </div>
+
           <div class="mini">
-            <strong>$C_p=\dfrac{i+2}{2}R$</strong>
-            <p>Căldura molară la presiune constantă, mereu mai mare decât $C_V$.</p>
+            <strong>Căldura specifică</strong>
+            <div class="formula">
+              $$c=\frac{C}{m}$$
+              $$Q=mc\Delta T$$
+            </div>
+            <p>Unitatea SI: $\text{J/(kg·K)}$.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Căldura molară</strong>
+            <div class="formula">
+              $$C_m=\frac{C}{\nu}$$
+              $$Q=\nu C_m\Delta T$$
+            </div>
+            <p>Unitatea SI: $\text{J/(mol·K)}$.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Dependență de proces</strong>
+            <p>
+              Pentru gaze, căldura necesară pentru aceeași $\Delta T$ depinde de condițiile transformării:
+              volum constant sau presiune constantă.
+            </p>
           </div>
         </div>
 
         <div class="warning">
           <strong>Atenție:</strong>
-          $C_p>C_V$ întotdeauna, deoarece la presiune constantă o parte din căldură se „consumă” pentru
-          lucrul mecanic de dilatare, nu doar pentru încălzirea gazului.
+          formula $Q=mc\Delta T$ se aplică pentru încălzire/răcire fără schimbare de fază și cu $c$
+          aproximativ constant în intervalul de temperatură considerat.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Transformare izotermă</span>
+        <span class="eyebrow">Gaze ideale</span>
+        <h2>$C_V$, $C_p$ și relația lui Mayer</h2>
+
+        <p>
+          Pentru un gaz ideal, se definesc două călduri molare importante:
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Căldura molară la volum constant</strong>
+            <div class="formula">
+              $$C_V=\left(\frac{\delta Q}{\nu\,dT}\right)_V$$
+            </div>
+            <p>La volum constant, $L=0$, deci $Q_V=\Delta U$.</p>
+          </div>
+
+          <div class="mini">
+            <strong>Căldura molară la presiune constantă</strong>
+            <div class="formula">
+              $$C_p=\left(\frac{\delta Q}{\nu\,dT}\right)_p$$
+            </div>
+            <p>La presiune constantă, gazul efectuează lucru mecanic.</p>
+          </div>
+        </div>
+
+        <p>
+          Pentru gaz ideal:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=\nu C_V\Delta T$$
+        </div>
+
+        <p>
+          În transformare izobară:
+        </p>
+
+        <div class="formula">
+          $$Q_p=\nu C_p\Delta T,\qquad L=p\Delta V=\nu R\Delta T$$
+        </div>
+
+        <p>
+          Din $Q=\Delta U+L$:
+        </p>
+
+        <div class="formula">
+          $$\nu C_p\Delta T=\nu C_V\Delta T+\nu R\Delta T$$
+        </div>
+
+        <div class="formula">
+          $$C_p-C_V=R$$
+        </div>
+
+        <div class="exam">
+          <strong>Relația lui Mayer:</strong>
+          $C_p>C_V$ deoarece la presiune constantă o parte din căldură se consumă pentru lucrul mecanic
+          de dilatare.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Raport adiabatic</span>
+        <h2>Grade de libertate și exponentul adiabatic</h2>
+
+        <p>
+          Pentru gazul ideal cu $i$ grade de libertate:
+        </p>
+
+        <div class="formula">
+          $$C_V=\frac{i}{2}R$$
+        </div>
+
+        <p>
+          Din relația lui Mayer:
+        </p>
+
+        <div class="formula">
+          $$C_p=C_V+R=\frac{i+2}{2}R$$
+        </div>
+
+        <p>
+          Raportul:
+        </p>
+
+        <div class="formula">
+          $$\gamma=\frac{C_p}{C_V}=\frac{i+2}{i}$$
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Gaz idealizat</th>
+                <th>$i$</th>
+                <th>$C_V$</th>
+                <th>$C_p$</th>
+                <th>$\gamma$</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monoatomic</td>
+                <td>$3$</td>
+                <td>$\frac32R$</td>
+                <td>$\frac52R$</td>
+                <td>$\frac53$</td>
+              </tr>
+              <tr>
+                <td>Diatomic la temperaturi obișnuite</td>
+                <td>$5$</td>
+                <td>$\frac52R$</td>
+                <td>$\frac72R$</td>
+                <td>$\frac75$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          $\gamma$ nu este factorul Lorentz; aici este raportul căldurilor molare $C_p/C_V$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Izocoră</span>
+        <h2>Principiul I la volum constant</h2>
+
+        <p>
+          Într-o transformare izocoră, volumul rămâne constant:
+        </p>
+
+        <div class="formula">
+          $$V=\text{const}\qquad \Rightarrow\qquad dV=0$$
+        </div>
+
+        <p>
+          Lucrul mecanic este:
+        </p>
+
+        <div class="formula">
+          $$L=\int p\,dV=0$$
+        </div>
+
+        <p>
+          Din principiul întâi:
+        </p>
+
+        <div class="formula">
+          $$Q=\Delta U$$
+        </div>
+
+        <p>
+          Pentru gaz ideal:
+        </p>
+
+        <div class="formula">
+          $$Q_V=\Delta U=\nu C_V\Delta T$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          la volum constant, toată căldura primită crește energia internă; gazul nu efectuează lucru mecanic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Izobară</span>
+        <h2>Principiul I la presiune constantă</h2>
+
+        <p>
+          Într-o transformare izobară:
+        </p>
+
+        <div class="formula">
+          $$p=\text{const}$$
+        </div>
+
+        <p>
+          Lucrul mecanic este:
+        </p>
+
+        <div class="formula">
+          $$L=p(V_2-V_1)=p\Delta V$$
+        </div>
+
+        <p>
+          Folosind ecuația gazului ideal:
+        </p>
+
+        <div class="formula">
+          $$p\Delta V=\nu R\Delta T$$
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          $$L=\nu R\Delta T$$
+        </div>
+
+        <p>
+          Căldura schimbată:
+        </p>
+
+        <div class="formula">
+          $$Q_p=\nu C_p\Delta T$$
+        </div>
+
+        <p>
+          Principiul întâi devine:
+        </p>
+
+        <div class="formula">
+          $$\nu C_p\Delta T=\nu C_V\Delta T+\nu R\Delta T$$
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          la aceeași creștere de temperatură, gazul primește mai multă căldură în izobară decât în izocoră.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Izotermă</span>
         <h2>Principiul I la temperatură constantă</h2>
 
         <p>
-          În transformarea <span class="mark">izotermă</span> ($T=\text{const}$), energia internă a
-          gazului ideal nu se modifică:
+          Într-o transformare izotermă:
         </p>
 
         <div class="formula">
-          $$\Delta U=0 \quad\Rightarrow\quad Q=L$$
+          $$T=\text{const}\qquad \Rightarrow\qquad \Delta T=0$$
         </div>
 
         <p>
-          Lucrul mecanic izoterm se calculează integrând $p=\dfrac{\nu RT}{V}$:
+          Pentru gaz ideal, energia internă depinde numai de temperatură:
         </p>
 
         <div class="formula">
-          $$L=\int_{V_1}^{V_2}\frac{\nu RT}{V}\,dV=\nu RT\ln\frac{V_2}{V_1}=\nu RT\ln\frac{p_1}{p_2}$$
+          $$\Delta U=0$$
+        </div>
+
+        <p>
+          Din principiul întâi:
+        </p>
+
+        <div class="formula">
+          $$Q=L$$
+        </div>
+
+        <p>
+          Deoarece $p=\nu RT/V$:
+        </p>
+
+        <div class="formula">
+          $$L=\int_{V_1}^{V_2}\frac{\nu RT}{V}\,dV$$
+        </div>
+
+        <div class="formula">
+          $$L=\nu RT\ln\frac{V_2}{V_1}$$
         </div>
 
         <div class="exam">
-          <strong>Formulare de examen:</strong>
-          la o destindere izotermă, toată căldura primită de gaz se transformă integral în lucru mecanic —
-          nimic nu rămâne „stocat” ca energie internă.
+          <strong>Semn:</strong>
+          la destindere izotermă $V_2>V_1$, deci $L>0$ și $Q>0$; gazul primește căldură ca să compenseze
+          lucrul mecanic efectuat.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Transformare adiabatică</span>
+        <span class="eyebrow">Adiabatică</span>
         <h2>Principiul I fără schimb de căldură</h2>
 
         <p>
-          O transformare este <span class="mark">adiabatică</span> atunci când sistemul este izolat termic
-          ($Q=0$) — fie pentru că vasul este perfect izolat, fie pentru că procesul are loc suficient de
-          rapid încât schimbul de căldură cu exteriorul este neglijabil.
+          Într-o transformare adiabatică:
         </p>
 
         <div class="formula">
-          $$Q=0 \quad\Rightarrow\quad L=-\Delta U=\nu C_V(T_1-T_2)$$
+          $$Q=0$$
         </div>
 
         <p>
-          La destindere adiabatică ($T_2<T_1$), gazul efectuează lucru mecanic pozitiv pe seama propriei
-          energii interne, deci se răcește. Legătura dintre parametrii de stare este dată de
-          <span class="mark">ecuația Poisson</span>:
+          Din principiul întâi:
         </p>
 
         <div class="formula">
-          $$pV^{\gamma}=\text{const},\qquad \gamma=\frac{C_p}{C_V}=\frac{i+2}{i}$$
+          $$0=\Delta U+L$$
         </div>
 
-        <div class="exam">
-          <strong>Reținem:</strong>
-          la aceeași variație de volum, curba adiabatică este mai „abruptă” decât cea izotermă în
-          diagrama $p$–$V$, deoarece presiunea scade și din cauza răcirii gazului, nu doar din creșterea
-          volumului.
+        <div class="formula">
+          $$\Delta U=-L$$
+        </div>
+
+        <p>
+          Pentru gaz ideal:
+        </p>
+
+        <div class="formula">
+          $$\nu C_V\Delta T=-L$$
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Destindere adiabatică</strong>
+            <p>
+              $L>0$, deci $\Delta U<0$ și temperatura scade.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Comprimare adiabatică</strong>
+            <p>
+              $L<0$, deci $\Delta U>0$ și temperatura crește.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Pentru o transformare adiabatică reversibilă a gazului ideal:
+        </p>
+
+        <div class="formula">
+          $$pV^\gamma=\text{const}$$
+        </div>
+
+        <div class="formula">
+          $$TV^{\gamma-1}=\text{const}$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          adiabatic nu înseamnă izoterm. În adiabatică $Q=0$, dar temperatura se poate modifica.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Problemă rezolvată</span>
-        <h2>Model de rezolvare pentru examen</h2>
+        <span class="eyebrow">Cicluri</span>
+        <h2>Principiul I pentru procese ciclice</h2>
 
         <p>
-          O cantitate de gaz ideal diatomic ($i=5$) suferă o transformare izobară la presiunea
-          $p=2\times10^{5}\,\text{Pa}$, volumul crescând de la $V_1=2\,\text{L}$ la $V_2=5\,\text{L}$.
-          Calculați lucrul mecanic efectuat de gaz, variația energiei interne și căldura primită.
+          Într-un proces ciclic, sistemul revine la starea inițială. Prin urmare, energia internă finală
+          este egală cu energia internă inițială.
         </p>
 
-        <p><strong>1. Lucrul mecanic (izobară):</strong></p>
         <div class="formula">
-          $$L=p\Delta V=2\times10^{5}\cdot(5-2)\times10^{-3}=600\,\text{J}$$
+          $$\Delta U_{\text{ciclu}}=0$$
         </div>
 
-        <p><strong>2. Variația energiei interne:</strong> din $L=\nu R\Delta T$ rezultă $\nu\Delta T=L/R$, deci:</p>
+        <p>
+          Din principiul întâi:
+        </p>
+
         <div class="formula">
-          $$\Delta U=\nu C_V\Delta T=\frac{i}{2}\,\nu R\Delta T=\frac{i}{2}L=\frac{5}{2}\cdot600=1500\,\text{J}$$
+          $$Q_{\text{ciclu}}=L_{\text{ciclu}}$$
         </div>
 
-        <p><strong>3. Căldura primită, din principiul I:</strong></p>
-        <div class="formula">
-          $$Q=\Delta U+L=1500+600=2100\,\text{J}$$
+        <p>
+          În diagrama $p$–$V$, lucrul mecanic pe ciclu este aria închisă de curbă.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Ciclu parcurs în sens orar</strong>
+            <p>
+              Lucrul mecanic total este pozitiv: sistemul produce lucru mecanic net.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Ciclu parcurs în sens trigonometric</strong>
+            <p>
+              Lucrul mecanic total este negativ: exteriorul efectuează lucru mecanic net asupra sistemului.
+            </p>
+          </div>
         </div>
 
         <div class="exam">
-          <strong>Răspuns final:</strong>
-          gazul primește $2100\,\text{J}$, din care $1500\,\text{J}$ îi cresc energia internă, iar
-          $600\,\text{J}$ sunt cedați ca lucru mecanic asupra exteriorului.
+          <strong>Legătură cu C18:</strong>
+          principiul întâi spune că energia se conservă; principiul al doilea stabilește sensul natural
+          al proceselor și limitele conversiei căldurii în lucru mecanic.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Calorimetrie</span>
+        <h2>Principiul calorimetriei</h2>
+
+        <p>
+          Calorimetria studiază schimburile de căldură dintre corpuri. Într-un sistem izolat termic,
+          căldura cedată de corpurile calde este egală, ca modul, cu căldura primită de corpurile reci.
+        </p>
+
+        <div class="formula">
+          $$\sum_i Q_i=0$$
+        </div>
+
+        <p>
+          Cu convenția $Q>0$ pentru căldură primită și $Q<0$ pentru căldură cedată:
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{primite}}+Q_{\text{cedate}}=0$$
+        </div>
+
+        <p>
+          Pentru încălzire sau răcire fără schimbare de fază:
+        </p>
+
+        <div class="formula">
+          $$Q=mc(T_f-T_i)$$
+        </div>
+
+        <div class="exam">
+          <strong>Metodă de rezolvare:</strong>
+          alegi temperatura finală de echilibru $T_e$, scrii câte un termen $mc(T_e-T_i)$ pentru fiecare corp,
+          apoi impui $\sum Q_i=0$.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Calorimetru</span>
+        <h2>Calorimetrul și echivalentul în apă</h2>
+
+        <p>
+          Un calorimetru real absoarbe și el căldură. Dacă are capacitatea calorică $C_{\text{cal}}$,
+          căldura schimbată de calorimetru este:
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{cal}}=C_{\text{cal}}(T_e-T_{\text{cal},i})$$
+        </div>
+
+        <p>
+          Uneori se folosește echivalentul în apă $\mu$, adică masa de apă care ar avea aceeași capacitate
+          calorică:
+        </p>
+
+        <div class="formula">
+          $$C_{\text{cal}}=\mu c_{\text{apă}}$$
+        </div>
+
+        <p>
+          Dacă apa și calorimetrul au aceeași temperatură inițială $T_0$, contribuția lor se poate grupa:
+        </p>
+
+        <div class="formula">
+          $$Q_{\text{apă+cal}}=(m_{\text{apă}}+\mu)c_{\text{apă}}(T_e-T_0)$$
+        </div>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          într-un calorimetru real, nu se ignoră automat căldura absorbită de vas; problema trebuie citită atent.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Calorimetrie extinsă</span>
+        <h2>Schimbări de fază în bilanțul calorimetric</h2>
+
+        <p>
+          Dacă în proces apare o schimbare de fază, trebuie adăugat termenul de căldură latentă.
+          Pentru o masă $m$ care își schimbă faza la temperatură constantă:
+        </p>
+
+        <div class="formula">
+          $$Q=m\lambda$$
+        </div>
+
+        <p>
+          unde $\lambda$ este căldura latentă specifică.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Topire</strong>
+            <p>
+              Corpul primește căldură pentru a trece din solid în lichid.
+            </p>
+            <div class="formula">
+              $$Q=m\lambda_t$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Solidificare</strong>
+            <p>
+              Corpul cedează căldură la trecerea din lichid în solid.
+            </p>
+            <div class="formula">
+              $$Q=-m\lambda_t$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Legătură cu C19:</strong>
+          transformările de fază sunt studiate separat, dar în calorimetrie apar frecvent în bilanțuri
+          energetice.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 1</span>
+        <h2>Aplicarea directă a principiului întâi</h2>
+
+        <p>
+          Un gaz primește căldura $Q=2400\,\text{J}$ și efectuează lucrul mecanic
+          $L=700\,\text{J}$. Determinați variația energiei interne.
+        </p>
+
+        <p>
+          Scriem principiul întâi:
+        </p>
+
+        <div class="formula">
+          $$Q=\Delta U+L$$
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=Q-L$$
+        </div>
+
+        <div class="formula">
+          $$\Delta U=2400-700=1700\,\text{J}$$
+        </div>
+
+        <div class="exam">
+          <strong>Răspuns:</strong>
+          energia internă crește cu $1700\,\text{J}$. Restul energiei primite sub formă de căldură
+          se transformă în lucru mecanic efectuat asupra exteriorului.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 2</span>
+        <h2>Deducerea relației lui Mayer</h2>
+
+        <p>
+          Pentru un mol de gaz ideal încălzit la presiune constantă cu $\Delta T$, arătați că
+          $C_p-C_V=R$.
+        </p>
+
+        <p>
+          La presiune constantă:
+        </p>
+
+        <div class="formula">
+          $$Q_p=C_p\Delta T$$
+        </div>
+
+        <p>
+          Variația energiei interne:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=C_V\Delta T$$
+        </div>
+
+        <p>
+          Lucrul mecanic izobar:
+        </p>
+
+        <div class="formula">
+          $$L=p\Delta V=R\Delta T$$
+        </div>
+
+        <p>
+          Din principiul întâi:
+        </p>
+
+        <div class="formula">
+          $$C_p\Delta T=C_V\Delta T+R\Delta T$$
+        </div>
+
+        <p>
+          Împărțind prin $\Delta T$:
+        </p>
+
+        <div class="formula">
+          $$C_p-C_V=R$$
+        </div>
+
+        <div class="exam">
+          <strong>Interpretare:</strong>
+          diferența $R$ exprimă lucrul mecanic de dilatare efectuat la presiune constantă pentru fiecare mol
+          și pentru fiecare kelvin.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 3</span>
+        <h2>Amestec calorimetric fără pierderi</h2>
+
+        <p>
+          Se amestecă $m_1=0{,}20\,\text{kg}$ de apă la $T_1=80^\circ\text{C}$ cu
+          $m_2=0{,}30\,\text{kg}$ de apă la $T_2=20^\circ\text{C}$. Determinați temperatura finală,
+          neglijând calorimetrul.
+        </p>
+
+        <p>
+          Pentru același material, căldura specifică se simplifică:
+        </p>
+
+        <div class="formula">
+          $$m_1c(T_e-T_1)+m_2c(T_e-T_2)=0$$
+        </div>
+
+        <div class="formula">
+          $$m_1(T_e-T_1)+m_2(T_e-T_2)=0$$
+        </div>
+
+        <p>
+          Rezolvăm:
+        </p>
+
+        <div class="formula">
+          $$(m_1+m_2)T_e=m_1T_1+m_2T_2$$
+        </div>
+
+        <div class="formula">
+          $$T_e=\frac{0{,}20\cdot80+0{,}30\cdot20}{0{,}20+0{,}30}=44^\circ\text{C}$$
+        </div>
+
+        <div class="exam">
+          <strong>Verificare:</strong>
+          temperatura finală este între $20^\circ\text{C}$ și $80^\circ\text{C}$, deci rezultatul este
+          fizic rezonabil.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Problemă rezolvată 4</span>
+        <h2>Încălzire izobară a unui gaz monoatomic</h2>
+
+        <p>
+          Un mol de gaz ideal monoatomic se încălzește izobar de la $T_1=300\,\text{K}$
+          la $T_2=500\,\text{K}$. Se ia $R=8{,}31\,\text{J/(mol·K)}$.
+          Determinați $\Delta U$, $L$ și $Q$.
+        </p>
+
+        <p>
+          Pentru gaz monoatomic:
+        </p>
+
+        <div class="formula">
+          $$C_V=\frac32R,\qquad C_p=\frac52R$$
+        </div>
+
+        <p>
+          Variația temperaturii este:
+        </p>
+
+        <div class="formula">
+          $$\Delta T=200\,\text{K}$$
+        </div>
+
+        <p>
+          Energia internă:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=\nu C_V\Delta T=1\cdot\frac32\cdot8{,}31\cdot200=2493\,\text{J}$$
+        </div>
+
+        <p>
+          Lucrul mecanic:
+        </p>
+
+        <div class="formula">
+          $$L=\nu R\Delta T=1\cdot8{,}31\cdot200=1662\,\text{J}$$
+        </div>
+
+        <p>
+          Căldura:
+        </p>
+
+        <div class="formula">
+          $$Q=\Delta U+L=2493+1662=4155\,\text{J}$$
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză comparativă</span>
+        <h2>Transformări termodinamice uzuale</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Transformare</th>
+                <th>Condiție</th>
+                <th>$L$</th>
+                <th>$\Delta U$ pentru gaz ideal</th>
+                <th>$Q$</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Izocoră</td>
+                <td>$V=\text{const}$</td>
+                <td>$0$</td>
+                <td>$\nu C_V\Delta T$</td>
+                <td>$\nu C_V\Delta T$</td>
+              </tr>
+              <tr>
+                <td>Izobară</td>
+                <td>$p=\text{const}$</td>
+                <td>$p\Delta V=\nu R\Delta T$</td>
+                <td>$\nu C_V\Delta T$</td>
+                <td>$\nu C_p\Delta T$</td>
+              </tr>
+              <tr>
+                <td>Izotermă</td>
+                <td>$T=\text{const}$</td>
+                <td>$\nu RT\ln(V_2/V_1)$</td>
+                <td>$0$</td>
+                <td>$L$</td>
+              </tr>
+              <tr>
+                <td>Adiabatică</td>
+                <td>$Q=0$</td>
+                <td>$-\Delta U$</td>
+                <td>$\nu C_V\Delta T$</td>
+                <td>$0$</td>
+              </tr>
+              <tr>
+                <td>Ciclică</td>
+                <td>stare finală = stare inițială</td>
+                <td>aria ciclului în $p$–$V$</td>
+                <td>$0$</td>
+                <td>$L$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exam">
+          <strong>Strategie:</strong>
+          identifică mai întâi transformarea. Ea îți spune imediat ce termen se anulează sau ce formulă
+          trebuie folosită.
+        </div>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Didactică și laborator</span>
+        <h2>Integrarea experimentală a lecției</h2>
+
+        <p>
+          Tema poate fi predată eficient prin probleme, demonstrații experimentale și interpretări grafice.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Experiment demonstrativ</strong>
+            <p>
+              Încălzirea aerului dintr-o seringă cu piston mobil: creșterea temperaturii produce dilatare
+              și lucru mecanic asupra pistonului.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Calorimetrie</strong>
+            <p>
+              Amestec de apă caldă și apă rece într-un calorimetru: se verifică bilanțul
+              $\sum Q_i=0$.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>Reprezentare grafică</strong>
+            <p>
+              Aria sub curba din diagrama $p$–$V$ se interpretează ca lucru mecanic.
+            </p>
+          </div>
+
+          <div class="mini">
+            <strong>NTSM</strong>
+            <p>
+              Nu se încălzesc recipiente închise rigid; se evită lichidele fierbinți fără protecție;
+              se folosesc surse de căldură controlate.
+            </p>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Competență didactică:</strong>
+          elevul trebuie să distingă între energie internă, căldură și lucru mecanic prin exemple concrete,
+          nu doar prin formule.
         </div>
       </article>
     </section>
@@ -659,60 +1542,161 @@
         <span class="eyebrow">Capcane de examen</span>
         <h2>Greșeli frecvente și corectarea lor</h2>
 
-        <ul>
-          <li>
-            <strong>Confuzia de semn a lucrului mecanic:</strong>
-            la comprimare, $L<0$ (exteriorul efectuează lucru mecanic asupra gazului), nu $L=0$.
-          </li>
-          <li>
-            <strong>Tratarea căldurii ca mărime de stare:</strong>
-            nu există „căldura unui gaz” — există energie internă; $Q$ apare doar în timpul unui proces.
-          </li>
-          <li>
-            <strong>Uitarea faptului că $\Delta U$ nu depinde de tipul transformării:</strong>
-            pentru gazul ideal, $\Delta U=\nu C_V\Delta T$ oricare ar fi drumul, atâta timp cât $T_1$ și
-            $T_2$ sunt aceleași.
-          </li>
-          <li>
-            <strong>Confuzia $C_p$ cu $C_V$:</strong>
-            folosirea căldurii molare greșite schimbă rezultatul cu un factor legat de $R$.
-          </li>
-          <li>
-            <strong>Ignorarea condiției $Q=0$ la transformarea adiabatică:</strong>
-            nu înseamnă că temperatura rămâne constantă — dimpotrivă, ea variază tocmai pentru că nu
-            există schimb de căldură.
-          </li>
-        </ul>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Eroare</th>
+                <th>De ce este greșit</th>
+                <th>Corect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>„Corpul conține căldură.”</td>
+                <td>Căldura este energie transferată, nu mărime de stare.</td>
+                <td>Corpul are energie internă.</td>
+              </tr>
+              <tr>
+                <td>Se folosește $Q=\Delta U+L$ fără semne.</td>
+                <td>La comprimare, $L<0$ în convenția lucrului efectuat de sistem.</td>
+                <td>Stabilește întâi sensul transformării.</td>
+              </tr>
+              <tr>
+                <td>Se afirmă că în adiabatică temperatura este constantă.</td>
+                <td>Adiabatică înseamnă $Q=0$, nu $\Delta T=0$.</td>
+                <td>În general, $\Delta U=-L$ și $T$ se modifică.</td>
+              </tr>
+              <tr>
+                <td>Se confundă $C_p$ cu $C_V$.</td>
+                <td>La presiune constantă apare lucru mecanic de dilatare.</td>
+                <td>$C_p-C_V=R$ pentru gaz ideal.</td>
+              </tr>
+              <tr>
+                <td>În calorimetrie se ignoră calorimetrul fără justificare.</td>
+                <td>Calorimetrul poate absorbi căldură.</td>
+                <td>Include $C_{\text{cal}}(T_e-T_i)$ sau echivalentul în apă.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="exam">
-          <strong>Formulare bună la proba scrisă:</strong>
-          „Aplic principiul I al termodinamicii, $Q=\Delta U+L$, identificând mai întâi tipul transformării
-          pentru a stabili ce termen se anulează.”
+        <div class="warning">
+          <strong>De reținut:</strong>
+          primul pas în orice problemă este alegerea sistemului și convenției de semne.
         </div>
       </article>
     </section>
 
     <section class="page">
       <article class="card">
-        <span class="eyebrow">Verificare rapidă</span>
-        <h2>Itemi pentru autoevaluare</h2>
+        <span class="eyebrow">Răspuns oral</span>
+        <h2>Discurs de 3–5 minute pentru comisie</h2>
 
-        <ol>
-          <li>Scrieți enunțul principiului I al termodinamicii și precizați convenția de semne folosită.</li>
-          <li>Explicați de ce energia internă este o mărime de stare, iar căldura și lucrul mecanic nu sunt.</li>
-          <li>Deduceți relația lui Mayer, pornind de la principiul I aplicat transformării izobare.</li>
-          <li>Ce se întâmplă cu temperatura unui gaz care se destinde adiabatic? Justificați cu principiul I.</li>
-          <li>Arătați că, la o transformare izotermă, $Q=L$.</li>
-          <li>Un gaz monoatomic primește $Q=800\,\text{J}$ la volum constant. Calculați $\Delta U$ și $L$.</li>
-        </ol>
+        <p>
+          Principiul întâi al termodinamicii exprimă conservarea energiei pentru sisteme termodinamice.
+          Un sistem poate primi energie sub formă de căldură și poate schimba energie mecanică prin lucru.
+          În convenția în care $Q>0$ dacă sistemul primește căldură și $L>0$ dacă sistemul efectuează
+          lucru mecanic asupra exteriorului, principiul se scrie:
+        </p>
 
         <div class="formula">
-          $$Q=\Delta U+L,\qquad C_p-C_V=R,\qquad L_{izobar}=\nu R\Delta T,\qquad L_{izoterm}=\nu RT\ln\frac{V_2}{V_1}$$
+          $$Q=\Delta U+L$$
+        </div>
+
+        <p>
+          Energia internă este mărime de stare, în timp ce căldura și lucrul mecanic sunt mărimi de proces.
+          Pentru gazul ideal, energia internă depinde numai de temperatură:
+        </p>
+
+        <div class="formula">
+          $$\Delta U=\nu C_V\Delta T$$
+        </div>
+
+        <p>
+          În izocoră, $L=0$ și $Q=\Delta U$. În izobară, $L=p\Delta V=\nu R\Delta T$ și rezultă
+          relația lui Mayer $C_p-C_V=R$. În izotermă, $\Delta U=0$ și $Q=L$. În adiabatică, $Q=0$
+          și $\Delta U=-L$.
+        </p>
+
+        <p>
+          În calorimetrie, principiul întâi se aplică sub forma bilanțului termic:
+        </p>
+
+        <div class="formula">
+          $$\sum_i Q_i=0$$
+        </div>
+
+        <p>
+          Această formă permite determinarea temperaturii de echilibru, a căldurii specifice sau a
+          capacității calorice a unui calorimetru.
+        </p>
+      </article>
+    </section>
+
+    <section class="page">
+      <article class="card">
+        <span class="eyebrow">Sinteză finală</span>
+        <h2>Formule esențiale pentru C17</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Principiul întâi</strong>
+            <div class="formula">
+              $$Q=\Delta U+L$$
+              $$\Delta U=Q-L$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Lucru mecanic</strong>
+            <div class="formula">
+              $$\delta L=p\,dV$$
+              $$L=\int_{V_1}^{V_2}p\,dV$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Gaz ideal</strong>
+            <div class="formula">
+              $$\Delta U=\nu C_V\Delta T$$
+              $$C_p-C_V=R$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Coeficienți calorici</strong>
+            <div class="formula">
+              $$Q=mc\Delta T$$
+              $$Q=\nu C_m\Delta T$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Izotermă</strong>
+            <div class="formula">
+              $$\Delta U=0$$
+              $$L=Q=\nu RT\ln\frac{V_2}{V_1}$$
+            </div>
+          </div>
+
+          <div class="mini">
+            <strong>Calorimetrie</strong>
+            <div class="formula">
+              $$\sum_i Q_i=0$$
+            </div>
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Problemă tipică de examen:</strong>
+          un mol de gaz ideal monoatomic este încălzit izobar, apoi destins izoterm. Determinați
+          $\Delta U$, $L$ și $Q$ pe fiecare transformare și pe procesul total.
         </div>
 
         <div class="bottom-links">
           <a href="C18-principiul-al-doilea-al-termodinamicii.html">Lecția următoare</a>
-          <a href="Fise%20de%20lucru/index.html">Fișa de lucru</a>
+          <a href="Fise%20de%20lucru/fisa-17.html">Fișa de lucru C17</a>
           <a href="index.html">Înapoi la capitol</a>
         </div>
       </article>
@@ -720,23 +1704,31 @@
   </main>
 
   <nav class="pager" aria-label="Navigare lecție">
-    <button class="secondary" onclick="prevPage()">← Pagina anterioară</button>
-    <button onclick="nextPage()">Pagina următoare →</button>
-    <a href="index.html">Înapoi la capitol</a>
+    <button class="secondary" type="button" onclick="prevPage()">← Pagina anterioară</button>
+    <div class="page-status" id="pageStatus">1 / 26</div>
+    <button type="button" onclick="nextPage()">Pagina următoare →</button>
+    <a href="Fise%20de%20lucru/fisa-17.html">Fișa C17</a>
+    <a class="chapter" href="index.html">Înapoi la capitol</a>
   </nav>
 
   <script>
     const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
     let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent = `${currentPage + 1} / ${pages.length}`;
+    }
 
     function showPage(index) {
       pages[currentPage].classList.remove("active");
       currentPage = Math.max(0, Math.min(index, pages.length - 1));
       pages[currentPage].classList.add("active");
+      updatePageStatus();
       window.scrollTo({ top: 0, behavior: "smooth" });
 
       if (window.MathJax && MathJax.typesetPromise) {
-        MathJax.typesetPromise();
+        MathJax.typesetPromise([pages[currentPage]]);
       }
     }
 
@@ -764,6 +1756,8 @@
       if (event.key === "ArrowRight") nextPage();
       if (event.key === "ArrowLeft") prevPage();
     });
+
+    updatePageStatus();
   </script>
 </body>
 </html>
