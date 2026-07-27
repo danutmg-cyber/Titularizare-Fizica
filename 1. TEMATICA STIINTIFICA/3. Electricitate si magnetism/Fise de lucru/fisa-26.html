@@ -1,1 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C26 – Inducția electromagnetică</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+      margin: 0.15rem;
+    }
+
+    .section-title {
+      margin-top: 1.4rem;
+      padding-top: 0.4rem;
+      border-top: 2px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .mini {
+      background: color-mix(in srgb, var(--formula-bg) 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .mini strong { color: var(--accent-2); }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .item h3 { margin-top: 0; }
+
+    .points {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      font-size: 0.82em;
+      margin-left: 0.35rem;
+    }
+
+    .var {
+      display: inline-block;
+      min-width: 2.2rem;
+      padding: 0.05rem 0.35rem;
+      border-radius: 8px;
+      background: var(--marker);
+      color: #1f2937;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 0.8rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      border: 1px dashed var(--accent);
+      background: color-mix(in srgb, var(--formula-bg) 82%, transparent);
+    }
+
+    .answer.show { display: block; }
+
+    .quiz-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(180px, 280px);
+      gap: 0.8rem;
+      align-items: center;
+      margin: 0.75rem 0;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--formula-bg);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .score {
+      margin-top: 0.8rem;
+      padding: 0.75rem;
+      border-radius: 16px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .barem li { margin: 0.35rem 0; }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .answer { display: block !important; }
+      .card, .item { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .quiz-row,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C26 • Inducția electromagnetică</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn" type="button" onclick="toggleSolutions()">Arată / ascunde rezolvările</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">C26</span>
+      <span class="badge">100 puncte</span>
+      <span class="badge">date randomizate</span>
+
+      <h1>Fișă de lucru – Inducția electromagnetică</h1>
+
+      <p class="lead">
+        Fișa consolidează fluxul magnetic, legea Faraday–Lenz, t.e.m. indusă prin variația fluxului,
+        t.e.m. de mișcare, autoinducția, inductanța, energia câmpului magnetic și regimul tranzitoriu într-un circuit $RL$.
+      </p>
+
+      <div class="exam">
+        <strong>Structură:</strong>
+        A. sinteză teoretică; B. itemi obiectivi – 20 p; C. probleme cu date variabile – 55 p;
+        D. itemi subiectivi și didactici – 15 p; 10 p din oficiu.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">A. Sinteză teoretică pentru examen</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>Flux magnetic</strong>
+          <div class="formula">
+            $$\Phi_B=\int_S\vec B\cdot d\vec S$$
+            $$\Phi_B=BS\cos\alpha$$
+          </div>
+          <p>
+            Pentru câmp uniform și suprafață plană, $\alpha$ este unghiul dintre $\vec B$ și normala la suprafață.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Legea Faraday–Lenz</strong>
+          <div class="formula">
+            $$\mathcal E_i=-\frac{d\Phi_B}{dt}$$
+            $$\mathcal E_i=-N\frac{d\Phi_B}{dt}$$
+          </div>
+          <p>
+            Semnul minus exprimă regula lui Lenz: efectul indus se opune variației fluxului care l-a produs.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>T.e.m. de mișcare</strong>
+          <div class="formula">
+            $$\mathcal E_i=Blv$$
+            $$I_i=\frac{Blv}{R}$$
+          </div>
+          <p>
+            Relația simplă este valabilă pentru tijă de lungime $l$, mișcare perpendiculară pe $\vec B$ și pe tijă.
+          </p>
+        </div>
+
+        <div class="mini">
+          <strong>Autoinducție și inductanță</strong>
+          <div class="formula">
+            $$\Psi=LI,\qquad \mathcal E_L=-L\frac{dI}{dt}$$
+            $$W_m=\frac12LI^2$$
+          </div>
+          <p>
+            Bobina se opune variației curentului, nu curentului constant.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mărime / fenomen</th>
+              <th>Relație</th>
+              <th>Unitate SI</th>
+              <th>Observație de barem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Flux magnetic</td>
+              <td>$\Phi_B=BS\cos\alpha$</td>
+              <td>Wb</td>
+              <td>Suprafața se transformă în m²; unghiul este cu normala.</td>
+            </tr>
+            <tr>
+              <td>Faraday–Lenz</td>
+              <td>$\mathcal E_i=-N\Delta\Phi_B/\Delta t$</td>
+              <td>V</td>
+              <td>Modulul se calculează cu valoarea absolută a variației fluxului.</td>
+            </tr>
+            <tr>
+              <td>T.e.m. de mișcare</td>
+              <td>$\mathcal E=Blv$</td>
+              <td>V</td>
+              <td>Se verifică perpendicularitatea între $\vec v$, $\vec B$ și tijă.</td>
+            </tr>
+            <tr>
+              <td>Curent indus</td>
+              <td>$I_i=\mathcal E_i/R$</td>
+              <td>A</td>
+              <td>Sensul se stabilește cu regula lui Lenz.</td>
+            </tr>
+            <tr>
+              <td>Autoinducție</td>
+              <td>$\mathcal E_L=-L\,dI/dt$</td>
+              <td>V</td>
+              <td>Apare doar când curentul variază.</td>
+            </tr>
+            <tr>
+              <td>Inductanță solenoid</td>
+              <td>$L=\mu N^2S/l$</td>
+              <td>H</td>
+              <td>Depinde de geometrie și de permeabilitatea mediului.</td>
+            </tr>
+            <tr>
+              <td>Energie magnetică</td>
+              <td>$W_m=\frac12LI^2$</td>
+              <td>J</td>
+              <td>Energia este asociată câmpului magnetic al bobinei.</td>
+            </tr>
+            <tr>
+              <td>Densitatea energiei</td>
+              <td>$w_m=B^2/(2\mu)$</td>
+              <td>J/m³</td>
+              <td>În vid: $\mu=\mu_0$.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">B. Itemi obiectivi <span class="points">20 p</span></h2>
+      <p>Alege varianta corectă. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-row">
+        <label>1. Inducția electromagnetică apare când:</label>
+        <select data-answer="c">
+          <option value="">Alege...</option>
+          <option value="a">există orice câmp magnetic constant</option>
+          <option value="b">un circuit este doar închis, fără modificarea fluxului</option>
+          <option value="c">fluxul magnetic prin circuit se modifică în timp</option>
+          <option value="d">rezistența circuitului este nulă</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>2. Legea Faraday–Lenz pentru o bobină cu $N$ spire este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$\mathcal E_i=-N\,d\Phi_B/dt$</option>
+          <option value="b">$\mathcal E_i=RI^2t$</option>
+          <option value="c">$\mathcal E_i=N\Phi_Bt$</option>
+          <option value="d">$\mathcal E_i=BIl$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>3. Regula lui Lenz exprimă faptul că efectul indus:</label>
+        <select data-answer="d">
+          <option value="">Alege...</option>
+          <option value="a">amplifică întotdeauna cauza inducției</option>
+          <option value="b">este independent de variația fluxului</option>
+          <option value="c">anulează câmpul magnetic total în orice situație</option>
+          <option value="d">se opune variației fluxului magnetic care l-a produs</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>4. T.e.m. de autoinducție într-o bobină este:</label>
+        <select data-answer="b">
+          <option value="">Alege...</option>
+          <option value="a">$\mathcal E_L=LI$</option>
+          <option value="b">$\mathcal E_L=-L\,dI/dt$</option>
+          <option value="c">$\mathcal E_L=BSl$</option>
+          <option value="d">$\mathcal E_L=CU^2/2$</option>
+        </select>
+      </div>
+
+      <div class="quiz-row">
+        <label>5. Energia câmpului magnetic al unei bobine este:</label>
+        <select data-answer="a">
+          <option value="">Alege...</option>
+          <option value="a">$W_m=\frac12LI^2$</option>
+          <option value="b">$W_m=CU^2$</option>
+          <option value="c">$W_m=RI$</option>
+          <option value="d">$W_m=\Phi_B/S$</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="score" id="quizScore">Scor B: neverificat.</div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">C. Probleme cu date variabile <span class="points">55 p</span></h2>
+      <p>
+        Apasă „Generează alte date” pentru o variantă nouă. Fiecare problemă valorează 5 p.
+        Rezolvările urmăresc formula, transformarea unităților, calculul numeric și interpretarea fizică.
+      </p>
+
+      <article class="item">
+        <h3>4. Flux magnetic printr-o suprafață plană <span class="points">5 p</span></h3>
+        <p>
+          Un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e4B"></span> T
+          străbate o suprafață plană de arie
+          <span class="formula-inline">$S$</span> = <span class="var" id="e4S"></span> cm².
+          Unghiul dintre câmp și normala la suprafață este
+          <span class="formula-inline">$\alpha$</span> = <span class="var" id="e4a"></span>°.
+          Determinați fluxul magnetic.
+        </p>
+        <div class="answer" id="sol4"></div>
+      </article>
+
+      <article class="item">
+        <h3>5. T.e.m. indusă medie într-o bobină <span class="points">5 p</span></h3>
+        <p>
+          Printr-o bobină cu
+          <span class="formula-inline">$N$</span> = <span class="var" id="e5N"></span> spire,
+          fluxul magnetic printr-o spiră se modifică de la
+          <span class="formula-inline">$\Phi_1$</span> = <span class="var" id="e5p1"></span> mWb la
+          <span class="formula-inline">$\Phi_2$</span> = <span class="var" id="e5p2"></span> mWb
+          în timpul
+          <span class="formula-inline">$\Delta t$</span> = <span class="var" id="e5dt"></span> ms.
+          Determinați modulul t.e.m. medii induse.
+        </p>
+        <div class="answer" id="sol5"></div>
+      </article>
+
+      <article class="item">
+        <h3>6. T.e.m. de mișcare într-o tijă conductoare <span class="points">5 p</span></h3>
+        <p>
+          O tijă conductoare de lungime
+          <span class="formula-inline">$l$</span> = <span class="var" id="e6l"></span> cm
+          se deplasează cu viteza
+          <span class="formula-inline">$v$</span> = <span class="var" id="e6v"></span> m/s,
+          perpendicular pe un câmp magnetic uniform
+          <span class="formula-inline">$B$</span> = <span class="var" id="e6B"></span> T.
+          Determinați t.e.m. indusă.
+        </p>
+        <div class="answer" id="sol6"></div>
+      </article>
+
+      <article class="item">
+        <h3>7. Curent indus și putere Joule <span class="points">5 p</span></h3>
+        <p>
+          O tijă mobilă produce t.e.m. indusă într-un circuit de rezistență totală
+          <span class="formula-inline">$R$</span> = <span class="var" id="e7R"></span> $\Omega$.
+          Câmpul magnetic este
+          <span class="formula-inline">$B$</span> = <span class="var" id="e7B"></span> T,
+          lungimea tijei este
+          <span class="formula-inline">$l$</span> = <span class="var" id="e7l"></span> cm,
+          iar viteza este
+          <span class="formula-inline">$v$</span> = <span class="var" id="e7v"></span> m/s.
+          Determinați curentul indus și puterea disipată.
+        </p>
+        <div class="answer" id="sol7"></div>
+      </article>
+
+      <article class="item">
+        <h3>8. Forța de frânare inductivă <span class="points">5 p</span></h3>
+        <p>
+          O tijă de lungime
+          <span class="formula-inline">$l$</span> = <span class="var" id="e8l"></span> cm
+          alunecă cu viteza
+          <span class="formula-inline">$v$</span> = <span class="var" id="e8v"></span> m/s
+          într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e8B"></span> T.
+          Circuitul are rezistența totală
+          <span class="formula-inline">$R$</span> = <span class="var" id="e8R"></span> $\Omega$.
+          Determinați forța magnetică de frânare.
+        </p>
+        <div class="answer" id="sol8"></div>
+      </article>
+
+      <article class="item">
+        <h3>9. Generator sinusoidal simplificat <span class="points">5 p</span></h3>
+        <p>
+          O bobină cu
+          <span class="formula-inline">$N$</span> = <span class="var" id="e9N"></span> spire
+          și aria unei spire
+          <span class="formula-inline">$S$</span> = <span class="var" id="e9S"></span> cm²
+          se rotește cu pulsația
+          <span class="formula-inline">$\omega$</span> = <span class="var" id="e9wformula-inline">$S$</span> = <span class="var" id="e9S"></span> cm²
+          se rotește cu pulsa"></span> rad/s
+          într-un câmp magnetic
+          <span class="formula-inline">$B$</span> = <span class="var" id="e9B"></span> T.
+          Determinați amplitudinea t.e.m. induse și valoarea instantanee pentru
+          <span class="formula-inline">$\omega t$</span> = <span class="var" id="e9angle"></span>°.
+        </p>
+        <div class="answer" id="sol9"></div>
+      </article>
+
+      <article class="item">
+        <h3>10. T.e.m. de autoinducție <span class="points">5 p</span></h3>
+        <p>
+          Curentul printr-o bobină de inductanță
+          <span class="formula-inline">$L$</span> = <span class="var" id="e10L"></span> mH
+          crește uniform cu
+          <span class="formula-inline">$\Delta I$</span> = <span class="var" id="e10dI"></span> A
+          în timpul
+          <span class="formula-inline">$\Delta t$</span> = <span class="var" id="e10dt"></span> ms.
+          Determinați modulul t.e.m. de autoinducție.
+        </p>
+        <div class="answer" id="sol10"></div>
+      </article>
+
+      <article class="item">
+        <h3>11. Inductanța unui solenoid <span class="points">5 p</span></h3>
+        <p>
+          Un solenoid are
+          <span class="formula-inline">$N$</span> = <span class="var" id="e11N"></span> spire,
+          aria secțiunii
+          <span class="formula-inline">$S$</span> = <span class="var" id="e11S"></span> cm²,
+          lungimea
+          <span class="formula-inline">$l$</span> = <span class="var" id="e11l"></span> cm
+          și miez cu
+          <span class="formula-inline">$\mu_r$</span> = <span class="var" id="e11mur"></span>.
+          Determinați inductanța solenoidului.
+        </p>
+        <div class="answer" id="sol11"></div>
+      </article>
+
+      <article class="item">
+        <h3>12. Energia magnetică a bobinei <span class="points">5 p</span></h3>
+        <p>
+          O bobină de inductanță
+          <span class="formula-inline">$L$</span> = <span class="var" id="e12L"></span> mH
+          este străbătută de curentul
+          <span class="formula-inline">$I$</span> = <span class="var" id="e12I"></span> A.
+          Determinați energia înmagazinată în câmpul magnetic.
+        </p>
+        <div class="answer" id="sol12"></div>
+      </article>
+
+      <article class="item">
+        <h3>13. Stabilirea curentului într-un circuit $RL$ <span class="points">5 p</span></h3>
+        <p>
+          Un circuit serie $RL$ are
+          <span class="formula-inline">$R$</span> = <span class="var" id="e13R"></span> $\Omega$,
+          <span class="formula-inline">$L$</span> = <span class="var" id="e13L"></span> mH
+          și este alimentat de o sursă cu
+          <span class="formula-inline">$\mathcal E$</span> = <span class="var" id="e13emf"></span> V.
+          Determinați constanta de timp și curentul la
+          <span class="formula-inline">$t$</span> = <span class="var" id="e13t"></span> ms după închiderea circuitului.
+        </p>
+        <div class="answer" id="sol13"></div>
+      </article>
+
+      <article class="item">
+        <h3>14. Densitatea energiei magnetice <span class="points">5 p</span></h3>
+        <p>
+          Într-un mediu cu
+          <span class="formula-inline">$\mu_r$</span> = <span class="var" id="e14mur"></span>,
+          inducția magnetică are modulul
+          <span class="formula-inline">$B$</span> = <span class="var" id="e14B"></span> mT.
+          Determinați densitatea energiei magnetice.
+        </p>
+        <div class="answer" id="sol14"></div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">D. Itemi subiectivi și didactici <span class="points">15 p</span></h2>
+
+      <article class="item">
+        <h3>15. Răspuns teoretic scurt <span class="points">5 p</span></h3>
+        <p>
+          Enunțați legea Faraday–Lenz și explicați semnificația semnului minus.
+          Precizați trei modalități prin care fluxul magnetic printr-un circuit poate varia.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>16. Deducere / interpretare fizică <span class="points">5 p</span></h3>
+        <p>
+          Deducați relația $\mathcal E=Blv$ pentru o tijă conductoare care se deplasează perpendicular pe un câmp magnetic uniform.
+          Discutați de ce forța magnetică indusă se opune mișcării.
+        </p>
+      </article>
+
+      <article class="item">
+        <h3>17. Integrare didactică și NTSM <span class="points">5 p</span></h3>
+        <p>
+          Propuneți o secvență de 10 minute pentru evidențierea inducției electromagnetice cu magnet, bobină și galvanometru.
+          Includeți obiectivul operațional, activitatea profesorului, activitatea elevilor, evaluarea rapidă
+          și două norme de protecția muncii privind bobinele, sursele și magneții.
+        </p>
+      </article>
+    </section>
+
+    <section class="card barem">
+      <h2 class="section-title">Barem orientativ de evaluare</h2>
+
+      <div class="grid">
+        <div class="mini">
+          <strong>B. Itemi obiectivi – 20 p</strong>
+          <ul>
+            <li>5 itemi × 4 p = 20 p.</li>
+            <li>Se acordă punctajul numai pentru varianta corectă.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>C. Probleme – 55 p</strong>
+          <ul>
+            <li>formula corectă: 1 p;</li>
+            <li>transformarea unităților: 1 p;</li>
+            <li>înlocuirea numerică: 1 p;</li>
+            <li>calcul numeric: 1 p;</li>
+            <li>unitate, semnificație sau sens fizic: 1 p.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>D. Subiectiv – 15 p</strong>
+          <ul>
+            <li>corectitudine științifică: 2 p/item;</li>
+            <li>argumentare fizică și matematică: 2 p/item;</li>
+            <li>claritate, exemplu sau componentă didactică: 1 p/item.</li>
+          </ul>
+        </div>
+
+        <div class="mini">
+          <strong>Oficiu – 10 p</strong>
+          <ul>
+            <li>Total: 20 p + 55 p + 15 p + 10 p = 100 p.</li>
+            <li>Se urmăresc unitățile: Wb, V, A, N, H, mH, J și J/m³.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../C26-inductia-electromagnetica.html">Înapoi la lecția C26</a>
+      <a href="index.html">Index fișe Electricitate</a>
+      <a href="fisa-27.html">Fișa următoare C27</a>
+    </nav>
+  </main>
+
+  <script>
+    const mu0 = 4 * Math.PI * 1e-7;
+    const storageKey = "values-fisa-c26";
+
+    function rnd(min, max, step = 1) {
+      const n = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (n + 1)) * step).toFixed(10);
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function sci(x, digits = 3) {
+      const parts = Number(x).toExponential(digits - 1).split("e");
+      const mantissa = parts[0].replace(".", ",");
+      const exponent = parseInt(parts[1], 10);
+      return `${mantissa}\\cdot10^{${exponent}}`;
+    }
+
+    function tex(x, digits = 3) {
+      if (!Number.isFinite(x)) return String(x);
+      const ax = Math.abs(x);
+      if ((ax !== 0 && ax < 0.01) || ax >= 10000) return sci(x, digits);
+      return x.toLocaleString("ro-RO", { maximumSignificantDigits: digits });
+    }
+
+    function fixed(x, digits = 2) {
+      return Number(x).toLocaleString("ro-RO", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
+
+    function setSol(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    function generateValues() {
+      const p1 = rnd(2, 12);
+      let p2 = rnd(1, 14);
+      if (p2 === p1) p2 += 3;
+
+      const v = {
+        e4B: rnd(0.10, 0.90, 0.10),
+        e4S: rnd(50, 500, 50),
+        e4a: choose([0, 30, 45, 60]),
+
+        e5N: rnd(100, 800, 100),
+        e5p1: p1,
+        e5p2: p2,
+        e5dt: rnd(20, 200, 20),
+
+        e6B: rnd(0.10, 0.80, 0.10),
+        e6l: rnd(10, 80, 10),
+        e6v: rnd(1, 12),
+
+        e7B: rnd(0.10, 0.90, 0.10),
+        e7l: rnd(10, 80, 10),
+        e7v: rnd(2, 12, 2),
+        e7R: rnd(1, 10),
+
+        e8B: rnd(0.10, 0.90, 0.10),
+        e8l: rnd(10, 80, 10),
+        e8v: rnd(2, 12, 2),
+        e8R: rnd(1, 10),
+
+        e9N: rnd(50, 300, 50),
+        e9S: rnd(20, 200, 20),
+        e9w: rnd(50, 300, 50),
+        e9B: rnd(0.10, 0.80, 0.10),
+        e9angle: choose([30, 45, 60, 90]),
+
+        e10L: rnd(50, 900, 50),
+        e10dI: rnd(1, 10),
+        e10dt: rnd(10, 200, 10),
+
+        e11N: rnd(300, 1500, 100),
+        e11S: rnd(10, 100, 10),
+        e11l: rnd(20, 100, 10),
+        e11mur: choose([1, 2, 5, 10, 50]),
+
+        e12L: rnd(50, 1000, 50),
+        e12I: rnd(1, 10),
+
+        e13R: rnd(5, 50, 5),
+        e13L: rnd(100, 1000, 100),
+        e13emf: rnd(6, 48, 6),
+        e13t: rnd(5, 100, 5),
+
+        e14mur: choose([1, 2, 5, 10, 50]),
+        e14B: rnd(10, 300, 10)
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(v));
+      renderValues(v);
+      renderSolutions(v);
+    }
+
+    function renderValues(v) {
+      Object.entries(v).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value).replace(".", ",");
+      });
+    }
+
+    function renderSolutions(v) {
+      const S4 = v.e4S * 1e-4;
+      const cos4 = Math.cos(v.e4a * Math.PI / 180);
+      const phi4 = v.e4B * S4 * cos4;
+      setSol("sol4", `
+        <strong>Rezolvare:</strong>
+        $$\\Phi_B=BS\\cos\\alpha$$
+        $$S=${v.e4S}\\,\\text{cm}^2=${tex(S4)}\\,\\text{m}^2,\qquad \\cos ${v.e4a}^{\\circ}=${tex(cos4)}$$
+        $$\\Phi_B=${String(v.e4B).replace(".", ",")}\\cdot${tex(S4)}\\cdot${tex(cos4)}=${tex(phi4)}\\,\\text{Wb}$$
+        Fluxul este maxim pentru $\\alpha=0^\\circ$ și nul pentru $\\alpha=90^\\circ$.
+      `);
+
+      const p1 = v.e5p1 * 1e-3;
+      const p2 = v.e5p2 * 1e-3;
+      const dt5 = v.e5dt * 1e-3;
+      const emf5 = v.e5N * Math.abs(p2 - p1) / dt5;
+      setSol("sol5", `
+        <strong>Rezolvare:</strong>
+        Modulul t.e.m. medii induse este:
+        $$|\\mathcal E_i|=N\\left|\\frac{\\Delta\\Phi_B}{\\Delta t}\\right|$$
+        $$\\Phi_1=${v.e5p1}\\,\\text{mWb}=${tex(p1)}\\,\\text{Wb},\\qquad \\Phi_2=${v.e5p2}\\,\\text{mWb}=${tex(p2)}\\,\\text{Wb}$$
+        $$\\Delta t=${v.e5dt}\\,\\text{ms}=${tex(dt5)}\\,\\text{s}$$
+        $$|\\mathcal E_i|=${v.e5N}\\cdot\\frac{|${tex(p2)}-${tex(p1)}|}{${tex(dt5)}}=${tex(emf5)}\\,\\text{V}$$
+        Sensul curentului indus se stabilește separat, prin regula lui Lenz.
+      `);
+
+      const l6 = v.e6l / 100;
+      const emf6 = v.e6B * l6 * v.e6v;
+      setSol("sol6", `
+        <strong>Rezolvare:</strong>
+        Pentru tijă mobilă perpendiculară pe câmp:
+        $$\\mathcal E_i=Blv$$
+        $$l=${v.e6l}\\,\\text{cm}=${tex(l6)}\\,\\text{m}$$
+        $$\\mathcal E_i=${String(v.e6B).replace(".", ",")}\\cdot${tex(l6)}\\cdot${v.e6v}=${tex(emf6)}\\,\\text{V}$$
+        Separarea sarcinilor în tijă este produsă de forța magnetică asupra purtătorilor.
+      `);
+
+      const l7 = v.e7l / 100;
+      const emf7 = v.e7B * l7 * v.e7v;
+      const I7 = emf7 / v.e7R;
+      const P7 = I7 * I7 * v.e7R;
+      setSol("sol7", `
+        <strong>Rezolvare:</strong>
+        T.e.m. indusă:
+        $$\\mathcal E_i=Blv=${String(v.e7B).replace(".", ",")}\\cdot${tex(l7)}\\cdot${v.e7v}=${tex(emf7)}\\,\\text{V}$$
+        Curentul indus:
+        $$I_i=\\frac{\\mathcal E_i}{R}=\\frac{${tex(emf7)}}{${v.e7R}}=${tex(I7)}\\,\\text{A}$$
+        Puterea Joule:
+        $$P=I_i^2R=(${tex(I7)})^2\\cdot${v.e7R}=${tex(P7)}\\,\\text{W}$$
+        Energia mecanică furnizată tijei se transformă în energie electrică și apoi în căldură.
+      `);
+
+      const l8 = v.e8l / 100;
+      const F8 = v.e8B * v.e8B * l8 * l8 * v.e8v / v.e8R;
+      setSol("sol8", `
+        <strong>Rezolvare:</strong>
+        Curentul indus este:
+        $$I_i=\\frac{Blv}{R}$$
+        Forța magnetică pe tijă:
+        $$F=BIl$$
+        Deci:
+        $$F=\\frac{B^2l^2v}{R}$$
+        $$l=${v.e8l}\\,\\text{cm}=${tex(l8)}\\,\\text{m}$$
+        $$F=\\frac{${String(v.e8B).replace(".", ",")}^2\\cdot(${tex(l8)})^2\\cdot${v.e8v}}{${v.e8R}}=${tex(F8)}\\,\\text{N}$$
+        Conform regulii lui Lenz, această forță se opune mișcării tijei.
+      `);
+
+      const S9 = v.e9S * 1e-4;
+      const emf09 = v.e9N * v.e9B * S9 * v.e9w;
+      const sin9 = Math.sin(v.e9angle * Math.PI / 180);
+      const emf9 = emf09 * sin9;
+      setSol("sol9", `
+        <strong>Rezolvare:</strong>
+        Pentru o bobină care se rotește:
+        $$\\mathcal E_i=NBS\\omega\\sin\\omega t$$
+        Amplitudinea este:
+        $$\\mathcal E_0=NBS\\omega$$
+        $$S=${v.e9S}\\,\\text{cm}^2=${tex(S9)}\\,\\text{m}^2$$
+        $$\\mathcal E_0=${v.e9N}\\cdot${String(v.e9B).replace(".", ",")}\\cdot${tex(S9)}\\cdot${v.e9w}=${tex(emf09)}\\,\\text{V}$$
+        Pentru $\\omega t=${v.e9angle}^{\\circ}$:
+        $$\\mathcal E=${tex(emf09)}\\sin ${v.e9angle}^{\\circ}=${tex(emf9)}\\,\\text{V}$$
+      `);
+
+      const L10 = v.e10L * 1e-3;
+      const dt10 = v.e10dt * 1e-3;
+      const emf10 = L10 * v.e10dI / dt10;
+      setSol("sol10", `
+        <strong>Rezolvare:</strong>
+        Modulul t.e.m. de autoinducție:
+        $$|\\mathcal E_L|=L\\left|\\frac{\\Delta I}{\\Delta t}\\right|$$
+        $$L=${v.e10L}\\,\\text{mH}=${tex(L10)}\\,\\text{H},\qquad \\Delta t=${v.e10dt}\\,\\text{ms}=${tex(dt10)}\\,\\text{s}$$
+        $$|\\mathcal E_L|=${tex(L10)}\\cdot\\frac{${v.e10dI}}{${tex(dt10)}}=${tex(emf10)}\\,\\text{V}$$
+        Semnul real este opus variației curentului.
+      `);
+
+      const S11 = v.e11S * 1e-4;
+      const l11 = v.e11l / 100;
+      const L11 = mu0 * v.e11mur * v.e11N * v.e11N * S11 / l11;
+      setSol("sol11", `
+        <strong>Rezolvare:</strong>
+        Pentru solenoid lung:
+        $$L=\\mu\\frac{N^2S}{l}=\\mu_0\\mu_r\\frac{N^2S}{l}$$
+        $$S=${v.e11S}\\,\\text{cm}^2=${tex(S11)}\\,\\text{m}^2,\qquad l=${v.e11l}\\,\\text{cm}=${tex(l11)}\\,\\text{m}$$
+        $$L=4\\pi\\cdot10^{-7}\\cdot${v.e11mur}\\cdot\\frac{${v.e11N}^2\\cdot${tex(S11)}}{${tex(l11)}}=${tex(L11)}\\,\\text{H}$$
+        $$L=${tex(L11 / 1e-3)}\\,\\text{mH}$$
+      `);
+
+      const L12 = v.e12L * 1e-3;
+      const W12 = 0.5 * L12 * v.e12I * v.e12I;
+      setSol("sol12", `
+        <strong>Rezolvare:</strong>
+        Energia câmpului magnetic al bobinei:
+        $$W_m=\\frac12LI^2$$
+        $$L=${v.e12L}\\,\\text{mH}=${tex(L12)}\\,\\text{H}$$
+        $$W_m=\\frac12\\cdot${tex(L12)}\\cdot${v.e12I}^2=${tex(W12)}\\,\\text{J}$$
+        Energia este înmagazinată în câmpul magnetic asociat curentului.
+      `);
+
+      const L13 = v.e13L * 1e-3;
+      const t13 = v.e13t * 1e-3;
+      const tau13 = L13 / v.e13R;
+      const Iinf13 = v.e13emf / v.e13R;
+      const I13 = Iinf13 * (1 - Math.exp(-t13 / tau13));
+      setSol("sol13", `
+        <strong>Rezolvare:</strong>
+        Constanta de timp:
+        $$\\tau=\\frac{L}{R}$$
+        $$L=${v.e13L}\\,\\text{mH}=${tex(L13)}\\,\\text{H}$$
+        $$\\tau=\\frac{${tex(L13)}}{${v.e13R}}=${tex(tau13)}\\,\\text{s}=${tex(tau13 * 1000)}\\,\\text{ms}$$
+        Curentul final:
+        $$I_{\\infty}=\\frac{\\mathcal E}{R}=\\frac{${v.e13emf}}{${v.e13R}}=${tex(Iinf13)}\\,\\text{A}$$
+        La stabilirea curentului:
+        $$I(t)=I_{\\infty}\\left(1-e^{-t/\\tau}\\right)$$
+        $$t=${v.e13t}\\,\\text{ms}=${tex(t13)}\\,\\text{s}$$
+        $$I(t)=${tex(Iinf13)}\\left(1-e^{-${tex(t13)}/${tex(tau13)}}\\right)=${tex(I13)}\\,\\text{A}$$
+        Bobina întârzie stabilirea curentului prin autoinducție.
+      `);
+
+      const B14 = v.e14B * 1e-3;
+      const mu14 = mu0 * v.e14mur;
+      const w14 = B14 * B14 / (2 * mu14);
+      setSol("sol14", `
+        <strong>Rezolvare:</strong>
+        Densitatea energiei magnetice:
+        $$w_m=\\frac{B^2}{2\\mu}$$
+        $$\\mu=\\mu_0\\mu_r=4\\pi\\cdot10^{-7}\\cdot${v.e14mur}$$
+        $$B=${v.e14B}\\,\\text{mT}=${tex(B14)}\\,\\text{T}$$
+        $$w_m=\\frac{(${tex(B14)})^2}{2\\cdot4\\pi\\cdot10^{-7}\\cdot${v.e14mur}}=${tex(w14)}\\,\\text{J/m}^3$$
+      `);
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolutions() {
+      document.querySelectorAll(".answer").forEach(el => el.classList.toggle("show"));
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      const selects = [...document.querySelectorAll("select[data-answer]")];
+
+      selects.forEach(select => {
+        const ok = select.value === select.dataset.answer;
+        select.style.borderColor = ok ? "var(--accent-2)" : "#ef4444";
+        select.style.borderWidth = "2px";
+        if (ok) score += 4;
+      });
+
+      document.getElementById("quizScore").textContent = `Scor B: ${score} / 20 p`;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem("theme-fisa-c26", nextTheme);
+    }
+
+    function loadValues() {
+      const savedTheme = localStorage.getItem("theme-fisa-c26");
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const values = JSON.parse(saved);
+          renderValues(values);
+          renderSolutions(values);
+          return;
+        } catch (error) {
+          localStorage.removeItem(storageKey);
+        }
+      }
+
+      generateValues();
+    }
+
+    loadValues();
+  </script>
+</body>
+</html>
