@@ -1,1 +1,748 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișe de lucru – Fizică atomică, nucleară și cuantică</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../../assets/css/titularizare-theme.css">
+  <script src="../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      line-height: 1.2;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .btn.purple {
+      background: #7c3aed;
+      color: white;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.8rem 0 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.8rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 0.45rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--formula-bg);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-weight: 900;
+    }
+
+    .progress-bar {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--border) 70%, transparent);
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.25s ease;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .summary {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      padding: 1rem;
+    }
+
+    .summary strong {
+      display: block;
+      color: var(--accent-2);
+      font-size: 1.3em;
+    }
+
+    .summary span {
+      color: var(--muted);
+      font-size: 0.9em;
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .lesson-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 100%;
+    }
+
+    .lesson-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+
+    .lesson-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .lesson-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 18px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 950;
+      font-size: 1.05em;
+    }
+
+    .lesson-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78em;
+      font-weight: 950;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .lesson-status input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent-2);
+    }
+
+    .lesson-card h2 {
+      font-size: clamp(21px, 2.4vw, 28px);
+      margin-bottom: 0.2rem;
+    }
+
+    .lesson-desc {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.96em;
+    }
+
+    .formula-chip {
+      margin: 0.2rem 0;
+      padding: 0.65rem;
+      border-radius: 14px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.92em;
+      overflow-x: auto;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78em;
+      font-weight: 850;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.3rem;
+    }
+
+    .card-actions a {
+      text-align: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 0.75rem 0.7rem;
+      font-weight: 950;
+      color: white;
+      background: var(--accent);
+    }
+
+    .card-actions a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .track {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--formula-bg) 68%, transparent);
+      padding: 1rem;
+    }
+
+    .track strong {
+      color: var(--accent);
+    }
+
+    .track ul {
+      margin-bottom: 0;
+    }
+
+    .empty {
+      display: none;
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px dashed var(--accent);
+      background: var(--formula-bg);
+      color: var(--muted);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+    .footer-nav a:nth-child(4) { background: #0f172a; }
+
+    @media print {
+      .topbar, .toolbar, .footer-nav, .actions, .btn, .lesson-status { display: none !important; }
+      .lesson-card, .card, .summary, .track { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .summary-grid,
+      .track-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .summary-grid,
+      .track-grid,
+      .footer-nav,
+      .card-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișe de lucru • Fizică atomică, nucleară și cuantică • C37–C43</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="markAll(true)">Marchează tot</button>
+      <button class="btn secondary" type="button" onclick="markAll(false)">Resetează progresul</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Titularizare Fizică 2026</span>
+      <span class="badge">Fizică atomică, nucleară și cuantică</span>
+      <span class="badge">7 fișe interactive</span>
+      <span class="badge">C37–C43</span>
+
+      <h1>Fișe de lucru – Fizică atomică, nucleară și cuantică</h1>
+
+      <p class="lead">
+        Index pentru fișele de lucru aferente lecțiilor C37–C43: modele atomice,
+        efect fotoelectric și Compton, radiații X, laser, semiconductori,
+        reacții nucleare, fisiune, fuziune, reactor nuclear, dezintegrări radioactive și dozimetrie.
+      </p>
+
+      <div class="exam">
+        <strong>Utilizare recomandată:</strong>
+        parcurge lecția, rezolvă fișa cu date generate automat, verifică soluțiile,
+        apoi marchează fișa ca parcursă. Fiecare fișă este proiectată pentru itemi obiectivi,
+        probleme cantitative, itemi subiectivi, componentă didactică și NTSM.
+      </div>
+
+      <div class="badge-row">
+        <span class="badge">cuante și fotoni</span>
+        <span class="badge">spectre și radiații X</span>
+        <span class="badge">laser și semiconductori</span>
+        <span class="badge">nuclear și dozimetrie</span>
+        <span class="badge">100 puncte / fișă</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Panou de lucru</h2>
+
+      <div class="toolbar">
+        <input
+          class="search"
+          id="searchBox"
+          type="search"
+          placeholder="Caută: Bohr, Franck-Hertz, fotoelectric, Compton, Moseley, LASER, p-n, fisiune, dozimetrie..."
+          oninput="renderCards()"
+        />
+        <button class="btn" type="button" onclick="renderCards()">Filtrează</button>
+        <button class="btn secondary" type="button" onclick="clearSearch()">Curăță</button>
+      </div>
+
+      <div class="progress-wrap" aria-label="Progres fișe">
+        <div class="progress-top">
+          <span id="progressText">0 / 7 fișe parcurse</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary">
+          <strong>7</strong>
+          <span>fișe C37–C43</span>
+        </div>
+        <div class="summary">
+          <strong>700 p</strong>
+          <span>antrenament total</span>
+        </div>
+        <div class="summary">
+          <strong>3</strong>
+          <span>trasee de recapitulare</span>
+        </div>
+        <div class="summary">
+          <strong>TIC + NTSM</strong>
+          <span>componentă didactică</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Trasee de recapitulare</h2>
+
+      <div class="track-grid">
+        <div class="track">
+          <strong>Traseul 1 – fizică atomică și cuantică</strong>
+          <ul>
+            <li>C37: Rutherford, Bohr, serii spectrale, Franck–Hertz;</li>
+            <li>C38: fotoefect extern și Compton;</li>
+            <li>C39: radiații X, spectre, Moseley.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>Traseul 2 – aplicații cuantice în tehnologie</strong>
+          <ul>
+            <li>C40: emisie stimulată, bilanț de puteri, LASER;</li>
+            <li>C41: semiconductori, conductivitate, joncțiune p-n, diodă.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>Traseul 3 – fizică nucleară și radioprotecție</strong>
+          <ul>
+            <li>C42: reacții nucleare, fisiune, fuziune, reactor;</li>
+            <li>C43: radioactivitate, radiații nucleare, dozimetrie.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" id="cardsGrid" aria-label="Lista fișelor de lucru"></section>
+
+    <div class="empty" id="emptyState">
+      Nu există fișe care să corespundă filtrului introdus.
+    </div>
+
+    <section class="card">
+      <h2>Sinteză rapidă pentru recapitulare</h2>
+
+      <div class="formula">
+        $$C37\text{–}C39:\ \text{modele atomice, fotoni, spectre, raze X}$$
+        $$C40\text{–}C41:\ \text{emisie stimulată, laser, semiconductori, diodă}$$
+        $$C42\text{–}C43:\ \text{reacții nucleare, fisiune, fuziune, radioactivitate, dozimetrie}$$
+      </div>
+
+      <div class="warning">
+        <strong>Capcane recurente:</strong>
+        seria spectrală este dată de nivelul final; în fotoefect intensitatea nu crește energia maximă a electronilor;
+        în Compton fotonul împrăștiat are lungime de undă mai mare; tipul $n$ sau $p$ nu indică sarcina totală a cristalului;
+        în radioactivitate activitatea nu este același lucru cu doza.
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../index.html">Înapoi la capitol</a>
+      <a href="../../index.html">Tematica științifică</a>
+      <a href="../../4.%20Optica/Fise%20de%20lucru/index.html">Fișe Optică</a>
+      <a href="../../../index.html">Acasă</a>
+    </nav>
+  </main>
+
+  <script>
+    const themeKey = "theme-fise-atomica-index";
+    const progressKey = "progress-fise-atomica";
+
+    const lessons = [
+      {
+        code: "C37",
+        title: "Modele atomice Rutherford–Bohr. Serii spectrale",
+        desc: "Modelul Rutherford, postulatele Bohr, atomii hidrogenoizi, formula Rydberg și experimentul Franck–Hertz.",
+        formula: "$$E_n=-\\frac{13{,}6Z^2}{n^2}\\,\\text{eV},\\qquad \\frac1\\lambda=R_\\infty Z^2\\left(\\frac1{n_f^2}-\\frac1{n_i^2}\\right)$$",
+        tags: ["Rutherford", "Bohr", "Rydberg", "Balmer", "Franck-Hertz"],
+        fisa: "fisa-37.html",
+        lesson: "../C37-modele-atomice-rutherford-bohr-serii-spectrale.html"
+      },
+      {
+        code: "C38",
+        title: "Efectul fotoelectric extern. Efectul Compton",
+        desc: "Ecuația Einstein, frecvență de prag, potențial de oprire, impulsul fotonului și deplasarea Compton.",
+        formula: "$$h\\nu=A_{\\text{ext}}+E_{c,\\max},\\qquad \\Delta\\lambda=\\frac{h}{m_ec}(1-\\cos\\theta)$$",
+        tags: ["fotoelectric", "Einstein", "prag", "Compton", "foton"],
+        fisa: "fisa-38.html",
+        lesson: "../C38-efectul-fotoelectric-extern-efectul-compton.html"
+      },
+      {
+        code: "C39",
+        title: "Radiații X. Spectre. Legea Moseley. Aplicații",
+        desc: "Tubul de raze X, spectru continuu, spectru caracteristic, legea Moseley, atenuare și difracție Bragg.",
+        formula: "$$\\lambda_{\\min}=\\frac{hc}{eU},\\qquad \\sqrt{\\nu}=a(Z-b),\\qquad 2d\\sin\\theta=n\\lambda$$",
+        tags: ["raze X", "Duane-Hunt", "Moseley", "Bragg", "atenuare"],
+        fisa: "fisa-39.html",
+        lesson: "../C39-radiatii-x-spectre-legea-moseley-aplicatii.html"
+      },
+      {
+        code: "C40",
+        title: "Emisia stimulată. Radiația LASER",
+        desc: "Absorbție, emisie spontană și stimulată, inversie de populație, prag laser, bilanț de puteri și proprietăți LASER.",
+        formula: "$$N_2>N_1,\\qquad P_{\\text{pompare}}=P_{\\text{laser}}+P_{\\text{pierderi}}+\\frac{dW}{dt}$$",
+        tags: ["laser", "emisie stimulată", "inversie", "rezonator", "coerență"],
+        fisa: "fisa-40.html",
+        lesson: "../C40-emisia-stimulata-radiatia-laser.html"
+      },
+      {
+        code: "C41",
+        title: "Semiconductori. Joncțiunea p-n. Dioda",
+        desc: "Semiconductori intrinseci și extrinseci, electroni și goluri, conductivitate, joncțiune p-n și caracteristica diodei.",
+        formula: "$$\\sigma=q(n\\mu_n+p\\mu_p),\\qquad I=I_s\\left(e^{qU/(k_BT)}-1\\right)$$",
+        tags: ["semiconductori", "conductivitate", "p-n", "diodă", "Shockley"],
+        fisa: "fisa-41.html",
+        lesson: "../C41-semiconductori-intrinseci-extrinseci-jonctiunea-pn.html"
+      },
+      {
+        code: "C42",
+        title: "Reacții nucleare. Fisiune. Fuziune. Reactor",
+        desc: "Legi de conservare, valoarea Q, defect de masă, fisiune, reacție în lanț, fuziune și reactor nuclear.",
+        formula: "$$Q=\\left(\\sum m_i-\\sum m_f\\right)c^2,\\qquad 1u\\,c^2\\simeq931{,}5\\,\\text{MeV}$$",
+        tags: ["reacții nucleare", "fisiune", "fuziune", "reactor", "Q"],
+        fisa: "fisa-42.html",
+        lesson: "../C42-reactii-nucleare-fisiune-fuziune-reactor-nuclear.html"
+      },
+      {
+        code: "C43",
+        title: "Dezintegrări radioactive. Radiații nucleare. Dozimetrie",
+        desc: "Legea dezintegrării, activitate, timp de înjumătățire, radiații alfa/beta/gamma, atenuare, doze și radioprotecție.",
+        formula: "$$N=N_0e^{-\\lambda t},\\qquad A=\\lambda N,\\qquad T_{1/2}=\\frac{\\ln2}{\\lambda},\\qquad H=w_RD$$",
+        tags: ["radioactivitate", "alfa", "beta", "gamma", "dozimetrie"],
+        fisa: "fisa-43.html",
+        lesson: "../C43-dezintegrari-radioactive-radiatii-nucleare-dozimetrie.html"
+      }
+    ];
+
+    function normalize(text) {
+      return String(text)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+
+    function getProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(progressKey)) || {};
+      } catch (error) {
+        localStorage.removeItem(progressKey);
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(progressKey, JSON.stringify(progress));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const progress = getProgress();
+      const done = lessons.filter(lesson => progress[lesson.code]).length;
+      const total = lessons.length;
+      const percent = Math.round((done / total) * 100);
+
+      document.getElementById("progressText").textContent = `${done} / ${total} fișe parcurse`;
+      document.getElementById("progressPercent").textContent = `${percent}%`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+    }
+
+    function toggleLesson(code, checked) {
+      const progress = getProgress();
+      progress[code] = checked;
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function markAll(value) {
+      const progress = {};
+      lessons.forEach(lesson => {
+        progress[lesson.code] = value;
+      });
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById("cardsGrid");
+      const empty = document.getElementById("emptyState");
+      const query = normalize(document.getElementById("searchBox").value.trim());
+      const progress = getProgress();
+
+      const filtered = lessons.filter(lesson => {
+        const haystack = normalize([
+          lesson.code,
+          lesson.title,
+          lesson.desc,
+          lesson.formula,
+          lesson.tags.join(" ")
+        ].join(" "));
+        return !query || haystack.includes(query);
+      });
+
+      grid.innerHTML = filtered.map(lesson => {
+        const checked = progress[lesson.code] ? "checked" : "";
+        const tags = lesson.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+
+        return `
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="lesson-code">${lesson.code}</span>
+              <label class="lesson-status">
+                <input type="checkbox" ${checked} onchange="toggleLesson('${lesson.code}', this.checked)" />
+                parcursă
+              </label>
+            </div>
+
+            <h2>${lesson.title}</h2>
+            <p class="lesson-desc">${lesson.desc}</p>
+
+            <div class="formula-chip">${lesson.formula}</div>
+
+            <div class="tags">${tags}</div>
+
+            <div class="card-actions">
+              <a href="${lesson.fisa}">Deschide fișa</a>
+              <a href="${lesson.lesson}">Lecția</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+      updateProgress();
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([grid]);
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById("searchBox").value = "";
+      renderCards();
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem(themeKey, nextTheme);
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      renderCards();
+      updateProgress();
+    }
+
+    init();
+  </script>
+</body>
+</html>
