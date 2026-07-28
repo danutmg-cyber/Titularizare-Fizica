@@ -1,1 +1,807 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elemente de teoria haosului – Titularizare Fizică 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      line-height: 1.2;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .btn.purple {
+      background: #7c3aed;
+      color: white;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero {
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.8rem 0 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.8rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 0.45rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--formula-bg);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-weight: 900;
+    }
+
+    .progress-bar {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--border) 70%, transparent);
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.25s ease;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .summary {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      padding: 1rem;
+    }
+
+    .summary strong {
+      display: block;
+      color: var(--accent-2);
+      font-size: 1.3em;
+    }
+
+    .summary span {
+      color: var(--muted);
+      font-size: 0.9em;
+      font-weight: 800;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin: 1.5rem 0 0.8rem;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .lesson-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 100%;
+    }
+
+    .lesson-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+
+    .lesson-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .lesson-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 18px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 950;
+      font-size: 1.05em;
+    }
+
+    .lesson-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78em;
+      font-weight: 950;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .lesson-status input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent-2);
+    }
+
+    .lesson-card h2 {
+      font-size: clamp(23px, 3vw, 34px);
+      margin-bottom: 0.2rem;
+    }
+
+    .lesson-desc {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.96em;
+    }
+
+    .formula-chip {
+      margin: 0.2rem 0;
+      padding: 0.65rem;
+      border-radius: 14px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.92em;
+      overflow-x: auto;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78em;
+      font-weight: 850;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.3rem;
+    }
+
+    .card-actions a {
+      text-align: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 0.75rem 0.7rem;
+      font-weight: 950;
+      color: white;
+      background: var(--accent);
+    }
+
+    .card-actions a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .track {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--formula-bg) 68%, transparent);
+      padding: 1rem;
+    }
+
+    .track strong {
+      color: var(--accent);
+    }
+
+    .track ul {
+      margin-bottom: 0;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .empty {
+      display: none;
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px dashed var(--accent);
+      background: var(--formula-bg);
+      color: var(--muted);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+    .footer-nav a:nth-child(4) { background: #0f172a; }
+
+    @media print {
+      .topbar, .toolbar, .footer-nav, .actions, .btn, .lesson-status { display: none !important; }
+      .lesson-card, .card, .summary, .track { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 980px) {
+      .summary-grid,
+      .track-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .summary-grid,
+      .track-grid,
+      .footer-nav,
+      .card-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Elemente de teoria haosului • C44 • Titularizare Fizică 2026</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="markAll(true)">Marchează parcurs</button>
+      <button class="btn secondary" type="button" onclick="markAll(false)">Resetează progresul</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Tematica științifică</span>
+      <span class="badge">Capitolul 6</span>
+      <span class="badge">Elemente de teoria haosului</span>
+      <span class="badge">C44</span>
+      <span class="badge">fișa C44 în același director</span>
+
+      <h1>Elemente de teoria haosului</h1>
+
+      <p class="lead">
+        Capitolul sintetizează comportamentul haotic în sisteme deterministe neliniare, sensibilitatea la condițiile inițiale,
+        spațiul fazelor, punctele fixe, bifurcațiile, atractorii clasici și stranii, exponentul Lyapunov și elementele de geometrie fractală.
+      </p>
+
+      <div class="exam">
+        <strong>Obiectiv de examen:</strong>
+        candidatul trebuie să explice deosebirea dintre haos determinist și aleatoriu,
+        să interpreteze evoluția în spațiul fazelor, să aplice criteriul de stabilitate pentru puncte fixe,
+        să folosească modelul logistic și să calculeze dimensiuni fractale simple.
+      </div>
+
+      <div class="badge-row">
+        <span class="badge">sensibilitate la condiții inițiale</span>
+        <span class="badge">spațiul fazelor</span>
+        <span class="badge">atractori stranii</span>
+        <span class="badge">fractalitate</span>
+        <span class="badge">TIC și modelare numerică</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Panou de lucru</h2>
+
+      <div class="toolbar">
+        <input
+          class="search"
+          id="searchBox"
+          type="search"
+          placeholder="Caută: haos, Lyapunov, logistică, punct fix, atractor, fractal, Cantor, Koch, Sierpinski..."
+          oninput="renderCards()"
+        />
+        <button class="btn" type="button" onclick="renderCards()">Filtrează</button>
+        <button class="btn secondary" type="button" onclick="clearSearch()">Curăță</button>
+      </div>
+
+      <div class="progress-wrap" aria-label="Progres capitol">
+        <div class="progress-top">
+          <span id="progressText">0 / 1 lecții parcurse</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary">
+          <strong>1</strong>
+          <span>lecție C44</span>
+        </div>
+        <div class="summary">
+          <strong>1</strong>
+          <span>fișă interactivă</span>
+        </div>
+        <div class="summary">
+          <strong>20</strong>
+          <span>pagini în lecție</span>
+        </div>
+        <div class="summary">
+          <strong>100 p</strong>
+          <span>barem fișă C44</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Traseu de recapitulare</h2>
+
+      <div class="track-grid">
+        <div class="track">
+          <strong>1. Sisteme dinamice și predictibilitate</strong>
+          <ul>
+            <li>determinism vs. predictibilitate;</li>
+            <li>sensibilitate la condițiile inițiale;</li>
+            <li>exponentul Lyapunov și orizontul de predicție.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>2. Spațiul fazelor și atractori</strong>
+          <ul>
+            <li>starea sistemului ca punct în spațiul fazelor;</li>
+            <li>puncte fixe, cicluri limită și torus;</li>
+            <li>atractori stranii și secțiuni Poincaré.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>3. Aplicații și fractali</strong>
+          <ul>
+            <li>aplicația logistică și bifurcațiile;</li>
+            <li>fractalitate și autosimilaritate;</li>
+            <li>dimensiuni fractale: Cantor, Koch, Sierpinski.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <h2>Lecția capitolului</h2>
+        <p>Fișa C44 se află în același director cu lecția, deci linkul este direct: `fisa-44.html`.</p>
+      </div>
+      <a class="btn purple" href="fisa-44.html">Deschide fișa C44</a>
+    </div>
+
+    <section class="grid" id="cardsGrid" aria-label="Lista lecțiilor"></section>
+
+    <div class="empty" id="emptyState">
+      Nu există lecții care să corespundă filtrului introdus.
+    </div>
+
+    <section class="card">
+      <h2>Sinteză matematică minimă</h2>
+
+      <div class="formula">
+        $$\frac{d\vec X}{dt}=\vec F(\vec X,t),\qquad x_{n+1}=f(x_n)$$
+        $$x^*=f(x^*),\qquad |f'(x^*)|<1\Rightarrow x^*\ \text{stabil}$$
+        $$x_{n+1}=r x_n(1-x_n),\qquad f'(x)=r(1-2x)$$
+        $$\delta(t)\simeq\delta_0e^{\lambda t},\qquad
+        \lambda>0\Rightarrow\text{haos determinist}$$
+        $$D=\frac{\ln N}{\ln(1/s)}$$
+      </div>
+
+      <div class="warning">
+        <strong>Capcane recurente:</strong>
+        haosul determinist nu este lipsă de lege; un atractor nu este mereu un punct;
+        un exponent Lyapunov pozitiv indică separare medie exponențială; un fractal poate avea dimensiune neîntreagă;
+        stabilitatea unui punct fix se decide local prin modulul derivatei.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Matrice rapidă de pregătire</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Componentă</th>
+              <th>Ce trebuie știut</th>
+              <th>Instrument matematic</th>
+              <th>Problemă tipică</th>
+              <th>Didactică / TIC / NTSM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Haos determinist</td>
+              <td>Sistem determinist, nelinear, aperiodic, sensibil la condiții inițiale.</td>
+              <td>$\delta(t)=\delta_0e^{\lambda t}$</td>
+              <td>Calculul orizontului de predicție pentru o eroare inițială dată.</td>
+              <td>Simulare cu două traiectorii apropiate; discutarea limitelor predicției.</td>
+            </tr>
+            <tr>
+              <td>Spațiul fazelor</td>
+              <td>Starea sistemului ca punct; traiectoria fazică; regim tranzitoriu și regim asimptotic.</td>
+              <td>$\vec X=(x,p)$ sau $\vec X=(x_1,\dots,x_n)$</td>
+              <td>Identificarea punctului fix și a stabilității locale.</td>
+              <td>Reprezentări grafice și animații pe calculator.</td>
+            </tr>
+            <tr>
+              <td>Aplicația logistică</td>
+              <td>Puncte fixe, stabilitate, bifurcații, dublare de perioadă, haos.</td>
+              <td>$x_{n+1}=rx_n(1-x_n)$, $|f'(x^*)|<1$</td>
+              <td>Determinarea punctelor fixe $0$ și $1-1/r$.</td>
+              <td>Foaie de calcul pentru iterații și diagramă de bifurcație.</td>
+            </tr>
+            <tr>
+              <td>Atractori</td>
+              <td>Punct fix, ciclu limită, torus, atractor straniu.</td>
+              <td>Analiză geometrică în spațiul fazelor.</td>
+              <td>Compararea atractorilor clasici cu cei stranii.</td>
+              <td>Secțiune Poincaré și vizualizări interactive.</td>
+            </tr>
+            <tr>
+              <td>Fractali</td>
+              <td>Autosimilaritate, dimensiune fractală, structură pe scări multiple.</td>
+              <td>$D=\ln N/\ln(1/s)$</td>
+              <td>Dimensiunea pentru Cantor, Koch sau Sierpinski.</td>
+              <td>Construcții geometrice, simulări TIC, respectarea regulilor de utilizare a echipamentelor.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../5.%20Fizica%20atomica%2C%20nucleara%20si%20cuantica/index.html">Capitolul anterior</a>
+      <a href="C44-elemente-de-teoria-haosului.html">Lecția C44</a>
+      <a href="fisa-44.html">Fișa C44</a>
+      <a href="../index.html">Tematica științifică</a>
+    </nav>
+  </main>
+
+  <script>
+    const themeKey = "theme-haos-index";
+    const progressKey = "progress-haos-index";
+
+    const lessons = [
+      {
+        code: "C44",
+        title: "Elemente de teoria haosului",
+        desc: "Comportament haotic, spațiul fazelor, puncte fixe, aplicația logistică, exponent Lyapunov, atractori clasici și stranii, fractali.",
+        formula: "$$\\delta(t)\\simeq\\delta_0e^{\\lambda t},\\qquad x_{n+1}=rx_n(1-x_n),\\qquad D=\\frac{\\ln N}{\\ln(1/s)}$$",
+        tags: ["haos", "Lyapunov", "spațiul fazelor", "logistică", "atractori", "fractali"],
+        lesson: "C44-elemente-de-teoria-haosului.html",
+        fisa: "fisa-44.html"
+      }
+    ];
+
+    function normalize(text) {
+      return String(text)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+
+    function getProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(progressKey)) || {};
+      } catch (error) {
+        localStorage.removeItem(progressKey);
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(progressKey, JSON.stringify(progress));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const progress = getProgress();
+      const done = lessons.filter(lesson => progress[lesson.code]).length;
+      const total = lessons.length;
+      const percent = Math.round((done / total) * 100);
+
+      document.getElementById("progressText").textContent = `${done} / ${total} lecții parcurse`;
+      document.getElementById("progressPercent").textContent = `${percent}%`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+    }
+
+    function toggleLesson(code, checked) {
+      const progress = getProgress();
+      progress[code] = checked;
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function markAll(value) {
+      const progress = {};
+      lessons.forEach(lesson => {
+        progress[lesson.code] = value;
+      });
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById("cardsGrid");
+      const empty = document.getElementById("emptyState");
+      const query = normalize(document.getElementById("searchBox").value.trim());
+      const progress = getProgress();
+
+      const filtered = lessons.filter(lesson => {
+        const haystack = normalize([
+          lesson.code,
+          lesson.title,
+          lesson.desc,
+          lesson.formula,
+          lesson.tags.join(" ")
+        ].join(" "));
+        return !query || haystack.includes(query);
+      });
+
+      grid.innerHTML = filtered.map(lesson => {
+        const checked = progress[lesson.code] ? "checked" : "";
+        const tags = lesson.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+
+        return `
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="lesson-code">${lesson.code}</span>
+              <label class="lesson-status">
+                <input type="checkbox" ${checked} onchange="toggleLesson('${lesson.code}', this.checked)" />
+                parcursă
+              </label>
+            </div>
+
+            <h2>${lesson.title}</h2>
+            <p class="lesson-desc">${lesson.desc}</p>
+
+            <div class="formula-chip">${lesson.formula}</div>
+
+            <div class="tags">${tags}</div>
+
+            <div class="card-actions">
+              <a href="${lesson.lesson}">Deschide lecția</a>
+              <a href="${lesson.fisa}">Fișa de lucru</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+      updateProgress();
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([grid]);
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById("searchBox").value = "";
+      renderCards();
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem(themeKey, nextTheme);
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      renderCards();
+      updateProgress();
+    }
+
+    init();
+  </script>
+</body>
+</html>
