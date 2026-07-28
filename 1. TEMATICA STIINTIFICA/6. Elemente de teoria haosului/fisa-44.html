@@ -1,1 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fișa C44 – Elemente de teoria haosului</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      line-height: 1.2;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    main {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.8rem 0 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+    }
+
+    .score-box {
+      display: grid;
+      gap: 0.55rem;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .score-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 0.35rem;
+      font-weight: 850;
+    }
+
+    .score-line:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section {
+      margin: 1rem 0;
+    }
+
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 62%, transparent);
+      padding: 1rem;
+      margin: 0.8rem 0;
+    }
+
+    .question h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .question label {
+      display: block;
+      font-weight: 850;
+      margin: 0.45rem 0 0.25rem;
+    }
+
+    .answer-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0.4rem 0;
+    }
+
+    .var {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3.4rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-weight: 950;
+      color: var(--accent);
+    }
+
+    .formula-inline {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.65rem 0.75rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+    }
+
+    textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    .quiz-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .quiz-item {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 0.7rem;
+      align-items: center;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 16px;
+      padding: 0.75rem;
+    }
+
+    .feedback {
+      margin-top: 0.55rem;
+      font-weight: 900;
+      color: var(--muted);
+    }
+
+    .feedback.ok { color: var(--accent-2); }
+    .feedback.bad { color: #dc2626; }
+
+    .solution {
+      display: none;
+      margin-top: 0.75rem;
+      border-left: 6px solid var(--accent-2);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 0.8rem;
+    }
+
+    .solution.open {
+      display: block;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 0.7rem 0;
+    }
+
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 0.85rem;
+    }
+
+    .mini strong {
+      color: var(--accent-2);
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .result-panel {
+      display: grid;
+      gap: 0.45rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--formula-bg);
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-weight: 900;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+
+    @media print {
+      .topbar, .actions, .footer-nav, .btn { display: none !important; }
+      .card, .question, .mini { box-shadow: none !important; break-inside: avoid; }
+      .solution { display: block !important; }
+      body { background: white !important; }
+    }
+
+    @media (max-width: 860px) {
+      .header-grid,
+      .mini-grid,
+      .quiz-item,
+      .footer-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fișa C44 • Elemente de teoria haosului • aceeași locație cu lecția C44</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="generateValues()">Generează alte date</button>
+      <button class="btn secondary" type="button" onclick="toggleAllSolutions()">Arată/ascunde soluțiile</button>
+      <button class="btn secondary" type="button" onclick="window.print()">Tipărește</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="header-grid">
+      <article class="card">
+        <span class="badge">Titularizare Fizică 2026</span>
+        <span class="badge">C44</span>
+        <span class="badge">Teoria haosului</span>
+
+        <h1>Fișă de lucru – Elemente de teoria haosului</h1>
+
+        <p class="lead">
+          Fișa verifică noțiunile de comportament haotic, spațiul fazelor, puncte fixe,
+          stabilitate, aplicația logistică, exponent Lyapunov, atractori clasici și stranii,
+          dimensiune fractală și integrarea TIC în lecția de fizică.
+        </p>
+
+        <div class="exam">
+          <strong>Instrucțiune:</strong>
+          rezolvă itemii obiectivi, apoi problemele numerice cu datele generate automat.
+          Folosește minimum 3 zecimale acolo unde rezultatul nu este întreg.
+        </div>
+
+        <div class="badge-row">
+          <span class="badge">barem 100 p</span>
+          <span class="badge">date generate automat</span>
+          <span class="badge">soluții afișabile</span>
+          <span class="badge">TIC + NTSM</span>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2>Barem sintetic</h2>
+        <div class="score-box">
+          <div class="score-line"><span>A. Memorator teoretic</span><span>10 p</span></div>
+          <div class="score-line"><span>B. Itemi obiectivi</span><span>20 p</span></div>
+          <div class="score-line"><span>C. Probleme numerice</span><span>55 p</span></div>
+          <div class="score-line"><span>D. Itemi subiectivi/didactici</span><span>15 p</span></div>
+          <div class="score-line"><span>Oficiu</span><span>10 p</span></div>
+          <div class="score-line"><strong>Total</strong><strong>100 p</strong></div>
+        </div>
+
+        <div class="warning">
+          <strong>Atenție:</strong>
+          `fisa-44.html` este în același director cu lecția, deci linkul spre lecție este
+          `C44-elemente-de-teoria-haosului.html`, nu `../C44...`.
+        </div>
+      </aside>
+    </section>
+
+    <section class="card section">
+      <h2>A. Memorator teoretic – 10 p</h2>
+
+      <div class="formula">
+        $$\delta(t)\simeq \delta_0e^{\lambda t},\qquad \lambda>0\Rightarrow \text{sensibilitate la condiții inițiale}$$
+        $$x_{n+1}=f(x_n),\qquad x^*=f(x^*),\qquad |f'(x^*)|<1\Rightarrow x^*\ \text{stabil}$$
+        $$x_{n+1}=r x_n(1-x_n),\qquad f'(x)=r(1-2x)$$
+        $$D=\frac{\ln N}{\ln(1/s)}$$
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Noțiune</th>
+              <th>Definiție scurtă</th>
+              <th>Indicator/criteriu</th>
+              <th>Exemplu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Haos determinist</td>
+              <td>Evoluție deterministă neliniară, aperiodică și sensibilă la condițiile inițiale.</td>
+              <td>$\lambda>0$ pentru separare exponențială medie.</td>
+              <td>Aplicația logistică pentru valori mari ale lui $r$.</td>
+            </tr>
+            <tr>
+              <td>Spațiul fazelor</td>
+              <td>Spațiul tuturor stărilor posibile ale sistemului.</td>
+              <td>Un punct reprezintă starea completă.</td>
+              <td>Oscilator: $(x,p)$.</td>
+            </tr>
+            <tr>
+              <td>Atractor clasic</td>
+              <td>Mulțime către care tind traiectoriile după tranzitoriu.</td>
+              <td>Punct fix, ciclu limită, torus.</td>
+              <td>Pendul amortizat: punct fix.</td>
+            </tr>
+            <tr>
+              <td>Atractor straniu</td>
+              <td>Atractor cu structură fractală și dinamică sensibilă la condițiile inițiale.</td>
+              <td>Regiune limitată + $\lambda>0$.</td>
+              <td>Atractorul Lorenz.</td>
+            </tr>
+            <tr>
+              <td>Fractal</td>
+              <td>Obiect cu autosimilaritate și dimensiune posibil neîntreagă.</td>
+              <td>$D=\ln N/\ln(1/s)$.</td>
+              <td>Curba Koch, Sierpinski, Cantor.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>B. Itemi obiectivi – 20 p</h2>
+      <p class="lead">Alege răspunsul corect. Fiecare item valorează 4 p.</p>
+
+      <div class="quiz-grid" id="quizGrid"></div>
+
+      <button class="btn green" type="button" onclick="checkQuiz()">Verifică itemii obiectivi</button>
+      <div class="feedback" id="quizFeedback"></div>
+    </section>
+
+    <section class="card section">
+      <h2>C. Probleme numerice – 55 p</h2>
+      <p class="lead">Fiecare problemă valorează 5 p. Datele pot fi regenerate automat.</p>
+
+      <div class="question">
+        <h3>1. Iterații în aplicația logistică – 5 p</h3>
+        <p>
+          Pentru aplicația <span class="formula-inline">$x_{n+1}=rx_n(1-x_n)$</span>,
+          se dau <span class="formula-inline">$r$</span> =
+          <span class="var" id="p1r"></span> și
+          <span class="formula-inline">$x_0$</span> =
+          <span class="var" id="p1x0"></span>.
+          Calculați <span class="formula-inline">$x_1$</span>,
+          <span class="formula-inline">$x_2$</span> și
+          <span class="formula-inline">$x_3$</span>.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s1')">Soluție</button>
+        <div class="solution" id="s1"></div>
+      </div>
+
+      <div class="question">
+        <h3>2. Punct fix nenul și stabilitate – 5 p</h3>
+        <p>
+          Pentru aplicația logistică se dă
+          <span class="formula-inline">$r$</span> =
+          <span class="var" id="p2r"></span>.
+          Determinați punctul fix nenul
+          <span class="formula-inline">$x^*=1-\frac1r$</span>
+          și decideți stabilitatea folosind
+          <span class="formula-inline">$|f'(x^*)|=|2-r|$</span>.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s2')">Soluție</button>
+        <div class="solution" id="s2"></div>
+      </div>
+
+      <div class="question">
+        <h3>3. Orizont de predicție – 5 p</h3>
+        <p>
+          Două stări inițiale diferă prin
+          <span class="formula-inline">$\delta_0$</span> =
+          <span class="var" id="p3d0"></span>.
+          Exponentul Lyapunov este
+          <span class="formula-inline">$\lambda$</span> =
+          <span class="var" id="p3lambda"></span> s<sup>-1</sup>.
+          După cât timp diferența ajunge la
+          <span class="formula-inline">$\delta$</span> =
+          <span class="var" id="p3d"></span>?
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s3')">Soluție</button>
+        <div class="solution" id="s3"></div>
+      </div>
+
+      <div class="question">
+        <h3>4. Creșterea unei erori inițiale – 5 p</h3>
+        <p>
+          Pentru un sistem haotic se ia
+          <span class="formula-inline">$\delta_0$</span> =
+          <span class="var" id="p4d0"></span>,
+          <span class="formula-inline">$\lambda$</span> =
+          <span class="var" id="p4lambda"></span> s<sup>-1</sup> și
+          <span class="formula-inline">$t$</span> =
+          <span class="var" id="p4t"></span> s.
+          Calculați <span class="formula-inline">$\delta(t)$</span>.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s4')">Soluție</button>
+        <div class="solution" id="s4"></div>
+      </div>
+
+      <div class="question">
+        <h3>5. Dimensiune fractală autosimilară – 5 p</h3>
+        <p>
+          Un fractal este alcătuit din
+          <span class="formula-inline">$N$</span> =
+          <span class="var" id="p5N"></span>
+          copii autosimilare, fiecare redusă cu factorul
+          <span class="formula-inline">$s$</span> =
+          <span class="var" id="p5s"></span>.
+          Calculați dimensiunea
+          <span class="formula-inline">$D=\frac{\ln N}{\ln(1/s)}$</span>.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s5')">Soluție</button>
+        <div class="solution" id="s5"></div>
+      </div>
+
+      <div class="question">
+        <h3>6. Mulțimea Cantor: lungimea rămasă – 5 p</h3>
+        <p>
+          Dintr-un segment de lungime inițială
+          <span class="formula-inline">$L_0$</span> =
+          <span class="var" id="p6L0"></span> m
+          se construiește mulțimea Cantor. După
+          <span class="formula-inline">$n$</span> =
+          <span class="var" id="p6n"></span>
+          pași, ce lungime totală rămâne?
+        </p>
+        <div class="formula">
+          $$L_n=L_0\left(\frac23\right)^n$$
+        </div>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s6')">Soluție</button>
+        <div class="solution" id="s6"></div>
+      </div>
+
+      <div class="question">
+        <h3>7. Criteriul de stabilitate locală – 5 p</h3>
+        <p>
+          Pentru o aplicație discretă, derivata în punctul fix are valoarea
+          <span class="formula-inline">$f'(x^*)$</span> =
+          <span class="var" id="p7der"></span>.
+          Decideți dacă punctul fix este stabil sau instabil.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s7')">Soluție</button>
+        <div class="solution" id="s7"></div>
+      </div>
+
+      <div class="question">
+        <h3>8. Distanța dintre traiectorii după un număr de iterații – 5 p</h3>
+        <p>
+          Într-o aplicație discretă, două traiectorii au inițial distanța
+          <span class="formula-inline">$\delta_0$</span> =
+          <span class="var" id="p8d0"></span>.
+          Exponentul Lyapunov mediu este
+          <span class="formula-inline">$\lambda$</span> =
+          <span class="var" id="p8lambda"></span> pe iterație.
+          Estimați distanța după
+          <span class="formula-inline">$n$</span> =
+          <span class="var" id="p8n"></span>
+          iterații.
+        </p>
+        <div class="formula">
+          $$\delta_n\simeq \delta_0e^{\lambda n}$$
+        </div>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s8')">Soluție</button>
+        <div class="solution" id="s8"></div>
+      </div>
+
+      <div class="question">
+        <h3>9. Distanța dintre moduri într-o diagramă Poincaré simplificată – 5 p</h3>
+        <p>
+          Într-o secțiune Poincaré pentru o mișcare periodică se observă
+          <span class="formula-inline">$m$</span> =
+          <span class="var" id="p9m"></span>
+          puncte distincte. Care este perioada mișcării raportată la secțiune?
+          Explicați rezultatul.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s9')">Soluție</button>
+        <div class="solution" id="s9"></div>
+      </div>
+
+      <div class="question">
+        <h3>10. Clasificarea regimului după exponentul Lyapunov – 5 p</h3>
+        <p>
+          Pentru un sistem se obține
+          <span class="formula-inline">$\lambda$</span> =
+          <span class="var" id="p10lambda"></span>.
+          Clasificați regimul: atracție stabilă, critic/bifurcație sau haotic.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s10')">Soluție</button>
+        <div class="solution" id="s10"></div>
+      </div>
+
+      <div class="question">
+        <h3>11. Dimensiunea triunghiului Sierpinski – 5 p</h3>
+        <p>
+          La fiecare pas, triunghiul Sierpinski păstrează
+          <span class="formula-inline">$N$</span> =
+          <span class="var">3</span>
+          copii de scară
+          <span class="formula-inline">$s$</span> =
+          <span class="var">1/2</span>.
+          Calculați dimensiunea fractală și interpretați rezultatul.
+        </p>
+        <button class="btn secondary" type="button" onclick="toggleSolution('s11')">Soluție</button>
+        <div class="solution" id="s11"></div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>D. Itemi subiectivi și didactici – 15 p</h2>
+
+      <div class="question">
+        <h3>D1. Răspuns teoretic – 5 p</h3>
+        <p>
+          Explicați diferența dintre haos determinist și aleatoriu. Includeți în răspuns noțiunile:
+          sistem determinist, nelinearitate, sensibilitate la condiții inițiale și orizont de predicție.
+        </p>
+        <textarea placeholder="Redactează răspunsul aici..."></textarea>
+        <button class="btn secondary" type="button" onclick="toggleSolution('sd1')">Barem orientativ</button>
+        <div class="solution" id="sd1">
+          <strong>Barem 5 p:</strong>
+          1 p pentru definirea sistemului determinist; 1 p pentru precizarea rolului nelinearității;
+          1 p pentru sensibilitatea la condiții inițiale; 1 p pentru separarea exponențială a traiectoriilor;
+          1 p pentru distingerea haosului de zgomotul aleator.
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>D2. Atractori și spațiul fazelor – 5 p</h3>
+        <p>
+          Comparați atractorii clasici cu atractorii stranii. Dați câte un exemplu și precizați rolul spațiului fazelor.
+        </p>
+        <textarea placeholder="Redactează răspunsul aici..."></textarea>
+        <button class="btn secondary" type="button" onclick="toggleSolution('sd2')">Barem orientativ</button>
+        <div class="solution" id="sd2">
+          <strong>Barem 5 p:</strong>
+          1 p pentru definirea spațiului fazelor; 1 p pentru atractori clasici: punct fix/ciclu/torus;
+          1 p pentru atractor straniu: structură fractală și sensibilitate; 1 p pentru exemple corecte;
+          1 p pentru exprimare coerentă și utilizarea terminologiei.
+        </div>
+      </div>
+
+      <div class="question">
+        <h3>D3. Secvență didactică + TIC + NTSM – 5 p</h3>
+        <p>
+          Proiectați o secvență de 10 minute pentru predarea aplicației logistice sau a fractalilor.
+          Includeți obiectiv, activitatea profesorului, activitatea elevilor, mijloace TIC, evaluare și norme NTSM.
+        </p>
+        <textarea placeholder="Redactează secvența didactică aici..."></textarea>
+        <button class="btn secondary" type="button" onclick="toggleSolution('sd3')">Barem orientativ</button>
+        <div class="solution" id="sd3">
+          <strong>Barem 5 p:</strong>
+          1 p obiectiv operațional măsurabil; 1 p activitate profesor/elev clară;
+          1 p integrare TIC: simulare, foaie de calcul sau grafic; 1 p evaluare rapidă;
+          1 p NTSM: utilizarea sigură a echipamentelor, cabluri, poziționare, timp de lucru la ecran.
+        </div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>Rezumat punctaj</h2>
+      <div class="result-panel">
+        <div class="result-row"><span>A. Memorator</span><span>10 p</span></div>
+        <div class="result-row"><span>B. Itemi obiectivi</span><span id="quizScore">0 / 20 p verificați automat</span></div>
+        <div class="result-row"><span>C. Probleme numerice</span><span>55 p</span></div>
+        <div class="result-row"><span>D. Subiectiv/didactic</span><span>15 p</span></div>
+        <div class="result-row"><span>Oficiu</span><span>10 p</span></div>
+      </div>
+
+      <div class="exam">
+        <strong>Recomandare de corectare:</strong>
+        la probleme, punctează formula, substituția numerică, calculul, unitățile și interpretarea fizică.
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="C44-elemente-de-teoria-haosului.html">Lecția C44</a>
+      <a href="index.html">Înapoi la capitol</a>
+      <a href="../index.html">Tematica științifică</a>
+    </nav>
+  </main>
+
+  <script>
+    const themeKey = "theme-fisa-c44";
+    const valuesKey = "values-fisa-c44";
+
+    const quiz = [
+      {
+        q: "Haosul determinist înseamnă:",
+        a: "evoluție deterministă sensibilă la condițiile inițiale",
+        options: [
+          "mișcare fără nicio lege fizică",
+          "evoluție deterministă sensibilă la condițiile inițiale",
+          "eroare experimentală imposibil de redus",
+          "zgomot pur aleator"
+        ]
+      },
+      {
+        q: "Un punct fix al aplicației x_{n+1}=f(x_n) satisface:",
+        a: "x*=f(x*)",
+        options: ["f'(x*)=0", "x*=f(x*)", "x_{n+1}=0", "x_n=n"]
+      },
+      {
+        q: "Criteriul local de stabilitate pentru punct fix este:",
+        a: "|f'(x*)|<1",
+        options: ["|f'(x*)|<1", "|f'(x*)|>10", "f(x*)<0", "x*>1"]
+      },
+      {
+        q: "Un exponent Lyapunov pozitiv indică:",
+        a: "separare exponențială medie a traiectoriilor apropiate",
+        options: [
+          "stabilitate absolută",
+          "periodicitate cu perioadă 1",
+          "separare exponențială medie a traiectoriilor apropiate",
+          "absența completă a nelinearității"
+        ]
+      },
+      {
+        q: "Un atractor straniu are de obicei:",
+        a: "structură fractală și dinamică aperiodică",
+        options: [
+          "doar un singur punct",
+          "structură fractală și dinamică aperiodică",
+          "dimensiune topologică întotdeauna 3",
+          "traiectorii perfect rectilinii"
+        ]
+      }
+    ];
+
+    let values = {};
+
+    function rnd(min, max, step = 1) {
+      const count = Math.round((max - min) / step);
+      return +(min + Math.floor(Math.random() * (count + 1)) * step).toFixed(10);
+    }
+
+    function fmt(x, digits = 3) {
+      if (Number.isInteger(x)) return String(x);
+      return Number(x).toFixed(digits).replace(/\.?0+$/, "");
+    }
+
+    function sci(x, digits = 3) {
+      return Number(x).toExponential(digits).replace(".", ",");
+    }
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function generateValues() {
+      values = {
+        p1r: rnd(2.6, 3.8, 0.1),
+        p1x0: rnd(0.12, 0.38, 0.02),
+        p2r: rnd(1.4, 3.6, 0.2),
+        p3d0: 1e-6,
+        p3lambda: rnd(0.35, 0.85, 0.05),
+        p3d: 1e-2,
+        p4d0: 1e-5,
+        p4lambda: rnd(0.2, 0.7, 0.05),
+        p4t: rnd(4, 12, 1),
+        p5case: Math.floor(Math.random() * 3),
+        p6L0: rnd(0.9, 2.4, 0.3),
+        p6n: rnd(3, 6, 1),
+        p7der: rnd(-1.6, 1.6, 0.2),
+        p8d0: 1e-7,
+        p8lambda: rnd(0.12, 0.35, 0.01),
+        p8n: rnd(12, 28, 2),
+        p9m: rnd(2, 7, 1),
+        p10lambda: [rnd(-0.9, -0.1, 0.1), 0, rnd(0.1, 0.9, 0.1)][Math.floor(Math.random() * 3)]
+      };
+
+      const fractals = [
+        { N: 2, s: "1/3", sval: 1 / 3, name: "Cantor" },
+        { N: 4, s: "1/3", sval: 1 / 3, name: "Koch" },
+        { N: 3, s: "1/2", sval: 1 / 2, name: "Sierpinski" }
+      ];
+      values.p5 = fractals[values.p5case];
+
+      localStorage.setItem(valuesKey, JSON.stringify(values));
+      renderValues();
+    }
+
+    function loadValues() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(valuesKey));
+        if (saved && saved.p1r) {
+          values = saved;
+          if (!values.p5) {
+            values.p5 = { N: 4, s: "1/3", sval: 1 / 3, name: "Koch" };
+          }
+          renderValues();
+          return;
+        }
+      } catch (error) {
+        localStorage.removeItem(valuesKey);
+      }
+      generateValues();
+    }
+
+    function renderQuiz() {
+      const grid = document.getElementById("quizGrid");
+      grid.innerHTML = quiz.map((item, index) => {
+        const options = item.options.map(option => `<option value="${option}">${option}</option>`).join("");
+        return `
+          <div class="quiz-item">
+            <div><strong>${index + 1}.</strong> ${item.q}</div>
+            <select id="q${index}">
+              <option value="">Alege răspunsul...</option>
+              ${options}
+            </select>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function checkQuiz() {
+      let score = 0;
+      quiz.forEach((item, index) => {
+        const selected = document.getElementById(`q${index}`).value;
+        if (selected === item.a) score += 4;
+      });
+
+      const feedback = document.getElementById("quizFeedback");
+      feedback.textContent = `Scor itemi obiectivi: ${score} / 20 p.`;
+      feedback.className = score >= 16 ? "feedback ok" : "feedback bad";
+      document.getElementById("quizScore").textContent = `${score} / 20 p verificați automat`;
+    }
+
+    function renderValues() {
+      setText("p1r", fmt(values.p1r, 2));
+      setText("p1x0", fmt(values.p1x0, 2));
+
+      const x1 = values.p1r * values.p1x0 * (1 - values.p1x0);
+      const x2 = values.p1r * x1 * (1 - x1);
+      const x3 = values.p1r * x2 * (1 - x2);
+      document.getElementById("s1").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$x_1=r x_0(1-x_0)=${fmt(x1, 4)}$$
+        $$x_2=r x_1(1-x_1)=${fmt(x2, 4)}$$
+        $$x_3=r x_2(1-x_2)=${fmt(x3, 4)}$$
+      `;
+
+      setText("p2r", fmt(values.p2r, 2));
+      const xstar = 1 - 1 / values.p2r;
+      const der2 = 2 - values.p2r;
+      const stable2 = Math.abs(der2) < 1 ? "stabil" : "instabil";
+      document.getElementById("s2").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$x^*=1-\\frac1r=1-\\frac1{${fmt(values.p2r, 2)}}=${fmt(xstar, 4)}$$
+        $$f'(x^*)=2-r=${fmt(der2, 4)},\\qquad |f'(x^*)|=${fmt(Math.abs(der2), 4)}$$
+        Deoarece ${fmt(Math.abs(der2), 4)} ${Math.abs(der2) < 1 ? "<" : ">"} 1, punctul fix este <strong>${stable2}</strong>.
+      `;
+
+      setText("p3d0", sci(values.p3d0, 1));
+      setText("p3lambda", fmt(values.p3lambda, 2));
+      setText("p3d", sci(values.p3d, 1));
+      const tPred = Math.log(values.p3d / values.p3d0) / values.p3lambda;
+      document.getElementById("s3").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$\\delta=\\delta_0e^{\\lambda t}\\Rightarrow t=\\frac1\\lambda\\ln\\frac{\\delta}{\\delta_0}$$
+        $$t=\\frac1{${fmt(values.p3lambda, 2)}}\\ln\\frac{${sci(values.p3d, 1)}}{${sci(values.p3d0, 1)}}=${fmt(tPred, 2)}\\,\\text{s}$$
+        Orizontul de predicție este aproximativ <strong>${fmt(tPred, 2)} s</strong>.
+      `;
+
+      setText("p4d0", sci(values.p4d0, 1));
+      setText("p4lambda", fmt(values.p4lambda, 2));
+      setText("p4t", fmt(values.p4t, 0));
+      const d4 = values.p4d0 * Math.exp(values.p4lambda * values.p4t);
+      document.getElementById("s4").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$\\delta(t)=\\delta_0e^{\\lambda t}=${sci(values.p4d0, 1)}\\cdot e^{${fmt(values.p4lambda, 2)}\\cdot ${fmt(values.p4t, 0)}}$$
+        $$\\delta(t)\\simeq ${sci(d4, 3)}$$
+      `;
+
+      setText("p5N", values.p5.N);
+      setText("p5s", values.p5.s);
+      const D5 = Math.log(values.p5.N) / Math.log(1 / values.p5.sval);
+      document.getElementById("s5").innerHTML = `
+        <strong>Rezolvare:</strong>
+        Fractalul este de tip <strong>${values.p5.name}</strong>.
+        $$D=\\frac{\\ln N}{\\ln(1/s)}=\\frac{\\ln ${values.p5.N}}{\\ln(${fmt(1 / values.p5.sval, 0)})}=${fmt(D5, 4)}$$
+      `;
+
+      setText("p6L0", fmt(values.p6L0, 1));
+      setText("p6n", values.p6n);
+      const L6 = values.p6L0 * Math.pow(2 / 3, values.p6n);
+      document.getElementById("s6").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$L_n=L_0\\left(\\frac23\\right)^n=${fmt(values.p6L0, 1)}\\left(\\frac23\\right)^{${values.p6n}}$$
+        $$L_n\\simeq ${fmt(L6, 4)}\\,\\text{m}$$
+      `;
+
+      setText("p7der", fmt(values.p7der, 2));
+      const stable7 = Math.abs(values.p7der) < 1 ? "stabil" : "instabil";
+      document.getElementById("s7").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$|f'(x^*)|=|${fmt(values.p7der, 2)}|=${fmt(Math.abs(values.p7der), 2)}$$
+        ${Math.abs(values.p7der) < 1
+          ? "Deoarece modulul derivatei este mai mic decât 1, punctul fix este <strong>stabil</strong>."
+          : "Deoarece modulul derivatei este mai mare sau egal cu 1, punctul fix este <strong>instabil sau la limită de stabilitate</strong>."}
+      `;
+
+      setText("p8d0", sci(values.p8d0, 1));
+      setText("p8lambda", fmt(values.p8lambda, 2));
+      setText("p8n", values.p8n);
+      const d8 = values.p8d0 * Math.exp(values.p8lambda * values.p8n);
+      document.getElementById("s8").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$\\delta_n\\simeq \\delta_0e^{\\lambda n}
+        =${sci(values.p8d0, 1)}e^{${fmt(values.p8lambda, 2)}\\cdot ${values.p8n}}$$
+        $$\\delta_n\\simeq ${sci(d8, 3)}$$
+      `;
+
+      setText("p9m", values.p9m);
+      document.getElementById("s9").innerHTML = `
+        <strong>Rezolvare:</strong>
+        Într-o secțiune Poincaré, o orbită periodică de perioadă ${values.p9m}
+        produce <strong>${values.p9m} puncte distincte</strong> înainte ca succesiunea să se repete.
+        Perioada raportată la secțiune este deci <strong>${values.p9m}</strong>.
+      `;
+
+      setText("p10lambda", fmt(values.p10lambda, 2));
+      let cls = "critic sau la prag de bifurcație";
+      if (values.p10lambda > 0) cls = "haotic";
+      if (values.p10lambda < 0) cls = "atracție stabilă către punct fix sau ciclu stabil";
+      document.getElementById("s10").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$\\lambda=${fmt(values.p10lambda, 2)}$$
+        Regimul este: <strong>${cls}</strong>.
+      `;
+
+      const D11 = Math.log(3) / Math.log(2);
+      document.getElementById("s11").innerHTML = `
+        <strong>Rezolvare:</strong>
+        $$D=\\frac{\\ln 3}{\\ln 2}\\simeq ${fmt(D11, 4)}$$
+        Triunghiul Sierpinski are dimensiune mai mare decât o linie, dar mai mică decât o suprafață plană completă.
+      `;
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function toggleSolution(id) {
+      document.getElementById(id).classList.toggle("open");
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([document.getElementById(id)]);
+      }
+    }
+
+    function toggleAllSolutions() {
+      const solutions = [...document.querySelectorAll(".solution")];
+      const shouldOpen = solutions.some(solution => !solution.classList.contains("open"));
+      solutions.forEach(solution => solution.classList.toggle("open", shouldOpen));
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise(solutions);
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem(themeKey, nextTheme);
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      renderQuiz();
+      loadValues();
+    }
+
+    init();
+  </script>
+</body>
+</html>
