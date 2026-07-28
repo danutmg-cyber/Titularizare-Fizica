@@ -1,1 +1,863 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fizică atomică, nucleară și cuantică – Titularizare Fizică 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <link rel="stylesheet" href="../../assets/css/titularizare-theme.css">
+  <script src="../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: color-mix(in srgb, var(--card) 90%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      line-height: 1.2;
+    }
+
+    .btn.secondary {
+      background: var(--formula-bg);
+      color: var(--text);
+    }
+
+    .btn.green {
+      background: var(--accent-2);
+      color: white;
+    }
+
+    .btn.purple {
+      background: #7c3aed;
+      color: white;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .hero { margin-bottom: 1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05em;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.8rem 0 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 0.82em;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 0.8rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 0.45rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--formula-bg);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-weight: 900;
+    }
+
+    .progress-bar {
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--border) 70%, transparent);
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.25s ease;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .summary {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--formula-bg) 70%, transparent);
+      padding: 1rem;
+    }
+
+    .summary strong {
+      display: block;
+      color: var(--accent-2);
+      font-size: 1.3em;
+    }
+
+    .summary span {
+      color: var(--muted);
+      font-size: 0.9em;
+      font-weight: 800;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin: 1.5rem 0 0.8rem;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .lesson-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-height: 100%;
+    }
+
+    .lesson-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+
+    .lesson-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .lesson-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 18px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-weight: 950;
+      font-size: 1.05em;
+    }
+
+    .lesson-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78em;
+      font-weight: 950;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .lesson-status input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--accent-2);
+    }
+
+    .lesson-card h2 {
+      font-size: clamp(21px, 2.4vw, 28px);
+      margin-bottom: 0.2rem;
+    }
+
+    .lesson-desc {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.96em;
+    }
+
+    .formula-chip {
+      margin: 0.2rem 0;
+      padding: 0.65rem;
+      border-radius: 14px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.92em;
+      overflow-x: auto;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: var(--formula-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.78em;
+      font-weight: 850;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.3rem;
+    }
+
+    .card-actions a {
+      text-align: center;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 0.75rem 0.7rem;
+      font-weight: 950;
+      color: white;
+      background: var(--accent);
+    }
+
+    .card-actions a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .track {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--formula-bg) 68%, transparent);
+      padding: 1rem;
+    }
+
+    .track strong {
+      color: var(--accent);
+    }
+
+    .track ul {
+      margin-bottom: 0;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 1rem 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: var(--card);
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.7rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--formula-bg);
+      color: var(--accent);
+    }
+
+    .empty {
+      display: none;
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px dashed var(--accent);
+      background: var(--formula-bg);
+      color: var(--muted);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: var(--accent);
+    }
+
+    .footer-nav a:nth-child(2) { background: var(--accent-2); }
+    .footer-nav a:nth-child(3) { background: #7c3aed; }
+    .footer-nav a:nth-child(4) { background: #0f172a; }
+    .footer-nav a:nth-child(5) { background: #b45309; }
+
+    @media print {
+      .topbar, .toolbar, .footer-nav, .actions, .btn, .lesson-status { display: none !important; }
+      .lesson-card, .card, .summary, .track { box-shadow: none !important; break-inside: avoid; }
+      body { background: white !important; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .summary-grid,
+      .track-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .summary-grid,
+      .track-grid,
+      .footer-nav,
+      .card-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <strong>Fizică atomică, nucleară și cuantică • C37–C43 • Titularizare Fizică 2026</strong>
+    <div class="actions">
+      <button class="btn secondary" type="button" onclick="toggleTheme()">Zi / Noapte</button>
+      <button class="btn green" type="button" onclick="markAll(true)">Marchează tot</button>
+      <button class="btn secondary" type="button" onclick="markAll(false)">Resetează progresul</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="card hero">
+      <span class="badge">Tematica științifică</span>
+      <span class="badge">Capitolul 5</span>
+      <span class="badge">Fizică atomică, nucleară și cuantică</span>
+      <span class="badge">7 lecții</span>
+      <span class="badge">7 fișe interactive</span>
+
+      <h1>Fizică atomică, nucleară și cuantică</h1>
+
+      <p class="lead">
+        Capitolul acoperă modelele atomice Rutherford–Bohr, seriile spectrale, experimentul Franck–Hertz,
+        efectul fotoelectric extern, efectul Compton, radiațiile X, emisia stimulată și laserul,
+        semiconductorii, joncțiunea $p$-$n$, reacțiile nucleare, fisiunea, fuziunea, reactorul nuclear,
+        radioactivitatea, dozimetria și radioprotecția.
+      </p>
+
+      <div class="exam">
+        <strong>Obiectiv de examen:</strong>
+        parcurgerea C37–C43 trebuie să fixeze tranziția de la descrierea clasică la descrierea cuantică,
+        aplicarea conservărilor în procese atomice și nucleare, calculul energetic în eV/MeV și integrarea
+        temelor moderne în secvențe didactice sigure, cu TIC și NTSM.
+      </div>
+
+      <div class="badge-row">
+        <span class="badge">C37–C39: atom, foton, spectre, raze X</span>
+        <span class="badge">C40–C41: laser și semiconductori</span>
+        <span class="badge">C42–C43: nuclear, dozimetrie, radioprotecție</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Panou de lucru</h2>
+
+      <div class="toolbar">
+        <input
+          class="search"
+          id="searchBox"
+          type="search"
+          placeholder="Caută: Bohr, Franck-Hertz, fotoelectric, Compton, Moseley, LASER, semiconductor, p-n, fisiune, doză..."
+          oninput="renderCards()"
+        />
+        <button class="btn" type="button" onclick="renderCards()">Filtrează</button>
+        <button class="btn secondary" type="button" onclick="clearSearch()">Curăță</button>
+      </div>
+
+      <div class="progress-wrap" aria-label="Progres lecții">
+        <div class="progress-top">
+          <span id="progressText">0 / 7 lecții parcurse</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary">
+          <strong>7</strong>
+          <span>lecții C37–C43</span>
+        </div>
+        <div class="summary">
+          <strong>7</strong>
+          <span>fișe de lucru</span>
+        </div>
+        <div class="summary">
+          <strong>3</strong>
+          <span>trasee de recapitulare</span>
+        </div>
+        <div class="summary">
+          <strong>TIC + NTSM</strong>
+          <span>componentă didactică</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Trasee de recapitulare</h2>
+
+      <div class="track-grid">
+        <div class="track">
+          <strong>Traseul 1 – atom, foton, spectre</strong>
+          <ul>
+            <li>C37: Rutherford, Bohr, serii spectrale, Franck–Hertz;</li>
+            <li>C38: fotoefect extern și Compton;</li>
+            <li>C39: radiații X, spectre X, Moseley și aplicații.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>Traseul 2 – tehnologii cuantice</strong>
+          <ul>
+            <li>C40: emisie stimulată, bilanț de puteri, LASER;</li>
+            <li>C41: semiconductori, conductivitate, joncțiune $p$-$n$, diodă.</li>
+          </ul>
+        </div>
+
+        <div class="track">
+          <strong>Traseul 3 – fizică nucleară aplicată</strong>
+          <ul>
+            <li>C42: reacții nucleare, fisiune, fuziune, reactor;</li>
+            <li>C43: radioactivitate, radiații nucleare, dozimetrie, radioprotecție.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <h2>Lecțiile capitolului</h2>
+        <p>Deschide lecția sau fișa asociată. Progresul se salvează local în browser.</p>
+      </div>
+      <a class="btn purple" href="Fise%20de%20lucru/index.html">Index fișe de lucru</a>
+    </div>
+
+    <section class="grid" id="cardsGrid" aria-label="Lista lecțiilor"></section>
+
+    <div class="empty" id="emptyState">
+      Nu există lecții care să corespundă filtrului introdus.
+    </div>
+
+    <section class="card">
+      <h2>Sinteză matematică minimă</h2>
+
+      <div class="formula">
+        $$E_n=-\frac{13{,}6Z^2}{n^2}\,\text{eV},\qquad
+        \frac1{\lambda}=R_\infty Z^2\left(\frac1{n_f^2}-\frac1{n_i^2}\right)$$
+        $$h\nu=A_{\text{ext}}+E_{c,\max},\qquad
+        \Delta\lambda=\frac{h}{m_ec}(1-\cos\theta)$$
+        $$\lambda_{\min}=\frac{hc}{eU},\qquad
+        \sqrt{\nu}=a(Z-b),\qquad
+        2d\sin\theta=n\lambda$$
+        $$N_2>N_1,\qquad
+        \sigma=q(n\mu_n+p\mu_p),\qquad
+        I=I_s\left(e^{qU/(k_BT)}-1\right)$$
+        $$Q=\left(\sum m_i-\sum m_f\right)c^2,\qquad
+        N(t)=N_0e^{-\lambda t},\qquad
+        T_{1/2}=\frac{\ln2}{\lambda},\qquad
+        H=w_RD$$
+      </div>
+
+      <div class="warning">
+        <strong>Capcane recurente:</strong>
+        seria spectrală este dată de nivelul final; în fotoefect intensitatea controlează curentul, nu energia maximă;
+        în Compton $\lambda'\ge\lambda$; legea Moseley depinde de $Z$, nu de masa atomică; tipul $n$ sau $p$ indică purtătorii majoritari;
+        activitatea radioactivă nu este doză absorbită.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Matrice rapidă de pregătire</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Bloc</th>
+              <th>Lecții</th>
+              <th>Ce trebuie să poți demonstra</th>
+              <th>Probleme tipice</th>
+              <th>Didactică / NTSM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Cuantificare atomică</td>
+              <td>C37</td>
+              <td>Postulatele Bohr, energia nivelelor, formula Rydberg, interpretarea Franck–Hertz.</td>
+              <td>Tranziții $n_i\to n_f$, serii Lyman/Balmer/Paschen, energie foton.</td>
+              <td>Spectre simulate, diagrame de nivele, surse optice sigure.</td>
+            </tr>
+            <tr>
+              <td>Dualism undă-corpuscul</td>
+              <td>C38–C39</td>
+              <td>Ecuația Einstein, deplasarea Compton, Duane–Hunt, Moseley, Bragg.</td>
+              <td>Prag fotoelectric, potențial de oprire, Compton la $90^\circ$, $\lambda_{\min}$ X.</td>
+              <td>Simulări fotoefect/Compton, radioprotecție pentru raze X.</td>
+            </tr>
+            <tr>
+              <td>Dispozitive cuantice</td>
+              <td>C40–C41</td>
+              <td>Emisie stimulată, inversie de populație, bilanț de puteri, conductivitate, diodă.</td>
+              <td>Energie foton laser, randament, moduri de cavitate, $\sigma$, $I(U)$ diodă.</td>
+              <td>Laser cu fascicul controlat, rezistor de protecție pentru diode.</td>
+            </tr>
+            <tr>
+              <td>Fizică nucleară</td>
+              <td>C42–C43</td>
+              <td>Conservări nucleare, valoarea $Q$, reacție în lanț, legea dezintegrării, dozimetrie.</td>
+              <td>Completare reacții, energie fisiune/fuziune, activitate, timp de înjumătățire, doză.</td>
+              <td>Fără surse radioactive improvizate; modele, date, simulări și radioprotecție.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav class="footer-nav">
+      <a href="../4.%20Optica/index.html">Capitolul anterior</a>
+      <a href="Fise%20de%20lucru/index.html">Fișe de lucru</a>
+      <a href="../6.%20Elemente%20de%20teoria%20haosului/index.html">Capitolul următor</a>
+      <a href="../index.html">Tematica științifică</a>
+      <a href="../../index.html">Acasă</a>
+    </nav>
+  </main>
+
+  <script>
+    const themeKey = "theme-atomica-index";
+    const progressKey = "progress-atomica";
+
+    const lessons = [
+      {
+        code: "C37",
+        title: "Modele atomice Rutherford–Bohr. Serii spectrale",
+        desc: "Modelul nuclear Rutherford, postulatele Bohr, atomii hidrogenoizi, formula Rydberg și experimentul Franck–Hertz.",
+        formula: "$$E_n=-\\frac{13{,}6Z^2}{n^2}\\,\\text{eV},\\qquad \\frac1\\lambda=R_\\infty Z^2\\left(\\frac1{n_f^2}-\\frac1{n_i^2}\\right)$$",
+        tags: ["Rutherford", "Bohr", "Rydberg", "Balmer", "Franck-Hertz"],
+        lesson: "C37-modele-atomice-rutherford-bohr-serii-spectrale.html",
+        fisa: "Fise%20de%20lucru/fisa-37.html"
+      },
+      {
+        code: "C38",
+        title: "Efectul fotoelectric extern. Efectul Compton",
+        desc: "Ecuația Einstein, frecvență de prag, potențial de oprire, impulsul fotonului și deplasarea Compton.",
+        formula: "$$h\\nu=A_{\\text{ext}}+E_{c,\\max},\\qquad \\Delta\\lambda=\\frac{h}{m_ec}(1-\\cos\\theta)$$",
+        tags: ["fotoelectric", "Einstein", "prag", "Compton", "foton"],
+        lesson: "C38-efectul-fotoelectric-extern-efectul-compton.html",
+        fisa: "Fise%20de%20lucru/fisa-38.html"
+      },
+      {
+        code: "C39",
+        title: "Radiații X. Spectre. Legea Moseley. Aplicații",
+        desc: "Tubul de raze X, spectrul continuu de frânare, spectrul caracteristic, legea Moseley, atenuare și difracție Bragg.",
+        formula: "$$\\lambda_{\\min}=\\frac{hc}{eU},\\qquad \\sqrt{\\nu}=a(Z-b),\\qquad 2d\\sin\\theta=n\\lambda$$",
+        tags: ["raze X", "Duane-Hunt", "Moseley", "Bragg", "atenuare"],
+        lesson: "C39-radiatii-x-spectre-legea-moseley-aplicatii.html",
+        fisa: "Fise%20de%20lucru/fisa-39.html"
+      },
+      {
+        code: "C40",
+        title: "Emisia stimulată. Radiația LASER",
+        desc: "Absorbție, emisie spontană și stimulată, inversie de populație, prag laser, bilanț de puteri și proprietăți LASER.",
+        formula: "$$N_2>N_1,\\qquad P_{\\text{pompare}}=P_{\\text{laser}}+P_{\\text{pierderi}}+\\frac{dW}{dt}$$",
+        tags: ["LASER", "emisie stimulată", "inversie", "rezonator", "coerență"],
+        lesson: "C40-emisia-stimulata-radiatia-laser.html",
+        fisa: "Fise%20de%20lucru/fisa-40.html"
+      },
+      {
+        code: "C41",
+        title: "Semiconductori. Joncțiunea p-n. Dioda",
+        desc: "Semiconductori intrinseci și extrinseci, electroni și goluri, conductivitate, joncțiune p-n și caracteristica diodei.",
+        formula: "$$\\sigma=q(n\\mu_n+p\\mu_p),\\qquad I=I_s\\left(e^{qU/(k_BT)}-1\\right)$$",
+        tags: ["semiconductori", "conductivitate", "p-n", "diodă", "Shockley"],
+        lesson: "C41-semiconductori-intrinseci-extrinseci-jonctiunea-pn.html",
+        fisa: "Fise%20de%20lucru/fisa-41.html"
+      },
+      {
+        code: "C42",
+        title: "Reacții nucleare. Fisiune. Fuziune. Reactor",
+        desc: "Legi de conservare, valoarea Q, defect de masă, fisiune, reacție în lanț, fuziune și principiul reactorului nuclear.",
+        formula: "$$Q=\\left(\\sum m_i-\\sum m_f\\right)c^2,\\qquad 1u\\,c^2\\simeq931{,}5\\,\\text{MeV}$$",
+        tags: ["reacții nucleare", "fisiune", "fuziune", "reactor", "Q"],
+        lesson: "C42-reactii-nucleare-fisiune-fuziune-reactor-nuclear.html",
+        fisa: "Fise%20de%20lucru/fisa-42.html"
+      },
+      {
+        code: "C43",
+        title: "Dezintegrări radioactive. Radiații nucleare. Dozimetrie",
+        desc: "Legea dezintegrării, activitate, timp de înjumătățire, radiații alfa/beta/gamma, atenuare, doze și radioprotecție.",
+        formula: "$$N=N_0e^{-\\lambda t},\\qquad A=\\lambda N,\\qquad T_{1/2}=\\frac{\\ln2}{\\lambda},\\qquad H=w_RD$$",
+        tags: ["radioactivitate", "alfa", "beta", "gamma", "dozimetrie"],
+        lesson: "C43-dezintegrari-radioactive-radiatii-nucleare-dozimetrie.html",
+        fisa: "Fise%20de%20lucru/fisa-43.html"
+      }
+    ];
+
+    function normalize(text) {
+      return String(text)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+
+    function getProgress() {
+      try {
+        return JSON.parse(localStorage.getItem(progressKey)) || {};
+      } catch (error) {
+        localStorage.removeItem(progressKey);
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(progressKey, JSON.stringify(progress));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const progress = getProgress();
+      const done = lessons.filter(lesson => progress[lesson.code]).length;
+      const total = lessons.length;
+      const percent = Math.round((done / total) * 100);
+
+      document.getElementById("progressText").textContent = `${done} / ${total} lecții parcurse`;
+      document.getElementById("progressPercent").textContent = `${percent}%`;
+      document.getElementById("progressFill").style.width = `${percent}%`;
+    }
+
+    function toggleLesson(code, checked) {
+      const progress = getProgress();
+      progress[code] = checked;
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function markAll(value) {
+      const progress = {};
+      lessons.forEach(lesson => {
+        progress[lesson.code] = value;
+      });
+      saveProgress(progress);
+      renderCards();
+    }
+
+    function renderCards() {
+      const grid = document.getElementById("cardsGrid");
+      const empty = document.getElementById("emptyState");
+      const query = normalize(document.getElementById("searchBox").value.trim());
+      const progress = getProgress();
+
+      const filtered = lessons.filter(lesson => {
+        const haystack = normalize([
+          lesson.code,
+          lesson.title,
+          lesson.desc,
+          lesson.formula,
+          lesson.tags.join(" ")
+        ].join(" "));
+        return !query || haystack.includes(query);
+      });
+
+      grid.innerHTML = filtered.map(lesson => {
+        const checked = progress[lesson.code] ? "checked" : "";
+        const tags = lesson.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+
+        return `
+          <article class="lesson-card">
+            <div class="lesson-top">
+              <span class="lesson-code">${lesson.code}</span>
+              <label class="lesson-status">
+                <input type="checkbox" ${checked} onchange="toggleLesson('${lesson.code}', this.checked)" />
+                parcursă
+              </label>
+            </div>
+
+            <h2>${lesson.title}</h2>
+            <p class="lesson-desc">${lesson.desc}</p>
+
+            <div class="formula-chip">${lesson.formula}</div>
+
+            <div class="tags">${tags}</div>
+
+            <div class="card-actions">
+              <a href="${lesson.lesson}">Deschide lecția</a>
+              <a href="${lesson.fisa}">Fișa de lucru</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      empty.style.display = filtered.length ? "none" : "block";
+      updateProgress();
+
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([grid]);
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById("searchBox").value = "";
+      renderCards();
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const nextTheme = html.dataset.theme === "dark" ? "light" : "dark";
+      html.dataset.theme = nextTheme;
+      localStorage.setItem(themeKey, nextTheme);
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+      renderCards();
+      updateProgress();
+    }
+
+    init();
+  </script>
+</body>
+</html>
