@@ -7,107 +7,81 @@
 <style>
   :root {
     --bg: #f4f6f5;
-    --card: #ffffff;
     --text: #17211f;
     --muted: #66736f;
-    --accent: #1f6f6b;
-    --line: #d9e1de;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #0f1716;
-      --card: #16211f;
       --text: #edf4f2;
       --muted: #a9b8b4;
-      --accent: #67d3ca;
-      --line: #263633;
     }
   }
-
-  * {
-    box-sizing: border-box;
-  }
-
+  * { box-sizing: border-box; }
   body {
     margin: 0;
-    padding: 32px 18px;
+    padding: 40px 18px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--text);
   }
-
   main {
-    max-width: 780px;
+    max-width: 640px;
     margin: 0 auto;
   }
-
   header {
-    margin-bottom: 28px;
+    text-align: center;
+    margin-bottom: 32px;
   }
-
   h1 {
     margin: 0 0 6px;
-    font-size: clamp(28px, 6vw, 44px);
-    line-height: 1.05;
+    font-size: clamp(28px, 6vw, 40px);
+    line-height: 1.1;
   }
-
   .subtitle {
     margin: 0;
     color: var(--muted);
     font-size: 16px;
   }
-
-  section {
-    margin-bottom: 28px;
-  }
-
-  h2 {
-    margin: 0 0 12px;
-    font-size: 18px;
-    color: var(--muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-  }
-
   .grid {
     display: grid;
-    gap: 10px;
+    gap: 12px;
   }
-
-  a.card {
+  a.btn {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 14px;
-    padding: 15px 16px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
+    padding: 20px 22px;
+    border-radius: 14px;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 700;
+    font-size: 17px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-
-  a.card:hover {
-    border-color: var(--accent);
+  a.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
   }
-
+  a.btn:active {
+    transform: translateY(0);
+  }
   .nr {
-    color: var(--accent);
     font-variant-numeric: tabular-nums;
-    min-width: 34px;
+    opacity: .75;
+    min-width: 22px;
   }
-
-  .arrow {
-    color: var(--muted);
-  }
+  .b1 { background: #1f6f6b; }
+  .b2 { background: #2f6fa8; }
+  .b3 { background: #7a4fb5; }
+  .b4 { background: #c2582b; }
+  .b5 { background: #b02e5a; }
+  .b6 { background: #4a8f3c; }
 
   footer {
     margin-top: 36px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
+    text-align: center;
     color: var(--muted);
     font-size: 13px;
   }
@@ -117,77 +91,31 @@
 <main>
   <header>
     <h1>Titularizare Fizică</h1>
-    <p class="subtitle">Resurse pentru pregătire</p>
+    <p class="subtitle">Alege ramura</p>
   </header>
 
-  <section>
-    <h2>Tematica științifică</h2>
-    <div class="grid">
-      <a class="card" href="1. TEMATICA STIINTIFICA/1. Mecanica/index.html">
-        <span><span class="nr">1.1</span> Mecanică</span>
-        <span class="arrow">→</span>
-      </a>
+  <div class="grid">
+    <a class="btn b1" href="1. TEMATICA STIINTIFICA/index.html">
+      <span class="nr">1</span><span>Tematica științifică</span>
+    </a>
+    <a class="btn b2" href="2. TEMATICA PENTRU DIDACTICA FIZICII/index.html">
+      <span class="nr">2</span><span>Tematica pentru didactica fizicii</span>
+    </a>
+    <a class="btn b3" href="3. Teste tematice/index.html">
+      <span class="nr">3</span><span>Teste tematice</span>
+    </a>
+    <a class="btn b4" href="4. Teste mixte tip titularizare/index.html">
+      <span class="nr">4</span><span>Teste mixte tip titularizare</span>
+    </a>
+    <a class="btn b5" href="5. Simulari complete/index.html">
+      <span class="nr">5</span><span>Simulări complete</span>
+    </a>
+    <a class="btn b6" href="6. Progres candidat/index.html">
+      <span class="nr">6</span><span>Progres candidat</span>
+    </a>
+  </div>
 
-      <a class="card" href="1. TEMATICA STIINTIFICA/2. Termodinamica si fizica statistica/index.html">
-        <span><span class="nr">1.2</span> Termodinamică și fizică statistică</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="1. TEMATICA STIINTIFICA/3. Electricitate si magnetism/index.html">
-        <span><span class="nr">1.3</span> Electricitate și magnetism</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="1. TEMATICA STIINTIFICA/4. Optica/index.html">
-        <span><span class="nr">1.4</span> Optică</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="1. TEMATICA STIINTIFICA/5. Fizica atomica, nucleara si cuantica/index.html">
-        <span><span class="nr">1.5</span> Fizică atomică, nucleară și cuantică</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="1. TEMATICA STIINTIFICA/6. Elemente de teoria haosului/index.html">
-        <span><span class="nr">1.6</span> Elemente de teoria haosului</span>
-        <span class="arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <h2>Didactică și teste</h2>
-    <div class="grid">
-      <a class="card" href="2. TEMATICA PENTRU DIDACTICA FIZICII/index.html">
-        <span><span class="nr">2</span> Didactica fizicii</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="3. Teste tematice/index.html">
-        <span><span class="nr">3</span> Teste tematice</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="4. Teste mixte tip titularizare/index.html">
-        <span><span class="nr">4</span> Teste mixte tip titularizare</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="5. Simulari complete/index.html">
-        <span><span class="nr">5</span> Simulări complete</span>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="card" href="6. Progres candidat/index.html">
-        <span><span class="nr">6</span> Progres candidat</span>
-        <span class="arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <footer>
-    Titularizare-Fizica
-  </footer>
+  <footer>Titularizare-Fizica</footer>
 </main>
 </body>
 </html>
