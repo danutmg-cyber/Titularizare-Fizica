@@ -1,0 +1,2334 @@
+```html
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Recapitulare interactivă de fizică pentru titularizare: Mișcare și repaus, elementele mișcării și obiectul cinematicii. Bazată pe Compendiul de fizică Ion-Bunget." />
+
+  <title>Profesorul Vector | Mișcare și repaus • Cinematică</title>
+
+  <!-- MathJax pentru formule LaTeX -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef3fb;
+      --text: #172033;
+      --muted: #62708a;
+      --primary: #2457d6;
+      --primary-2: #163b9c;
+      --accent: #e5532d;
+      --green: #178a5b;
+      --yellow: #b27c00;
+      --danger: #b3261e;
+      --border: #dbe2ef;
+      --shadow: 0 14px 38px rgba(29, 49, 88, 0.09);
+      --radius: 18px;
+      --max-width: 1120px;
+      --font-scale: 1;
+    }
+
+    body.dark {
+      --bg: #0e1420;
+      --surface: #151d2b;
+      --surface-2: #1c2738;
+      --text: #edf3ff;
+      --muted: #aebbd0;
+      --primary: #7ea6ff;
+      --primary-2: #a7c0ff;
+      --accent: #ff896d;
+      --green: #62d6a5;
+      --yellow: #ffd36b;
+      --danger: #ff817b;
+      --border: #2b394e;
+      --shadow: 0 14px 38px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      font-size: calc(16px * var(--font-scale));
+      line-height: 1.65;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    a {
+      color: var(--primary);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .progress-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      max-width: var(--max-width);
+      margin: auto;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 10px;
+      min-width: 40px;
+      min-height: 40px;
+      padding: 7px 11px;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .page {
+      width: min(calc(100% - 30px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 64px 0 38px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 0.78rem;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 7vw, 4.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      margin: 10px 0 18px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 760px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hero-card {
+      background:
+        linear-gradient(150deg, color-mix(in srgb, var(--primary) 12%, var(--surface)), var(--surface));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .hero-card small {
+      color: var(--muted);
+    }
+
+    nav.contents {
+      margin: 12px auto 32px;
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    nav.contents a {
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 9px 12px;
+      border-radius: 9px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    nav.contents a:hover {
+      background: var(--surface-2);
+      color: var(--primary);
+    }
+
+    section {
+      padding: 30px 0;
+      scroll-margin-top: 78px;
+    }
+
+    .section-kicker {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    h2 {
+      font-size: clamp(1.65rem, 4vw, 2.5rem);
+      margin: 6px 0 18px;
+      letter-spacing: -0.03em;
+      line-height: 1.16;
+    }
+
+    h3 {
+      margin-top: 0;
+      font-size: 1.16rem;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 21px;
+      box-shadow: var(--shadow);
+    }
+
+    .card.soft {
+      background: var(--surface-2);
+      box-shadow: none;
+    }
+
+    .callout {
+      border-left: 5px solid var(--primary);
+      padding: 16px 18px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+      margin: 18px 0;
+    }
+
+    .callout.warning {
+      border-left-color: var(--yellow);
+      background: color-mix(in srgb, var(--yellow) 9%, var(--surface));
+    }
+
+    .callout.success {
+      border-left-color: var(--green);
+      background: color-mix(in srgb, var(--green) 8%, var(--surface));
+    }
+
+    .definition {
+      font-size: 1.05rem;
+      border-radius: 14px;
+      padding: 18px;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--primary) 8%, var(--surface)),
+        var(--surface)
+      );
+      border: 1px solid var(--border);
+    }
+
+    .definition b {
+      color: var(--primary);
+    }
+
+    .formula {
+      overflow-x: auto;
+      padding: 18px;
+      text-align: center;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin: 14px 0;
+    }
+
+    .scheme {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    svg text {
+      font-family: inherit;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .timeline .num {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 50%;
+    }
+
+    .key-list {
+      padding-left: 1.2rem;
+    }
+
+    .key-list li {
+      margin: 8px 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      background: var(--surface);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-2);
+    }
+
+    .interactive {
+      border: 2px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .interactive-header {
+      padding: 18px 20px;
+      background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .interactive-body {
+      padding: 20px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .control label {
+      display: block;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    select,
+    input[type="range"],
+    input[type="text"] {
+      width: 100%;
+    }
+
+    select,
+    input[type="text"] {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    input[type="range"] {
+      accent-color: var(--primary);
+    }
+
+    .readout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 18px;
+    }
+
+    .readout span {
+      padding: 6px 10px;
+      border-radius: 9px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .trajectory-box {
+      position: relative;
+      aspect-ratio: 16/9;
+      max-height: 490px;
+      width: 100%;
+    }
+
+    .trajectory-box svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    details {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 13px 15px;
+      font-weight: 800;
+    }
+
+    details > div {
+      padding: 0 15px 15px;
+    }
+
+    .flashcard {
+      min-height: 170px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flash-inner {
+      position: relative;
+      width: 100%;
+      min-height: 170px;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard.flipped .flash-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flash-face {
+      position: absolute;
+      width: 100%;
+      min-height: 170px;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: var(--surface);
+    }
+
+    .flash-back {
+      transform: rotateY(180deg);
+      background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+    }
+
+    .question {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      margin: 14px 0;
+    }
+
+    .question label.option {
+      display: block;
+      margin: 8px 0;
+      padding: 9px 11px;
+      border-radius: 9px;
+      background: var(--surface-2);
+      cursor: pointer;
+    }
+
+    .question label.option:hover {
+      outline: 1px solid var(--primary);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+    }
+
+    .btn:hover {
+      background: var(--primary-2);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: 700;
+    }
+
+    .correct {
+      color: var(--green);
+    }
+
+    .incorrect {
+      color: var(--danger);
+    }
+
+    .problem {
+      border-left: 4px solid var(--accent);
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .checklist input {
+      margin-right: 9px;
+      accent-color: var(--green);
+    }
+
+    .score-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      font-weight: 800;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding: 34px 0 60px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .source-tag {
+      display: inline-block;
+      padding: 5px 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      margin: 3px;
+    }
+
+    @media (max-width: 820px) {
+      .hero-grid,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero-card {
+        max-width: 480px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max-width));
+      }
+
+      .topbar-inner {
+        padding-inline: 10px;
+      }
+
+      .brand {
+        font-size: 0.92rem;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .interactive-body {
+        padding: 16px;
+      }
+
+      nav.contents {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: 2.45rem;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .progress-fixed,
+      nav.contents,
+      .toolbar,
+      button {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .card,
+      .interactive,
+      .scheme {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      section {
+        padding: 18px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress-fixed" id="readingProgress"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        Profesorul <span>Vector</span>
+      </div>
+
+      <div class="toolbar">
+        <button class="icon-btn" id="fontDown" title="Micșorează textul">A−</button>
+        <button class="icon-btn" id="fontUp" title="Mărește textul">A+</button>
+        <button class="icon-btn" id="themeToggle" title="Schimbă tema">◐</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- HERO -->
+    <section class="hero" id="start">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Mecanică • Ședința 1</div>
+
+          <h1>
+            Mișcare și repaus.<br>
+            Elementele mișcării.<br>
+            Obiectul cinematicii.
+          </h1>
+
+          <p class="lead">
+            Recapitulare de la bază, construită după ordinea capitolului
+            <em>Mecanică și acustică</em> din Compendiul de fizică coordonat de
+            Ion Bunget.
+          </p>
+
+          <div class="chips">
+            <span class="chip">⏱ 60–90 min recapitulare</span>
+            <span class="chip">📖 Compendiu: pp. tipărite 21–24</span>
+            <span class="chip">🧭 Cinematică</span>
+            <span class="chip">📱 Mobile friendly</span>
+            <span class="chip">∑ MathJax / LaTeX</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <strong>01</strong>
+          <small>Recapitulare mecanică</small>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:20px 0">
+
+          <b>Ținta lecției</b>
+          <p class="muted">
+            Să poți descrie riguros mișcarea unui punct material prin alegerea
+            sistemului de referință și prin funcțiile care îi dau poziția în timp.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <nav class="contents" aria-label="Cuprins lecție">
+      <a href="#obiective">Obiective</a>
+      <a href="#miscare-repaus">Mișcare și repaus</a>
+      <a href="#elemente">Elementele mișcării</a>
+      <a href="#cinematica">Cinematica</a>
+      <a href="#laborator">Laborator</a>
+      <a href="#flashcards">Flashcards</a>
+      <a href="#probleme">Probleme</a>
+      <a href="#test">Mini-test</a>
+      <a href="#fisa">Fișa finală</a>
+    </nav>
+
+
+    <!-- OBIECTIVE -->
+    <section id="obiective">
+      <div class="section-kicker">Înainte de studiu</div>
+      <h2>Ce trebuie să știi la final</h2>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>1. Reper și sistem de referință</h3>
+          <p>
+            Să explici de ce afirmațiile „corpul se mișcă” sau
+            „corpul este în repaus” sunt incomplete dacă nu precizăm
+            față de ce se face observația.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>2. Elementele mișcării</h3>
+          <p>
+            Să distingi între punct material, poziție, traiectorie,
+            drum parcurs și timp.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>3. Obiectul cinematicii</h3>
+          <p>
+            Să interpretezi ecuațiile
+            \(x=f_1(t)\), \(y=f_2(t)\), \(z=f_3(t)\)
+            și vectorul de poziție \(\vec r(t)\).
+          </p>
+        </article>
+      </div>
+
+      <div class="callout success">
+        <b>Ideea centrală a ședinței:</b>
+        cinematica descrie <em>cum se mișcă</em> un corp.
+        Cauzele mișcării vor fi studiate ulterior, în dinamică.
+      </div>
+    </section>
+
+
+    <!-- MISCARE SI REPAUS -->
+    <section id="miscare-repaus">
+      <div class="section-kicker">1.1 din Compendiu</div>
+      <h2>Mișcare și repaus</h2>
+
+      <div class="definition">
+        Un corp se află în <b>mișcare</b> față de un sistem de referință
+        dacă poziția lui față de acel sistem se modifică în timp.
+
+        <br><br>
+
+        Un corp se află în <b>repaus</b> față de un sistem de referință
+        dacă poziția lui față de acel sistem nu se modifică în timp.
+      </div>
+
+      <div class="callout">
+        <b>Consecință:</b>
+        mișcarea și repausul au caracter relativ.
+        Nu este suficient să spunem „mașina se mișcă”.
+        Trebuie să precizăm:
+        <em>față de drum? față de un pasager? față de Pământ?</em>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Exemplu: pasager într-un tren</h3>
+
+          <p>
+            Un pasager așezat pe scaun este:
+          </p>
+
+          <ul class="key-list">
+            <li>în <b>repaus</b> față de vagon;</li>
+            <li>în <b>mișcare</b> față de gară;</li>
+            <li>în <b>mișcare</b> față de un copac aflat lângă linie.</li>
+          </ul>
+
+          <p class="muted">
+            Același corp poate fi simultan în repaus față de un reper
+            și în mișcare față de altul.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Ce conține un sistem de referință?</h3>
+
+          <p>
+            Pentru descrierea cantitativă a mișcării avem nevoie de:
+          </p>
+
+          <ol class="key-list">
+            <li>un corp/reper de referință;</li>
+            <li>un sistem de coordonate asociat;</li>
+            <li>o modalitate de măsurare a timpului.</li>
+          </ol>
+        </article>
+      </div>
+
+
+      <!-- SVG SYSTEM -->
+      <div class="scheme" style="margin-top:20px">
+        <svg
+          viewBox="0 0 900 350"
+          role="img"
+          aria-label="Schemă sistem de referință">
+          <defs>
+            <marker
+              id="arrow"
+              markerWidth="10"
+              markerHeight="10"
+              refX="8"
+              refY="3"
+              orient="auto"
+              markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#2457d6"></path>
+            </marker>
+          </defs>
+
+          <rect width="900" height="350" fill="transparent"></rect>
+
+          <!-- Axes -->
+          <line x1="180" y1="260" x2="760" y2="260"
+                stroke="#2457d6" stroke-width="4" marker-end="url(#arrow)" />
+          <line x1="180" y1="260" x2="180" y2="55"
+                stroke="#2457d6" stroke-width="4" marker-end="url(#arrow)" />
+
+          <text x="775" y="268" fill="currentColor" font-size="24">x</text>
+          <text x="165" y="45" fill="currentColor" font-size="24">y</text>
+          <text x="155" y="290" fill="currentColor" font-size="22">O</text>
+
+          <!-- object -->
+          <circle cx="585" cy="115" r="13" fill="#e5532d"></circle>
+          <text x="608" y="110" fill="currentColor" font-size="22">M</text>
+
+          <!-- position -->
+          <line x1="180" y1="260" x2="585" y2="115"
+                stroke="#178a5b" stroke-width="4" marker-end="url(#arrow)" />
+
+          <text x="365" y="167" fill="#178a5b" font-size="24">r⃗</text>
+
+          <line x1="585" y1="115" x2="585" y2="260"
+                stroke="#8693a7" stroke-width="2" stroke-dasharray="7 7" />
+
+          <line x1="180" y1="115" x2="585" y2="115"
+                stroke="#8693a7" stroke-width="2" stroke-dasharray="7 7" />
+
+          <text x="560" y="290" fill="currentColor" font-size="20">x(t)</text>
+          <text x="118" y="125" fill="currentColor" font-size="20">y(t)</text>
+
+          <text x="475" y="325" fill="currentColor" font-size="18">
+            sistem de coordonate + reper + timp
+          </text>
+        </svg>
+      </div>
+
+      <div class="callout warning">
+        <b>Capcană frecventă:</b>
+        „repaus” nu înseamnă „lipsa absolută a mișcării”.
+        În mecanica clasică descriem mișcarea în raport cu un sistem
+        de referință ales.
+      </div>
+    </section>
+
+
+    <!-- ELEMENTELE MISCARII -->
+    <section id="elemente">
+      <div class="section-kicker">1.2 din Compendiu</div>
+      <h2>Elementele mișcării</h2>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Punctul material</h3>
+
+          <p>
+            În multe probleme, dimensiunile corpului pot fi neglijate
+            față de distanțele caracteristice ale mișcării.
+          </p>
+
+          <p>
+            Corpul este atunci modelat printr-un
+            <b>punct material</b>, căruia îi asociem masa corpului.
+          </p>
+
+          <div class="callout">
+            Modelul este o simplificare.
+            Același corp poate fi tratat ca punct material într-o problemă
+            și ca solid rigid în alta.
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Poziția</h3>
+
+          <p>
+            Poziția punctului material este precizată prin coordonatele
+            sale în sistemul de referință ales.
+          </p>
+
+          <div class="formula">
+            \[
+              M(x,y,z)
+            \]
+          </div>
+
+          <p>
+            Într-o mișcare unidimensională este suficientă o singură
+            coordonată, de exemplu \(x\).
+          </p>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px">
+        <article class="card">
+          <h3>Traiectoria</h3>
+
+          <p>
+            <b>Traiectoria</b> este linia descrisă de punctul material
+            în timpul mișcării.
+          </p>
+
+          <p>În funcție de formă, mișcarea poate fi:</p>
+
+          <ul class="key-list">
+            <li><b>rectilinie</b> — traiectoria este o dreaptă;</li>
+            <li><b>curbilinie</b> — traiectoria este o curbă;</li>
+            <li><b>circulară</b> — traiectoria este un cerc.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Drumul parcurs</h3>
+
+          <p>
+            Drumul parcurs reprezintă lungimea porțiunii de traiectorie
+            descrise de mobil într-un anumit interval de timp.
+          </p>
+
+          <div class="formula">
+            \[
+              [s]_{\mathrm{SI}} = \mathrm{m}
+            \]
+          </div>
+
+          <p class="muted">
+            Drumul parcurs este o mărime scalară și nu trebuie confundat
+            cu poziția.
+          </p>
+        </article>
+      </div>
+
+
+      <div class="card" style="margin-top:18px">
+        <h3>Timpul</h3>
+
+        <p>
+          Mișcarea înseamnă modificarea poziției odată cu timpul.
+          Timpul este deci una dintre variabilele fundamentale ale cinematicii.
+        </p>
+
+        <div class="formula">
+          \[
+            [t]_{\mathrm{SI}} = \mathrm{s}
+          \]
+        </div>
+
+        <div class="callout warning">
+          <b>Notă istorică:</b>
+          compendiul din 1972 conține în această secțiune și explicații
+          metrologice specifice epocii privind realizarea unităților de
+          lungime și timp. Pentru concurs trebuie folosită convenția SI
+          actuală; definițiile istorice nu trebuie memorate ca definiții
+          moderne.
+        </div>
+      </div>
+
+
+      <h3 style="margin-top:30px">Schemă de sinteză</h3>
+
+      <div class="scheme">
+        <svg viewBox="0 0 1000 390" role="img"
+             aria-label="Schema elementelor mișcării">
+
+          <rect width="1000" height="390" fill="transparent"></rect>
+
+          <rect x="390" y="35" width="220" height="65" rx="15"
+                fill="#2457d6"></rect>
+          <text x="500" y="76" fill="white" text-anchor="middle"
+                font-size="24" font-weight="700">
+            MIȘCARE
+          </text>
+
+          <line x1="500" y1="100" x2="190" y2="170"
+                stroke="#8693a7" stroke-width="3"></line>
+          <line x1="500" y1="100" x2="395" y2="170"
+                stroke="#8693a7" stroke-width="3"></line>
+          <line x1="500" y1="100" x2="605" y2="170"
+                stroke="#8693a7" stroke-width="3"></line>
+          <line x1="500" y1="100" x2="810" y2="170"
+                stroke="#8693a7" stroke-width="3"></line>
+
+          <g fill="#eef3fb" stroke="#2457d6" stroke-width="2">
+            <rect x="90"  y="170" width="200" height="75" rx="14"></rect>
+            <rect x="300" y="170" width="200" height="75" rx="14"></rect>
+            <rect x="510" y="170" width="200" height="75" rx="14"></rect>
+            <rect x="720" y="170" width="200" height="75" rx="14"></rect>
+          </g>
+
+          <g fill="#172033" text-anchor="middle" font-size="19" font-weight="700">
+            <text x="190" y="215">Punct material</text>
+            <text x="400" y="215">Poziție</text>
+            <text x="610" y="215">Traiectorie</text>
+            <text x="820" y="215">Timp</text>
+          </g>
+
+          <line x1="610" y1="245" x2="610" y2="295"
+                stroke="#8693a7" stroke-width="3"></line>
+
+          <rect x="480" y="295" width="260" height="60" rx="14"
+                fill="#e5532d"></rect>
+
+          <text x="610" y="332" fill="white" text-anchor="middle"
+                font-size="21" font-weight="700">
+            Drum parcurs s
+          </text>
+        </svg>
+      </div>
+    </section>
+
+
+    <!-- CINEMATICA -->
+    <section id="cinematica">
+      <div class="section-kicker">2.1 din Compendiu</div>
+      <h2>Obiectul cinematicii</h2>
+
+      <div class="definition">
+        <b>Cinematica</b> studiază descrierea mișcării corpurilor,
+        fără a analiza în această etapă cauzele care produc mișcarea.
+      </div>
+
+      <p style="margin-top:18px">
+        Problema fundamentală formulată în compendiu este:
+        cunoscând mișcarea unui punct material față de un sistem de
+        coordonate, să determinăm poziția sa în orice moment.
+      </p>
+
+      <div class="formula">
+        \[
+          x=f_1(t), \qquad
+          y=f_2(t), \qquad
+          z=f_3(t)
+        \]
+      </div>
+
+      <p>
+        Cele trei funcții ne spun cum se modifică în timp cele trei
+        coordonate ale punctului material.
+      </p>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Descriere prin coordonate</h3>
+
+          <div class="formula">
+            \[
+              M\bigl(x(t),\,y(t),\,z(t)\bigr)
+            \]
+          </div>
+
+          <p>
+            La fiecare valoare a timpului \(t\), ecuațiile mișcării
+            furnizează poziția mobilului.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Descriere vectorială</h3>
+
+          <div class="formula">
+            \[
+              \vec r(t)
+              =
+              x(t)\,\vec i
+              +
+              y(t)\,\vec j
+              +
+              z(t)\,\vec k
+            \]
+          </div>
+
+          <p>
+            \(\vec r\) este vectorul de poziție al punctului material.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <b>Important pentru următoarea lecție:</b>
+        odată cunoscută funcția \(\vec r(t)\), putem studia
+        cât de repede și în ce direcție se modifică poziția.
+        Așa vom introduce viteza și, ulterior, accelerația.
+      </div>
+
+
+      <div class="table-wrap" style="margin-top:20px">
+        <table>
+          <thead>
+            <tr>
+              <th>Noțiune</th>
+              <th>Simbol uzual</th>
+              <th>Interpretare</th>
+              <th>Unitate SI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Timp</td>
+              <td>\(t\)</td>
+              <td>Parametrul temporal al mișcării</td>
+              <td>s</td>
+            </tr>
+            <tr>
+              <td>Coordonată</td>
+              <td>\(x,y,z\)</td>
+              <td>Poziția pe fiecare axă</td>
+              <td>m</td>
+            </tr>
+            <tr>
+              <td>Vector de poziție</td>
+              <td>\(\vec r\)</td>
+              <td>Poziția punctului față de origine</td>
+              <td>m</td>
+            </tr>
+            <tr>
+              <td>Drum parcurs</td>
+              <td>\(s\)</td>
+              <td>Lungimea porțiunii de traiectorie</td>
+              <td>m</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- LAB -->
+    <section id="laborator">
+      <div class="section-kicker">Activitate interactivă</div>
+      <h2>Laborator cinematic: poziția unui mobil</h2>
+
+      <p class="muted">
+        Această simulare este construită pentru recapitulare.
+        Deplasează timpul și observă cum se schimbă poziția punctului.
+      </p>
+
+      <div class="interactive">
+        <div class="interactive-header">
+          <b>Explorează traiectoria</b>
+        </div>
+
+        <div class="interactive-body">
+
+          <div class="controls">
+            <div class="control">
+              <label for="trajectorySelect">Tip de mișcare</label>
+
+              <select id="trajectorySelect">
+                <option value="line">Rectilinie</option>
+                <option value="circle">Circulară</option>
+                <option value="curve">Curbilinie</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="timeSlider">
+                Timp: <span id="timeValue">0.00</span>
+              </label>
+
+              <input
+                id="timeSlider"
+                type="range"
+                min="0"
+                max="10"
+                step="0.05"
+                value="0">
+            </div>
+          </div>
+
+          <div class="readout">
+            <span id="xReadout">x = 0.00</span>
+            <span id="yReadout">y = 0.00</span>
+            <span id="rReadout">|r| = 0.00</span>
+          </div>
+
+          <div class="trajectory-box">
+            <svg id="motionSvg" viewBox="0 0 700 390">
+
+              <!-- grid -->
+              <defs>
+                <pattern id="grid" width="40" height="40"
+                         patternUnits="userSpaceOnUse">
+                  <path
+                    d="M 40 0 L 0 0 0 40"
+                    fill="none"
+                    stroke="#8b98aa"
+                    stroke-opacity="0.16"
+                    stroke-width="1">
+                  </path>
+                </pattern>
+
+                <marker
+                  id="labArrow"
+                  markerWidth="10"
+                  markerHeight="10"
+                  refX="8"
+                  refY="3"
+                  orient="auto"
+                  markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="#178a5b"></path>
+                </marker>
+              </defs>
+
+              <rect width="700" height="390" fill="url(#grid)"></rect>
+
+              <!-- axes -->
+              <line x1="60" y1="330" x2="660" y2="330"
+                    stroke="#2457d6" stroke-width="3"></line>
+              <line x1="60" y1="330" x2="60" y2="30"
+                    stroke="#2457d6" stroke-width="3"></line>
+
+              <text x="665" y="348" fill="currentColor">x</text>
+              <text x="40" y="28" fill="currentColor">y</text>
+              <text x="38" y="351" fill="currentColor">O</text>
+
+              <!-- trajectory -->
+              <path
+                id="trajectoryPath"
+                d=""
+                fill="none"
+                stroke="#e5532d"
+                stroke-width="4">
+              </path>
+
+              <!-- r vector -->
+              <line
+                id="positionVector"
+                x1="60"
+                y1="330"
+                x2="60"
+                y2="330"
+                stroke="#178a5b"
+                stroke-width="4"
+                marker-end="url(#labArrow)">
+              </line>
+
+              <!-- moving point -->
+              <circle
+                id="movingPoint"
+                cx="60"
+                cy="330"
+                r="9"
+                fill="#e5532d">
+              </circle>
+
+              <text
+                id="pointLabel"
+                x="75"
+                y="315"
+                fill="currentColor"
+                font-weight="700">
+                M
+              </text>
+
+            </svg>
+          </div>
+
+          <div class="callout success" style="margin-bottom:0">
+            <b>Observă:</b>
+            când \(t\) se modifică, se modifică \(x(t)\), \(y(t)\)
+            și implicit vectorul \(\vec r(t)\).
+            Mulțimea pozițiilor succesive formează traiectoria.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- DIFERENTIERI -->
+    <section>
+      <div class="section-kicker">Clarificări conceptuale</div>
+      <h2>Ce să nu confunzi</h2>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>Poziție ≠ drum</h3>
+          <p>
+            Poziția spune <b>unde este</b> corpul.
+          </p>
+          <p>
+            Drumul spune <b>câtă traiectorie a parcurs</b>.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Traiectorie ≠ mișcare</h3>
+          <p>
+            Traiectoria descrie geometria drumului.
+          </p>
+          <p>
+            Mișcarea include și modul în care poziția se schimbă în timp.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Reper ≠ origine</h3>
+          <p>
+            Reperul este corpul față de care descriem mișcarea.
+          </p>
+          <p>
+            Originea \(O\) este punctul de la care măsurăm coordonatele.
+          </p>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- FLASHCARDS -->
+    <section id="flashcards">
+      <div class="section-kicker">Memorie activă</div>
+      <h2>Flashcards</h2>
+
+      <p class="muted">
+        Apasă pe fiecare card înainte să citești răspunsul.
+      </p>
+
+      <div class="grid-3">
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Ce este mișcarea mecanică?
+            </div>
+
+            <div class="flash-face flash-back">
+              Modificarea poziției unui corp în timp față de un sistem
+              de referință ales.
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Ce este traiectoria?
+            </div>
+
+            <div class="flash-face flash-back">
+              Linia descrisă de punctul material în timpul mișcării.
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Ce este punctul material?
+            </div>
+
+            <div class="flash-face flash-back">
+              Model în care dimensiunile corpului sunt neglijate,
+              păstrând masa și mișcarea sa de ansamblu.
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Cum descriem poziția în spațiu?
+            </div>
+
+            <div class="flash-face flash-back">
+              Prin coordonatele \(x,y,z\) sau prin vectorul
+              de poziție \(\vec r\).
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Care este obiectul cinematicii?
+            </div>
+
+            <div class="flash-face flash-back">
+              Descrierea mișcării și determinarea poziției corpului
+              în funcție de timp.
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard">
+          <div class="flash-inner">
+            <div class="flash-face flash-front">
+              Care este forma vectorului de poziție?
+            </div>
+
+            <div class="flash-face flash-back">
+              \(
+              \vec r =
+              x\vec i+y\vec j+z\vec k
+              \)
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- PROBLEME -->
+    <section id="probleme">
+      <div class="section-kicker">Antrenament ghidat</div>
+      <h2>Probleme pentru recapitulare</h2>
+
+      <article class="card problem">
+        <h3>Problema 1 — sistemul de referință</h3>
+
+        <p>
+          Un elev stă pe scaun într-un autobuz care se deplasează pe un
+          drum drept. Precizează starea de mișcare sau repaus a elevului:
+        </p>
+
+        <ol>
+          <li>față de autobuz;</li>
+          <li>față de șosea;</li>
+          <li>față de un alt pasager așezat.</li>
+        </ol>
+
+        <details>
+          <summary>Indiciu 1</summary>
+          <div>
+            Întreabă-te în fiecare caz dacă poziția elevului față de
+            obiectul ales drept reper se modifică.
+          </div>
+        </details>
+
+        <details>
+          <summary>Indiciu 2</summary>
+          <div>
+            Nu există un singur răspuns „absolut”.
+            Răspunsul depinde de sistemul de referință.
+          </div>
+        </details>
+      </article>
+
+
+      <article class="card problem" style="margin-top:16px">
+        <h3>Problema 2 — poziția în timp</h3>
+
+        <p>
+          Un punct material se deplasează în plan astfel încât:
+        </p>
+
+        <div class="formula">
+          \[
+            x(t)=2t, \qquad y(t)=t^2
+          \]
+        </div>
+
+        <p>Determină coordonatele punctului pentru:</p>
+
+        <ol>
+          <li>\(t=0\,\mathrm{s}\);</li>
+          <li>\(t=1\,\mathrm{s}\);</li>
+          <li>\(t=2\,\mathrm{s}\).</li>
+        </ol>
+
+        <details>
+          <summary>Indiciu 1</summary>
+          <div>
+            Înlocuiește succesiv valoarea lui \(t\) în fiecare funcție.
+          </div>
+        </details>
+
+        <details>
+          <summary>Indiciu 2</summary>
+          <div>
+            Fiecare moment produce o pereche de coordonate
+            \(M(x,y)\).
+          </div>
+        </details>
+      </article>
+
+
+      <article class="card problem" style="margin-top:16px">
+        <h3>Problema 3 — vectorul de poziție</h3>
+
+        <p>
+          La un anumit moment, un punct material are coordonatele:
+        </p>
+
+        <div class="formula">
+          \[
+            x=3\,\mathrm m,\qquad
+            y=4\,\mathrm m,\qquad
+            z=0.
+          \]
+        </div>
+
+        <p>
+          Scrie vectorul de poziție \(\vec r\) și determină modulul său.
+        </p>
+
+        <details>
+          <summary>Indiciu 1</summary>
+          <div>
+            Folosește
+            \(
+            \vec r=x\vec i+y\vec j+z\vec k
+            \).
+          </div>
+        </details>
+
+        <details>
+          <summary>Indiciu 2</summary>
+          <div>
+            Pentru modul:
+            \(
+            |\vec r|=\sqrt{x^2+y^2+z^2}
+            \).
+          </div>
+        </details>
+      </article>
+
+
+      <article class="card problem" style="margin-top:16px">
+        <h3>Problema 4 — identificarea traiectoriei</h3>
+
+        <p>
+          Un punct material are:
+        </p>
+
+        <div class="formula">
+          \[
+            x(t)=R\cos(\omega t),
+            \qquad
+            y(t)=R\sin(\omega t).
+          \]
+        </div>
+
+        <p>
+          Fără să studiezi încă viteza, identifică forma traiectoriei.
+        </p>
+
+        <details>
+          <summary>Indiciu 1</summary>
+          <div>
+            Elimină parametrul \(t\).
+          </div>
+        </details>
+
+        <details>
+          <summary>Indiciu 2</summary>
+          <div>
+            Folosește identitatea
+            \(
+            \sin^2\alpha+\cos^2\alpha=1
+            \).
+          </div>
+        </details>
+      </article>
+    </section>
+
+
+    <!-- TEST -->
+    <section id="test">
+      <div class="section-kicker">Evaluare fără indicii</div>
+      <h2>Mini-test — 10 puncte</h2>
+
+      <div class="callout warning">
+        Rezolvă toate cerințele înainte să apeși
+        <b>„Corectează testul”</b>.
+      </div>
+
+      <form id="quizForm">
+
+        <div class="question">
+          <b>1. Un corp poate fi simultan în mișcare și în repaus?</b>
+
+          <label class="option">
+            <input type="radio" name="q1" value="a">
+            Nu, niciodată.
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q1" value="b">
+            Da, față de sisteme de referință diferite.
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q1" value="c">
+            Numai dacă accelerează.
+          </label>
+        </div>
+
+
+        <div class="question">
+          <b>2. Traiectoria unui punct material este:</b>
+
+          <label class="option">
+            <input type="radio" name="q2" value="a">
+            lungimea totală parcursă;
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q2" value="b">
+            linia descrisă de punct în timpul mișcării;
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q2" value="c">
+            vectorul viteză.
+          </label>
+        </div>
+
+
+        <div class="question">
+          <b>3. Cinematica studiază în primul rând:</b>
+
+          <label class="option">
+            <input type="radio" name="q3" value="a">
+            cauzele mișcării;
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q3" value="b">
+            descrierea mișcării;
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q3" value="c">
+            structura microscopică a materiei.
+          </label>
+        </div>
+
+
+        <div class="question">
+          <b>4. Care expresie reprezintă vectorul de poziție?</b>
+
+          <label class="option">
+            <input type="radio" name="q4" value="a">
+            \(\vec r=x\vec i+y\vec j+z\vec k\)
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q4" value="b">
+            \(\vec r=x+y+z\)
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q4" value="c">
+            \(\vec r=xyz\)
+          </label>
+        </div>
+
+
+        <div class="question">
+          <b>5. Unitatea SI pentru drumul parcurs este:</b>
+
+          <label class="option">
+            <input type="radio" name="q5" value="a">
+            s
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q5" value="b">
+            m
+          </label>
+
+          <label class="option">
+            <input type="radio" name="q5" value="c">
+            m/s
+          </label>
+        </div>
+
+
+        <button type="button" class="btn" id="gradeQuiz">
+          Corectează testul
+        </button>
+
+        <button type="reset" class="btn secondary" id="resetQuiz">
+          Resetează
+        </button>
+
+        <div class="score-box" id="quizResult">
+          Punctajul va apărea aici.
+        </div>
+
+      </form>
+
+      <div class="card soft" style="margin-top:18px">
+        <h3>Barem</h3>
+
+        <p>
+          Fiecare item valorează 2 puncte.
+        </p>
+
+        <p>
+          \[
+            P_{\max}=10\text{ puncte}
+          \]
+        </p>
+
+        <ul>
+          <li>9–10 p: noțiunile de bază sunt stabile;</li>
+          <li>7–8 p: recapitulare scurtă recomandată;</li>
+          <li>sub 7 p: reia definițiile și schema sistemului de referință.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- FISA -->
+    <section id="fisa">
+      <div class="section-kicker">Recapitulare ultra-scurtă</div>
+      <h2>Fișa de reținut</h2>
+
+      <div class="grid-2">
+
+        <article class="card">
+          <h3>Definiții</h3>
+
+          <ul class="checklist">
+            <li>
+              <input type="checkbox">
+              Mișcare = schimbarea poziției în timp față de un reper.
+            </li>
+
+            <li>
+              <input type="checkbox">
+              Repaus = poziție constantă față de reper.
+            </li>
+
+            <li>
+              <input type="checkbox">
+              Traiectorie = linia descrisă de mobil.
+            </li>
+
+            <li>
+              <input type="checkbox">
+              Drum = lungimea porțiunii de traiectorie.
+            </li>
+
+            <li>
+              <input type="checkbox">
+              Punct material = model cu dimensiuni neglijabile.
+            </li>
+          </ul>
+        </article>
+
+
+        <article class="card">
+          <h3>Relații</h3>
+
+          <div class="formula">
+            \[
+              x=f_1(t),\quad
+              y=f_2(t),\quad
+              z=f_3(t)
+            \]
+          </div>
+
+          <div class="formula">
+            \[
+              \vec r(t)
+              =
+              x(t)\vec i
+              +
+              y(t)\vec j
+              +
+              z(t)\vec k
+            \]
+          </div>
+
+          <div class="formula">
+            \[
+              [x]=[y]=[z]=[s]=\mathrm m,
+              \qquad
+              [t]=\mathrm s
+            \]
+          </div>
+        </article>
+      </div>
+
+
+      <div class="callout success">
+        <b>Poți trece la lecția următoare dacă poți răspunde fără notițe:</b>
+
+        <ol style="margin-bottom:0">
+          <li>De ce mișcarea este relativă?</li>
+          <li>Ce este sistemul de referință?</li>
+          <li>Care este diferența dintre traiectorie și drum?</li>
+          <li>Ce este un punct material?</li>
+          <li>Ce reprezintă \(x=f_1(t)\)?</li>
+          <li>Ce reprezintă vectorul \(\vec r(t)\)?</li>
+        </ol>
+      </div>
+    </section>
+
+
+    <!-- NEXT -->
+    <section>
+      <div class="card"
+           style="background:linear-gradient(135deg,var(--primary),var(--primary-2));color:white">
+
+        <div class="section-kicker" style="color:#dbe7ff">
+          Următoarea ședință
+        </div>
+
+        <h2 style="margin-bottom:10px">
+          Viteza și accelerația
+        </h2>
+
+        <p style="opacity:.9">
+          Vom trece de la poziția \(\vec r(t)\) la variația poziției în timp:
+          viteză medie, viteză instantanee, vectorul viteză,
+          accelerație medie și accelerație instantanee.
+        </p>
+      </div>
+    </section>
+
+
+    <footer>
+      <b>Sursa principală</b>
+
+      <p>
+        <span class="source-tag">
+          Ion Bunget et al. — Compendiu de fizică pentru admitere în
+          învățământul superior
+        </span>
+
+        <span class="source-tag">
+          Editura Științifică, București, 1972
+        </span>
+
+        <span class="source-tag">
+          Mecanică și acustică
+        </span>
+
+        <span class="source-tag">
+          pp. tipărite 21–24
+        </span>
+      </p>
+
+      <p>
+        Structura lecției respectă ordinea:
+        <b>1.1 Mișcare și repaus → 1.2 Elementele mișcării →
+        2. Cinematica → 2.1 Obiectul de studiu.</b>
+      </p>
+
+      <p>
+        Schemele, activitățile interactive, exercițiile și mini-testul
+        sunt construite pentru recapitulare și nu reprezintă reproduceri
+        ale paginilor originale.
+      </p>
+    </footer>
+
+  </main>
+
+
+  <script>
+    /* -----------------------------------------
+       THEME
+    ----------------------------------------- */
+
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+
+    const storedTheme = localStorage.getItem('vectorTheme');
+
+    if (storedTheme === 'dark') {
+      body.classList.add('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+
+      localStorage.setItem(
+        'vectorTheme',
+        body.classList.contains('dark') ? 'dark' : 'light'
+      );
+    });
+
+
+    /* -----------------------------------------
+       FONT SIZE
+    ----------------------------------------- */
+
+    let fontScale =
+      parseFloat(localStorage.getItem('vectorFontScale')) || 1;
+
+    function applyFontScale() {
+      document.documentElement.style
+        .setProperty('--font-scale', fontScale);
+
+      localStorage.setItem(
+        'vectorFontScale',
+        String(fontScale)
+      );
+    }
+
+    applyFontScale();
+
+    document.getElementById('fontUp')
+      .addEventListener('click', () => {
+        fontScale = Math.min(1.3, fontScale + 0.05);
+        applyFontScale();
+      });
+
+    document.getElementById('fontDown')
+      .addEventListener('click', () => {
+        fontScale = Math.max(0.85, fontScale - 0.05);
+        applyFontScale();
+      });
+
+
+    /* -----------------------------------------
+       READING PROGRESS
+    ----------------------------------------- */
+
+    const progress = document.getElementById('readingProgress');
+
+    window.addEventListener('scroll', () => {
+      const scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+
+      const scrollHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+
+      const percentage =
+        scrollHeight > 0
+          ? (scrollTop / scrollHeight) * 100
+          : 0;
+
+      progress.style.width = percentage + '%';
+    });
+
+
+    /* -----------------------------------------
+       FLASHCARDS
+    ----------------------------------------- */
+
+    document.querySelectorAll('.flashcard')
+      .forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('flipped');
+        });
+      });
+
+
+    /* -----------------------------------------
+       MOTION LAB
+    ----------------------------------------- */
+
+    const trajectorySelect =
+      document.getElementById('trajectorySelect');
+
+    const timeSlider =
+      document.getElementById('timeSlider');
+
+    const timeValue =
+      document.getElementById('timeValue');
+
+    const movingPoint =
+      document.getElementById('movingPoint');
+
+    const positionVector =
+      document.getElementById('positionVector');
+
+    const trajectoryPath =
+      document.getElementById('trajectoryPath');
+
+    const pointLabel =
+      document.getElementById('pointLabel');
+
+    const xReadout =
+      document.getElementById('xReadout');
+
+    const yReadout =
+      document.getElementById('yReadout');
+
+    const rReadout =
+      document.getElementById('rReadout');
+
+
+    const origin = {
+      x: 60,
+      y: 330
+    };
+
+
+    function physicalCoordinates(type, t) {
+
+      if (type === 'line') {
+        return {
+          x: 0.5 + 0.85 * t,
+          y: 1.5 + 0.16 * t
+        };
+      }
+
+      if (type === 'circle') {
+        const angle = 0.6 * t;
+
+        return {
+          x: 5 + 3.2 * Math.cos(angle),
+          y: 4 + 3.2 * Math.sin(angle)
+        };
+      }
+
+      return {
+        x: 0.8 * t,
+        y: 0.08 * Math.pow(t - 5, 2) + 1.2
+      };
+    }
+
+
+    function toSvg(p) {
+      return {
+        x: origin.x + p.x * 60,
+        y: origin.y - p.y * 38
+      };
+    }
+
+
+    function buildTrajectory(type) {
+
+      let d = '';
+
+      for (let i = 0; i <= 200; i++) {
+
+        const t = 10 * i / 200;
+        const physical = physicalCoordinates(type, t);
+        const point = toSvg(physical);
+
+        d +=
+          (i === 0 ? 'M' : 'L') +
+          point.x.toFixed(2) + ',' +
+          point.y.toFixed(2) + ' ';
+      }
+
+      trajectoryPath.setAttribute('d', d);
+    }
+
+
+    function updateMotion() {
+
+      const type = trajectorySelect.value;
+      const t = parseFloat(timeSlider.value);
+
+      const physical =
+        physicalCoordinates(type, t);
+
+      const point =
+        toSvg(physical);
+
+      movingPoint.setAttribute('cx', point.x);
+      movingPoint.setAttribute('cy', point.y);
+
+      pointLabel.setAttribute('x', point.x + 14);
+      pointLabel.setAttribute('y', point.y - 12);
+
+      positionVector.setAttribute('x2', point.x);
+      positionVector.setAttribute('y2', point.y);
+
+      const r =
+        Math.sqrt(
+          physical.x * physical.x +
+          physical.y * physical.y
+        );
+
+      timeValue.textContent =
+        t.toFixed(2) + ' s';
+
+      xReadout.textContent =
+        'x = ' + physical.x.toFixed(2);
+
+      yReadout.textContent =
+        'y = ' + physical.y.toFixed(2);
+
+      rReadout.textContent =
+        '|r| = ' + r.toFixed(2);
+
+      buildTrajectory(type);
+    }
+
+
+    trajectorySelect
+      .addEventListener('change', updateMotion);
+
+    timeSlider
+      .addEventListener('input', updateMotion);
+
+    updateMotion();
+
+
+    /* -----------------------------------------
+       QUIZ
+    ----------------------------------------- */
+
+    const answers = {
+      q1: 'b',
+      q2: 'b',
+      q3: 'b',
+      q4: 'a',
+      q5: 'b'
+    };
+
+    document.getElementById('gradeQuiz')
+      .addEventListener('click', () => {
+
+        let correct = 0;
+        let answered = 0;
+
+        Object.entries(answers)
+          .forEach(([question, expected]) => {
+
+            const selected =
+              document.querySelector(
+                `input[name="${question}"]:checked`
+              );
+
+            if (selected) {
+              answered++;
+
+              if (selected.value === expected) {
+                correct++;
+              }
+            }
+          });
+
+        const score = correct * 2;
+
+        const result =
+          document.getElementById('quizResult');
+
+        let message =
+          `Ai răspuns la ${answered}/5 itemi. ` +
+          `Punctaj: ${score}/10. `;
+
+        if (score >= 9) {
+          message +=
+            'Foarte bine. Poți trece la viteza și accelerația.';
+        } else if (score >= 7) {
+          message +=
+            'Nivel bun, dar reia definițiile unde ai ezitat.';
+        } else {
+          message +=
+            'Reia secțiunile Mișcare și repaus și Elementele mișcării.';
+        }
+
+        result.textContent = message;
+
+        result.className =
+          score >= 7
+            ? 'score-box correct'
+            : 'score-box incorrect';
+
+        localStorage.setItem(
+          'vectorQuiz01',
+          String(score)
+        );
+      });
+
+
+    document.getElementById('resetQuiz')
+      .addEventListener('click', () => {
+
+        const result =
+          document.getElementById('quizResult');
+
+        result.textContent =
+          'Punctajul va apărea aici.';
+
+        result.className =
+          'score-box';
+      });
+
+
+    /* -----------------------------------------
+       CHECKLIST PERSISTENCE
+    ----------------------------------------- */
+
+    const checks =
+      document.querySelectorAll('.checklist input');
+
+    checks.forEach((check, index) => {
+
+      const key =
+        'vectorLesson01Check' + index;
+
+      check.checked =
+        localStorage.getItem(key) === 'true';
+
+      check.addEventListener('change', () => {
+        localStorage.setItem(
+          key,
+          String(check.checked)
+        );
+      });
+    });
+
+  </script>
+</body>
+</html>
+```
