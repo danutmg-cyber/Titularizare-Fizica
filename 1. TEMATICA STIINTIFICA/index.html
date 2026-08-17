@@ -4,1039 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tematica științifică · Titularizare Fizică</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --bg:#eef1f0;
-  --bg-grid:#e2e8e6;
-  --paper:#ffffff;
-  --paper-2:#f8faf9;
-  --ink:#17211f;
-  --ink-soft:#52615d;
-  --accent:#1f6f6b;
-  --accent-2:#b8862e;
-  --accent-3:#7b5fb8;
-  --accent-ink:#ffffff;
-  --line:#d3dbd8;
-  --shadow:rgba(24,35,34,.08);
-  --code-bg:#eef4f3;
-  --good:#2f7d52;
-  --radius:22px;
-  color-scheme:light;
-}
-
-html.dark{
-  --bg:#0e1615;
-  --bg-grid:#131e1c;
-  --paper:#131e1d;
-  --paper-2:#101918;
-  --ink:#e8efed;
-  --ink-soft:#a9bab6;
-  --accent:#5fc9c1;
-  --accent-2:#e0ab54;
-  --accent-3:#b9a2ff;
-  --accent-ink:#0e1615;
-  --line:#24322f;
-  --shadow:rgba(0,0,0,.36);
-  --code-bg:#0f1b19;
-  --good:#7fdea8;
-  color-scheme:dark;
-}
-
-*{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  padding:0;
-}
-
-body{
-  background:
-    linear-gradient(var(--bg-grid) 1px,transparent 1px) 0 0/100% 38px,
-    linear-gradient(90deg,var(--bg-grid) 1px,transparent 1px) 0 0/38px 100%,
-    radial-gradient(circle at 15% 0%, rgba(31,111,107,.16), transparent 30%),
-    radial-gradient(circle at 90% 10%, rgba(184,134,46,.14), transparent 28%),
-    var(--bg);
-  color:var(--ink);
-  font-family:"Source Sans 3",system-ui,sans-serif;
-  font-size:20px;
-  line-height:1.68;
-  min-height:100vh;
-}
-
-h1,h2,h3{
-  font-family:"Fraunces",Georgia,serif;
-  color:var(--ink);
-  letter-spacing:-.015em;
-}
-
-a{
-  color:inherit;
-}
-
-.shell{
-  max-width:1120px;
-  margin:0 auto;
-  padding:24px 22px 46px;
-}
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:18px;
-  margin-bottom:28px;
-}
-
-.crumb{
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  color:var(--ink-soft);
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  margin-bottom:12px;
-}
-
-.crumb b{
-  color:var(--accent);
-}
-
-.theme-toggle{
-  flex:0 0 auto;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:7px 8px;
-  box-shadow:0 2px 10px var(--shadow);
-  cursor:pointer;
-}
-
-.theme-toggle .icon{
-  width:24px;
-  height:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:.72;
-}
-
-.theme-toggle .track{
-  width:42px;
-  height:23px;
-  border-radius:999px;
-  background:var(--line);
-  position:relative;
-}
-
-.theme-toggle .knob{
-  position:absolute;
-  top:3px;
-  left:3px;
-  width:17px;
-  height:17px;
-  border-radius:50%;
-  background:var(--accent);
-  transition:transform .25s ease;
-}
-
-html.dark .theme-toggle .knob{
-  transform:translateX(19px);
-}
-
-.hero{
-  background:
-    linear-gradient(135deg, rgba(31,111,107,.12), transparent 52%),
-    linear-gradient(45deg, rgba(184,134,46,.12), transparent 58%),
-    var(--paper);
-  border:1px solid var(--line);
-  border-radius:30px;
-  padding:34px;
-  box-shadow:0 10px 30px var(--shadow);
-  margin-bottom:22px;
-}
-
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.3fr .7fr;
-  gap:24px;
-  align-items:center;
-}
-
-@media(max-width:860px){
-  .hero-grid{
-    grid-template-columns:1fr;
+  :root {
+    --bg: #f4f6f5;
+    --text: #17211f;
+    --muted: #66736f;
   }
-}
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid var(--line);
-  background:var(--paper-2);
-  border-radius:999px;
-  padding:8px 13px;
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  color:var(--ink-soft);
-  margin-bottom:12px;
-}
-
-.badge::before{
-  content:"●";
-  color:var(--accent-2);
-}
-
-h1{
-  font-size:clamp(38px,6vw,64px);
-  line-height:1.02;
-  margin:0 0 18px;
-}
-
-.lead{
-  font-size:23px;
-  line-height:1.55;
-  color:var(--ink-soft);
-  max-width:760px;
-  margin:0 0 22px;
-}
-
-.key{
-  display:inline-flex;
-  align-items:baseline;
-  gap:.35em;
-  font-weight:800;
-  color:var(--ink);
-}
-
-.key::before{
-  content:"●";
-  color:var(--accent-2);
-  font-size:.72em;
-  line-height:1;
-}
-
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-}
-
-.btn{
-  appearance:none;
-  border:1px solid var(--line);
-  background:var(--paper);
-  color:var(--ink);
-  font-family:"Source Sans 3",sans-serif;
-  font-size:18px;
-  font-weight:800;
-  padding:13px 18px;
-  border-radius:14px;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  transition:.16s ease;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 8px 20px var(--shadow);
-}
-
-.btn.primary{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:var(--accent-ink);
-}
-
-.btn.ghost{
-  background:transparent;
-}
-
-.progress-card{
-  background:var(--paper-2);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:22px;
-}
-
-.progress-card h2{
-  margin:0 0 8px;
-  font-size:27px;
-}
-
-.progress-card p{
-  color:var(--ink-soft);
-  margin:0 0 18px;
-}
-
-.progress-bar{
-  height:14px;
-  border-radius:999px;
-  background:var(--line);
-  overflow:hidden;
-  margin-bottom:10px;
-}
-
-.progress-fill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
-  transition:width .25s ease;
-}
-
-.progress-label{
-  font-family:"JetBrains Mono",monospace;
-  font-size:14px;
-  color:var(--ink-soft);
-}
-
-.toolbar{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:14px;
-  margin:24px 0;
-}
-
-@media(max-width:760px){
-  .toolbar{
-    grid-template-columns:1fr;
-  }
-}
-
-.search{
-  width:100%;
-  border:1px solid var(--line);
-  background:var(--paper);
-  color:var(--ink);
-  border-radius:16px;
-  padding:15px 17px;
-  font:600 18px "Source Sans 3",sans-serif;
-  box-shadow:0 3px 14px var(--shadow);
-}
-
-.search::placeholder{
-  color:var(--ink-soft);
-}
-
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.chip{
-  border:1px solid var(--line);
-  background:var(--paper);
-  color:var(--ink-soft);
-  border-radius:999px;
-  padding:10px 13px;
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.chip.active{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:var(--accent-ink);
-}
-
-.section-title{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:18px;
-  margin:28px 0 16px;
-}
-
-.section-title h2{
-  margin:0;
-  font-size:clamp(29px,4vw,42px);
-}
-
-.section-title span{
-  color:var(--ink-soft);
-  font-family:"JetBrains Mono",monospace;
-  font-size:14px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
-}
-
-@media(max-width:860px){
-  .cards{
-    grid-template-columns:1fr;
-  }
-}
-
-.card{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 4px 18px var(--shadow);
-  position:relative;
-  overflow:hidden;
-  min-height:310px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.card::before{
-  content:"";
-  position:absolute;
-  inset:0 0 auto 0;
-  height:7px;
-  background:linear-gradient(90deg,var(--module-color),transparent);
-}
-
-.card[data-done="true"]{
-  outline:3px solid color-mix(in srgb, var(--good) 45%, transparent);
-}
-
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  gap:14px;
-  align-items:flex-start;
-}
-
-.module-no{
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--module-color);
-  font-weight:800;
-}
-
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-  color:var(--ink-soft);
-  cursor:pointer;
-  user-select:none;
-}
-
-.status input{
-  width:18px;
-  height:18px;
-  accent-color:var(--good);
-}
-
-.card h3{
-  margin:0;
-  font-size:32px;
-  line-height:1.12;
-}
-
-.card p{
-  margin:0;
-  color:var(--ink-soft);
-}
-
-.topics{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:4px 0 0;
-}
-
-.topics span{
-  border:1px solid var(--line);
-  background:var(--code-bg);
-  border-radius:999px;
-  padding:7px 10px;
-  font-family:"JetBrains Mono",monospace;
-  font-size:12px;
-  color:var(--ink-soft);
-}
-
-.card-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:auto;
-}
-
-.mini-link{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  text-decoration:none;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:10px 13px;
-  font-weight:800;
-  font-size:16px;
-  background:var(--paper-2);
-}
-
-.mini-link.primary{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:var(--accent-ink);
-}
-
-.plan{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-  margin-top:22px;
-}
-
-@media(max-width:860px){
-  .plan{
-    grid-template-columns:1fr;
-  }
-}
-
-.panel{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 4px 18px var(--shadow);
-}
-
-.panel h2{
-  margin:0 0 14px;
-  font-size:32px;
-}
-
-.remember-list{
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-.remember-list li{
-  position:relative;
-  padding-left:30px;
-  margin-bottom:12px;
-}
-
-.remember-list li::before{
-  content:"●";
-  position:absolute;
-  left:0;
-  top:.2em;
-  color:var(--accent-2);
-  font-size:.9em;
-}
-
-.timeline{
-  counter-reset:step;
-  list-style:none;
-  padding:0;
-  margin:0;
-}
-
-.timeline li{
-  counter-increment:step;
-  position:relative;
-  padding-left:48px;
-  margin-bottom:18px;
-}
-
-.timeline li::before{
-  content:counter(step);
-  position:absolute;
-  left:0;
-  top:.05em;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--accent);
-  color:var(--accent-ink);
-  font-family:"JetBrains Mono",monospace;
-  font-size:14px;
-  font-weight:800;
-}
-
-.empty{
-  display:none;
-  background:var(--paper);
-  border:1px dashed var(--accent-2);
-  border-radius:20px;
-  padding:24px;
-  color:var(--ink-soft);
-  text-align:center;
-  margin:18px 0;
-}
-
-footer{
-  margin-top:34px;
-  padding-top:22px;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-  color:var(--ink-soft);
-  font-family:"JetBrains Mono",monospace;
-  font-size:13px;
-}
-
-@media print{
-  body{
-    background:white;
-    color:black;
-    font-size:13pt;
-  }
-
-  .theme-toggle,
-  .toolbar,
-  .hero-actions,
-  .card-actions,
-  .status{
-    display:none !important;
-  }
-
-  .hero,
-  .card,
-  .panel,
-  .progress-card{
-    box-shadow:none;
-  }
-
-  .cards,
-  .plan{
-    grid-template-columns:1fr;
-  }
-}
-</style>
-</head>
-
-<body>
-<div class="shell">
-
-  <header class="top">
-    <div>
-      <div class="crumb">Titularizare Fizică › <b>1. Tematica științifică</b></div>
-    </div>
-
-    <button class="theme-toggle" id="themeToggle" aria-label="Comută tema zi/noapte">
-      <span class="icon">☀️</span>
-      <span class="track"><span class="knob"></span></span>
-      <span class="icon">🌙</span>
-    </button>
-  </header>
-
-  <section class="hero">
-    <div class="hero-grid">
-      <div>
-        <div class="badge">Pregătire structurată pentru proba scrisă</div>
-        <h1>Tematica științifică</h1>
-        <p class="lead">
-          Parcurge cele șapte module fundamentale ale fizicii pentru concurs:
-          <span class="key"><b>mecanică</b></span>,
-          <span class="key"><b>termodinamică</b></span>,
-          <span class="key"><b>electromagnetism</b></span>,
-          <span class="key"><b>optică</b></span>,
-          <span class="key"><b>fizică modernă</b></span>,
-          <span class="key"><b>elemente de haos</b></span> și
-          <span class="key"><b>Compendiul Bunget</b></span>.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn primary" href="1. Mecanica/index.html">Începe cu Mecanica →</a>
-          <a class="btn ghost" href="../index.html">← Pagina principală</a>
-          <button class="btn" id="resetProgress">Resetează progresul</button>
-        </div>
-      </div>
-
-      <aside class="progress-card" aria-label="Progresul secțiunii">
-        <h2>Progres secțiune</h2>
-        <p>Bifează modulele parcurse. Progresul se salvează local în browser.</p>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <div class="progress-label" id="progressLabel">0 / 7 module parcurse</div>
-      </aside>
-    </div>
-  </section>
-
-  <div class="toolbar">
-    <input class="search" id="searchInput" type="search" placeholder="Caută: mecanică, Maxwell, opticǎ, cuantice, haos...">
-
-    <div class="filters" aria-label="Filtre module">
-      <button class="chip active" data-filter="all">Toate</button>
-      <button class="chip" data-filter="clasic">Clasic</button>
-      <button class="chip" data-filter="modern">Modern</button>
-      <button class="chip" data-filter="aplicatii">Aplicații</button>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h2>Module de studiu</h2>
-    <span id="visibleCount">7 module</span>
-  </div>
-
-  <div class="empty" id="emptyState">
-    Nu există module care să corespundă filtrului sau căutării curente.
-  </div>
-
-  <section class="cards" id="moduleCards">
-
-    <article class="card" data-id="mecanica" data-tags="clasic aplicatii mecanica relativitate lagrange hamilton oscilatii unde" style="--module-color:#1f6f6b">
-      <div class="card-top">
-        <div class="module-no">Modul 01</div>
-        <label class="status">
-          <input type="checkbox" data-check="mecanica">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Mecanică clasică și relativistă</h3>
-      <p>
-        Cinematică, dinamică, legi de conservare, oscilații, unde mecanice, mecanică analitică și noțiuni de relativitate.
-      </p>
-
-      <div class="topics">
-        <span>cinematică</span>
-        <span>Newton</span>
-        <span>energie</span>
-        <span>impuls</span>
-        <span>relativitate</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="1. Mecanica/index.html">Deschide modulul →</a>
-        <a class="mini-link" href="1. Mecanica/Fise de lucru/index.html">Fișe de lucru</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="termodinamica" data-tags="clasic aplicatii termodinamica statistica gaze entropie calorimetrie" style="--module-color:#b8862e">
-      <div class="card-top">
-        <div class="module-no">Modul 02</div>
-        <label class="status">
-          <input type="checkbox" data-check="termodinamica">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Termodinamică și fizică statistică</h3>
-      <p>
-        Principiile termodinamicii, gaze ideale, procese termodinamice, motoare termice, entropie și elemente de fizică statistică.
-      </p>
-
-      <div class="topics">
-        <span>gaz ideal</span>
-        <span>căldură</span>
-        <span>lucru mecanic</span>
-        <span>entropie</span>
-        <span>statistică</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="2. Termodinamica si fizica statistica/index.html">Deschide modulul →</a>
-        <a class="mini-link" href="2. Termodinamica si fizica statistica/Fise de lucru/index.html">Fișe de lucru</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="electromagnetism" data-tags="clasic aplicatii electricitate magnetism maxwell circuite camp electromagnetic" style="--module-color:#7b5fb8">
-      <div class="card-top">
-        <div class="module-no">Modul 03</div>
-        <label class="status">
-          <input type="checkbox" data-check="electromagnetism">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Electricitate și magnetism</h3>
-      <p>
-        Electrostatică, curent electric, circuite, câmp magnetic, inducție electromagnetică, ecuațiile Maxwell și unde electromagnetice.
-      </p>
-
-      <div class="topics">
-        <span>câmp electric</span>
-        <span>circuite</span>
-        <span>inducție</span>
-        <span>Maxwell</span>
-        <span>unde EM</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="3. Electricitate si magnetism/index.html">Deschide modulul →</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="optica" data-tags="clasic aplicatii optica reflexie refractie interferenta difractie polarizare" style="--module-color:#2f7d52">
-      <div class="card-top">
-        <div class="module-no">Modul 04</div>
-        <label class="status">
-          <input type="checkbox" data-check="optica">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Optică geometrică și ondulatorie</h3>
-      <p>
-        Reflexie, refracție, oglinzi, lentile, instrumente optice, interferență, difracție și polarizarea luminii.
-      </p>
-
-      <div class="topics">
-        <span>raze</span>
-        <span>lentile</span>
-        <span>interferență</span>
-        <span>difracție</span>
-        <span>polarizare</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="4. Optica/index.html">Deschide modulul →</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="moderna" data-tags="modern aplicatii atomica nucleara cuantica fotoelectric bohr radioactivitate" style="--module-color:#b94d42">
-      <div class="card-top">
-        <div class="module-no">Modul 05</div>
-        <label class="status">
-          <input type="checkbox" data-check="moderna">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Fizică atomică, nucleară și cuantică</h3>
-      <p>
-        Structura atomului, modele atomice, efect fotoelectric, elemente cuantice, radioactivitate, reacții nucleare și aplicații.
-      </p>
-
-      <div class="topics">
-        <span>Bohr</span>
-        <span>fotoelectric</span>
-        <span>cuantic</span>
-        <span>nuclear</span>
-        <span>radioactivitate</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="5. Fizica atomica, nucleara si cuantica/index.html">Deschide modulul →</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="haos" data-tags="modern aplicatii haos atractori fractali neliniar sensibilitate" style="--module-color:#d07a2f">
-      <div class="card-top">
-        <div class="module-no">Modul 06</div>
-        <label class="status">
-          <input type="checkbox" data-check="haos">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Elemente de teoria haosului</h3>
-      <p>
-        Sisteme neliniare, sensibilitate la condițiile inițiale, atractori, haos determinist, fractali și aplicații conceptuale.
-      </p>
-
-      <div class="topics">
-        <span>neliniar</span>
-        <span>haos</span>
-        <span>atractori</span>
-        <span>fractali</span>
-        <span>sensibilitate</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="6. Elemente de teoria haosului/index.html">Deschide modulul →</a>
-      </div>
-    </article>
-
-    <article class="card" data-id="bunget" data-tags="clasic aplicatii bunget compendiu miscare repaus referinta traiectorie cinematica" style="--module-color:#2563eb">
-      <div class="card-top">
-        <div class="module-no">Modul 07</div>
-        <label class="status">
-          <input type="checkbox" data-check="bunget">
-          Parcurs
-        </label>
-      </div>
-
-      <h3>Compendiu de Fizică — I. Bunget</h3>
-      <p>
-        Recapitulare complementară după Compendiul de fizică al lui I. Bunget: definiții riguroase, exemple lucrate și mini-teste, pornind de la mișcare și repaus, elementele mișcării și obiectul cinematicii.
-      </p>
-
-      <div class="topics">
-        <span>mișcare</span>
-        <span>repaus</span>
-        <span>referință</span>
-        <span>traiectorie</span>
-        <span>cinematică</span>
-      </div>
-
-      <div class="card-actions">
-        <a class="mini-link primary" href="7. Bunget-Compendiu-Fizica/index.html">Deschide modulul →</a>
-      </div>
-    </article>
-
-  </section>
-
-  <section class="plan">
-    <div class="panel">
-      <h2>Strategie de învățare</h2>
-      <ol class="timeline">
-        <li><b>Începe cu noțiunile fundamentale.</b> Recapitulează definiții, legi, mărimi fizice și unități.</li>
-        <li><b>Construiește demonstrațiile.</b> Reține ipotezele, principiile și pașii matematici.</li>
-        <li><b>Rezolvă probleme tipice.</b> Notează datele, modelul fizic, ecuațiile, calculul și interpretarea.</li>
-        <li><b>Fă conexiuni didactice.</b> Gândește cum explici conceptul elevilor și ce experiment alegi.</li>
-        <li><b>Revizuiește prin teste mixte.</b> Alternează itemi conceptuali, probleme și aplicații experimentale.</li>
-      </ol>
-    </div>
-
-    <div class="panel">
-      <h2>Ce trebuie să urmărești</h2>
-      <ul class="remember-list">
-        <li><b>Rigoare matematică:</b> formule clare, unități, cazuri limită și interpretare.</li>
-        <li><b>Explicație fizică:</b> fiecare ecuație trebuie legată de fenomen.</li>
-        <li><b>Aplicații de examen:</b> probleme standard, demonstrații și conexiuni interdisciplinare.</li>
-        <li><b>Didactizare:</b> pregătește exemple, analogii, experimente și erori frecvente ale elevilor.</li>
-        <li><b>Autoevaluare:</b> marchează modulele parcurse și revino la cele nebifate.</li>
-      </ul>
-    </div>
-  </section>
-
-  <footer>
-    <span>1. TEMATICA ȘTIINȚIFICĂ · Titularizare Fizică</span>
-    <span>Progres salvat local în browser</span>
-  </footer>
-
-</div>
-
-<script>
-(function(){
-  var root=document.documentElement;
-  var savedTheme=localStorage.getItem('titularizare-fizica-theme');
-
-  if(savedTheme==='dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)){
-    root.classList.add('dark');
-  }
-
-  document.getElementById('themeToggle').addEventListener('click',function(){
-    root.classList.toggle('dark');
-    localStorage.setItem('titularizare-fizica-theme',root.classList.contains('dark')?'dark':'light');
-  });
-
-  var cards=[].slice.call(document.querySelectorAll('.card'));
-  var checks=[].slice.call(document.querySelectorAll('[data-check]'));
-  var progressFill=document.getElementById('progressFill');
-  var progressLabel=document.getElementById('progressLabel');
-  var storageKey='titularizare-fizica-tematica-stiintifica-progress';
-
-  function readProgress(){
-    try{
-      return JSON.parse(localStorage.getItem(storageKey)) || {};
-    }catch(e){
-      return {};
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1716;
+      --text: #edf4f2;
+      --muted: #a9b8b4;
     }
   }
-
-  function writeProgress(data){
-    localStorage.setItem(storageKey,JSON.stringify(data));
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 18px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
   }
-
-  function updateProgress(){
-    var data=readProgress();
-    var done=0;
-
-    checks.forEach(function(input){
-      var id=input.dataset.check;
-      input.checked=!!data[id];
-
-      var card=document.querySelector('.card[data-id="'+id+'"]');
-      if(card){
-        card.dataset.done=input.checked ? 'true' : 'false';
-      }
-
-      if(input.checked) done++;
-    });
-
-    var percent=Math.round((done/checks.length)*100);
-    progressFill.style.width=percent + '%';
-    progressLabel.textContent=done + ' / ' + checks.length + ' module parcurse · ' + percent + '%';
+  main {
+    max-width: 640px;
+    margin: 0 auto;
   }
-
-  checks.forEach(function(input){
-    input.addEventListener('change',function(){
-      var data=readProgress();
-      data[input.dataset.check]=input.checked;
-      writeProgress(data);
-      updateProgress();
-    });
-  });
-
-  document.getElementById('resetProgress').addEventListener('click',function(){
-    localStorage.removeItem(storageKey);
-    updateProgress();
-  });
-
-  updateProgress();
-
-  var searchInput=document.getElementById('searchInput');
-  var chips=[].slice.call(document.querySelectorAll('.chip'));
-  var visibleCount=document.getElementById('visibleCount');
-  var emptyState=document.getElementById('emptyState');
-  var activeFilter='all';
-
-  function normalize(text){
-    return text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g,'');
+  .back {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
   }
-
-  function applyFilters(){
-    var q=normalize(searchInput.value.trim());
-    var visible=0;
-
-    cards.forEach(function(card){
-      var text=normalize(card.textContent + ' ' + card.dataset.tags);
-      var matchesSearch=!q || text.indexOf(q)!==-1;
-      var matchesFilter=activeFilter==='all' || card.dataset.tags.indexOf(activeFilter)!==-1;
-      var show=matchesSearch && matchesFilter;
-
-      card.style.display=show ? 'flex' : 'none';
-      if(show) visible++;
-    });
-
-    visibleCount.textContent=visible + (visible===1 ? ' modul' : ' module');
-    emptyState.style.display=visible===0 ? 'block' : 'none';
+  .back:hover { color: var(--text); }
+  header {
+    text-align: center;
+    margin-bottom: 32px;
   }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(26px, 6vw, 38px);
+    line-height: 1.1;
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .grid {
+    display: grid;
+    gap: 12px;
+  }
+  a.btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
+    border-radius: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 17px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  a.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+  }
+  a.btn:active {
+    transform: translateY(0);
+  }
+  .nr {
+    font-variant-numeric: tabular-nums;
+    opacity: .75;
+    min-width: 22px;
+  }
+  .b1 { background: #1f6f6b; }
+  .b2 { background: #b8862e; }
+  .b3 { background: #7b5fb8; }
+  .b4 { background: #2f7d52; }
+  .b5 { background: #b94d42; }
+  .b6 { background: #d07a2f; }
 
-  searchInput.addEventListener('input',applyFilters);
+  footer {
+    margin-top: 36px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../index.html">← Pagina principală</a>
 
-  chips.forEach(function(chip){
-    chip.addEventListener('click',function(){
-      chips.forEach(function(c){ c.classList.remove('active'); });
-      chip.classList.add('active');
-      activeFilter=chip.dataset.filter;
-      applyFilters();
-    });
-  });
+  <header>
+    <h1>Tematica științifică</h1>
+    <p class="subtitle">Alege modulul</p>
+  </header>
 
-  applyFilters();
-})();
-</script>
+  <div class="grid">
+    <a class="btn b1" href="1. Mecanica/index.html">
+      <span class="nr">1</span><span>Mecanică</span>
+    </a>
+    <a class="btn b2" href="2. Termodinamica si fizica statistica/index.html">
+      <span class="nr">2</span><span>Termodinamică și fizică statistică</span>
+    </a>
+    <a class="btn b3" href="3. Electricitate si magnetism/index.html">
+      <span class="nr">3</span><span>Electricitate și magnetism</span>
+    </a>
+    <a class="btn b4" href="4. Optica/index.html">
+      <span class="nr">4</span><span>Optică</span>
+    </a>
+    <a class="btn b5" href="5. Fizica atomica, nucleara si cuantica/index.html">
+      <span class="nr">5</span><span>Fizică atomică, nucleară și cuantică</span>
+    </a>
+    <a class="btn b6" href="6. Elemente de teoria haosului/index.html">
+      <span class="nr">6</span><span>Elemente de teoria haosului</span>
+    </a>
+  </div>
+
+  <footer>1. Tematica științifică · Titularizare Fizică</footer>
+</main>
 </body>
 </html>
