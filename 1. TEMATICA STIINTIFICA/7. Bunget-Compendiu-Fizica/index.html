@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ro">
 
 <head>
@@ -11,358 +10,555 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <meta
-    name="description"
-    content="Cuprinsul Compendiului de Fizica - Ion Bunget. Material de studiu pentru Titularizare Fizica."
-  >
-
   <title>
-    Bunget - Compendiu de Fizică | Titularizare Fizică
+    Bunget - Compendiu de Fizică
   </title>
 
+  <style>
 
-  <!-- CSS comun Bunget -->
+    :root {
+      --bg: #f3f6fa;
+      --text: #172033;
+      --muted: #68758a;
+    }
 
-  <link
-    rel="stylesheet"
-    href="/Titularizare-Fizica/assets/css/bunget.css"
-  >
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    main {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 42px 0 60px;
+    }
 
 
-  <!-- Functionalitati comune:
-       - tema Zi / Noapte
-       - A- / A+
-  -->
+    /* ------------------------------------------------------------
+       INAPOI
+       ------------------------------------------------------------ */
 
-  <script
-    defer
-    src="/Titularizare-Fizica/assets/js/bunget.js"
-  ></script>
+    .back {
+      display: inline-block;
+
+      margin-bottom: 32px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      font-weight: 700;
+
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: var(--text);
+    }
+
+
+    /* ------------------------------------------------------------
+       TITLU
+       ------------------------------------------------------------ */
+
+    header {
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      margin-bottom: 8px;
+
+      color: #e4572e;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.08;
+
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 17px;
+    }
+
+
+    /* ------------------------------------------------------------
+       GRID
+       ------------------------------------------------------------ */
+
+    .parts {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 18px;
+    }
+
+
+    /* ------------------------------------------------------------
+       BUTOANE
+       ------------------------------------------------------------ */
+
+    .part-btn {
+      position: relative;
+
+      min-height: 125px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 22px 26px;
+
+      border-radius: 18px;
+
+      color: #ffffff;
+
+      text-decoration: none;
+
+      box-shadow:
+        0 8px 22px rgba(20, 30, 50, 0.14);
+
+      transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        filter 0.16s ease;
+    }
+
+    .part-btn:hover {
+      color: #ffffff;
+
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 14px 28px rgba(20, 30, 50, 0.20);
+
+      filter: brightness(1.06);
+    }
+
+    .part-btn:active {
+      transform: translateY(0);
+    }
+
+    .part-number {
+      margin-bottom: 8px;
+
+      color: rgba(255, 255, 255, 0.80);
+
+      font-size: 13px;
+      font-weight: 900;
+
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .part-title {
+      font-size: clamp(18px, 2.3vw, 22px);
+      font-weight: 850;
+
+      line-height: 1.25;
+    }
+
+    .arrow {
+      position: absolute;
+
+      top: 50%;
+      right: 22px;
+
+      transform: translateY(-50%);
+
+      color: rgba(255, 255, 255, 0.72);
+
+      font-size: 26px;
+    }
+
+
+    /* ------------------------------------------------------------
+       CULORI
+       ------------------------------------------------------------ */
+
+    .p1 {
+      background:
+        linear-gradient(
+          135deg,
+          #0f766e,
+          #0d9488
+        );
+    }
+
+    .p2 {
+      background:
+        linear-gradient(
+          135deg,
+          #c2410c,
+          #ea580c
+        );
+    }
+
+    .p3 {
+      background:
+        linear-gradient(
+          135deg,
+          #1d4ed8,
+          #2563eb
+        );
+    }
+
+    .p4 {
+      background:
+        linear-gradient(
+          135deg,
+          #a16207,
+          #ca8a04
+        );
+    }
+
+    .p5 {
+      background:
+        linear-gradient(
+          135deg,
+          #6d28d9,
+          #7c3aed
+        );
+    }
+
+    .p6 {
+      background:
+        linear-gradient(
+          135deg,
+          #15803d,
+          #16a34a
+        );
+    }
+
+    .p7 {
+      background:
+        linear-gradient(
+          135deg,
+          #9f1239,
+          #be185d
+        );
+    }
+
+
+    /* ------------------------------------------------------------
+       FOOTER
+       ------------------------------------------------------------ */
+
+    footer {
+      margin-top: 42px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      text-align: center;
+    }
+
+
+    /* ------------------------------------------------------------
+       TELEFON
+       ------------------------------------------------------------ */
+
+    @media (max-width: 700px) {
+
+      main {
+        width: min(100% - 20px, 1100px);
+        padding-top: 26px;
+      }
+
+      .parts {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .part-btn {
+        min-height: 104px;
+
+        padding:
+          18px
+          52px
+          18px
+          20px;
+
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+    }
+
+
+    /* ------------------------------------------------------------
+       TEMA INTUNECATA AUTOMATA
+       ------------------------------------------------------------ */
+
+    @media (prefers-color-scheme: dark) {
+
+      :root {
+        --bg: #101722;
+        --text: #f1f5f9;
+        --muted: #a4b0c2;
+      }
+
+    }
+
+  </style>
 
 </head>
 
 
 <body>
 
+  <main>
 
-  <!-- ================================================================
-       CONTINUT
-       ================================================================ -->
-
-  <main class="page">
-
-
-    <!-- ==============================================================
-         NAVIGARE SUPERIOARA
-         ============================================================== -->
-
-    <div class="breadcrumbs">
-
-      <a href="../index.html">
-        ← Tematica științifică
-      </a>
-
-    </div>
+    <a
+      class="back"
+      href="../index.html"
+    >
+      ← Tematica științifică
+    </a>
 
 
+    <header>
 
-    <!-- ==============================================================
-         HERO
-         ============================================================== -->
-
-    <section class="lesson-hero">
-
-      <div class="lesson-hero-grid">
-
-
-        <div>
-
-          <div class="eyebrow">
-            Bibliografie de studiu
-          </div>
-
-
-          <h1>
-            Bunget - Compendiu de Fizică
-          </h1>
-
-
-          <p class="lesson-lead">
-
-            Alege partea pe care vrei să o studiezi.
-
-          </p>
-
-        </div>
-
-
-
-        <!-- CONTROALE -->
-
-        <aside class="lesson-summary-card">
-
-          <strong>
-            Afișare
-          </strong>
-
-
-          <div
-            class="toolbar"
-            style="justify-content:flex-start; margin-top:16px;"
-          >
-
-            <button
-              type="button"
-              class="tool-btn"
-              data-action="font-down"
-              aria-label="Micșorează textul"
-            >
-              A−
-            </button>
-
-
-            <button
-              type="button"
-              class="tool-btn"
-              data-action="font-up"
-              aria-label="Mărește textul"
-            >
-              A+
-            </button>
-
-
-            <button
-              type="button"
-              class="tool-btn"
-              data-action="toggle-theme"
-              aria-label="Schimbă tema"
-            >
-
-              <span data-theme-icon>
-                ☾
-              </span>
-
-              <span class="btn-label">
-                Noapte
-              </span>
-
-            </button>
-
-          </div>
-
-        </aside>
-
+      <div class="eyebrow">
+        Compendiu de fizică
       </div>
 
-    </section>
-
-
-
-    <!-- ==============================================================
-         PARTILE COMPENDIULUI
-         ============================================================== -->
-
-    <section class="lesson-section">
-
-      <div class="section-label">
-        Cuprins
-      </div>
-
-
-      <h2>
+      <h1>
         Părțile Compendiului
-      </h2>
+      </h1>
+
+      <p class="subtitle">
+        Alege domeniul pe care vrei să îl studiezi.
+      </p>
+
+    </header>
 
 
-      <div class="grid-2">
+    <div class="parts">
 
 
-        <!-- I -->
+      <!-- I -->
 
-        <a
-          class="lesson-nav-link"
-          href="I-mecanica-si-acustica/index.html"
-        >
+      <a
+        class="part-btn p1"
+        href="I-mecanica-si-acustica/index.html"
+      >
 
-          <span class="lesson-nav-label">
-            Partea I
-          </span>
-
-          <span class="lesson-nav-title">
-            Mecanică și acustică
-          </span>
-
-        </a>
-
-
-
-        <!-- II -->
-
-        <a
-          class="lesson-nav-link"
-          href="II-caldura-si-fizica-moleculara/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Partea II
-          </span>
-
-          <span class="lesson-nav-title">
-            Căldură și fizică moleculară
-          </span>
-
-        </a>
-
-
-
-        <!-- III -->
-
-        <a
-          class="lesson-nav-link"
-          href="III-electricitate-magnetism-si-elemente-de-electronica/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Partea III
-          </span>
-
-          <span class="lesson-nav-title">
-            Electricitate, magnetism și elemente de electronică
-          </span>
-
-        </a>
-
-
-
-        <!-- IV -->
-
-        <a
-          class="lesson-nav-link"
-          href="IV-optica-si-spectroscopie/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Partea IV
-          </span>
-
-          <span class="lesson-nav-title">
-            Optică și spectroscopie
-          </span>
-
-        </a>
-
-
-
-        <!-- V -->
-
-        <a
-          class="lesson-nav-link"
-          href="V-fizica-atomica-si-nucleara-elemente-de-mecanica-cuantica/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Partea V
-          </span>
-
-          <span class="lesson-nav-title">
-            Fizică atomică și nucleară. Elemente de mecanică cuantică
-          </span>
-
-        </a>
-
-
-
-        <!-- VI -->
-
-        <a
-          class="lesson-nav-link"
-          href="VI-elemente-de-fizica-solidului/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Partea VI
-          </span>
-
-          <span class="lesson-nav-title">
-            Elemente de fizica solidului
-          </span>
-
-        </a>
-
-
-
-        <!-- ANEXA -->
-
-        <a
-          class="lesson-nav-link"
-          href="VII-anexa-matematica/index.html"
-        >
-
-          <span class="lesson-nav-label">
-            Anexă
-          </span>
-
-          <span class="lesson-nav-title">
-            Anexă matematică
-          </span>
-
-        </a>
-
-
-      </div>
-
-    </section>
-
-
-
-    <!-- ==============================================================
-         SURSA
-         ============================================================== -->
-
-    <section class="lesson-section">
-
-      <div class="source-box">
-
-        <span class="source-label">
-          Sursa principală
+        <span class="part-number">
+          Partea I
         </span>
 
+        <span class="part-title">
+          Mecanică și acustică
+        </span>
 
-        <p class="no-margin">
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
 
-          <strong>
-            Compendiu de fizică pentru admitere în învățământul superior
-          </strong>
-
-          <br>
-
-          Editura Științifică, București, 1972.
-
-        </p>
-
-      </div>
-
-    </section>
-
-
-  </main>
+      </a>
 
 
 
-  <!-- ================================================================
-       FOOTER
-       ================================================================ -->
+      <!-- II -->
 
-  <footer>
+      <a
+        class="part-btn p2"
+        href="II-caldura-si-fizica-moleculara/index.html"
+      >
 
-    <div class="container">
+        <span class="part-number">
+          Partea II
+        </span>
 
-      Bunget - Compendiu de Fizică · Titularizare Fizică
+        <span class="part-title">
+          Căldură și fizică moleculară
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
+
+
+      <!-- III -->
+
+      <a
+        class="part-btn p3"
+        href="III-electricitate-magnetism-si-elemente-de-electronica/index.html"
+      >
+
+        <span class="part-number">
+          Partea III
+        </span>
+
+        <span class="part-title">
+          Electricitate, magnetism și elemente de electronică
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
+
+
+      <!-- IV -->
+
+      <a
+        class="part-btn p4"
+        href="IV-optica-si-spectroscopie/index.html"
+      >
+
+        <span class="part-number">
+          Partea IV
+        </span>
+
+        <span class="part-title">
+          Optică și spectroscopie
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
+
+
+      <!-- V -->
+
+      <a
+        class="part-btn p5"
+        href="V-fizica-atomica-si-nucleara-elemente-de-mecanica-cuantica/index.html"
+      >
+
+        <span class="part-number">
+          Partea V
+        </span>
+
+        <span class="part-title">
+          Fizică atomică și nucleară. Elemente de mecanică cuantică
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
+
+
+      <!-- VI -->
+
+      <a
+        class="part-btn p6"
+        href="VI-elemente-de-fizica-solidului/index.html"
+      >
+
+        <span class="part-number">
+          Partea VI
+        </span>
+
+        <span class="part-title">
+          Elemente de fizica solidului
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
+
+
+      <!-- VII -->
+
+      <a
+        class="part-btn p7"
+        href="VII-anexa-matematica/index.html"
+      >
+
+        <span class="part-number">
+          Anexă
+        </span>
+
+        <span class="part-title">
+          Anexă matematică
+        </span>
+
+        <span
+          class="arrow"
+          aria-hidden="true"
+        >
+          →
+        </span>
+
+      </a>
+
 
     </div>
 
-  </footer>
 
+    <footer>
+      Bunget - Compendiu de Fizică · Titularizare Fizică
+    </footer>
+
+  </main>
 
 </body>
 
