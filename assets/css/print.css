@@ -1,0 +1,1629 @@
+/* ========================================================================
+   PRINT.CSS
+   Titularizare Fizica
+   Ion Bunget - Compendiu de Fizica
+
+   Repository:
+   /assets/css/print.css
+
+   Se incarca astfel:
+   <link
+     rel="stylesheet"
+     href="/Titularizare-Fizica/assets/css/print.css"
+     media="print"
+   >
+
+   Scop:
+   - export A4 / Save as PDF
+   - eliminarea elementelor de navigare si interactiune
+   - pastrarea formulelor, schemelor si continutului stiintific
+   - evitarea ruperii necorespunzatoare intre pagini
+
+   Versiune: 1.0
+   ======================================================================== */
+
+
+@media print {
+
+
+  /* ======================================================================
+     1. CONFIGURARE PAGINA
+     ====================================================================== */
+
+  @page {
+
+    size: A4 portrait;
+
+    margin:
+      14mm
+      14mm
+      16mm
+      14mm;
+  }
+
+
+  /* ======================================================================
+     2. FORTEAZA TEMA DE TIPAR
+     ====================================================================== */
+
+  :root,
+  html[data-theme="dark"],
+  body.dark {
+
+    --bg: #ffffff;
+    --bg-alt: #ffffff;
+
+    --surface: #ffffff;
+    --surface-soft: #f7f7f7;
+    --surface-alt: #f2f2f2;
+    --surface-highlight: #f4f6f9;
+
+    --text: #000000;
+    --text-secondary: #222222;
+    --text-muted: #4a4a4a;
+
+    --primary: #1d4f9c;
+    --primary-hover: #1d4f9c;
+    --primary-soft: #eef3fa;
+
+    --accent: #b84728;
+    --accent-soft: #f9efeb;
+
+    --success: #146943;
+    --success-soft: #edf7f2;
+
+    --warning: #8b6200;
+    --warning-soft: #faf5e8;
+
+    --danger: #9e2118;
+    --danger-soft: #faeeee;
+
+    --info: #145d83;
+    --info-soft: #eef6fa;
+
+    --border: #cfcfcf;
+    --border-strong: #9d9d9d;
+
+    --shadow-xs: none;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+
+    color-scheme: light;
+  }
+
+
+  /* ======================================================================
+     3. DOCUMENT
+     ====================================================================== */
+
+  html {
+
+    background: #ffffff !important;
+
+    scroll-behavior: auto !important;
+  }
+
+
+  body {
+
+    margin: 0 !important;
+
+    background: #ffffff !important;
+
+    color: #000000 !important;
+
+    font-family:
+      Arial,
+      Helvetica,
+      sans-serif;
+
+    font-size: 10.5pt;
+
+    line-height: 1.45;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+
+  /* ======================================================================
+     4. LATIME CONTINUT
+     ====================================================================== */
+
+  .container,
+  .page,
+  .reading-container {
+
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+  }
+
+
+  main {
+
+    width: 100% !important;
+
+    max-width: none !important;
+  }
+
+
+  /* ======================================================================
+     5. ASCUNDE ELEMENTELE CARE NU AU ROL IN PDF
+     ====================================================================== */
+
+  #reading-progress,
+  .reading-progress,
+
+  .site-header,
+  .topbar,
+
+  .site-nav,
+  .main-nav,
+
+  .lesson-toc,
+  .contents,
+
+  .toolbar,
+  .header-actions,
+
+  .breadcrumbs,
+
+  .skip-link,
+
+  .no-print,
+
+  .quiz-actions,
+
+  .simulation-controls,
+  .controls,
+
+  .lesson-navigation,
+
+  button,
+  select,
+  input[type="range"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+
+    display: none !important;
+  }
+
+
+  /* ======================================================================
+     6. HERO
+     ====================================================================== */
+
+  .lesson-hero,
+  .hero {
+
+    padding:
+      0
+      0
+      8mm
+      0 !important;
+
+    margin: 0 !important;
+
+    border-bottom:
+      1.5pt solid var(--border);
+  }
+
+
+  .lesson-hero-grid,
+  .hero-grid {
+
+    display: block !important;
+  }
+
+
+  .lesson-hero h1,
+  .hero h1 {
+
+    margin:
+      2mm
+      0
+      3mm !important;
+
+    color: #000000 !important;
+
+    font-size: 24pt !important;
+
+    line-height: 1.08 !important;
+
+    letter-spacing: -0.02em !important;
+  }
+
+
+  .lesson-lead,
+  .lead {
+
+    max-width: none !important;
+
+    margin-bottom: 3mm !important;
+
+    color: #222222 !important;
+
+    font-size: 11pt !important;
+
+    line-height: 1.45 !important;
+  }
+
+
+  .lesson-number,
+  .lesson-summary-card {
+
+    margin-top: 4mm !important;
+
+    padding:
+      4mm
+      5mm !important;
+
+    border:
+      1pt solid var(--border) !important;
+
+    border-radius: 3mm !important;
+
+    background: #f5f5f5 !important;
+
+    box-shadow: none !important;
+  }
+
+
+  .lesson-number strong,
+  .lesson-number-value {
+
+    color: var(--primary) !important;
+
+    font-size: 20pt !important;
+  }
+
+
+  /* ======================================================================
+     7. META / CHIP-URI
+     ====================================================================== */
+
+  .chips,
+  .lesson-meta,
+  .footer-tags {
+
+    display: flex !important;
+
+    flex-wrap: wrap !important;
+
+    gap: 2mm !important;
+
+    margin-top: 3mm !important;
+  }
+
+
+  .chip,
+  .meta-chip,
+  .source-tag,
+  .badge {
+
+    padding:
+      1mm
+      2mm !important;
+
+    border:
+      0.7pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    color: #333333 !important;
+
+    box-shadow: none !important;
+
+    font-size: 8pt !important;
+  }
+
+
+  /* ======================================================================
+     8. SECTIUNI
+     ====================================================================== */
+
+  .lesson-section,
+  main section {
+
+    padding:
+      5mm
+      0 !important;
+
+    margin: 0 !important;
+  }
+
+
+  .section-label,
+  .section-kicker,
+  .eyebrow {
+
+    color: var(--accent) !important;
+
+    font-size: 8pt !important;
+
+    letter-spacing: 0.06em !important;
+  }
+
+
+  /* ======================================================================
+     9. TITLURI
+     ====================================================================== */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+
+    color: #000000 !important;
+
+    page-break-after: avoid;
+
+    break-after: avoid-page;
+  }
+
+
+  h2 {
+
+    margin:
+      0
+      0
+      3mm !important;
+
+    padding-top: 1mm;
+
+    font-size: 17pt !important;
+
+    line-height: 1.15 !important;
+  }
+
+
+  h3 {
+
+    margin:
+      0
+      0
+      2mm !important;
+
+    font-size: 13pt !important;
+
+    line-height: 1.2 !important;
+  }
+
+
+  h4 {
+
+    font-size: 11pt !important;
+  }
+
+
+  /* ======================================================================
+     10. PARAGRAFE SI LISTE
+     ====================================================================== */
+
+  p {
+
+    margin:
+      0
+      0
+      3mm;
+
+    orphans: 3;
+    widows: 3;
+  }
+
+
+  ul,
+  ol {
+
+    margin:
+      2mm
+      0
+      3mm;
+
+    padding-left: 6mm;
+  }
+
+
+  li {
+
+    margin-bottom: 1mm;
+
+    orphans: 2;
+    widows: 2;
+  }
+
+
+  /* ======================================================================
+     11. GRID-URI
+     In PDF le transformam de regula intr-o singura coloana.
+     Este mai robust pentru A4.
+     ====================================================================== */
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .flashcards,
+  .lesson-navigation {
+
+    display: block !important;
+  }
+
+
+  .grid-2 > *,
+  .grid-3 > *,
+  .grid-4 > *,
+  .flashcards > * {
+
+    margin-bottom: 4mm !important;
+  }
+
+
+  /* ======================================================================
+     12. CARDURI
+     ====================================================================== */
+
+  .card,
+  .card-soft,
+  .card-highlight,
+  .card-accent,
+  .card-primary,
+  .card-success {
+
+    margin:
+      0
+      0
+      4mm !important;
+
+    padding:
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 3mm !important;
+
+    background: #ffffff !important;
+
+    box-shadow: none !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  /* ======================================================================
+     13. DEFINITII
+     ====================================================================== */
+
+  .definition,
+  .definition-box {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-left:
+      3pt solid var(--primary) !important;
+
+    border-radius: 2mm !important;
+
+    background:
+      var(--primary-soft) !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .definition strong,
+  .definition-box strong {
+
+    color:
+      var(--primary) !important;
+  }
+
+
+  /* ======================================================================
+     14. CALLOUT-URI
+     ====================================================================== */
+
+  .callout {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      3.5mm
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-left:
+      3pt solid var(--primary) !important;
+
+    border-radius: 2mm !important;
+
+    background:
+      var(--primary-soft) !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .callout-success,
+  .callout.success {
+
+    border-left-color:
+      var(--success) !important;
+
+    background:
+      var(--success-soft) !important;
+  }
+
+
+  .callout-warning,
+  .callout.warning {
+
+    border-left-color:
+      var(--warning) !important;
+
+    background:
+      var(--warning-soft) !important;
+  }
+
+
+  .callout-danger,
+  .callout.danger {
+
+    border-left-color:
+      var(--danger) !important;
+
+    background:
+      var(--danger-soft) !important;
+  }
+
+
+  .callout-info,
+  .callout.info {
+
+    border-left-color:
+      var(--info) !important;
+
+    background:
+      var(--info-soft) !important;
+  }
+
+
+  /* ======================================================================
+     15. SURSA
+     ====================================================================== */
+
+  .source-box {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      3mm
+      4mm !important;
+
+    border:
+      0.8pt dashed var(--border-strong) !important;
+
+    background: #fafafa !important;
+
+    color: #333333 !important;
+
+    font-size: 9pt !important;
+
+    break-inside: avoid-page;
+  }
+
+
+  /* ======================================================================
+     16. FORMULE / MATHJAX
+     ====================================================================== */
+
+  .formula,
+  .formula-box {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      3mm
+      4mm !important;
+
+    overflow: visible !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #f7f7f7 !important;
+
+    box-shadow: none !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .formula-important {
+
+    border:
+      1.5pt solid var(--primary) !important;
+
+    background:
+      var(--primary-soft) !important;
+  }
+
+
+  mjx-container {
+
+    max-width: 100% !important;
+
+    color: #000000 !important;
+  }
+
+
+  mjx-container[display="true"] {
+
+    margin:
+      2mm
+      0 !important;
+
+    overflow: visible !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  mjx-container svg {
+
+    max-width: 100% !important;
+
+    height: auto !important;
+  }
+
+
+  /* ======================================================================
+     17. TABELE
+     ====================================================================== */
+
+  .table-wrap {
+
+    overflow: visible !important;
+
+    margin:
+      4mm
+      0 !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+  }
+
+
+  table {
+
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    border-collapse: collapse !important;
+
+    font-size: 8.8pt !important;
+
+    page-break-inside: auto;
+  }
+
+
+  thead {
+
+    display: table-header-group;
+  }
+
+
+  tfoot {
+
+    display: table-footer-group;
+  }
+
+
+  tr {
+
+    page-break-inside: avoid;
+
+    break-inside: avoid;
+  }
+
+
+  th,
+  td {
+
+    padding:
+      2mm
+      2.5mm !important;
+
+    border:
+      0.5pt solid var(--border) !important;
+
+    color: #000000 !important;
+
+    background: #ffffff !important;
+  }
+
+
+  th {
+
+    background: #eeeeee !important;
+
+    font-weight: 700 !important;
+  }
+
+
+  tbody tr:hover td {
+
+    background: #ffffff !important;
+  }
+
+
+  caption {
+
+    padding:
+      2mm
+      0 !important;
+
+    color: #000000 !important;
+
+    font-size: 9pt !important;
+  }
+
+
+  /* ======================================================================
+     18. SCHEME, GRAFICE, SVG
+     ====================================================================== */
+
+  .scheme,
+  .diagram,
+  .graph {
+
+    margin:
+      4mm
+      0 !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    box-shadow: none !important;
+
+    overflow: visible !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .scheme svg,
+  .diagram svg,
+  .graph svg {
+
+    display: block !important;
+
+    width: 100% !important;
+
+    max-width: 100% !important;
+
+    height: auto !important;
+  }
+
+
+  .scheme-caption,
+  .figure-caption {
+
+    padding:
+      2mm
+      3mm !important;
+
+    color: #333333 !important;
+
+    font-size: 8pt !important;
+  }
+
+
+  /* ======================================================================
+     19. IMAGINI
+     ====================================================================== */
+
+  img {
+
+    max-width: 100% !important;
+
+    height: auto !important;
+
+    page-break-inside: avoid;
+
+    break-inside: avoid-page;
+  }
+
+
+  figure {
+
+    margin:
+      4mm
+      0 !important;
+
+    page-break-inside: avoid;
+
+    break-inside: avoid-page;
+  }
+
+
+  figcaption {
+
+    margin-top: 2mm;
+
+    color: #444444 !important;
+
+    font-size: 8pt !important;
+
+    text-align: center;
+  }
+
+
+  /* ======================================================================
+     20. EXPERIMENTE / SIMULARI
+     Continutul explicativ ramane, controalele dispar.
+     ====================================================================== */
+
+  .interactive,
+  .lab,
+  .simulation {
+
+    margin:
+      4mm
+      0 !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    box-shadow: none !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .interactive-header,
+  .lab-header,
+  .simulation-header {
+
+    padding:
+      3mm
+      4mm !important;
+
+    border-bottom:
+      0.8pt solid var(--border) !important;
+
+    background: #f1f1f1 !important;
+  }
+
+
+  .interactive-body,
+  .lab-body,
+  .simulation-body {
+
+    padding:
+      4mm !important;
+  }
+
+
+  .result-box,
+  .readout {
+
+    padding:
+      3mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    background: #f7f7f7 !important;
+  }
+
+
+  /* ======================================================================
+     21. EXEMPLE
+     ====================================================================== */
+
+  .example {
+
+    margin:
+      4mm
+      0 !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .example-header {
+
+    padding:
+      3mm
+      4mm !important;
+
+    background: #eeeeee !important;
+
+    border-bottom:
+      0.8pt solid var(--border) !important;
+  }
+
+
+  .example-body {
+
+    padding:
+      4mm !important;
+  }
+
+
+  /* ======================================================================
+     22. PROBLEME
+     ====================================================================== */
+
+  .problem {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-left:
+      3pt solid var(--accent) !important;
+
+    background: #ffffff !important;
+
+    box-shadow: none !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .problem-level {
+
+    border:
+      0.6pt solid var(--border) !important;
+
+    background: #ffffff !important;
+
+    color: #333333 !important;
+  }
+
+
+  /* ======================================================================
+     23. DETAILS / INDICII
+     JS-ul comun ar trebui sa le deschida in beforeprint.
+     CSS-ul le face tiparibile.
+     ====================================================================== */
+
+  details {
+
+    margin:
+      3mm
+      0 !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  summary {
+
+    padding:
+      3mm !important;
+
+    border-bottom:
+      0.8pt solid var(--border) !important;
+
+    background: #f3f3f3 !important;
+
+    color: #000000 !important;
+  }
+
+
+  details > div,
+  .details-body {
+
+    padding:
+      3mm
+      4mm !important;
+  }
+
+
+  /*
+     Daca browserul permite randarea continutului unui details inchis,
+     acesta ramane accesibil. Pentru compatibilitate maxima, bunget.js
+     va deschide toate elementele details inainte de window.print().
+  */
+
+
+  /* ======================================================================
+     24. FLASHCARDS
+     In PDF afisam fata si spatele secvential.
+     ====================================================================== */
+
+  .flashcard {
+
+    min-height: 0 !important;
+
+    margin-bottom: 4mm !important;
+
+    perspective: none !important;
+
+    cursor: default !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .flash-inner {
+
+    min-height: 0 !important;
+
+    transform: none !important;
+
+    transform-style: flat !important;
+  }
+
+
+  .flash-face {
+
+    position: static !important;
+
+    min-height: 0 !important;
+
+    margin:
+      0
+      0
+      2mm !important;
+
+    padding:
+      3mm
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    backface-visibility: visible !important;
+
+    transform: none !important;
+
+    box-shadow: none !important;
+
+    background: #ffffff !important;
+  }
+
+
+  .flash-front {
+
+    font-weight: 700 !important;
+  }
+
+
+  .flash-back {
+
+    border-left:
+      3pt solid var(--primary) !important;
+
+    background: #f7f7f7 !important;
+  }
+
+
+  /* ======================================================================
+     25. QUIZ
+     Se pastreaza intrebarile, dar nu interfata de corectare.
+     ====================================================================== */
+
+  .quiz {
+
+    margin-top:
+      4mm !important;
+  }
+
+
+  .quiz-question,
+  .question {
+
+    margin:
+      4mm
+      0 !important;
+
+    padding:
+      4mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    border-radius: 2mm !important;
+
+    background: #ffffff !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  .quiz-option,
+  .option {
+
+    display: block !important;
+
+    margin:
+      1.5mm
+      0 !important;
+
+    padding:
+      1mm
+      0 !important;
+
+    border: 0 !important;
+
+    background: transparent !important;
+
+    color: #000000 !important;
+  }
+
+
+  .quiz-option input[type="radio"],
+  .option input[type="radio"],
+  .quiz-option input[type="checkbox"],
+  .option input[type="checkbox"] {
+
+    display: inline-block !important;
+
+    margin-right: 2mm !important;
+
+    appearance: none;
+
+    width: 3.5mm;
+    height: 3.5mm;
+
+    border:
+      0.8pt solid #555555;
+
+    background: #ffffff;
+
+    vertical-align: middle;
+  }
+
+
+  .quiz-option input[type="radio"],
+  .option input[type="radio"] {
+
+    border-radius: 50%;
+  }
+
+
+  .quiz-result,
+  .score,
+  .score-box {
+
+    /*
+       Rezultatul interactiv nu este de regula necesar
+       intr-un PDF de studiu.
+    */
+
+    display: none !important;
+  }
+
+
+  /* ======================================================================
+     26. CHECKLIST
+     ====================================================================== */
+
+  .checklist {
+
+    list-style: none !important;
+
+    padding-left: 0 !important;
+  }
+
+
+  .checklist li {
+
+    padding:
+      2mm
+      0 !important;
+
+    border-bottom:
+      0.5pt dotted var(--border) !important;
+  }
+
+
+  .checklist input[type="checkbox"] {
+
+    display: inline-block !important;
+
+    appearance: none;
+
+    width: 3.5mm;
+    height: 3.5mm;
+
+    margin-right: 2mm;
+
+    border:
+      0.8pt solid #555555;
+
+    background: #ffffff;
+
+    vertical-align: middle;
+  }
+
+
+  .checklist input[type="checkbox"]:checked::after {
+
+    content: "✓";
+
+    display: block;
+
+    position: relative;
+
+    top: -2.3mm;
+
+    left: 0.3mm;
+
+    color: #000000;
+
+    font-size: 11pt;
+  }
+
+
+  /* ======================================================================
+     27. FISA DE RETINUT
+     ====================================================================== */
+
+  .memory-sheet,
+  .summary-sheet {
+
+    margin:
+      5mm
+      0 !important;
+
+    padding:
+      4mm !important;
+
+    border:
+      1.5pt solid var(--primary) !important;
+
+    border-radius: 2mm !important;
+
+    background:
+      var(--primary-soft) !important;
+
+    box-shadow: none !important;
+
+    break-inside: avoid-page;
+
+    page-break-inside: avoid;
+  }
+
+
+  /* ======================================================================
+     28. COD
+     ====================================================================== */
+
+  code {
+
+    background: #f1f1f1 !important;
+
+    color: #000000 !important;
+
+    border:
+      0.5pt solid #dddddd;
+
+    font-size: 8.5pt !important;
+  }
+
+
+  pre {
+
+    overflow: visible !important;
+
+    white-space: pre-wrap !important;
+
+    word-wrap: break-word !important;
+
+    padding:
+      3mm !important;
+
+    border:
+      0.8pt solid var(--border) !important;
+
+    background: #f7f7f7 !important;
+
+    break-inside: avoid-page;
+  }
+
+
+  /* ======================================================================
+     29. LINKURI
+     Nu tiparim URL-ul dupa fiecare legatura.
+     ====================================================================== */
+
+  a,
+  a:visited {
+
+    color: #000000 !important;
+
+    text-decoration: none !important;
+  }
+
+
+  a[href]::after {
+
+    content: none !important;
+  }
+
+
+  /* ======================================================================
+     30. FOOTER LECTIE
+     ====================================================================== */
+
+  .site-footer,
+  footer {
+
+    margin-top:
+      8mm !important;
+
+    padding:
+      5mm
+      0
+      0 !important;
+
+    border-top:
+      1pt solid var(--border) !important;
+
+    color: #333333 !important;
+
+    font-size: 8pt !important;
+  }
+
+
+  /* ======================================================================
+     31. CONTROL PAGE BREAK
+     ====================================================================== */
+
+  .page-break-before {
+
+    break-before: page !important;
+
+    page-break-before: always !important;
+  }
+
+
+  .page-break-after {
+
+    break-after: page !important;
+
+    page-break-after: always !important;
+  }
+
+
+  .avoid-page-break {
+
+    break-inside: avoid-page !important;
+
+    page-break-inside: avoid !important;
+  }
+
+
+  .allow-page-break {
+
+    break-inside: auto !important;
+
+    page-break-inside: auto !important;
+  }
+
+
+  /*
+     Titlul nu trebuie sa ramana singur la baza paginii.
+  */
+
+  h2 + *,
+  h3 + *,
+  h4 + * {
+
+    break-before: avoid-page;
+  }
+
+
+  /*
+     Evitam separarea unei figuri de legenda.
+  */
+
+  img + figcaption,
+  svg + .figure-caption {
+
+    break-before: avoid-page;
+  }
+
+
+  /* ======================================================================
+     32. ELEMENTE COLORATE
+     Pastreaza culorile importante in PDF.
+     ====================================================================== */
+
+  .definition,
+  .callout,
+  .formula,
+  .formula-box,
+  .memory-sheet,
+  .summary-sheet,
+  .scheme,
+  .diagram,
+  .graph,
+  .badge,
+  .chip {
+
+    -webkit-print-color-adjust: exact !important;
+
+    print-color-adjust: exact !important;
+  }
+
+
+  /* ======================================================================
+     33. SVG
+     ====================================================================== */
+
+  svg {
+
+    overflow: visible !important;
+
+    -webkit-print-color-adjust: exact !important;
+
+    print-color-adjust: exact !important;
+  }
+
+
+  /* ======================================================================
+     34. CLASE AJUTATOARE SPECIFICE PRINT
+     ====================================================================== */
+
+  .print-only {
+
+    display: block !important;
+  }
+
+
+  .print-inline {
+
+    display: inline !important;
+  }
+
+
+  .print-block {
+
+    display: block !important;
+  }
+
+
+  /* ======================================================================
+     35. TEXT
+     ====================================================================== */
+
+  .muted,
+  .text-secondary {
+
+    color: #333333 !important;
+  }
+
+
+  .correct,
+  .quiz-correct {
+
+    color: #145c3c !important;
+  }
+
+
+  .incorrect,
+  .quiz-incorrect {
+
+    color: #962119 !important;
+  }
+
+
+  /* ======================================================================
+     36. SEPARATOR
+     ====================================================================== */
+
+  .section-divider {
+
+    margin:
+      5mm
+      0 !important;
+
+    background: #bbbbbb !important;
+  }
+
+
+  /* ======================================================================
+     37. ELEMENTE CARE NU TREBUIE TIPARITE NICIODATA
+     ====================================================================== */
+
+  [data-no-print="true"],
+  .screen-only {
+
+    display: none !important;
+  }
+
+}
