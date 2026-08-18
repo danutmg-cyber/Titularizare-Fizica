@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ro">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -11,33 +13,80 @@
 
   <meta
     name="description"
-    content="Mișcare și repaus - recapitulare interactivă pentru Titularizare Fizică, bazată pe Compendiul de Fizică coordonat de Ion Bunget."
+    content="Miscare si repaus. Caracterul relativ al miscarii mecanice si alegerea sistemului de referinta. Lectie pentru recapitularea Fizicii in vederea examenului de titularizare."
   >
+
+  <meta
+    name="author"
+    content="Titularizare Fizica"
+  >
+
+
+  <!-- ================================================================
+       CONFIGURARE PLATFORMĂ
+       ================================================================ -->
+
+  <meta
+    name="bunget-repo-root"
+    content="/Titularizare-Fizica/"
+  >
+
+  <meta
+    name="bunget-course-root"
+    content="/Titularizare-Fizica/1. TEMATICA STIINTIFICA/7. Bunget-Compendiu-Fizica/"
+  >
+
+  <meta
+    name="bunget-lessons-json"
+    content="/Titularizare-Fizica/assets/data/lessons.json"
+  >
+
 
   <title>
     1.1 Mișcare și repaus | Titularizare Fizică
   </title>
 
 
-  <!-- =========================================================
+  <!-- ================================================================
+       CSS COMUN
+       ================================================================ -->
+
+  <link
+    rel="stylesheet"
+    href="/Titularizare-Fizica/assets/css/bunget.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/Titularizare-Fizica/assets/css/print.css"
+    media="print"
+  >
+
+
+  <!-- ================================================================
        MATHJAX
-       Pentru formule LaTeX
-  ========================================================== -->
+       Rămâne disponibil pentru uniformitatea tuturor lecțiilor.
+       ================================================================ -->
 
   <script>
     window.MathJax = {
+
       tex: {
+
         inlineMath: [
           ['\\(', '\\)']
         ],
+
         displayMath: [
           ['\\[', '\\]']
         ]
+
       },
 
       svg: {
         fontCache: 'global'
       }
+
     };
   </script>
 
@@ -47,1408 +96,91 @@
   ></script>
 
 
-  <style>
-
-    /* =========================================================
-       VARIABILE - TEMA ZI
-    ========================================================== */
-
-    :root {
-
-      --bg: #f4f7fb;
-
-      --surface: #ffffff;
-
-      --surface-soft: #eef4fb;
-
-      --surface-highlight: #e7f0ff;
-
-      --text: #172033;
-
-      --text-soft: #5f6d82;
-
-      --primary: #2457d6;
-
-      --primary-dark: #173b98;
-
-      --accent: #e65a32;
-
-      --success: #16875d;
-
-      --warning: #b57b00;
-
-      --danger: #b42318;
-
-      --border: #d8e0ec;
-
-      --shadow:
-        0 12px 35px rgba(31, 50, 84, 0.08);
-
-      --radius: 18px;
-
-      --max-width: 1120px;
-
-      --font-scale: 1;
-
-    }
-
-
-    /* =========================================================
-       TEMA NOAPTE
-    ========================================================== */
-
-    body.dark {
-
-      --bg: #0d1420;
-
-      --surface: #151e2d;
-
-      --surface-soft: #1b2738;
-
-      --surface-highlight: #1e3150;
-
-      --text: #eef4ff;
-
-      --text-soft: #aebbd0;
-
-      --primary: #82aaff;
-
-      --primary-dark: #a9c1ff;
-
-      --accent: #ff8c70;
-
-      --success: #61d5a4;
-
-      --warning: #ffd36c;
-
-      --danger: #ff8580;
-
-      --border: #2b3a50;
-
-      --shadow:
-        0 14px 38px rgba(0, 0, 0, 0.28);
-
-    }
-
-
-    /* =========================================================
-       RESET
-    ========================================================== */
-
-    * {
-
-      box-sizing: border-box;
-
-    }
-
-
-    html {
-
-      scroll-behavior: smooth;
-
-    }
-
-
-    body {
-
-      margin: 0;
-
-      background: var(--bg);
-
-      color: var(--text);
-
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
-      font-size:
-        calc(16px * var(--font-scale));
-
-      line-height: 1.7;
-
-      transition:
-        background 0.25s,
-        color 0.25s;
-
-    }
-
-
-    button,
-    input,
-    select {
-
-      font: inherit;
-
-    }
-
-
-    button {
-
-      cursor: pointer;
-
-    }
-
-
-    a {
-
-      color: var(--primary);
-
-    }
-
-
-    /* =========================================================
-       PROGRES LECTURA
-    ========================================================== */
-
-    #reading-progress {
-
-      position: fixed;
-
-      top: 0;
-
-      left: 0;
-
-      width: 0;
-
-      height: 4px;
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--accent),
-          var(--primary)
-        );
-
-      z-index: 9999;
-
-    }
-
-
-    /* =========================================================
-       HEADER
-    ========================================================== */
-
-    .topbar {
-
-      position: sticky;
-
-      top: 0;
-
-      z-index: 500;
-
-      background:
-        color-mix(
-          in srgb,
-          var(--bg) 88%,
-          transparent
-        );
-
-      backdrop-filter: blur(16px);
-
-      border-bottom:
-        1px solid var(--border);
-
-    }
-
-
-    .topbar-inner {
-
-      width:
-        min(
-          calc(100% - 24px),
-          var(--max-width)
-        );
-
-      margin: auto;
-
-      min-height: 64px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      gap: 12px;
-
-    }
-
-
-    .brand {
-
-      font-weight: 900;
-
-      letter-spacing: -0.03em;
-
-      white-space: nowrap;
-
-    }
-
-
-    .brand span {
-
-      color: var(--primary);
-
-    }
-
-
-    .toolbar {
-
-      display: flex;
-
-      gap: 7px;
-
-      flex-wrap: wrap;
-
-      justify-content: flex-end;
-
-    }
-
-
-    .tool-btn {
-
-      min-height: 40px;
-
-      padding: 7px 11px;
-
-      background: var(--surface);
-
-      color: var(--text);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 10px;
-
-      font-weight: 700;
-
-    }
-
-
-    .tool-btn:hover {
-
-      border-color: var(--primary);
-
-    }
-
-
-    .pdf-btn {
-
-      background: var(--primary);
-
-      color: white;
-
-      border-color: var(--primary);
-
-    }
-
-
-    .pdf-btn:hover {
-
-      background: var(--primary-dark);
-
-      color: white;
-
-    }
-
-
-    /* =========================================================
-       CONTAINER
-    ========================================================== */
-
-    .page {
-
-      width:
-        min(
-          calc(100% - 30px),
-          var(--max-width)
-        );
-
-      margin: auto;
-
-    }
-
-
-    /* =========================================================
-       HERO
-    ========================================================== */
-
-    .hero {
-
-      padding:
-        62px 0 38px;
-
-    }
-
-
-    .hero-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        1.35fr 0.65fr;
-
-      gap: 28px;
-
-      align-items: center;
-
-    }
-
-
-    .eyebrow {
-
-      color: var(--primary);
-
-      font-size: 0.8rem;
-
-      font-weight: 900;
-
-      text-transform: uppercase;
-
-      letter-spacing: 0.1em;
-
-    }
-
-
-    h1 {
-
-      font-size:
-        clamp(
-          2.3rem,
-          7vw,
-          4.5rem
-        );
-
-      line-height: 1.02;
-
-      letter-spacing: -0.055em;
-
-      margin:
-        10px 0 18px;
-
-    }
-
-
-    h2 {
-
-      font-size:
-        clamp(
-          1.65rem,
-          5vw,
-          2.55rem
-        );
-
-      line-height: 1.15;
-
-      letter-spacing: -0.035em;
-
-      margin:
-        7px 0 19px;
-
-    }
-
-
-    h3 {
-
-      line-height: 1.25;
-
-      margin-top: 0;
-
-    }
-
-
-    .lead {
-
-      max-width: 760px;
-
-      color: var(--text-soft);
-
-      font-size: 1.1rem;
-
-    }
-
-
-    .chips {
-
-      display: flex;
-
-      gap: 8px;
-
-      flex-wrap: wrap;
-
-      margin-top: 22px;
-
-    }
-
-
-    .chip {
-
-      background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      color: var(--text-soft);
-
-      border-radius: 999px;
-
-      padding:
-        6px 11px;
-
-      font-size: 0.88rem;
-
-    }
-
-
-    .lesson-number {
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 28px;
-
-      background:
-        linear-gradient(
-          140deg,
-          var(--surface-highlight),
-          var(--surface)
-        );
-
-      padding: 26px;
-
-      box-shadow: var(--shadow);
-
-    }
-
-
-    .lesson-number strong {
-
-      color: var(--primary);
-
-      display: block;
-
-      font-size: 3rem;
-
-      line-height: 1;
-
-      margin-bottom: 10px;
-
-    }
-
-
-    /* =========================================================
-       CUPRINS
-    ========================================================== */
-
-    .contents {
-
-      display: flex;
-
-      gap: 7px;
-
-      overflow-x: auto;
-
-      background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 15px;
-
-      box-shadow: var(--shadow);
-
-      padding: 11px;
-
-      margin-bottom: 26px;
-
-      scrollbar-width: thin;
-
-    }
-
-
-    .contents a {
-
-      white-space: nowrap;
-
-      text-decoration: none;
-
-      padding:
-        8px 11px;
-
-      border-radius: 9px;
-
-      color: var(--text-soft);
-
-      font-weight: 700;
-
-      font-size: 0.9rem;
-
-    }
-
-
-    .contents a:hover {
-
-      background: var(--surface-soft);
-
-      color: var(--primary);
-
-    }
-
-
-    /* =========================================================
-       SECTIUNI
-    ========================================================== */
-
-    section {
-
-      padding: 30px 0;
-
-      scroll-margin-top: 78px;
-
-    }
-
-
-    .section-label {
-
-      color: var(--accent);
-
-      text-transform: uppercase;
-
-      letter-spacing: 0.09em;
-
-      font-size: 0.78rem;
-
-      font-weight: 900;
-
-    }
-
-
-    .muted {
-
-      color: var(--text-soft);
-
-    }
-
-
-    /* =========================================================
-       CARDURI
-    ========================================================== */
-
-    .grid-2 {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(0, 1fr)
-        );
-
-      gap: 18px;
-
-    }
-
-
-    .grid-3 {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0, 1fr)
-        );
-
-      gap: 18px;
-
-    }
-
-
-    .card {
-
-      background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      padding: 21px;
-
-      box-shadow: var(--shadow);
-
-    }
-
-
-    .card.soft {
-
-      box-shadow: none;
-
-      background: var(--surface-soft);
-
-    }
-
-
-    /* =========================================================
-       DEFINITII
-    ========================================================== */
-
-    .definition {
-
-      background:
-        linear-gradient(
-          135deg,
-          var(--surface-highlight),
-          var(--surface)
-        );
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 15px;
-
-      padding: 19px;
-
-      margin:
-        17px 0;
-
-    }
-
-
-    .definition strong {
-
-      color: var(--primary);
-
-    }
-
-
-    .callout {
-
-      border-left:
-        5px solid var(--primary);
-
-      background:
-        color-mix(
-          in srgb,
-          var(--primary) 8%,
-          var(--surface)
-        );
-
-      border-radius: 12px;
-
-      padding:
-        16px 18px;
-
-      margin:
-        18px 0;
-
-    }
-
-
-    .callout.warning {
-
-      border-left-color:
-        var(--warning);
-
-      background:
-        color-mix(
-          in srgb,
-          var(--warning) 9%,
-          var(--surface)
-        );
-
-    }
-
-
-    .callout.success {
-
-      border-left-color:
-        var(--success);
-
-      background:
-        color-mix(
-          in srgb,
-          var(--success) 8%,
-          var(--surface)
-        );
-
-    }
-
-
-    /* =========================================================
-       SCHEME
-    ========================================================== */
-
-    .scheme {
-
-      margin-top: 20px;
-
-      background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 18px;
-
-      overflow: hidden;
-
-      box-shadow: var(--shadow);
-
-    }
-
-
-    .scheme svg {
-
-      display: block;
-
-      width: 100%;
-
-      height: auto;
-
-    }
-
-
-    /* =========================================================
-       LABORATOR SISTEM REFERINTA
-    ========================================================== */
-
-    .interactive {
-
-      background: var(--surface);
-
-      border:
-        2px solid
-        color-mix(
-          in srgb,
-          var(--primary) 35%,
-          var(--border)
-        );
-
-      border-radius: 20px;
-
-      box-shadow: var(--shadow);
-
-      overflow: hidden;
-
-    }
-
-
-    .interactive-header {
-
-      padding:
-        17px 20px;
-
-      background:
-        var(--surface-highlight);
-
-      border-bottom:
-        1px solid var(--border);
-
-    }
-
-
-    .interactive-body {
-
-      padding: 20px;
-
-    }
-
-
-    select {
-
-      width: 100%;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 10px;
-
-      background: var(--surface);
-
-      color: var(--text);
-
-      padding:
-        10px 12px;
-
-    }
-
-
-    .result-box {
-
-      padding:
-        17px;
-
-      margin-top: 16px;
-
-      border-radius: 13px;
-
-      background: var(--surface-soft);
-
-      border:
-        1px solid var(--border);
-
-    }
-
-
-    /* =========================================================
-       ACCORDION
-    ========================================================== */
-
-    details {
-
-      background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 12px;
-
-      margin:
-        10px 0;
-
-      overflow: hidden;
-
-    }
-
-
-    summary {
-
-      cursor: pointer;
-
-      padding:
-        13px 15px;
-
-      font-weight: 800;
-
-    }
-
-
-    details > div {
-
-      padding:
-        0 15px 15px;
-
-    }
-
-
-    /* =========================================================
-       TEST
-    ========================================================== */
-
-    .question {
-
-      margin:
-        15px 0;
-
-      padding: 18px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 15px;
-
-      background: var(--surface);
-
-    }
-
-
-    .option {
-
-      display: block;
-
-      background: var(--surface-soft);
-
-      padding:
-        9px 11px;
-
-      border-radius: 9px;
-
-      margin:
-        8px 0;
-
-      cursor: pointer;
-
-    }
-
-
-    .option:hover {
-
-      outline:
-        1px solid var(--primary);
-
-    }
-
-
-    .btn {
-
-      border: none;
-
-      border-radius: 10px;
-
-      padding:
-        10px 15px;
-
-      background: var(--primary);
-
-      color: white;
-
-      font-weight: 800;
-
-    }
-
-
-    .btn:hover {
-
-      background: var(--primary-dark);
-
-    }
-
-
-    .btn.secondary {
-
-      background: var(--surface-soft);
-
-      color: var(--text);
-
-      border:
-        1px solid var(--border);
-
-    }
-
-
-    .score {
-
-      margin-top: 15px;
-
-      padding: 16px;
-
-      border-radius: 12px;
-
-      background: var(--surface-soft);
-
-      font-weight: 800;
-
-    }
-
-
-    .correct {
-
-      color: var(--success);
-
-    }
-
-
-    .incorrect {
-
-      color: var(--danger);
-
-    }
-
-
-    /* =========================================================
-       TABEL
-    ========================================================== */
-
-    .table-wrap {
-
-      overflow-x: auto;
-
-    }
-
-
-    table {
-
-      width: 100%;
-
-      border-collapse: collapse;
-
-      min-width: 600px;
-
-      background: var(--surface);
-
-    }
-
-
-    th,
-    td {
-
-      padding:
-        12px 14px;
-
-      text-align: left;
-
-      border-bottom:
-        1px solid var(--border);
-
-    }
-
-
-    th {
-
-      background: var(--surface-soft);
-
-    }
-
-
-    /* =========================================================
-       FOOTER
-    ========================================================== */
-
-    footer {
-
-      margin-top: 45px;
-
-      padding:
-        30px 0 60px;
-
-      border-top:
-        1px solid var(--border);
-
-      color: var(--text-soft);
-
-      font-size: 0.91rem;
-
-    }
-
-
-    /* =========================================================
-       RESPONSIVE TABLETA
-    ========================================================== */
-
-    @media (max-width: 850px) {
-
-      .hero-grid {
-
-        grid-template-columns: 1fr;
-
-      }
-
-
-      .grid-3 {
-
-        grid-template-columns: 1fr;
-
-      }
-
-
-      .lesson-number {
-
-        max-width: 480px;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       RESPONSIVE TELEFON
-    ========================================================== */
-
-    @media (max-width: 620px) {
-
-      .page {
-
-        width:
-          min(
-            calc(100% - 20px),
-            var(--max-width)
-          );
-
-      }
-
-
-      .topbar-inner {
-
-        align-items: flex-start;
-
-        padding:
-          9px 0;
-
-      }
-
-
-      .toolbar {
-
-        gap: 4px;
-
-      }
-
-
-      .tool-btn {
-
-        padding:
-          6px 9px;
-
-        font-size: 0.84rem;
-
-      }
-
-
-      .brand {
-
-        font-size: 0.87rem;
-
-        padding-top: 8px;
-
-      }
-
-
-      .hero {
-
-        padding-top: 38px;
-
-      }
-
-
-      h1 {
-
-        font-size: 2.35rem;
-
-      }
-
-
-      .grid-2 {
-
-        grid-template-columns: 1fr;
-
-      }
-
-
-      .card {
-
-        padding: 16px;
-
-      }
-
-
-      .interactive-body {
-
-        padding: 15px;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       PRINT / PDF
-    ========================================================== */
-
-    @media print {
-
-      @page {
-
-        size: A4;
-
-        margin: 14mm;
-
-      }
-
-
-      :root {
-
-        --bg: #ffffff;
-
-        --surface: #ffffff;
-
-        --surface-soft: #f4f4f4;
-
-        --surface-highlight: #f4f4f4;
-
-        --text: #000000;
-
-        --text-soft: #333333;
-
-        --border: #cccccc;
-
-      }
-
-
-      body {
-
-        background: white !important;
-
-        color: black !important;
-
-        font-size: 11pt;
-
-      }
-
-
-      .topbar,
-      .contents,
-      #reading-progress,
-      .no-print,
-      button,
-      select {
-
-        display: none !important;
-
-      }
-
-
-      .page {
-
-        width: 100%;
-
-        max-width: none;
-
-      }
-
-
-      .hero {
-
-        padding-top: 0;
-
-      }
-
-
-      .hero-grid {
-
-        grid-template-columns: 1fr;
-
-      }
-
-
-      .card,
-      .definition,
-      .callout,
-      .scheme,
-      .interactive,
-      .question {
-
-        box-shadow: none !important;
-
-        break-inside: avoid;
-
-      }
-
-
-      details {
-
-        break-inside: avoid;
-
-      }
-
-
-      details > div {
-
-        display: block !important;
-
-      }
-
-
-      a {
-
-        text-decoration: none;
-
-        color: black;
-
-      }
-
-
-      footer {
-
-        page-break-before: auto;
-
-      }
-
-    }
-
-  </style>
+  <!-- ================================================================
+       JAVASCRIPT COMUN
+       ================================================================ -->
+
+  <script
+    defer
+    src="/Titularizare-Fizica/assets/js/components.js"
+  ></script>
+
+  <script
+    defer
+    src="/Titularizare-Fizica/assets/js/bunget.js"
+  ></script>
+
+  <script
+    defer
+    src="/Titularizare-Fizica/assets/js/quiz.js"
+  ></script>
 
 </head>
 
 
-<body>
-
-  <!-- =========================================================
-       PROGRES
-  ========================================================== -->
-
-  <div id="reading-progress"></div>
+<body data-lesson-id="I-1.1">
 
 
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
+  <!-- ================================================================
+       ACCESIBILITATE
+       ================================================================ -->
 
-  <header class="topbar">
-
-    <div class="topbar-inner">
-
-      <div class="brand">
-
-        Titularizare <span>Fizică</span>
-
-      </div>
+  <a
+    class="skip-link"
+    href="#main-content"
+  >
+    Sari la conținut
+  </a>
 
 
-      <div class="toolbar">
+  <!-- ================================================================
+       PROGRES LECTURĂ
+       ================================================================ -->
 
-        <button
-          class="tool-btn"
-          id="font-down"
-          title="Micșorează textul"
-        >
-          A−
-        </button>
-
-
-        <button
-          class="tool-btn"
-          id="font-up"
-          title="Mărește textul"
-        >
-          A+
-        </button>
+  <div
+    id="reading-progress"
+    class="reading-progress"
+  ></div>
 
 
-        <button
-          class="tool-btn"
-          id="theme-toggle"
-          title="Zi / noapte"
-        >
-          ☾ Noapte
-        </button>
+  <!-- ================================================================
+       HEADER AUTOMAT
+       ================================================================ -->
+
+  <div id="site-header"></div>
 
 
-        <button
-          class="tool-btn pdf-btn"
-          id="save-pdf"
-          title="Salvează lecția ca PDF"
-        >
-          ⤓ Salvează PDF
-        </button>
+  <!-- ================================================================
+       CONȚINUT
+       ================================================================ -->
 
-      </div>
+  <main
+    id="main-content"
+    class="page"
+  >
 
-    </div>
 
-  </header>
+    <!-- ==============================================================
+         BREADCRUMBS AUTOMAT
+         ============================================================== -->
+
+    <div id="breadcrumbs"></div>
 
 
 
-  <main class="page">
-
-
-    <!-- =========================================================
+    <!-- ==============================================================
          HERO
-    ========================================================== -->
+         ============================================================== -->
 
-    <section class="hero">
+    <section class="lesson-hero">
 
-      <div class="hero-grid">
+      <div class="lesson-hero-grid">
+
 
         <div>
 
           <div class="eyebrow">
-            I. Mecanică și acustică • 1. Introducere
+            I. Mecanică și acustică · 1. Introducere
           </div>
 
 
@@ -1457,50 +189,41 @@
           </h1>
 
 
-          <p class="lead">
+          <p class="lesson-lead">
 
             Prima idee fundamentală a mecanicii:
-            nu putem afirma riguros că un corp este
-            „în mișcare” sau „în repaus” fără să precizăm
-            sistemul de referință față de care facem observația.
+            nu putem decide dacă un corp este în mișcare
+            sau în repaus fără să precizăm față de ce
+            sistem facem observația.
 
           </p>
 
 
-          <div class="chips">
-
-            <span class="chip">
-              Ion Bunget
-            </span>
-
-            <span class="chip">
-              Compendiu de Fizică
-            </span>
-
-            <span class="chip">
-              pp. tipărite 21–22
-            </span>
-
-            <span class="chip">
-              Nivel: bază
-            </span>
-
-          </div>
+          <div
+            class="lesson-meta"
+            data-lesson-source
+          ></div>
 
         </div>
 
 
-        <aside class="lesson-number">
+        <aside class="lesson-summary-card">
 
-          <strong>1.1</strong>
+          <div class="lesson-number-value">
+            1.1
+          </div>
 
-          <b>Mișcare și repaus</b>
+
+          <strong>
+            Mișcare și repaus
+          </strong>
+
 
           <p class="muted">
 
-            Lecția introduce caracterul relativ
-            al mișcării mecanice și necesitatea
-            alegerii unui sistem de referință.
+            Caracterul relativ al mișcării mecanice.
+            Alegerea sistemului de referință.
+            Introducerea în mecanică.
 
           </p>
 
@@ -1512,26 +235,33 @@
 
 
 
-    <!-- =========================================================
-         CUPRINS
-    ========================================================== -->
+    <!-- ==============================================================
+         CUPRINS INTERN
+         ============================================================== -->
 
-    <nav class="contents">
+    <nav
+      class="lesson-toc"
+      aria-label="Cuprinsul lecției"
+    >
 
-      <a href="../../index.html">
-        ← Cuprins
+      <a href="#sursa">
+        Sursa
       </a>
 
       <a href="#obiective">
         Obiective
       </a>
 
-      <a href="#problema">
-        Problema fundamentală
+      <a href="#intuitie">
+        Intuiție
+      </a>
+
+      <a href="#definitii">
+        Definiții
       </a>
 
       <a href="#relativitate">
-        Mișcare relativă
+        Relativitatea mișcării
       </a>
 
       <a href="#referinta">
@@ -1539,30 +269,128 @@
       </a>
 
       <a href="#mecanica">
-        Mecanică
+        Ramurile mecanicii
       </a>
 
-      <a href="#simulare">
-        Simulare
+      <a href="#scheme">
+        Scheme
       </a>
 
-      <a href="#verificare">
-        Verificare
+      <a href="#erori">
+        Erori frecvente
+      </a>
+
+      <a href="#antrenament">
+        Antrenament
+      </a>
+
+      <a href="#test">
+        Mini-test
       </a>
 
       <a href="#sinteza">
-        Sinteză
+        Fișa de reținut
       </a>
 
     </nav>
 
 
 
-    <!-- =========================================================
-         OBIECTIVE
-    ========================================================== -->
+    <!-- ==============================================================
+         1. SURSA
+         ============================================================== -->
 
-    <section id="obiective">
+    <section
+      id="sursa"
+      class="lesson-section"
+    >
+
+      <div class="section-label">
+        Sursa
+      </div>
+
+
+      <h2>
+        Baza lecției
+      </h2>
+
+
+      <div class="source-box">
+
+        <span class="source-label">
+          Ion Bunget - Compendiu de Fizică
+        </span>
+
+
+        <p>
+
+          <strong>
+            Partea I. Mecanică și acustică
+          </strong>
+
+          <br>
+
+          Capitolul 1. Introducere
+
+          <br>
+
+          §1.1 Mișcare și repaus
+
+        </p>
+
+
+        <p>
+
+          Pagina de început înregistrată în
+          <code>lessons.json</code>:
+
+          <strong data-source-pages>
+            21
+          </strong>
+
+        </p>
+
+
+        <p class="muted">
+
+          Lecția urmărește ideile introductive ale
+          Compendiului: stabilirea mișcării sau repausului
+          prin raportare la un sistem ales și caracterul
+          relativ al acestei descrieri.
+
+        </p>
+
+      </div>
+
+
+      <div class="callout callout-warning">
+
+        <span class="callout-title">
+          Reper pentru titularizare
+        </span>
+
+        Programa oficială 2026 include ulterior,
+        în tematica științifică,
+        cinematica mișcărilor relative și sistemele
+        de referință inerțiale și neinerțiale.
+
+        Pentru Titularizare 2027, programa oficială
+        trebuie reverificată când este publicată.
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ==============================================================
+         2. OBIECTIVE
+         ============================================================== -->
+
+    <section
+      id="obiective"
+      class="lesson-section"
+    >
 
       <div class="section-label">
         Obiective
@@ -1577,63 +405,58 @@
       <div class="grid-3">
 
 
-        <article class="card">
+        <article class="card card-primary">
 
           <h3>
-            Mișcare
+            1. Mișcare și repaus
           </h3>
+
 
           <p>
 
             Să poți decide dacă poziția unui corp
-            se modifică în timp față de un reper ales.
+            se modifică sau nu în timp față de
+            sistemul de referință ales.
 
           </p>
 
         </article>
 
 
-        <article class="card">
+        <article class="card card-primary">
 
           <h3>
-            Repaus
+            2. Caracter relativ
           </h3>
 
-          <p>
-
-            Să recunoști situația în care poziția
-            corpului rămâne neschimbată față de reper.
-
-          </p>
-
-        </article>
-
-
-        <article class="card">
-
-          <h3>
-            Relativitate
-          </h3>
 
           <p>
 
             Să explici de ce același corp poate fi
-            simultan în mișcare față de un reper
-            și în repaus față de altul.
+            în repaus față de un sistem și în mișcare
+            față de altul.
 
           </p>
 
         </article>
 
-      </div>
+
+        <article class="card card-primary">
+
+          <h3>
+            3. Limbaj riguros
+          </h3>
 
 
-      <div class="callout success">
+          <p>
 
-        <strong>Ideea-cheie:</strong>
+            Să formulezi corect o afirmație despre
+            mișcare precizând sistemul față de care
+            este descris corpul.
 
-        starea de mișcare sau de repaus nu este descrisă
-        independent de reperul ales.
+          </p>
+
+        </article>
 
       </div>
 
@@ -1641,62 +464,111 @@
 
 
 
-    <!-- =========================================================
-         PROBLEMA FUNDAMENTALA
-    ========================================================== -->
+    <!-- ==============================================================
+         3. INTUIȚIE
+         ============================================================== -->
 
-    <section id="problema">
+    <section
+      id="intuitie"
+      class="lesson-section"
+    >
 
       <div class="section-label">
-        Din Compendiu
+        Intuiție
       </div>
 
 
       <h2>
-        Cum stabilim dacă un corp se mișcă?
+        Ești în mișcare chiar acum?
       </h2>
 
 
       <p>
 
-        Compendiul pornește de la o întrebare foarte simplă,
-        dar fundamentală pentru întreaga mecanică:
+        Imaginează-ți că stai pe un scaun într-un tren
+        care se deplasează.
+
+        Pentru pasagerul de lângă tine, poziția ta
+        nu se modifică.
+
+        Pentru un observator aflat pe peron,
+        poziția ta se schimbă continuu.
 
       </p>
 
 
-      <div class="definition">
+      <div class="callout callout-info">
+
+        <span class="callout-title">
+          Întrebarea-cheie
+        </span>
+
+        Ești în mișcare sau în repaus?
+
+        <br>
+
+        Răspunsul fizic complet începe cu:
 
         <strong>
-          Cum putem stabili dacă un obiect este în mișcare
-          sau se află în repaus?
+          „Față de ce?”
         </strong>
 
       </div>
 
 
-      <p>
-
-        Pentru a descrie mișcarea trebuie să putem preciza,
-        la orice moment, poziția corpului studiat.
-
-        Această poziție nu este însă suficientă în sine:
-        ea trebuie raportată la ceva ales ca referință.
-
-      </p>
+      <div class="grid-2">
 
 
-      <div class="callout">
+        <article class="card">
 
-        A spune doar
+          <h3>
+            Față de tren
+          </h3>
 
-        <b>„automobilul se mișcă”</b>
+          <p>
 
-        este o formulare incompletă din punct de vedere fizic.
+            Pasagerul așezat își păstrează poziția
+            față de scaun și față de tren.
 
-        Trebuie să întrebăm:
+          </p>
 
-        <b>față de ce?</b>
+          <div class="callout callout-success">
+
+            Pasagerul este în
+
+            <strong>
+              repaus față de tren.
+            </strong>
+
+          </div>
+
+        </article>
+
+
+        <article class="card">
+
+          <h3>
+            Față de peron
+          </h3>
+
+          <p>
+
+            Poziția aceluiași pasager se modifică
+            față de peron pe măsură ce trenul înaintează.
+
+          </p>
+
+          <div class="callout callout-success">
+
+            Pasagerul este în
+
+            <strong>
+              mișcare față de peron.
+            </strong>
+
+          </div>
+
+        </article>
 
       </div>
 
@@ -1704,14 +576,106 @@
 
 
 
-    <!-- =========================================================
-         MISCARE RELATIVA
-    ========================================================== -->
+    <!-- ==============================================================
+         4. DEFINIȚII
+         ============================================================== -->
 
-    <section id="relativitate">
+    <section
+      id="definitii"
+      class="lesson-section"
+    >
 
       <div class="section-label">
-        Noțiunea centrală
+        Definiții
+      </div>
+
+
+      <h2>
+        Noțiunile fundamentale
+      </h2>
+
+
+      <div class="definition-box">
+
+        <strong>
+          Mișcare mecanică
+        </strong>
+
+        <p>
+
+          Un corp este în mișcare față de un sistem
+          de referință dacă poziția sa față de acel
+          sistem se modifică în timp.
+
+        </p>
+
+      </div>
+
+
+      <div class="definition-box">
+
+        <strong>
+          Repaus
+        </strong>
+
+        <p>
+
+          Un corp este în repaus față de un sistem
+          de referință dacă poziția sa față de acel
+          sistem nu se modifică în timp.
+
+        </p>
+
+      </div>
+
+
+      <div class="definition-box">
+
+        <strong>
+          Sistem de referință
+        </strong>
+
+        <p>
+
+          Sistemul ales față de care descriem
+          poziția și starea de mișcare sau de repaus
+          a corpului studiat.
+
+        </p>
+
+      </div>
+
+
+      <div class="callout">
+
+        <span class="callout-title">
+          Important
+        </span>
+
+        În această primă lecție avem nevoie doar de
+        ideea de sistem ales pentru raportarea poziției.
+
+        Descrierea matematică a poziției, a coordonatelor
+        și a elementelor mișcării este continuată în
+        lecțiile următoare.
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ==============================================================
+         5. RELATIVITATEA MIȘCĂRII
+         ============================================================== -->
+
+    <section
+      id="relativitate"
+      class="lesson-section"
+    >
+
+      <div class="section-label">
+        Ideea centrală
       </div>
 
 
@@ -1720,208 +684,154 @@
       </h2>
 
 
-      <div class="grid-2">
+      <p>
+
+        Expresiile „în mișcare” și „în repaus”
+        nu descriu singure complet situația unui corp.
+
+        Trebuie precizat sistemul față de care
+        comparăm poziția corpului.
+
+      </p>
 
 
-        <article class="card">
+      <div class="memory-sheet">
 
-          <h3>
-            Pasagerul
-          </h3>
-
-          <p>
-
-            Considerăm un pasager așezat într-un vehicul
-            care se deplasează.
-
-          </p>
+        <h3>
+          Regula pe care trebuie să o fixezi
+        </h3>
 
 
-          <p>
+        <p>
 
-            Față de scaun și față de vehicul,
-            poziția pasagerului nu se schimbă.
+          <strong>
+            Același corp poate fi simultan în repaus
+            față de un sistem de referință și în mișcare
+            față de un alt sistem de referință.
+          </strong>
 
-          </p>
-
-
-          <div class="definition">
-
-            Pasagerul este în
-
-            <strong>repaus față de vehicul</strong>.
-
-          </div>
-
-        </article>
-
-
-        <article class="card">
-
-          <h3>
-            Observatorul de pe șosea
-          </h3>
-
-          <p>
-
-            Pentru un observator aflat pe marginea drumului,
-            poziția pasagerului se modifică în timp.
-
-          </p>
-
-
-          <div class="definition">
-
-            Pasagerul este în
-
-            <strong>mișcare față de șosea</strong>.
-
-          </div>
-
-        </article>
+        </p>
 
       </div>
 
 
-      <div class="callout success">
+      <div class="table-wrap">
 
-        <strong>Concluzie:</strong>
+        <table>
 
-        același corp poate fi în același timp în repaus
-        față de un sistem de referință și în mișcare
-        față de alt sistem de referință.
+          <thead>
 
-      </div>
+            <tr>
 
+              <th>
+                Corp studiat
+              </th>
 
+              <th>
+                Sistem de referință
+              </th>
 
-      <!-- =====================================================
-           SCHEMA VEHICUL
-      ====================================================== -->
+              <th>
+                Ce observăm?
+              </th>
 
-      <div class="scheme">
+              <th>
+                Stare
+              </th>
 
-        <svg
-          viewBox="0 0 1000 420"
-          role="img"
-          aria-label="Mișcarea relativă a unui pasager într-un vehicul"
-        >
+            </tr>
 
-          <rect
-            width="1000"
-            height="420"
-            fill="transparent"
-          />
+          </thead>
 
 
-          <!-- drum -->
+          <tbody>
 
-          <line
-            x1="80"
-            y1="325"
-            x2="920"
-            y2="325"
-            stroke="#8b98aa"
-            stroke-width="6"
-          />
+            <tr>
 
+              <td>
+                Pasager așezat
+              </td>
 
-          <!-- vehicul -->
+              <td>
+                Tren
+              </td>
 
-          <rect
-            x="320"
-            y="180"
-            width="360"
-            height="120"
-            rx="25"
-            fill="#2457d6"
-          />
+              <td>
+                Poziția nu se schimbă față de tren
+              </td>
 
+              <td>
+                Repaus
+              </td>
 
-          <circle
-            cx="395"
-            cy="310"
-            r="35"
-            fill="#172033"
-          />
+            </tr>
 
 
-          <circle
-            cx="605"
-            cy="310"
-            r="35"
-            fill="#172033"
-          />
+            <tr>
+
+              <td>
+                Pasager așezat
+              </td>
+
+              <td>
+                Peron
+              </td>
+
+              <td>
+                Poziția se schimbă față de peron
+              </td>
+
+              <td>
+                Mișcare
+              </td>
+
+            </tr>
 
 
-          <!-- pasager -->
+            <tr>
 
-          <circle
-            cx="500"
-            cy="215"
-            r="22"
-            fill="#ffb347"
-          />
+              <td>
+                Carte pe masă
+              </td>
 
+              <td>
+                Masă
+              </td>
 
-          <line
-            x1="500"
-            y1="237"
-            x2="500"
-            y2="272"
-            stroke="#ffb347"
-            stroke-width="9"
-          />
+              <td>
+                Poziția rămâne neschimbată
+              </td>
 
+              <td>
+                Repaus
+              </td>
 
-          <!-- sageata -->
-
-          <line
-            x1="700"
-            y1="130"
-            x2="850"
-            y2="130"
-            stroke="#e65a32"
-            stroke-width="7"
-          />
+            </tr>
 
 
-          <polygon
-            points="850,130 820,112 820,148"
-            fill="#e65a32"
-          />
+            <tr>
 
+              <td>
+                Automobil
+              </td>
 
-          <text
-            x="715"
-            y="105"
-            fill="currentColor"
-            font-size="26"
-          >
-            vehicul
-          </text>
+              <td>
+                Marginea șoselei
+              </td>
 
+              <td>
+                Poziția se modifică
+              </td>
 
-          <text
-            x="445"
-            y="160"
-            fill="currentColor"
-            font-size="24"
-          >
-            pasager
-          </text>
+              <td>
+                Mișcare
+              </td>
 
+            </tr>
 
-          <text
-            x="140"
-            y="375"
-            fill="currentColor"
-            font-size="23"
-          >
-            reper: șoseaua
-          </text>
+          </tbody>
 
-        </svg>
+        </table>
 
       </div>
 
@@ -1929,11 +839,14 @@
 
 
 
-    <!-- =========================================================
-         SISTEM REFERINTA
-    ========================================================== -->
+    <!-- ==============================================================
+         6. SISTEMUL DE REFERINȚĂ
+         ============================================================== -->
 
-    <section id="referinta">
+    <section
+      id="referinta"
+      class="lesson-section"
+    >
 
       <div class="section-label">
         Descrierea mișcării
@@ -1941,126 +854,15 @@
 
 
       <h2>
-        Sistemul de referință
+        Alegerea sistemului de referință
       </h2>
 
 
       <p>
 
-        Din exemplele discutate rezultă necesitatea
-        alegerii unui sistem față de care descriem
-        poziția și mișcarea corpului.
-
-      </p>
-
-
-      <div class="definition">
-
-        <strong>Sistemul de referință</strong>
-
-        este sistemul ales față de care analizăm
-        starea de mișcare sau de repaus a corpului.
-
-      </div>
-
-
-      <p>
-
-        Compendiul subliniază că, în practică,
-        nu este necesar să căutăm o stare de repaus absolut.
-
-        Este suficient să alegem un sistem de referință
-        convenabil pentru problema studiată.
-
-      </p>
-
-
-      <div class="grid-2">
-
-
-        <article class="card">
-
-          <h3>
-            Exemplu 1
-          </h3>
-
-          <p>
-            Reper: vehiculul.
-          </p>
-
-          <p>
-            Pasagerul așezat:
-            <strong>repaus</strong>.
-          </p>
-
-        </article>
-
-
-        <article class="card">
-
-          <h3>
-            Exemplu 2
-          </h3>
-
-          <p>
-            Reper: șoseaua.
-          </p>
-
-          <p>
-            Același pasager:
-            <strong>mișcare</strong>.
-          </p>
-
-        </article>
-
-      </div>
-
-
-      <div class="callout warning">
-
-        <strong>Greșeală conceptuală:</strong>
-
-        „Corpul este în repaus.”
-
-        <br>
-
-        Formularea riguroasă este:
-
-        <br>
-
-        <strong>
-          „Corpul este în repaus față de sistemul de referință ...”
-        </strong>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =========================================================
-         EXEMPLE ASTRONOMICE
-    ========================================================== -->
-
-    <section>
-
-      <div class="section-label">
-        Extinderea ideii
-      </div>
-
-
-      <h2>
-        De ce alegerea reperului este esențială?
-      </h2>
-
-
-      <p>
-
-        Compendiul extinde discuția și la mișcări astronomice.
-
-        Pământul poate fi folosit drept referință
-        pentru numeroase probleme obișnuite,
-        deși Pământul însuși participă la alte mișcări.
+        Într-o problemă de mecanică alegem sistemul
+        de referință care permite descrierea convenabilă
+        a fenomenului studiat.
 
       </p>
 
@@ -2068,48 +870,48 @@
       <div class="grid-3">
 
 
-        <article class="card soft">
+        <article class="card card-soft">
 
           <h3>
-            Corp pe Pământ
+            1. Aleg corpul
           </h3>
 
           <p>
 
-            Poate fi considerat în repaus
-            față de suprafața terestră.
+            Precizez ce obiect sau ce punct material
+            vreau să studiez.
 
           </p>
 
         </article>
 
 
-        <article class="card soft">
+        <article class="card card-soft">
 
           <h3>
-            Pământul
+            2. Aleg referința
           </h3>
 
           <p>
 
-            Participă la mișcare în raport
-            cu alte corpuri astronomice.
+            Precizez față de ce sistem urmăresc
+            poziția corpului.
 
           </p>
 
         </article>
 
 
-        <article class="card soft">
+        <article class="card card-soft">
 
           <h3>
-            Concluzia
+            3. Compar poziția
           </h3>
 
           <p>
 
-            Starea de mișcare trebuie întotdeauna
-            asociată unui sistem de referință.
+            Verific dacă poziția corpului față de
+            acel sistem se modifică în timp.
 
           </p>
 
@@ -2117,15 +919,40 @@
 
       </div>
 
+
+      <div class="callout callout-warning">
+
+        <span class="callout-title">
+          Formulare incompletă
+        </span>
+
+        „Autobuzul se mișcă.”
+
+      </div>
+
+
+      <div class="callout callout-success">
+
+        <span class="callout-title">
+          Formulare fizică riguroasă
+        </span>
+
+        „Autobuzul se mișcă față de șosea.”
+
+      </div>
+
     </section>
 
 
 
-    <!-- =========================================================
-         MECANICA
-    ========================================================== -->
+    <!-- ==============================================================
+         7. RAMURILE MECANICII
+         ============================================================== -->
 
-    <section id="mecanica">
+    <section
+      id="mecanica"
+      class="lesson-section"
+    >
 
       <div class="section-label">
         Organizarea mecanicii
@@ -2139,8 +966,8 @@
 
       <p>
 
-        La finalul secțiunii, compendiul precizează
-        împărțirea principală a mecanicii.
+        În introducerea mecanicii este util să delimităm
+        cele trei direcții principale de studiu.
 
       </p>
 
@@ -2148,89 +975,321 @@
       <div class="grid-3">
 
 
-        <article class="card">
+        <article class="card card-primary">
 
           <h3>
-            1. Cinematica
+            Cinematica
           </h3>
 
           <p>
 
-            Studiază diferitele tipuri de mișcare
-            fără a analiza cauzele care le produc
-            sau le modifică.
+            Descrie mișcarea corpurilor fără a studia
+            cauzele care o produc sau o modifică.
 
+          </p>
+
+
+          <p class="muted">
+            Întrebarea tipică: „Cum se mișcă?”
           </p>
 
         </article>
 
 
-        <article class="card">
+        <article class="card card-accent">
 
           <h3>
-            2. Dinamica
+            Dinamica
           </h3>
 
           <p>
 
-            Studiază efectele forțelor,
-            care pot întreține sau modifica mișcarea.
+            Studiază legătura dintre mișcare
+            și acțiunile care o determină sau
+            o modifică.
 
+          </p>
+
+
+          <p class="muted">
+            Întrebarea tipică: „De ce se modifică mișcarea?”
           </p>
 
         </article>
 
 
-        <article class="card">
+        <article class="card card-success">
 
           <h3>
-            3. Statica
+            Statica
           </h3>
 
           <p>
 
-            Studiază echilibrul corpurilor
-            și al sistemelor de corpuri
-            sub acțiunea forțelor.
+            Studiază condițiile de echilibru
+            ale corpurilor și sistemelor de corpuri.
 
+          </p>
+
+
+          <p class="muted">
+            Întrebarea tipică: „În ce condiții există echilibru?”
           </p>
 
         </article>
 
       </div>
 
+    </section>
+
+
+
+    <!-- ==============================================================
+         8. SCHEME
+         ============================================================== -->
+
+    <section
+      id="scheme"
+      class="lesson-section"
+    >
+
+      <div class="section-label">
+        Reprezentare
+      </div>
+
+
+      <h2>
+        Același pasager, două descrieri
+      </h2>
+
 
       <div class="scheme">
 
         <svg
-          viewBox="0 0 1000 380"
+          viewBox="0 0 1000 480"
           role="img"
-          aria-label="Ramurile mecanicii"
+          aria-labelledby="relative-motion-title relative-motion-desc"
         >
 
+          <title id="relative-motion-title">
+            Mișcarea relativă a unui pasager aflat într-un tren
+          </title>
+
+
+          <desc id="relative-motion-desc">
+            Pasagerul este în repaus față de tren și în mișcare față de peron.
+          </desc>
+
+
+          <!-- FUNDAL -->
+
           <rect
+            x="0"
+            y="0"
             width="1000"
-            height="380"
+            height="480"
             fill="transparent"
           />
 
 
+          <!-- PERON -->
+
+          <line
+            x1="70"
+            y1="375"
+            x2="930"
+            y2="375"
+            stroke="currentColor"
+            stroke-width="5"
+            opacity="0.35"
+          />
+
+
+          <text
+            x="95"
+            y="425"
+            class="svg-muted"
+            font-size="24"
+          >
+            Sistem de referință: peronul
+          </text>
+
+
+          <!-- TREN -->
+
+          <rect
+            x="270"
+            y="185"
+            width="430"
+            height="145"
+            rx="24"
+            class="svg-primary"
+            opacity="0.9"
+          />
+
+
+          <rect
+            x="320"
+            y="215"
+            width="90"
+            height="60"
+            rx="8"
+            fill="white"
+            opacity="0.85"
+          />
+
+
+          <rect
+            x="560"
+            y="215"
+            width="90"
+            height="60"
+            rx="8"
+            fill="white"
+            opacity="0.85"
+          />
+
+
+          <circle
+            cx="355"
+            cy="345"
+            r="35"
+            fill="currentColor"
+          />
+
+
+          <circle
+            cx="615"
+            cy="345"
+            r="35"
+            fill="currentColor"
+          />
+
+
+          <!-- PASAGER -->
+
+          <circle
+            cx="485"
+            cy="220"
+            r="21"
+            fill="#f5b642"
+          />
+
+
+          <line
+            x1="485"
+            y1="241"
+            x2="485"
+            y2="285"
+            stroke="#f5b642"
+            stroke-width="9"
+          />
+
+
+          <!-- DIRECȚIE -->
+
+          <line
+            x1="710"
+            y1="130"
+            x2="865"
+            y2="130"
+            stroke="currentColor"
+            stroke-width="6"
+          />
+
+
+          <polygon
+            points="865,130 832,110 832,150"
+            fill="currentColor"
+          />
+
+
+          <text
+            x="720"
+            y="100"
+            class="svg-text"
+            font-size="23"
+          >
+            deplasarea trenului
+          </text>
+
+
+          <!-- TEXTE -->
+
+          <text
+            x="485"
+            y="165"
+            text-anchor="middle"
+            class="svg-text"
+            font-size="23"
+          >
+            pasager
+          </text>
+
+
+          <text
+            x="485"
+            y="455"
+            text-anchor="middle"
+            class="svg-text"
+            font-size="21"
+          >
+            repaus față de tren · mișcare față de peron
+          </text>
+
+        </svg>
+
+
+        <div class="scheme-caption">
+
+          Starea de mișcare sau de repaus depinde
+          de sistemul de referință ales.
+
+        </div>
+
+      </div>
+
+
+
+      <h3 class="mt-3">
+        Harta conceptuală
+      </h3>
+
+
+      <div class="scheme">
+
+        <svg
+          viewBox="0 0 1000 430"
+          role="img"
+          aria-labelledby="mechanics-title mechanics-desc"
+        >
+
+          <title id="mechanics-title">
+            Ramurile mecanicii
+          </title>
+
+
+          <desc id="mechanics-desc">
+            Mecanica se organizează în cinematică, dinamică și statică.
+          </desc>
+
+
           <rect
             x="380"
-            y="35"
+            y="40"
             width="240"
-            height="70"
-            rx="15"
-            fill="#2457d6"
+            height="72"
+            rx="16"
+            class="svg-primary"
           />
 
 
           <text
             x="500"
-            y="78"
-            fill="white"
+            y="85"
             text-anchor="middle"
-            font-size="27"
+            fill="white"
+            font-size="28"
             font-weight="700"
           >
             MECANICĂ
@@ -2239,67 +1298,70 @@
 
           <line
             x1="500"
-            y1="105"
+            y1="112"
             x2="220"
-            y2="200"
-            stroke="#8b98aa"
+            y2="205"
+            stroke="currentColor"
             stroke-width="4"
+            opacity="0.35"
           />
 
 
           <line
             x1="500"
-            y1="105"
+            y1="112"
             x2="500"
-            y2="200"
-            stroke="#8b98aa"
+            y2="205"
+            stroke="currentColor"
             stroke-width="4"
+            opacity="0.35"
           />
 
 
           <line
             x1="500"
-            y1="105"
+            y1="112"
             x2="780"
-            y2="200"
-            stroke="#8b98aa"
+            y2="205"
+            stroke="currentColor"
             stroke-width="4"
+            opacity="0.35"
           />
 
 
           <rect
-            x="100"
-            y="200"
-            width="240"
-            height="80"
+            x="95"
+            y="205"
+            width="250"
+            height="82"
             rx="15"
-            fill="#17875d"
+            fill="#16875d"
           />
 
 
           <rect
-            x="380"
-            y="200"
-            width="240"
-            height="80"
+            x="375"
+            y="205"
+            width="250"
+            height="82"
             rx="15"
-            fill="#e65a32"
+            fill="#e45b35"
           />
 
 
           <rect
-            x="660"
-            y="200"
-            width="240"
-            height="80"
+            x="655"
+            y="205"
+            width="250"
+            height="82"
             rx="15"
-            fill="#b57b00"
+            fill="#a96f00"
           />
 
 
           <text
             x="220"
-            y="249"
+            y="255"
             fill="white"
             text-anchor="middle"
             font-size="24"
@@ -2311,7 +1373,7 @@
 
           <text
             x="500"
-            y="249"
+            y="255"
             fill="white"
             text-anchor="middle"
             font-size="24"
@@ -2323,7 +1385,7 @@
 
           <text
             x="780"
-            y="249"
+            y="255"
             fill="white"
             text-anchor="middle"
             font-size="24"
@@ -2335,10 +1397,10 @@
 
           <text
             x="220"
-            y="325"
-            fill="currentColor"
+            y="345"
+            class="svg-text"
             text-anchor="middle"
-            font-size="18"
+            font-size="19"
           >
             Cum se mișcă?
           </text>
@@ -2346,126 +1408,156 @@
 
           <text
             x="500"
-            y="325"
-            fill="currentColor"
+            y="345"
+            class="svg-text"
             text-anchor="middle"
-            font-size="18"
+            font-size="19"
           >
-            De ce se modifică mișcarea?
+            Care sunt cauzele?
           </text>
 
 
           <text
             x="780"
-            y="325"
-            fill="currentColor"
+            y="345"
+            class="svg-text"
             text-anchor="middle"
-            font-size="18"
+            font-size="19"
           >
             Când există echilibru?
           </text>
 
         </svg>
 
+
+        <div class="scheme-caption">
+
+          Lecțiile următoare vor dezvolta mai întâi
+          cinematica.
+
+        </div>
+
       </div>
 
     </section>
 
 
 
-    <!-- =========================================================
-         SIMULARE
-    ========================================================== -->
+    <!-- ==============================================================
+         9. EXPLORARE FĂRĂ JS SPECIFIC
+         ============================================================== -->
 
-    <section id="simulare">
+    <section class="lesson-section">
 
       <div class="section-label">
-        Activitate interactivă
+        Explorare
       </div>
 
 
       <h2>
-        Schimbă sistemul de referință
+        Schimbă mental sistemul de referință
       </h2>
 
 
-      <p class="muted">
+      <p>
 
-        Selectează reperul și observă cum se modifică
-        descrierea aceleiași situații fizice.
+        Pentru aceeași situație fizică, deschide pe rând
+        cele două cazuri.
 
       </p>
 
 
-      <div class="interactive">
+      <details>
 
-        <div class="interactive-header">
-
-          <strong>
-            Pasager într-un autobuz în mișcare
-          </strong>
-
-        </div>
+        <summary>
+          Reperul este autobuzul
+        </summary>
 
 
-        <div class="interactive-body">
+        <div>
 
-          <label for="reference-select">
+          Un pasager stă așezat pe scaun.
+
+          Poziția lui față de autobuz nu se modifică.
+
+          <div class="callout callout-success">
 
             <strong>
-              Alege sistemul de referință:
+              Concluzie:
             </strong>
 
-          </label>
-
-
-          <select id="reference-select">
-
-            <option value="">
-              -- selectează --
-            </option>
-
-            <option value="bus">
-              Autobuzul
-            </option>
-
-            <option value="passenger">
-              Alt pasager așezat
-            </option>
-
-            <option value="road">
-              Șoseaua
-            </option>
-
-            <option value="tree">
-              Un copac de pe marginea drumului
-            </option>
-
-          </select>
-
-
-          <div
-            class="result-box"
-            id="reference-result"
-          >
-
-            Alege un sistem de referință.
+            pasagerul este în repaus față de autobuz.
 
           </div>
 
         </div>
 
-      </div>
+      </details>
+
+
+      <details>
+
+        <summary>
+          Reperul este un copac de pe marginea drumului
+        </summary>
+
+
+        <div>
+
+          Autobuzul trece pe lângă copac.
+
+          Poziția pasagerului față de copac se modifică
+          în timp.
+
+          <div class="callout callout-success">
+
+            <strong>
+              Concluzie:
+            </strong>
+
+            pasagerul este în mișcare față de copac.
+
+          </div>
+
+        </div>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Ce s-a schimbat între cele două situații?
+        </summary>
+
+
+        <div>
+
+          Nu am schimbat pasagerul și nici mișcarea
+          autobuzului.
+
+          Am schimbat numai
+
+          <strong>
+            sistemul de referință.
+          </strong>
+
+        </div>
+
+      </details>
 
     </section>
 
 
 
-    <!-- =========================================================
-         ERORI
-    ========================================================== -->
+    <!-- ==============================================================
+         10. ERORI FRECVENTE
+         ============================================================== -->
 
-    <section>
+    <section
+      id="erori"
+      class="lesson-section"
+    >
 
       <div class="section-label">
         Atenție
@@ -2483,38 +1575,32 @@
         <article class="card">
 
           <h3>
-            ❌ „Corpul se mișcă.”
+            Eroarea 1
           </h3>
 
-          <p>
 
-            Lipsește precizarea sistemului
+          <p>
+            „Corpul se mișcă.”
+          </p>
+
+
+          <div class="callout callout-warning">
+
+            Afirmația nu precizează sistemul
             de referință.
 
-          </p>
+          </div>
 
 
-          <p>
+          <div class="callout callout-success">
 
-            ✔ „Corpul se mișcă față de șosea.”
+            <strong>
+              Corect:
+            </strong>
 
-          </p>
+            „Corpul se mișcă față de ...”
 
-        </article>
-
-
-        <article class="card">
-
-          <h3>
-            ❌ „Dacă stau pe scaun, nu mă mișc.”
-          </h3>
-
-          <p>
-
-            Afirmația poate fi adevărată față de scaun,
-            dar falsă față de șosea.
-
-          </p>
+          </div>
 
         </article>
 
@@ -2522,16 +1608,32 @@
         <article class="card">
 
           <h3>
-            ❌ „Repausul este absolut.”
+            Eroarea 2
           </h3>
 
+
           <p>
-
-            În descrierea mecanică discutată aici,
-            repausul este precizat față de un sistem
-            de referință.
-
+            „Dacă stau pe scaun, sunt în repaus.”
           </p>
+
+
+          <div class="callout callout-warning">
+
+            Poate fi adevărat față de scaun,
+            dar nu neapărat față de alte repere.
+
+          </div>
+
+
+          <div class="callout callout-success">
+
+            <strong>
+              Corect:
+            </strong>
+
+            precizează întotdeauna reperul.
+
+          </div>
 
         </article>
 
@@ -2539,15 +1641,65 @@
         <article class="card">
 
           <h3>
-            ❌ „Cinematica studiază forțele.”
+            Eroarea 3
           </h3>
 
+
           <p>
-
-            În clasificarea prezentată în compendiu,
-            studiul cauzelor mișcării aparține dinamicii.
-
+            „Cinematica explică forțele.”
           </p>
+
+
+          <div class="callout callout-warning">
+
+            Este o confuzie între cinematică
+            și dinamică.
+
+          </div>
+
+
+          <div class="callout callout-success">
+
+            <strong>
+              Corect:
+            </strong>
+
+            cinematica descrie mișcarea;
+            dinamica studiază cauzele modificării ei.
+
+          </div>
+
+        </article>
+
+
+        <article class="card">
+
+          <h3>
+            Eroarea 4
+          </h3>
+
+
+          <p>
+            „Dacă două corpuri au aceeași viteză,
+            sigur sunt în repaus unul față de altul.”
+          </p>
+
+
+          <div class="callout callout-warning">
+
+            Această afirmație aparține deja unei analize
+            cinematice mai detaliate și necesită precizarea
+            mișcărilor lor.
+
+          </div>
+
+
+          <div class="callout callout-success">
+
+            În această lecție rămânem la criteriul
+            fundamental: modificarea poziției relative.
+
+          </div>
 
         </article>
 
@@ -2557,11 +1709,219 @@
 
 
 
-    <!-- =========================================================
-         INTREBARI GHIDATE
-    ========================================================== -->
+    <!-- ==============================================================
+         11. ANTRENAMENT GHIDAT
+         ============================================================== -->
 
-    <section>
+    <section
+      id="antrenament"
+      class="lesson-section"
+    >
+
+      <div class="section-label">
+        Antrenament
+      </div>
+
+
+      <h2>
+        Probleme conceptuale ghidate
+      </h2>
+
+
+
+      <!-- PROBLEMA 1 -->
+
+      <article class="card problem">
+
+        <div class="problem-title">
+
+          <strong>
+            Problema 1
+          </strong>
+
+          <span class="problem-level">
+            Bază
+          </span>
+
+        </div>
+
+
+        <p>
+
+          Maria stă pe un scaun într-un tren care
+          se deplasează prin gară.
+
+          Precizează starea Mariei față de:
+
+          <br>
+
+          a) scaun;
+
+          <br>
+
+          b) peron.
+
+        </p>
+
+
+        <details>
+
+          <summary>
+            Indiciul 1
+          </summary>
+
+          <div>
+
+            Nu răspunde înainte să precizezi
+            sistemul de referință pentru fiecare caz.
+
+          </div>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Indiciul 2
+          </summary>
+
+          <div>
+
+            Întreabă-te dacă poziția Mariei
+            față de reperul respectiv se modifică
+            în timp.
+
+          </div>
+
+        </details>
+
+      </article>
+
+
+
+      <!-- PROBLEMA 2 -->
+
+      <article class="card problem">
+
+        <div class="problem-title">
+
+          <strong>
+            Problema 2
+          </strong>
+
+          <span class="problem-level">
+            Conceptual
+          </span>
+
+        </div>
+
+
+        <p>
+
+          O carte se află pe masa unui vagon
+          care se deplasează uniform.
+
+          Poate fi cartea simultan în repaus
+          și în mișcare?
+
+          Argumentează folosind două sisteme
+          de referință diferite.
+
+        </p>
+
+
+        <details>
+
+          <summary>
+            Indiciul 1
+          </summary>
+
+          <div>
+
+            Alege mai întâi masa drept reper.
+
+          </div>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Indiciul 2
+          </summary>
+
+          <div>
+
+            Alege apoi solul drept reper.
+
+          </div>
+
+        </details>
+
+      </article>
+
+
+
+      <!-- PROBLEMA 3 -->
+
+      <article class="card problem">
+
+        <div class="problem-title">
+
+          <strong>
+            Problema 3
+          </strong>
+
+          <span class="problem-level">
+            Argumentare
+          </span>
+
+        </div>
+
+
+        <p>
+
+          Un elev afirmă:
+
+          <strong>
+            „Clădirea școlii este în repaus.”
+          </strong>
+
+          Reformulează afirmația astfel încât
+          să fie fizic mai riguroasă.
+
+        </p>
+
+
+        <details>
+
+          <summary>
+            Indiciu
+          </summary>
+
+          <div>
+
+            Completează propoziția:
+
+            „Clădirea școlii este în repaus față de ...”
+
+          </div>
+
+        </details>
+
+      </article>
+
+    </section>
+
+
+
+    <!-- ==============================================================
+         12. RECAPITULARE ACTIVĂ
+         ============================================================== -->
+
+    <section class="lesson-section">
 
       <div class="section-label">
         Recapitulare activă
@@ -2569,19 +1929,37 @@
 
 
       <h2>
-        Întrebări de control
+        Poți răspunde fără notițe?
       </h2>
 
 
       <details>
 
         <summary>
-          1. Poate un corp să fie simultan în mișcare și în repaus?
+          1. De ce nu este suficient să spui „un corp se mișcă”?
         </summary>
+
 
         <div>
 
-          Încearcă mai întâi să formulezi răspunsul
+          Identifică informația lipsă:
+          sistemul față de care este descrisă mișcarea.
+
+        </div>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          2. Poate un corp să fie simultan în mișcare și în repaus?
+        </summary>
+
+
+        <div>
+
+          Încearcă să construiești un exemplu
           folosind două sisteme de referință diferite.
 
         </div>
@@ -2592,13 +1970,14 @@
       <details>
 
         <summary>
-          2. De ce nu este completă afirmația „trenul se mișcă”?
+          3. Care este criteriul pentru a decide dacă un corp este în mișcare?
         </summary>
+
 
         <div>
 
-          Identifică informația care lipsește:
-          sistemul de referință față de care este descrisă mișcarea.
+          Urmărește dacă poziția sa față de sistemul
+          de referință ales se modifică în timp.
 
         </div>
 
@@ -2608,30 +1987,15 @@
       <details>
 
         <summary>
-          3. Ce studiază cinematica?
+          4. Ce diferență fundamentală există între cinematică și dinamică?
         </summary>
 
-        <div>
-
-          Concentrează-te asupra descrierii mișcării,
-          nu asupra cauzelor sale.
-
-        </div>
-
-      </details>
-
-
-      <details>
-
-        <summary>
-          4. Care este diferența dintre cinematică și dinamică?
-        </summary>
 
         <div>
 
           Cinematica descrie mișcarea;
-          dinamica studiază efectele forțelor
-          asupra mișcării.
+          dinamica studiază acțiunile asociate
+          modificării mișcării.
 
         </div>
 
@@ -2641,11 +2005,182 @@
 
 
 
-    <!-- =========================================================
-         MINI TEST
-    ========================================================== -->
+    <!-- ==============================================================
+         13. FLASHCARDS
+         ================================================================ -->
 
-    <section id="verificare">
+    <section class="lesson-section">
+
+      <div class="section-label">
+        Memorie
+      </div>
+
+
+      <h2>
+        Flashcards
+      </h2>
+
+
+      <div class="flashcards">
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Când spunem că un corp este în mișcare?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              Când poziția sa față de sistemul de referință
+              ales se modifică în timp.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Când spunem că un corp este în repaus?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              Când poziția sa față de sistemul de referință
+              ales nu se modifică în timp.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Care este întrebarea obligatorie
+              când descriem o mișcare?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              „Față de ce sistem de referință?”
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Ce studiază cinematica?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              Descrierea mișcării fără studiul
+              cauzelor care o produc sau o modifică.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Ce studiază dinamica?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              Legătura dintre mișcare și acțiunile
+              care o produc sau o modifică.
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="flashcard">
+
+          <div class="flash-inner">
+
+            <div class="flash-face flash-front">
+
+              Ce studiază statica?
+
+            </div>
+
+
+            <div class="flash-face flash-back">
+
+              Condițiile de echilibru ale corpurilor
+              și sistemelor de corpuri.
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ==============================================================
+         14. MINI-TEST
+         5 itemi × 2 puncte = 10 puncte
+         ================================================================ -->
+
+    <section
+      id="test"
+      class="lesson-section"
+    >
 
       <div class="section-label">
         Evaluare
@@ -2657,56 +2192,71 @@
       </h2>
 
 
-      <div class="callout warning">
+      <div class="callout callout-warning">
 
-        Răspunde înainte de a apăsa
-        <strong>Verifică testul</strong>.
+        <strong>
+          Regim de test:
+        </strong>
 
-        Nu sunt afișate soluțiile înainte de încercare.
+        răspunde fără să deschizi indiciile de mai sus.
+
+        Barem: 5 itemi × 2 puncte = 10 puncte.
 
       </div>
 
 
-      <form id="quiz">
+      <form
+        class="quiz"
+        data-quiz
+        data-quiz-id="mini-test"
+      >
 
 
-        <!-- Q1 -->
+        <!-- ITEM 1 -->
 
-        <div class="question">
+        <div
+          class="quiz-question"
+          data-type="radio"
+          data-answer="b"
+          data-points="2"
+          data-explanation="Starea de miscare sau de repaus trebuie descrisa fata de un sistem de referinta."
+        >
 
-          <strong>
-            1. Un pasager așezat într-un autobuz
+          <div class="quiz-question-title">
+
+            1. Un pasager așezat într-un tren
             care se deplasează este:
-          </strong>
+
+          </div>
 
 
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q1"
-              value="a"
-            >
-
-            în mișcare față de autobuz
-
-          </label>
-
-
-          <label class="option">
+          <label class="quiz-option">
 
             <input
               type="radio"
               name="q1"
-              value="b"
+              value="a"
             >
 
-            în repaus față de autobuz
+            în mișcare față de tren
 
           </label>
 
 
-          <label class="option">
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q1"
+              value="b"
+            >
+
+            în repaus față de tren
+
+          </label>
+
+
+          <label class="quiz-option">
 
             <input
               type="radio"
@@ -2714,7 +2264,7 @@
               value="c"
             >
 
-            obligatoriu în repaus față de toate corpurile
+            în repaus față de toate sistemele de referință
 
           </label>
 
@@ -2722,224 +2272,256 @@
 
 
 
-        <!-- Q2 -->
-
-        <div class="question">
-
-          <strong>
-            2. Starea de mișcare sau de repaus:
-          </strong>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q2"
-              value="a"
-            >
-
-            depinde de sistemul de referință
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q2"
-              value="b"
-            >
-
-            este întotdeauna absolută
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q2"
-              value="c"
-            >
-
-            depinde numai de masa corpului
-
-          </label>
-
-        </div>
-
-
-
-        <!-- Q3 -->
-
-        <div class="question">
-
-          <strong>
-            3. Cinematica studiază:
-          </strong>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q3"
-              value="a"
-            >
-
-            descrierea mișcărilor
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q3"
-              value="b"
-            >
-
-            numai echilibrul corpurilor
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q3"
-              value="c"
-            >
-
-            exclusiv structura materiei
-
-          </label>
-
-        </div>
-
-
-
-        <!-- Q4 -->
-
-        <div class="question">
-
-          <strong>
-            4. Studiul efectelor forțelor asupra mișcării
-            aparține:
-          </strong>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q4"
-              value="a"
-            >
-
-            cinematicii
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q4"
-              value="b"
-            >
-
-            dinamicii
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q4"
-              value="c"
-            >
-
-            opticii
-
-          </label>
-
-        </div>
-
-
-
-        <!-- Q5 -->
-
-        <div class="question">
-
-          <strong>
-            5. Un corp poate fi în repaus față de un reper
-            și în mișcare față de altul:
-          </strong>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q5"
-              value="a"
-            >
-
-            adevărat
-
-          </label>
-
-
-          <label class="option">
-
-            <input
-              type="radio"
-              name="q5"
-              value="b"
-            >
-
-            fals
-
-          </label>
-
-        </div>
-
-
-
-        <button
-          type="button"
-          class="btn"
-          id="grade-quiz"
+        <!-- ITEM 2 -->
+
+        <div
+          class="quiz-question"
+          data-type="radio"
+          data-answer="a"
+          data-points="2"
+          data-explanation="Acelasi corp poate avea stari diferite fata de sisteme de referinta diferite."
         >
-          Verifică testul
-        </button>
+
+          <div class="quiz-question-title">
+
+            2. Mișcarea și repausul:
+
+          </div>
 
 
-        <button
-          type="reset"
-          class="btn secondary"
-          id="reset-quiz"
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q2"
+              value="a"
+            >
+
+            depind de sistemul de referință ales
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q2"
+              value="b"
+            >
+
+            sunt întotdeauna absolute
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q2"
+              value="c"
+            >
+
+            depind numai de masa corpului
+
+          </label>
+
+        </div>
+
+
+
+        <!-- ITEM 3 -->
+
+        <div
+          class="quiz-question"
+          data-type="radio"
+          data-answer="c"
+          data-points="2"
+          data-explanation="Cinematica descrie miscarea fara a studia cauzele ei."
         >
-          Resetează
-        </button>
+
+          <div class="quiz-question-title">
+
+            3. Cinematica studiază în principal:
+
+          </div>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q3"
+              value="a"
+            >
+
+            echilibrul termic
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q3"
+              value="b"
+            >
+
+            structura microscopică a materiei
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="radio"
+              name="q3"
+              value="c"
+            >
+
+            descrierea mișcării
+
+          </label>
+
+        </div>
+
+
+
+        <!-- ITEM 4 -->
+
+        <div
+          class="quiz-question"
+          data-type="text"
+          data-answer="sistem de referinta|sistemul de referinta"
+          data-match="contains"
+          data-points="2"
+          data-explanation="O afirmatie despre miscare trebuie raportata la un sistem de referinta."
+        >
+
+          <div class="quiz-question-title">
+
+            4. Completează:
+            starea de mișcare sau de repaus a unui corp
+            se precizează față de un __________.
+
+          </div>
+
+
+          <input
+            type="text"
+            autocomplete="off"
+            placeholder="Scrie răspunsul"
+          >
+
+        </div>
+
+
+
+        <!-- ITEM 5 -->
+
+        <div
+          class="quiz-question"
+          data-type="checkbox"
+          data-answer="a,c"
+          data-points="2"
+          data-partial="true"
+          data-explanation="Miscarea este relativa, iar acelasi corp poate fi in repaus fata de un sistem si in miscare fata de altul."
+        >
+
+          <div class="quiz-question-title">
+
+            5. Selectează toate afirmațiile corecte:
+
+          </div>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="checkbox"
+              value="a"
+            >
+
+            Mișcarea mecanică este descrisă față
+            de un sistem de referință.
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="checkbox"
+              value="b"
+            >
+
+            Un corp aflat în repaus față de un reper
+            este obligatoriu în repaus față de orice reper.
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="checkbox"
+              value="c"
+            >
+
+            Același corp poate fi în repaus față
+            de un sistem și în mișcare față de altul.
+
+          </label>
+
+
+          <label class="quiz-option">
+
+            <input
+              type="checkbox"
+              value="d"
+            >
+
+            Cinematica studiază exclusiv forțele
+            care acționează asupra corpurilor.
+
+          </label>
+
+        </div>
+
+
+
+        <!-- ACTIUNI -->
+
+        <div class="quiz-actions">
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-action="grade-quiz"
+          >
+            Verifică testul
+          </button>
+
+
+          <button
+            type="reset"
+            class="btn btn-secondary"
+            data-action="reset-quiz"
+          >
+            Resetează
+          </button>
+
+        </div>
 
 
         <div
-          id="quiz-result"
-          class="score"
+          class="quiz-result"
+          data-quiz-result
         >
-
           Punctajul va apărea aici.
-
         </div>
 
       </form>
@@ -2948,159 +2530,160 @@
 
 
 
-    <!-- =========================================================
-         SINTEZA
-    ========================================================== -->
+    <!-- ==============================================================
+         15. FIȘA DE REȚINUT
+         ================================================================ -->
 
-    <section id="sinteza">
+    <section
+      id="sinteza"
+      class="lesson-section"
+    >
 
       <div class="section-label">
-        Fișă de recapitulare
+        Sinteză
       </div>
 
 
       <h2>
-        Ce trebuie să rămână
+        Fișa de reținut
       </h2>
 
 
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Noțiune
-              </th>
-
-              <th>
-                Idee esențială
-              </th>
-
-            </tr>
-
-          </thead>
+      <div class="memory-sheet">
 
 
-          <tbody>
+        <h3>
+          Mișcare
+        </h3>
 
-            <tr>
+        <p>
 
-              <td>
-                Mișcare
-              </td>
+          Poziția corpului
 
-              <td>
-                Poziția corpului se modifică în timp
-                față de sistemul de referință ales.
-              </td>
+          <strong>
+            se modifică în timp
+          </strong>
 
-            </tr>
+          față de sistemul de referință ales.
 
-
-            <tr>
-
-              <td>
-                Repaus
-              </td>
-
-              <td>
-                Poziția corpului nu se modifică în timp
-                față de sistemul de referință ales.
-              </td>
-
-            </tr>
+        </p>
 
 
-            <tr>
+        <h3>
+          Repaus
+        </h3>
 
-              <td>
-                Relativitatea mișcării
-              </td>
+        <p>
 
-              <td>
-                Același corp poate avea stări diferite
-                față de sisteme de referință diferite.
-              </td>
+          Poziția corpului
 
-            </tr>
+          <strong>
+            nu se modifică în timp
+          </strong>
 
+          față de sistemul de referință ales.
 
-            <tr>
-
-              <td>
-                Sistem de referință
-              </td>
-
-              <td>
-                Sistemul față de care descriem
-                poziția și mișcarea corpului.
-              </td>
-
-            </tr>
+        </p>
 
 
-            <tr>
+        <h3>
+          Caracter relativ
+        </h3>
 
-              <td>
-                Cinematică
-              </td>
+        <p>
 
-              <td>
-                Descrie mișcările fără a studia
-                cauzele lor.
-              </td>
+          Același corp poate fi în repaus față
+          de un sistem de referință și în mișcare
+          față de altul.
 
-            </tr>
-
-
-            <tr>
-
-              <td>
-                Dinamică
-              </td>
-
-              <td>
-                Studiază efectele forțelor
-                asupra mișcării.
-              </td>
-
-            </tr>
+        </p>
 
 
-            <tr>
-
-              <td>
-                Statică
-              </td>
-
-              <td>
-                Studiază echilibrul corpurilor
-                și sistemelor de corpuri.
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
+        <h3>
+          Întrebarea obligatorie
+        </h3>
 
 
+        <div class="callout callout-success">
 
-      <div class="callout success">
+          <strong>
+            „Față de ce sistem de referință?”
+          </strong>
 
-        <strong>
-          Test final de memorie:
-        </strong>
+        </div>
 
-        dacă poți explica fără notițe de ce un pasager
-        poate fi simultan în repaus și în mișcare,
-        ai înțeles ideea fundamentală a lecției.
+
+        <h3>
+          Ramurile mecanicii
+        </h3>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Domeniu
+                </th>
+
+                <th>
+                  Întrebarea principală
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr>
+
+                <td>
+                  Cinematică
+                </td>
+
+                <td>
+                  Cum se mișcă?
+                </td>
+
+              </tr>
+
+
+              <tr>
+
+                <td>
+                  Dinamică
+                </td>
+
+                <td>
+                  De ce se modifică mișcarea?
+                </td>
+
+              </tr>
+
+
+              <tr>
+
+                <td>
+                  Statică
+                </td>
+
+                <td>
+                  În ce condiții există echilibru?
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
@@ -3108,47 +2691,203 @@
 
 
 
-    <!-- =========================================================
-         URMATOAREA LECTIE
-    ========================================================== -->
+    <!-- ==============================================================
+         16. CHECKLIST PROGRES
+         ================================================================ -->
 
-    <section>
+    <section class="lesson-section">
 
-      <div
-        class="card"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              var(--primary),
-              var(--primary-dark)
-            );
-          color: white;
-        "
+      <div class="section-label">
+        Progres
+      </div>
+
+
+      <h2>
+        Pot spune că am terminat lecția dacă...
+      </h2>
+
+
+      <ul class="checklist">
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="definitie-miscare"
+            >
+
+            Pot explica ce înseamnă mișcare mecanică.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="definitie-repaus"
+            >
+
+            Pot explica ce înseamnă repaus.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="relativitate"
+            >
+
+            Pot explica de ce mișcarea și repausul
+            sunt relative.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="sistem-referinta"
+            >
+
+            Pot identifica sistemul de referință
+            într-o situație concretă.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="ramuri-mecanica"
+            >
+
+            Pot diferenția cinematica, dinamica și statica.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="probleme"
+            >
+
+            Am rezolvat cele trei probleme conceptuale.
+
+          </label>
+
+        </li>
+
+
+        <li>
+
+          <label>
+
+            <input
+              type="checkbox"
+              data-persist-key="test"
+            >
+
+            Am susținut mini-testul.
+
+          </label>
+
+        </li>
+
+      </ul>
+
+
+      <p class="muted">
+
+        Progres:
+
+        <strong data-checklist-progress>
+          0/0
+        </strong>
+
+        ·
+
+        <strong data-checklist-percent>
+          0%
+        </strong>
+
+      </p>
+
+
+      <button
+        type="button"
+        class="btn btn-secondary no-print"
+        data-action="reset-checklist"
       >
+        Resetează checklist
+      </button>
 
-        <div
-          class="section-label"
-          style="color:#dce7ff"
-        >
-          Continuare
-        </div>
+    </section>
 
+
+
+    <!-- ==============================================================
+         17. CE URMEAZĂ
+         ================================================================ -->
+
+    <section class="lesson-section">
+
+      <div class="section-label">
+        Continuare
+      </div>
+
+
+      <div class="card card-highlight">
 
         <h2>
-          1.2 Elementele mișcării
+          Următorul pas: 1.2 Elementele mișcării
         </h2>
 
 
         <p>
 
-          În lecția următoare intrăm în descrierea
-          concretă a mișcării:
+          După ce am stabilit că mișcarea trebuie
+          descrisă față de un sistem de referință,
+          putem introduce elementele necesare pentru
+          descrierea ei mai precisă.
 
-          punct material,
-          traiectorie,
-          drum parcurs,
-          poziție și timp.
+        </p>
+
+
+        <p class="muted">
+
+          Navigarea efectivă către lecția următoare
+          este generată automat mai jos din
+          <code>lessons.json</code>.
 
         </p>
 
@@ -3158,593 +2897,22 @@
 
 
 
-    <!-- =========================================================
-         SURSA
-    ========================================================== -->
+    <!-- ==============================================================
+         NAVIGARE AUTOMATĂ
+         ================================================================ -->
 
-    <footer>
+    <div id="lesson-navigation"></div>
 
-      <strong>
-        Sursa principală:
-      </strong>
-
-
-      <p>
-
-        Ion Bunget și colaboratorii,
-        <em>
-          Compendiu de fizică pentru admitere
-          în învățământul superior
-        </em>,
-        Editura Științifică,
-        București,
-        1972.
-
-      </p>
-
-
-      <p>
-
-        Lecția urmărește secțiunea
-        <strong>1.1 Mișcare și repaus</strong>,
-        paginile tipărite 21–22.
-
-      </p>
-
-
-      <p>
-
-        Schemele, mini-testul și simularea sistemului
-        de referință sunt elemente didactice realizate
-        pentru această recapitulare.
-
-      </p>
-
-    </footer>
 
   </main>
 
 
+  <!-- ================================================================
+       FOOTER AUTOMAT
+       ================================================================ -->
 
-  <script>
+  <div id="site-footer"></div>
 
-    /* =========================================================
-       TEMA ZI / NOAPTE
-    ========================================================== */
-
-    const body =
-      document.body;
-
-    const themeToggle =
-      document.getElementById(
-        'theme-toggle'
-      );
-
-
-    const storedTheme =
-      localStorage.getItem(
-        'bunget-theme'
-      );
-
-
-    if (storedTheme === 'dark') {
-
-      body.classList.add('dark');
-
-    }
-
-
-    function updateThemeButton() {
-
-      if (
-        body.classList.contains('dark')
-      ) {
-
-        themeToggle.textContent =
-          '☀ Zi';
-
-      }
-
-      else {
-
-        themeToggle.textContent =
-          '☾ Noapte';
-
-      }
-
-    }
-
-
-    updateThemeButton();
-
-
-    themeToggle.addEventListener(
-      'click',
-      () => {
-
-        body.classList.toggle(
-          'dark'
-        );
-
-
-        localStorage.setItem(
-          'bunget-theme',
-          body.classList.contains('dark')
-            ? 'dark'
-            : 'light'
-        );
-
-
-        updateThemeButton();
-
-      }
-    );
-
-
-
-    /* =========================================================
-       DIMENSIUNE TEXT
-    ========================================================== */
-
-    let fontScale =
-
-      parseFloat(
-        localStorage.getItem(
-          'bunget-font-scale'
-        )
-      )
-
-      || 1;
-
-
-    function applyFontScale() {
-
-      document.documentElement.style.setProperty(
-        '--font-scale',
-        fontScale
-      );
-
-
-      localStorage.setItem(
-        'bunget-font-scale',
-        String(fontScale)
-      );
-
-    }
-
-
-    applyFontScale();
-
-
-    document
-      .getElementById('font-up')
-      .addEventListener(
-        'click',
-        () => {
-
-          fontScale =
-            Math.min(
-              1.30,
-              fontScale + 0.05
-            );
-
-
-          applyFontScale();
-
-        }
-      );
-
-
-    document
-      .getElementById('font-down')
-      .addEventListener(
-        'click',
-        () => {
-
-          fontScale =
-            Math.max(
-              0.85,
-              fontScale - 0.05
-            );
-
-
-          applyFontScale();
-
-        }
-      );
-
-
-
-    /* =========================================================
-       PROGRES LECTURA
-    ========================================================== */
-
-    const readingProgress =
-      document.getElementById(
-        'reading-progress'
-      );
-
-
-    window.addEventListener(
-      'scroll',
-      () => {
-
-        const scrollTop =
-
-          document.documentElement.scrollTop
-
-          ||
-
-          document.body.scrollTop;
-
-
-        const scrollHeight =
-
-          document.documentElement.scrollHeight
-
-          -
-
-          document.documentElement.clientHeight;
-
-
-        const percent =
-
-          scrollHeight > 0
-
-          ?
-
-          (
-            scrollTop
-            /
-            scrollHeight
-          )
-          *
-          100
-
-          :
-
-          0;
-
-
-        readingProgress.style.width =
-          percent + '%';
-
-      }
-    );
-
-
-
-    /* =========================================================
-       SALVARE PDF
-       Foloseste dialogul de printare al browserului.
-    ========================================================== */
-
-    const savePdfButton =
-      document.getElementById(
-        'save-pdf'
-      );
-
-
-    let openDetailsBeforePrint =
-      [];
-
-
-    savePdfButton.addEventListener(
-      'click',
-      () => {
-
-        window.print();
-
-      }
-    );
-
-
-    window.addEventListener(
-      'beforeprint',
-      () => {
-
-        openDetailsBeforePrint = [];
-
-
-        document
-          .querySelectorAll('details')
-          .forEach(
-            (detail, index) => {
-
-              openDetailsBeforePrint[index] =
-                detail.open;
-
-
-              detail.open =
-                true;
-
-            }
-          );
-
-      }
-    );
-
-
-    window.addEventListener(
-      'afterprint',
-      () => {
-
-        document
-          .querySelectorAll('details')
-          .forEach(
-            (detail, index) => {
-
-              detail.open =
-                openDetailsBeforePrint[index];
-
-            }
-          );
-
-      }
-    );
-
-
-
-    /* =========================================================
-       SIMULARE SISTEM REFERINTA
-    ========================================================== */
-
-    const referenceSelect =
-      document.getElementById(
-        'reference-select'
-      );
-
-
-    const referenceResult =
-      document.getElementById(
-        'reference-result'
-      );
-
-
-    referenceSelect.addEventListener(
-      'change',
-      () => {
-
-        const value =
-          referenceSelect.value;
-
-
-        if (value === 'bus') {
-
-          referenceResult.innerHTML =
-
-            '<strong>Reper: autobuzul.</strong><br>' +
-
-            'Poziția pasagerului așezat nu se modifică față de autobuz. ' +
-
-            '<span class="correct">Pasagerul este în repaus față de autobuz.</span>';
-
-        }
-
-
-        else if (
-          value === 'passenger'
-        ) {
-
-          referenceResult.innerHTML =
-
-            '<strong>Reper: alt pasager așezat.</strong><br>' +
-
-            'Distanța dintre cei doi pasageri rămâne neschimbată. ' +
-
-            '<span class="correct">Pasagerul este în repaus față de celălalt pasager.</span>';
-
-        }
-
-
-        else if (
-          value === 'road'
-        ) {
-
-          referenceResult.innerHTML =
-
-            '<strong>Reper: șoseaua.</strong><br>' +
-
-            'Poziția pasagerului se modifică odată cu deplasarea autobuzului. ' +
-
-            '<span class="correct">Pasagerul este în mișcare față de șosea.</span>';
-
-        }
-
-
-        else if (
-          value === 'tree'
-        ) {
-
-          referenceResult.innerHTML =
-
-            '<strong>Reper: copacul.</strong><br>' +
-
-            'Poziția pasagerului se modifică față de copacul aflat lângă drum. ' +
-
-            '<span class="correct">Pasagerul este în mișcare față de copac.</span>';
-
-        }
-
-
-        else {
-
-          referenceResult.textContent =
-            'Alege un sistem de referință.';
-
-        }
-
-      }
-    );
-
-
-
-    /* =========================================================
-       MINI-TEST
-    ========================================================== */
-
-    const answers = {
-
-      q1: 'b',
-
-      q2: 'a',
-
-      q3: 'a',
-
-      q4: 'b',
-
-      q5: 'a'
-
-    };
-
-
-    document
-      .getElementById('grade-quiz')
-      .addEventListener(
-        'click',
-        () => {
-
-          let correct = 0;
-
-          let answered = 0;
-
-
-          Object.entries(
-            answers
-          )
-          .forEach(
-            ([question, expected]) => {
-
-              const selected =
-
-                document.querySelector(
-                  `input[name="${question}"]:checked`
-                );
-
-
-              if (selected) {
-
-                answered++;
-
-
-                if (
-                  selected.value
-                  ===
-                  expected
-                ) {
-
-                  correct++;
-
-                }
-
-              }
-
-            }
-          );
-
-
-          const score =
-            correct * 2;
-
-
-          const result =
-            document.getElementById(
-              'quiz-result'
-            );
-
-
-          let message =
-
-            `Ai răspuns la ${answered}/5 itemi. ` +
-
-            `Punctaj: ${score}/10. `;
-
-
-          if (
-            score >= 9
-          ) {
-
-            message +=
-
-              'Noțiunile sunt bine fixate. Poți continua cu 1.2 Elementele mișcării.';
-
-          }
-
-
-          else if (
-            score >= 7
-          ) {
-
-            message +=
-
-              'Nivel bun. Reia pe scurt sistemul de referință și caracterul relativ al mișcării.';
-
-          }
-
-
-          else {
-
-            message +=
-
-              'Reia secțiunile „Mișcarea și repausul sunt relative” și „Sistemul de referință”.';
-
-          }
-
-
-          result.textContent =
-            message;
-
-
-          result.className =
-
-            score >= 7
-
-            ?
-
-            'score correct'
-
-            :
-
-            'score incorrect';
-
-
-          localStorage.setItem(
-            'bunget-1-1-score',
-            String(score)
-          );
-
-        }
-      );
-
-
-
-    /* =========================================================
-       RESET TEST
-    ========================================================== */
-
-    document
-      .getElementById('reset-quiz')
-      .addEventListener(
-        'click',
-        () => {
-
-          const result =
-            document.getElementById(
-              'quiz-result'
-            );
-
-
-          result.textContent =
-            'Punctajul va apărea aici.';
-
-
-          result.className =
-            'score';
-
-        }
-      );
-
-  </script>
 
 </body>
 
