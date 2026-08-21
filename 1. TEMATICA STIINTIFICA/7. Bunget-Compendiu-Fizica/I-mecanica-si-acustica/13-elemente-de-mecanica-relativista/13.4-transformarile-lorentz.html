@@ -1,1 +1,2396 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>13.4 – Transformările Lorentz</title>
+
+  <!--
+    Fișierul este la:
+    1. TEMATICA STIINTIFICA/
+      7. Bunget-Compendiu-Fizica/
+        I-mecanica-si-acustica/
+          13-elemente-de-mecanica-relativista/
+  -->
+  <link rel="stylesheet" href="../../../../assets/css/titularizare-theme.css">
+
+  <script src="../../../../assets/js/mathjax-config.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    /* =========================================================
+       BARĂ SUPERIOARĂ
+       ========================================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      padding: 0.75rem 1rem;
+
+      background:
+        color-mix(in srgb, var(--card) 90%, transparent);
+
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .theme-toggle {
+      flex: 0 0 auto;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      padding: 0.55rem 0.95rem;
+
+      background: var(--card);
+      color: var(--text);
+
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       STRUCTURĂ GENERALĂ
+       ========================================================= */
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+
+      display: none;
+      align-items: center;
+
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .page > .card {
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent);
+
+      font-size: 0.8em;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08em;
+      line-height: 1.65;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    li {
+      margin: 0.5rem 0;
+      line-height: 1.55;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    /* =========================================================
+       GRILE / MINI-CARDURI
+       ========================================================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+
+      margin: 1rem 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 1rem;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 70%, transparent);
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 0.25rem;
+
+      color: var(--accent-2);
+    }
+
+    .symbol {
+      font-family: "Times New Roman", serif;
+      font-size: 1.12em;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       SVG / DIAGRAME
+       ========================================================= */
+
+    .svgbox {
+      margin: 1rem 0;
+      padding: 0.9rem;
+
+      overflow-x: auto;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: var(--formula-bg);
+    }
+
+    .svgbox > svg {
+      display: block;
+
+      width: 100%;
+      min-width: 340px;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0.5rem 0 0;
+
+      color: var(--muted);
+      font-size: 0.92em;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TABELE
+       ========================================================= */
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+
+      margin: 1rem 0;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 720px;
+
+      border-collapse: collapse;
+
+      background: var(--card);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 0.75rem;
+
+      border: 1px solid var(--border);
+
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      color: var(--accent);
+      background: var(--formula-bg);
+    }
+
+    /* =========================================================
+       ACCENTE LOCALE
+       ========================================================= */
+
+    .definition {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid var(--accent);
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 78%, transparent);
+    }
+
+    .definition strong {
+      color: var(--accent);
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      margin: 0.8rem 0;
+    }
+
+    .step-number {
+      width: 2.2rem;
+      height: 2.2rem;
+
+      flex: 0 0 2.2rem;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      color: white;
+
+      font-weight: 900;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .big-result {
+      margin: 1rem 0;
+      padding: 1.1rem;
+
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 72%, transparent);
+    }
+
+    .big-result h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .check {
+      color: #0f766e;
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       NAVIGARE INFERIOARĂ
+       ========================================================= */
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+
+      padding: 1rem;
+
+      border-radius: 16px;
+
+      color: white;
+      background: var(--accent);
+
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      z-index: 40;
+
+      transform: translateX(-50%);
+
+      width: min(1100px, calc(100% - 1rem));
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
+
+      padding: 0.45rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background:
+        color-mix(in srgb, var(--card) 92%, transparent);
+
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .pager button,
+    .pager a {
+      border: 0;
+      border-radius: 999px;
+
+      padding: 0.65rem 0.9rem;
+
+      font-size: 0.92em;
+      font-weight: 900;
+
+      text-decoration: none;
+      text-align: center;
+
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pager button {
+      color: white;
+      background: var(--accent);
+    }
+
+    .pager button.secondary {
+      color: var(--text);
+      background: var(--formula-bg);
+
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      color: white;
+      background: var(--accent-2);
+    }
+
+    .page-status {
+      min-width: 5.2rem;
+
+      color: var(--muted);
+
+      text-align: center;
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 760px) {
+      .grid,
+      .grid.three,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+
+        width: min(700px, calc(100% - 1rem));
+
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       TOPBAR
+       ========================================================= -->
+
+  <div class="topbar">
+    <strong>
+      13.4 • Elemente de mecanică relativistă • Transformările Lorentz
+    </strong>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      onclick="toggleTheme()"
+      aria-label="Schimbă tema"
+    >
+      Zi / Noapte
+    </button>
+  </div>
+
+
+  <main>
+
+    <!-- =======================================================
+         PAGINA 1
+         ======================================================= -->
+
+    <section class="page active">
+      <article class="card">
+
+        <span class="eyebrow">13.4 • Mecanica relativistă</span>
+
+        <h1>Transformările Lorentz</h1>
+
+        <p class="lead">
+          Dacă viteza luminii în vid este aceeași în toate sistemele de
+          referință inerțiale, atunci coordonatele spațiale și timpul
+          <span class="mark">nu se mai pot transforma independent</span>,
+          așa cum se întâmpla în mecanica lui Galilei.
+        </p>
+
+        <div class="exam">
+          <strong>Ideea-cheie pentru examen:</strong>
+          Transformările Lorentz sunt relațiile dintre coordonatele
+          spațio-temporale ale aceluiași eveniment măsurate în două
+          sisteme de referință inerțiale aflate în mișcare relativă uniformă.
+        </div>
+
+        <div class="svgbox">
+          <svg
+            viewBox="0 0 820 300"
+            role="img"
+            aria-label="Două sisteme de referință inerțiale S și S prim"
+          >
+            <defs>
+              <marker
+                id="arrow134blue"
+                viewBox="0 0 10 6"
+                markerWidth="10"
+                markerHeight="6"
+                refX="9"
+                refY="3"
+                orient="auto"
+              >
+                <path d="M0,1 L9,3 L0,5 Z" fill="#2563eb"></path>
+              </marker>
+
+              <marker
+                id="arrow134green"
+                viewBox="0 0 10 6"
+                markerWidth="10"
+                markerHeight="6"
+                refX="9"
+                refY="3"
+                orient="auto"
+              >
+                <path d="M0,1 L9,3 L0,5 Z" fill="#0f766e"></path>
+              </marker>
+            </defs>
+
+            <!-- S -->
+            <line
+              x1="80" y1="220"
+              x2="360" y2="220"
+              stroke="#2563eb"
+              stroke-width="5"
+              marker-end="url(#arrow134blue)"
+            />
+
+            <line
+              x1="100" y1="245"
+              x2="100" y2="55"
+              stroke="#2563eb"
+              stroke-width="5"
+              marker-end="url(#arrow134blue)"
+            />
+
+            <text x="74" y="260" font-size="24" fill="#64748b">O</text>
+            <text x="340" y="205" font-size="24" fill="#2563eb">x</text>
+            <text x="112" y="72" font-size="24" fill="#2563eb">y</text>
+            <text x="70" y="110" font-size="30" fill="#2563eb">S</text>
+
+            <!-- S' -->
+            <line
+              x1="450" y1="220"
+              x2="730" y2="220"
+              stroke="#0f766e"
+              stroke-width="5"
+              marker-end="url(#arrow134green)"
+            />
+
+            <line
+              x1="470" y1="245"
+              x2="470" y2="55"
+              stroke="#0f766e"
+              stroke-width="5"
+              marker-end="url(#arrow134green)"
+            />
+
+            <text x="438" y="260" font-size="24" fill="#64748b">O'</text>
+            <text x="705" y="205" font-size="24" fill="#0f766e">x'</text>
+            <text x="482" y="72" font-size="24" fill="#0f766e">y'</text>
+            <text x="438" y="110" font-size="30" fill="#0f766e">S'</text>
+
+            <!-- v -->
+            <line
+              x1="315" y1="105"
+              x2="505" y2="105"
+              stroke="#f59e0b"
+              stroke-width="7"
+              marker-end="url(#arrow134blue)"
+            />
+
+            <text x="393" y="87" font-size="28" fill="#f59e0b">v</text>
+          </svg>
+
+          <p class="caption">
+            Configurația standard: sistemul \(S'\) se deplasează cu viteza
+            constantă \(v\) față de \(S\), de-a lungul direcției pozitive a
+            axei \(Ox\).
+          </p>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 2
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Configurația standard</span>
+
+        <h2>Ce presupunem înainte de a scrie formulele?</h2>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Sistemul \(S\)</strong>
+            Este considerat sistemul inerțial de referință.
+          </div>
+
+          <div class="mini">
+            <strong>Sistemul \(S'\)</strong>
+            Se deplasează uniform cu viteza \(v\) față de \(S\).
+          </div>
+
+          <div class="mini">
+            <strong>Direcția mișcării</strong>
+            \[
+              \vec v \parallel Ox
+            \]
+            iar axele celor două sisteme rămân paralele.
+          </div>
+
+          <div class="mini">
+            <strong>Originea timpului</strong>
+            La momentul inițial:
+            \[
+              t=t'=0,\qquad O\equiv O'.
+            \]
+          </div>
+        </div>
+
+        <div class="definition">
+          <strong>Eveniment:</strong>
+          un fapt fizic localizat în spațiu și timp. Același eveniment are
+          coordonatele
+          \[
+            (x,y,z,t)
+          \]
+          în \(S\) și
+          \[
+            (x',y',z',t')
+          \]
+          în \(S'\).
+        </div>
+
+        <div class="grid three">
+          <div class="mini">
+            <strong>\(x,y,z\)</strong>
+            coordonate spațiale<br>
+            unitate SI: <b>m</b>
+          </div>
+
+          <div class="mini">
+            <strong>\(t\)</strong>
+            timp<br>
+            unitate SI: <b>s</b>
+          </div>
+
+          <div class="mini">
+            <strong>\(v,c\)</strong>
+            viteze<br>
+            unitate SI: <b>m/s</b>
+          </div>
+        </div>
+
+        <div class="warning">
+          <strong>Condiție:</strong>
+          pentru două sisteme inerțiale materiale aflate în mișcare relativă,
+          \[
+            |v|<c.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 3
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Mecanica clasică</span>
+
+        <h2>Ce ar spune transformările Galilei?</h2>
+
+        <p>
+          Pentru aceeași configurație geometrică, mecanica newtoniană folosește:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &= x-vt,\\
+            y' &= y,\\
+            z' &= z,\\
+            t' &= t.
+          \end{aligned}}
+          \]
+        </div>
+
+        <p>
+          Ultima relație,
+          \[
+            t'=t,
+          \]
+          exprimă ideea clasică a unui
+          <span class="mark">timp universal</span>,
+          identic pentru toți observatorii.
+        </p>
+
+        <div class="exam">
+          <strong>Problema:</strong>
+          transformările Galilei sunt compatibile cu legile mecanicii clasice,
+          dar nu păstrează invariabilă viteza luminii.
+        </div>
+
+        <div class="warning">
+          <strong>Capcană de examen:</strong>
+          Transformările Lorentz nu apar fiindcă „Newton este greșit”.
+          Mecanica newtoniană rămâne aproximația corectă atunci când
+          \[
+            v\ll c.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 4
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Frontul de undă luminos</span>
+
+        <h2>Lumina trebuie să fie sferică în ambele sisteme</h2>
+
+        <p>
+          Considerăm o sursă punctuală care emite lumină în momentul în care
+          originile \(O\) și \(O'\) coincid.
+        </p>
+
+        <p>
+          În sistemul \(S\), după timpul \(t\), raza frontului luminos este:
+        </p>
+
+        <div class="formula">
+          \[
+            R=ct.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            x^2+y^2+z^2=c^2t^2
+          }
+          \tag{1}
+          \]
+        </div>
+
+        <p>
+          Conform principiului constanței vitezei luminii, observatorul din
+          \(S'\) trebuie să descrie același fenomen prin:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            x'^2+y'^2+z'^2=c^2t'^2
+          }
+          \tag{2}
+          \]
+        </div>
+
+        <div class="svgbox">
+          <svg
+            viewBox="0 0 820 330"
+            role="img"
+            aria-label="Front sferic al luminii observat din două sisteme inerțiale"
+          >
+            <circle
+              cx="230"
+              cy="170"
+              r="105"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="6"
+            />
+
+            <circle
+              cx="590"
+              cy="170"
+              r="105"
+              fill="none"
+              stroke="#0f766e"
+              stroke-width="6"
+            />
+
+            <circle cx="230" cy="170" r="8" fill="#f59e0b"/>
+            <circle cx="590" cy="170" r="8" fill="#f59e0b"/>
+
+            <line
+              x1="230" y1="170"
+              x2="330" y2="170"
+              stroke="#2563eb"
+              stroke-width="4"
+            />
+
+            <line
+              x1="590" y1="170"
+              x2="690" y2="170"
+              stroke="#0f766e"
+              stroke-width="4"
+            />
+
+            <text x="176" y="45" font-size="28" fill="#2563eb">
+              Sistemul S
+            </text>
+
+            <text x="525" y="45" font-size="28" fill="#0f766e">
+              Sistemul S'
+            </text>
+
+            <text x="262" y="155" font-size="24" fill="#2563eb">
+              R = ct
+            </text>
+
+            <text x="620" y="155" font-size="24" fill="#0f766e">
+              R' = ct'
+            </text>
+
+            <text x="184" y="310" font-size="22" fill="#64748b">
+              x²+y²+z²=c²t²
+            </text>
+
+            <text x="530" y="310" font-size="22" fill="#64748b">
+              x'²+y'²+z'²=c²t'²
+            </text>
+          </svg>
+
+          <p class="caption">
+            Forma frontului luminos și valoarea vitezei \(c\) trebuie să fie
+            aceleași pentru ambii observatori inerțiali.
+          </p>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 5
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Testul transformărilor Galilei</span>
+
+        <h2>De ce nu funcționează transformarea clasică?</h2>
+
+        <p>
+          Dacă folosim:
+        </p>
+
+        <div class="formula">
+          \[
+            x'=x-vt,\qquad y'=y,\qquad z'=z,\qquad t'=t,
+          \]
+        </div>
+
+        <p>
+          atunci ecuația luminii din \(S'\),
+        </p>
+
+        <div class="formula">
+          \[
+            x'^2+y'^2+z'^2=c^2t'^2,
+        \]
+        </div>
+
+        <p>
+          devine:
+        </p>
+
+        <div class="formula">
+          \[
+            (x-vt)^2+y^2+z^2=c^2t^2.
+        \]
+
+        </div>
+
+        <p>
+          Dezvoltând:
+        </p>
+
+        <div class="formula">
+          \[
+            x^2-2xvt+y^2+z^2=(c^2-v^2)t^2.
+          \]
+        </div>
+
+        <div class="warning">
+          <strong>Observație decisivă:</strong>
+          această ecuație nu coincide cu
+          \[
+            x^2+y^2+z^2=c^2t^2.
+          \]
+          Apare termenul suplimentar \(-2xvt\), iar coeficientul lui
+          \(t^2\) nu mai este \(c^2\).
+        </div>
+
+        <div class="exam">
+          <strong>Concluzie:</strong>
+          transformările Galilei nu pot fi relațiile corecte de trecere între
+          două sisteme inerțiale dacă viteza luminii trebuie să rămână \(c\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 6
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Ideea lui Lorentz</span>
+
+        <h2>Spațiul și timpul trebuie să se „amestece”</h2>
+
+        <p>
+          Pentru mișcarea de-a lungul axei \(Ox\), coordonatele transversale
+          nu necesită modificare:
+        </p>
+
+        <div class="formula">
+          \[
+            y'=y,\qquad z'=z.
+          \]
+        </div>
+
+        <p>
+          Pentru coordonata longitudinală păstrăm caracterul liniar și scriem:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            x'=h(x-vt)
+          }
+          \tag{3}
+        \]
+        </div>
+
+        <p>
+          Dar termenul mixt \(xt\) apărut anterior poate fi compensat numai
+          dacă timpul din sistemul \(S'\) depinde și de poziție:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            t'=ft-gx
+          }
+          \tag{4}
+        \]
+        </div>
+
+        <div class="definition">
+          <strong>Schimbarea conceptuală:</strong>
+          în relativitatea restrânsă, timpul nu mai este absolut.
+          Coordonatele de spațiu și timp ale unui eveniment se transformă
+          împreună.
+        </div>
+
+        <div class="warning">
+          <strong>Nu confunda:</strong>
+          aceasta nu înseamnă că un observator „vede alt trecut”.
+          Relațiile se referă la coordonatele atribuite
+          <em>aceluiași eveniment fizic</em> în două sisteme inerțiale.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 7
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Deducerea coeficienților</span>
+
+        <h2>Impunem invarianta ecuației luminii</h2>
+
+        <p>
+          Introducem
+        </p>
+
+        <div class="formula">
+          \[
+            x'=h(x-vt),\qquad t'=ft-gx,
+          \]
+        </div>
+
+        <p>
+          în:
+        </p>
+
+        <div class="formula">
+          \[
+            x'^2+y'^2+z'^2=c^2t'^2.
+          \]
+        </div>
+
+        <p>
+          După dezvoltare și gruparea termenilor în
+          \(x^2\), \(xt\) și \(t^2\), obținem:
+        </p>
+
+        <div class="formula">
+          \[
+          (h^2-c^2g^2)x^2
+          -2(h^2v-c^2fg)xt
+          +y^2+z^2
+          =
+          (c^2f^2-v^2h^2)t^2.
+          \]
+        </div>
+
+        <p>
+          Pentru ca această expresie să coincidă identic cu
+        \[
+          x^2+y^2+z^2=c^2t^2,
+        \]
+          coeficienții trebuie să satisfacă:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+          \begin{aligned}
+            h^2-c^2g^2 &= 1,\\
+            h^2v-c^2fg &= 0,\\
+            c^2f^2-v^2h^2 &= c^2.
+          \end{aligned}}
+          \tag{5}
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 8
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Rezolvarea sistemului</span>
+
+        <h2>Factorul Lorentz apare inevitabil</h2>
+
+        <div class="step">
+          <div class="step-number">1</div>
+
+          <div class="step-content">
+            Din ecuațiile pentru termenul mixt rezultă:
+            \[
+              g=\frac{vf}{c^2}.
+            \]
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+
+          <div class="step-content">
+            Înlocuind în sistem se obține:
+            \[
+              h=f.
+            \]
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+
+          <div class="step-content">
+            Pentru \(f\) rezultă:
+            \[
+              f=\frac{1}{\sqrt{1-\dfrac{v^2}{c^2}}}.
+            \]
+          </div>
+        </div>
+
+        <p>
+          Definim:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \gamma
+            =
+            \frac{1}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+          }
+          \]
+        </div>
+
+        <p>
+          și:
+        </p>
+
+        <div class="formula">
+          \[
+            \beta=\frac{v}{c},
+            \qquad
+            \gamma=\frac{1}{\sqrt{1-\beta^2}}.
+          \]
+        </div>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>\(\beta\)</strong>
+            raport de viteze; este adimensional.
+          </div>
+
+          <div class="mini">
+            <strong>\(\gamma\)</strong>
+            factor Lorentz; este adimensional și
+            \[
+              \gamma\ge 1.
+            \]
+          </div>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 9
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Rezultatul fundamental</span>
+
+        <h2>Transformările Lorentz directe</h2>
+
+        <p>
+          Pentru \(S'\) aflat în mișcare cu viteza \(v\) pe direcția pozitivă
+          \(Ox\) față de \(S\):
+        </p>
+
+        <div class="big-result">
+          <h3>Din \(S\) în \(S'\)</h3>
+
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &= \gamma(x-vt),\\[4pt]
+            y' &= y,\\[4pt]
+            z' &= z,\\[4pt]
+            t' &= \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right).
+          \end{aligned}}
+          \tag{L}
+          \]
+        </div>
+
+        <p>
+          Echivalent:
+        </p>
+
+        <div class="formula">
+          \[
+            x'
+            =
+            \frac{x-vt}
+            {\sqrt{1-\dfrac{v^2}{c^2}}},
+          \]
+          \[
+            t'
+            =
+            \frac{
+              t-\dfrac{vx}{c^2}
+            }
+            {\sqrt{1-\dfrac{v^2}{c^2}}}.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>De memorat inteligent:</strong>
+          \(x'\) conține combinația \(x-vt\), iar \(t'\) conține combinația
+          \[
+            t-\frac{vx}{c^2}.
+          \]
+          Ambele sunt înmulțite cu același factor \(\gamma\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 10
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Transformarea inversă</span>
+
+        <h2>Din \(S'\) înapoi în \(S\)</h2>
+
+        <p>
+          Dacă \(S'\) se deplasează cu \(+v\) față de \(S\), atunci \(S\)
+          se deplasează cu \(-v\) față de \(S'\).
+        </p>
+
+        <p>
+          De aceea transformarea inversă se obține prin:
+        </p>
+
+        <div class="formula">
+          \[
+            v\longrightarrow -v.
+          \]
+        </div>
+
+        <div class="big-result">
+          <h3>Din \(S'\) în \(S\)</h3>
+
+          \[
+          \boxed{
+          \begin{aligned}
+            x &= \gamma(x'+vt'),\\[4pt]
+            y &= y',\\[4pt]
+            z &= z',\\[4pt]
+            t &= \gamma
+            \left(
+              t'+\frac{vx'}{c^2}
+            \right).
+          \end{aligned}}
+          \tag{L^{-1}}
+          \]
+        </div>
+
+        <div class="warning">
+          <strong>Greșeală frecventă:</strong>
+          schimbarea semnului numai în formula pentru \(x\), dar nu și în cea
+          pentru \(t\). La transformarea inversă semnul lui \(v\) se schimbă
+          peste tot.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 11
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Verificare dimensională</span>
+
+        <h2>Formula timpului trebuie să aibă sens fizic</h2>
+
+        <p>
+          În relația:
+        </p>
+
+        <div class="formula">
+          \[
+            t'
+            =
+            \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right),
+          \]
+        </div>
+
+        <p>
+          termenul
+          \[
+            \frac{vx}{c^2}
+          \]
+          trebuie să aibă aceeași dimensiune ca timpul.
+        </p>
+
+        <div class="formula">
+          \[
+          \left[
+            \frac{vx}{c^2}
+          \right]
+          =
+          \frac{
+            (\mathrm{m/s})\cdot\mathrm{m}
+          }{
+            \mathrm{m^2/s^2}
+          }
+          =
+          \mathrm{s}.
+          \]
+        </div>
+
+        <p class="check">
+          Verificarea dimensională este corectă.
+        </p>
+
+        <div class="warning">
+          <strong>Capcană:</strong>
+          formula
+          \[
+            t'=\gamma(t-vx)
+          \]
+          este dimensional imposibilă în SI.
+          Factorul \(c^2\) din numitor este esențial.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 12
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Limita clasică</span>
+
+        <h2>Cum recuperăm transformările Galilei?</h2>
+
+        <p>
+          Pentru viteze mult mai mici decât viteza luminii:
+        </p>
+
+        <div class="formula">
+          \[
+            v\ll c
+            \quad\Longrightarrow\quad
+            \frac{v^2}{c^2}\ll1.
+          \]
+        </div>
+
+        <p>
+          Atunci:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac{1}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+            \approx 1.
+          \]
+        </div>
+
+        <p>
+          De asemenea:
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{vx}{c^2}
+          \]
+        </div>
+
+        <p>
+          devine neglijabil în condițiile mecanicii clasice, astfel încât:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &\approx x-vt,\\
+            y' &= y,\\
+            z' &= z,\\
+            t' &\approx t.
+          \end{aligned}}
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Formulare de examen:</strong>
+          Transformările Galilei reprezintă limita nerelativistă a
+          transformărilor Lorentz pentru \(v/c\ll1\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 13
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Comparație</span>
+
+        <h2>Galilei versus Lorentz</h2>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Galilei</th>
+                <th>Lorentz</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Timp</td>
+                <td>
+                  \[
+                    t'=t
+                  \]
+                  absolut
+                </td>
+
+                <td>
+                  \[
+                    t'=
+                    \gamma
+                    \left(
+                    t-\frac{vx}{c^2}
+                    \right)
+                  \]
+                  depinde și de poziție
+                </td>
+              </tr>
+
+              <tr>
+                <td>Coordonata longitudinală</td>
+                <td>
+                  \[
+                    x'=x-vt
+                  \]
+                </td>
+
+                <td>
+                  \[
+                    x'=\gamma(x-vt)
+                  \]
+                </td>
+              </tr>
+
+              <tr>
+                <td>Coordonate transversale</td>
+                <td>
+                  \(y'=y,\ z'=z\)
+                </td>
+
+                <td>
+                  \(y'=y,\ z'=z\)
+                </td>
+              </tr>
+
+              <tr>
+                <td>Viteza luminii</td>
+                <td>
+                  Nu este păstrată invariantă prin regula clasică de
+                  compunere a vitezelor.
+                </td>
+
+                <td>
+                  Este compatibilă cu aceeași valoare \(c\) în toate
+                  sistemele inerțiale.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Domeniu practic</td>
+                <td>
+                  \(v\ll c\)
+                </td>
+
+                <td>
+                  general pentru transformarea dintre SRI în relativitatea
+                  restrânsă
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 14
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Invarianță</span>
+
+        <h2>Cantitatea spațio-temporală păstrată</h2>
+
+        <p>
+          Transformările Lorentz păstrează forma ecuației frontului luminos.
+          Echivalent, pentru două sisteme standard:
+        </p>
+
+        <div class="formula">
+          \[
+          x^2+y^2+z^2-c^2t^2
+          =
+          x'^2+y'^2+z'^2-c^2t'^2.
+          \]
+        </div>
+
+        <p>
+          Cu convenția uzuală în care timpul apare primul:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+          c^2t^2-x^2-y^2-z^2
+          =
+          c^2t'^2-x'^2-y'^2-z'^2
+          }
+          \]
+        </div>
+
+        <div class="definition">
+          Această mărime este legată de
+          <strong>intervalul spațio-temporal</strong>.
+          Invarianța sa joacă în relativitate un rol asemănător celui jucat
+          de distanța euclidiană în geometria obișnuită.
+        </div>
+
+        <div class="warning">
+          <strong>Atenție la convenție:</strong>
+          unele surse scriu intervalul cu semnul opus.
+          Fizica este aceeași dacă convenția este folosită consecvent.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 15
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Exemplu de aplicare</span>
+
+        <h2>Transformarea coordonatelor unui eveniment</h2>
+
+        <p>
+          Considerăm:
+        </p>
+
+        <div class="formula">
+          \[
+            v=0{,}6c,
+            \qquad
+            x=3{,}0\times10^8\,\mathrm{m},
+            \qquad
+            t=2{,}0\,\mathrm{s}.
+          \]
+        </div>
+
+        <p>
+          Mai întâi:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac{1}{\sqrt{1-0{,}6^2}}
+            =
+            \frac{1}{0{,}8}
+            =
+            1{,}25.
+          \]
+        </div>
+
+        <p>
+          Coordonata spațială:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            x'
+            &=
+            \gamma(x-vt)\\[4pt]
+            &=
+            1{,}25
+            \left[
+              3{,}0\times10^8
+              -
+              (0{,}6)(3{,}0\times10^8)(2)
+            \right]\\[4pt]
+            &=
+            -7{,}5\times10^7\,\mathrm{m}.
+          \end{aligned}
+          \]
+        </div>
+
+        <p>
+          Coordonata temporală:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            t'
+            &=
+            \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right)\\[4pt]
+            &=
+            1{,}25(2-0{,}6)\\[4pt]
+            &=
+            1{,}75\,\mathrm{s}.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Metodă recomandată:</strong>
+          calculează întâi \(\beta\) și \(\gamma\), apoi transformă separat
+          \(x\) și \(t\), păstrând unitățile SI.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 16
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Verificarea exemplului</span>
+
+        <h2>Intervalul trebuie să rămână același</h2>
+
+        <p>
+          În \(S\):
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            c^2t^2-x^2
+            &=
+            (3\times10^8)^2(2)^2
+            -
+            (3\times10^8)^2\\[4pt]
+            &=
+            2{,}7\times10^{17}\,\mathrm{m^2}.
+          \end{aligned}
+          \]
+        </div>
+
+        <p>
+          În \(S'\):
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            c^2t'^2-x'^2
+            &=
+            (3\times10^8)^2(1{,}75)^2
+            -
+            (7{,}5\times10^7)^2\\[4pt]
+            &=
+            2{,}7\times10^{17}\,\mathrm{m^2}.
+          \end{aligned}
+          \]
+        </div>
+
+        <p class="check">
+          Rezultatele coincid: transformarea este consistentă.
+        </p>
+
+        <div class="exam">
+          <strong>Control foarte bun într-o problemă:</strong>
+          dacă transformi coordonatele unui eveniment și ai dubii asupra
+          semnelor, verificarea intervalului poate depista rapid o eroare.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 17
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Interpretarea lui \(\gamma\)</span>
+
+        <h2>Cât de relativistă este mișcarea?</h2>
+
+        <div class="table-wrap">
+          <table class="compare">
+            <thead>
+              <tr>
+                <th>\(v/c\)</th>
+                <th>\(\gamma\)</th>
+                <th>Regim</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>0,01</td>
+                <td>\(\approx 1{,}00005\)</td>
+                <td>Aproape perfect clasic</td>
+              </tr>
+
+              <tr>
+                <td>0,10</td>
+                <td>\(\approx 1{,}005\)</td>
+                <td>Corecții mici</td>
+              </tr>
+
+              <tr>
+                <td>0,60</td>
+                <td>1,25</td>
+                <td>Efectele relativiste sunt importante</td>
+              </tr>
+
+              <tr>
+                <td>0,80</td>
+                <td>\(\approx 1{,}667\)</td>
+                <td>Regim puternic relativist</td>
+              </tr>
+
+              <tr>
+                <td>0,99</td>
+                <td>\(\approx 7{,}09\)</td>
+                <td>Foarte aproape de \(c\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula">
+          \[
+            \lim_{v\to c^-}\gamma=\infty.
+          \]
+        </div>
+
+        <div class="warning">
+          <strong>Important:</strong>
+          această limită nu trebuie interpretată ca o transformare Lorentz
+          obișnuită între un sistem inerțial material și un „sistem care merge
+          cu lumina”. Pentru configurația standard cerem \(v<c\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 18
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Schema de memorare</span>
+
+        <h2>Transformările Lorentz în 5 pași</h2>
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            Alegi configurația standard:
+            \(S'\) se mișcă cu \(+v\) pe \(Ox\).
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            Calculezi:
+            \[
+              \beta=\frac vc,
+              \qquad
+              \gamma=\frac1{\sqrt{1-\beta^2}}.
+            \]
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            Pentru spațiu:
+            \[
+              x'=\gamma(x-vt).
+            \]
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            Pentru timp:
+            \[
+              t'=
+              \gamma
+              \left(
+                t-\frac{vx}{c^2}
+              \right).
+            \]
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            Pentru inversă schimbi:
+            \[
+              v\rightarrow -v.
+            \]
+          </div>
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &= \gamma(x-vt),\\
+            t' &= \gamma
+            \left(t-\frac{vx}{c^2}\right),\\
+            y' &= y,\qquad z'=z.
+          \end{aligned}}
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 19
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Capcane de examen</span>
+
+        <h2>Erori care trebuie eliminate</h2>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>1. \(t'=t\)</strong>
+            Este relația clasică, nu relația Lorentz pentru \(v\neq0\).
+          </div>
+
+          <div class="mini">
+            <strong>2. Lipsa lui \(\gamma\)</strong>
+            \[
+              x'=x-vt
+            \]
+            este Galilei, nu Lorentz.
+          </div>
+
+          <div class="mini">
+            <strong>3. Lipsa lui \(c^2\)</strong>
+            \[
+              t'=\gamma(t-vx)
+            \]
+            este dimensional incorectă.
+          </div>
+
+          <div class="mini">
+            <strong>4. Semn greșit la inversă</strong>
+            Din \(S'\) în \(S\):
+            \[
+              x=\gamma(x'+vt').
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>5. Confuzie între eveniment și corp</strong>
+            Transformările Lorentz transformă coordonatele
+            unui eveniment spațio-temporal.
+          </div>
+
+          <div class="mini">
+            <strong>6. Aplicarea formulelor fără sistem</strong>
+            Precizează întotdeauna cine se deplasează față de cine și
+            sensul lui \(v\).
+          </div>
+
+        </div>
+
+        <div class="exam">
+          <strong>Formulare sigură:</strong>
+          „Considerăm două sisteme de referință inerțiale \(S\) și \(S'\),
+          cu axele paralele, originile coincidente la \(t=t'=0\), sistemul
+          \(S'\) deplasându-se cu viteza constantă \(v\) pe direcția pozitivă
+          \(Ox\) față de \(S\).”
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 20
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Antrenament</span>
+
+        <h2>Verifică dacă stăpânești 13.4</h2>
+
+        <ol>
+          <li>
+            Scrie transformările Lorentz directe pentru configurația standard.
+          </li>
+
+          <li>
+            Explică de ce transformările Galilei nu păstrează forma ecuației
+            unui front luminos sferic.
+          </li>
+
+          <li>
+            Precizează semnificația fizică și unitatea SI pentru
+            \(x,t,v,c,\beta,\gamma\).
+          </li>
+
+          <li>
+            Arată că
+            \[
+              \frac{vx}{c^2}
+            \]
+            are dimensiune de timp.
+          </li>
+
+          <li>
+            Obține transformarea inversă pornind de la cea directă.
+          </li>
+
+          <li>
+            Arată că pentru \(v/c\ll1\) se recuperează transformările Galilei.
+          </li>
+
+          <li>
+            Pentru \(v=0{,}8c\), calculează mai întâi factorul Lorentz
+            \(\gamma\), fără a transforma încă niciun eveniment.
+          </li>
+        </ol>
+
+        <div class="warning">
+          <strong>Regulă de lucru:</strong>
+          la exercițiile numerice scrie mai întâi datele în SI, sistemul de
+          referință și sensul vitezei relative; abia apoi alegi transformarea.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 21
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Fișa de formulare</span>
+
+        <h2>Ce trebuie să poți reproduce la Titularizare</h2>
+
+        <p>
+          Pentru o prezentare coerentă, ordinea recomandată este:
+        </p>
+
+        <ol>
+          <li>
+            precizarea celor două sisteme inerțiale și a configurației standard;
+          </li>
+
+          <li>
+            scrierea ecuației frontului luminos:
+            \[
+              x^2+y^2+z^2=c^2t^2;
+            \]
+          </li>
+
+          <li>
+            demonstrarea incompatibilității transformărilor Galilei cu
+            invarianta lui \(c\);
+          </li>
+
+          <li>
+            introducerea relațiilor liniare:
+            \[
+              x'=h(x-vt),
+              \qquad
+              t'=ft-gx;
+            \]
+          </li>
+
+          <li>
+            determinarea coeficienților;
+          </li>
+
+          <li>
+            obținerea transformărilor Lorentz;
+          </li>
+
+          <li>
+            scrierea transformării inverse;
+          </li>
+
+          <li>
+            recuperarea transformărilor Galilei pentru \(v\ll c\).
+          </li>
+        </ol>
+
+        <div class="exam">
+          <strong>Frontieră de conținut:</strong>
+          contracția lungimilor, dilatarea duratelor și relativitatea
+          simultaneității sunt consecințe ale transformărilor Lorentz și sunt
+          tratate separat în secțiunea 13.5.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 22
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Recapitulare</span>
+
+        <h2>13.4 în câteva formule</h2>
+
+        <div class="formula">
+          \[
+          \beta=\frac vc,
+          \qquad
+          \gamma=
+          \frac1{\sqrt{1-\beta^2}}.
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &= \gamma(x-vt),\\
+            y' &= y,\\
+            z' &= z,\\
+            t' &= \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right).
+          \end{aligned}}
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+          \boxed{
+          \begin{aligned}
+            x &= \gamma(x'+vt'),\\
+            y &= y',\\
+            z &= z',\\
+            t &= \gamma
+            \left(
+              t'+\frac{vx'}{c^2}
+            \right).
+          \end{aligned}}
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+            c^2t^2-x^2-y^2-z^2
+            =
+            c^2t'^2-x'^2-y'^2-z'^2.
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+            v\ll c
+            \quad\Longrightarrow\quad
+            \gamma\approx1
+            \quad\Longrightarrow\quad
+            \text{Galilei}.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Ideea care le leagă pe toate:</strong>
+          constanța vitezei luminii obligă spațiul și timpul să se transforme
+          împreună.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 23
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">Finalul lecției</span>
+
+        <h2>Legătura cu programa de Titularizare</h2>
+
+        <p>
+          Transformările Lorentz reprezintă nucleul matematic al trecerii de
+          la mecanica newtoniană la teoria relativității restrânse.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <strong>Înainte de 13.4</strong>
+            Bazele experimentale, experiența Michelson–Morley și principiile
+            teoriei relativității restrânse.
+          </div>
+
+          <div class="mini">
+            <strong>După 13.4</strong>
+            Consecințele fizice ale transformărilor Lorentz.
+          </div>
+        </div>
+
+        <div class="exam">
+          <strong>Pentru Titularizare 2027:</strong>
+          această lecție este aliniată programei disponibile pentru 2026.
+          Programa oficială 2027 trebuie reverificată după publicare.
+        </div>
+
+        <div class="definition">
+          <strong>Sursă principală pentru structurarea conținutului:</strong>
+          Ion Bunget și colaboratorii,
+          <em>Compendiu de fizică pentru admitere în învățământul superior</em>,
+          cap. I.13.4 – Transformările Lorentz.
+        </div>
+
+        <div class="bottom-links">
+          <a href="13.3-principiile-teoriei-relativitatii-restranse.html">
+            ← 13.3 Principiile relativității restrânse
+          </a>
+
+          <a href="13.5-consecintele-fizice-ale-transformarilor-lorentz.html">
+            13.5 Consecințele transformărilor →
+          </a>
+
+          <a href="index.html">
+            Înapoi la capitol
+          </a>
+        </div>
+
+      </article>
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       PAGER
+       ========================================================= -->
+
+  <nav class="pager" aria-label="Navigare lecție">
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="prevPage()"
+    >
+      ← Pagina anterioară
+    </button>
+
+    <div
+      class="page-status"
+      id="pageStatus"
+      aria-live="polite"
+    >
+      1 / 23
+    </div>
+
+    <button
+      type="button"
+      onclick="nextPage()"
+    >
+      Pagina următoare →
+    </button>
+
+    <a href="index.html">
+      Înapoi la capitol
+    </a>
+
+  </nav>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script>
+    const pages = [...document.querySelectorAll(".page")];
+    const pageStatus = document.getElementById("pageStatus");
+
+    let currentPage = 0;
+
+    function updatePageStatus() {
+      pageStatus.textContent =
+        `${currentPage + 1} / ${pages.length}`;
+    }
+
+    function typesetCurrentPage() {
+      if (
+        window.MathJax &&
+        typeof MathJax.typesetPromise === "function"
+      ) {
+        MathJax
+          .typesetPromise([pages[currentPage]])
+          .catch((error) => {
+            console.error("MathJax:", error);
+          });
+      }
+    }
+
+    function showPage(index) {
+      if (index < 0 || index >= pages.length) {
+        return;
+      }
+
+      pages[currentPage].classList.remove("active");
+
+      currentPage = index;
+
+      pages[currentPage].classList.add("active");
+
+      updatePageStatus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      typesetCurrentPage();
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        showPage(currentPage + 1);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+
+      const nextTheme =
+        html.dataset.theme === "dark"
+          ? "light"
+          : "dark";
+
+      html.dataset.theme = nextTheme;
+
+      localStorage.setItem(
+        "theme-relativitate-13-4",
+        nextTheme
+      );
+    }
+
+    const savedTheme =
+      localStorage.getItem("theme-relativitate-13-4");
+
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+    }
+
+    updatePageStatus();
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        nextPage();
+      }
+
+      if (event.key === "ArrowLeft") {
+        prevPage();
+      }
+
+      if (event.key === "Home") {
+        showPage(0);
+      }
+
+      if (event.key === "End") {
+        showPage(pages.length - 1);
+      }
+    });
+  </script>
+
+</body>
+</html>
