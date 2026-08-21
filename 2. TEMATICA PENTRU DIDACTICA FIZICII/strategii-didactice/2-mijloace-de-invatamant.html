@@ -1,1 +1,451 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mijloace de învățământ — Titularizare Fizică</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --bg-card: #ffffff;
+    --text: #1a2033;
+    --text-muted: #4d5875;
+    --navy: #16213e;
+    --navy-2: #0f3460;
+    --accent: #3f8cff;
+    --accent-2: #ffb703;
+    --border: #dfe4f0;
+    --code-bg: #eef1f9;
+    --shadow: 0 2px 10px rgba(22,33,62,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10162b;
+      --bg-card: #1a2340;
+      --text: #e8ecfb;
+      --text-muted: #a7b0d1;
+      --navy: #0b1023;
+      --navy-2: #16213e;
+      --accent: #6fa8ff;
+      --accent-2: #ffcd4a;
+      --border: #2a3459;
+      --code-bg: #131a33;
+      --shadow: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    padding: 28px 20px 22px;
+  }
+  .breadcrumb {
+    max-width: 900px;
+    margin: 0 auto 10px;
+    font-size: 0.85rem;
+    color: #b9c3e6;
+  }
+  .breadcrumb a { color: #cfe0ff; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  header.top h1 {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  header.top p.subtitle {
+    max-width: 900px;
+    margin: 6px auto 0;
+    color: #c7d1f0;
+    font-size: 0.95rem;
+  }
+  main {
+    max-width: 900px;
+    margin: 28px auto 60px;
+    padding: 0 20px;
+  }
+  section.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+  }
+  h2 {
+    color: var(--navy-2);
+    font-size: 1.25rem;
+    margin-top: 0;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+  }
+  @media (prefers-color-scheme: dark) { h2 { color: var(--accent); } }
+  h3 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 6px;
+    margin-top: 22px;
+  }
+  h3 .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .tag.clasic { background: #ffe3d1; color: #8a3b12; }
+  .tag.tehnic { background: #d7ecff; color: #0f3460; }
+  .tag.digital { background: #ddf5df; color: #1b5e20; }
+  @media (prefers-color-scheme: dark) {
+    .tag.clasic { background: #4a2c17; color: #ffb98a; }
+    .tag.tehnic { background: #14324f; color: #9fd0ff; }
+    .tag.digital { background: #163a1c; color: #9be6a3; }
+  }
+  .definitie {
+    background: var(--code-bg);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.96rem;
+  }
+  .definitie b.term { color: var(--accent-2); }
+  .exemplu {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .exemplu b { color: var(--text); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--code-bg);
+    color: var(--navy-2);
+  }
+  @media (prefers-color-scheme: dark) { th { color: var(--accent); } }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  .avantaje-limite {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 600px) { .avantaje-limite { grid-template-columns: 1fr; } }
+  .box-av, .box-lim {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+  }
+  .box-av { background: #e8f7ea; color: #1b5e20; }
+  .box-lim { background: #fdeaea; color: #8a1c1c; }
+  @media (prefers-color-scheme: dark) {
+    .box-av { background: #163a1c; color: #9be6a3; }
+    .box-lim { background: #3a1616; color: #ffb0b0; }
+  }
+  .recap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .recap-item {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  .recap-item b { display: block; font-size: 0.95rem; margin-bottom: 4px; color: var(--accent-2); }
+  nav.pager {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    font-size: 0.9rem;
+  }
+  nav.pager a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  nav.pager a:hover { text-decoration: underline; }
+  footer.site {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+  .toc {
+    columns: 2;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) { .toc { columns: 1; } }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .bibliografie li { font-size: 0.88rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
 
+<header class="top">
+  <div class="breadcrumb">
+    <a href="../../index.html">Acasă</a> &rsaquo;
+    <a href="../index.html">Strategii didactice</a> &rsaquo;
+    Mijloace de învățământ
+  </div>
+  <h1>Mijloace de învățământ</h1>
+  <p class="subtitle">Lecție de metodică — pregătire titularizare, disciplina Fizică</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Cuprins</h2>
+    <div class="toc">
+      <ol>
+        <li><a href="#sec1">Concept și funcții</a></li>
+        <li><a href="#sec2">Relația mijloc–metodă–strategie</a></li>
+        <li><a href="#sec3">Clasificarea mijloacelor de învățământ</a></li>
+        <li><a href="#sec4">Mijloace obiectuale (naturale și de substituție)</a></li>
+        <li><a href="#sec5">Mijloace tehnice audio-vizuale</a></li>
+        <li><a href="#sec6">Mijloace informatice și digitale (TIC)</a></li>
+        <li><a href="#sec7">Mijloace de exersare, evaluare, raționalizare</a></li>
+        <li><a href="#sec8">Mijloace specifice laboratorului de fizică</a></li>
+        <li><a href="#sec9">Criterii de selecție a mijloacelor de învățământ</a></li>
+        <li><a href="#sec10">Laborator real vs. laborator virtual</a></li>
+        <li><a href="#sec11">Sinteză recapitulativă</a></li>
+        <li><a href="#sec12">Bibliografie</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="card" id="sec1">
+    <h2>1. Concept și funcții</h2>
+    <div class="definitie">
+      <b class="term">Mijloacele de învățământ</b> reprezintă ansamblul resurselor materiale și tehnice (obiecte, aparate, instrumente, materiale, softuri) folosite în procesul de predare–învățare–evaluare pentru a sprijini transmiterea, formarea sau verificarea cunoștințelor și abilităților.
+    </div>
+    <p>Mijlocul de învățământ nu este o simplă „unealtă” — el mediază relația dintre elev și conținutul științific, influențând direct calitatea învățării. La fizică, importanța lor este cu totul particulară, întrucât disciplina are un caracter experimental prin natura ei.</p>
+    <h3>Funcțiile mijloacelor de învățământ</h3>
+    <ul>
+      <li><b>Funcția informativ-demonstrativă</b> — transmit sau ilustrează informația (ex. o planșă cu spectrul electromagnetic);</li>
+      <li><b>Funcția formativă</b> — contribuie la formarea de deprinderi practice (ex. utilizarea unui multimetru);</li>
+      <li><b>Funcția motivațională</b> — cresc interesul și implicarea elevului (ex. o simulare interactivă);</li>
+      <li><b>Funcția evaluativă</b> — permit verificarea achizițiilor (ex. o fișă de lucru cu itemi de evaluare);</li>
+      <li><b>Funcția de raționalizare a efortului și timpului</b> — economisesc timpul de predare (ex. un videoclip cu un experiment altfel greu de reprodus în clasă);</li>
+      <li><b>Funcția ergonomică</b> — organizează și facilitează activitatea la clasă (ex. truse de laborator organizate pe grupe de elevi).</li>
+    </ul>
+  </section>
+
+  <section class="card" id="sec2">
+    <h2>2. Relația mijloc–metodă–strategie</h2>
+    <p>Mijlocul de învățământ nu acționează izolat: el este întotdeauna integrat unei <b>metode</b> și, la un nivel mai larg, unei <b>strategii didactice</b>. Aceeași resursă materială poate fi folosită diferit, în funcție de metoda aleasă:</p>
+    <table>
+      <tr><th>Mijloc</th><th>Folosit cu metoda „demonstrația”</th><th>Folosit cu metoda „experimentul”</th></tr>
+      <tr>
+        <td>Trusă de electricitate</td>
+        <td>Profesorul montează circuitul, elevii observă</td>
+        <td>Elevii montează și măsoară singuri, pe grupe</td>
+      </tr>
+      <tr>
+        <td>Simulare PhET</td>
+        <td>Profesorul manipulează la videoproiector</td>
+        <td>Elevii manipulează individual, pe calculator/tabletă</td>
+      </tr>
+    </table>
+    <p>De aceea, la examen, un răspuns bun leagă întotdeauna mijlocul de metoda și de obiectivul lecției — nu îl descrie izolat.</p>
+  </section>
+
+  <section class="card" id="sec3">
+    <h2>3. Clasificarea mijloacelor de învățământ</h2>
+    <p>Cea mai completă clasificare (după Ionescu, Cerghit) grupează mijloacele astfel:</p>
+    <table>
+      <tr><th>Categorie</th><th>Descriere</th><th>Exemple</th></tr>
+      <tr>
+        <td><b>A. Mijloace obiectuale (naturale)</b></td>
+        <td>Obiecte reale, autentice, aduse direct în clasă</td>
+        <td>Un magnet natural, o priză electrică defectă pentru studiul siguranțelor</td>
+      </tr>
+      <tr>
+        <td><b>B. Mijloace de substituție</b></td>
+        <td>Reprezentări ale realității, atunci când obiectul real nu poate fi adus la clasă</td>
+        <td>Machete, mulaje, modele 3D ale atomului, planșe</td>
+      </tr>
+      <tr>
+        <td><b>C. Mijloace simbolic-raționale</b></td>
+        <td>Reprezentări abstracte, grafice, simbolice</td>
+        <td>Formule, grafice, scheme de circuit, diagrame vectoriale</td>
+      </tr>
+      <tr>
+        <td><b>D. Mijloace tehnice audio-vizuale</b></td>
+        <td>Echipamente care redau imagine și/sau sunet</td>
+        <td>Videoproiector, înregistrări video ale experimentelor, animații</td>
+      </tr>
+      <tr>
+        <td><b>E. Mijloace informatice / TIC</b></td>
+        <td>Bazate pe calculator, tabletă, internet</td>
+        <td>Simulări PhET, laboratoare virtuale, softuri educaționale, table interactive</td>
+      </tr>
+      <tr>
+        <td><b>F. Mijloace de exersare și formare de deprinderi</b></td>
+        <td>Folosite pentru aplicare practică</td>
+        <td>Truse de laborator, aparate de măsură, kituri de robotică educațională</td>
+      </tr>
+      <tr>
+        <td><b>G. Mijloace de evaluare</b></td>
+        <td>Instrumente pentru verificarea achizițiilor</td>
+        <td>Teste grilă, fișe de evaluare, softuri de testare online (Kahoot, Google Forms)</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="card" id="sec4">
+    <h2>4. Mijloace obiectuale (naturale și de substituție)</h2>
+    <h3><span class="tag clasic">Clasică</span>Obiecte naturale/originale</h3>
+    <p>Cel mai autentic contact cu realitatea fizică. La fizică: un resort real pentru legea lui Hooke, un corp încărcat electrostatic, o busolă pentru câmpul magnetic terestru.</p>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> maximă autenticitate, contact direct senzorial.</div>
+      <div class="box-lim"><b>Limite:</b> nu orice fenomen poate fi adus fizic în clasă (ex. fenomene astronomice, nucleare).</div>
+    </div>
+    <h3><span class="tag clasic">Clasică</span>Mijloace de substituție (modele, machete, planșe)</h3>
+    <p>Folosite când fenomenul nu e direct accesibil observației. Exemplu: modelul planetar Bohr al atomului, macheta unui reactor nuclear, planșa cu spectrul undelor electromagnetice.</p>
+    <div class="exemplu"><b>Atenție didactică:</b> orice model trebuie prezentat elevilor cu precizarea explicită a limitelor sale — de exemplu, modelul planetar al atomului nu respectă corect proporțiile și nici mecanica cuantică reală, dar e util pedagogic ca primă reprezentare.</div>
+  </section>
+
+  <section class="card" id="sec5">
+    <h2>5. Mijloace tehnice audio-vizuale</h2>
+    <h3><span class="tag tehnic">Tehnică</span>Videoproiectorul / tabla interactivă</h3>
+    <p>Permite proiectarea de imagini, scheme, grafice, animații ale fenomenelor greu observabile direct (ex. mișcarea electronilor într-un conductor).</p>
+    <h3><span class="tag tehnic">Tehnică</span>Înregistrări video ale experimentelor</h3>
+    <p>Utile pentru experimente periculoase, costisitoare sau de durată lungă (ex. dezintegrare radioactivă, reacții nucleare, experimente la scară cosmică).</p>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> siguranță, repetabilitate, economie de timp.</div>
+      <div class="box-lim"><b>Limite:</b> pierde caracterul de investigație directă a elevului; risc de pasivizare dacă nu e însoțit de sarcini de lucru.</div>
+    </div>
+  </section>
+
+  <section class="card" id="sec6">
+    <h2>6. Mijloace informatice și digitale (TIC)</h2>
+    <h3><span class="tag digital">Digitală</span>Simulările virtuale interactive</h3>
+    <div class="definitie">Softuri (ex. PhET Colorado, Algodoo) care permit manipularea unor parametri ai unui fenomen fizic și observarea instantanee a efectelor, fără riscurile și limitările unui montaj real.</div>
+    <div class="exemplu"><b>Exemplu:</b> simularea unui circuit electric, unde elevul poate modifica rezistențele și observă instant variația curentului, fără riscul unui scurtcircuit real.</div>
+    <h3><span class="tag digital">Digitală</span>Laboratorul virtual</h3>
+    <p>Reproduce un experiment integral în mediu digital, util când școala nu are dotarea materială necesară.</p>
+    <h3><span class="tag digital">Digitală</span>Aplicații de evaluare online</h3>
+    <p>Kahoot, Google Forms, Quizizz — pentru evaluare formativă rapidă, cu feedback imediat.</p>
+    <h3><span class="tag digital">Digitală</span>Senzori și instrumente digitale de măsură</h3>
+    <p>Senzori conectați la calculator/tabletă (ex. senzori de forță, temperatură, tensiune) care afișează grafic în timp real datele experimentale — combină experimentul real cu prelucrarea digitală a datelor.</p>
+  </section>
+
+  <section class="card" id="sec7">
+    <h2>7. Mijloace de exersare, evaluare, raționalizare</h2>
+    <h3>Mijloace de exersare (formare de deprinderi)</h3>
+    <p>Truse de laborator (electricitate, mecanică, optică), aparate de măsură (voltmetru, ampermetru, dinamometru, cronometru), fișe de lucru cu sarcini progresive.</p>
+    <h3>Mijloace de raționalizare a timpului</h3>
+    <p>Fișe pre-tipărite cu tabele de date, scheme parțial completate, softuri de calcul care reduc timpul consumat cu operații repetitive, lăsând timp pentru interpretarea fizică a rezultatelor.</p>
+    <h3>Mijloace de evaluare</h3>
+    <p>Teste scrise, fișe de autoevaluare, aplicații digitale de testare, portofolii de laborator.</p>
+  </section>
+
+  <section class="card" id="sec8">
+    <h2>8. Mijloace specifice laboratorului de fizică</h2>
+    <table>
+      <tr><th>Domeniu</th><th>Mijloace tipice</th></tr>
+      <tr><td>Mecanică</td><td>Dinamometre, plan înclinat, cărucioare cu senzori, cronometre, resorturi calibrate</td></tr>
+      <tr><td>Termodinamică</td><td>Termometre, calorimetre, plăci de încălzire, senzori de temperatură</td></tr>
+      <tr><td>Electricitate și magnetism</td><td>Multimetre, surse de tensiune, rezistențe, bobine, magneți, pilitură de fier</td></tr>
+      <tr><td>Optică</td><td>Lentile, oglinzi, surse de lumină, bancuri optice, prisme</td></tr>
+      <tr><td>Fizică modernă</td><td>Simulări virtuale (dezintegrare, model atomic), softuri de spectroscopie</td></tr>
+    </table>
+  </section>
+
+  <section class="card" id="sec9">
+    <h2>9. Criterii de selecție a mijloacelor de învățământ</h2>
+    <ul>
+      <li><b>Obiectivele/competențele lecției</b> — un mijloc trebuie ales pentru ce anume trebuie să demonstreze sau să exerseze;</li>
+      <li><b>Natura conținutului</b> — fenomene observabile direct vs. fenomene abstracte/greu accesibile;</li>
+      <li><b>Particularitățile de vârstă ale elevilor</b> — la gimnaziu se preferă mijloace concret-intuitive, la liceu pot fi introduse mijloace cu grad mai mare de abstractizare (grafice, simulări complexe);</li>
+      <li><b>Dotarea materială disponibilă</b> — existența unui laborator, acces la calculatoare/tablete;</li>
+      <li><b>Timpul disponibil</b> — un experiment real necesită mai mult timp decât o simulare;</li>
+      <li><b>Siguranța elevilor</b> — fenomene periculoase (radioactivitate, tensiuni mari) se abordează preferabil prin substituție sau simulare.</li>
+    </ul>
+    <p>Principiu esențial: mijlocul de învățământ <b>servește</b> metoda și obiectivul, nu invers — alegerea unui mijloc „modern” nu garantează, prin ea însăși, o lecție eficientă, dacă nu e integrată coerent în strategia didactică.</p>
+  </section>
+
+  <section class="card" id="sec10">
+    <h2>10. Laborator real vs. laborator virtual</h2>
+    <table>
+      <tr><th>Aspect</th><th>Laborator real</th><th>Laborator virtual</th></tr>
+      <tr><td>Autenticitate</td><td>Maximă — contact direct cu fenomenul</td><td>Simulată, model aproximativ al realității</td></tr>
+      <tr><td>Erori de măsură</td><td>Prezente (educative — elevul învață despre incertitudini)</td><td>Absente sau simplificate</td></tr>
+      <tr><td>Siguranță</td><td>Necesită supraveghere, riscuri posibile</td><td>Fără riscuri</td></tr>
+      <tr><td>Costuri</td><td>Ridicate (dotare, consumabile)</td><td>Reduse, reutilizabile</td></tr>
+      <tr><td>Accesibilitate fenomene</td><td>Limitată la ce poate fi reprodus fizic</td><td>Poate simula fenomene inaccesibile (nucleare, cosmice, la scară atomică)</td></tr>
+    </table>
+    <p>Recomandarea metodologică general acceptată: cele două nu se exclud, ci se <b>completează</b> — laboratorul virtual poate pregăti sau extinde experimentul real, dar nu îl poate înlocui complet acolo unde elevul trebuie să formeze deprinderi manuale de măsurare și să confrunte erorile experimentale reale.</p>
+  </section>
+
+  <section class="card" id="sec11">
+    <h2>11. Sinteză recapitulativă</h2>
+    <div class="recap-grid">
+      <div class="recap-item"><b>Mijloc de învățământ</b>Resursă materială/tehnică ce mediază învățarea</div>
+      <div class="recap-item"><b>Funcții</b>Informativă, formativă, motivațională, evaluativă, ergonomică</div>
+      <div class="recap-item"><b>Obiectuale</b>Naturale / de substituție (modele, machete)</div>
+      <div class="recap-item"><b>Simbolic-raționale</b>Formule, grafice, scheme</div>
+      <div class="recap-item"><b>Audio-vizuale</b>Videoproiector, înregistrări video</div>
+      <div class="recap-item"><b>TIC</b>Simulări (PhET), laborator virtual, senzori digitali</div>
+      <div class="recap-item"><b>Exersare</b>Truse de laborator, aparate de măsură</div>
+      <div class="recap-item"><b>Evaluare</b>Teste, fișe, aplicații digitale de testare</div>
+      <div class="recap-item"><b>Criteriu central</b>Mijlocul servește metoda și obiectivul lecției</div>
+    </div>
+    <p style="margin-top:16px;"><b>Idee-cheie pentru examen:</b> la fizică, cea mai valoroasă categorie de mijloace rămân cele care susțin caracterul <b>experimental</b> al disciplinei — trusele de laborator și aparatele de măsură reale — completate, nu înlocuite, de simulările digitale. Orice răspuns câștigă în valoare dacă explică <i>de ce</i> un anumit mijloc a fost ales pentru un conținut anume, nu doar dacă îl enumeră.</p>
+  </section>
+
+  <section class="card bibliografie" id="sec12">
+    <h2>12. Bibliografie orientativă</h2>
+    <ul>
+      <li>Cerghit, I., <i>Sisteme de instruire alternative și complementare. Structuri, stiluri și strategii</i>, Editura Polirom</li>
+      <li>Ionescu, M., Radu, I. (coord.), <i>Didactica modernă</i>, Editura Dacia, Cluj-Napoca</li>
+      <li>Cucoș, C., <i>Pedagogie</i>, Editura Polirom, Iași</li>
+      <li>Ionescu, M., <i>Instrucție și educație</i>, Editura Garamond</li>
+      <li>Programa de Metodică — Titularizare, disciplina Fizică, ediția în vigoare</li>
+    </ul>
+  </section>
+
+</main>
+
+<nav class="pager">
+  <a href="1-metode-de-predare.html">&laquo; Metode de predare</a>
+  <a href="../index.html">Următoarea lecție &raquo;</a>
+</nav>
+
+<footer class="site">
+  Titularizare-Fizica &middot; Prof. Dănuț Andronie &middot; Școala Gimnazială „Gala Galaction", Mangalia
+</footer>
+
+</body>
+</html>

@@ -1,1 +1,421 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forme de organizare a activității didactice — Titularizare Fizică</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --bg-card: #ffffff;
+    --text: #1a2033;
+    --text-muted: #4d5875;
+    --navy: #16213e;
+    --navy-2: #0f3460;
+    --accent: #3f8cff;
+    --accent-2: #ffb703;
+    --border: #dfe4f0;
+    --code-bg: #eef1f9;
+    --shadow: 0 2px 10px rgba(22,33,62,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10162b;
+      --bg-card: #1a2340;
+      --text: #e8ecfb;
+      --text-muted: #a7b0d1;
+      --navy: #0b1023;
+      --navy-2: #16213e;
+      --accent: #6fa8ff;
+      --accent-2: #ffcd4a;
+      --border: #2a3459;
+      --code-bg: #131a33;
+      --shadow: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    padding: 28px 20px 22px;
+  }
+  .breadcrumb {
+    max-width: 900px;
+    margin: 0 auto 10px;
+    font-size: 0.85rem;
+    color: #b9c3e6;
+  }
+  .breadcrumb a { color: #cfe0ff; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  header.top h1 {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  header.top p.subtitle {
+    max-width: 900px;
+    margin: 6px auto 0;
+    color: #c7d1f0;
+    font-size: 0.95rem;
+  }
+  main {
+    max-width: 900px;
+    margin: 28px auto 60px;
+    padding: 0 20px;
+  }
+  section.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+  }
+  h2 {
+    color: var(--navy-2);
+    font-size: 1.25rem;
+    margin-top: 0;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+  }
+  @media (prefers-color-scheme: dark) { h2 { color: var(--accent); } }
+  h3 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 6px;
+    margin-top: 22px;
+  }
+  h3 .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .tag.frontal { background: #ffe3d1; color: #8a3b12; }
+  .tag.grup { background: #d7ecff; color: #0f3460; }
+  .tag.individual { background: #ddf5df; color: #1b5e20; }
+  @media (prefers-color-scheme: dark) {
+    .tag.frontal { background: #4a2c17; color: #ffb98a; }
+    .tag.grup { background: #14324f; color: #9fd0ff; }
+    .tag.individual { background: #163a1c; color: #9be6a3; }
+  }
+  .definitie {
+    background: var(--code-bg);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.96rem;
+  }
+  .definitie b.term { color: var(--accent-2); }
+  .exemplu {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .exemplu b { color: var(--text); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--code-bg);
+    color: var(--navy-2);
+  }
+  @media (prefers-color-scheme: dark) { th { color: var(--accent); } }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  .avantaje-limite {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 600px) { .avantaje-limite { grid-template-columns: 1fr; } }
+  .box-av, .box-lim {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+  }
+  .box-av { background: #e8f7ea; color: #1b5e20; }
+  .box-lim { background: #fdeaea; color: #8a1c1c; }
+  @media (prefers-color-scheme: dark) {
+    .box-av { background: #163a1c; color: #9be6a3; }
+    .box-lim { background: #3a1616; color: #ffb0b0; }
+  }
+  .recap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .recap-item {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  .recap-item b { display: block; font-size: 0.95rem; margin-bottom: 4px; color: var(--accent-2); }
+  nav.pager {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    font-size: 0.9rem;
+  }
+  nav.pager a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  nav.pager a:hover { text-decoration: underline; }
+  footer.site {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+  .toc {
+    columns: 2;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) { .toc { columns: 1; } }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .bibliografie li { font-size: 0.88rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
 
+<header class="top">
+  <div class="breadcrumb">
+    <a href="../../index.html">Acasă</a> &rsaquo;
+    <a href="../index.html">Strategii didactice</a> &rsaquo;
+    Forme de organizare a activității
+  </div>
+  <h1>Forme de organizare a activității didactice</h1>
+  <p class="subtitle">Lecție de metodică — pregătire titularizare, disciplina Fizică</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Cuprins</h2>
+    <div class="toc">
+      <ol>
+        <li><a href="#sec1">Concept și criterii de clasificare</a></li>
+        <li><a href="#sec2">Activitatea frontală</a></li>
+        <li><a href="#sec3">Activitatea pe grupe</a></li>
+        <li><a href="#sec4">Activitatea individuală</a></li>
+        <li><a href="#sec5">Forme combinate (mixte)</a></li>
+        <li><a href="#sec6">Forme de organizare după locul desfășurării</a></li>
+        <li><a href="#sec7">Tipuri de lecție și forma de organizare</a></li>
+        <li><a href="#sec8">Organizarea activității de laborator la fizică</a></li>
+        <li><a href="#sec9">Criterii de alegere a formei de organizare</a></li>
+        <li><a href="#sec10">Sinteză recapitulativă</a></li>
+        <li><a href="#sec11">Bibliografie</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="card" id="sec1">
+    <h2>1. Concept și criterii de clasificare</h2>
+    <div class="definitie">
+      <b class="term">Forma de organizare a activității didactice</b> reprezintă modul în care este structurat cadrul de desfășurare a procesului de predare–învățare–evaluare, din perspectiva relației dintre profesor, elevi și colectivul clasei.
+    </div>
+    <p>Forma de organizare este a patra componentă a strategiei didactice (alături de metode, mijloace și tipul de interacțiune) și răspunde la întrebarea: <b>cu cine</b> lucrează profesorul la un moment dat — cu toată clasa, cu grupe sau cu fiecare elev în parte.</p>
+    <p>Criteriul principal de clasificare este <b>numărul de elevi implicați simultan</b> și <b>gradul de omogenitate al sarcinii de lucru</b>:</p>
+    <ul>
+      <li>Activitate <b>frontală</b> — întreaga clasă, aceeași sarcină, în același ritm;</li>
+      <li>Activitate <b>pe grupe</b> — subgrupuri de elevi, sarcini identice sau diferențiate;</li>
+      <li>Activitate <b>individuală</b> — fiecare elev, sarcină proprie, ritm propriu.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="sec2">
+    <h2>2. Activitatea frontală</h2>
+    <div class="definitie"><span class="tag frontal">Frontală</span>Profesorul se adresează simultan întregii clase, cu aceeași sarcină de învățare, în același ritm de lucru pentru toți elevii.</div>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> eficiență în transmiterea de informații noi; control ridicat al profesorului asupra clasei; economie de timp.</div>
+      <div class="box-lim"><b>Limite:</b> nu ține cont de ritmul individual de învățare; favorizează pasivitatea unor elevi; dificil de diferențiat.</div>
+    </div>
+    <div class="exemplu"><b>Exemplu la Fizică:</b> predarea frontală a legilor lui Newton, printr-o combinație de explicație și conversație euristică, cu întreaga clasă.</div>
+    <p>Se pretează cel mai bine pentru: predarea de cunoștințe noi, sinteze de recapitulare, demonstrații experimentale realizate de profesor.</p>
+  </section>
+
+  <section class="card" id="sec3">
+    <h2>3. Activitatea pe grupe</h2>
+    <div class="definitie"><span class="tag grup">Pe grupe</span>Clasa este împărțită în subgrupe (de regulă 3–5 elevi), fiecare grupă lucrând la o sarcină comună sau diferențiată, cu un anumit grad de autonomie față de profesor.</div>
+    <h3>Tipuri de grupe</h3>
+    <ul>
+      <li><b>Grupe omogene</b> — elevi cu nivel similar de pregătire, sarcini adaptate nivelului lor;</li>
+      <li><b>Grupe eterogene</b> — elevi cu niveluri diferite, favorizează învățarea prin cooperare (elevii mai avansați sprijină colegii);</li>
+      <li><b>Grupe cooperative</b> — fiecare membru are un rol specific, complementar (ex. metoda mozaicului);</li>
+      <li><b>Grupe colaborative</b> — toți membrii lucrează împreună la aceeași sarcină, fără roluri fixe.</li>
+    </ul>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> dezvoltă competențe sociale și de comunicare; permite diferențierea sarcinilor; stimulează implicarea activă.</div>
+      <div class="box-lim"><b>Limite:</b> necesită timp de organizare; risc de inegalitate în implicarea membrilor grupei; dificultăți de evaluare individuală.</div>
+    </div>
+    <div class="exemplu"><b>Exemplu la Fizică:</b> lucrare de laborator pe grupe de 4 elevi, pentru determinarea experimentală a rezistivității unui fir conductor, cu roluri distribuite (montaj, măsurare, notare date, calcul erori).</div>
+  </section>
+
+  <section class="card" id="sec4">
+    <h2>4. Activitatea individuală</h2>
+    <div class="definitie"><span class="tag individual">Individuală</span>Fiecare elev lucrează independent, la propriul ritm, la o sarcină de învățare — identică pentru toți sau diferențiată în funcție de nivel.</div>
+    <h3>Forme de activitate individuală</h3>
+    <ul>
+      <li><b>Activitate individuală independentă</b> — aceeași sarcină pentru toți elevii (ex. rezolvarea unui set de probleme din manual);</li>
+      <li><b>Activitate individualizată</b> — sarcini diferite, adaptate nivelului fiecărui elev (ex. fișe de progres diferențiat: elevii avansați primesc probleme de dificultate mai mare);</li>
+      <li><b>Activitate diferențiată</b> — grupare pe subniveluri de dificultate, cu sarcini adaptate fiecărui subnivel, dar nu strict individuale.</li>
+    </ul>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> respectă ritmul propriu de învățare; favorizează autonomia și responsabilizarea elevului.</div>
+      <div class="box-lim"><b>Limite:</b> dificil de gestionat la clase numeroase; necesită material didactic diversificat; feedback-ul poate fi întârziat.</div>
+    </div>
+    <div class="exemplu"><b>Exemplu la Fizică:</b> rezolvarea individuală a unei probleme de cinematică, urmată de autoevaluare pe baza unei fișe cu barem.</div>
+  </section>
+
+  <section class="card" id="sec5">
+    <h2>5. Forme combinate (mixte)</h2>
+    <p>În practică, o lecție eficientă îmbină, de regulă, mai multe forme de organizare pe parcursul aceleiași ore, adaptate etapelor lecției:</p>
+    <table>
+      <tr><th>Etapa lecției</th><th>Formă de organizare tipică</th></tr>
+      <tr><td>Captarea atenției / reactualizare</td><td>Frontală</td></tr>
+      <tr><td>Predarea conținutului nou</td><td>Frontală (cu momente de conversație euristică)</td></tr>
+      <tr><td>Fixare / aplicare prin experiment</td><td>Pe grupe</td></tr>
+      <tr><td>Exersare / consolidare</td><td>Individuală</td></tr>
+      <tr><td>Evaluare</td><td>Individuală</td></tr>
+    </table>
+    <p>Această alternanță este considerată o bună practică metodologică, deoarece evită monotonia și răspunde diverselor stiluri de învățare ale elevilor.</p>
+  </section>
+
+  <section class="card" id="sec6">
+    <h2>6. Forme de organizare după locul desfășurării</h2>
+    <table>
+      <tr><th>Formă</th><th>Descriere</th><th>Exemplu la Fizică</th></tr>
+      <tr>
+        <td><b>Activitate în sala de clasă</b></td>
+        <td>Cadrul standard de desfășurare a lecțiilor</td>
+        <td>Predarea teoriei, exerciții</td>
+      </tr>
+      <tr>
+        <td><b>Activitate în laboratorul de fizică</b></td>
+        <td>Cadru dotat pentru experimente</td>
+        <td>Lucrări practice de laborator</td>
+      </tr>
+      <tr>
+        <td><b>Activitate extrașcolară</b></td>
+        <td>Desfășurată în afara programului obișnuit</td>
+        <td>Cercul de fizică, pregătire pentru olimpiadă</td>
+      </tr>
+      <tr>
+        <td><b>Vizite și excursii didactice</b></td>
+        <td>Contact direct cu aplicații reale ale fizicii</td>
+        <td>Vizită la un planetariu, muzeu tehnic, centrală electrică</td>
+      </tr>
+      <tr>
+        <td><b>Activitate online / la distanță</b></td>
+        <td>Desfășurată prin mijloace digitale</td>
+        <td>Simulări virtuale, teme pe platforme educaționale</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="card" id="sec7">
+    <h2>7. Tipuri de lecție și forma de organizare</h2>
+    <p>Alegerea formei de organizare este strâns legată de <b>tipul de lecție</b>:</p>
+    <table>
+      <tr><th>Tip de lecție</th><th>Formă de organizare recomandată</th></tr>
+      <tr><td>Lecție de comunicare/însușire de cunoștințe noi</td><td>Predominant frontală, cu secvențe de conversație euristică</td></tr>
+      <tr><td>Lecție de formare de priceperi și deprinderi</td><td>Pe grupe sau individuală (exersare practică, laborator)</td></tr>
+      <tr><td>Lecție de recapitulare și sistematizare</td><td>Combinată — frontală pentru sinteză, pe grupe pentru aplicații</td></tr>
+      <tr><td>Lecție de evaluare</td><td>Individuală</td></tr>
+      <tr><td>Lecție mixtă</td><td>Alternanță a tuturor formelor, pe etape</td></tr>
+    </table>
+  </section>
+
+  <section class="card" id="sec8">
+    <h2>8. Organizarea activității de laborator la fizică</h2>
+    <p>Laboratorul de fizică este contextul cel mai relevant pentru discutarea formelor de organizare la examen, întrucât permite ilustrarea tuturor celor trei forme:</p>
+    <ul>
+      <li><b>Frontal</b> — profesorul realizează un experiment demonstrativ, urmat de discuție cu toată clasa;</li>
+      <li><b>Pe grupe</b> — elevii, organizați în echipe de 3–4, realizează experimentul, împart roluri (montaj, măsurare, notare, calcul);</li>
+      <li><b>Individual</b> — fiecare elev completează propriul referat de laborator, cu prelucrarea datelor și calculul erorilor.</li>
+    </ul>
+    <div class="exemplu"><b>Exemplu integrat:</b> lecția „Verificarea legii lui Ohm” poate începe cu o demonstrație frontală a montajului, poate continua cu măsurători pe grupe (fiecare grupă cu alt rezistor) și se poate încheia cu prelucrarea individuală a datelor și redactarea concluziilor.</div>
+  </section>
+
+  <section class="card" id="sec9">
+    <h2>9. Criterii de alegere a formei de organizare</h2>
+    <ul>
+      <li><b>Obiectivele lecției</b> — transmitere de informație vs. formare de deprinderi practice;</li>
+      <li><b>Tipul de lecție</b> — predare, consolidare, evaluare;</li>
+      <li><b>Numărul de elevi și dotarea materială</b> — laboratorul poate limita numărul de grupe posibile;</li>
+      <li><b>Particularitățile colectivului de elevi</b> — nivel de autonomie, capacitate de lucru în echipă;</li>
+      <li><b>Timpul disponibil</b> — organizarea pe grupe necesită timp suplimentar de coordonare;</li>
+      <li><b>Natura conținutului</b> — un experiment periculos impune organizare atent supravegheată, adesea frontală/demonstrativă.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="sec10">
+    <h2>10. Sinteză recapitulativă</h2>
+    <div class="recap-grid">
+      <div class="recap-item"><b>Frontală</b>Toată clasa, aceeași sarcină, același ritm</div>
+      <div class="recap-item"><b>Pe grupe</b>Subgrupe, omogene/eterogene, cooperative/colaborative</div>
+      <div class="recap-item"><b>Individuală</b>Independentă / individualizată / diferențiată</div>
+      <div class="recap-item"><b>Criteriu principal</b>Numărul de elevi implicați simultan în sarcină</div>
+      <div class="recap-item"><b>Loc de desfășurare</b>Clasă, laborator, extrașcolar, online</div>
+      <div class="recap-item"><b>Legătură cu tipul de lecție</b>Predare→frontal, formare deprinderi→grup/individual, evaluare→individual</div>
+    </div>
+    <p style="margin-top:16px;"><b>Idee-cheie pentru examen:</b> forma de organizare nu se alege izolat, ci în corelație cu metoda, mijlocul și obiectivul lecției — un răspuns complet la examen leagă întotdeauna forma de organizare de o etapă concretă a lecției de fizică, nu doar o definește abstract.</p>
+  </section>
+
+  <section class="card bibliografie" id="sec11">
+    <h2>11. Bibliografie orientativă</h2>
+    <ul>
+      <li>Cerghit, I., <i>Sisteme de instruire alternative și complementare. Structuri, stiluri și strategii</i>, Editura Polirom</li>
+      <li>Ionescu, M., Radu, I. (coord.), <i>Didactica modernă</i>, Editura Dacia, Cluj-Napoca</li>
+      <li>Cucoș, C., <i>Pedagogie</i>, Editura Polirom, Iași</li>
+      <li>Programa de Metodică — Titularizare, disciplina Fizică, ediția în vigoare</li>
+    </ul>
+  </section>
+
+</main>
+
+<nav class="pager">
+  <a href="2-mijloace-de-invatamant.html">&laquo; Mijloace de învățământ</a>
+  <a href="../index.html">Următoarea lecție &raquo;</a>
+</nav>
+
+<footer class="site">
+  Titularizare-Fizica &middot; Prof. Dănuț Andronie &middot; Școala Gimnazială „Gala Galaction", Mangalia
+</footer>
+
+</body>
+</html>
