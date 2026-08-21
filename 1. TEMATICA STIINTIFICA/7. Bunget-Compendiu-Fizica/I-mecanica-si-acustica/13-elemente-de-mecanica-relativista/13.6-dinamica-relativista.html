@@ -1,1 +1,2457 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>13.6 – Dinamica relativistă</title>
+
+  <!--
+    Titularizare Fizică 2027
+    Bunget – Compendiu de Fizică
+    I. Mecanică și acustică
+    13. Elemente de mecanică relativistă
+    §13.6 Dinamica relativistă
+
+    Structura principală:
+    Bunget și colaboratorii,
+    Compendiu de Fizică,
+    §13.6, pp. 277–278.
+
+    Programa disponibilă pentru Titularizare Fizică 2026:
+    pct. 15:
+    „Elemente de dinamică relativistă
+    (relațiile: masa-viteza, forța-accelerație,
+    masa-energie, energie-impuls).”
+
+    În acest fișier:
+    - masa-viteza;
+    - impulsul relativist;
+    - principiul al II-lea relativist;
+    - relația forță-accelerație pentru mișcare coliniară.
+
+    Masa-energie și energie-impuls:
+    §13.7.
+
+    Programa oficială 2027 trebuie reverificată
+    după publicare.
+  -->
+
+  <link
+    rel="stylesheet"
+    href="../../../../assets/css/titularizare-theme.css"
+  >
+
+  <script src="../../../../assets/js/mathjax-config.js"></script>
+
+  <script
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+  ></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    /* =========================================================
+       BARĂ SUPERIOARĂ
+       ========================================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      padding: 0.75rem 1rem;
+
+      background:
+        color-mix(in srgb, var(--card) 90%, transparent);
+
+      border-bottom: 1px solid var(--border);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .theme-toggle {
+      flex: 0 0 auto;
+
+      padding: 0.55rem 0.95rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: var(--card);
+      color: var(--text);
+
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       STRUCTURĂ
+       ========================================================= */
+
+    main {
+      width: min(1100px, 100%);
+
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+
+      display: none;
+      align-items: center;
+
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .page > .card {
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent);
+
+      font-size: 0.8em;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      color: var(--muted);
+
+      font-size: 1.08em;
+      line-height: 1.65;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    li {
+      margin: 0.5rem 0;
+
+      line-height: 1.55;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    /* =========================================================
+       GRILE
+       ========================================================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+
+      margin: 1rem 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 1rem;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 70%, transparent);
+    }
+
+    .mini strong {
+      display: block;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent-2);
+    }
+
+    /* =========================================================
+       CASETE
+       ========================================================= */
+
+    .definition {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid var(--accent);
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 78%, transparent);
+    }
+
+    .definition strong {
+      color: var(--accent);
+    }
+
+    .modern-note {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid #7c3aed;
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, #7c3aed 8%, var(--formula-bg));
+    }
+
+    .modern-note strong {
+      color: #7c3aed;
+    }
+
+    .big-result {
+      margin: 1rem 0;
+      padding: 1.1rem;
+
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 72%, transparent);
+    }
+
+    .big-result h3 {
+      margin-top: 0;
+
+      color: var(--accent);
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      margin: 0.8rem 0;
+    }
+
+    .step-number {
+      width: 2.2rem;
+      height: 2.2rem;
+
+      flex: 0 0 2.2rem;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      color: white;
+
+      font-weight: 900;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .check {
+      color: #0f766e;
+
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       SVG
+       ========================================================= */
+
+    .svgbox {
+      margin: 1rem 0;
+      padding: 0.9rem;
+
+      overflow-x: auto;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: var(--formula-bg);
+    }
+
+    .svgbox > svg {
+      display: block;
+
+      width: 100%;
+      min-width: 340px;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0.5rem 0 0;
+
+      color: var(--muted);
+
+      font-size: 0.92em;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TABEL
+       ========================================================= */
+
+    .table-wrap {
+      width: 100%;
+
+      overflow-x: auto;
+
+      margin: 1rem 0;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 720px;
+
+      border-collapse: collapse;
+
+      background: var(--card);
+
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 0.75rem;
+
+      border: 1px solid var(--border);
+
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      color: var(--accent);
+
+      background: var(--formula-bg);
+    }
+
+    /* =========================================================
+       NAVIGARE FINALĂ
+       ========================================================= */
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+
+      padding: 1rem;
+
+      border-radius: 16px;
+
+      color: white;
+      background: var(--accent);
+
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    /* =========================================================
+       PAGER
+       ========================================================= */
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      z-index: 40;
+
+      transform: translateX(-50%);
+
+      width: min(1100px, calc(100% - 1rem));
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
+
+      padding: 0.45rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background:
+        color-mix(in srgb, var(--card) 92%, transparent);
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .pager button,
+    .pager a {
+      padding: 0.65rem 0.9rem;
+
+      border: 0;
+      border-radius: 999px;
+
+      font-size: 0.92em;
+      font-weight: 900;
+
+      text-decoration: none;
+      text-align: center;
+
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pager button {
+      color: white;
+      background: var(--accent);
+    }
+
+    .pager button.secondary {
+      color: var(--text);
+      background: var(--formula-bg);
+
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      color: white;
+      background: var(--accent-2);
+    }
+
+    .page-status {
+      min-width: 5.2rem;
+
+      color: var(--muted);
+
+      text-align: center;
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 760px) {
+      .grid,
+      .grid.three,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+
+        width: min(700px, calc(100% - 1rem));
+
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       TOPBAR
+       ========================================================= -->
+
+  <div class="topbar">
+
+    <strong>
+      13.6 • Elemente de mecanică relativistă • Dinamica relativistă
+    </strong>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      onclick="toggleTheme()"
+      aria-label="Schimbă tema"
+    >
+      Zi / Noapte
+    </button>
+
+  </div>
+
+
+  <main>
+
+    <!-- =======================================================
+         PAGINA 1
+         ======================================================= -->
+
+    <section class="page active">
+      <article class="card">
+
+        <span class="eyebrow">
+          13.6 • Mecanica relativistă
+        </span>
+
+        <h1>Dinamica relativistă</h1>
+
+        <p class="lead">
+          Relativitatea restrânsă a modificat cinematica:
+          spațiul și timpul nu mai sunt absolute, iar vitezele nu se
+          mai compun după regula lui Galilei. În mod firesc,
+          <span class="mark">și dinamica trebuie reformulată</span>.
+        </p>
+
+        <div class="grid three">
+
+          <div class="mini">
+            <strong>Masa – viteza</strong>
+            \[
+              m(v)=\gamma m_0
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Impuls</strong>
+            \[
+              \vec p=\gamma m_0\vec v
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Forță</strong>
+            \[
+              \vec F=\frac{d\vec p}{dt}
+            \]
+          </div>
+
+        </div>
+
+        <div class="exam">
+          <strong>Ideea centrală:</strong>
+          forma fundamentală a principiului al II-lea,
+          \[
+            \vec F=\frac{d\vec p}{dt},
+          \]
+          se păstrează, dar relația simplă
+          \[
+            \vec F=m\vec a
+          \]
+          nu mai este, în general, forma corectă a dinamicii
+          relativiste.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 2
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Ce rămâne din mecanica lui Newton?
+        </span>
+
+        <h2>Principiul inerției rămâne valabil</h2>
+
+        <p>
+          Bunget pornește prin a analiza ce trebuie păstrat și ce trebuie
+          modificat din dinamica newtoniană.
+        </p>
+
+        <div class="definition">
+          <strong>Principiul inerției:</strong>
+          un corp asupra căruia rezultanta forțelor este nulă își
+          păstrează starea de repaus sau de mișcare rectilinie uniformă
+          într-un sistem de referință inerțial.
+        </div>
+
+        <p>
+          Acest principiu trebuie să rămână valabil deoarece tocmai
+          mișcarea corpurilor libere este utilizată pentru definirea
+          sistemelor de referință inerțiale.
+        </p>
+
+        <div class="formula">
+          \[
+            \vec F_{\mathrm{rez}}=0
+            \quad\Longrightarrow\quad
+            \vec v=\mathrm{constant}.
+          \]
+        </div>
+
+        <div class="exam">
+          Relativitatea restrânsă nu elimină sistemele inerțiale;
+          dimpotrivă, teoria este construită pornind de la ele.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 3
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Conservarea impulsului
+        </span>
+
+        <h2>Impulsul trebuie redefinit</h2>
+
+        <p>
+          Bunget consideră în continuare valabilă legea conservării
+          impulsului pentru un sistem izolat.
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \vec P=
+            \sum_i \vec p_i
+            =
+            \mathrm{constant}
+          }
+          \]
+        </div>
+
+        <p>
+          Dar expresia clasică
+        </p>
+
+        <div class="formula">
+          \[
+            \vec p=m_0\vec v
+          \]
+        </div>
+
+        <p>
+          nu poate rămâne neschimbată la viteze relativiste dacă dorim
+          compatibilitate cu transformarea relativistă a vitezelor.
+        </p>
+
+        <div class="exam">
+          <strong>Pasul decisiv:</strong>
+          trebuie introdusă o dependență de viteză în expresia
+          impulsului.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 4
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Relația masă – viteză
+        </span>
+
+        <h2>Formula utilizată de Bunget</h2>
+
+        <p>
+          În notația Compendiului:
+        </p>
+
+        <div class="big-result">
+
+          <h3>Relația (13.15)</h3>
+
+          \[
+          \boxed{
+            m(v)
+            =
+            \frac{m_0}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+            =
+            \gamma m_0
+          }
+          \tag{13.15}
+          \]
+
+        </div>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>\(m_0\)</strong>
+            masa corpului în sistemul propriu, adică în sistemul
+            în care corpul este în repaus.
+            <br><br>
+            Unitate SI: <b>kg</b>.
+          </div>
+
+          <div class="mini">
+            <strong>\(m(v)\)</strong>
+            în terminologia lui Bunget:
+            „masa de mișcare”.
+            <br><br>
+            Unitate SI: <b>kg</b>.
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 5
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Terminologie
+        </span>
+
+        <h2>Masa de repaus și „masa de mișcare”</h2>
+
+        <p>
+          Pentru fidelitate față de sursa utilizată, lecția păstrează
+          formularea din Compendiul lui Bunget:
+        </p>
+
+        <div class="formula">
+          \[
+            m_0
+            =
+            \text{masa de repaus},
+          \]
+          \[
+            m(v)
+            =
+            \text{masa de mișcare}.
+          \]
+        </div>
+
+        <div class="modern-note">
+          <strong>Notă de terminologie modernă:</strong>
+          în formulările moderne ale relativității se preferă de regulă
+          păstrarea masei \(m_0\) ca invariantă și atribuirea dependenței
+          de viteză impulsului și energiei:
+          \[
+            \vec p=\gamma m_0\vec v.
+          \]
+          Această observație completează terminologia istorică a
+          Compendiului; nu schimbă relațiile matematice studiate aici.
+        </div>
+
+        <div class="exam">
+          Pentru un răspuns bazat explicit pe Bunget și pe formularea
+          „relația masă–viteză” din programa de concurs, este sigur să
+          precizezi întâi convenția de notație folosită.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 6
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Factorul Lorentz
+        </span>
+
+        <h2>Cum variază \(m(v)\)?</h2>
+
+        <p>
+          Reamintim:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac{1}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{m(v)}{m_0}
+            =
+            \gamma.
+          \]
+        </div>
+
+        <div class="table-wrap">
+
+          <table class="compare">
+
+            <thead>
+              <tr>
+                <th>\(v/c\)</th>
+                <th>\(\gamma\)</th>
+                <th>\(m(v)/m_0\)</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+
+              <tr>
+                <td>0,10</td>
+                <td>\(\approx1{,}005\)</td>
+                <td>\(\approx1{,}005\)</td>
+              </tr>
+
+              <tr>
+                <td>0,60</td>
+                <td>1,25</td>
+                <td>1,25</td>
+              </tr>
+
+              <tr>
+                <td>0,80</td>
+                <td>\(\approx1{,}667\)</td>
+                <td>\(\approx1{,}667\)</td>
+              </tr>
+
+              <tr>
+                <td>0,99</td>
+                <td>\(\approx7{,}09\)</td>
+                <td>\(\approx7{,}09\)</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 7
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Impulsul relativist
+        </span>
+
+        <h2>Relația (13.16)</h2>
+
+        <p>
+          Impulsul este definit în continuare ca produs între masa
+          utilizată în această formulare și viteză:
+        </p>
+
+        <div class="formula">
+          \[
+            \vec p=m(v)\vec v.
+          \]
+        </div>
+
+        <p>
+          Introducând relația (13.15):
+        </p>
+
+        <div class="big-result">
+
+          \[
+          \boxed{
+            \vec p
+            =
+            \frac{
+              m_0\vec v
+            }{
+              \sqrt{1-\dfrac{v^2}{c^2}}
+            }
+            =
+            \gamma m_0\vec v
+          }
+          \tag{13.16}
+          \]
+
+        </div>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Mărime</strong>
+            impuls \(\vec p\)
+          </div>
+
+          <div class="mini">
+            <strong>Unitate SI</strong>
+            \[
+              \mathrm{kg\,m/s}
+            \]
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 8
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Clasic versus relativist
+        </span>
+
+        <h2>Impulsul nu mai crește liniar cu viteza</h2>
+
+        <div class="table-wrap">
+
+          <table class="compare">
+
+            <thead>
+              <tr>
+                <th></th>
+                <th>Mecanică clasică</th>
+                <th>Mecanică relativistă</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Impuls</td>
+
+                <td>
+                  \[
+                    \vec p=m_0\vec v
+                  \]
+                </td>
+
+                <td>
+                  \[
+                    \vec p=\gamma m_0\vec v
+                  \]
+                </td>
+              </tr>
+
+              <tr>
+                <td>Dependență de \(v\)</td>
+                <td>Liniară</td>
+                <td>Neliniare prin factorul \(\gamma\)</td>
+              </tr>
+
+              <tr>
+                <td>Pentru \(v\ll c\)</td>
+                <td colspan="2">
+                  Cele două expresii devin practic identice.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Pentru \(v\to c^-\)</td>
+                <td>
+                  Ar continua formal să rămână finit pentru \(v=c\).
+                </td>
+                <td>
+                  \[
+                    p\to\infty
+                  \]
+                  pentru un corp cu \(m_0>0\).
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="exam">
+          La viteze apropiate de \(c\), creșterea impulsului nu se
+          explică doar prin creșterea lui \(v\); factorul Lorentz
+          devine dominant.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 9
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Principiul al II-lea
+        </span>
+
+        <h2>Forma fundamentală rămâne valabilă</h2>
+
+        <p>
+          Bunget subliniază că forma în care Newton a formulat
+          fundamental principiul al II-lea poate fi păstrată:
+        </p>
+
+        <div class="big-result">
+
+          <h3>Relația (13.17)</h3>
+
+          \[
+          \boxed{
+            \vec F
+            =
+            \frac{d\vec p}{dt}
+            =
+            \frac{d}{dt}
+            \left[
+              m(v)\vec v
+            \right]
+          }
+          \tag{13.17}
+          \]
+
+        </div>
+
+        <p>
+          Cum:
+        </p>
+
+        <div class="formula">
+          \[
+            m(v)
+            =
+            \gamma m_0,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \vec F
+            =
+            \frac{d}{dt}
+            \left(
+              \gamma m_0\vec v
+            \right)
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 10
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Capcana principală
+        </span>
+
+        <h2>De ce nu mai putem scrie pur și simplu \(F=ma\)?</h2>
+
+        <p>
+          În mecanica clasică:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            \vec F
+            &=
+            \frac{d}{dt}(m\vec v)\\
+            &=
+            m\frac{d\vec v}{dt}\\
+            &=
+            m\vec a,
+          \end{aligned}
+          \]
+        </div>
+
+        <p>
+          deoarece masa este considerată constantă.
+        </p>
+
+        <p>
+          În notația relativistă folosită de Bunget:
+        </p>
+
+        <div class="formula">
+          \[
+            m=m(v),
+          \]
+        </div>
+
+        <p>
+          deci:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            \vec F
+            &=
+            \frac{d}{dt}
+            \left[
+              m(v)\vec v
+            \right]\\[4pt]
+            &=
+            m(v)\vec a
+            +
+            \vec v
+            \frac{dm}{dt}.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="warning">
+          <strong>Concluzie:</strong>
+          în general
+          \[
+            \boxed{\vec F\neq m(v)\vec a}.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 11
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Relația forță – accelerație
+        </span>
+
+        <h2>Cazul coliniar \(\vec F\parallel\vec v\)</h2>
+
+        <p>
+          Pentru mișcare rectilinie, viteza și accelerația au aceeași
+          direcție, iar:
+        </p>
+
+        <div class="formula">
+          \[
+            p
+            =
+            \gamma m_0v.
+          \]
+        </div>
+
+        <p>
+          Din principiul al II-lea:
+        </p>
+
+        <div class="formula">
+          \[
+            F
+            =
+            \frac{dp}{dt}
+            =
+            m_0
+            \frac{d}{dt}
+            (\gamma v).
+          \]
+        </div>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \left(
+              1-\frac{v^2}{c^2}
+            \right)^{-1/2},
+          \]
+        </div>
+
+        <p>
+          calculăm derivata în raport cu \(v\).
+        </p>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 12
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Deducere
+        </span>
+
+        <h2>Derivata lui \(\gamma v\)</h2>
+
+        <div class="formula">
+          \[
+          \frac{d}{dv}
+          (\gamma v)
+          =
+          \frac{d}{dv}
+          \left[
+            \frac{v}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+          \right].
+          \]
+        </div>
+
+        <p>
+          Aplicând regula derivării:
+        </p>
+
+        <div class="formula">
+          \[
+          \frac{d}{dv}
+          (\gamma v)
+          =
+          \gamma
+          +
+          v\frac{d\gamma}{dv}.
+          \]
+        </div>
+
+        <p>
+          Dar:
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{d\gamma}{dv}
+            =
+            \gamma^3
+            \frac{v}{c^2}.
+          \]
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            \frac{d}{dv}
+            (\gamma v)
+            &=
+            \gamma
+            +
+            \gamma^3
+            \frac{v^2}{c^2}\\[4pt]
+            &=
+            \gamma^3.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="exam">
+          Identitatea utilă este:
+          \[
+            \boxed{
+              \frac{d}{dv}(\gamma v)=\gamma^3
+            }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 13
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Rezultatul cerut de programă
+        </span>
+
+        <h2>Forță – accelerație pentru mișcare rectilinie</h2>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          \[
+            a=\frac{dv}{dt},
+          \]
+        </div>
+
+        <p>
+          avem:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            F
+            &=
+            m_0
+            \frac{d(\gamma v)}{dv}
+            \frac{dv}{dt}\\[4pt]
+            &=
+            m_0\gamma^3 a.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+
+          <h3>
+            Pentru
+            \(\vec a\parallel\vec v\)
+          </h3>
+
+          \[
+          \boxed{
+            F
+            =
+            \gamma^3m_0a
+            =
+            \frac{
+              m_0a
+            }{
+              \left(
+                1-\dfrac{v^2}{c^2}
+              \right)^{3/2}
+            }
+          }
+          \]
+
+        </div>
+
+        <div class="exam">
+          Această relație este dedusă din formulele (13.15) și (13.17)
+          ale lui Bunget și face explicită relația
+          <strong>forță–accelerație</strong> menționată în programa de
+          Titularizare.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 14
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Interpretare
+        </span>
+
+        <h2>Aceeași forță produce o accelerație tot mai mică</h2>
+
+        <p>
+          Din:
+        </p>
+
+        <div class="formula">
+          \[
+            F=\gamma^3m_0a,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            a
+            =
+            \frac{F}
+            {\gamma^3m_0}
+          }.
+          \]
+        </div>
+
+        <p>
+          Pentru o forță longitudinală fixă, atunci când viteza crește:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma\uparrow
+            \quad\Longrightarrow\quad
+            a\downarrow.
+          \]
+        </div>
+
+        <div class="definition">
+          În prezentarea lui Bunget, aceasta exprimă creșterea inerției
+          corpului odată cu viteza.
+        </div>
+
+        <div class="warning">
+          Nu confunda:
+          \[
+            m(v)=\gamma m_0
+          \]
+          cu factorul care apare în relația longitudinală
+          forță–accelerație:
+          \[
+            \gamma^3m_0.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 15
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemplu numeric
+        </span>
+
+        <h2>Forța necesară la \(v=0{,}8c\)</h2>
+
+        <p>
+          Considerăm o particulă de masă de repaus \(m_0\), aflată la:
+        </p>
+
+        <div class="formula">
+          \[
+            v=0{,}8c.
+          \]
+        </div>
+
+        <p>
+          Factorul Lorentz este:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            \gamma
+            &=
+            \frac{1}
+            {\sqrt{1-0{,}8^2}}\\
+            &=
+            \frac{1}{0{,}6}\\
+            &\approx
+            1{,}667.
+          \end{aligned}
+          \]
+        </div>
+
+        <p>
+          Pentru aceeași accelerație longitudinală \(a\):
+        </p>
+
+        <div class="formula">
+          \[
+            F_{\mathrm{rel}}
+            =
+            \gamma^3m_0a.
+          \]
+        </div>
+
+        <p>
+          Comparativ cu valoarea newtoniană
+          \(F_N=m_0a\):
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \frac{
+              F_{\mathrm{rel}}
+            }{
+              F_N
+            }
+            =
+            \gamma^3
+            \approx
+            4{,}63
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          La \(0{,}8c\), pentru aceeași accelerație longitudinală,
+          este necesară o forță de aproximativ \(4{,}63\) ori mai mare
+          decât ar rezulta din formula clasică \(m_0a\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 16
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Limita clasică
+        </span>
+
+        <h2>De ce mecanica lui Newton funcționează în viața cotidiană?</h2>
+
+        <p>
+          Dacă:
+        </p>
+
+        <div class="formula">
+          \[
+            v\ll c,
+          \]
+        </div>
+
+        <p>
+          atunci:
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{v^2}{c^2}\ll1,
+            \qquad
+            \gamma\approx1.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="grid three">
+
+          <div class="mini">
+            <strong>Masa – viteză</strong>
+            \[
+              m(v)\approx m_0
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Impuls</strong>
+            \[
+              \vec p
+              \approx
+              m_0\vec v
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Forță</strong>
+            \[
+              \vec F
+              \approx
+              m_0\vec a
+            \]
+            pentru regimul clasic.
+          </div>
+
+        </div>
+
+        <div class="exam">
+          Mecanica newtoniană este limita nerelativistă a dinamicii
+          relativiste.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 17
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Viteza-limită
+        </span>
+
+        <h2>Ce se întâmplă când \(v\to c\)?</h2>
+
+        <p>
+          Pentru un corp material cu:
+        </p>
+
+        <div class="formula">
+          \[
+            m_0>0,
+          \]
+        </div>
+
+        <p>
+          avem:
+        </p>
+
+        <div class="formula">
+          \[
+            \lim_{v\to c^-}
+            \gamma
+            =
+            \infty.
+          \]
+        </div>
+
+        <p>
+          În consecință:
+        </p>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Relația masă–viteză Bunget</strong>
+            \[
+              m(v)\to\infty
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Impuls</strong>
+            \[
+              p\to\infty
+            \]
+          </div>
+
+        </div>
+
+        <p>
+          Iar pentru accelerație longitudinală:
+        </p>
+
+        <div class="formula">
+          \[
+            F=\gamma^3m_0a.
+          \]
+        </div>
+
+        <div class="big-result">
+          <strong>
+            Un corp cu masă de repaus nenulă nu poate fi accelerat
+            până la viteza luminii printr-o interacțiune finită.
+          </strong>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 18
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Fotonul
+        </span>
+
+        <h2>Cazul particulelor de lumină</h2>
+
+        <p>
+          Bunget observă că fotonul are:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            m_0=0
+          }.
+          \]
+        </div>
+
+        <p>
+          În același timp, fotonul posedă impuls finit.
+        </p>
+
+        <div class="warning">
+          Formula
+          \[
+            p
+            =
+            \frac{
+              m_0v
+            }{
+              \sqrt{1-\dfrac{v^2}{c^2}}
+            }
+          \]
+          nu trebuie evaluată pentru foton prin substituirea directă
+          \(m_0=0\) și \(v=c\), deoarece apare forma nedeterminată
+          \(0/0\).
+        </div>
+
+        <p>
+          Relația corectă pentru foton va rezulta în §13.7 din
+          relația relativistă energie–impuls:
+        </p>
+
+        <div class="formula">
+          \[
+            \boxed{
+              E=pc
+            }.
+          \]
+        </div>
+
+        <div class="exam">
+          Fotonul nu este un corp material cu \(m_0>0\) accelerat până
+          la \(c\); este un caz distinct, cu masă de repaus nulă.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 19
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Capcane de examen
+        </span>
+
+        <h2>Ce trebuie să eviți?</h2>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>1. \(p=m_0v\) la orice viteză</strong>
+            Corect numai ca aproximație nerelativistă.
+          </div>
+
+          <div class="mini">
+            <strong>2. \(F=m(v)a\)</strong>
+            În general nu rezultă din
+            \[
+              F=\frac{dp}{dt}.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>3. Confuzia \(m(v)\) cu \(m_0\)</strong>
+            În convenția Bunget:
+            \[
+              m(v)=\gamma m_0.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>4. Uitarea factorului \(\gamma\)</strong>
+            Impulsul relativist:
+            \[
+              p=\gamma m_0v.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>5. Aplicarea lui \(v=c\) pentru corp material</strong>
+            Pentru \(m_0>0\), formulele conduc la divergență.
+          </div>
+
+          <div class="mini">
+            <strong>6. Confuzia 13.6 cu 13.7</strong>
+            \[
+              E=mc^2
+            \]
+            și
+            \[
+              E^2=p^2c^2+m_0^2c^4
+            \]
+            apar în secțiunea următoare.
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 20
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Sinteză pentru Titularizare
+        </span>
+
+        <h2>13.6 – Fișa de formule</h2>
+
+        <div class="big-result">
+
+          <h3>1. Factor Lorentz</h3>
+
+          \[
+          \boxed{
+            \gamma
+            =
+            \frac{
+              1
+            }{
+              \sqrt{
+                1-\dfrac{v^2}{c^2}
+              }
+            }
+          }
+          \]
+
+        </div>
+
+        <div class="big-result">
+
+          <h3>2. Relația masă – viteză, în notația Bunget</h3>
+
+          \[
+          \boxed{
+            m(v)=\gamma m_0
+          }
+          \]
+
+        </div>
+
+        <div class="big-result">
+
+          <h3>3. Impuls relativist</h3>
+
+          \[
+          \boxed{
+            \vec p
+            =
+            \gamma m_0\vec v
+          }
+          \]
+
+        </div>
+
+        <div class="big-result">
+
+          <h3>4. Principiul al II-lea</h3>
+
+          \[
+          \boxed{
+            \vec F
+            =
+            \frac{d\vec p}{dt}
+          }
+          \]
+
+        </div>
+
+        <div class="big-result">
+
+          <h3>
+            5. Forță – accelerație,
+            pentru \(\vec a\parallel\vec v\)
+          </h3>
+
+          \[
+          \boxed{
+            F
+            =
+            \gamma^3m_0a
+          }
+          \]
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 21
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Antrenament
+        </span>
+
+        <h2>Verifică dacă stăpânești dinamica relativistă</h2>
+
+        <ol>
+
+          <li>
+            Definește masa de repaus \(m_0\) și scrie relația
+            masă–viteză utilizată de Bunget.
+          </li>
+
+          <li>
+            Scrie expresia impulsului relativist.
+          </li>
+
+          <li>
+            Explică de ce relația fundamentală este
+            \[
+              \vec F=\frac{d\vec p}{dt}
+            \]
+            și nu, în general,
+            \[
+              \vec F=m(v)\vec a.
+            \]
+          </li>
+
+          <li>
+            Pentru mișcare rectilinie, deduce
+            \[
+              F=\gamma^3m_0a.
+            \]
+          </li>
+
+          <li>
+            Verifică limita \(v\ll c\).
+          </li>
+
+          <li>
+            Explică de ce un corp cu \(m_0>0\) nu poate ajunge la
+            \(v=c\).
+          </li>
+
+          <li>
+            Pentru \(v=0{,}6c\), determină raportul
+            \[
+              \frac{m(v)}{m_0}
+            \]
+            și
+            \[
+              \frac{p}{m_0c}.
+            \]
+          </li>
+
+        </ol>
+
+        <div class="warning">
+          La probleme numerice:
+          <strong>
+            date SI → cerință → ipoteze → lege → calcul simbolic →
+            numeric → unități → verificare.
+          </strong>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 22
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Schema de răspuns
+        </span>
+
+        <h2>Cum prezinți 13.6 într-un subiect teoretic?</h2>
+
+        <div class="step">
+
+          <div class="step-number">1</div>
+
+          <div class="step-content">
+            Precizezi că principiul inerției rămâne valabil.
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">2</div>
+
+          <div class="step-content">
+            Introduci relația masă–viteză:
+            \[
+              m(v)
+              =
+              \frac{m_0}
+              {\sqrt{1-v^2/c^2}}.
+            \]
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">3</div>
+
+          <div class="step-content">
+            Scrii impulsul:
+            \[
+              \vec p
+              =
+              \gamma m_0\vec v.
+            \]
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">4</div>
+
+          <div class="step-content">
+            Formulezi principiul al II-lea:
+            \[
+              \vec F
+              =
+              \frac{d\vec p}{dt}.
+            \]
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">5</div>
+
+          <div class="step-content">
+            Pentru mișcare coliniară deduci:
+            \[
+              F=\gamma^3m_0a.
+            \]
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">6</div>
+
+          <div class="step-content">
+            Verifici:
+            \[
+              v\ll c
+              \Rightarrow
+              \gamma\approx1
+              \Rightarrow
+              \text{Newton}.
+            \]
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 23
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Finalul secțiunii
+        </span>
+
+        <h2>Legătura cu §13.7</h2>
+
+        <p>
+          §13.6 stabilește modificarea impulsului și a dinamicii unui
+          corp relativist.
+        </p>
+
+        <p>
+          Pasul următor este legătura dintre inerție și energie.
+        </p>
+
+        <div class="formula">
+          \[
+            \boxed{
+              \Delta E
+              =
+              \Delta m\,c^2
+            }
+          \]
+        </div>
+
+        <p>
+          și apoi:
+        </p>
+
+        <div class="formula">
+          \[
+            \boxed{
+              E=mc^2
+            }.
+          \]
+        </div>
+
+        <p>
+          Din combinația energiei cu impulsul relativist se va obține:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            E^2
+            =
+            p^2c^2
+            +
+            m_0^2c^4
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Programa 2026:</strong>
+          §13.6 acoperă natural relațiile
+          <em>masă–viteză</em> și <em>forță–accelerație</em>;
+          §13.7 va acoperi relațiile
+          <em>masă–energie</em> și <em>energie–impuls</em>.
+          Pentru Titularizare 2027 programa oficială trebuie
+          reverificată după publicare.
+        </div>
+
+        <div class="bottom-links">
+
+          <a href="13.5-consecintele-fizice-ale-transformarilor-lorentz.html">
+            ← 13.5 Consecințele transformărilor Lorentz
+          </a>
+
+          <!--
+            ATENȚIE:
+            numele existent în repository conține în prezent
+            „.htmlprobleme-mecanica-si-acustica.html”.
+            Linkul de mai jos folosește numele real existent,
+            pentru a nu produce un 404.
+          -->
+
+          <a href="13.7-relatia-dintre-masa-si-energie.htmlprobleme-mecanica-si-acustica.html">
+            13.7 Relația dintre masă și energie →
+          </a>
+
+          <a href="index.html">
+            Înapoi la capitol
+          </a>
+
+        </div>
+
+      </article>
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       PAGER
+       ========================================================= -->
+
+  <nav
+    class="pager"
+    aria-label="Navigare lecție"
+  >
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="prevPage()"
+    >
+      ← Pagina anterioară
+    </button>
+
+    <div
+      class="page-status"
+      id="pageStatus"
+      aria-live="polite"
+    >
+      1 / 23
+    </div>
+
+    <button
+      type="button"
+      onclick="nextPage()"
+    >
+      Pagina următoare →
+    </button>
+
+    <a href="index.html">
+      Înapoi la capitol
+    </a>
+
+  </nav>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script>
+    const pages =
+      [...document.querySelectorAll(".page")];
+
+    const pageStatus =
+      document.getElementById("pageStatus");
+
+    let currentPage = 0;
+
+
+    function updatePageStatus() {
+      pageStatus.textContent =
+        `${currentPage + 1} / ${pages.length}`;
+    }
+
+
+    function typesetCurrentPage() {
+      if (
+        window.MathJax &&
+        typeof MathJax.typesetPromise === "function"
+      ) {
+        MathJax
+          .typesetPromise([pages[currentPage]])
+          .catch((error) => {
+            console.error("MathJax:", error);
+          });
+      }
+    }
+
+
+    function showPage(index) {
+      if (
+        index < 0 ||
+        index >= pages.length
+      ) {
+        return;
+      }
+
+      pages[currentPage]
+        .classList
+        .remove("active");
+
+      currentPage = index;
+
+      pages[currentPage]
+        .classList
+        .add("active");
+
+      updatePageStatus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      typesetCurrentPage();
+    }
+
+
+    function nextPage() {
+      if (
+        currentPage <
+        pages.length - 1
+      ) {
+        showPage(currentPage + 1);
+      }
+    }
+
+
+    function prevPage() {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    }
+
+
+    function toggleTheme() {
+      const html =
+        document.documentElement;
+
+      const nextTheme =
+        html.dataset.theme === "dark"
+          ? "light"
+          : "dark";
+
+      html.dataset.theme =
+        nextTheme;
+
+      localStorage.setItem(
+        "theme-relativitate-13-6",
+        nextTheme
+      );
+    }
+
+
+    const savedTheme =
+      localStorage.getItem(
+        "theme-relativitate-13-6"
+      );
+
+    if (savedTheme) {
+      document.documentElement.dataset.theme =
+        savedTheme;
+    }
+
+
+    updatePageStatus();
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "ArrowRight") {
+          nextPage();
+        }
+
+        if (event.key === "ArrowLeft") {
+          prevPage();
+        }
+
+        if (event.key === "Home") {
+          showPage(0);
+        }
+
+        if (event.key === "End") {
+          showPage(
+            pages.length - 1
+          );
+        }
+
+      }
+    );
+  </script>
+
+</body>
+</html>
