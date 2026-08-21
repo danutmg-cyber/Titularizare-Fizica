@@ -1,1 +1,3164 @@
+<!DOCTYPE html>
+<html lang="ro">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="description"
+  content="Componentele curriculumului național — planuri-cadru, programe școlare, manuale, auxiliare și concepte curriculare. Titularizare Fizică."
+>
+
+<title>Componentele curriculumului național · Titularizare Fizică</title>
+
+
+<!-- =========================================================
+     TEMA INIȚIALĂ
+     ========================================================= -->
+
+<script>
+(function () {
+
+  const savedTheme =
+    localStorage.getItem("titularizare-theme");
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme =
+    savedTheme || (prefersDark ? "dark" : "light");
+
+  document.documentElement.dataset.theme = theme;
+
+})();
+</script>
+
+
+<style>
+
+/* =========================================================
+   TEMA ZI
+   ========================================================= */
+
+:root,
+html[data-theme="light"] {
+
+  color-scheme: light;
+
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
+
+  --text: #1a2033;
+  --text-muted: #4d5875;
+
+  --navy: #16213e;
+  --navy-2: #0f3460;
+
+  --accent: #3f8cff;
+  --accent-2: #ffb703;
+
+  --border: #dfe4f0;
+
+  --soft-blue: #edf5ff;
+  --soft-yellow: #fff8dc;
+  --soft-green: #edf9f1;
+  --soft-red: #fff0f0;
+  --soft-purple: #f4efff;
+
+  --definition-bg: #edf5ff;
+  --definition-border: #3f8cff;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
+  --update-bg: #f4efff;
+  --update-border: #7a4fb5;
+
+  --exam-bg: #edf9f1;
+  --exam-border: #278447;
+
+  --danger-bg: #fff0f0;
+  --danger-border: #c2414b;
+
+  --shadow:
+    0 2px 10px rgba(22, 33, 62, .08);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+/* =========================================================
+   TEMA NOAPTE
+   ========================================================= */
+
+html[data-theme="dark"] {
+
+  color-scheme: dark;
+
+  --bg: #10162b;
+  --bg-card: #1a2340;
+
+  --text: #e8ecfb;
+  --text-muted: #a7b0d1;
+
+  --navy: #0b1023;
+  --navy-2: #16213e;
+
+  --accent: #6fa8ff;
+  --accent-2: #ffcd4a;
+
+  --border: #2a3459;
+
+  --soft-blue: #182944;
+  --soft-yellow: #372f16;
+  --soft-green: #163a24;
+  --soft-red: #3a1c21;
+  --soft-purple: #29203e;
+
+  --definition-bg: #182944;
+  --definition-border: #6fa8ff;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
+  --update-bg: #29203e;
+  --update-border: #a98cff;
+
+  --exam-bg: #163a24;
+  --exam-border: #62c681;
+
+  --danger-bg: #3a1c21;
+  --danger-border: #ef7b84;
+
+  --shadow:
+    0 2px 14px rgba(0, 0, 0, .4);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 18px;
+}
+
+body {
+
+  margin: 0;
+
+  font-family:
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+
+  line-height: 1.68;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+
+}
+
+a {
+  overflow-wrap: anywhere;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   ACCESIBILITATE
+   ========================================================= */
+
+.skip-link {
+
+  position: absolute;
+  top: -60px;
+  left: 14px;
+
+  z-index: 1000;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+
+/* =========================================================
+   ANTET
+   ========================================================= */
+
+header.top {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: var(--header-text);
+
+  padding:
+    24px
+    max(18px, env(safe-area-inset-right))
+    22px
+    max(18px, env(safe-area-inset-left));
+
+}
+
+.top-inner {
+
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+}
+
+.header-row {
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+}
+
+.header-text {
+  min-width: 0;
+}
+
+.breadcrumb {
+
+  margin-bottom: 10px;
+
+  font-size: .84rem;
+  line-height: 1.5;
+
+  color: #b9c3e6;
+
+}
+
+.breadcrumb a {
+
+  color: #cfe0ff;
+  text-decoration: none;
+
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
+
+header.top h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(1.45rem, 4vw, 1.9rem);
+
+  line-height: 1.22;
+
+  font-weight: 750;
+
+}
+
+header.top p.subtitle {
+
+  margin: 7px 0 0;
+
+  color: var(--header-muted);
+
+  font-size:
+    clamp(.88rem, 2.4vw, .98rem);
+
+}
+
+
+/* =========================================================
+   BUTON TEMĂ
+   ========================================================= */
+
+.theme-toggle {
+
+  flex: 0 0 auto;
+
+  min-height: 44px;
+
+  padding: 9px 14px;
+
+  border:
+    1px solid rgba(255, 255, 255, .3);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, .10);
+
+  color: #ffffff;
+
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background .15s ease,
+    transform .15s ease;
+
+}
+
+.theme-toggle:hover {
+
+  background:
+    rgba(255, 255, 255, .18);
+
+}
+
+.theme-toggle:active {
+  transform: scale(.98);
+}
+
+.theme-toggle:focus-visible {
+
+  outline:
+    3px solid var(--accent-2);
+
+  outline-offset: 3px;
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+
+  width: min(900px, 100%);
+
+  margin: 28px auto 60px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+}
+
+
+/* =========================================================
+   CARDURI
+   ========================================================= */
+
+section.card {
+
+  background: var(--bg-card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow);
+
+  padding:
+    clamp(18px, 4vw, 24px);
+
+  margin-bottom: 22px;
+
+}
+
+section.card > :first-child {
+  margin-top: 0;
+}
+
+section.card > :last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TITLURI
+   ========================================================= */
+
+h2 {
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom:
+    2px solid var(--accent);
+
+  color: var(--navy-2);
+
+  font-size:
+    clamp(1.12rem, 3vw, 1.28rem);
+
+  line-height: 1.32;
+
+}
+
+html[data-theme="dark"] h2 {
+  color: var(--accent);
+}
+
+h3 {
+
+  margin:
+    22px 0 7px;
+
+  color: var(--text);
+
+  font-size:
+    clamp(1rem, 2.5vw, 1.08rem);
+
+  line-height: 1.35;
+
+}
+
+p {
+  margin: .7rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin: .42rem 0;
+}
+
+
+/* =========================================================
+   CUPRINS
+   ========================================================= */
+
+.toc {
+
+  columns: 2;
+  column-gap: 38px;
+
+  font-size: .93rem;
+
+}
+
+.toc ol {
+  margin: 0;
+}
+
+.toc li {
+  break-inside: avoid;
+}
+
+.toc a {
+
+  color: var(--accent);
+  text-decoration: none;
+
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   DEFINIȚII
+   ========================================================= */
+
+.definitie {
+
+  margin: 14px 0;
+
+  padding:
+    16px 18px;
+
+  border-left:
+    5px solid var(--definition-border);
+
+  border-radius:
+    0 10px 10px 0;
+
+  background:
+    var(--definition-bg);
+
+}
+
+.definitie .term {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--accent);
+
+  font-size: 1.02rem;
+
+}
+
+
+/* =========================================================
+   CASETE
+   ========================================================= */
+
+.callout,
+.warning,
+.update-note,
+.exam-box,
+.danger {
+
+  margin: 16px 0;
+
+  padding:
+    15px 17px;
+
+  border-radius: 10px;
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.update-note {
+
+  background: var(--update-bg);
+
+  border-left:
+    5px solid var(--update-border);
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.callout strong,
+.warning strong,
+.update-note strong,
+.exam-box strong,
+.danger strong {
+  color: var(--text);
+}
+
+
+/* =========================================================
+   GRILE
+   ========================================================= */
+
+.grid2 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin: 15px 0;
+
+}
+
+.grid3 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.mini-card {
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--bg-card) 86%,
+      var(--accent) 14%
+    );
+
+}
+
+.mini-card h3 {
+
+  margin: 0 0 6px;
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   NUMĂR CARD
+   ========================================================= */
+
+.number-card {
+
+  position: relative;
+
+  padding-top: 52px;
+
+}
+
+.number-card .number {
+
+  position: absolute;
+  top: 14px;
+  left: 15px;
+
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-weight: 800;
+
+}
+
+
+/* =========================================================
+   TABELE RESPONSIVE
+   ========================================================= */
+
+.table-wrap {
+
+  width: 100%;
+
+  margin: 14px 0;
+
+  overflow-x: auto;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  -webkit-overflow-scrolling: touch;
+
+}
+
+table {
+
+  width: 100%;
+  min-width: 670px;
+
+  border-collapse: collapse;
+
+  background: var(--bg-card);
+
+}
+
+th,
+td {
+
+  padding: 11px 12px;
+
+  border-bottom:
+    1px solid var(--border);
+
+  text-align: left;
+  vertical-align: top;
+
+}
+
+th {
+
+  background: var(--soft-blue);
+
+  color: var(--text);
+
+  font-size: .9rem;
+
+}
+
+td {
+  font-size: .92rem;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   DIAGRAMĂ CURRICULARĂ
+   ========================================================= */
+
+.hierarchy {
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 20px 0;
+
+}
+
+.h-node {
+
+  width: min(620px, 100%);
+
+  padding: 14px 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  background: var(--soft-blue);
+
+  font-weight: 750;
+
+}
+
+.h-node.primary {
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+}
+
+.h-node.resources {
+  background: var(--soft-green);
+}
+
+.h-arrow {
+
+  color: var(--accent);
+
+  font-size: 1.35rem;
+  font-weight: 800;
+
+}
+
+
+/* =========================================================
+   ETICHETE
+   ========================================================= */
+
+.tags {
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin: 12px 0;
+
+}
+
+.tag {
+
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 32px;
+
+  padding: 5px 10px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 999px;
+
+  background: var(--soft-blue);
+
+  color: var(--text);
+
+  font-size: .82rem;
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   FORMULARE EXAMEN
+   ========================================================= */
+
+.exam-answer {
+
+  margin: 14px 0;
+
+  padding: 16px 18px;
+
+  border:
+    2px solid var(--exam-border);
+
+  border-radius: 11px;
+
+  background: var(--exam-bg);
+
+  font-weight: 600;
+
+}
+
+
+/* =========================================================
+   RECAP
+   ========================================================= */
+
+.recap-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(185px, 1fr)
+    );
+
+  gap: 11px;
+
+  margin: 14px 0;
+
+}
+
+.recap-item {
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+  font-size: .86rem;
+
+}
+
+.recap-item b {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--accent-2);
+
+  font-size: .96rem;
+
+}
+
+
+/* =========================================================
+   AUTOEVALUARE
+   ========================================================= */
+
+.question {
+
+  margin: 12px 0;
+
+  padding: 14px 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--bg-card);
+
+}
+
+.question b {
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   BIBLIOGRAFIE
+   ========================================================= */
+
+.bibliografie li {
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+
+}
+
+
+/* =========================================================
+   NAVIGARE FINALĂ
+   ========================================================= */
+
+nav.pager {
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 14px;
+
+  width: min(900px, 100%);
+
+  margin: 0 auto 28px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  font-size: .91rem;
+
+}
+
+nav.pager a {
+
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 44px;
+
+  color: var(--accent);
+
+  text-decoration: none;
+
+  font-weight: 650;
+
+}
+
+nav.pager a:hover,
+nav.pager a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer.site {
+
+  padding:
+    18px 16px 30px;
+
+  color: var(--text-muted);
+
+  text-align: center;
+
+  font-size: .8rem;
+  line-height: 1.55;
+
+}
+
+
+/* =========================================================
+   TABLETĂ
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .header-row {
+    gap: 14px;
+  }
+
+  .grid3 {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================================
+   TELEFON
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  header.top {
+    padding-top: 18px;
+  }
+
+  .header-row {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    align-self: flex-start;
+  }
+
+  .toc {
+    columns: 1;
+  }
+
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+
+  main {
+    margin-top: 18px;
+  }
+
+  section.card {
+    border-radius: 11px;
+  }
+
+  nav.pager {
+
+    flex-direction: column;
+    align-items: stretch;
+
+  }
+
+  nav.pager a {
+
+    justify-content: center;
+
+    padding: 7px 10px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--bg-card);
+
+  }
+
+}
+
+
+/* =========================================================
+   ECRANE FOARTE MICI
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  section.card {
+    padding: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCERE ANIMAȚII
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<a
+  class="skip-link"
+  href="#continut"
+>
+  Sari la conținut
+</a>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="top">
+
+  <div class="top-inner">
+
+    <div class="header-row">
+
+      <div class="header-text">
+
+        <div class="breadcrumb">
+
+          <a href="../../index.html">
+            Acasă
+          </a>
+
+          &rsaquo;
+
+          <a href="../index.html">
+            Didactică
+          </a>
+
+          &rsaquo;
+
+          <a href="index.html">
+            Curriculum
+          </a>
+
+          &rsaquo;
+
+          Componente
+
+        </div>
+
+
+        <h1>
+          Componentele curriculumului național
+        </h1>
+
+        <p class="subtitle">
+          Planuri-cadru · programe · manuale · auxiliare ·
+          concepte curriculare
+        </p>
+
+      </div>
+
+
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Comută tema zi/noapte"
+        aria-pressed="false"
+      >
+        Tema: Zi
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<main id="continut">
+
+
+  <!-- =======================================================
+       INTRO
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Ce trebuie să știi pentru Titularizare?
+    </h2>
+
+    <p>
+      Programa disponibilă pentru Titularizare Fizică 2026
+      solicită explicit cunoașterea
+      <b>componentelor curriculumului național</b>:
+      planuri-cadru de învățământ, programe școlare,
+      manuale școlare și auxiliare curriculare.
+    </p>
+
+    <p>
+      În legătură cu planurile-cadru trebuie cunoscută și
+      semnificația conceptelor:
+    </p>
+
+    <div class="tags">
+
+      <span class="tag">
+        trunchi comun
+      </span>
+
+      <span class="tag">
+        curriculum diferențiat
+      </span>
+
+      <span class="tag">
+        CDȘ
+      </span>
+
+      <span class="tag">
+        CDL
+      </span>
+
+      <span class="tag">
+        arii curriculare
+      </span>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Obiectivul lecției:
+      </strong>
+
+      să poți defini fiecare componentă,
+      să-i precizezi rolul și să explici
+      relația dintre componente într-un răspuns coerent de examen.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       CUPRINS
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Cuprins
+    </h2>
+
+    <div class="toc">
+
+      <ol>
+
+        <li>
+          <a href="#sec1">
+            Imaginea de ansamblu
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec2">
+            Planurile-cadru
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec3">
+            Trunchiul comun
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec4">
+            Curriculumul diferențiat
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec5">
+            CDȘ, CDL și CDEOȘ
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec6">
+            Ariile curriculare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec7">
+            Programele școlare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec8">
+            Manualele școlare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec9">
+            Auxiliarele curriculare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec10">
+            Relația dintre componente
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec11">
+            Aplicare la Fizică
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec12">
+            Actualizare curriculară 2026
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec13">
+            Formulare de examen
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec14">
+            Capcane
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec15">
+            Recapitulare
+          </a>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       1. ANSAMBLU
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec1"
+  >
+
+    <h2>
+      1. Imaginea de ansamblu
+    </h2>
+
+    <p>
+      Pentru pregătirea după programa de Titularizare 2026,
+      componentele trebuie privite ca un sistem:
+    </p>
+
+
+    <div class="hierarchy">
+
+      <div class="h-node primary">
+        CURRICULUM NAȚIONAL
+      </div>
+
+      <div class="h-arrow">
+        ↓
+      </div>
+
+      <div class="h-node">
+        PLANURI-CADRU DE ÎNVĂȚĂMÂNT
+      </div>
+
+      <div class="h-arrow">
+        ↓
+      </div>
+
+      <div class="h-node">
+        PROGRAME ȘCOLARE
+      </div>
+
+      <div class="h-arrow">
+        ↓
+      </div>
+
+      <div class="h-node resources">
+        MANUALE ȘCOLARE + AUXILIARE CURRICULARE
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Intuitiv:
+      </strong>
+
+      planul-cadru stabilește
+      <b>structura și timpul</b>,
+      programa precizează
+      <b>ce se urmărește formativ</b>,
+      iar manualele și auxiliarele oferă
+      <b>resurse pentru realizarea învățării</b>.
+
+    </div>
+
+
+    <div class="warning">
+
+      Schema de mai sus este una didactică,
+      utilă pentru înțelegerea relației dintre componente.
+      Manualul și auxiliarul nu au același rol reglator
+      ca planul-cadru și programa.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       2. PLANURI-CADRU
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec2"
+  >
+
+    <h2>
+      2. Planurile-cadru de învățământ
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Plan-cadru de învățământ
+      </b>
+
+      Document curricular reglator care configurează
+      parcursul educațional al elevului și stabilește
+      disciplinele/domeniile de studiu/modulele de pregătire,
+      precum și bugetul de timp alocat acestora.
+
+    </div>
+
+
+    <h3>
+      Ce informații oferă?
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Discipline
+        </h3>
+
+        <p>
+          Ce discipline, domenii de studiu sau module
+          sunt prevăzute.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Statut
+        </h3>
+
+        <p>
+          Ce elemente sunt obligatorii și,
+          după caz, ce posibilități de alegere există.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Buget de timp
+        </h3>
+
+        <p>
+          Numărul de ore alocat disciplinelor,
+          domeniilor sau modulelor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Parcurs
+        </h3>
+
+        <p>
+          Organizarea diferă în funcție de
+          nivelul de școlarizare și, la liceu,
+          de filieră, profil și specializare.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-answer">
+
+      <b>Formula scurtă:</b><br>
+      Planul-cadru = discipline / domenii / module
+      + statut curricular
+      + buget de timp.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. TRUNCHI COMUN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec3"
+  >
+
+    <h2>
+      3. Trunchiul comun
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Trunchi comun — TC
+      </b>
+
+      Segment al curriculumului alcătuit din
+      disciplinele, domeniile de studiu sau modulele
+      de pregătire obligatorii stabilite la nivel central.
+
+    </div>
+
+
+    <p>
+      Rolul său este de a asigura un
+      <b>nucleu comun de formare</b>
+      pentru elevii aflați pe parcursurile pentru care acesta
+      este prevăzut.
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Caracter
+        </h3>
+
+        <p>
+          Obligatoriu.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Stabilire
+        </h3>
+
+        <p>
+          La nivel central,
+          prin documentele curriculare aplicabile.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Reper de memorare:
+      </strong>
+
+      „trunchi comun” =
+      ceea ce constituie baza obligatorie comună,
+      nu ceea ce alege individual elevul.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. CURRICULUM DIFERENȚIAT
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec4"
+  >
+
+    <h2>
+      4. Curriculumul diferențiat
+    </h2>
+
+
+    <p>
+      Termenul
+      <b>curriculum diferențiat</b>
+      apare explicit în programa disponibilă pentru
+      Titularizare Fizică 2026.
+    </p>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Curriculum diferențiat
+      </b>
+
+      Segment curricular prin care parcursul de formare
+      se diferențiază în raport cu profilul,
+      specializarea, calificarea sau tipul de parcurs școlar,
+      conform documentelor curriculare aplicabile.
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Ideea esențială:
+      </strong>
+
+      dacă trunchiul comun asigură baza comună,
+      curriculumul diferențiat răspunde
+      <b>specificului unui anumit parcurs de formare</b>.
+
+    </div>
+
+
+    <div class="update-note">
+
+      <strong>
+        Terminologie în schimbare
+      </strong>
+
+      <p>
+        În noile planuri-cadru liceale aprobate în 2025
+        apare terminologia
+        <b>curriculum de specialitate (CS)</b>
+        pentru anumite segmente ale parcursului liceal.
+      </p>
+
+      <p>
+        Nu înlocui automat termenul
+        „curriculum diferențiat” din programa de concurs 2026
+        cu „curriculum de specialitate”.
+        Pentru Titularizare 2027 trebuie urmărită
+        formularea exactă a noii programe oficiale.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. CDS / CDL / CDEOS
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec5"
+  >
+
+    <h2>
+      5. CDȘ, CDL și CDEOȘ
+    </h2>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Abreviere
+            </th>
+
+            <th>
+              Denumire
+            </th>
+
+            <th>
+              Ce trebuie să reții
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              <b>CDȘ</b>
+            </td>
+
+            <td>
+              Curriculum la decizia școlii
+            </td>
+
+            <td>
+              Este termenul utilizat explicit în
+              programa de Titularizare Fizică 2026.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>CDL</b>
+            </td>
+
+            <td>
+              Curriculum în dezvoltare locală
+            </td>
+
+            <td>
+              Apare de asemenea în programa de concurs,
+              în legătură cu anumite parcursuri curriculare.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>CDEOȘ</b>
+            </td>
+
+            <td>
+              Curriculum la decizia elevului din oferta școlii
+            </td>
+
+            <td>
+              Este termenul utilizat de legislația
+              educațională actuală.
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        CDEOȘ
+      </b>
+
+      Segment curricular alcătuit din discipline/domenii
+      de studiu oferite elevilor, din care aceștia pot alege
+      în funcție de nevoile și interesele proprii,
+      în condițiile cadrului legal aplicabil.
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Pentru concurs:
+      </strong>
+
+      nu amesteca terminologia fără precizare.
+      Dacă subiectul reproduce programa 2026,
+      răspunde folosind termenii ceruți acolo
+      și poți preciza separat actualizarea legislativă.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. ARII CURRICULARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec6"
+  >
+
+    <h2>
+      6. Ariile curriculare
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Arie curriculară
+      </b>
+
+      Grupare de discipline școlare realizată
+      pe baza unor afinități de domeniu și
+      a unor finalități educaționale comune.
+
+    </div>
+
+
+    <p>
+      În structurile curriculare în care este utilizată
+      această organizare, disciplina
+      <b>Fizică</b>
+      aparține ariei curriculare
+      <b>Matematică și Științe ale naturii</b>.
+    </p>
+
+
+    <div class="callout">
+
+      <strong>
+        Atenție la nivelul noțiunii:
+      </strong>
+
+      aria curriculară
+      <b>grupează discipline</b>;
+      ea nu este nici disciplină,
+      nici programă școlară,
+      nici plan-cadru.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. PROGRAME
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec7"
+  >
+
+    <h2>
+      7. Programele școlare
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Programa școlară
+      </b>
+
+      Document curricular reglator în care este detaliat
+      curriculumul unei discipline de studiu
+      sau al unui modul de pregătire
+      pentru nivelul/anul de studiu vizat.
+
+    </div>
+
+
+    <p>
+      Programa transformă cadrul general al planului-cadru
+      într-un reper concret pentru activitatea profesorului.
+    </p>
+
+
+    <h3>
+      Într-o programă centrată pe competențe urmărești:
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          1
+        </span>
+
+        <h3>
+          Competențe
+        </h3>
+
+        <p>
+          Ce achiziții trebuie dezvoltate la elev.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          2
+        </span>
+
+        <h3>
+          Conținuturi
+        </h3>
+
+        <p>
+          Prin ce suport noțional se formează
+          competențele.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          3
+        </span>
+
+        <h3>
+          Activități de învățare
+        </h3>
+
+        <p>
+          Exemple de acțiuni și contexte
+          prin care elevul învață.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          4
+        </span>
+
+        <h3>
+          Repere metodologice
+        </h3>
+
+        <p>
+          Orientări pentru proiectarea și
+          desfășurarea activității didactice.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Regula profesorului:
+      </strong>
+
+      proiectarea didactică pornește de la
+      <b>programa școlară în vigoare</b>,
+      nu de la cuprinsul unui manual.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. MANUALE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec8"
+  >
+
+    <h2>
+      8. Manualele școlare
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Manual școlar
+      </b>
+
+      Resursă de învățare care transpune
+      cerințele curriculare într-o formă
+      structurată și accesibilă elevului.
+
+    </div>
+
+
+    <p>
+      Manualul poate conține:
+    </p>
+
+
+    <div class="grid3">
+
+      <div class="mini-card">
+        explicații
+      </div>
+
+      <div class="mini-card">
+        imagini și scheme
+      </div>
+
+      <div class="mini-card">
+        experimente
+      </div>
+
+      <div class="mini-card">
+        exemple
+      </div>
+
+      <div class="mini-card">
+        exerciții și probleme
+      </div>
+
+      <div class="mini-card">
+        sarcini de evaluare
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Esențial:
+      </strong>
+
+      manualul nu stabilește curriculumul
+      și nu poate substitui programa școlară.
+
+    </div>
+
+
+    <div class="exam-answer">
+
+      <b>Programa</b>
+      este documentul reglator.<br>
+
+      <b>Manualul</b>
+      este o resursă pentru aplicarea programei.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. AUXILIARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec9"
+  >
+
+    <h2>
+      9. Auxiliarele curriculare
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Auxiliare curriculare
+      </b>
+
+      Resurse complementare utilizate pentru
+      susținerea activităților de
+      predare–învățare–evaluare.
+
+    </div>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Culegeri
+        </h3>
+
+        <p>
+          Probleme, exerciții,
+          teste și aplicații.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Caiete și fișe
+        </h3>
+
+        <p>
+          Sarcini structurate pentru
+          activitatea elevilor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Ghiduri
+        </h3>
+
+        <p>
+          Repere metodice pentru
+          profesor și elev.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Resurse digitale
+        </h3>
+
+        <p>
+          Simulări, materiale multimedia,
+          aplicații și alte resurse educaționale.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Profesorul selectează auxiliarele
+      în funcție de
+      <b>competențele urmărite</b>,
+      particularitățile elevilor,
+      conținut și contextul didactic.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. COMPARAȚIE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec10"
+  >
+
+    <h2>
+      10. Relația dintre componente
+    </h2>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Componentă
+            </th>
+
+            <th>
+              Întrebarea principală
+            </th>
+
+            <th>
+              Rol
+            </th>
+
+            <th>
+              Statut didactic
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              <b>Plan-cadru</b>
+            </td>
+
+            <td>
+              Ce se studiază și cât timp?
+            </td>
+
+            <td>
+              Configurează parcursul școlar.
+            </td>
+
+            <td>
+              Document reglator.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Programă</b>
+            </td>
+
+            <td>
+              Ce competențe și conținuturi sunt urmărite?
+            </td>
+
+            <td>
+              Detaliază curriculumul disciplinei.
+            </td>
+
+            <td>
+              Document reglator.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Manual</b>
+            </td>
+
+            <td>
+              Cum este transpus curriculumul într-o resursă
+              pentru elev?
+            </td>
+
+            <td>
+              Sprijină învățarea.
+            </td>
+
+            <td>
+              Resursă.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Auxiliar</b>
+            </td>
+
+            <td>
+              Cu ce resurse suplimentare putem lucra?
+            </td>
+
+            <td>
+              Completează demersul didactic.
+            </td>
+
+            <td>
+              Resursă complementară.
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="exam-answer">
+
+      <b>Succesiunea logică:</b><br>
+
+      plan-cadru
+      → programă
+      → proiectare didactică
+      → selectarea manualelor și a resurselor.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. APLICARE FIZICĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec11"
+  >
+
+    <h2>
+      11. Exemplu aplicat la disciplina Fizică
+    </h2>
+
+
+    <p>
+      Profesorul pregătește activități pentru disciplina Fizică.
+      Cum utilizează componentele curriculumului?
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          1
+        </span>
+
+        <h3>
+          Consultă planul-cadru
+        </h3>
+
+        <p>
+          Identifică locul disciplinei și
+          bugetul de timp disponibil.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          2
+        </span>
+
+        <h3>
+          Analizează programa
+        </h3>
+
+        <p>
+          Selectează competențele și
+          conținuturile relevante.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          3
+        </span>
+
+        <h3>
+          Proiectează învățarea
+        </h3>
+
+        <p>
+          Alege metode, experimente,
+          probleme și forme de organizare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card number-card">
+
+        <span class="number">
+          4
+        </span>
+
+        <h3>
+          Selectează resurse
+        </h3>
+
+        <p>
+          Utilizează manuale,
+          fișe, aparatură, simulări
+          și auxiliare potrivite.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Exemplu:
+      </strong>
+
+      pentru formarea unei competențe prin studiul experimental
+      al legii lui Ohm, profesorul nu începe prin a întreba
+      „ce pagină din manual predau?”,
+      ci identifică mai întâi
+      <b>competența și conținutul din programă</b>,
+      apoi proiectează activitatea.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. ACTUALIZARE 2026
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec12"
+  >
+
+    <h2>
+      12. Actualizare curriculară — ce trebuie separat?
+    </h2>
+
+
+    <div class="warning">
+
+      <strong>
+        Programa de Titularizare Fizică 2026
+      </strong>
+
+      cere explicit:
+      planuri-cadru,
+      trunchi comun,
+      curriculum diferențiat,
+      CDȘ/CDL,
+      arii curriculare,
+      programe,
+      manuale și auxiliare curriculare.
+
+    </div>
+
+
+    <div class="update-note">
+
+      <strong>
+        Documentele curriculare actuale din 2026
+      </strong>
+
+      <p>
+        Cadrul curricular național actual descrie drept
+        documente curriculare reglatoare de prim-plan
+        <b>planurile-cadru</b>
+        și
+        <b>programele școlare</b>
+        și include în arhitectura Curriculumului Național
+        <b>standardele naționale de evaluare</b>.
+      </p>
+
+      <p>
+        În noile planuri-cadru liceale apar, între altele,
+        noțiunile
+        <b>trunchi comun (TC)</b>,
+        <b>curriculum de specialitate (CS)</b>
+        și
+        <b>CDEOȘ</b>.
+      </p>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Nu reconciliem artificial documentele.
+      </strong>
+
+      <p>
+        Pentru pregătirea concursului,
+        terminologia programei oficiale a sesiunii
+        are prioritate.
+      </p>
+
+      <p>
+        Pentru
+        <b>Titularizare Fizică 2027</b>,
+        verifică din nou programa oficială după publicare.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. FORMULARE EXAMEN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec13"
+  >
+
+    <h2>
+      13. Cum formulezi un răspuns de examen?
+    </h2>
+
+
+    <p>
+      Dacă cerința este:
+    </p>
+
+    <div class="callout">
+
+      <b>
+        „Prezentați componentele curriculumului național.”
+      </b>
+
+    </div>
+
+
+    <p>
+      O structură sigură este:
+    </p>
+
+
+    <div class="exam-answer">
+
+      <p>
+        Curriculumul național este concretizat,
+        pentru problematica solicitată de programa concursului,
+        prin planuri-cadru de învățământ,
+        programe școlare, manuale școlare și
+        auxiliare curriculare.
+      </p>
+
+      <p>
+        <b>Planul-cadru</b>
+        configurează parcursul educațional și stabilește
+        disciplinele/domeniile/modulele și bugetul de timp.
+      </p>
+
+      <p>
+        <b>Programa școlară</b>
+        detaliază curriculumul disciplinei și oferă
+        reperele pentru proiectarea demersului didactic.
+      </p>
+
+      <p>
+        <b>Manualul școlar</b>
+        este o resursă pentru implementarea programei,
+        iar
+        <b>auxiliarele curriculare</b>
+        completează resursele de
+        predare–învățare–evaluare.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Dacă subiectul solicită și
+      <b>semnificația conceptelor asociate planului-cadru</b>,
+      continuă cu:
+      trunchi comun,
+      curriculum diferențiat,
+      CDȘ/CDL și arii curriculare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. CAPCANE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec14"
+  >
+
+    <h2>
+      14. Capcane frecvente
+    </h2>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Plan-cadru = programă
+        </h3>
+
+        <p>
+          Fals.
+          Primul configurează parcursul și timpul;
+          a doua detaliază curriculumul disciplinei.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Programă = manual
+        </h3>
+
+        <p>
+          Fals.
+          Programa este document reglator;
+          manualul este resursă.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Trunchi comun = opțional
+        </h3>
+
+        <p>
+          Fals.
+          Trunchiul comun are caracter obligatoriu.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Arie curriculară = disciplină
+        </h3>
+
+        <p>
+          Fals.
+          Aria curriculară grupează discipline.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Orice auxiliar este obligatoriu
+        </h3>
+
+        <p>
+          Fals.
+          Auxiliarul este o resursă complementară.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          CDȘ și CDEOȘ sunt termeni perfect interschimbabili
+        </h3>
+
+        <p>
+          Nu formula astfel.
+          Precizează documentul și contextul curricular
+          la care te raportezi.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. RECAP
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec15"
+  >
+
+    <h2>
+      15. Recapitulare rapidă
+    </h2>
+
+
+    <div class="recap-grid">
+
+      <div class="recap-item">
+
+        <b>
+          Plan-cadru
+        </b>
+
+        Discipline / domenii / module
+        + buget de timp.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Trunchi comun
+        </b>
+
+        Segment obligatoriu.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Curriculum diferențiat
+        </b>
+
+        Particularizează parcursul de formare.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          CDȘ / CDL
+        </b>
+
+        Termeni ceruți de programa 2026.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          CDEOȘ
+        </b>
+
+        Terminologia legislativă actuală.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Arie curriculară
+        </b>
+
+        Grupare de discipline.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Programă
+        </b>
+
+        Document reglator al disciplinei.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Manual
+        </b>
+
+        Resursă de implementare.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Auxiliar
+        </b>
+
+        Resursă complementară.
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-answer">
+
+      <b>Formula de 15 secunde:</b><br><br>
+
+      Plan-cadrul spune
+      <b>ce discipline și cât timp</b>;<br>
+
+      programa spune
+      <b>ce competențe și conținuturi</b>;<br>
+
+      profesorul proiectează
+      <b>cum se învață</b>;<br>
+
+      manualele și auxiliarele oferă
+      <b>resursele</b>.
+
+    </div>
+
+
+    <h3>
+      Autoevaluare
+    </h3>
+
+
+    <div class="question">
+
+      <b>1.</b>
+      Care este diferența fundamentală dintre
+      planul-cadru și programa școlară?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>2.</b>
+      Ce înseamnă trunchi comun?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>3.</b>
+      De ce manualul nu poate substitui programa?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>4.</b>
+      Care este rolul auxiliarelor curriculare?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>5.</b>
+      Ce diferență terminologică trebuie reverificată
+      pentru concursul din 2027 în privința
+      CDȘ/CDEOȘ?
+
+    </div>
+
+
+    <div class="update-note">
+
+      <strong>
+        Pentru Titularizare Fizică 2027
+      </strong>
+
+      <p>
+        Lecția păstrează integral termenii solicitați
+        de programa oficială disponibilă pentru 2026.
+      </p>
+
+      <p>
+        Terminologia și structura curriculară pentru sesiunea 2027
+        trebuie confruntate cu programa oficială care va fi
+        publicată pentru concurs.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Surse de lucru
+    </h3>
+
+
+    <ul class="bibliografie">
+
+      <li>
+        Programa pentru concursul de ocupare a posturilor didactice —
+        disciplina Fizică, versiunea disponibilă pentru 2026,
+        secțiunea „Tematica pentru didactica fizicii”.
+      </li>
+
+      <li>
+        Planurile-cadru pentru învățământul gimnazial
+        și liceal în vigoare.
+      </li>
+
+      <li>
+        Programele școlare de Fizică în vigoare.
+      </li>
+
+      <li>
+        Legea învățământului preuniversitar nr. 198/2023,
+        cu modificările și completările ulterioare.
+      </li>
+
+      <li>
+        Documentele curriculare naționale privind
+        proiectarea și implementarea Curriculumului Național,
+        în vigoare în 2026.
+      </li>
+
+    </ul>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     NAVIGARE
+     ========================================================= -->
+
+<nav
+  class="pager"
+  aria-label="Navigare între lecțiile de curriculum"
+>
+
+  <a href="1-definitii.html">
+    ← 1. Definiții
+  </a>
+
+  <a href="3-tipuri-de-curriculum.html">
+    3. Tipuri de curriculum →
+  </a>
+
+</nav>
+
+
+<footer class="site">
+
+  Tematica pentru didactica fizicii · Curriculum ·
+  Titularizare Fizică
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT — ZI / NOAPTE
+     ========================================================= -->
+
+<script>
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+
+function currentTheme() {
+
+  return document.documentElement.dataset.theme === "dark"
+    ? "dark"
+    : "light";
+
+}
+
+
+function updateThemeButton() {
+
+  const dark =
+    currentTheme() === "dark";
+
+  themeToggle.textContent =
+    dark
+      ? "Tema: Noapte"
+      : "Tema: Zi";
+
+  themeToggle.setAttribute(
+    "aria-pressed",
+    dark ? "true" : "false"
+  );
+
+  themeToggle.setAttribute(
+    "title",
+    dark
+      ? "Comută la tema de zi"
+      : "Comută la tema de noapte"
+  );
+
+}
+
+
+function toggleTheme() {
+
+  const next =
+    currentTheme() === "dark"
+      ? "light"
+      : "dark";
+
+  document.documentElement.dataset.theme =
+    next;
+
+  localStorage.setItem(
+    "titularizare-theme",
+    next
+  );
+
+  updateThemeButton();
+
+}
+
+
+themeToggle.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+updateThemeButton();
+
+</script>
+
+
+</body>
+
+</html>
