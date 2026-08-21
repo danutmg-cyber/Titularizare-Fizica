@@ -1,1 +1,544 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategii didactice. Metode de predare — Titularizare Fizică</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --bg-card: #ffffff;
+    --text: #1a2033;
+    --text-muted: #4d5875;
+    --navy: #16213e;
+    --navy-2: #0f3460;
+    --accent: #3f8cff;
+    --accent-2: #ffb703;
+    --border: #dfe4f0;
+    --code-bg: #eef1f9;
+    --shadow: 0 2px 10px rgba(22,33,62,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10162b;
+      --bg-card: #1a2340;
+      --text: #e8ecfb;
+      --text-muted: #a7b0d1;
+      --navy: #0b1023;
+      --navy-2: #16213e;
+      --accent: #6fa8ff;
+      --accent-2: #ffcd4a;
+      --border: #2a3459;
+      --code-bg: #131a33;
+      --shadow: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    padding: 28px 20px 22px;
+  }
+  .breadcrumb {
+    max-width: 900px;
+    margin: 0 auto 10px;
+    font-size: 0.85rem;
+    color: #b9c3e6;
+  }
+  .breadcrumb a { color: #cfe0ff; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  header.top h1 {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  header.top p.subtitle {
+    max-width: 900px;
+    margin: 6px auto 0;
+    color: #c7d1f0;
+    font-size: 0.95rem;
+  }
+  main {
+    max-width: 900px;
+    margin: 28px auto 60px;
+    padding: 0 20px;
+  }
+  section.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+  }
+  h2 {
+    color: var(--navy-2);
+    font-size: 1.25rem;
+    margin-top: 0;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+  }
+  @media (prefers-color-scheme: dark) { h2 { color: var(--accent); } }
+  h3 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 6px;
+    margin-top: 22px;
+  }
+  h3 .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .tag.trad { background: #ffe3d1; color: #8a3b12; }
+  .tag.activ { background: #d7ecff; color: #0f3460; }
+  .tag.interactiv { background: #ddf5df; color: #1b5e20; }
+  @media (prefers-color-scheme: dark) {
+    .tag.trad { background: #4a2c17; color: #ffb98a; }
+    .tag.activ { background: #14324f; color: #9fd0ff; }
+    .tag.interactiv { background: #163a1c; color: #9be6a3; }
+  }
+  .definitie {
+    background: var(--code-bg);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.96rem;
+  }
+  .definitie b.term { color: var(--accent-2); }
+  .exemplu {
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .exemplu b { color: var(--text); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--code-bg);
+    color: var(--navy-2);
+  }
+  @media (prefers-color-scheme: dark) { th { color: var(--accent); } }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  .avantaje-limite {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 600px) { .avantaje-limite { grid-template-columns: 1fr; } }
+  .box-av, .box-lim {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+  }
+  .box-av { background: #e8f7ea; color: #1b5e20; }
+  .box-lim { background: #fdeaea; color: #8a1c1c; }
+  @media (prefers-color-scheme: dark) {
+    .box-av { background: #163a1c; color: #9be6a3; }
+    .box-lim { background: #3a1616; color: #ffb0b0; }
+  }
+  .recap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .recap-item {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+  }
+  .recap-item b { display: block; font-size: 0.95rem; margin-bottom: 4px; color: var(--accent-2); }
+  nav.pager {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    font-size: 0.9rem;
+  }
+  nav.pager a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  nav.pager a:hover { text-decoration: underline; }
+  footer.site {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 20px;
+  }
+  .toc {
+    columns: 2;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) { .toc { columns: 1; } }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .bibliografie li { font-size: 0.88rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
 
+<header class="top">
+  <div class="breadcrumb">
+    <a href="../../index.html">Acasă</a> &rsaquo;
+    <a href="../index.html">Didactică</a> &rsaquo;
+    Strategii didactice. Metode de predare
+  </div>
+  <h1>Strategii didactice. Metode de predare</h1>
+  <p class="subtitle">Lecție de metodică — pregătire titularizare, disciplina Fizică</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Cuprins</h2>
+    <div class="toc">
+      <ol>
+        <li><a href="#sec1">Strategia didactică — repere conceptuale</a></li>
+        <li><a href="#sec2">Metodă, procedeu, tehnică, mijloc de învățământ</a></li>
+        <li><a href="#sec3">Clasificarea metodelor de învățământ</a></li>
+        <li><a href="#sec4">Metode expozitive (de comunicare orală)</a></li>
+        <li><a href="#sec5">Metode conversative</a></li>
+        <li><a href="#sec6">Metode de explorare a realității</a></li>
+        <li><a href="#sec7">Metode bazate pe acțiune</a></li>
+        <li><a href="#sec8">Metode moderne interactive de grup</a></li>
+        <li><a href="#sec9">Criterii de alegere a metodelor didactice</a></li>
+        <li><a href="#sec10">Tipuri de strategii didactice</a></li>
+        <li><a href="#sec11">Sinteză recapitulativă</a></li>
+        <li><a href="#sec12">Bibliografie</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="card" id="sec1">
+    <h2>1. Strategia didactică — repere conceptuale</h2>
+    <div class="definitie">
+      <b class="term">Strategia didactică</b> reprezintă un ansamblu de metode, procedee, mijloace de învățământ și forme de organizare a activității, combinate în vederea atingerii obiectivelor educaționale, într-o manieră coerentă și adaptată particularităților elevilor și conținutului.
+    </div>
+    <p>Strategia didactică nu se confundă cu metoda: metoda este o componentă a strategiei. Strategia presupune o decizie de ansamblu, luată de profesor înainte și pe parcursul lecției, privind <b>cum</b> se va realiza învățarea.</p>
+    <h3>Componentele strategiei didactice</h3>
+    <ul>
+      <li><b>Metodele și procedeele didactice</b> — modul concret de lucru;</li>
+      <li><b>Mijloacele de învățământ</b> — resursele materiale folosite (truse experimentale, softuri, fișe, planșe);</li>
+      <li><b>Formele de organizare a activității</b> — frontală, pe grupe, individuală;</li>
+      <li><b>Modul de interacțiune profesor–elev</b> — directiv/nedirectiv, dirijat/independent.</li>
+    </ul>
+    <div class="exemplu">
+      <b>Exemplu la Fizică:</b> pentru lecția „Legea lui Ohm”, strategia poate combina: explicația (metodă), un montaj experimental cu multimetre (mijloc), organizarea pe grupe de 4 elevi (formă de organizare) și îndrumare punctuală din partea profesorului (interacțiune dirijată).
+    </div>
+  </section>
+
+  <section class="card" id="sec2">
+    <h2>2. Metodă, procedeu, tehnică, mijloc de învățământ</h2>
+    <table>
+      <tr><th>Termen</th><th>Definiție</th><th>Exemplu</th></tr>
+      <tr>
+        <td><b>Metodă</b></td>
+        <td>Cale/mod de organizare și desfășurare a activității de predare–învățare, prin care se ating obiectivele propuse.</td>
+        <td>Experimentul, problematizarea, conversația euristică</td>
+      </tr>
+      <tr>
+        <td><b>Procedeu</b></td>
+        <td>Componentă/detaliu tehnic al unei metode; o secvență de execuție.</td>
+        <td>Adresarea unei întrebări-cheie în cadrul conversației euristice</td>
+      </tr>
+      <tr>
+        <td><b>Tehnică didactică</b></td>
+        <td>Modalitate concretă, adesea inovativă, de aplicare a unei metode sau de organizare a interacțiunii.</td>
+        <td>Tehnica ciorchinelui, tehnica turul galeriei</td>
+      </tr>
+      <tr>
+        <td><b>Mijloc de învățământ</b></td>
+        <td>Resursă materială sau tehnică ce sprijină metoda.</td>
+        <td>Trusa de electricitate, simulare PhET, fișă de lucru</td>
+      </tr>
+    </table>
+    <p>Este important de reținut: <b>o metodă poate deveni procedeu în cadrul altei metode</b>, în funcție de rolul pe care îl joacă în lecție. De exemplu, explicația poate fi metodă de sine stătătoare sau poate apărea ca procedeu în cadrul unui experiment demonstrativ.</p>
+  </section>
+
+  <section class="card" id="sec3">
+    <h2>3. Clasificarea metodelor de învățământ</h2>
+    <p>Cea mai utilizată clasificare la examenele de titularizare este cea propusă de <b>Ioan Cerghit</b>, după criteriul sursei generatoare de cunoaștere:</p>
+    <table>
+      <tr><th>Categorie</th><th>Subcategorie</th><th>Metode</th></tr>
+      <tr>
+        <td rowspan="3"><b>A. Metode de comunicare</b></td>
+        <td>Orale expozitive</td>
+        <td>Povestirea, explicația, prelegerea, descrierea</td>
+      </tr>
+      <tr>
+        <td>Orale conversative (interogative)</td>
+        <td>Conversația euristică, dezbaterea, discuția colectivă</td>
+      </tr>
+      <tr>
+        <td>Scrise / la carte</td>
+        <td>Lectura explicativă, lucrul cu manualul</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><b>B. Metode de explorare a realității</b></td>
+        <td>Explorare directă</td>
+        <td>Observația sistematică, experimentul</td>
+      </tr>
+      <tr>
+        <td>Explorare indirectă</td>
+        <td>Demonstrația, modelarea</td>
+      </tr>
+      <tr>
+        <td rowspan="2"><b>C. Metode bazate pe acțiune</b></td>
+        <td>Acțiune reală</td>
+        <td>Exercițiul, lucrările practice, algoritmizarea, studiul de caz, proiectul</td>
+      </tr>
+      <tr>
+        <td>Acțiune simulată</td>
+        <td>Jocul didactic, dramatizarea, simularea (inclusiv simulările virtuale)</td>
+      </tr>
+      <tr>
+        <td><b>D. Metode de raționalizare</b></td>
+        <td>—</td>
+        <td>Algoritmizarea, instruirea programată</td>
+      </tr>
+    </table>
+    <p>O altă clasificare frecventă, complementară, este cea după <b>gradul de activizare a elevului</b>:</p>
+    <ul>
+      <li><b>Metode expozitive / pasive</b> — elevul receptează informația (explicația, prelegerea);</li>
+      <li><b>Metode active / participative</b> — elevul construiește cunoașterea (problematizarea, descoperirea, experimentul, metodele interactive de grup).</li>
+    </ul>
+    <p>Există și clasificarea <b>istorică</b>: metode tradiționale (clasice) vs. metode moderne (activ-participative), utilă mai ales pentru a discuta evoluția didacticii științelor.</p>
+  </section>
+
+  <section class="card" id="sec4">
+    <h2>4. Metode expozitive (de comunicare orală)</h2>
+
+    <h3><span class="tag trad">Tradițională</span>Explicația</h3>
+    <div class="definitie">Metodă prin care profesorul clarifică un fenomen, un concept sau o relație cauzală, punând accent pe argumentare logică și pe relațiile dintre noțiuni.</div>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> eficientă pentru noțiuni abstracte (ex. câmp electric); economie de timp.</div>
+      <div class="box-lim"><b>Limite:</b> elevul rămâne pasiv; risc de memorare mecanică fără înțelegere.</div>
+    </div>
+    <div class="exemplu"><b>Exemplu:</b> explicarea relației dintre forța electromotoare și tensiunea la bornele unui generator, folosind analogii (circuit hidraulic).</div>
+
+    <h3><span class="tag trad">Tradițională</span>Prelegerea</h3>
+    <p>Expunere sistematică, de durată mai mare, a unui volum mare de informație, structurată logic. Se folosește rar la gimnaziu, mai frecvent la liceu, pentru sinteze de capitol.</p>
+
+    <h3><span class="tag trad">Tradițională</span>Povestirea / Descrierea</h3>
+    <p>Folosite mai ales pentru prezentarea istoriei descoperirilor științifice (ex. povestea experimentului lui Oersted) sau pentru descrierea unui fenomen observabil (ex. descrierea unui curcubeu).</p>
+
+    <h3><span class="tag trad">Tradițională</span>Lectura explicativă / Lucrul cu manualul</h3>
+    <p>Dezvoltă autonomia elevului în raport cu textul științific; se recomandă însoțită de sarcini de lucru (fișe, întrebări de sprijin) pentru a evita receptarea pasivă.</p>
+  </section>
+
+  <section class="card" id="sec5">
+    <h2>5. Metode conversative</h2>
+
+    <h3><span class="tag activ">Activă</span>Conversația euristică</h3>
+    <div class="definitie">Succesiune de întrebări și răspunsuri prin care elevul este condus, prin efort propriu de gândire, să descopere adevărul, pornind de la cunoștințele deja deținute (metoda „socratică”).</div>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> dezvoltă gândirea, feedback imediat, activizează elevul.</div>
+      <div class="box-lim"><b>Limite:</b> necesită timp; dificil de aplicat la clase numeroase sau la conținuturi foarte noi.</div>
+    </div>
+    <div class="exemplu"><b>Exemplu:</b> deducerea legii lui Arhimede pornind de la întrebări succesive despre observațiile din experimentul cu corpuri scufundate.</div>
+
+    <h3><span class="tag activ">Activă</span>Dezbaterea / Discuția colectivă</h3>
+    <p>Utilă pentru teme cu impact social-științific (ex. energie nucleară, surse regenerabile), dezvoltă argumentarea și gândirea critică.</p>
+  </section>
+
+  <section class="card" id="sec6">
+    <h2>6. Metode de explorare a realității</h2>
+
+    <h3><span class="tag activ">Activă</span>Observația sistematică</h3>
+    <p>Urmărirea intenționată, dirijată, a unui fenomen, cu scopul identificării unor regularități. La fizică: observarea variației lungimii unui resort la atârnarea unor mase diferite.</p>
+
+    <h3><span class="tag activ">Activă</span>Experimentul</h3>
+    <div class="definitie">Provocarea intenționată a unui fenomen, în condiții controlate, cu scopul verificării unei ipoteze sau al descoperirii unei legi.</div>
+    <p>Se disting:</p>
+    <ul>
+      <li><b>Experimentul demonstrativ</b> — realizat de profesor, elevii observă;</li>
+      <li><b>Experimentul de laborator (individual/pe grupe)</b> — realizat de elevi, cu fișă de lucru;</li>
+      <li>După scop: <b>experiment de verificare</b> (confirmă o lege deja predată) vs. <b>experiment de descoperire</b> (elevii formulează singuri legea).</li>
+    </ul>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> metodă specifică fizicii ca știință experimentală; formează competențe de investigație.</div>
+      <div class="box-lim"><b>Limite:</b> necesită dotare materială și timp de pregătire; riscuri de siguranță (electricitate, căldură).</div>
+    </div>
+    <div class="exemplu"><b>Exemplu:</b> determinarea experimentală a rezistenței electrice a unui conductor, cu voltmetru și ampermetru, urmată de trasarea caracteristicii I–U.</div>
+
+    <h3><span class="tag activ">Activă</span>Demonstrația</h3>
+    <p>Prezentarea unui fenomen, obiect sau proces prin mijloace vizuale (aparate, planșe, machete, simulări video), fără implicarea directă a elevului în manipulare.</p>
+
+    <h3><span class="tag activ">Activă</span>Modelarea</h3>
+    <p>Studierea unui fenomen greu accesibil direct prin intermediul unui model analogic sau simbolic. La fizică: modelul planetar al atomului, modelul de gaz ideal, modelarea câmpului electric prin linii de câmp.</p>
+  </section>
+
+  <section class="card" id="sec7">
+    <h2>7. Metode bazate pe acțiune</h2>
+
+    <h3><span class="tag activ">Activă</span>Exercițiul</h3>
+    <p>Executarea repetată, conștientă, a unei operații (rezolvare de probleme, calcul, aplicarea unei formule) pentru formarea de priceperi și deprinderi. Fundamentală la fizică pentru consolidarea rezolvării de probleme.</p>
+
+    <h3><span class="tag activ">Activă</span>Problematizarea</h3>
+    <div class="definitie">Crearea unei situații-problemă — un conflict cognitiv între cunoștințele anterioare ale elevului și o observație/date noi — care declanșează căutarea activă a soluției.</div>
+    <div class="exemplu"><b>Exemplu:</b> „De ce un balon umflat cu heliu urcă, dar unul umflat cu aer nu?” — situație-problemă pentru introducerea legii lui Arhimede la gaze.</div>
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje:</b> stimulează gândirea divergentă și motivația intrinsecă.</div>
+      <div class="box-lim"><b>Limite:</b> necesită o proiectare atentă a situației-problemă; nu toate conținuturile se pretează.</div>
+    </div>
+
+    <h3><span class="tag activ">Activă</span>Învățarea prin descoperire</h3>
+    <p>Elevul ajunge la cunoștințe noi prin investigație proprie, dirijată de profesor prin sarcini de lucru, nu prin comunicare directă a informației.</p>
+
+    <h3><span class="tag activ">Activă</span>Algoritmizarea</h3>
+    <p>Rezolvarea unor sarcini după o succesiune fixă, strict determinată de pași (algoritm). La fizică: algoritmul de rezolvare a unei probleme de circuite (identificare date → schemă → legile lui Kirchhoff → rezolvare sistem → verificare unități).</p>
+
+    <h3><span class="tag activ">Activă</span>Studiul de caz</h3>
+    <p>Analiza aprofundată a unei situații reale, concrete, cu scopul formulării de concluzii generale. Exemplu: analiza unui accident cauzat de scurtcircuit, din perspectiva legilor electricității.</p>
+
+    <h3><span class="tag activ">Activă</span>Proiectul</h3>
+    <p>Activitate de investigație pe termen mai lung, individuală sau de grup, finalizată cu un produs concret (referat, machetă funcțională, prezentare). Exemplu: construirea unui motor electric simplu.</p>
+
+    <h3><span class="tag activ">Activă</span>Jocul didactic / Simularea</h3>
+    <p>La fizică modernă, includem aici și <b>simulările virtuale interactive</b> (ex. PhET Colorado) — considerate metode bazate pe acțiune simulată, deosebit de eficiente când experimentul real nu este posibil (fenomene la scară atomică, fenomene periculoase).</p>
+  </section>
+
+  <section class="card" id="sec8">
+    <h2>8. Metode moderne interactive de grup</h2>
+    <p>Aceste tehnici sunt frecvent cerute distinct la examen, ca parte a „metodelor active de predare-învățare centrate pe elev”.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Brainstorming-ul</h3>
+    <p>Metodă de stimulare a creativității prin enunțarea liberă, fără cenzură critică, a cât mai multor idei legate de o problemă. Regulă esențială: <b>separarea generării ideilor de evaluarea lor</b>.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Ciorchinele (clustering)</h3>
+    <p>Tehnică grafică de organizare a informației în jurul unui concept central, prin ramificații de idei conexe. Utilă în etapa de evocare/reactualizare a cunoștințelor.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Metoda cubului</h3>
+    <p>Explorarea unei teme din șase perspective (descrie, compară, asociază, analizează, aplică, argumentează pro/contra), corespunzătoare celor 6 fețe ale unui cub.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Mozaicul (jigsaw)</h3>
+    <p>Metodă de învățare prin cooperare: clasa e împărțită în grupe „de bază”; fiecare membru devine „expert” pe o subtemă, se reunește cu experții din celelalte grupe pe aceeași subtemă, apoi revine și predă colegilor din grupa de bază.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Turul galeriei</h3>
+    <p>Grupele elaborează un produs (poster, schemă) expus apoi „în galerie”; grupele circulă și evaluează/comentează produsele celorlalte grupe.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Diagrama Venn</h3>
+    <p>Comparație vizuală între două concepte, evidențiind asemănările (intersecție) și deosebirile. Ex.: comparație câmp electric — câmp gravitațional.</p>
+
+    <h3><span class="tag interactiv">Interactivă</span>Știu / Vreau să știu / Am învățat (S.V.Î.)</h3>
+    <p>Grilă folosită pentru conștientizarea cunoștințelor anterioare, formularea de întrebări proprii și verificarea achizițiilor la finalul lecției.</p>
+
+    <div class="avantaje-limite">
+      <div class="box-av"><b>Avantaje generale:</b> dezvoltă competențe sociale, gândire critică, motivație, autonomie.</div>
+      <div class="box-lim"><b>Limite generale:</b> consumatoare de timp; necesită experiență în gestionarea clasei; risc de superficialitate dacă nu sunt bine proiectate.</div>
+    </div>
+  </section>
+
+  <section class="card" id="sec9">
+    <h2>9. Criterii de alegere a metodelor didactice</h2>
+    <p>Alegerea metodei nu este întâmplătoare — profesorul o fundamentează pe:</p>
+    <ul>
+      <li><b>Obiectivele/competențele urmărite</b> — o competență de investigație cere experiment, nu prelegere;</li>
+      <li><b>Natura și specificul conținutului</b> — noțiuni abstracte (câmp, energie) versus fenomene observabile direct;</li>
+      <li><b>Particularitățile de vârstă și individuale ale elevilor</b> — la gimnaziu se preferă metode concret-intuitive, la liceu pot fi introduse metode cu grad mai mare de abstractizare;</li>
+      <li><b>Resursele materiale și de timp disponibile</b> — existența unui laborator dotat;</li>
+      <li><b>Stilul și experiența profesorului</b>;</li>
+      <li><b>Tipul de lecție</b> (predare de cunoștințe noi, recapitulare, evaluare, formare de priceperi/deprinderi).</li>
+    </ul>
+    <p>Principiu metodologic esențial: <b>nu există o metodă „universal bună”</b>; eficiența unei metode depinde de adecvarea ei la context — este vorba despre <i>combinarea</i> optimă a metodelor într-o strategie, nu despre folosirea exclusivă a uneia singure.</p>
+  </section>
+
+  <section class="card" id="sec10">
+    <h2>10. Tipuri de strategii didactice</h2>
+    <table>
+      <tr><th>Tip de strategie</th><th>Caracteristică</th><th>Exemplu la Fizică</th></tr>
+      <tr>
+        <td><b>Algoritmică</b></td>
+        <td>Bazată pe pași ficși, riguroși, repetitivi; potrivită pentru formarea de deprinderi.</td>
+        <td>Rezolvarea sistematică a problemelor de circuite serie/paralel</td>
+      </tr>
+      <tr>
+        <td><b>Euristică (de descoperire)</b></td>
+        <td>Elevul explorează, formulează ipoteze, testează; profesorul dirijează prin întrebări.</td>
+        <td>Descoperirea experimentală a legii lui Ohm</td>
+      </tr>
+      <tr>
+        <td><b>Mixtă</b></td>
+        <td>Combină elemente algoritmice și euristice, adaptat pe parcursul lecției.</td>
+        <td>Lecție cu moment de conversație euristică urmat de exerciții algoritmizate</td>
+      </tr>
+    </table>
+    <p>După gradul de dirijare a învățării, se mai disting: <b>strategii prescriptive/directive</b> (control ridicat al profesorului) și <b>strategii nedirective/permisive</b> (autonomie ridicată a elevului, ex. proiect, investigație independentă).</p>
+  </section>
+
+  <section class="card" id="sec11">
+    <h2>11. Sinteză recapitulativă</h2>
+    <div class="recap-grid">
+      <div class="recap-item"><b>Strategie didactică</b>Metode + mijloace + forme de organizare, combinate coerent</div>
+      <div class="recap-item"><b>Cerghit</b>Comunicare / Explorare / Acțiune / Raționalizare</div>
+      <div class="recap-item"><b>Metode expozitive</b>Explicație, prelegere, povestire, descriere</div>
+      <div class="recap-item"><b>Metode conversative</b>Conversație euristică, dezbatere</div>
+      <div class="recap-item"><b>Explorare directă</b>Observație, experiment</div>
+      <div class="recap-item"><b>Explorare indirectă</b>Demonstrație, modelare</div>
+      <div class="recap-item"><b>Acțiune reală</b>Exercițiu, problematizare, algoritmizare, proiect, studiu de caz</div>
+      <div class="recap-item"><b>Acțiune simulată</b>Joc didactic, simulare, dramatizare</div>
+      <div class="recap-item"><b>Interactive de grup</b>Mozaic, cub, ciorchine, turul galeriei, brainstorming</div>
+      <div class="recap-item"><b>Tipuri de strategii</b>Algoritmică / Euristică / Mixtă</div>
+    </div>
+    <p style="margin-top:16px;"><b>Idee-cheie pentru examen:</b> la fizică, metodele specifice cel mai des evaluate sunt <b>experimentul</b>, <b>problematizarea</b> și <b>modelarea</b> — pentru că reflectă natura investigativă a disciplinei. Orice răspuns de examen câștigă valoare dacă leagă metoda de un exemplu concret de conținut de fizică, nu doar de o definiție abstractă.</p>
+  </section>
+
+  <section class="card bibliografie" id="sec12">
+    <h2>12. Bibliografie orientativă</h2>
+    <ul>
+      <li>Cerghit, I., <i>Metode de învățământ</i>, Editura Polirom, Iași</li>
+      <li>Cerghit, I., <i>Sisteme de instruire alternative și complementare. Structuri, stiluri și strategii</i>, Editura Polirom</li>
+      <li>Cucoș, C., <i>Pedagogie</i>, Editura Polirom, Iași</li>
+      <li>Ionescu, M., Radu, I. (coord.), <i>Didactica modernă</i>, Editura Dacia, Cluj-Napoca</li>
+      <li>Programa de Metodică — Titularizare, disciplina Fizică, ediția în vigoare</li>
+    </ul>
+  </section>
+
+</main>
+
+<nav class="pager">
+  <a href="../index.html">&laquo; Înapoi la Didactică</a>
+  <a href="../index.html">Următoarea lecție &raquo;</a>
+</nav>
+
+<footer class="site">
+  Titularizare-Fizica &middot; Prof. Dănuț Andronie &middot; Școala Gimnazială „Gala Galaction", Mangalia
+</footer>
+
+</body>
+</html>
