@@ -1,1 +1,2452 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>13.7 – Relația dintre masă și energie</title>
+
+  <!--
+    Titularizare Fizică 2027
+    Bunget – Compendiu de Fizică
+    I. Mecanică și acustică
+    13. Elemente de mecanică relativistă
+    §13.7 Relația dintre masă și energie
+
+    Sursa principală:
+    Bunget și colaboratorii,
+    Compendiu de Fizică,
+    §13.7, începând cu p. 279.
+
+    Programa disponibilă pentru Titularizare Fizică 2026:
+    pct. 15:
+    „Elemente de dinamică relativistă
+    (relațiile: masa-viteza, forța-accelerație,
+    masa-energie, energie-impuls).”
+
+    Pentru Titularizare 2027 programa oficială
+    trebuie reverificată după publicare.
+  -->
+
+  <link
+    rel="stylesheet"
+    href="../../../../assets/css/titularizare-theme.css"
+  >
+
+  <script src="../../../../assets/js/mathjax-config.js"></script>
+
+  <script
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+  ></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    /* =========================================================
+       BARĂ SUPERIOARĂ
+       ========================================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      padding: 0.75rem 1rem;
+
+      background:
+        color-mix(in srgb, var(--card) 90%, transparent);
+
+      border-bottom: 1px solid var(--border);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .theme-toggle {
+      flex: 0 0 auto;
+
+      padding: 0.55rem 0.95rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: var(--card);
+      color: var(--text);
+
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       STRUCTURĂ
+       ========================================================= */
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+
+      display: none;
+      align-items: center;
+
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .page > .card {
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent);
+
+      font-size: 0.8em;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08em;
+      line-height: 1.65;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    li {
+      margin: 0.5rem 0;
+      line-height: 1.55;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    /* =========================================================
+       GRILE
+       ========================================================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+
+      margin: 1rem 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 1rem;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 70%, transparent);
+    }
+
+    .mini strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--accent-2);
+    }
+
+    /* =========================================================
+       CASETE
+       ========================================================= */
+
+    .definition {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid var(--accent);
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 78%, transparent);
+    }
+
+    .definition strong {
+      color: var(--accent);
+    }
+
+    .modern-note {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid #7c3aed;
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, #7c3aed 8%, var(--formula-bg));
+    }
+
+    .modern-note strong {
+      color: #7c3aed;
+    }
+
+    .big-result {
+      margin: 1rem 0;
+      padding: 1.1rem;
+
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 72%, transparent);
+    }
+
+    .big-result h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      margin: 0.8rem 0;
+    }
+
+    .step-number {
+      width: 2.2rem;
+      height: 2.2rem;
+
+      flex: 0 0 2.2rem;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      color: white;
+
+      font-weight: 900;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .check {
+      color: #0f766e;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       SVG
+       ========================================================= */
+
+    .svgbox {
+      margin: 1rem 0;
+      padding: 0.9rem;
+
+      overflow-x: auto;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: var(--formula-bg);
+    }
+
+    .svgbox > svg {
+      display: block;
+
+      width: 100%;
+      min-width: 340px;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0.5rem 0 0;
+
+      color: var(--muted);
+
+      font-size: 0.92em;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TABELE
+       ========================================================= */
+
+    .table-wrap {
+      width: 100%;
+
+      overflow-x: auto;
+
+      margin: 1rem 0;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 720px;
+
+      border-collapse: collapse;
+
+      background: var(--card);
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 0.75rem;
+
+      border: 1px solid var(--border);
+
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      color: var(--accent);
+      background: var(--formula-bg);
+    }
+
+    /* =========================================================
+       NAVIGARE FINALĂ
+       ========================================================= */
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+
+      padding: 1rem;
+
+      border-radius: 16px;
+
+      color: white;
+      background: var(--accent);
+
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    /* =========================================================
+       PAGER
+       ========================================================= */
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      z-index: 40;
+
+      transform: translateX(-50%);
+
+      width: min(1100px, calc(100% - 1rem));
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
+
+      padding: 0.45rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background:
+        color-mix(in srgb, var(--card) 92%, transparent);
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .pager button,
+    .pager a {
+      padding: 0.65rem 0.9rem;
+
+      border: 0;
+      border-radius: 999px;
+
+      font-size: 0.92em;
+      font-weight: 900;
+
+      text-decoration: none;
+      text-align: center;
+
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pager button {
+      color: white;
+      background: var(--accent);
+    }
+
+    .pager button.secondary {
+      color: var(--text);
+      background: var(--formula-bg);
+
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      color: white;
+      background: var(--accent-2);
+    }
+
+    .page-status {
+      min-width: 5.2rem;
+
+      color: var(--muted);
+
+      text-align: center;
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 760px) {
+      .grid,
+      .grid.three,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+
+        width: min(700px, calc(100% - 1rem));
+
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       TOPBAR
+       ========================================================= -->
+
+  <div class="topbar">
+
+    <strong>
+      13.7 • Elemente de mecanică relativistă •
+      Relația dintre masă și energie
+    </strong>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      onclick="toggleTheme()"
+      aria-label="Schimbă tema"
+    >
+      Zi / Noapte
+    </button>
+
+  </div>
+
+
+  <main>
+
+    <!-- =======================================================
+         PAGINA 1
+         ======================================================= -->
+
+    <section class="page active">
+      <article class="card">
+
+        <span class="eyebrow">
+          13.7 • Mecanica relativistă
+        </span>
+
+        <h1>Relația dintre masă și energie</h1>
+
+        <p class="lead">
+          Una dintre consecințele fundamentale ale dinamicii relativiste
+          este că masa și energia nu mai pot fi tratate ca două
+          caracteristici independente ale unui sistem fizic.
+          Ele sunt legate printr-o relație universală.
+        </p>
+
+        <div class="big-result">
+
+          \[
+          \boxed{
+            E=mc^2
+          }
+          \]
+
+        </div>
+
+        <div class="grid three">
+
+          <div class="mini">
+            <strong>Energia de repaus</strong>
+            \[
+              E_0=m_0c^2
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Energia totală</strong>
+            \[
+              E=\gamma m_0c^2
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Energie – impuls</strong>
+            \[
+              E^2=p^2c^2+m_0^2c^4
+            \]
+          </div>
+
+        </div>
+
+        <div class="exam">
+          <strong>Pentru Titularizare:</strong>
+          trebuie să distingi clar între energia de repaus,
+          energia cinetică și energia totală.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 2
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Punct de plecare
+        </span>
+
+        <h2>Reamintim dinamica relativistă</h2>
+
+        <p>
+          Din §13.6:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \vec p
+            =
+            \gamma m_0\vec v
+          }
+          \]
+        </div>
+
+        <p>
+          unde:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac{1}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}.
+          \]
+        </div>
+
+        <p>
+          Principiul fundamental al dinamicii este:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \vec F
+            =
+            \frac{d\vec p}{dt}
+          }.
+          \]
+        </div>
+
+        <p>
+          Lucrul mecanic elementar efectuat de forță este:
+        </p>
+
+        <div class="formula">
+          \[
+            dL
+            =
+            \vec F\cdot d\vec r.
+          \]
+        </div>
+
+        <div class="definition">
+          Pentru variația energiei cinetice:
+          \[
+            dE_c=dL.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 3
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Lucrul mecanic
+        </span>
+
+        <h2>Legătura dintre lucru și impuls</h2>
+
+        <p>
+          Folosind:
+        </p>
+
+        <div class="formula">
+          \[
+            \vec F
+            =
+            \frac{d\vec p}{dt}
+          \]
+        </div>
+
+        <p>
+          și:
+        </p>
+
+        <div class="formula">
+          \[
+            d\vec r
+            =
+            \vec v\,dt,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            dE_c
+            &=
+            \vec F\cdot d\vec r\\[4pt]
+            &=
+            \frac{d\vec p}{dt}
+            \cdot
+            \vec v\,dt.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            dE_c
+            =
+            \vec v\cdot d\vec p
+          }
+          \]
+        </div>
+
+        <div class="exam">
+          Această relație este punctul de legătură dintre dinamica
+          relativistă și expresia energiei.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 4
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Mișcare rectilinie
+        </span>
+
+        <h2>Scriem impulsul sub formă scalară</h2>
+
+        <p>
+          Pentru mișcare coliniară:
+        </p>
+
+        <div class="formula">
+          \[
+            p
+            =
+            \gamma m_0v.
+          \]
+        </div>
+
+        <p>
+          Din §13.6 am obținut:
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{d}{dv}
+            (\gamma v)
+            =
+            \gamma^3.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          \[
+            dp
+            =
+            m_0\gamma^3\,dv.
+          \]
+        </div>
+
+        <p>
+          În relația energetică:
+        </p>
+
+        <div class="formula">
+          \[
+            dE_c
+            =
+            v\,dp,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            dE_c
+            =
+            m_0\gamma^3v\,dv
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 5
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Integrare
+        </span>
+
+        <h2>Energia cinetică relativistă</h2>
+
+        <p>
+          Energia cinetică se obține integrând de la starea de repaus
+          \(v=0\) până la viteza \(v\):
+        </p>
+
+        <div class="formula">
+          \[
+            E_c
+            =
+            \int_0^v
+            m_0
+            \frac{u\,du}
+            {\left(
+              1-\dfrac{u^2}{c^2}
+            \right)^{3/2}}.
+          \]
+        </div>
+
+        <p>
+          Integrala conduce la:
+        </p>
+
+        <div class="big-result">
+
+          <h3>
+            Energia cinetică relativistă
+          </h3>
+
+          \[
+          \boxed{
+            E_c
+            =
+            m_0c^2(\gamma-1)
+          }
+          \]
+
+        </div>
+
+        <p>
+          Echivalent:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            E_c
+            =
+            \frac{m_0c^2}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+            -
+            m_0c^2
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 6
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Energia de repaus
+        </span>
+
+        <h2>Un corp posedă energie chiar și când \(v=0\)</h2>
+
+        <p>
+          Expresia energiei cinetice:
+        </p>
+
+        <div class="formula">
+          \[
+            E_c
+            =
+            \gamma m_0c^2
+            -
+            m_0c^2
+          \]
+        </div>
+
+        <p>
+          sugerează existența termenului:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E_0=m_0c^2
+          }
+          \]
+        </div>
+
+        <div class="definition">
+          <strong>Energia de repaus \(E_0\):</strong>
+          energia asociată unui corp cu masa de repaus \(m_0\),
+          măsurată în sistemul în care corpul se află în repaus.
+        </div>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>\(m_0\)</strong>
+            masă de repaus<br>
+            unitate SI: kg
+          </div>
+
+          <div class="mini">
+            <strong>\(E_0\)</strong>
+            energie de repaus<br>
+            unitate SI: J
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 7
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Energia totală
+        </span>
+
+        <h2>Energia de mișcare = repaus + cinetică</h2>
+
+        <p>
+          Definim energia totală relativistă:
+        </p>
+
+        <div class="formula">
+          \[
+            E
+            =
+            E_0+E_c.
+          \]
+        </div>
+
+        <p>
+          Înlocuind:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            E
+            &=
+            m_0c^2
+            +
+            (\gamma-1)m_0c^2\\[4pt]
+            &=
+            \gamma m_0c^2.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E
+            =
+            \gamma m_0c^2
+            =
+            \frac{m_0c^2}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Nu confunda:</strong>
+          \[
+            E_c\neq \gamma m_0c^2.
+          \]
+          Aceasta este energia totală, nu energia cinetică.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 8
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Relația Einstein
+        </span>
+
+        <h2>Masă și energie</h2>
+
+        <p>
+          În convenția utilizată de Bunget în §13.6:
+        </p>
+
+        <div class="formula">
+          \[
+            m
+            =
+            \gamma m_0.
+          \]
+        </div>
+
+        <p>
+          Energia totală devine:
+        </p>
+
+        <div class="big-result">
+
+          <h3>
+            Relația masă – energie
+          </h3>
+
+          \[
+          \boxed{
+            E=mc^2
+          }
+          \]
+
+        </div>
+
+        <div class="definition">
+          Energia asociată unui corp este proporțională cu masa sa,
+          factorul de proporționalitate fiind pătratul vitezei luminii
+          în vid.
+        </div>
+
+        <div class="modern-note">
+          <strong>Terminologie modernă:</strong>
+          este preferabil să se scrie
+          \[
+            E=\gamma m_0c^2
+          \]
+          și să se păstreze masa \(m_0\) invariantă.
+          Forma \(E=mc^2\) corespunde notației istorice cu
+          „masa relativistă” \(m=\gamma m_0\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 9
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Variații
+        </span>
+
+        <h2>Forma \(\Delta E=c^2\Delta m\)</h2>
+
+        <p>
+          Din:
+        </p>
+
+        <div class="formula">
+          \[
+            E=mc^2
+          \]
+        </div>
+
+        <p>
+          pentru două stări ale aceluiași sistem:
+        </p>
+
+        <div class="formula">
+          \[
+            E_1=m_1c^2,
+            \qquad
+            E_2=m_2c^2.
+          \]
+        </div>
+
+        <p>
+          Scăzând:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \Delta E
+            =
+            c^2\Delta m
+          }
+          \]
+        </div>
+
+        <div class="definition">
+          O variație a energiei unui sistem corespunde unei variații
+          echivalente de masă în convenția masă–energie utilizată aici.
+        </div>
+
+        <div class="exam">
+          Bunget leagă această relație de legile de conservare:
+          într-un sistem izolat, conservarea energiei implică
+          conservarea masei totale asociate sistemului.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 10
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Verificare dimensională
+        </span>
+
+        <h2>De ce \(mc^2\) are unitate de energie?</h2>
+
+        <div class="formula">
+          \[
+          [mc^2]
+          =
+          \mathrm{kg}
+          \left(
+            \frac{\mathrm m}{\mathrm s}
+          \right)^2.
+          \]
+        </div>
+
+        <p>
+          Deci:
+        </p>
+
+        <div class="formula">
+          \[
+          [mc^2]
+          =
+          \mathrm{
+            kg\,
+            m^2\,
+            s^{-2}
+          }.
+          \]
+        </div>
+
+        <p>
+          Dar:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \mathrm{
+              kg\,
+              m^2\,
+              s^{-2}
+            }
+            =
+            \mathrm J
+          }.
+          \]
+        </div>
+
+        <p class="check">
+          Relația \(E=mc^2\) este dimensional corectă.
+        </p>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 11
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemplu numeric
+        </span>
+
+        <h2>Energia echivalentă a unui gram de masă</h2>
+
+        <p>
+          Considerăm:
+        </p>
+
+        <div class="formula">
+          \[
+            m
+            =
+            1\,\mathrm g
+            =
+            10^{-3}\,\mathrm{kg}.
+          \]
+        </div>
+
+        <p>
+          Folosim:
+        </p>
+
+        <div class="formula">
+          \[
+            c
+            \approx
+            3\cdot10^8
+            \,\mathrm{m/s}.
+          \]
+        </div>
+
+        <p>
+          Energia echivalentă:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            E
+            &=
+            mc^2\\[4pt]
+            &=
+            10^{-3}
+            (3\cdot10^8)^2.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E
+            =
+            9\cdot10^{13}
+            \,\mathrm J
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          Factorul \(c^2\) este foarte mare; de aceea chiar variații mici
+          de masă pot corespunde unor energii importante.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 12
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Limita clasică
+        </span>
+
+        <h2>Energia cinetică relativistă trebuie să dea Newton</h2>
+
+        <p>
+          Pentru:
+        </p>
+
+        <div class="formula">
+          \[
+            \beta=\frac vc\ll1,
+          \]
+        </div>
+
+        <p>
+          dezvoltarea factorului Lorentz este:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac1{\sqrt{1-\beta^2}}
+            \approx
+            1+\frac12\beta^2.
+          \]
+        </div>
+
+        <p>
+          Energia cinetică:
+        </p>
+
+        <div class="formula">
+          \[
+            E_c
+            =
+            (\gamma-1)m_0c^2.
+          \]
+        </div>
+
+        <p>
+          Devine:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            E_c
+            &\approx
+            \frac12
+            \frac{v^2}{c^2}
+            m_0c^2\\[4pt]
+            &=
+            \frac12m_0v^2.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E_c
+            \approx
+            \frac12m_0v^2
+          }
+          \qquad
+          (v\ll c)
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 13
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Comparație
+        </span>
+
+        <h2>Energia cinetică: clasică și relativistă</h2>
+
+        <div class="table-wrap">
+
+          <table class="compare">
+
+            <thead>
+              <tr>
+                <th>Aspect</th>
+                <th>Clasic</th>
+                <th>Relativist</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Energia cinetică</td>
+
+                <td>
+                  \[
+                    E_c
+                    =
+                    \frac12m_0v^2
+                  \]
+                </td>
+
+                <td>
+                  \[
+                    E_c
+                    =
+                    (\gamma-1)m_0c^2
+                  \]
+                </td>
+              </tr>
+
+              <tr>
+                <td>La \(v\ll c\)</td>
+
+                <td colspan="2">
+                  Formulele coincid în prima aproximație.
+                </td>
+              </tr>
+
+              <tr>
+                <td>La \(v\to c\)</td>
+
+                <td>
+                  Rămâne formal finită.
+                </td>
+
+                <td>
+                  \[
+                    E_c\to\infty
+                  \]
+                  pentru \(m_0>0\).
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="warning">
+          Formula
+          \[
+            \frac12m_0v^2
+          \]
+          nu trebuie utilizată pentru particule cu viteze
+          apropiate de \(c\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 14
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Relația energie – impuls
+        </span>
+
+        <h2>Eliminăm viteza</h2>
+
+        <p>
+          Din dinamica relativistă:
+        </p>
+
+        <div class="formula">
+          \[
+            p
+            =
+            \gamma m_0v.
+          \]
+        </div>
+
+        <p>
+          Pentru energie:
+        </p>
+
+        <div class="formula">
+          \[
+            E
+            =
+            \gamma m_0c^2.
+          \]
+        </div>
+
+        <p>
+          Ridicăm la pătrat:
+        </p>
+
+        <div class="formula">
+          \[
+            E^2
+            =
+            \gamma^2m_0^2c^4,
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+            p^2c^2
+            =
+            \gamma^2m_0^2v^2c^2.
+          \]
+        </div>
+
+        <p>
+          Scădem cele două relații.
+        </p>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 15
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Deducere
+        </span>
+
+        <h2>Calculul diferenței \(E^2-p^2c^2\)</h2>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            E^2-p^2c^2
+            &=
+            \gamma^2m_0^2c^4
+            -
+            \gamma^2m_0^2v^2c^2\\[4pt]
+            &=
+            \gamma^2m_0^2c^4
+            \left(
+              1-\frac{v^2}{c^2}
+            \right).
+          \end{aligned}
+          \]
+        </div>
+
+        <p>
+          Dar:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma^2
+            =
+            \frac1{
+              1-\dfrac{v^2}{c^2}
+            }.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="formula">
+          \[
+            E^2-p^2c^2
+            =
+            m_0^2c^4.
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E^2
+            =
+            p^2c^2
+            +
+            m_0^2c^4
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          Aceasta este relația
+          <strong>energie–impuls</strong>
+          cerută explicit de programa de Titularizare.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 16
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Forma cu energia de repaus
+        </span>
+
+        <h2>O scriere foarte utilă</h2>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          \[
+            E_0=m_0c^2,
+          \]
+        </div>
+
+        <p>
+          relația energie–impuls devine:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E^2
+            =
+            p^2c^2
+            +
+            E_0^2
+          }.
+          \]
+        </div>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Corp în repaus</strong>
+
+            \[
+              p=0
+            \]
+
+            deci:
+
+            \[
+              E=E_0=m_0c^2.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>Particulă fără masă de repaus</strong>
+
+            \[
+              m_0=0
+            \]
+
+            deci:
+
+            \[
+              E=pc.
+            \]
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 17
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Fotonul
+        </span>
+
+        <h2>Energia și impulsul unei particule cu \(m_0=0\)</h2>
+
+        <p>
+          Pentru foton:
+        </p>
+
+        <div class="formula">
+          \[
+            m_0=0.
+          \]
+        </div>
+
+        <p>
+          Relația energie–impuls:
+        </p>
+
+        <div class="formula">
+          \[
+            E^2
+            =
+            p^2c^2
+        \]
+        </div>
+
+        <p>
+          conduce la:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E=pc
+          }.
+          \]
+        </div>
+
+        <p>
+          Cum pentru foton:
+        </p>
+
+        <div class="formula">
+          \[
+            E=h\nu,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            p
+            =
+            \frac{E}{c}
+            =
+            \frac{h\nu}{c}
+            =
+            \frac h\lambda
+          }.
+          \]
+        </div>
+
+        <div class="warning">
+          Fotonul are impuls nenul chiar dacă masa sa de repaus este nulă.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 18
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemple de unități
+        </span>
+
+        <h2>Joule, electronvolt și MeV</h2>
+
+        <div class="definition">
+          În SI:
+          \[
+            [E]=\mathrm J.
+          \]
+        </div>
+
+        <p>
+          În fizica atomică și nucleară se utilizează frecvent:
+        </p>
+
+        <div class="formula">
+          \[
+            1\,\mathrm{eV}
+            =
+            1{,}602\cdot10^{-19}\,\mathrm J.
+          \]
+        </div>
+
+        <p>
+          Multipli:
+        </p>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>keV</strong>
+            \[
+              1\,\mathrm{keV}
+              =
+              10^3\,\mathrm{eV}
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>MeV</strong>
+            \[
+              1\,\mathrm{MeV}
+              =
+              10^6\,\mathrm{eV}
+            \]
+          </div>
+
+        </div>
+
+        <div class="exam">
+          În problemele relativiste și nucleare verifică întotdeauna
+          dacă masa este dată în kg, în \(u\) sau în unități
+          energetice de tip \(\mathrm{MeV}/c^2\).
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 19
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemplu relativist
+        </span>
+
+        <h2>Energia unei particule la \(v=0{,}8c\)</h2>
+
+        <p>
+          Pentru:
+        </p>
+
+        <div class="formula">
+          \[
+            v=0{,}8c,
+          \]
+        </div>
+
+        <p>
+          factorul Lorentz este:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma
+            =
+            \frac1{\sqrt{1-0{,}8^2}}
+            =
+            \frac1{0{,}6}
+            =
+            \frac53.
+          \]
+        </div>
+
+        <p>
+          Energia totală:
+        </p>
+
+        <div class="formula">
+          \[
+            E
+            =
+            \frac53m_0c^2.
+          \]
+        </div>
+
+        <p>
+          Energia cinetică:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            E_c
+            &=
+            E-E_0\\[4pt]
+            &=
+            \left(
+              \frac53-1
+            \right)m_0c^2.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            E_c
+            =
+            \frac23m_0c^2
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 20
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Capcane de examen
+        </span>
+
+        <h2>Erori frecvente</h2>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>1. \(E=mc^2\) = energie cinetică</strong>
+            Fals. În convenția utilizată, reprezintă energia totală
+            asociată masei relativiste \(m\).
+          </div>
+
+          <div class="mini">
+            <strong>2. Energia de repaus este zero</strong>
+            Pentru \(m_0>0\):
+            \[
+              E_0=m_0c^2\neq0.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>3. \(E_c=\gamma m_0c^2\)</strong>
+            Fals:
+            \[
+              E_c=(\gamma-1)m_0c^2.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>4. Relația energie–impuls</strong>
+            Nu este:
+            \[
+              E=pc
+            \]
+            pentru orice particulă.
+          </div>
+
+          <div class="mini">
+            <strong>5. Fotonul</strong>
+            Pentru foton:
+            \[
+              m_0=0,
+              \qquad
+              E=pc.
+            \]
+          </div>
+
+          <div class="mini">
+            <strong>6. Energia clasică</strong>
+            \[
+              \frac12m_0v^2
+            \]
+            este doar limita \(v\ll c\).
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 21
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Antrenament
+        </span>
+
+        <h2>Verifică dacă stăpânești §13.7</h2>
+
+        <ol>
+
+          <li>
+            Definește energia de repaus și scrie unitatea sa SI.
+          </li>
+
+          <li>
+            Scrie expresia energiei cinetice relativiste.
+          </li>
+
+          <li>
+            Arată că pentru \(v\ll c\):
+            \[
+              E_c
+              \approx
+              \frac12m_0v^2.
+            \]
+          </li>
+
+          <li>
+            Scrie relația dintre energia totală și masa de repaus.
+          </li>
+
+          <li>
+            Deduce relația:
+            \[
+              E^2
+              =
+              p^2c^2+m_0^2c^4.
+            \]
+          </li>
+
+          <li>
+            Particularizează relația energie–impuls pentru foton.
+          </li>
+
+          <li>
+            Pentru \(v=0{,}6c\), exprimă
+            \(E\) și \(E_c\) în funcție de \(m_0c^2\).
+          </li>
+
+        </ol>
+
+        <div class="warning">
+          La probleme:
+          <strong>
+            date SI → cerință → ipoteze → relații →
+            calcul simbolic → numeric → unități → verificare.
+          </strong>
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 22
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Fișa de formule
+        </span>
+
+        <h2>Tot §13.7 într-o singură pagină</h2>
+
+        <div class="grid">
+
+          <div class="mini">
+
+            <strong>Factor Lorentz</strong>
+
+            \[
+              \boxed{
+                \gamma
+                =
+                \frac1{
+                  \sqrt{1-\dfrac{v^2}{c^2}}
+                }
+              }
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>Impuls relativist</strong>
+
+            \[
+              \boxed{
+                p
+                =
+                \gamma m_0v
+              }
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>Energia de repaus</strong>
+
+            \[
+              \boxed{
+                E_0=m_0c^2
+              }
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>Energia totală</strong>
+
+            \[
+              \boxed{
+                E
+                =
+                \gamma m_0c^2
+              }
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>Energia cinetică</strong>
+
+            \[
+              \boxed{
+                E_c
+                =
+                (\gamma-1)m_0c^2
+              }
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>Energie – impuls</strong>
+
+            \[
+              \boxed{
+                E^2
+                =
+                p^2c^2+m_0^2c^4
+              }
+            \]
+
+          </div>
+
+        </div>
+
+        <div class="big-result">
+          Pentru foton:
+          \[
+          \boxed{
+            m_0=0
+            \quad\Longrightarrow\quad
+            E=pc
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 23
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Final de capitol
+        </span>
+
+        <h2>Elementele de mecanică relativistă – sinteză</h2>
+
+        <p>
+          Capitolul 13 construiește succesiv trecerea de la mecanica
+          newtoniană la relativitatea restrânsă:
+        </p>
+
+        <ol>
+          <li>
+            spațiul și timpul în mecanica newtoniană;
+          </li>
+
+          <li>
+            experiența Michelson–Morley;
+          </li>
+
+          <li>
+            postulatele lui Einstein;
+          </li>
+
+          <li>
+            transformările Lorentz;
+          </li>
+
+          <li>
+            contracția lungimilor, dilatarea duratelor și compunerea
+            relativistă a vitezelor;
+          </li>
+
+          <li>
+            impulsul și dinamica relativistă;
+          </li>
+
+          <li>
+            echivalența masă–energie și relația energie–impuls.
+          </li>
+        </ol>
+
+        <div class="exam">
+          <strong>Programa Titularizare 2026:</strong>
+          punctele 14 și 15 acoperă acest nucleu de relativitate:
+          bazele experimentale, postulatele lui Einstein,
+          transformările Lorentz și consecințele lor, apoi relațiile
+          masă–viteză, forță–accelerație, masă–energie și
+          energie–impuls.
+          Pentru 2027 documentul oficial trebuie reverificat.
+        </div>
+
+        <div class="definition">
+          <strong>Important pentru structurarea repository-ului:</strong>
+          în Compendiul Bunget, după §13.7 urmează secțiunea
+          „Probleme”. Ea poate fi creată separat, de exemplu ca
+          <code>probleme-mecanica-relativista.html</code>, fără a
+          concatena numele cu fișierul 13.7.
+        </div>
+
+        <div class="bottom-links">
+
+          <a href="13.6-dinamica-relativista.html">
+            ← 13.6 Dinamica relativistă
+          </a>
+
+          <a href="index.html">
+            Cuprins capitol 13
+          </a>
+
+          <a href="../index.html">
+            Mecanică și acustică
+          </a>
+
+        </div>
+
+      </article>
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       PAGER
+       ========================================================= -->
+
+  <nav
+    class="pager"
+    aria-label="Navigare lecție"
+  >
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="prevPage()"
+    >
+      ← Pagina anterioară
+    </button>
+
+    <div
+      class="page-status"
+      id="pageStatus"
+      aria-live="polite"
+    >
+      1 / 23
+    </div>
+
+    <button
+      type="button"
+      onclick="nextPage()"
+    >
+      Pagina următoare →
+    </button>
+
+    <a href="index.html">
+      Înapoi la capitol
+    </a>
+
+  </nav>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script>
+    const pages =
+      [...document.querySelectorAll(".page")];
+
+    const pageStatus =
+      document.getElementById("pageStatus");
+
+    let currentPage = 0;
+
+
+    function updatePageStatus() {
+      pageStatus.textContent =
+        `${currentPage + 1} / ${pages.length}`;
+    }
+
+
+    function typesetCurrentPage() {
+      if (
+        window.MathJax &&
+        typeof MathJax.typesetPromise === "function"
+      ) {
+        MathJax
+          .typesetPromise([pages[currentPage]])
+          .catch((error) => {
+            console.error("MathJax:", error);
+          });
+      }
+    }
+
+
+    function showPage(index) {
+      if (
+        index < 0 ||
+        index >= pages.length
+      ) {
+        return;
+      }
+
+      pages[currentPage]
+        .classList
+        .remove("active");
+
+      currentPage = index;
+
+      pages[currentPage]
+        .classList
+        .add("active");
+
+      updatePageStatus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      typesetCurrentPage();
+    }
+
+
+    function nextPage() {
+      if (
+        currentPage <
+        pages.length - 1
+      ) {
+        showPage(currentPage + 1);
+      }
+    }
+
+
+    function prevPage() {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    }
+
+
+    function toggleTheme() {
+      const html =
+        document.documentElement;
+
+      const nextTheme =
+        html.dataset.theme === "dark"
+          ? "light"
+          : "dark";
+
+      html.dataset.theme =
+        nextTheme;
+
+      localStorage.setItem(
+        "theme-relativitate-13-7",
+        nextTheme
+      );
+    }
+
+
+    const savedTheme =
+      localStorage.getItem(
+        "theme-relativitate-13-7"
+      );
+
+    if (savedTheme) {
+      document.documentElement.dataset.theme =
+        savedTheme;
+    }
+
+
+    updatePageStatus();
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "ArrowRight") {
+          nextPage();
+        }
+
+        if (event.key === "ArrowLeft") {
+          prevPage();
+        }
+
+        if (event.key === "Home") {
+          showPage(0);
+        }
+
+        if (event.key === "End") {
+          showPage(
+            pages.length - 1
+          );
+        }
+
+      }
+    );
+  </script>
+
+</body>
+</html>
