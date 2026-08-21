@@ -13,6 +13,8 @@
   --bg: #f4f6f5;
   --text: #17211f;
   --muted: #66736f;
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, .08);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,11 +22,17 @@
     --bg: #0f1716;
     --text: #edf4f2;
     --muted: #a9b8b4;
+    --card: #17211f;
+    --border: rgba(255, 255, 255, .08);
   }
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -43,7 +51,7 @@ body {
 }
 
 main {
-  max-width: 640px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
@@ -54,11 +62,9 @@ main {
 
 .back {
   display: inline-block;
-
   margin-bottom: 18px;
 
   color: var(--muted);
-
   text-decoration: none;
 
   font-size: 14px;
@@ -76,13 +82,13 @@ main {
 
 header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 34px;
 }
 
 h1 {
-  margin: 0 0 6px;
+  margin: 0 0 7px;
 
-  font-size: clamp(24px, 6vw, 34px);
+  font-size: clamp(25px, 6vw, 36px);
   line-height: 1.15;
 }
 
@@ -90,36 +96,63 @@ h1 {
   margin: 0;
 
   color: var(--muted);
-
   font-size: 16px;
 }
 
 
 /* =========================================================
-   GRILĂ
+   TITLURI SECȚIUNI
    ========================================================= */
 
-.grid {
-  display: grid;
-  gap: 14px;
+.section {
+  margin: 34px 0 14px;
+}
+
+.section:first-of-type {
+  margin-top: 0;
+}
+
+.section h2 {
+  margin: 0 0 5px;
+
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.section p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 
 /* =========================================================
-   CARDURI
+   GRILE
+   ========================================================= */
+
+.grid {
+  display: grid;
+  gap: 11px;
+}
+
+
+/* =========================================================
+   CARDURI GENERALE
    ========================================================= */
 
 a.btn {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 
-  padding: 22px;
+  padding: 17px 19px;
 
-  border-radius: 14px;
+  border-radius: 13px;
 
   color: #ffffff;
-
   text-decoration: none;
 
   box-shadow:
@@ -127,14 +160,17 @@ a.btn {
 
   transition:
     transform .15s ease,
-    box-shadow .15s ease;
+    box-shadow .15s ease,
+    filter .15s ease;
 }
 
 a.btn:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, .2);
+    0 5px 12px rgba(0, 0, 0, .2);
+
+  filter: brightness(1.04);
 }
 
 a.btn:active {
@@ -143,38 +179,35 @@ a.btn:active {
 
 
 /* =========================================================
-   NUMĂR
+   HUBURI TEMATICE
    ========================================================= */
 
-.nr {
-  min-width: 34px;
-
-  font-size: 18px;
-  font-weight: 800;
-
-  font-variant-numeric: tabular-nums;
-
-  opacity: .78;
+a.hub {
+  padding: 21px 20px;
 }
 
+.hub-number {
+  flex: 0 0 38px;
 
-/* =========================================================
-   TEXT CARD
-   ========================================================= */
+  font-size: 19px;
+  font-weight: 900;
 
-.btn-content {
+  opacity: .8;
+}
+
+.hub-content {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.btn-title {
+.hub-title {
   font-size: 18px;
   font-weight: 800;
   line-height: 1.25;
 }
 
-.btn-description {
+.hub-description {
   font-size: 13px;
   font-weight: 500;
   line-height: 1.4;
@@ -184,23 +217,87 @@ a.btn:active {
 
 
 /* =========================================================
-   CULORI
+   LECȚII D01–D15
    ========================================================= */
 
-.b1 {
+.code {
+  flex: 0 0 42px;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  opacity: .82;
+}
+
+.lesson-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   CULORI HUBURI
+   ========================================================= */
+
+.curriculum {
   background: #1f6f6b;
 }
 
-.b2 {
+.proiectare {
   background: #2f6fa8;
 }
 
-.b3 {
+.strategii {
   background: #7a4fb5;
 }
 
-.b4 {
+.evaluare {
   background: #c2582b;
+}
+
+
+/* =========================================================
+   CULORI D01–D15
+   ========================================================= */
+
+.c1  { background: #1f6f6b; }
+.c2  { background: #287e79; }
+.c3  { background: #347f98; }
+.c4  { background: #2f6fa8; }
+
+.c5  { background: #4168b0; }
+.c6  { background: #5a5eb2; }
+.c7  { background: #7a4fb5; }
+
+.c8  { background: #8d4aa5; }
+.c9  { background: #a34689; }
+.c10 { background: #b02e5a; }
+.c11 { background: #c2582b; }
+.c12 { background: #b8862e; }
+.c13 { background: #4a8f3c; }
+
+.c14 { background: #2f7d52; }
+.c15 { background: #b94d42; }
+
+
+/* =========================================================
+   SEPARATOR
+   ========================================================= */
+
+.divider {
+  height: 1px;
+
+  margin: 38px 0 0;
+
+  background: var(--border);
 }
 
 
@@ -209,13 +306,14 @@ a.btn:active {
    ========================================================= */
 
 footer {
-  margin-top: 36px;
+  margin-top: 38px;
 
   text-align: center;
 
   color: var(--muted);
 
   font-size: 13px;
+  line-height: 1.5;
 }
 
 
@@ -223,24 +321,31 @@ footer {
    MOBILE
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
 
   body {
-    padding:
-      28px 14px;
+    padding: 28px 14px;
   }
 
   a.btn {
-    padding: 18px;
-    gap: 12px;
+    padding: 16px;
+    gap: 11px;
   }
 
-  .btn-title {
+  a.hub {
+    padding: 18px 16px;
+  }
+
+  .hub-title {
     font-size: 17px;
   }
 
-  .btn-description {
+  .hub-description {
     font-size: 12.5px;
+  }
+
+  .lesson-title {
+    font-size: 15px;
   }
 
 }
@@ -278,39 +383,51 @@ footer {
     </h1>
 
     <p class="subtitle">
-      Alege domeniul
+      Titularizare Fizică · navigare pe domenii și lecții
     </p>
 
   </header>
 
 
   <!-- =======================================================
-       DOMENII
+       NAVIGARE PE DOMENII
        ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      Domenii tematice
+    </h2>
+
+    <p>
+      Acces structurat la materialele de curriculum,
+      proiectare, strategii didactice și evaluare.
+    </p>
+
+  </div>
+
 
   <div class="grid">
 
 
-    <!-- =====================================================
-         1. CURRICULUM
-         ===================================================== -->
+    <!-- CURRICULUM -->
 
     <a
-      class="btn b1"
+      class="btn hub curriculum"
       href="curriculum/index.html"
     >
 
-      <span class="nr">
+      <span class="hub-number">
         1
       </span>
 
-      <span class="btn-content">
+      <span class="hub-content">
 
-        <span class="btn-title">
+        <span class="hub-title">
           Curriculum
         </span>
 
-        <span class="btn-description">
+        <span class="hub-description">
           Definiții · Componente · Tipuri de curriculum
         </span>
 
@@ -319,26 +436,24 @@ footer {
     </a>
 
 
-    <!-- =====================================================
-         2. PROIECTAREA DIDACTICĂ
-         ===================================================== -->
+    <!-- PROIECTAREA DIDACTICĂ -->
 
     <a
-      class="btn b2"
+      class="btn hub proiectare"
       href="proiectarea-didactica/index.html"
     >
 
-      <span class="nr">
+      <span class="hub-number">
         2
       </span>
 
-      <span class="btn-content">
+      <span class="hub-content">
 
-        <span class="btn-title">
+        <span class="hub-title">
           Proiectarea didactică
         </span>
 
-        <span class="btn-description">
+        <span class="hub-description">
           Planificarea calendaristică · Proiectarea lecțiilor
         </span>
 
@@ -347,27 +462,25 @@ footer {
     </a>
 
 
-    <!-- =====================================================
-         3. STRATEGII DIDACTICE
-         ===================================================== -->
+    <!-- STRATEGII DIDACTICE -->
 
     <a
-      class="btn b3"
+      class="btn hub strategii"
       href="strategii-didactice/index.html"
     >
 
-      <span class="nr">
+      <span class="hub-number">
         3
       </span>
 
-      <span class="btn-content">
+      <span class="hub-content">
 
-        <span class="btn-title">
+        <span class="hub-title">
           Strategii didactice
         </span>
 
-        <span class="btn-description">
-          Metode de predare · Mijloace de învățământ ·
+        <span class="hub-description">
+          Metode · Mijloace de învățământ ·
           Forme de organizare
         </span>
 
@@ -376,30 +489,395 @@ footer {
     </a>
 
 
-    <!-- =====================================================
-         4. EVALUAREA
-         ===================================================== -->
+    <!-- EVALUAREA -->
 
     <a
-      class="btn b4"
+      class="btn hub evaluare"
       href="evaluarea/index.html"
     >
 
-      <span class="nr">
+      <span class="hub-number">
         4
       </span>
 
-      <span class="btn-content">
+      <span class="hub-content">
 
-        <span class="btn-title">
+        <span class="hub-title">
           Evaluarea
         </span>
 
-        <span class="btn-description">
+        <span class="hub-description">
           Funcții și forme · Itemi ·
-          Metode tradiționale și alternative de evaluare
+          Metode tradiționale și alternative
         </span>
 
+      </span>
+
+    </a>
+
+
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <!-- =======================================================
+       D01–D15
+       ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      Lecții complete D01–D15
+    </h2>
+
+    <p>
+      Acces direct la fișele detaliate pentru pregătirea
+      didacticii fizicii.
+    </p>
+
+  </div>
+
+
+  <!-- =======================================================
+       I. CURRICULUM
+       ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      I. Curriculum și programe școlare
+    </h2>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <!-- D01 -->
+
+    <a
+      class="btn c1"
+      href="D01-componentele-curriculumului-national.html"
+    >
+
+      <span class="code">
+        D01
+      </span>
+
+      <span class="lesson-title">
+        Componentele curriculumului național
+      </span>
+
+    </a>
+
+
+    <!-- D02 -->
+
+    <a
+      class="btn c2"
+      href="D02-curriculum-la-decizia-scolii.html"
+    >
+
+      <span class="code">
+        D02
+      </span>
+
+      <span class="lesson-title">
+        Curriculum la decizia școlii
+      </span>
+
+    </a>
+
+
+    <!-- D03 -->
+
+    <a
+      class="btn c3"
+      href="D03-competente-cheie-si-proiectarea-programei-scolare.html"
+    >
+
+      <span class="code">
+        D03
+      </span>
+
+      <span class="lesson-title">
+        Competențe-cheie și proiectarea programei școlare
+      </span>
+
+    </a>
+
+
+    <!-- D04 -->
+
+    <a
+      class="btn c4"
+      href="D04-analiza-programelor-scolare-de-fizica.html"
+    >
+
+      <span class="code">
+        D04
+      </span>
+
+      <span class="lesson-title">
+        Analiza programelor școlare de fizică
+      </span>
+
+    </a>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       II. PROIECTAREA DIDACTICĂ
+       ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      II. Proiectarea didactică
+    </h2>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <!-- D05 -->
+
+    <a
+      class="btn c5"
+      href="D05-planificarea-calendaristica.html"
+    >
+
+      <span class="code">
+        D05
+      </span>
+
+      <span class="lesson-title">
+        Planificarea calendaristică
+      </span>
+
+    </a>
+
+
+    <!-- D06 -->
+
+    <a
+      class="btn c6"
+      href="D06-proiectarea-unitatii-de-invatare.html"
+    >
+
+      <span class="code">
+        D06
+      </span>
+
+      <span class="lesson-title">
+        Proiectarea unității de învățare
+      </span>
+
+    </a>
+
+
+    <!-- D07 -->
+
+    <a
+      class="btn c7"
+      href="D07-proiectul-de-lectie-la-fizica.html"
+    >
+
+      <span class="code">
+        D07
+      </span>
+
+      <span class="lesson-title">
+        Proiectul de lecție la fizică
+      </span>
+
+    </a>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       III. STRATEGII DIDACTICE
+       ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      III. Strategii didactice și activități practic-aplicative
+    </h2>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <!-- D08 -->
+
+    <a
+      class="btn c8"
+      href="D08-metode-didactice-utilizate-la-fizica.html"
+    >
+
+      <span class="code">
+        D08
+      </span>
+
+      <span class="lesson-title">
+        Metode didactice utilizate la fizică
+      </span>
+
+    </a>
+
+
+    <!-- D09 -->
+
+    <a
+      class="btn c9"
+      href="D09-forme-de-organizare-a-activitatii-didactice.html"
+    >
+
+      <span class="code">
+        D09
+      </span>
+
+      <span class="lesson-title">
+        Forme de organizare a activității didactice
+      </span>
+
+    </a>
+
+
+    <!-- D10 -->
+
+    <a
+      class="btn c10"
+      href="D10-mijloace-de-invatamant-la-fizica.html"
+    >
+
+      <span class="code">
+        D10
+      </span>
+
+      <span class="lesson-title">
+        Mijloace de învățământ la fizică
+      </span>
+
+    </a>
+
+
+    <!-- D11 -->
+
+    <a
+      class="btn c11"
+      href="D11-experimentul-in-lectia-de-fizica.html"
+    >
+
+      <span class="code">
+        D11
+      </span>
+
+      <span class="lesson-title">
+        Experimentul în lecția de fizică
+      </span>
+
+    </a>
+
+
+    <!-- D12 -->
+
+    <a
+      class="btn c12"
+      href="D12-rezolvarea-de-probleme-la-fizica.html"
+    >
+
+      <span class="code">
+        D12
+      </span>
+
+      <span class="lesson-title">
+        Rezolvarea de probleme la fizică
+      </span>
+
+    </a>
+
+
+    <!-- D13 -->
+
+    <a
+      class="btn c13"
+      href="D13-utilizarea-tic-in-predare-invatare-evaluare.html"
+    >
+
+      <span class="code">
+        D13
+      </span>
+
+      <span class="lesson-title">
+        Utilizarea TIC în predare–învățare–evaluare
+      </span>
+
+    </a>
+
+
+  </div>
+
+
+  <!-- =======================================================
+       IV. EVALUAREA
+       ======================================================= -->
+
+  <div class="section">
+
+    <h2>
+      IV. Evaluarea
+    </h2>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <!-- D14 -->
+
+    <a
+      class="btn c14"
+      href="D14-evaluarea-educationala-la-fizica.html"
+    >
+
+      <span class="code">
+        D14
+      </span>
+
+      <span class="lesson-title">
+        Evaluarea educațională la fizică
+      </span>
+
+    </a>
+
+
+    <!-- D15 -->
+
+    <a
+      class="btn c15"
+      href="D15-tipologia-itemilor-si-bareme-de-evaluare.html"
+    >
+
+      <span class="code">
+        D15
+      </span>
+
+      <span class="lesson-title">
+        Tipologia itemilor și bareme de evaluare
       </span>
 
     </a>
@@ -413,7 +891,9 @@ footer {
        ======================================================= -->
 
   <footer>
-    2. Tematica pentru didactica fizicii · Titularizare Fizică
+    2. Tematica pentru didactica fizicii
+    <br>
+    Titularizare Fizică
   </footer>
 
 
