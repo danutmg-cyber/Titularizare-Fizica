@@ -1,1 +1,2603 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>13.5 – Consecințele fizice ale transformărilor Lorentz</title>
+
+  <!--
+    Titularizare Fizică 2027
+    Bunget – Compendiu de Fizică
+    I. Mecanică și acustică
+    13. Elemente de mecanică relativistă
+    §13.5 Consecințele fizice ale transformărilor Lorentz
+
+    Sursa de structurare:
+    Bunget și colaboratorii, Compendiu de Fizică,
+    §13.5, pp. 272–276.
+
+    Programa disponibilă: Titularizare Fizică 2026,
+    Tematica științifică, pct. 14:
+    „Transformările Lorentz; consecințe”.
+
+    Pentru 2027 programa oficială trebuie reverificată.
+  -->
+
+  <link
+    rel="stylesheet"
+    href="../../../../assets/css/titularizare-theme.css"
+  >
+
+  <script src="../../../../assets/js/mathjax-config.js"></script>
+
+  <script
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+  ></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    /* =========================================================
+       BARĂ SUPERIOARĂ
+       ========================================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      padding: 0.75rem 1rem;
+
+      background:
+        color-mix(in srgb, var(--card) 90%, transparent);
+
+      border-bottom: 1px solid var(--border);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar strong {
+      color: var(--accent);
+
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .theme-toggle {
+      flex: 0 0 auto;
+
+      padding: 0.55rem 0.95rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background: var(--card);
+      color: var(--text);
+
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       STRUCTURĂ
+       ========================================================= */
+
+    main {
+      width: min(1100px, 100%);
+
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .page {
+      min-height: calc(100vh - 72px);
+
+      display: none;
+      align-items: center;
+
+      padding: 1.2rem 0 7rem;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .page > .card {
+      width: 100%;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent);
+
+      font-size: 0.8em;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      color: var(--muted);
+
+      font-size: 1.08em;
+      line-height: 1.65;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    li {
+      margin: 0.5rem 0;
+
+      line-height: 1.55;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    /* =========================================================
+       GRILE
+       ========================================================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+
+      margin: 1rem 0;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mini {
+      padding: 1rem;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 70%, transparent);
+    }
+
+    .mini strong {
+      display: block;
+
+      margin-bottom: 0.3rem;
+
+      color: var(--accent-2);
+    }
+
+    /* =========================================================
+       CASETE
+       ========================================================= */
+
+    .definition {
+      margin: 1rem 0;
+      padding: 1rem;
+
+      border-left: 5px solid var(--accent);
+      border-radius: 0 16px 16px 0;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 78%, transparent);
+    }
+
+    .definition strong {
+      color: var(--accent);
+    }
+
+    .big-result {
+      margin: 1rem 0;
+      padding: 1.1rem;
+
+      border: 2px solid var(--accent);
+      border-radius: 18px;
+
+      background:
+        color-mix(in srgb, var(--formula-bg) 72%, transparent);
+    }
+
+    .big-result h3 {
+      margin-top: 0;
+
+      color: var(--accent);
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+
+      margin: 0.8rem 0;
+    }
+
+    .step-number {
+      width: 2.2rem;
+      height: 2.2rem;
+
+      flex: 0 0 2.2rem;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: var(--accent);
+      color: white;
+
+      font-weight: 900;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .check {
+      color: #0f766e;
+
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       SVG
+       ========================================================= */
+
+    .svgbox {
+      margin: 1rem 0;
+      padding: 0.9rem;
+
+      overflow-x: auto;
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      background: var(--formula-bg);
+    }
+
+    .svgbox > svg {
+      display: block;
+
+      width: 100%;
+      min-width: 340px;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0.5rem 0 0;
+
+      color: var(--muted);
+
+      font-size: 0.92em;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TABEL
+       ========================================================= */
+
+    .table-wrap {
+      width: 100%;
+
+      overflow-x: auto;
+
+      margin: 1rem 0;
+
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 720px;
+
+      border-collapse: collapse;
+
+      background: var(--card);
+
+      font-size: 0.95em;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 0.75rem;
+
+      border: 1px solid var(--border);
+
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .compare th {
+      color: var(--accent);
+
+      background: var(--formula-bg);
+    }
+
+    /* =========================================================
+       NAVIGARE FINALĂ
+       ========================================================= */
+
+    .bottom-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+
+      margin-top: 1.5rem;
+    }
+
+    .bottom-links a {
+      display: block;
+
+      padding: 1rem;
+
+      border-radius: 16px;
+
+      color: white;
+      background: var(--accent);
+
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .bottom-links a:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    .bottom-links a:nth-child(3) {
+      background: #7c3aed;
+    }
+
+    /* =========================================================
+       PAGER
+       ========================================================= */
+
+    .pager {
+      position: fixed;
+      left: 50%;
+      bottom: 0.5rem;
+      z-index: 40;
+
+      transform: translateX(-50%);
+
+      width: min(1100px, calc(100% - 1rem));
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 0.45rem;
+
+      padding: 0.45rem;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      background:
+        color-mix(in srgb, var(--card) 92%, transparent);
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .pager button,
+    .pager a {
+      padding: 0.65rem 0.9rem;
+
+      border: 0;
+      border-radius: 999px;
+
+      font-size: 0.92em;
+      font-weight: 900;
+
+      text-decoration: none;
+      text-align: center;
+
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .pager button {
+      color: white;
+      background: var(--accent);
+    }
+
+    .pager button.secondary {
+      color: var(--text);
+      background: var(--formula-bg);
+
+      border: 1px solid var(--border);
+    }
+
+    .pager a {
+      color: white;
+      background: var(--accent-2);
+    }
+
+    .page-status {
+      min-width: 5.2rem;
+
+      color: var(--muted);
+
+      text-align: center;
+      font-weight: 900;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 760px) {
+      .grid,
+      .grid.three,
+      .bottom-links {
+        grid-template-columns: 1fr;
+      }
+
+      .page {
+        align-items: flex-start;
+
+        padding: 1rem 0 10.5rem;
+      }
+
+      .pager {
+        grid-template-columns: 1fr 1fr;
+
+        width: min(700px, calc(100% - 1rem));
+
+        border-radius: 22px;
+      }
+
+      .page-status {
+        grid-column: 1 / -1;
+
+        order: -1;
+      }
+
+      .pager a {
+        grid-column: 1 / -1;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .compare {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       TOPBAR
+       ========================================================= -->
+
+  <div class="topbar">
+
+    <strong>
+      13.5 • Elemente de mecanică relativistă •
+      Consecințele fizice ale transformărilor Lorentz
+    </strong>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      onclick="toggleTheme()"
+      aria-label="Schimbă tema"
+    >
+      Zi / Noapte
+    </button>
+
+  </div>
+
+
+  <main>
+
+    <!-- =======================================================
+         PAGINA 1
+         ======================================================= -->
+
+    <section class="page active">
+      <article class="card">
+
+        <span class="eyebrow">
+          13.5 • Mecanica relativistă
+        </span>
+
+        <h1>
+          Consecințele fizice ale transformărilor Lorentz
+        </h1>
+
+        <p class="lead">
+          Transformările Lorentz nu modifică doar formulele de trecere
+          dintre două sisteme de referință. Ele schimbă modul în care
+          măsurăm
+          <span class="mark">lungimile, duratele și vitezele</span>
+          atunci când sistemele se deplasează relativ cu viteze
+          comparabile cu viteza luminii.
+        </p>
+
+        <div class="grid three">
+
+          <div class="mini">
+            <strong>a) Spațiu</strong>
+            Contracția lungimilor.
+          </div>
+
+          <div class="mini">
+            <strong>b) Timp</strong>
+            Dilatarea duratelor.
+          </div>
+
+          <div class="mini">
+            <strong>c) Cinematică</strong>
+            Legea relativistă de compunere a vitezelor.
+          </div>
+
+        </div>
+
+        <div class="exam">
+          <strong>Structura lui Bunget:</strong>
+          §13.5 tratează exact aceste trei consecințe, înainte de
+          introducerea dinamicii relativiste în §13.6.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 2
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Punct de plecare
+        </span>
+
+        <h2>Reamintim transformările Lorentz</h2>
+
+        <p>
+          Considerăm două sisteme de referință inerțiale \(S\) și
+          \(S'\), cu \(S'\) deplasându-se cu viteza constantă \(v\)
+          în sensul pozitiv al axei \(Ox\).
+        </p>
+
+        <div class="big-result">
+
+          \[
+          \boxed{
+          \begin{aligned}
+            x' &= \gamma(x-vt),\\[3pt]
+            y' &= y,\\[3pt]
+            z' &= z,\\[3pt]
+            t' &= \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right),
+          \end{aligned}}
+          \]
+
+          unde
+
+          \[
+          \boxed{
+            \gamma
+            =
+            \frac{1}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+          }.
+          \]
+
+        </div>
+
+        <div class="definition">
+          Pentru \(0<|v|<c\),
+          \[
+            \gamma>1.
+          \]
+          Tocmai apariția acestui factor produce diferențele față de
+          cinematica galileană.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 3
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          a) Contracția lungimilor
+        </span>
+
+        <h2>Ce înseamnă să măsurăm lungimea unui corp?</h2>
+
+        <p>
+          Considerăm o riglă aflată în repaus în sistemul \(S'\),
+          orientată paralel cu direcția mișcării relative.
+        </p>
+
+        <p>
+          Coordonatele capetelor în sistemul propriu sunt
+          \(x'_1\) și \(x'_2\).
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            l_0=x'_2-x'_1
+          }
+          \]
+        </div>
+
+        <div class="definition">
+          <strong>Lungimea proprie sau lungimea de repaus \(l_0\):</strong>
+          lungimea măsurată în sistemul de referință în care corpul
+          este în repaus.
+        </div>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>\(l_0\)</strong>
+            lungime proprie<br>
+            unitate SI: <b>m</b>
+          </div>
+
+          <div class="mini">
+            <strong>\(l\)</strong>
+            lungimea corpului măsurată într-un sistem față de care
+            corpul se deplasează.
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 4
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Condiția esențială
+        </span>
+
+        <h2>Capetele corpului trebuie măsurate simultan</h2>
+
+        <p>
+          Observatorul din \(S\) vrea să determine lungimea riglei
+          aflate în mișcare.
+        </p>
+
+        <p>
+          El trebuie să determine pozițiile celor două capete
+          <span class="mark">la același moment în sistemul \(S\)</span>.
+        </p>
+
+        <div class="formula">
+          \[
+            t_1=t_2.
+          \]
+        </div>
+
+        <p>
+          Lungimea măsurată în \(S\) este:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            l=x_2-x_1
+          }.
+          \]
+        </div>
+
+        <div class="warning">
+          <strong>Capcană importantă:</strong>
+          dacă pozițiile celor două capete sunt măsurate la momente
+          diferite, diferența coordonatelor nu reprezintă lungimea
+          corpului în acel sistem de referință.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 5
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Deducere
+        </span>
+
+        <h2>Obținem contracția Lorentz</h2>
+
+        <p>
+          Pentru cele două capete ale riglei:
+        </p>
+
+        <div class="formula">
+          \[
+            x'_1=\gamma(x_1-vt_1),
+          \]
+
+          \[
+            x'_2=\gamma(x_2-vt_2).
+          \]
+        </div>
+
+        <p>
+          Scădem relațiile:
+        </p>
+
+        <div class="formula">
+          \[
+          x'_2-x'_1
+          =
+          \gamma
+          \left[
+            (x_2-x_1)-v(t_2-t_1)
+          \right].
+          \]
+        </div>
+
+        <p>
+          Deoarece măsurarea lungimii în \(S\) se face simultan:
+        </p>
+
+        <div class="formula">
+          \[
+            t_2-t_1=0.
+          \]
+        </div>
+
+        <p>
+          Rezultă:
+        </p>
+
+        <div class="formula">
+          \[
+            l_0=\gamma l.
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            l
+            =
+            \frac{l_0}{\gamma}
+            =
+            l_0
+            \sqrt{
+              1-\frac{v^2}{c^2}
+            }
+          }
+          \tag{13.9}
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 6
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Interpretare
+        </span>
+
+        <h2>Corpul este mai scurt pe direcția mișcării</h2>
+
+        <p>
+          Pentru \(v\neq0\):
+        </p>
+
+        <div class="formula">
+          \[
+            0<
+            \sqrt{
+              1-\frac{v^2}{c^2}
+            }
+            <1.
+          \]
+        </div>
+
+        <p>
+          Prin urmare:
+        </p>
+
+        <div class="big-result">
+          \[
+            \boxed{
+              l<l_0
+            }
+          \]
+        </div>
+
+        <div class="definition">
+          Un corp are lungimea maximă în
+          <strong>sistemul său propriu</strong>, adică în sistemul în
+          care se află în repaus.
+        </div>
+
+        <div class="svgbox">
+
+          <svg
+            viewBox="0 0 850 330"
+            role="img"
+            aria-label="Contracția lungimii unei rigle aflate în mișcare"
+          >
+
+            <defs>
+              <marker
+                id="arrow135"
+                viewBox="0 0 10 6"
+                markerWidth="10"
+                markerHeight="6"
+                refX="9"
+                refY="3"
+                orient="auto"
+              >
+                <path
+                  d="M0,1 L9,3 L0,5 Z"
+                  fill="#f59e0b"
+                ></path>
+              </marker>
+            </defs>
+
+            <text
+              x="45"
+              y="55"
+              font-size="25"
+              fill="#2563eb"
+            >
+              Sistem propriu S'
+            </text>
+
+            <rect
+              x="70"
+              y="85"
+              width="560"
+              height="55"
+              rx="10"
+              fill="#2563eb"
+              opacity="0.85"
+            ></rect>
+
+            <text
+              x="300"
+              y="123"
+              font-size="24"
+              fill="white"
+            >
+              l₀
+            </text>
+
+            <text
+              x="45"
+              y="205"
+              font-size="25"
+              fill="#0f766e"
+            >
+              Sistem S
+            </text>
+
+            <rect
+              x="70"
+              y="235"
+              width="360"
+              height="55"
+              rx="10"
+              fill="#0f766e"
+              opacity="0.88"
+            ></rect>
+
+            <text
+              x="235"
+              y="272"
+              font-size="24"
+              fill="white"
+            >
+              l
+            </text>
+
+            <line
+              x1="470"
+              y1="260"
+              x2="700"
+              y2="260"
+              stroke="#f59e0b"
+              stroke-width="7"
+              marker-end="url(#arrow135)"
+            ></line>
+
+            <text
+              x="570"
+              y="240"
+              font-size="25"
+              fill="#f59e0b"
+            >
+              v
+            </text>
+
+          </svg>
+
+          <p class="caption">
+            Contracția se produce numai pentru componenta lungimii
+            paralelă cu viteza relativă.
+          </p>
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 7
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Direcții transversale
+        </span>
+
+        <h2>Nu există contracție perpendicular pe mișcare</h2>
+
+        <p>
+          Transformările Lorentz conțin:
+        </p>
+
+        <div class="formula">
+          \[
+            y'=y,
+            \qquad
+            z'=z.
+          \]
+        </div>
+
+        <p>
+          De aceea dimensiunile perpendiculare pe direcția vitezei
+          relative rămân neschimbate.
+        </p>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Paralel cu \(\vec v\)</strong>
+
+            \[
+              l=
+              l_0
+              \sqrt{
+                1-\frac{v^2}{c^2}
+              }.
+            \]
+
+          </div>
+
+          <div class="mini">
+            <strong>Perpendicular pe \(\vec v\)</strong>
+
+            \[
+              l_\perp=l_{0\perp}.
+            \]
+
+          </div>
+
+        </div>
+
+        <p>
+          Din acest motiv, pentru un corp cu volum propriu \(V_0\),
+          Bunget obține:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            V=
+            V_0
+            \sqrt{
+              1-\frac{v^2}{c^2}
+            }
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 8
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemplu
+        </span>
+
+        <h2>Contracția unei nave de 5 m</h2>
+
+        <p>
+          O navă are lungimea proprie:
+        </p>
+
+        <div class="formula">
+          \[
+            l_0=5\,\mathrm{m}.
+          \]
+        </div>
+
+        <p>
+          Ea se deplasează cu:
+        </p>
+
+        <div class="formula">
+          \[
+            v=0{,}8c.
+          \]
+        </div>
+
+        <p>
+          Factorul:
+        </p>
+
+        <div class="formula">
+          \[
+          \sqrt{
+            1-\frac{v^2}{c^2}
+          }
+          =
+          \sqrt{1-0{,}8^2}
+          =
+          0{,}6.
+          \]
+        </div>
+
+        <p>
+          Lungimea măsurată de observatorul față de care nava se
+          deplasează este:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            l
+            =
+            5\cdot0{,}6
+            =
+            3\,\mathrm{m}
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Verificare:</strong>
+          rezultatul trebuie să satisfacă \(l<l_0\).
+          Dacă obții o lungime mai mare decât lungimea proprie,
+          ai inversat factorul Lorentz.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 9
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          b) Dilatarea duratelor
+        </span>
+
+        <h2>Două evenimente în același punct</h2>
+
+        <p>
+          Considerăm două evenimente care au loc în
+          <span class="mark">același punct al sistemului \(S'\)</span>.
+        </p>
+
+        <div class="formula">
+          \[
+            x'_1=x'_2.
+          \]
+        </div>
+
+        <p>
+          Momentele lor în \(S'\) sunt \(t'_1\) și \(t'_2\).
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            \Delta t_0=t'_2-t'_1
+          }.
+          \]
+        </div>
+
+        <div class="definition">
+          <strong>Durata proprie \(\Delta t_0\):</strong>
+          intervalul de timp dintre două evenimente măsurat în sistemul
+          în care cele două evenimente se petrec în același punct.
+        </div>
+
+        <p>
+          În sistemul \(S\), aceleași evenimente sunt măsurate la
+          momentele \(t_1\) și \(t_2\):
+        </p>
+
+        <div class="formula">
+          \[
+            \Delta t=t_2-t_1.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 10
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Deducere
+        </span>
+
+        <h2>Obținem dilatarea duratelor</h2>
+
+        <p>
+          Folosim transformarea:
+        </p>
+
+        <div class="formula">
+          \[
+            t'
+            =
+            \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right).
+          \]
+        </div>
+
+        <p>
+          Pentru cele două evenimente:
+        </p>
+
+        <div class="formula">
+          \[
+          \Delta t'
+          =
+          \gamma
+          \left(
+            \Delta t
+            -
+            \frac{v\Delta x}{c^2}
+          \right).
+          \]
+        </div>
+
+        <p>
+          Deoarece evenimentele au loc în același punct din \(S'\),
+          punctul respectiv se deplasează în \(S\) cu viteza \(v\):
+        </p>
+
+        <div class="formula">
+          \[
+            \Delta x=v\Delta t.
+          \]
+        </div>
+
+        <p>
+          Introducem:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+          \Delta t_0
+          &=
+          \gamma
+          \left(
+            \Delta t
+            -
+            \frac{v^2\Delta t}{c^2}
+          \right)\\[4pt]
+          &=
+          \gamma\Delta t
+          \left(
+            1-\frac{v^2}{c^2}
+          \right).
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \Delta t
+            =
+            \frac{\Delta t_0}
+            {\sqrt{1-\dfrac{v^2}{c^2}}}
+            =
+            \gamma\Delta t_0
+          }
+          \tag{13.11}
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 11
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Interpretare
+        </span>
+
+        <h2>Durata proprie este cea mai scurtă</h2>
+
+        <p>
+          Deoarece:
+        </p>
+
+        <div class="formula">
+          \[
+            \gamma>1,
+          \]
+        </div>
+
+        <p>
+          rezultă:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \Delta t>\Delta t_0
+          }.
+          \]
+        </div>
+
+        <div class="definition">
+          Un interval de timp măsurat de un ceas aflat în mișcare față
+          de observator apare mai mare decât intervalul propriu
+          corespunzător.
+        </div>
+
+        <div class="warning">
+          <strong>Nu inversa relația:</strong>
+
+          \[
+            \Delta t
+            =
+            \gamma\Delta t_0,
+          \]
+
+          nu
+
+          \[
+            \Delta t
+            =
+            \frac{\Delta t_0}{\gamma}.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 12
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Confirmare experimentală prezentată de Bunget
+        </span>
+
+        <h2>Mezonii \(\mu\) din radiația cosmică</h2>
+
+        <p>
+          Bunget exemplifică dilatarea duratelor prin timpul de viață
+          al mezonilor \(\mu\), particule instabile care se pot deplasa
+          cu viteze foarte apropiate de viteza luminii.
+        </p>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Timp propriu aproximativ</strong>
+
+            \[
+              \Delta t_0
+              \approx
+              2\cdot10^{-6}\,\mathrm{s}.
+            \]
+
+          </div>
+
+          <div class="mini">
+            <strong>Viteza particulelor cosmice</strong>
+
+            \[
+              v\approx0{,}9998c.
+            \]
+
+          </div>
+
+        </div>
+
+        <p>
+          Factorul Lorentz este:
+        </p>
+
+        <div class="formula">
+          \[
+          \gamma
+          =
+          \frac{1}
+          {\sqrt{1-0{,}9998^2}}
+          \approx
+          50.
+          \]
+        </div>
+
+        <p>
+          Astfel:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            \Delta t
+            \approx
+            50
+            \cdot
+            2\cdot10^{-6}
+            =
+            10^{-4}\,\mathrm{s}
+          }.
+          \]
+        </div>
+
+        <p class="caption">
+          Valorile sunt cele aproximative utilizate în exemplul din
+          Compendiul lui Bunget.
+        </p>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 13
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Consecință experimentală
+        </span>
+
+        <h2>De ce pot ajunge mezonii până la suprafața Pământului?</h2>
+
+        <p>
+          Dacă timpul măsurat în sistemul Pământului este aproximativ:
+        </p>
+
+        <div class="formula">
+          \[
+            \Delta t
+            \approx
+            10^{-4}\,\mathrm{s},
+          \]
+        </div>
+
+        <p>
+          drumul parcurs este aproximativ:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            d
+            &=
+            v\Delta t\\[3pt]
+            &\approx
+            0{,}9998
+            \cdot
+            3\cdot10^8
+            \cdot
+            10^{-4}\\[3pt]
+            &\approx
+            3\cdot10^4\,\mathrm{m}.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            d\approx30\,\mathrm{km}
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          Acest exemplu pune în evidență faptul că dilatarea duratelor
+          nu este doar o modificare formală a ecuațiilor; produce
+          efecte măsurabile pentru particule relativiste.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 14
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Ceasornice sincronizate
+        </span>
+
+        <h2>Cum comparăm timpul în două sisteme inerțiale?</h2>
+
+        <p>
+          Bunget propune o interpretare bazată pe mai multe ceasornice
+          sincronizate și aflate în repaus în același sistem de
+          referință.
+        </p>
+
+        <div class="svgbox">
+
+          <svg
+            viewBox="0 0 900 360"
+            role="img"
+            aria-label="Ceas mobil comparat cu ceasuri sincronizate într-un sistem inerțial"
+          >
+
+            <defs>
+              <marker
+                id="arrowclock"
+                viewBox="0 0 10 6"
+                markerWidth="10"
+                markerHeight="6"
+                refX="9"
+                refY="3"
+                orient="auto"
+              >
+                <path
+                  d="M0,1 L9,3 L0,5 Z"
+                  fill="#f59e0b"
+                ></path>
+              </marker>
+            </defs>
+
+            <line
+              x1="80"
+              y1="250"
+              x2="820"
+              y2="250"
+              stroke="#64748b"
+              stroke-width="4"
+            ></line>
+
+            <!-- ceas I -->
+            <circle
+              cx="180"
+              cy="190"
+              r="55"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="6"
+            ></circle>
+
+            <line
+              x1="180"
+              y1="190"
+              x2="180"
+              y2="158"
+              stroke="#2563eb"
+              stroke-width="5"
+            ></line>
+
+            <line
+              x1="180"
+              y1="190"
+              x2="207"
+              y2="190"
+              stroke="#2563eb"
+              stroke-width="5"
+            ></line>
+
+            <text
+              x="143"
+              y="280"
+              font-size="22"
+              fill="#2563eb"
+            >
+              Ceas I
+            </text>
+
+            <!-- ceas II -->
+            <circle
+              cx="680"
+              cy="190"
+              r="55"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="6"
+            ></circle>
+
+            <line
+              x1="680"
+              y1="190"
+              x2="680"
+              y2="158"
+              stroke="#2563eb"
+              stroke-width="5"
+            ></line>
+
+            <line
+              x1="680"
+              y1="190"
+              x2="707"
+              y2="190"
+              stroke="#2563eb"
+              stroke-width="5"
+            ></line>
+
+            <text
+              x="640"
+              y="280"
+              font-size="22"
+              fill="#2563eb"
+            >
+              Ceas II
+            </text>
+
+            <!-- ceas mobil -->
+            <circle
+              cx="390"
+              cy="85"
+              r="45"
+              fill="none"
+              stroke="#0f766e"
+              stroke-width="6"
+            ></circle>
+
+            <line
+              x1="390"
+              y1="85"
+              x2="390"
+              y2="60"
+              stroke="#0f766e"
+              stroke-width="5"
+            ></line>
+
+            <line
+              x1="390"
+              y1="85"
+              x2="412"
+              y2="85"
+              stroke="#0f766e"
+              stroke-width="5"
+            ></line>
+
+            <line
+              x1="455"
+              y1="85"
+              x2="625"
+              y2="85"
+              stroke="#f59e0b"
+              stroke-width="7"
+              marker-end="url(#arrowclock)"
+            ></line>
+
+            <text
+              x="525"
+              y="65"
+              font-size="24"
+              fill="#f59e0b"
+            >
+              v
+            </text>
+
+            <text
+              x="325"
+              y="30"
+              font-size="22"
+              fill="#0f766e"
+            >
+              Ceas din S'
+            </text>
+
+          </svg>
+
+          <p class="caption">
+            Ceasul mobil este comparat succesiv cu ceasuri sincronizate
+            aflate în repaus în sistemul observatorului.
+          </p>
+
+        </div>
+
+        <div class="definition">
+          Pentru observatorul din \(S\), ceasul care se deplasează
+          împreună cu \(S'\) acumulează un interval propriu mai mic
+          între două întâlniri succesive.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 15
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Reciprocitatea relativistă
+        </span>
+
+        <h2>De ce fiecare sistem îl poate considera mobil pe celălalt?</h2>
+
+        <p>
+          Nu există un sistem inerțial absolut privilegiat.
+        </p>
+
+        <p>
+          Dacă \(S'\) se deplasează cu viteza \(+v\) față de \(S\),
+          atunci \(S\) se deplasează cu viteza \(-v\) față de \(S'\).
+        </p>
+
+        <div class="grid">
+
+          <div class="mini">
+            <strong>Observator în \(S\)</strong>
+            consideră ceasul din \(S'\) ca fiind în mișcare.
+          </div>
+
+          <div class="mini">
+            <strong>Observator în \(S'\)</strong>
+            consideră ceasul din \(S\) ca fiind în mișcare.
+          </div>
+
+        </div>
+
+        <div class="warning">
+          <strong>Condițiile comparației contează.</strong>
+          Compararea unui singur ceas mobil cu o rețea de ceasuri
+          sincronizate nu este aceeași situație experimentală cu
+          compararea directă a acelorași două ceasuri în două
+          întâlniri succesive.
+        </div>
+
+        <p>
+          Pentru ca aceleași două ceasuri să se întâlnească din nou după
+          separare, cel puțin unul trebuie să-și modifice starea de
+          mișcare. Situația nu mai este atunci comparația simetrică
+          simplă dintre două sisteme inerțiale aflate permanent în
+          mișcare rectilinie uniformă.
+        </p>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 16
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          c) Compunerea vitezelor
+        </span>
+
+        <h2>De ce formula lui Galilei trebuie înlocuită?</h2>
+
+        <p>
+          În mecanica clasică, pentru mișcare coliniară:
+        </p>
+
+        <div class="formula">
+          \[
+            u'=u-v.
+          \]
+        </div>
+
+        <p>
+          Dar dacă \(u=c\), această relație ar conduce la:
+        </p>
+
+        <div class="formula">
+          \[
+            u'=c-v,
+          \]
+        </div>
+
+        <p>
+          în contradicție cu principiul constanței vitezei luminii.
+        </p>
+
+        <div class="exam">
+          <strong>Consecință:</strong>
+          și legea de transformare a vitezelor trebuie dedusă din
+          transformările Lorentz, nu din transformările Galilei.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 17
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Deducerea vitezei
+        </span>
+
+        <h2>Transformăm deplasările infinitezimale</h2>
+
+        <p>
+          Pornim de la:
+        </p>
+
+        <div class="formula">
+          \[
+            x'=\gamma(x-vt).
+          \]
+        </div>
+
+        <p>
+          Diferențiem:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            dx'
+            =
+            \gamma(dx-v\,dt)
+          }
+          \tag{13.12}
+          \]
+        </div>
+
+        <p>
+          Pentru timp:
+        </p>
+
+        <div class="formula">
+          \[
+            t'
+            =
+            \gamma
+            \left(
+              t-\frac{vx}{c^2}
+            \right).
+          \]
+        </div>
+
+        <p>
+          Prin diferențiere:
+        </p>
+
+        <div class="formula">
+          \[
+          \boxed{
+            dt'
+            =
+            \gamma
+            \left(
+              dt-\frac{v\,dx}{c^2}
+            \right)
+          }
+          \tag{13.13}
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 18
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Legea relativistă
+        </span>
+
+        <h2>Împărțim \(dx'\) la \(dt'\)</h2>
+
+        <p>
+          Definim vitezele:
+        </p>
+
+        <div class="formula">
+          \[
+            u=\frac{dx}{dt},
+            \qquad
+            u'=\frac{dx'}{dt'}.
+          \]
+        </div>
+
+        <p>
+          Atunci:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+          u'
+          &=
+          \frac{
+            \gamma(dx-v\,dt)
+          }{
+            \gamma
+            \left(
+              dt-\dfrac{v\,dx}{c^2}
+            \right)
+          }\\[5pt]
+          &=
+          \frac{
+            \dfrac{dx}{dt}-v
+          }{
+            1-\dfrac{v}{c^2}\dfrac{dx}{dt}
+          }.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+
+          <h3>
+            Compunerea relativistă a vitezelor paralele
+          </h3>
+
+          \[
+          \boxed{
+            u'
+            =
+            \frac{
+              u-v
+            }{
+              1-\dfrac{uv}{c^2}
+            }
+          }
+          \tag{13.14}
+          \]
+
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 19
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Verificarea fundamentală
+        </span>
+
+        <h2>Lumina rămâne lumină: \(c\rightarrow c\)</h2>
+
+        <p>
+          Pentru un semnal luminos care se deplasează în sensul pozitiv
+          al axei:
+        </p>
+
+        <div class="formula">
+          \[
+            u=c.
+          \]
+        </div>
+
+        <p>
+          Introducem în legea relativistă:
+        </p>
+
+        <div class="formula">
+          \[
+          u'
+          =
+          \frac{
+            c-v
+          }{
+            1-\dfrac{cv}{c^2}
+          }.
+          \]
+        </div>
+
+        <p>
+          Dar:
+        </p>
+
+        <div class="formula">
+          \[
+            1-\frac{cv}{c^2}
+            =
+            1-\frac vc.
+          \]
+        </div>
+
+        <p>
+          Astfel:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            u'
+            =
+            \frac{
+              c-v
+            }{
+              1-v/c
+            }
+            =
+            c
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          Aceasta este verificarea directă evidențiată de Bunget:
+          formula relativistă de compunere a vitezelor este compatibilă
+          cu invarianta vitezei luminii.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 20
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Transformarea inversă
+        </span>
+
+        <h2>Cunoaștem \(u'\). Cum obținem \(u\)?</h2>
+
+        <p>
+          Din:
+        </p>
+
+        <div class="formula">
+          \[
+            u'
+            =
+            \frac{
+              u-v
+            }{
+              1-\dfrac{uv}{c^2}
+            },
+          \]
+        </div>
+
+        <p>
+          rezolvăm în raport cu \(u\).
+        </p>
+
+        <div class="formula">
+          \[
+            u'
+            \left(
+              1-\frac{uv}{c^2}
+            \right)
+            =
+            u-v.
+          \]
+        </div>
+
+        <div class="formula">
+          \[
+            u'+v
+            =
+            u
+            \left(
+              1+\frac{u'v}{c^2}
+            \right).
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            u
+            =
+            \frac{
+              u'+v
+            }{
+              1+\dfrac{u'v}{c^2}
+            }
+          }.
+          \]
+        </div>
+
+        <div class="definition">
+          Formula este forma inversă a aceleiași legi și corespunde
+          schimbării \(v\rightarrow -v\) atunci când inversăm sensul
+          transformării dintre sisteme.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 21
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Exemplu numeric
+        </span>
+
+        <h2>Două viteze relativiste nu se adună clasic</h2>
+
+        <p>
+          O particulă are față de \(S'\):
+        </p>
+
+        <div class="formula">
+          \[
+            u'=0{,}8c.
+          \]
+        </div>
+
+        <p>
+          Sistemul \(S'\) se deplasează față de \(S\) cu:
+        </p>
+
+        <div class="formula">
+          \[
+            v=0{,}6c.
+          \]
+        </div>
+
+        <p>
+          În mecanica clasică am obține:
+        </p>
+
+        <div class="formula">
+          \[
+            u_{\text{clasic}}
+            =
+            0{,}8c+0{,}6c
+            =
+            1{,}4c,
+          \]
+        </div>
+
+        <p>
+          ceea ce nu este admisibil pentru o particulă materială.
+        </p>
+
+        <p>
+          Relativist:
+        </p>
+
+        <div class="formula">
+          \[
+          \begin{aligned}
+            u
+            &=
+            \frac{
+              0{,}8c+0{,}6c
+            }{
+              1+(0{,}8)(0{,}6)
+            }\\[4pt]
+            &=
+            \frac{
+              1{,}4
+            }{
+              1{,}48
+            }c.
+          \end{aligned}
+          \]
+        </div>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            u
+            \approx
+            0{,}946c
+          }.
+          \]
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 22
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Limita nerelativistă
+        </span>
+
+        <h2>La viteze mici revenim la Galilei</h2>
+
+        <p>
+          Dacă vitezele sunt mult mai mici decât \(c\):
+        </p>
+
+        <div class="formula">
+          \[
+            \frac{|uv|}{c^2}\ll1,
+          \]
+        </div>
+
+        <p>
+          atunci:
+        </p>
+
+        <div class="formula">
+          \[
+            1-\frac{uv}{c^2}
+            \approx1.
+          \]
+        </div>
+
+        <p>
+          Legea relativistă:
+        </p>
+
+        <div class="formula">
+          \[
+            u'
+            =
+            \frac{
+              u-v
+            }{
+              1-\dfrac{uv}{c^2}
+            }
+          \]
+        </div>
+
+        <p>
+          devine:
+        </p>
+
+        <div class="big-result">
+          \[
+          \boxed{
+            u'\approx u-v
+          }.
+          \]
+        </div>
+
+        <div class="exam">
+          <strong>Principiul corespondenței:</strong>
+          pentru viteze mici în raport cu viteza luminii,
+          cinematica relativistă reproduce rezultatele cinematicii
+          clasice.
+        </div>
+
+      </article>
+    </section>
+
+
+    <!-- =======================================================
+         PAGINA 23
+         ======================================================= -->
+
+    <section class="page">
+      <article class="card">
+
+        <span class="eyebrow">
+          Sinteză pentru Titularizare
+        </span>
+
+        <h2>13.5 – Fișa de memorare</h2>
+
+        <div class="grid">
+
+          <div class="mini">
+
+            <strong>
+              1. Contracția lungimilor
+            </strong>
+
+            \[
+              \boxed{
+                l
+                =
+                l_0
+                \sqrt{
+                  1-\frac{v^2}{c^2}
+                }
+              }
+            \]
+
+            \[
+              l<l_0.
+            \]
+
+          </div>
+
+          <div class="mini">
+
+            <strong>
+              2. Dilatarea duratelor
+            </strong>
+
+            \[
+              \boxed{
+                \Delta t
+                =
+                \frac{
+                  \Delta t_0
+                }{
+                  \sqrt{
+                    1-\dfrac{v^2}{c^2}
+                  }
+                }
+              }
+            \]
+
+            \[
+              \Delta t>\Delta t_0.
+            \]
+
+          </div>
+
+        </div>
+
+        <div class="mini">
+
+          <strong>
+            3. Compunerea relativistă a vitezelor
+          </strong>
+
+          \[
+          \boxed{
+            u'
+            =
+            \frac{
+              u-v
+            }{
+              1-\dfrac{uv}{c^2}
+            }
+          }.
+          \]
+
+          Pentru \(u=c\):
+
+          \[
+            \boxed{u'=c}.
+          \]
+
+        </div>
+
+        <div class="exam">
+          <strong>Ordinea recomandată într-un răspuns de examen:</strong>
+          definește sistemul propriu și condiția de măsurare,
+          deduce relația din transformările Lorentz, interpretează
+          fizic rezultatul și verifică limita \(v\ll c\).
+        </div>
+
+        <div class="warning">
+          <strong>Pentru Titularizare 2027:</strong>
+          această lecție este aliniată programei oficiale disponibile
+          pentru 2026. Eventualele modificări ale programei 2027
+          trebuie reverificate după publicarea documentului oficial.
+        </div>
+
+        <div class="bottom-links">
+
+          <a href="13.4-transformarile-lorentz.html">
+            ← 13.4 Transformările Lorentz
+          </a>
+
+          <a href="13.6-dinamica-relativista.html">
+            13.6 Dinamica relativistă →
+          </a>
+
+          <a href="index.html">
+            Înapoi la capitol
+          </a>
+
+        </div>
+
+      </article>
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       PAGER
+       ========================================================= -->
+
+  <nav
+    class="pager"
+    aria-label="Navigare lecție"
+  >
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="prevPage()"
+    >
+      ← Pagina anterioară
+    </button>
+
+    <div
+      class="page-status"
+      id="pageStatus"
+      aria-live="polite"
+    >
+      1 / 23
+    </div>
+
+    <button
+      type="button"
+      onclick="nextPage()"
+    >
+      Pagina următoare →
+    </button>
+
+    <a href="index.html">
+      Înapoi la capitol
+    </a>
+
+  </nav>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script>
+    const pages =
+      [...document.querySelectorAll(".page")];
+
+    const pageStatus =
+      document.getElementById("pageStatus");
+
+    let currentPage = 0;
+
+
+    function updatePageStatus() {
+      pageStatus.textContent =
+        `${currentPage + 1} / ${pages.length}`;
+    }
+
+
+    function typesetCurrentPage() {
+      if (
+        window.MathJax &&
+        typeof MathJax.typesetPromise === "function"
+      ) {
+        MathJax
+          .typesetPromise([pages[currentPage]])
+          .catch((error) => {
+            console.error("MathJax:", error);
+          });
+      }
+    }
+
+
+    function showPage(index) {
+      if (
+        index < 0 ||
+        index >= pages.length
+      ) {
+        return;
+      }
+
+      pages[currentPage]
+        .classList
+        .remove("active");
+
+      currentPage = index;
+
+      pages[currentPage]
+        .classList
+        .add("active");
+
+      updatePageStatus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+      typesetCurrentPage();
+    }
+
+
+    function nextPage() {
+      if (
+        currentPage <
+        pages.length - 1
+      ) {
+        showPage(currentPage + 1);
+      }
+    }
+
+
+    function prevPage() {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+      }
+    }
+
+
+    function toggleTheme() {
+      const html =
+        document.documentElement;
+
+      const nextTheme =
+        html.dataset.theme === "dark"
+          ? "light"
+          : "dark";
+
+      html.dataset.theme =
+        nextTheme;
+
+      localStorage.setItem(
+        "theme-relativitate-13-5",
+        nextTheme
+      );
+    }
+
+
+    const savedTheme =
+      localStorage.getItem(
+        "theme-relativitate-13-5"
+      );
+
+    if (savedTheme) {
+      document.documentElement.dataset.theme =
+        savedTheme;
+    }
+
+
+    updatePageStatus();
+
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "ArrowRight") {
+          nextPage();
+        }
+
+        if (event.key === "ArrowLeft") {
+          prevPage();
+        }
+
+        if (event.key === "Home") {
+          showPage(0);
+        }
+
+        if (event.key === "End") {
+          showPage(
+            pages.length - 1
+          );
+        }
+
+      }
+    );
+  </script>
+
+</body>
+</html>
