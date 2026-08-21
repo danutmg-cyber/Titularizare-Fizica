@@ -1,1 +1,4033 @@
+<!DOCTYPE html>
+<html lang="ro">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="description"
+  content="Tipologia itemilor de evaluare: definiție, clasificare, caracteristici, domenii de utilizare, reguli de proiectare, corectare și notare. Titularizare Fizică."
+>
+
+<title>
+  Itemi de evaluare · Didactica fizicii · Titularizare Fizică
+</title>
+
+
+<!-- =========================================================
+     TEMA INIȚIALĂ
+     ========================================================= -->
+
+<script>
+(function () {
+
+  const savedTheme =
+    localStorage.getItem("titularizare-theme");
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme =
+    savedTheme || (prefersDark ? "dark" : "light");
+
+  document.documentElement.dataset.theme = theme;
+
+})();
+</script>
+
+
+<style>
+
+/* =========================================================
+   TEMA ZI
+   ========================================================= */
+
+:root,
+html[data-theme="light"] {
+
+  color-scheme: light;
+
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
+
+  --text: #1a2033;
+  --text-muted: #4d5875;
+
+  --navy: #16213e;
+  --navy-2: #0f3460;
+
+  --accent: #3f8cff;
+  --accent-2: #ffb703;
+
+  --border: #dfe4f0;
+
+  --soft-blue: #edf5ff;
+  --soft-green: #edf9f1;
+  --soft-yellow: #fff8dc;
+  --soft-red: #fff0f0;
+  --soft-purple: #f4efff;
+
+  --definition-bg: #edf5ff;
+  --definition-border: #3f8cff;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
+  --exam-bg: #edf9f1;
+  --exam-border: #278447;
+
+  --danger-bg: #fff0f0;
+  --danger-border: #c2414b;
+
+  --update-bg: #f4efff;
+  --update-border: #7a4fb5;
+
+  --objective: #216e9d;
+  --semiobjective: #2f855a;
+  --subjective: #8a4f9d;
+
+  --shadow:
+    0 2px 10px rgba(22, 33, 62, .08);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+/* =========================================================
+   TEMA NOAPTE
+   ========================================================= */
+
+html[data-theme="dark"] {
+
+  color-scheme: dark;
+
+  --bg: #10162b;
+  --bg-card: #1a2340;
+
+  --text: #e8ecfb;
+  --text-muted: #a7b0d1;
+
+  --navy: #0b1023;
+  --navy-2: #16213e;
+
+  --accent: #6fa8ff;
+  --accent-2: #ffcd4a;
+
+  --border: #2a3459;
+
+  --soft-blue: #182944;
+  --soft-green: #163a24;
+  --soft-yellow: #372f16;
+  --soft-red: #3a1c21;
+  --soft-purple: #29203e;
+
+  --definition-bg: #182944;
+  --definition-border: #6fa8ff;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
+  --exam-bg: #163a24;
+  --exam-border: #62c681;
+
+  --danger-bg: #3a1c21;
+  --danger-border: #ef7b84;
+
+  --update-bg: #29203e;
+  --update-border: #a98cff;
+
+  --objective: #428ec2;
+  --semiobjective: #4fa775;
+  --subjective: #ae7bc0;
+
+  --shadow:
+    0 2px 14px rgba(0, 0, 0, .4);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+
+  scroll-behavior: smooth;
+  scroll-padding-top: 18px;
+
+}
+
+body {
+
+  margin: 0;
+
+  font-family:
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+
+  line-height: 1.68;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+
+}
+
+a {
+  overflow-wrap: anywhere;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   ACCESIBILITATE
+   ========================================================= */
+
+.skip-link {
+
+  position: absolute;
+
+  top: -60px;
+  left: 14px;
+
+  z-index: 1000;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header.top {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: var(--header-text);
+
+  padding:
+    24px
+    max(18px, env(safe-area-inset-right))
+    22px
+    max(18px, env(safe-area-inset-left));
+
+}
+
+.top-inner {
+
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+}
+
+.header-row {
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+}
+
+.header-text {
+  min-width: 0;
+}
+
+.breadcrumb {
+
+  margin-bottom: 10px;
+
+  font-size: .84rem;
+  line-height: 1.5;
+
+  color: #b9c3e6;
+
+}
+
+.breadcrumb a {
+
+  color: #cfe0ff;
+  text-decoration: none;
+
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
+
+header.top h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(1.45rem, 4vw, 1.9rem);
+
+  line-height: 1.22;
+
+  font-weight: 750;
+
+}
+
+header.top p.subtitle {
+
+  margin: 7px 0 0;
+
+  color: var(--header-muted);
+
+  font-size:
+    clamp(.88rem, 2.4vw, .98rem);
+
+}
+
+
+/* =========================================================
+   BUTON TEMA
+   ========================================================= */
+
+.theme-toggle {
+
+  flex: 0 0 auto;
+
+  min-height: 44px;
+
+  padding: 9px 14px;
+
+  border:
+    1px solid rgba(255,255,255,.3);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  color: #ffffff;
+
+  font: inherit;
+
+  font-size: .86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background .15s ease,
+    transform .15s ease;
+
+}
+
+.theme-toggle:hover {
+
+  background:
+    rgba(255,255,255,.18);
+
+}
+
+.theme-toggle:active {
+  transform: scale(.98);
+}
+
+.theme-toggle:focus-visible {
+
+  outline:
+    3px solid var(--accent-2);
+
+  outline-offset: 3px;
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+
+  width: min(900px, 100%);
+
+  margin: 28px auto 60px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+}
+
+
+/* =========================================================
+   CARDURI
+   ========================================================= */
+
+section.card {
+
+  background: var(--bg-card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow);
+
+  padding:
+    clamp(18px, 4vw, 24px);
+
+  margin-bottom: 22px;
+
+}
+
+section.card > :first-child {
+  margin-top: 0;
+}
+
+section.card > :last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TITLURI
+   ========================================================= */
+
+h2 {
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom:
+    2px solid var(--accent);
+
+  color: var(--navy-2);
+
+  font-size:
+    clamp(1.12rem, 3vw, 1.28rem);
+
+  line-height: 1.32;
+
+}
+
+html[data-theme="dark"] h2 {
+  color: var(--accent);
+}
+
+h3 {
+
+  margin:
+    22px 0 8px;
+
+  color: var(--text);
+
+  font-size:
+    clamp(1rem, 2.5vw, 1.08rem);
+
+  line-height: 1.35;
+
+}
+
+p {
+  margin: .7rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin: .42rem 0;
+}
+
+
+/* =========================================================
+   CUPRINS
+   ========================================================= */
+
+.toc {
+
+  columns: 2;
+  column-gap: 38px;
+
+  font-size: .93rem;
+
+}
+
+.toc ol {
+  margin: 0;
+}
+
+.toc li {
+  break-inside: avoid;
+}
+
+.toc a {
+
+  color: var(--accent);
+
+  text-decoration: none;
+
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   DEFINITII
+   ========================================================= */
+
+.definitie {
+
+  margin: 14px 0;
+
+  padding:
+    16px 18px;
+
+  border-left:
+    5px solid var(--definition-border);
+
+  border-radius:
+    0 10px 10px 0;
+
+  background:
+    var(--definition-bg);
+
+}
+
+.definitie .term {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--accent);
+
+  font-size: 1.02rem;
+
+}
+
+
+/* =========================================================
+   CASETE
+   ========================================================= */
+
+.callout,
+.warning,
+.exam-box,
+.danger,
+.update-note {
+
+  margin: 16px 0;
+
+  padding:
+    15px 17px;
+
+  border-radius: 10px;
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.update-note {
+
+  background: var(--update-bg);
+
+  border-left:
+    5px solid var(--update-border);
+
+}
+
+
+/* =========================================================
+   GRILE
+   ========================================================= */
+
+.grid2 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 14px;
+
+  margin: 15px 0;
+
+}
+
+.grid3 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.mini-card {
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--bg-card) 86%,
+      var(--accent) 14%
+    );
+
+}
+
+.mini-card h3 {
+
+  margin: 0 0 6px;
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   CLASIFICARE ITEMI
+   ========================================================= */
+
+.item-family {
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding-top: 18px;
+
+}
+
+.item-family::before {
+
+  content: "";
+
+  display: block;
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 5px;
+
+}
+
+.item-family.objective::before {
+  background: var(--objective);
+}
+
+.item-family.semiobjective::before {
+  background: var(--semiobjective);
+}
+
+.item-family.subjective::before {
+  background: var(--subjective);
+}
+
+.family-code {
+
+  display: inline-flex;
+
+  min-height: 30px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 10px;
+
+  margin-bottom: 8px;
+
+  border-radius: 999px;
+
+  color: #ffffff;
+
+  font-size: .78rem;
+  font-weight: 850;
+
+}
+
+.objective .family-code {
+  background: var(--objective);
+}
+
+.semiobjective .family-code {
+  background: var(--semiobjective);
+}
+
+.subjective .family-code {
+  background: var(--subjective);
+}
+
+
+/* =========================================================
+   AVANTAJ / DEZAVANTAJ
+   ========================================================= */
+
+.pros-cons {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 14px 0;
+
+}
+
+.pro,
+.con {
+
+  padding: 14px 16px;
+
+  border-radius: 10px;
+
+}
+
+.pro {
+
+  background: var(--soft-green);
+
+  border-left:
+    4px solid var(--exam-border);
+
+}
+
+.con {
+
+  background: var(--soft-red);
+
+  border-left:
+    4px solid var(--danger-border);
+
+}
+
+.pro b,
+.con b {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+}
+
+
+/* =========================================================
+   EXEMPLU ITEM
+   ========================================================= */
+
+.item-example {
+
+  margin: 14px 0;
+
+  padding: 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--bg-card);
+
+}
+
+.item-label {
+
+  display: inline-block;
+
+  margin-bottom: 9px;
+
+  padding: 4px 9px;
+
+  border-radius: 999px;
+
+  background: var(--navy-2);
+  color: #ffffff;
+
+  font-size: .76rem;
+  font-weight: 800;
+
+}
+
+.answer {
+
+  margin-top: 11px;
+
+  padding-top: 10px;
+
+  border-top:
+    1px dashed var(--border);
+
+  color: var(--text-muted);
+
+}
+
+.answer strong {
+  color: var(--text);
+}
+
+
+/* =========================================================
+   FORMULE
+   ========================================================= */
+
+.formula {
+
+  margin: 12px 0;
+
+  padding: 13px;
+
+  border-radius: 10px;
+
+  background: var(--soft-blue);
+
+  text-align: center;
+
+  font-family:
+    "Cambria Math",
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(1.08rem, 3vw, 1.3rem);
+
+  overflow-x: auto;
+
+}
+
+
+/* =========================================================
+   TABELE
+   ========================================================= */
+
+.table-wrap {
+
+  width: 100%;
+
+  margin: 14px 0;
+
+  overflow-x: auto;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  -webkit-overflow-scrolling: touch;
+
+}
+
+table {
+
+  width: 100%;
+
+  min-width: 720px;
+
+  border-collapse: collapse;
+
+  background: var(--bg-card);
+
+}
+
+th,
+td {
+
+  padding: 11px 12px;
+
+  border-bottom:
+    1px solid var(--border);
+
+  text-align: left;
+  vertical-align: top;
+
+}
+
+th {
+
+  background: var(--soft-blue);
+
+  color: var(--text);
+
+  font-size: .9rem;
+
+}
+
+td {
+  font-size: .92rem;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   PROCES PROIECTARE
+   ========================================================= */
+
+.process {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr auto 1fr;
+
+  align-items: stretch;
+
+  gap: 10px;
+
+  margin: 18px 0;
+
+}
+
+.process-card {
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 110px;
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--soft-blue);
+
+  text-align: center;
+
+}
+
+.process-card b {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--accent);
+
+}
+
+.process-arrow {
+
+  display: flex;
+
+  align-items: center;
+
+  color: var(--accent);
+
+  font-size: 1.55rem;
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   BAREM
+   ========================================================= */
+
+.score {
+
+  display: inline-flex;
+
+  min-width: 48px;
+
+  justify-content: center;
+
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: var(--soft-green);
+
+  color: var(--text);
+
+  font-size: .82rem;
+  font-weight: 800;
+
+}
+
+
+/* =========================================================
+   RECAP
+   ========================================================= */
+
+.recap-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(185px,1fr)
+    );
+
+  gap: 11px;
+
+  margin: 14px 0;
+
+}
+
+.recap-item {
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+  font-size: .86rem;
+
+}
+
+.recap-item b {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--accent-2);
+
+  font-size: .96rem;
+
+}
+
+
+/* =========================================================
+   INTREBARI
+   ========================================================= */
+
+.question {
+
+  margin: 12px 0;
+
+  padding: 14px 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--bg-card);
+
+}
+
+.question b {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   SURSE
+   ========================================================= */
+
+.bibliografie li {
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+
+}
+
+
+/* =========================================================
+   NAVIGARE
+   ========================================================= */
+
+nav.pager {
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 14px;
+
+  width: min(900px,100%);
+
+  margin: 0 auto 28px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  font-size: .91rem;
+
+}
+
+nav.pager a {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  color: var(--accent);
+
+  text-decoration: none;
+
+  font-weight: 650;
+
+}
+
+nav.pager a:hover,
+nav.pager a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer.site {
+
+  padding:
+    18px 16px 30px;
+
+  color: var(--text-muted);
+
+  text-align: center;
+
+  font-size: .8rem;
+
+  line-height: 1.55;
+
+}
+
+
+/* =========================================================
+   TABLETA
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .grid3 {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+}
+
+
+/* =========================================================
+   TELEFON
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  header.top {
+    padding-top: 18px;
+  }
+
+  .header-row {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    align-self: flex-start;
+  }
+
+  .toc {
+    columns: 1;
+  }
+
+  .grid2,
+  .grid3,
+  .pros-cons {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .process {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .process-arrow {
+
+    justify-content: center;
+
+    transform: rotate(90deg);
+
+  }
+
+  main {
+    margin-top: 18px;
+  }
+
+  section.card {
+    border-radius: 11px;
+  }
+
+  nav.pager {
+
+    flex-direction: column;
+    align-items: stretch;
+
+  }
+
+  nav.pager a {
+
+    justify-content: center;
+
+    padding: 7px 10px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--bg-card);
+
+  }
+
+}
+
+
+/* =========================================================
+   ECRANE FOARTE MICI
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  section.card {
+    padding: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCERE ANIMATII
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+
+    transition-duration:
+      .01ms !important;
+
+    animation-duration:
+      .01ms !important;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<a
+  class="skip-link"
+  href="#continut"
+>
+  Sari la conținut
+</a>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="top">
+
+  <div class="top-inner">
+
+    <div class="header-row">
+
+      <div class="header-text">
+
+        <div class="breadcrumb">
+
+          <a href="../../index.html">
+            Acasă
+          </a>
+
+          &rsaquo;
+
+          <a href="../index.html">
+            Didactică
+          </a>
+
+          &rsaquo;
+
+          <a href="index.html">
+            Evaluarea
+          </a>
+
+          &rsaquo;
+
+          Itemi
+
+        </div>
+
+
+        <h1>
+          Itemi de evaluare
+        </h1>
+
+        <p class="subtitle">
+          Definiție · clasificare · caracteristici ·
+          proiectare · corectare și notare
+        </p>
+
+      </div>
+
+
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Comută tema zi/noapte"
+        aria-pressed="false"
+      >
+        Tema: Zi
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<main id="continut">
+
+
+  <!-- =======================================================
+       PROGRAMA
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Ce cere programa de Titularizare?
+    </h2>
+
+    <p>
+      Programa disponibilă pentru
+      <b>Titularizare Fizică 2026</b>
+      solicită explicit studierea
+      tipologiei itemilor sub următoarele aspecte:
+    </p>
+
+    <div class="exam-answer">
+
+      definiție · clasificări · caracteristici ·
+      domenii de utilizare · reguli de proiectare ·
+      modalități de corectare și notare
+
+    </div>
+
+    <div class="warning">
+
+      <strong>
+        Pentru sesiunea 2027:
+      </strong>
+
+      structura de mai sus trebuie reverificată
+      în programa oficială publicată pentru concursul
+      din 2027.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       CUPRINS
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Cuprins
+    </h2>
+
+    <div class="toc">
+
+      <ol>
+
+        <li>
+          <a href="#sec1">
+            Ce este un item?
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec2">
+            Clasificarea itemilor
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec3">
+            Alegere multiplă
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec4">
+            Asociere
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec5">
+            Alegere duală
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec6">
+            Completare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec7">
+            Răspuns scurt
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec8">
+            Itemi subiectivi
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec9">
+            Domenii de utilizare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec10">
+            Reguli generale de proiectare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec11">
+            Corectare și notare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec12">
+            Exemple la Fizică
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec13">
+            Model de barem
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec14">
+            Capcane de proiectare
+          </a>
+        </li>
+
+        <li>
+          <a href="#sec15">
+            Recapitulare
+          </a>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       1. DEFINITIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec1"
+  >
+
+    <h2>
+      1. Ce este un item?
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Item — definiție de lucru
+      </b>
+
+      Itemul este o sarcină de evaluare formulată
+      astfel încât să solicite elevului un răspuns
+      sau o acțiune observabilă, pe baza căreia
+      evaluatorul poate aprecia nivelul unei achiziții
+      sau al unei competențe.
+
+    </div>
+
+
+    <p>
+      Un item nu înseamnă doar
+      „o întrebare”.
+      El presupune cel puțin:
+    </p>
+
+
+    <div class="grid3">
+
+      <div class="mini-card">
+
+        <h3>
+          Enunț
+        </h3>
+
+        <p>
+          Contextul și informațiile
+          necesare rezolvării.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Sarcină
+        </h3>
+
+        <p>
+          Ce trebuie concret să facă elevul.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Răspuns așteptat
+        </h3>
+
+        <p>
+          Elementul pe baza căruia se realizează
+          corectarea și notarea.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        La Titularizare:
+      </strong>
+
+      când elaborezi un item,
+      trebuie să verifici simultan
+      <b>corectitudinea științifică</b>,
+      <b>corectitudinea proiectării sarcinii</b>
+      și
+      <b>răspunsul corect așteptat</b>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       2. CLASIFICAREA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec2"
+  >
+
+    <h2>
+      2. Clasificarea itemilor
+    </h2>
+
+
+    <p>
+      Materialul de pregătire utilizat grupează itemii
+      în trei categorii principale:
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card item-family objective">
+
+        <span class="family-code">
+          OBIECTIVI
+        </span>
+
+        <h3>
+          Itemi obiectivi
+        </h3>
+
+        <p>
+          Răspunsul corect este bine determinat,
+          iar corectarea poate avea un grad ridicat
+          de obiectivitate.
+        </p>
+
+        <p>
+          Exemple:
+          alegere multiplă,
+          asociere,
+          alegere duală.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card item-family semiobjective">
+
+        <span class="family-code">
+          SEMIOBIECTIVI
+        </span>
+
+        <h3>
+          Itemi semiobiectivi
+        </h3>
+
+        <p>
+          Elevul formulează singur răspunsul,
+          dar răspunsul așteptat rămâne relativ
+          scurt și delimitat.
+        </p>
+
+        <p>
+          Exemple:
+          completare,
+          răspuns scurt.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card item-family subjective">
+
+        <span class="family-code">
+          SUBIECTIVI
+        </span>
+
+        <h3>
+          Itemi subiectivi
+        </h3>
+
+        <p>
+          Solicită construirea unui răspuns mai amplu,
+          argumentare, explicație,
+          rezolvare sau organizarea ideilor.
+        </p>
+
+        <p>
+          Exemple:
+          întrebare deschisă,
+          eseu,
+          problemă complexă.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Intuitiv:
+      </strong>
+
+      pe măsură ce trecem de la
+      <b>obiectiv</b>
+      la
+      <b>subiectiv</b>,
+      libertatea de construire a răspunsului crește,
+      dar și necesitatea unui barem mai detaliat.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. ALEGERE MULTIPLA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec3"
+  >
+
+    <h2>
+      3. Item obiectiv cu alegere multiplă
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Alegere multiplă
+      </b>
+
+      Item în care elevul selectează răspunsul corect
+      dintr-un set de variante oferite.
+      Variantele incorecte se numesc
+      <b>distractori</b>.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Corectare rapidă și obiectivă;
+        permite acoperirea unui volum relativ mare
+        de conținut.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Există posibilitatea ghicirii;
+        elaborarea unor distractori plauzibili
+        poate fi dificilă.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        enunțul trebuie să fie clar și concis;
+      </li>
+
+      <li>
+        trebuie evitate informațiile inutile;
+      </li>
+
+      <li>
+        distractorii trebuie să fie plauzibili;
+      </li>
+
+      <li>
+        variantele nu trebuie să ofere indicii
+        gramaticale sau logice neintenționate;
+      </li>
+
+      <li>
+        răspunsul corect trebuie să fie
+        neechivoc.
+      </li>
+
+    </ul>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Electricitate
+      </span>
+
+      <p>
+        Legea lui Ohm pentru o porțiune de circuit
+        se exprimă prin relația:
+      </p>
+
+      <p>
+        a) I = U · R
+        <br>
+        b) U = R · I
+        <br>
+        c) R = U · I
+        <br>
+        d) U = I / R
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        b) U = R · I
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. ASOCIERE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec4"
+  >
+
+    <h2>
+      4. Item obiectiv de tip asociere
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Asociere / item de tip pereche
+      </b>
+
+      Solicită stabilirea corespondențelor
+      dintre elementele a două coloane.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Este ușor de corectat și este potrivit
+        pentru verificarea relațiilor dintre concepte.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Evaluează mai greu raționamente complexe;
+        un item slab construit poate oferi
+        răspunsul prin eliminare.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        elementele din fiecare coloană trebuie
+        să fie omogene;
+      </li>
+
+      <li>
+        este util ca una dintre coloane
+        să conțină mai multe elemente decât cealaltă;
+      </li>
+
+      <li>
+        instrucțiunea trebuie să precizeze
+        dacă o opțiune poate fi utilizată o singură dată
+        sau de mai multe ori;
+      </li>
+
+      <li>
+        lista trebuie să fie suficient de scurtă
+        pentru a rămâne ușor de urmărit.
+      </li>
+
+    </ul>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Mărimi fizice
+      </span>
+
+      <p>
+        Asociați fiecare mărime fizică din coloana A
+        cu unitatea SI corespunzătoare din coloana B.
+      </p>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Coloana A</th>
+              <th>Coloana B</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>1. Forță</td>
+              <td>a. J</td>
+            </tr>
+
+            <tr>
+              <td>2. Energie</td>
+              <td>b. Pa</td>
+            </tr>
+
+            <tr>
+              <td>3. Presiune</td>
+              <td>c. N</td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td>d. W</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        1–c; 2–a; 3–b
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. ALEGERE DUALA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec5"
+  >
+
+    <h2>
+      5. Item obiectiv cu alegere duală
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Alegere duală
+      </b>
+
+      Solicită alegerea între două variante,
+      de exemplu:
+      adevărat/fals,
+      da/nu,
+      corect/incorect.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Este rapid de administrat și corectat;
+        este potrivit pentru verificarea
+        unor fapte sau relații simple.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Probabilitatea de ghicire este ridicată;
+        evaluează limitat raționamentele complexe.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        afirmația trebuie să fie clară și precisă;
+      </li>
+
+      <li>
+        fiecare enunț trebuie să testeze
+        o singură idee principală;
+      </li>
+
+      <li>
+        evită formulările inutil negative;
+      </li>
+
+      <li>
+        evită termeni care pot sugera răspunsul,
+        precum „întotdeauna” sau „niciodată”,
+        atunci când nu sunt necesari științific.
+      </li>
+
+    </ul>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Instrumente electrice
+      </span>
+
+      <p>
+        Precizați dacă afirmația este
+        adevărată sau falsă:
+      </p>
+
+      <p>
+        „Ampermetrul se conectează în paralel
+        cu elementul de circuit prin care se măsoară
+        intensitatea curentului.”
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        Fals.
+
+        Ampermetrul se conectează în serie.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. COMPLETARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec6"
+  >
+
+    <h2>
+      6. Item semiobiectiv de completare
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Item de completare
+      </b>
+
+      Elevul completează un spațiu liber
+      cu termenul, simbolul, valoarea sau
+      expresia solicitată.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Răspunsul este scurt și poate fi
+        corectat relativ obiectiv;
+        șansa de ghicire este mai mică decât
+        la alegerea multiplă.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Pot apărea formulări alternative;
+        o cerință ambiguă poate admite
+        mai multe răspunsuri neanticipate.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        este preferabil un singur spațiu important
+        de completat într-un item;
+      </li>
+
+      <li>
+        propoziția trebuie să conducă logic
+        spre răspuns;
+      </li>
+
+      <li>
+        trebuie evitate lacunele care pot fi
+        completate în mai multe moduri;
+      </li>
+
+      <li>
+        unitatea de măsură trebuie precizată
+        atunci când este necesară.
+      </li>
+
+    </ul>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Legea lui Ohm
+      </span>
+
+      <p>
+        Completați spațiul liber:
+      </p>
+
+      <p>
+        Raportul dintre tensiunea electrică
+        U și intensitatea curentului I
+        pentru un conductor ohmic la temperatură constantă
+        reprezintă
+        __________________.
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        rezistența electrică a conductorului.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. RASPUNS SCURT
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec7"
+  >
+
+    <h2>
+      7. Item semiobiectiv cu răspuns scurt
+    </h2>
+
+
+    <div class="definitie">
+
+      <b class="term">
+        Răspuns scurt
+      </b>
+
+      Item în care elevul formulează
+      un răspuns propriu, concis,
+      fără a selecta dintre variante oferite.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Reduce ghicirea și permite elevului
+        să formuleze răspunsul în expresie proprie.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Pot exista răspunsuri echivalente
+        formulate diferit;
+        este necesară anticiparea variantelor acceptabile.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        întrebarea trebuie să fie directă;
+      </li>
+
+      <li>
+        răspunsul solicitat trebuie să fie scurt;
+      </li>
+
+      <li>
+        numărul răspunsurilor corecte posibile
+        trebuie să fie limitat;
+      </li>
+
+      <li>
+        baremul trebuie să precizeze
+        formulările echivalente acceptate.
+      </li>
+
+    </ul>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Circuite electrice
+      </span>
+
+      <p>
+        De ce instalațiile electrice din locuințe
+        utilizează, de regulă,
+        conectarea receptoarelor în paralel?
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns așteptat:
+        </strong>
+
+        În conexiunea în paralel,
+        fiecare receptor funcționează independent;
+        întreruperea unui receptor nu întrerupe
+        funcționarea celorlalte ramuri.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. SUBIECTIVI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec8"
+  >
+
+    <h2>
+      8. Itemii subiectivi
+    </h2>
+
+
+    <p>
+      În materialul de pregătire apar
+      <b>întrebarea deschisă scurtă</b>
+      și
+      <b>eseul</b>.
+      În evaluarea la Fizică este frecventă și
+      <b>problema</b>,
+      care poate solicita un demers construit
+      în mai multe etape.
+    </p>
+
+
+    <h3>
+      A. Întrebare deschisă
+    </h3>
+
+
+    <div class="definitie">
+
+      Elevul formulează un răspuns propriu,
+      explică, argumentează sau sintetizează
+      un fenomen ori o relație.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <b>
+          Avantaje
+        </b>
+
+        Evaluează capacitatea de explicație,
+        sinteză și exprimare logică.
+
+      </div>
+
+
+      <div class="con">
+
+        <b>
+          Dezavantaje
+        </b>
+
+        Corectarea poate fi mai puțin obiectivă
+        dacă baremul nu precizează ideile obligatorii.
+
+      </div>
+
+    </div>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Hidrostatică
+      </span>
+
+      <p>
+        Explicați de ce presiunea hidrostatică
+        crește cu adâncimea într-un lichid aflat
+        în repaus.
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Elemente pentru răspuns:
+        </strong>
+
+        p = ρgh;
+        pentru același lichid și același câmp gravitațional,
+        presiunea hidrostatică este direct proporțională
+        cu adâncimea h.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      B. Eseu
+    </h3>
+
+
+    <div class="definitie">
+
+      Solicită elaborarea unui răspuns amplu,
+      organizat și argumentat,
+      în limitele precizate de cerință.
+
+    </div>
+
+
+    <h3>
+      Reguli de proiectare
+    </h3>
+
+    <ul>
+
+      <li>
+        cerința trebuie să precizeze clar
+        conținutul urmărit;
+      </li>
+
+      <li>
+        se poate preciza lungimea,
+        numărul de argumente sau structura;
+      </li>
+
+      <li>
+        baremul trebuie să fie analitic,
+        cu criterii și punctaje;
+      </li>
+
+      <li>
+        tema trebuie să fie adecvată
+        nivelului elevilor.
+      </li>
+
+    </ul>
+
+
+    <h3>
+      C. Problemă de Fizică
+    </h3>
+
+
+    <div class="item-example">
+
+      <span class="item-label">
+        Exemplu · Circuit electric
+      </span>
+
+      <p>
+        O sursă are tensiunea electromotoare
+        E = 12 V și rezistența internă
+        r = 1 Ω.
+        La borne se conectează un rezistor
+        R = 5 Ω.
+      </p>
+
+      <p>
+        Calculați intensitatea curentului
+        din circuit.
+      </p>
+
+      <div class="formula">
+        I = E / (R + r)
+      </div>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        I = 12 V / 6 Ω = 2 A.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. DOMENII DE UTILIZARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec9"
+  >
+
+    <h2>
+      9. Domenii de utilizare
+    </h2>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Tip de item
+            </th>
+
+            <th>
+              Este potrivit pentru
+            </th>
+
+            <th>
+              Este mai puțin potrivit pentru
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              <b>Alegere multiplă</b>
+            </td>
+
+            <td>
+              concepte, relații,
+              aplicări scurte,
+              identificarea formulei corecte
+            </td>
+
+            <td>
+              demonstrații ample,
+              argumentare liberă
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Asociere</b>
+            </td>
+
+            <td>
+              mărime–unitate,
+              fenomen–lege,
+              aparat–funcție
+            </td>
+
+            <td>
+              raționamente complexe
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Adevărat/Fals</b>
+            </td>
+
+            <td>
+              verificarea rapidă
+              a unor afirmații precise
+            </td>
+
+            <td>
+              argumentare complexă
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Completare</b>
+            </td>
+
+            <td>
+              termeni,
+              formule,
+              unități,
+              relații scurte
+            </td>
+
+            <td>
+              răspunsuri cu multe variante posibile
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Răspuns scurt</b>
+            </td>
+
+            <td>
+              explicații concise,
+              cauze,
+              concluzii
+            </td>
+
+            <td>
+              argumentări foarte ample
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <b>Subiectiv</b>
+            </td>
+
+            <td>
+              explicație,
+              argumentare,
+              investigație,
+              probleme complexe
+            </td>
+
+            <td>
+              testarea rapidă a unui volum foarte mare
+              de informații
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Principiu:
+      </strong>
+
+      tipul itemului se selectează
+      <b>în funcție de ceea ce vrei să evaluezi</b>,
+      nu pentru că un anumit tip de item
+      este „mai bun” în mod absolut.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. REGULI GENERALE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec10"
+  >
+
+    <h2>
+      10. Reguli generale de proiectare
+    </h2>
+
+
+    <div class="process">
+
+      <div class="process-card">
+
+        <b>
+          1. Competența
+        </b>
+
+        Ce rezultat al învățării
+        vreau să verific?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          2. Itemul
+        </b>
+
+        Ce tip de sarcină permite
+        verificarea adecvată?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          3. Baremul
+        </b>
+
+        Cum recunosc și punctez
+        răspunsul corect?
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Un item bun trebuie să fie:
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Corect științific
+        </h3>
+
+        <p>
+          Datele, formulele,
+          unitățile și concluziile
+          trebuie să fie corecte.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Clar
+        </h3>
+
+        <p>
+          Elevul trebuie să înțeleagă
+          exact ce are de făcut.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Relevant
+        </h3>
+
+        <p>
+          Sarcina trebuie să evalueze
+          competența vizată.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Delimitat
+        </h3>
+
+        <p>
+          Nivelul și amploarea răspunsului
+          trebuie să fie anticipate.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Corectabil
+        </h3>
+
+        <p>
+          Trebuie să existe răspuns corect
+          sau criterii de evaluare clare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Adecvat nivelului
+        </h3>
+
+        <p>
+          Limbajul și dificultatea trebuie
+          adaptate elevilor.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Greșeală majoră:
+      </strong>
+
+      să construiești mai întâi itemul
+      și abia apoi să cauți ce competență
+      ar putea evalua.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. CORECTARE SI NOTARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec11"
+  >
+
+    <h2>
+      11. Modalități de corectare și notare
+    </h2>
+
+
+    <div class="update-note">
+
+      <strong>
+        Precizare de sursă
+      </strong>
+
+      <p>
+        Materialul „Itemi și metode complementare de evaluare”
+        detaliază în principal clasificarea,
+        avantajele, dezavantajele și regulile de proiectare.
+      </p>
+
+      <p>
+        Programa de concurs solicită însă explicit și
+        <b>modalități de corectare și notare</b>.
+        Secțiunea de mai jos completează această cerință
+        prin principii pedagogice de lucru.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Itemii obiectivi
+    </h3>
+
+    <p>
+      Se corectează prin confruntarea răspunsului
+      elevului cu răspunsul corect prestabilit.
+    </p>
+
+    <div class="exam-answer">
+
+      răspuns corect
+      → punctaj acordat
+
+      <br>
+
+      răspuns greșit / absent
+      → punctaj neacordat
+
+    </div>
+
+
+    <h3>
+      Itemii semiobiectivi
+    </h3>
+
+    <p>
+      Baremul trebuie să prevadă:
+    </p>
+
+    <ul>
+
+      <li>
+        răspunsul corect;
+      </li>
+
+      <li>
+        eventuale formulări echivalente;
+      </li>
+
+      <li>
+        unitatea de măsură, dacă este relevantă;
+      </li>
+
+      <li>
+        situațiile în care se acordă
+        punctaj parțial.
+      </li>
+
+    </ul>
+
+
+    <h3>
+      Itemii subiectivi
+    </h3>
+
+    <p>
+      Necesită un
+      <b>barem analitic</b>
+      sau criterii explicite.
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Idei / etape
+        </h3>
+
+        <p>
+          Se identifică elementele
+          obligatorii ale răspunsului.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Punctaj parțial
+        </h3>
+
+        <p>
+          Se acordă pentru etape
+          corecte realizate independent.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Corectitudine științifică
+        </h3>
+
+        <p>
+          Se evaluează relațiile,
+          raționamentul și rezultatele.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Criterii explicite
+        </h3>
+
+        <p>
+          Reduc diferențele de apreciere
+          dintre evaluatori.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      La problemele de Fizică,
+      nu evalua numai rezultatul numeric.
+
+      Un rezultat final greșit poate conține
+      etape corecte care justifică
+      <b>punctaj parțial</b>,
+      conform baremului stabilit.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. EXEMPLE FIZICA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec12"
+  >
+
+    <h2>
+      12. Set de itemi aplicați la Fizică
+    </h2>
+
+
+    <h3>
+      Item 1 — alegere multiplă
+    </h3>
+
+
+    <div class="item-example">
+
+      <p>
+        Un rezistor cu rezistența
+        R = 6 Ω este parcurs de curentul
+        I = 2 A.
+        Tensiunea la borne este:
+      </p>
+
+      <p>
+        a) 3 V
+        <br>
+        b) 8 V
+        <br>
+        c) 12 V
+        <br>
+        d) 18 V
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        c) 12 V.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Item 2 — adevărat/fals
+    </h3>
+
+
+    <div class="item-example">
+
+      <p>
+        „Voltmetrul ideal se conectează
+        în paralel cu elementul de circuit
+        la bornele căruia se măsoară tensiunea.”
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        Adevărat.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Item 3 — completare
+    </h3>
+
+
+    <div class="item-example">
+
+      <p>
+        Unitatea de măsură în SI
+        pentru rezistența electrică este
+        __________.
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        ohmul, simbol Ω.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Item 4 — răspuns scurt
+    </h3>
+
+
+    <div class="item-example">
+
+      <p>
+        De ce ampermetrul trebuie conectat
+        în serie cu elementul prin care
+        se măsoară intensitatea curentului?
+      </p>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns așteptat:
+        </strong>
+
+        Pentru ca prin ampermetru să treacă
+        același curent electric ca prin elementul
+        de circuit măsurat.
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Item 5 — problemă
+    </h3>
+
+
+    <div class="item-example">
+
+      <p>
+        La bornele unui rezistor
+        R = 10 Ω se aplică tensiunea
+        U = 20 V.
+      </p>
+
+      <p>
+        Calculați intensitatea curentului electric.
+      </p>
+
+      <div class="formula">
+
+        I = U / R
+
+      </div>
+
+      <div class="answer">
+
+        <strong>
+          Răspuns:
+        </strong>
+
+        I = 20 V / 10 Ω = 2 A.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. BAREM
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec13"
+  >
+
+    <h2>
+      13. Model de barem pentru o problemă
+    </h2>
+
+
+    <p>
+      Pentru problema:
+    </p>
+
+    <div class="callout">
+
+      U = 20 V,
+      R = 10 Ω.
+
+      <br>
+
+      Calculați intensitatea curentului electric.
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Etapă
+            </th>
+
+            <th>
+              Element urmărit
+            </th>
+
+            <th>
+              Punctaj exemplificativ
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              1
+            </td>
+
+            <td>
+              Identificarea relației
+              U = R · I
+            </td>
+
+            <td>
+              <span class="score">
+                2 p
+              </span>
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              2
+            </td>
+
+            <td>
+              Izolarea corectă:
+              I = U / R
+            </td>
+
+            <td>
+              <span class="score">
+                2 p
+              </span>
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              3
+            </td>
+
+            <td>
+              Înlocuirea datelor:
+              20 V / 10 Ω
+            </td>
+
+            <td>
+              <span class="score">
+                2 p
+              </span>
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              4
+            </td>
+
+            <td>
+              Calcul:
+              I = 2 A
+            </td>
+
+            <td>
+              <span class="score">
+                2 p
+              </span>
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              5
+            </td>
+
+            <td>
+              Unitate și răspuns final
+            </td>
+
+            <td>
+              <span class="score">
+                2 p
+              </span>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="warning">
+
+      Acesta este un
+      <b>model didactic de barem</b>,
+      nu un barem oficial de concurs.
+
+      La examen se aplică exclusiv
+      baremul oficial publicat pentru subiectul respectiv.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. CAPCANE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec14"
+  >
+
+    <h2>
+      14. Capcane frecvente
+    </h2>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Distractor absurd
+        </h3>
+
+        <p>
+          Dacă variantele greșite sunt evident imposibile,
+          itemul nu mai discriminează adecvat
+          nivelul elevilor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Mai multe răspunsuri corecte
+        </h3>
+
+        <p>
+          Este o eroare gravă dacă instrucțiunea
+          solicită un singur răspuns.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Negare dublă
+        </h3>
+
+        <p>
+          Îngreunează inutil înțelegerea sarcinii
+          și poate măsura lectura,
+          nu competența de Fizică.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Lipsa unității
+        </h3>
+
+        <p>
+          La un răspuns numeric,
+          trebuie stabilit dacă unitatea
+          face parte din criteriul de corectare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Itemul nu corespunde competenței
+        </h3>
+
+        <p>
+          O întrebare de memorare nu poate evalua
+          în mod valid o competență de investigare
+          experimentală.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Lipsa răspunsului așteptat
+        </h3>
+
+        <p>
+          La proiectarea pentru examen,
+          precizarea răspunsului corect
+          este esențială.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Corectarea doar după rezultat
+        </h3>
+
+        <p>
+          La o problemă complexă,
+          trebuie urmărit și demersul,
+          dacă baremul acordă punctaj parțial.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Confuzie item–metodă
+        </h3>
+
+        <p>
+          Itemul este o sarcină dintr-un
+          instrument de evaluare;
+          portofoliul sau observarea sistematică
+          sunt metode/instrumente mai ample.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. RECAPITULARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sec15"
+  >
+
+    <h2>
+      15. Recapitulare rapidă
+    </h2>
+
+
+    <div class="recap-grid">
+
+      <div class="recap-item">
+
+        <b>
+          Alegere multiplă
+        </b>
+
+        Elevul selectează
+        dintre variante.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Asociere
+        </b>
+
+        Elevul stabilește
+        corespondențe.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Alegere duală
+        </b>
+
+        Două variante:
+        adevărat/fals etc.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Completare
+        </b>
+
+        Elevul completează
+        răspunsul lipsă.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Răspuns scurt
+        </b>
+
+        Răspuns construit,
+        dar limitat.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Subiectiv
+        </b>
+
+        Explicație,
+        argumentare,
+        problemă,
+        eseu.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Proiectare
+        </b>
+
+        Competență →
+        item →
+        răspuns →
+        barem.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Corectare
+        </b>
+
+        Criterii clare și
+        punctaj prestabilit.
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-answer">
+
+      <b>
+        Schema pentru Titularizare:
+      </b>
+
+      <br><br>
+
+      1. denumesc tipul itemului;
+
+      <br>
+
+      2. formulez cerința clar;
+
+      <br>
+
+      3. verific informația de Fizică;
+
+      <br>
+
+      4. precizez răspunsul corect așteptat;
+
+      <br>
+
+      5. stabilesc criteriile de corectare
+      și punctajul.
+
+    </div>
+
+
+    <h3>
+      Autoevaluare
+    </h3>
+
+
+    <div class="question">
+
+      <b>1.</b>
+
+      Care sunt cele trei categorii mari
+      de itemi?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>2.</b>
+
+      Care este diferența dintre
+      un item cu alegere multiplă
+      și un item de completare?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>3.</b>
+
+      De ce este recomandat ca la asociere
+      cele două coloane să nu aibă
+      obligatoriu același număr de elemente?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>4.</b>
+
+      Care este principalul dezavantaj
+      al itemului adevărat/fals?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>5.</b>
+
+      De ce un item subiectiv necesită
+      un barem mai detaliat?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>6.</b>
+
+      Proiectează mental un item de completare
+      pentru o lege de Fizică și verifică:
+      există un singur răspuns neechivoc?
+
+    </div>
+
+
+    <div class="update-note">
+
+      <strong>
+        Reper pentru Titularizare Fizică 2027
+      </strong>
+
+      <p>
+        Pentru pregătirea actuală,
+        programa disponibilă pentru 2026 solicită explicit:
+        definiție,
+        clasificări,
+        caracteristici,
+        domenii de utilizare,
+        reguli de proiectare,
+        corectare și notare.
+      </p>
+
+      <p>
+        Această formulare trebuie
+        <b>reverificată în programa oficială 2027</b>
+        după publicare.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Surse de lucru
+    </h3>
+
+    <ul class="bibliografie">
+
+      <li>
+        Programa pentru concursul de ocupare
+        a posturilor didactice —
+        disciplina Fizică,
+        versiunea disponibilă pentru 2026.
+      </li>
+
+      <li>
+        Materialul de pregătire
+        „Itemi și metode complementare de evaluare”.
+      </li>
+
+      <li>
+        Subiecte de metodică pentru
+        Titularizare Fizică din anii anteriori,
+        utilizate pentru observarea tipurilor
+        de itemi cerute în contexte de Fizică.
+      </li>
+
+      <li>
+        M.E.C.–S.N.E.E.,
+        Ghiduri de evaluare pe discipline,
+        2000–2001,
+        indicate în bibliografia programei.
+      </li>
+
+      <li>
+        Radu, I.T.,
+        Evaluarea procesului de învățământ,
+        E.D.P., București, 2001,
+        indicată în bibliografia programei.
+      </li>
+
+    </ul>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     NAVIGARE
+     ========================================================= -->
+
+<nav
+  class="pager"
+  aria-label="Navigare între lecțiile despre evaluare"
+>
+
+  <a
+    href="defimitii-functii-tipuri-forme-de-evaluare.html"
+  >
+    ← Definiții, funcții, tipuri și forme
+  </a>
+
+
+  <a
+    href="metode-traditionale-si-alternative-de-evaluare.html"
+  >
+    Metode de evaluare →
+  </a>
+
+</nav>
+
+
+<footer class="site">
+
+  Tematica pentru didactica fizicii ·
+  Evaluarea · Itemi ·
+  Titularizare Fizică
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT — ZI / NOAPTE
+     ========================================================= -->
+
+<script>
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+
+function currentTheme() {
+
+  return document.documentElement.dataset.theme === "dark"
+    ? "dark"
+    : "light";
+
+}
+
+
+function updateThemeButton() {
+
+  const dark =
+    currentTheme() === "dark";
+
+  themeToggle.textContent =
+    dark
+      ? "Tema: Noapte"
+      : "Tema: Zi";
+
+  themeToggle.setAttribute(
+    "aria-pressed",
+    dark ? "true" : "false"
+  );
+
+  themeToggle.setAttribute(
+    "title",
+    dark
+      ? "Comută la tema de zi"
+      : "Comută la tema de noapte"
+  );
+
+}
+
+
+function toggleTheme() {
+
+  const next =
+    currentTheme() === "dark"
+      ? "light"
+      : "dark";
+
+  document.documentElement.dataset.theme =
+    next;
+
+  localStorage.setItem(
+    "titularizare-theme",
+    next
+  );
+
+  updateThemeButton();
+
+}
+
+
+themeToggle.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+updateThemeButton();
+
+</script>
+
+
+</body>
+
+</html>
