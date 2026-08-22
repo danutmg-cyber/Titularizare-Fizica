@@ -12,11 +12,11 @@
 
 <meta
   name="description"
-  content="Proiectarea lecțiilor la Fizică: proiect de lecție, competențe specifice, obiective operaționale, resurse, strategii didactice, evenimentele lecției, evaluare și abordări intra-, inter- și transdisciplinare."
+  content="Proiectarea lecției pentru Titularizare Fizică: competențe specifice, obiective operaționale, tipuri de lecții, strategie didactică, resurse, desfășurarea activității, evaluare, diferențiere și abordări intra-, inter- și transdisciplinare."
 >
 
 <title>
-  Proiectarea lecțiilor · Proiectarea didactică · Titularizare Fizică
+  Proiectarea lecției · Didactica Fizicii · Titularizare Fizică
 </title>
 
 
@@ -73,6 +73,7 @@ html[data-theme="light"] {
   --soft-yellow: #fff8dc;
   --soft-red: #fff0f0;
   --soft-purple: #f4efff;
+  --soft-gray: #f6f7fa;
 
   --definition-bg: #edf5ff;
   --definition-border: #3f8cff;
@@ -88,6 +89,9 @@ html[data-theme="light"] {
 
   --update-bg: #f4efff;
   --update-border: #7a4fb5;
+
+  --teacher-bg: #edf5ff;
+  --student-bg: #edf9f1;
 
   --shadow:
     0 2px 10px rgba(22, 33, 62, .08);
@@ -125,6 +129,7 @@ html[data-theme="dark"] {
   --soft-yellow: #372f16;
   --soft-red: #3a1c21;
   --soft-purple: #29203e;
+  --soft-gray: #19213a;
 
   --definition-bg: #182944;
   --definition-border: #6fa8ff;
@@ -141,8 +146,11 @@ html[data-theme="dark"] {
   --update-bg: #29203e;
   --update-border: #a98cff;
 
+  --teacher-bg: #182944;
+  --student-bg: #163a24;
+
   --shadow:
-    0 2px 14px rgba(0, 0, 0, .4);
+    0 2px 14px rgba(0,0,0,.4);
 
   --header-text: #ffffff;
   --header-muted: #c7d1f0;
@@ -284,7 +292,6 @@ header.top {
 .breadcrumb a {
 
   color: #cfe0ff;
-
   text-decoration: none;
 
 }
@@ -299,11 +306,11 @@ header.top h1 {
   margin: 0;
 
   font-size:
-    clamp(1.45rem, 4vw, 1.9rem);
+    clamp(1.45rem, 4vw, 1.95rem);
 
   line-height: 1.22;
 
-  font-weight: 750;
+  font-weight: 760;
 
 }
 
@@ -350,21 +357,10 @@ header.top p.subtitle {
 
   white-space: nowrap;
 
-  transition:
-    background .15s ease,
-    transform .15s ease;
-
 }
 
 .theme-toggle:hover {
-
-  background:
-    rgba(255,255,255,.18);
-
-}
-
-.theme-toggle:active {
-  transform: scale(.98);
+  background: rgba(255,255,255,.18);
 }
 
 .theme-toggle:focus-visible {
@@ -444,7 +440,7 @@ h2 {
   color: var(--navy-2);
 
   font-size:
-    clamp(1.12rem, 3vw, 1.28rem);
+    clamp(1.12rem, 3vw, 1.3rem);
 
   line-height: 1.32;
 
@@ -456,13 +452,12 @@ html[data-theme="dark"] h2 {
 
 h3 {
 
-  margin:
-    22px 0 8px;
+  margin: 22px 0 8px;
 
   color: var(--text);
 
   font-size:
-    clamp(1rem, 2.5vw, 1.08rem);
+    clamp(1rem, 2.5vw, 1.09rem);
 
   line-height: 1.35;
 
@@ -506,7 +501,6 @@ li {
 .toc a {
 
   color: var(--accent);
-
   text-decoration: none;
 
 }
@@ -521,12 +515,11 @@ li {
    DEFINITII
    ========================================================= */
 
-.definitie {
+.definition {
 
-  margin: 14px 0;
+  margin: 15px 0;
 
-  padding:
-    16px 18px;
+  padding: 16px 18px;
 
   border-left:
     5px solid var(--definition-border);
@@ -534,20 +527,20 @@ li {
   border-radius:
     0 10px 10px 0;
 
-  background:
-    var(--definition-bg);
+  background: var(--definition-bg);
 
 }
 
-.definitie .term {
+.definition-term {
 
   display: block;
 
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
   color: var(--accent);
 
-  font-size: 1.02rem;
+  font-size: 1.03rem;
+  font-weight: 800;
 
 }
 
@@ -560,12 +553,12 @@ li {
 .warning,
 .exam-box,
 .danger,
-.update-note {
+.update-note,
+.source-note {
 
   margin: 16px 0;
 
-  padding:
-    15px 17px;
+  padding: 15px 17px;
 
   border-radius: 10px;
 
@@ -613,6 +606,19 @@ li {
 
   border-left:
     5px solid var(--update-border);
+
+}
+
+.source-note {
+
+  background: var(--soft-gray);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
 
 }
 
@@ -668,72 +674,152 @@ li {
 
 }
 
+.mini-card p {
+  margin: .4rem 0;
+}
+
 
 /* =========================================================
-   CARD CU NUMAR
+   IERARHIE
    ========================================================= */
 
-.number-card {
+.hierarchy {
 
-  position: relative;
+  display: grid;
 
-  padding-top: 52px;
+  gap: 8px;
+
+  width: min(680px,100%);
+
+  margin: 18px auto;
 
 }
 
-.number {
+.hierarchy-item {
+
+  padding: 14px 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-weight: 750;
+
+}
+
+.hierarchy-item.program {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+}
+
+.hierarchy-item.plan {
+  background: var(--soft-blue);
+}
+
+.hierarchy-item.unit {
+  background: var(--soft-green);
+}
+
+.hierarchy-item.lesson {
+  background: var(--soft-yellow);
+}
+
+.hierarchy-arrow {
+
+  text-align: center;
+
+  color: var(--accent);
+
+  font-size: 1.3rem;
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   TIPURI LECTII
+   ========================================================= */
+
+.lesson-type {
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding-top: 19px;
+
+}
+
+.lesson-type::before {
+
+  content: "";
 
   position: absolute;
 
-  top: 14px;
-  left: 15px;
+  left: 0;
+  top: 0;
+  right: 0;
 
-  display: grid;
-  place-items: center;
-
-  width: 30px;
-  height: 30px;
-
-  border-radius: 50%;
+  height: 5px;
 
   background: var(--accent);
+
+}
+
+.type-label {
+
+  display: inline-flex;
+
+  min-height: 29px;
+
+  align-items: center;
+
+  margin-bottom: 8px;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  background: var(--navy-2);
   color: #ffffff;
 
-  font-size: .84rem;
+  font-size: .72rem;
   font-weight: 850;
 
 }
 
 
 /* =========================================================
-   PROCES
+   ALINIERE
    ========================================================= */
 
-.process {
+.alignment {
 
   display: grid;
 
   grid-template-columns:
-    1fr auto 1fr auto 1fr;
-
-  align-items: stretch;
+    repeat(4, minmax(0,1fr));
 
   gap: 10px;
 
-  margin: 18px 0;
+  margin: 17px 0;
 
 }
 
-.process-card {
+.alignment-card {
 
-  display: flex;
-
-  flex-direction: column;
-  justify-content: center;
-
-  min-height: 108px;
-
-  padding: 15px;
+  padding: 14px;
 
   border:
     1px solid var(--border);
@@ -746,7 +832,7 @@ li {
 
 }
 
-.process-card b {
+.alignment-card b {
 
   display: block;
 
@@ -756,70 +842,9 @@ li {
 
 }
 
-.process-arrow {
+.alignment-arrow {
 
-  display: flex;
-
-  align-items: center;
-
-  color: var(--accent);
-
-  font-size: 1.55rem;
-  font-weight: 900;
-
-}
-
-
-/* =========================================================
-   TIPURI DE LECTII
-   ========================================================= */
-
-.lesson-type {
-
-  position: relative;
-
-  overflow: hidden;
-
-  padding-top: 20px;
-
-}
-
-.lesson-type::before {
-
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  right: 0;
-
-  height: 5px;
-
-  background: var(--accent);
-
-}
-
-.type-tag {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  min-height: 29px;
-
-  margin-bottom: 8px;
-
-  padding: 4px 10px;
-
-  border-radius: 999px;
-
-  background: var(--navy-2);
-  color: #ffffff;
-
-  font-size: .76rem;
-  font-weight: 800;
-
+  display: none;
 }
 
 
@@ -827,12 +852,11 @@ li {
    OBIECTIVE
    ========================================================= */
 
-.objective {
+.objective-example {
 
-  position: relative;
+  padding: 14px 16px;
 
-  padding:
-    13px 14px 13px 55px;
+  margin: 11px 0;
 
   border:
     1px solid var(--border);
@@ -841,52 +865,35 @@ li {
 
   background: var(--soft-green);
 
-  margin: 9px 0;
-
 }
 
-.objective-code {
-
-  position: absolute;
-
-  left: 13px;
-  top: 12px;
-
-  display: grid;
-  place-items: center;
-
-  min-width: 28px;
-  height: 28px;
-
-  padding: 0 5px;
-
-  border-radius: 8px;
-
-  background: var(--exam-border);
-  color: #ffffff;
-
-  font-size: .78rem;
-  font-weight: 850;
-
+.objective-example strong {
+  color: var(--text);
 }
 
 
 /* =========================================================
-   ETAPE LECTIE
+   ETAPE
    ========================================================= */
 
-.stage {
+.phases {
+
+  counter-reset: phase;
 
   display: grid;
 
-  grid-template-columns:
-    44px minmax(0,1fr);
+  gap: 11px;
 
-  gap: 12px;
+  margin: 16px 0;
 
-  margin: 11px 0;
+}
 
-  padding: 13px;
+.phase {
+
+  position: relative;
+
+  padding:
+    15px 16px 15px 58px;
 
   border:
     1px solid var(--border);
@@ -897,33 +904,84 @@ li {
 
 }
 
-.stage-number {
+.phase::before {
+
+  counter-increment: phase;
+
+  content: counter(phase);
+
+  position: absolute;
+
+  left: 15px;
+  top: 14px;
 
   display: grid;
   place-items: center;
 
-  width: 38px;
-  height: 38px;
+  width: 28px;
+  height: 28px;
 
   border-radius: 50%;
 
-  background: var(--navy-2);
+  background: var(--accent);
   color: #ffffff;
 
+  font-size: .78rem;
   font-weight: 850;
 
 }
 
-.stage h3 {
+.phase b {
 
-  margin: 0 0 4px;
+  display: block;
 
-  color: var(--accent);
+  margin-bottom: 4px;
 
 }
 
-.stage p {
-  margin: 0;
+
+/* =========================================================
+   PROFESOR / ELEV
+   ========================================================= */
+
+.roles {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.role-card {
+
+  padding: 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+}
+
+.role-card.teacher {
+  background: var(--teacher-bg);
+}
+
+.role-card.student {
+  background: var(--student-bg);
+}
+
+.role-card h3 {
+
+  margin: 0 0 7px;
+
+  color: var(--accent);
+
 }
 
 
@@ -952,7 +1010,7 @@ table {
 
   width: 100%;
 
-  min-width: 760px;
+  min-width: 850px;
 
   border-collapse: collapse;
 
@@ -977,14 +1035,12 @@ th {
 
   background: var(--soft-blue);
 
-  color: var(--text);
-
-  font-size: .9rem;
+  font-size: .89rem;
 
 }
 
 td {
-  font-size: .92rem;
+  font-size: .89rem;
 }
 
 tr:last-child td {
@@ -993,97 +1049,41 @@ tr:last-child td {
 
 
 /* =========================================================
-   PROIECT DE LECTIE — TABEL
+   FIZICA
    ========================================================= */
 
-.lesson-table {
-  min-width: 1100px;
+.physics-example {
+
+  margin: 16px 0;
+
+  padding: 17px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--soft-blue),
+      var(--bg-card)
+    );
+
 }
 
-.lesson-table th:nth-child(1) {
-  width: 55px;
-}
+.physics-example h3 {
 
-.lesson-table th:nth-child(2) {
-  min-width: 160px;
-}
+  margin: 0 0 8px;
 
-.lesson-table th:nth-child(3),
-.lesson-table th:nth-child(4) {
-  min-width: 260px;
-}
+  color: var(--accent);
 
-.lesson-table th:nth-child(5) {
-  min-width: 170px;
-}
-
-.lesson-table th:nth-child(6) {
-  min-width: 150px;
-}
-
-.lesson-table th:nth-child(7) {
-  width: 75px;
 }
 
 
 /* =========================================================
-   ABORDARI DISCIPLINARE
+   CHECK
    ========================================================= */
-
-.approach {
-
-  position: relative;
-
-  padding-top: 20px;
-
-}
-
-.approach::before {
-
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  top: 0;
-
-  width: 100%;
-  height: 5px;
-
-  border-radius:
-    11px 11px 0 0;
-
-}
-
-.intra::before {
-  background: #2f6fa8;
-}
-
-.inter::before {
-  background: #7a4fb5;
-}
-
-.trans::before {
-  background: #c2582b;
-}
-
-
-/* =========================================================
-   CHECKLIST
-   ========================================================= */
-
-.checklist {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0,1fr));
-
-  gap: 10px;
-
-  margin: 15px 0;
-
-}
 
 .check {
 
@@ -1127,23 +1127,46 @@ tr:last-child td {
 
 
 /* =========================================================
-   EXAM ANSWER
+   CAPCANE
    ========================================================= */
 
-.exam-answer {
+.trap {
 
-  margin: 14px 0;
+  position: relative;
 
-  padding: 16px 18px;
+  padding:
+    13px 14px 13px 46px;
 
   border:
-    2px solid var(--exam-border);
+    1px solid var(--border);
 
-  border-radius: 11px;
+  border-radius: 10px;
 
-  background: var(--exam-bg);
+  background: var(--soft-red);
 
-  font-weight: 600;
+}
+
+.trap::before {
+
+  content: "!";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--danger-border);
+  color: #ffffff;
+
+  font-weight: 900;
 
 }
 
@@ -1159,7 +1182,7 @@ tr:last-child td {
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(185px,1fr)
+      minmax(175px,1fr)
     );
 
   gap: 11px;
@@ -1206,7 +1229,7 @@ tr:last-child td {
 
 .question {
 
-  margin: 12px 0;
+  margin: 11px 0;
 
   padding: 14px 16px;
 
@@ -1225,10 +1248,10 @@ tr:last-child td {
 
 
 /* =========================================================
-   BIBLIOGRAFIE
+   SURSE
    ========================================================= */
 
-.bibliografie li {
+.sources li {
 
   color: var(--text-muted);
 
@@ -1314,7 +1337,14 @@ footer.site {
   .grid3 {
 
     grid-template-columns:
-      repeat(2,minmax(0,1fr));
+      repeat(2, minmax(0,1fr));
+
+  }
+
+  .alignment {
+
+    grid-template-columns:
+      repeat(2, minmax(0,1fr));
 
   }
 
@@ -1345,49 +1375,15 @@ footer.site {
 
   .grid2,
   .grid3,
-  .checklist {
+  .roles,
+  .alignment {
 
     grid-template-columns: 1fr;
-
-  }
-
-  .process {
-
-    grid-template-columns: 1fr;
-
-  }
-
-  .process-arrow {
-
-    justify-content: center;
-
-    transform: rotate(90deg);
 
   }
 
   main {
     margin-top: 18px;
-  }
-
-  section.card {
-    border-radius: 11px;
-  }
-
-  .stage {
-
-    grid-template-columns: 36px minmax(0,1fr);
-
-    gap: 9px;
-
-    padding: 11px;
-
-  }
-
-  .stage-number {
-
-    width: 34px;
-    height: 34px;
-
   }
 
   nav.pager {
@@ -1416,7 +1412,7 @@ footer.site {
 
 
 /* =========================================================
-   ECRANE FOARTE MICI
+   ECRANE MICI
    ========================================================= */
 
 @media (max-width: 380px) {
@@ -1437,7 +1433,7 @@ footer.site {
 
 
 /* =========================================================
-   REDUCERE ANIMATII
+   REDUCERE ANIMAȚII
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1508,18 +1504,21 @@ footer.site {
 
           &rsaquo;
 
-          Proiectarea lecțiilor
+          Proiectarea lecției
 
         </div>
 
 
         <h1>
-          Proiectarea lecțiilor
+          Proiectarea lecției de Fizică
         </h1>
+
 
         <p class="subtitle">
           Competențe · obiective operaționale ·
-          resurse · strategii · desfășurare · evaluare
+          tipul lecției · strategie didactică ·
+          desfășurare · evaluare · diferențiere ·
+          interdisciplinaritate
         </p>
 
       </div>
@@ -1559,36 +1558,70 @@ footer.site {
       Ce cere programa de Titularizare?
     </h2>
 
+
     <p>
       Programa disponibilă pentru
-      <b>Titularizare Fizică 2026</b>
-      include, în cadrul proiectării activității didactice:
+      <strong>Titularizare Fizică 2026</strong>
+      include explicit,
+      la proiectarea activității didactice:
     </p>
 
 
-    <div class="exam-answer">
+    <div class="exam-box">
 
-      planificare calendaristică ·
-      proiectarea unității de învățare ·
-      <b>proiecte de lecție pentru diferite tipuri de lecții</b>,
-      inclusiv abordări
-      <b>intra-, inter- și transdisciplinare</b>.
+      <strong>
+        planificare calendaristică;
+      </strong>
+
+      <br>
+
+      <strong>
+        proiectarea unității de învățare;
+      </strong>
+
+      <br>
+
+      <strong>
+        proiecte de lecție
+        pentru diferite tipuri de lecții,
+        inclusiv abordări intra-,
+        inter- și transdisciplinare.
+      </strong>
 
     </div>
+
+
+    <p>
+      Prin urmare,
+      candidatul trebuie să poată
+      nu doar defini proiectarea,
+      ci și să construiască
+      un demers didactic coerent,
+      centrat pe competențe.
+    </p>
 
 
     <div class="warning">
 
       <strong>
-        Pentru Titularizare 2027:
+        Pentru Titularizare Fizică 2027:
       </strong>
 
-      formularea exactă trebuie reverificată
-      în programa oficială a sesiunii 2027.
+      lecția este fundamentată
+      pe programa disponibilă pentru 2026.
+
+      Programa oficială din 2027
+      trebuie reverificată după publicare.
 
     </div>
 
   </section>
+
+
+  <!--
+    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+    DE assets/audio/audio-lesson.js
+  -->
 
 
   <!-- =======================================================
@@ -1601,97 +1634,116 @@ footer.site {
       Cuprins
     </h2>
 
+
     <div class="toc">
 
       <ol>
 
         <li>
-          <a href="#sec1">
+          <a href="#definitie">
             Ce este proiectul de lecție?
           </a>
         </li>
 
         <li>
-          <a href="#sec2">
+          <a href="#ierarhie">
             Locul în proiectarea didactică
           </a>
         </li>
 
         <li>
-          <a href="#sec3">
+          <a href="#componente">
             Componentele proiectului
           </a>
         </li>
 
         <li>
-          <a href="#sec4">
-            Competențe și obiective
+          <a href="#competente">
+            Competențele specifice
           </a>
         </li>
 
         <li>
-          <a href="#sec5">
-            Tipuri de lecții
+          <a href="#obiective">
+            Obiectivele operaționale
           </a>
         </li>
 
         <li>
-          <a href="#sec6">
-            Resursele lecției
+          <a href="#tipuri">
+            Tipurile de lecții
           </a>
         </li>
 
         <li>
-          <a href="#sec7">
-            Evenimentele lecției
+          <a href="#strategie">
+            Strategia didactică
           </a>
         </li>
 
         <li>
-          <a href="#sec8">
-            Activitatea profesorului și elevilor
+          <a href="#resurse">
+            Resursele
           </a>
         </li>
 
         <li>
-          <a href="#sec9">
-            Model de proiect
+          <a href="#etape">
+            Desfășurarea lecției
           </a>
         </li>
 
         <li>
-          <a href="#sec10">
-            Exemplu — Legea lui Ohm
+          <a href="#roluri">
+            Profesor și elev
           </a>
         </li>
 
         <li>
-          <a href="#sec11">
-            Abordări intra-, inter-, transdisciplinare
+          <a href="#aliniere">
+            Alinierea didactică
           </a>
         </li>
 
         <li>
-          <a href="#sec12">
-            Diferențiere și adaptare
+          <a href="#exemplu">
+            Exemplu de lecție la Fizică
           </a>
         </li>
 
         <li>
-          <a href="#sec13">
+          <a href="#evaluare">
             Evaluarea în lecție
           </a>
         </li>
 
         <li>
-          <a href="#sec14">
-            Formulare pentru examen
+          <a href="#diferentiere">
+            Diferențiere și adaptare
           </a>
         </li>
 
         <li>
-          <a href="#sec15">
-            Capcane și recapitulare
+          <a href="#interdisciplinar">
+            Intra-, inter- și transdisciplinar
+          </a>
+        </li>
+
+        <li>
+          <a href="#examen">
+            Cum răspunzi la concurs?
+          </a>
+        </li>
+
+        <li>
+          <a href="#capcane">
+            Capcane frecvente
+          </a>
+        </li>
+
+        <li>
+          <a href="#recapitulare">
+            Recapitulare
           </a>
         </li>
 
@@ -1708,7 +1760,7 @@ footer.site {
 
   <section
     class="card"
-    id="sec1"
+    id="definitie"
   >
 
     <h2>
@@ -1716,432 +1768,57 @@ footer.site {
     </h2>
 
 
-    <div class="definitie">
+    <div class="definition">
 
-      <b class="term">
+      <span class="definition-term">
         Proiectul de lecție
-      </b>
+      </span>
 
-      este documentul de proiectare prin care profesorul
-      anticipează și organizează desfășurarea concretă
-      a unei lecții sau secvențe didactice,
-      corelând competențele,
-      obiectivele,
-      conținuturile,
-      strategiile,
-      resursele,
-      activitatea elevilor și evaluarea.
+      este un instrument
+      de anticipare și organizare
+      a unei activități didactice concrete,
+      prin corelarea competențelor,
+      obiectivelor,
+      conținuturilor,
+      activităților de învățare,
+      strategiilor,
+      resurselor
+      și modalităților de evaluare.
 
     </div>
 
 
     <p>
-      Proiectul de lecție răspunde la întrebări foarte concrete:
+      Proiectarea lecției
+      nu înseamnă redactarea
+      unui scenariu rigid
+      pe care profesorul trebuie
+      să îl urmeze mecanic.
     </p>
 
 
-    <div class="grid3">
-
-      <div class="mini-card">
-
-        <h3>
-          Ce urmăresc?
-        </h3>
-
-        <p>
-          Competențe și obiective.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Ce învață elevul?
-        </h3>
-
-        <p>
-          Conținuturi și sarcini de lucru.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Cum?
-        </h3>
-
-        <p>
-          Metode, procedee și forme de organizare.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Cu ce?
-        </h3>
-
-        <p>
-          Mijloace și resurse.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Cât timp?
-        </h3>
-
-        <p>
-          Durata etapelor lecției.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Cum verific?
-        </h3>
-
-        <p>
-          Evaluare și feedback.
-        </p>
-
-      </div>
-
-    </div>
+    <p>
+      Ea înseamnă
+      <strong>anticiparea coerentă</strong>
+      a modului în care elevii
+      vor ajunge
+      de la nivelul inițial
+      la performanța urmărită.
+    </p>
 
 
     <div class="callout">
 
       <strong>
-        Intuitiv:
+        Întrebarea centrală:
       </strong>
-
-      proiectul de lecție este
-      <b>scenariul pedagogic anticipat</b>
-      al activității.
-
-    </div>
-
-
-    <div class="warning">
-
-      Proiectul nu trebuie să fie un text rigid
-      care obligă profesorul să ignore reacțiile
-      reale ale elevilor.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       2. LOCUL
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec2"
-  >
-
-    <h2>
-      2. Locul proiectului de lecție
-    </h2>
-
-
-    <div class="process">
-
-      <div class="process-card">
-
-        <b>
-          Planificare calendaristică
-        </b>
-
-        Perspectiva anuală.
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Unitate de învățare
-        </b>
-
-        Mai multe lecții
-        corelate.
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Proiect de lecție
-        </b>
-
-        Activitatea concretă.
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-answer">
-
-      <b>
-        De la general la particular:
-      </b>
 
       <br><br>
 
-      AN
-      → UNITATE DE ÎNVĂȚARE
-      → LECȚIE.
-
-    </div>
-
-
-    <p>
-      Proiectul lecției trebuie să rămână coerent
-      cu nivelurile superioare ale proiectării.
-      O lecție nu se proiectează izolat de programa
-      școlară și de unitatea de învățare în care este inclusă.
-    </p>
-
-  </section>
-
-
-  <!-- =======================================================
-       3. COMPONENTELE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec3"
-  >
-
-    <h2>
-      3. Componentele unui proiect de lecție
-    </h2>
-
-
-    <p>
-      Formatul concret poate varia.
-      Un model de proiect încărcat include însă explicit
-      competențele specifice,
-      tipul lecției,
-      resursele,
-      obiectivele operaționale
-      și desfășurarea activității didactice.
-    </p>
-
-
-    <div class="grid2">
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          1
-        </span>
-
-        <h3>
-          Date de identificare
-        </h3>
-
-        <p>
-          Clasa, disciplina,
-          unitatea de învățare,
-          tema lecției și durata.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          2
-        </span>
-
-        <h3>
-          Competențe specifice
-        </h3>
-
-        <p>
-          Preluate din programa școlară
-          aplicabilă.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          3
-        </span>
-
-        <h3>
-          Obiective operaționale
-        </h3>
-
-        <p>
-          Performanțe observabile urmărite
-          în cadrul lecției.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          4
-        </span>
-
-        <h3>
-          Tipul lecției
-        </h3>
-
-        <p>
-          Stabilit în funcție de
-          finalitatea dominantă.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          5
-        </span>
-
-        <h3>
-          Strategia didactică
-        </h3>
-
-        <p>
-          Metode, procedee,
-          forme de organizare.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          6
-        </span>
-
-        <h3>
-          Resurse
-        </h3>
-
-        <p>
-          Materiale, aparatură,
-          resurse digitale și timp.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          7
-        </span>
-
-        <h3>
-          Desfășurarea lecției
-        </h3>
-
-        <p>
-          Activitatea profesorului și
-          activitatea elevilor pe etape.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card number-card">
-
-        <span class="number">
-          8
-        </span>
-
-        <h3>
-          Evaluarea
-        </h3>
-
-        <p>
-          Metode, instrumente,
-          criterii și feedback.
-        </p>
-
-      </div>
-
-
-    </div>
-
-
-    <div class="warning">
-
-      Nu există un singur tabel universal
-      care trebuie copiat mecanic.
-      Importantă este
-      <b>coerența pedagogică dintre componente</b>.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       4. COMPETENTE / OBIECTIVE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec4"
-  >
-
-    <h2>
-      4. Competențe specifice și obiective operaționale
-    </h2>
-
-
-    <h3>
-      Competențele specifice
-    </h3>
-
-
-    <div class="definitie">
-
-      Competențele specifice sunt
-      <b>preluate din programa școlară</b>
-      și constituie reperul curricular
-      al proiectării lecției.
+      „Ce trebuie să poată face elevul
+      la finalul acestei activități
+      și prin ce experiențe de învățare
+      poate ajunge acolo?”
 
     </div>
 
@@ -2149,128 +1826,100 @@ footer.site {
     <div class="danger">
 
       <strong>
-        Eroare:
+        Proiectul lecției
+        nu este o compunere
+        despre ce intenționează
+        profesorul să spună.
       </strong>
 
-      profesorul nu inventează
-      și nu reformulează arbitrar
-      competențele specifice din programă.
+      <br><br>
+
+      Centrul proiectării
+      îl reprezintă
+      <strong>activitatea de învățare
+      și performanța elevului</strong>.
 
     </div>
 
-
-    <h3>
-      Obiectivele operaționale
-    </h3>
+  </section>
 
 
-    <div class="definitie">
+  <!-- =======================================================
+       2. IERARHIE
+       ======================================================= -->
 
-      <b class="term">
-        Obiectiv operațional
-      </b>
+  <section
+    class="card"
+    id="ierarhie"
+  >
 
-      exprimă un rezultat concret și observabil
-      pe care elevul trebuie să îl poată demonstra
-      la finalul sau pe parcursul activității.
-
-    </div>
-
-
-    <p>
-      Formularea trebuie să pună accentul
-      pe ceea ce
-      <b>face elevul</b>.
-    </p>
+    <h2>
+      2. Locul proiectului de lecție
+    </h2>
 
 
-    <div class="grid2">
+    <div class="hierarchy">
 
-      <div class="mini-card">
+      <div class="hierarchy-item program">
 
-        <h3>
-          Formulare slabă
-        </h3>
+        PROGRAMĂ ȘCOLARĂ
 
-        <p>
-          „Să înțeleagă legea lui Ohm.”
-        </p>
+        <br>
 
-        <p>
-          Verbul „a înțelege” nu indică direct
-          ce comportament observabil demonstrează
-          înțelegerea.
-        </p>
+        <small>
+          competențe și conținuturi
+        </small>
 
       </div>
 
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
 
-      <div class="mini-card">
+      <div class="hierarchy-item plan">
 
-        <h3>
-          Formulare mai precisă
-        </h3>
+        PLANIFICARE CALENDARISTICĂ
 
-        <p>
-          „Să determine rezistența unui rezistor
-          utilizând valorile măsurate ale
-          tensiunii și intensității curentului.”
-        </p>
+        <br>
+
+        <small>
+          parcursul amplu în timp
+        </small>
 
       </div>
 
-    </div>
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
 
+      <div class="hierarchy-item unit">
 
-    <h3>
-      Exemple
-    </h3>
+        UNITATE DE ÎNVĂȚARE
 
+        <br>
 
-    <div class="objective">
+        <small>
+          secvență coerentă
+          de mai multe activități
+        </small>
 
-      <span class="objective-code">
-        O1
-      </span>
+      </div>
 
-      Să identifice corect ampermetrul și voltmetrul
-      într-o schemă electrică.
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
 
-    </div>
+      <div class="hierarchy-item lesson">
 
+        PROIECT DE LECȚIE
 
-    <div class="objective">
+        <br>
 
-      <span class="objective-code">
-        O2
-      </span>
+        <small>
+          activitatea didactică concretă
+        </small>
 
-      Să realizeze corect montajul experimental
-      pentru măsurarea tensiunii și intensității curentului.
-
-    </div>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O3
-      </span>
-
-      Să determine rezistența electrică
-      folosind relația R = U / I.
-
-    </div>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O4
-      </span>
-
-      Să formuleze o concluzie pe baza
-      datelor experimentale obținute.
+      </div>
 
     </div>
 
@@ -2278,13 +1927,31 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Schema utilă:
+        Coerența trebuie păstrată
+        pe întreg traseul:
       </strong>
 
-      competență specifică
-      → activitate de învățare
-      → obiectiv operațional
-      → evaluare.
+      <br><br>
+
+      PROGRAMĂ
+
+      <br>
+      ↓
+      <br>
+
+      PLANIFICARE
+
+      <br>
+      ↓
+      <br>
+
+      UNITATE
+
+      <br>
+      ↓
+      <br>
+
+      LECȚIE
 
     </div>
 
@@ -2292,164 +1959,299 @@ footer.site {
 
 
   <!-- =======================================================
-       5. TIPURI DE LECTII
+       3. COMPONENTE
        ======================================================= -->
 
   <section
     class="card"
-    id="sec5"
+    id="componente"
   >
 
     <h2>
-      5. Tipuri de lecții
+      3. Componentele proiectului de lecție
     </h2>
+
+
+    <p>
+      Forma concretă a unui proiect
+      poate varia,
+      dar un proiect didactic coerent
+      trebuie să permită identificarea
+      elementelor esențiale.
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Date de identificare
+        </h3>
+
+        <p>
+          disciplina,
+          clasa,
+          tema,
+          durata,
+          contextul.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competențe specifice
+        </h3>
+
+        <p>
+          Se preiau
+          din programa aplicabilă.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Obiective operaționale
+        </h3>
+
+        <p>
+          Performanțe observabile
+          urmărite în activitate.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Tipul lecției
+        </h3>
+
+        <p>
+          Se stabilește
+          în raport cu scopul
+          dominant al activității.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Strategia didactică
+        </h3>
+
+        <p>
+          metode,
+          procedee,
+          forme de organizare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Resurse
+        </h3>
+
+        <p>
+          materiale,
+          temporale,
+          digitale
+          și alte resurse relevante.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Desfășurarea
+        </h3>
+
+        <p>
+          secvențele de predare,
+          învățare
+          și evaluare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Activitatea elevilor
+        </h3>
+
+        <p>
+          ce observă,
+          măsoară,
+          discută,
+          calculează,
+          explică.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Evaluarea
+        </h3>
+
+        <p>
+          dovezi,
+          criterii,
+          feedback,
+          verificarea obiectivelor.
+        </p>
+
+      </div>
+
+    </div>
 
 
     <div class="warning">
 
+      Nu există,
+      prin formularea programei de concurs,
+      un singur
+      <strong>formular universal obligatoriu</strong>
+      pentru orice proiect de lecție.
+
+      <br><br>
+
+      La concurs
+      se respectă exact
+      structura cerută de subiect.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. COMPETENTE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="competente"
+  >
+
+    <h2>
+      4. Competențele specifice
+    </h2>
+
+
+    <p>
+      Competența specifică
+      reprezintă reperul curricular
+      al proiectului.
+    </p>
+
+
+    <div class="exam-box">
+
       <strong>
-        Delimitare importantă:
+        Competența specifică
+        se preia din programa școlară.
       </strong>
 
-      programa de Titularizare cere proiecte
-      „pentru diferite tipuri de lecții”,
-      dar nu enumeră în acel punct
-      o taxonomie obligatorie.
+      <br><br>
 
-      Clasificarea de mai jos este o
-      <b>sinteză pedagogică uzuală</b>
-      pentru pregătirea proiectării.
+      Nu se inventează
+      nici formularea,
+      nici codul ei.
 
     </div>
 
 
-    <div class="grid2">
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          DOBÂNDIRE
-        </span>
-
-        <h3>
-          Lecție de predare–învățare
-        </h3>
-
-        <p>
-          Finalitatea dominantă este
-          construirea unor achiziții noi.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          PRACTICĂ
-        </span>
-
-        <h3>
-          Lecție de formare a priceperilor și deprinderilor
-        </h3>
-
-        <p>
-          Accent pe experiment,
-          măsurare,
-          aplicații și proceduri.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          CONSOLIDARE
-        </span>
-
-        <h3>
-          Lecție de consolidare / sistematizare
-        </h3>
-
-        <p>
-          Se urmăresc fixarea,
-          organizarea și transferul achizițiilor.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          EVALUARE
-        </span>
-
-        <h3>
-          Lecție de evaluare
-        </h3>
-
-        <p>
-          Finalitatea dominantă este
-          verificarea și aprecierea rezultatelor.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          MIXTĂ
-        </span>
-
-        <h3>
-          Lecție combinată / mixtă
-        </h3>
-
-        <p>
-          Integrează mai multe funcții:
-          actualizare,
-          învățare,
-          aplicare și evaluare.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card lesson-type">
-
-        <span class="type-tag">
-          P–Î–E
-        </span>
-
-        <h3>
-          Lecție de predare–învățare–evaluare
-        </h3>
-
-        <p>
-          Formulare utilizată și într-un
-          model de proiect de lecție din
-          documentele încărcate.
-        </p>
-
-      </div>
-
-
-    </div>
+    <p>
+      Profesorul selectează
+      competența sau competențele
+      care pot fi dezvoltate
+      în mod real
+      prin activitatea proiectată.
+    </p>
 
 
     <div class="callout">
 
       <strong>
-        Regula:
+        Întrebare de control:
       </strong>
 
-      tipul lecției se stabilește în funcție de
-      <b>finalitatea dominantă</b>,
-      nu după un titlu ales formal.
+      <br><br>
+
+      „Activitatea elevului
+      produce într-adevăr
+      dovada competenței
+      pe care am declarat-o?”
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu de logică
+      </h3>
+
+      <p>
+        Dacă o competență
+        presupune investigarea
+        unui fenomen,
+        proiectul ar trebui
+        să ofere elevului
+        posibilitatea de a:
+      </p>
+
+      <ul>
+
+        <li>
+          observa;
+        </li>
+
+        <li>
+          formula ipoteze;
+        </li>
+
+        <li>
+          realiza măsurători;
+        </li>
+
+        <li>
+          analiza date;
+        </li>
+
+        <li>
+          formula concluzii.
+        </li>
+
+      </ul>
+
+      <p>
+        O simplă expunere
+        de cincizeci de minute
+        realizată exclusiv de profesor
+        nu ar demonstra coerent
+        această competență.
+      </p>
 
     </div>
 
@@ -2457,60 +2259,382 @@ footer.site {
 
 
   <!-- =======================================================
-       6. RESURSE
+       5. OBIECTIVE
        ======================================================= -->
 
   <section
     class="card"
-    id="sec6"
+    id="obiective"
   >
 
     <h2>
-      6. Resursele lecției
+      5. Obiectivele operaționale
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Obiectivul operațional
+      </span>
+
+      formulează o performanță concretă,
+      observabilă
+      pe care elevul
+      este așteptat să o demonstreze
+      în cadrul activității didactice.
+
+    </div>
+
+
+    <p>
+      Un obiectiv util proiectării
+      folosește verbe care permit
+      observarea unei acțiuni.
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="check">
+        să identifice
+      </div>
+
+      <div class="check">
+        să măsoare
+      </div>
+
+      <div class="check">
+        să determine
+      </div>
+
+      <div class="check">
+        să compare
+      </div>
+
+      <div class="check">
+        să explice
+      </div>
+
+      <div class="check">
+        să reprezinte
+      </div>
+
+      <div class="check">
+        să construiască
+      </div>
+
+      <div class="check">
+        să interpreteze
+      </div>
+
+      <div class="check">
+        să formuleze o concluzie
+      </div>
+
+    </div>
+
+
+    <h3>
+      Formulare slabă
+    </h3>
+
+
+    <div class="danger">
+
+      „Elevii să înțeleagă
+      legea lui Ohm.”
+
+      <br><br>
+
+      „Să înțeleagă”
+      este greu de observat direct
+      fără să precizăm
+      ce performanță demonstrează
+      această înțelegere.
+
+    </div>
+
+
+    <h3>
+      Formulare mai operațională
+    </h3>
+
+
+    <div class="objective-example">
+
+      La finalul activității,
+      elevii vor fi capabili
+      <strong>
+        să determine experimental
+        rezistența unui conductor
+        utilizând valorile măsurate
+        ale tensiunii și intensității curentului.
+      </strong>
+
+    </div>
+
+
+    <div class="objective-example">
+
+      Elevii vor fi capabili
+      <strong>
+        să reprezinte grafic
+        dependența intensității curentului
+        de tensiunea aplicată
+        pentru un conductor studiat.
+      </strong>
+
+    </div>
+
+
+    <div class="objective-example">
+
+      Elevii vor fi capabili
+      <strong>
+        să formuleze o concluzie
+        privind relația dintre U și I
+        pe baza datelor experimentale.
+      </strong>
+
+    </div>
+
+
+    <div class="warning">
+
+      Obiectivul operațional
+      nu înlocuiește
+      competența specifică.
+
+      <br><br>
+
+      Competența provine
+      din programă;
+      obiectivul operationalizează
+      activitatea concretă
+      a lecției.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. TIPURI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="tipuri"
+  >
+
+    <h2>
+      6. Tipurile de lecții
     </h2>
 
 
     <p>
-      În modelul încărcat,
-      resursele includ metode și procedee,
-      materiale,
-      resurse psihice și temporale.
+      Programa de concurs
+      solicită proiecte
+      pentru
+      <strong>diferite tipuri de lecții</strong>,
+      dar nu oferă în acest punct
+      o listă unică și obligatorie
+      a tipurilor.
+    </p>
+
+
+    <p>
+      Pentru studiu,
+      putem utiliza
+      o clasificare pedagogică uzuală.
     </p>
 
 
     <div class="grid2">
 
-      <div class="mini-card">
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          PREDARE–ÎNVĂȚARE
+        </span>
 
         <h3>
-          Metode și procedee
+          Dobândirea / construirea
+          de noi achiziții
         </h3>
 
         <p>
-          Conversație euristică,
-          explicație,
-          problematizare,
-          demonstrație,
-          experiment,
-          investigație etc.
+          Accentul cade
+          pe introducerea și construirea
+          unor noi concepte,
+          relații sau modele.
         </p>
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          PRACTICĂ
+        </span>
 
         <h3>
-          Resurse materiale
+          Formarea deprinderilor
         </h3>
 
         <p>
-          Aparatură de laborator,
-          fișe,
-          manual,
-          imagini,
-          materiale video,
-          simulări digitale.
+          Accent pe experiment,
+          măsurare,
+          utilizarea aparaturii
+          și aplicarea procedurilor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          CONSOLIDARE
+        </span>
+
+        <h3>
+          Fixare și sistematizare
+        </h3>
+
+        <p>
+          Accent pe relații,
+          exerciții,
+          probleme
+          și organizarea cunoștințelor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          EVALUARE
+        </span>
+
+        <h3>
+          Verificare și apreciere
+        </h3>
+
+        <p>
+          Accent pe obținerea
+          și interpretarea
+          dovezilor de învățare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          MIXTĂ
+        </span>
+
+        <h3>
+          Funcții combinate
+        </h3>
+
+        <p>
+          Include mai multe
+          funcții didactice importante
+          în aceeași activitate.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          P–Î–E
+        </span>
+
+        <h3>
+          Predare–învățare–evaluare
+        </h3>
+
+        <p>
+          Formulare utilizată
+          și în exemple curriculare oficiale actuale,
+          subliniind integrarea
+          celor trei procese.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Clasificarea de mai sus
+        este o sinteză pedagogică.
+      </strong>
+
+      <br><br>
+
+      Nu afirma la examen
+      că programa 2026
+      impune exact aceste șase categorii.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. STRATEGIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="strategie"
+  >
+
+    <h2>
+      7. Strategia didactică
+    </h2>
+
+
+    <p>
+      Strategia trebuie aleasă
+      în raport cu
+      competența,
+      obiectivele,
+      conținutul
+      și particularitățile elevilor.
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Metode
+        </h3>
+
+        <p>
+          experimentul,
+          conversația euristică,
+          problematizarea,
+          explicația,
+          demonstrația,
+          investigația,
+          rezolvarea de probleme.
         </p>
 
       </div>
@@ -2523,7 +2647,7 @@ footer.site {
         </h3>
 
         <p>
-          Frontal,
+          frontal,
           individual,
           pe perechi,
           pe grupe.
@@ -2535,13 +2659,479 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Resurse temporale
+          Mijloace
         </h3>
 
         <p>
-          Durata totală și
-          timpul orientativ al etapelor.
+          aparatură,
+          truse,
+          fișe,
+          grafice,
+          modele,
+          simulări,
+          resurse digitale.
         </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu coerent
+      </h3>
+
+      <p>
+        Obiectiv:
+        elevii să formuleze
+        o concluzie experimentală
+        privind relația dintre U și I.
+      </p>
+
+      <p>
+        Strategie:
+        investigație experimentală,
+        lucru pe grupe,
+        circuit real,
+        ampermetru,
+        voltmetru
+        și fișă de lucru.
+      </p>
+
+    </div>
+
+
+    <div class="danger">
+
+      Nu selecta metodele
+      doar pentru a avea
+      o listă lungă
+      în proiect.
+
+      <br><br>
+
+      Fiecare metodă
+      trebuie să aibă
+      <strong>o funcție reală
+      în demers</strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. RESURSE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="resurse"
+  >
+
+    <h2>
+      8. Resursele lecției
+    </h2>
+
+
+    <p>
+      Un proiect trebuie să indice
+      resursele necesare
+      desfășurării activității.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Materiale
+        </h3>
+
+        <p>
+          aparatură,
+          materiale de laborator,
+          fișe,
+          modele,
+          imagini,
+          materiale video.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Temporale
+        </h3>
+
+        <p>
+          durata lecției
+          și timpul alocat
+          principalelor activități.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Digitale
+        </h3>
+
+        <p>
+          simulări,
+          calculator,
+          proiector,
+          aplicații
+          sau resurse multimedia.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Contextuale
+        </h3>
+
+        <p>
+          nivelul clasei,
+          spațiul,
+          laboratorul,
+          posibilitățile reale
+          de organizare.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      Într-un document curricular
+      oficial actual
+      apar explicit,
+      în exemplul de proiect didactic,
+      resurse precum:
+
+      <br><br>
+
+      <strong>
+        metode și procedee,
+        materiale,
+        resurse psihice
+        și resurse temporale.
+      </strong>
+
+    </div>
+
+
+    <div class="warning">
+
+      Resursele trebuie
+      să fie reale.
+
+      <br><br>
+
+      Nu proiecta o activitate
+      pentru șase montaje experimentale
+      dacă situația concretă
+      permite existența unuia singur,
+      fără să adaptezi
+      forma de organizare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. ETAPE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="etape"
+  >
+
+    <h2>
+      9. Desfășurarea lecției
+    </h2>
+
+
+    <p>
+      O lecție poate fi organizată
+      în secvențe sau evenimente
+      didactice.
+    </p>
+
+
+    <p>
+      Într-un exemplu curricular
+      oficial actual
+      apar etape precum:
+      momentul organizatoric,
+      actualizarea cunoștințelor,
+      captarea atenției,
+      anunțarea temei și obiectivelor,
+      dirijarea învățării
+      și fixarea cunoștințelor.
+    </p>
+
+
+    <div class="phases">
+
+
+      <div class="phase">
+
+        <b>
+          Moment organizatoric
+        </b>
+
+        Se asigură
+        condițiile necesare
+        desfășurării activității.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Reactualizarea achizițiilor
+        </b>
+
+        Sunt activate
+        cunoștințele și deprinderile
+        necesare noii activități.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Captarea atenției /
+          situația-problemă
+        </b>
+
+        Profesorul creează
+        un context care solicită
+        implicarea cognitivă
+        a elevului.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Tema și obiectivele
+        </b>
+
+        Elevii sunt orientați
+        asupra activității
+        și finalității acesteia.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Dirijarea / organizarea învățării
+        </b>
+
+        Se desfășoară
+        activitățile principale:
+        observație,
+        experiment,
+        dialog,
+        analiză,
+        modelare,
+        rezolvare.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Fixarea și sistematizarea
+        </b>
+
+        Sunt stabilizate
+        relațiile esențiale
+        și concluziile.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Evaluarea și feedbackul
+        </b>
+
+        Profesorul obține
+        dovezi privind
+        atingerea obiectivelor
+        și oferă feedback.
+
+      </div>
+
+
+      <div class="phase">
+
+        <b>
+          Transferul / continuarea învățării
+        </b>
+
+        Achizițiile pot fi aplicate
+        într-o situație nouă
+        sau pot pregăti
+        activitatea următoare.
+
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Nu transforma această succesiune
+        într-o schemă rigidă universală.
+      </strong>
+
+      <br><br>
+
+      Tipul lecției,
+      obiectivele
+      și strategia aleasă
+      pot modifica
+      ordinea,
+      durata
+      sau prezența unor secvențe.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. ROLURI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="roluri"
+  >
+
+    <h2>
+      10. Activitatea profesorului și activitatea elevului
+    </h2>
+
+
+    <p>
+      Un proiect centrat pe învățare
+      trebuie să arate
+      nu doar ce face profesorul,
+      ci și
+      <strong>ce face efectiv elevul</strong>.
+    </p>
+
+
+    <div class="roles">
+
+
+      <div class="role-card teacher">
+
+        <h3>
+          Profesorul
+        </h3>
+
+        <ul>
+
+          <li>
+            creează situația-problemă;
+          </li>
+
+          <li>
+            organizează resursele;
+          </li>
+
+          <li>
+            formulează întrebări;
+          </li>
+
+          <li>
+            oferă instrucțiuni;
+          </li>
+
+          <li>
+            monitorizează;
+          </li>
+
+          <li>
+            oferă feedback;
+          </li>
+
+          <li>
+            validează și sistematizează concluziile.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <div class="role-card student">
+
+        <h3>
+          Elevul
+        </h3>
+
+        <ul>
+
+          <li>
+            observă;
+          </li>
+
+          <li>
+            formulează ipoteze;
+          </li>
+
+          <li>
+            realizează montaje;
+          </li>
+
+          <li>
+            măsoară;
+          </li>
+
+          <li>
+            calculează;
+          </li>
+
+          <li>
+            compară date;
+          </li>
+
+          <li>
+            explică și formulează concluzii.
+          </li>
+
+        </ul>
 
       </div>
 
@@ -2550,11 +3140,29 @@ footer.site {
 
     <div class="exam-box">
 
-      La Fizică,
-      proiectarea resurselor trebuie făcută înainte de lecție:
-      aparatura,
-      materialele și montajele trebuie verificate,
-      iar condițiile de securitate trebuie anticipate.
+      <strong>
+        Un proiect bun
+        face vizibilă învățarea.
+      </strong>
+
+      <br><br>
+
+      Nu este suficient:
+
+      <br>
+
+      „Profesorul explică legea lui Ohm.”
+
+      <br><br>
+
+      Mai important este:
+
+      <br>
+
+      „Elevii măsoară U și I,
+      organizează datele,
+      analizează relația
+      și formulează concluzia.”
 
     </div>
 
@@ -2562,366 +3170,118 @@ footer.site {
 
 
   <!-- =======================================================
-       7. EVENIMENTE
+       11. ALINIERE
        ======================================================= -->
 
   <section
     class="card"
-    id="sec7"
+    id="aliniere"
   >
 
     <h2>
-      7. Evenimentele lecției
+      11. Alinierea didactică
     </h2>
 
 
     <p>
-      Un model de proiect din documentele încărcate
-      utilizează următoarea succesiune.
-      Ea este utilă ca reper,
-      dar nu trebuie transformată într-o schemă rigidă
-      pentru orice lecție.
+      Elementele proiectului
+      trebuie să se susțină reciproc.
     </p>
 
 
-    <div class="stage">
+    <div class="alignment">
 
-      <div class="stage-number">
-        1
-      </div>
 
-      <div>
+      <div class="alignment-card">
 
-        <h3>
-          Moment organizatoric
-        </h3>
+        <b>
+          Competență
+        </b>
 
-        <p>
-          Pregătirea clasei și verificarea
-          condițiilor materiale pentru activitate.
-        </p>
+        Ce urmăresc curricular?
 
       </div>
 
-    </div>
 
+      <div class="alignment-card">
 
-    <div class="stage">
+        <b>
+          Obiectiv
+        </b>
 
-      <div class="stage-number">
-        2
-      </div>
-
-      <div>
-
-        <h3>
-          Actualizarea cunoștințelor
-        </h3>
-
-        <p>
-          Activarea achizițiilor necesare
-          pentru noua învățare.
-        </p>
+        Ce performanță observ?
 
       </div>
 
-    </div>
 
+      <div class="alignment-card">
 
-    <div class="stage">
+        <b>
+          Activitate
+        </b>
 
-      <div class="stage-number">
-        3
+        Ce face elevul
+        pentru a învăța?
+
       </div>
 
-      <div>
 
-        <h3>
-          Captarea atenției
-        </h3>
+      <div class="alignment-card">
 
-        <p>
-          Introducerea unei situații,
-          observații sau probleme care generează
-          interes și nevoie de explicație.
-        </p>
+        <b>
+          Evaluare
+        </b>
+
+        Ce dovadă confirmă
+        performanța?
 
       </div>
 
     </div>
 
 
-    <div class="stage">
+    <div class="exam-box">
 
-      <div class="stage-number">
-        4
-      </div>
-
-      <div>
-
-        <h3>
-          Anunțarea temei și a obiectivelor
-        </h3>
-
-        <p>
-          Elevii află ce vor studia
-          și ce rezultate sunt urmărite.
-        </p>
-
-      </div>
+      <strong>
+        COMPETENȚĂ
+        → OBIECTIV
+        → ACTIVITATE
+        → DOVADĂ
+        → EVALUARE
+      </strong>
 
     </div>
 
 
-    <div class="stage">
-
-      <div class="stage-number">
-        5
-      </div>
-
-      <div>
-
-        <h3>
-          Dirijarea învățării
-        </h3>
-
-        <p>
-          Se desfășoară activitățile centrale:
-          explicație,
-          experiment,
-          investigație,
-          problematizare,
-          rezolvare de probleme etc.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="stage">
-
-      <div class="stage-number">
-        6
-      </div>
-
-      <div>
-
-        <h3>
-          Fixarea cunoștințelor
-        </h3>
-
-        <p>
-          Elevii aplică,
-          structurează și consolidează
-          achizițiile formate.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="stage">
-
-      <div class="stage-number">
-        7
-      </div>
-
-      <div>
-
-        <h3>
-          Obținerea performanței
-        </h3>
-
-        <p>
-          Elevii demonstrează utilizarea achizițiilor
-          printr-o sarcină relevantă.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="stage">
-
-      <div class="stage-number">
-        8
-      </div>
-
-      <div>
-
-        <h3>
-          Retenție și transfer
-        </h3>
-
-        <p>
-          Se formulează concluzii,
-          se oferă feedback și se propun
-          situații de aplicare în contexte noi.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      Nu toate lecțiile trebuie să conțină
-      mecanic exact aceleași etape
-      și în exact aceeași ordine.
-
-      Succesiunea trebuie adaptată
-      <b>tipului lecției și activităților proiectate</b>.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       8. PROFESOR / ELEV
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec8"
-  >
-
-    <h2>
-      8. Activitatea profesorului și activitatea elevilor
-    </h2>
-
-
-    <p>
-      Un proiect bun nu descrie numai
-      ce spune profesorul.
-      Trebuie să fie vizibil și
-      <b>ce fac efectiv elevii</b>.
-    </p>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Etapă
-            </th>
-
-            <th>
-              Profesor
-            </th>
-
-            <th>
-              Elevi
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          <tr>
-
-            <td>
-              Captarea atenției
-            </td>
-
-            <td>
-              Prezintă o situație-problemă.
-            </td>
-
-            <td>
-              Observă,
-              formulează ipoteze,
-              răspund la întrebări.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Dirijarea învățării
-            </td>
-
-            <td>
-              Organizează experimentul,
-              formulează întrebări,
-              oferă sprijin.
-            </td>
-
-            <td>
-              Realizează montajul,
-              măsoară,
-              notează și analizează date.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Fixare
-            </td>
-
-            <td>
-              Propune sarcini de aplicare.
-            </td>
-
-            <td>
-              Rezolvă,
-              compară,
-              argumentează.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Evaluare
-            </td>
-
-            <td>
-              Aplică instrumente și oferă feedback.
-            </td>
-
-            <td>
-              Demonstrează performanța,
-              se autoevaluează și corectează erorile.
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
+    <h3>
+      Exemplu de nealiniere
+    </h3>
 
 
     <div class="danger">
 
-      <strong>
-        Semn de proiect slab:
-      </strong>
+      Competența declarată:
+      realizarea unei investigații experimentale.
 
-      coloana „Activitatea elevului” conține repetat
-      doar formulări precum
-      „ascultă profesorul”.
+      <br><br>
+
+      Activitatea:
+      profesorul explică
+      timp de cincizeci de minute.
+
+      <br><br>
+
+      Evaluarea:
+      elevul reproduce
+      o definiție.
+
+      <br><br>
+
+      <strong>
+        Competența declarată
+        nu este demonstrată
+        de activitatea elevului.
+      </strong>
 
     </div>
 
@@ -2929,415 +3289,123 @@ footer.site {
 
 
   <!-- =======================================================
-       9. MODEL TABEL
+       12. EXEMPLU
        ======================================================= -->
 
   <section
     class="card"
-    id="sec9"
+    id="exemplu"
   >
 
     <h2>
-      9. Model de tabel pentru proiectul de lecție
+      12. Exemplu didactic — Legea lui Ohm
     </h2>
 
 
     <div class="warning">
 
       <strong>
-        Model didactic:
+        Exemplul următor este didactic.
       </strong>
 
-      acesta este un format util de lucru,
-      nu un formular unic impus de programa
-      de Titularizare.
+      <br><br>
+
+      Nu reproduce un proiect oficial
+      și nu atribuie
+      coduri fictive de competență.
+
+      Competența specifică
+      se preia din programa
+      aplicabilă clasei concrete.
 
     </div>
 
 
-    <div class="table-wrap">
-
-      <table class="lesson-table">
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Nr.
-            </th>
-
-            <th>
-              Evenimentul lecției
-            </th>
-
-            <th>
-              Activitatea profesorului
-            </th>
-
-            <th>
-              Activitatea elevilor
-            </th>
-
-            <th>
-              Metode / procedee
-            </th>
-
-            <th>
-              Resurse / forme
-            </th>
-
-            <th>
-              Timp
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          <tr>
-
-            <td>
-              1
-            </td>
-
-            <td>
-              Moment organizatoric
-            </td>
-
-            <td>
-              Verifică prezența și pregătirea
-              materialelor.
-            </td>
-
-            <td>
-              Se pregătesc pentru activitate.
-            </td>
-
-            <td>
-              Conversație
-            </td>
-
-            <td>
-              Frontal
-            </td>
-
-            <td>
-              2 min
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              2
-            </td>
-
-            <td>
-              Actualizare
-            </td>
-
-            <td>
-              Formulează întrebări despre
-              mărimile electrice studiate.
-            </td>
-
-            <td>
-              Identifică U,
-              I și R și unitățile lor SI.
-            </td>
-
-            <td>
-              Conversație euristică
-            </td>
-
-            <td>
-              Frontal
-            </td>
-
-            <td>
-              5 min
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              3
-            </td>
-
-            <td>
-              Captarea atenției
-            </td>
-
-            <td>
-              Prezintă două situații cu
-              intensități diferite ale curentului.
-            </td>
-
-            <td>
-              Formulează ipoteze privind
-              dependența dintre U și I.
-            </td>
-
-            <td>
-              Problematizare
-            </td>
-
-            <td>
-              Frontal
-            </td>
-
-            <td>
-              4 min
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              4
-            </td>
-
-            <td>
-              Dirijarea învățării
-            </td>
-
-            <td>
-              Organizează verificarea experimentală
-              a legii lui Ohm.
-            </td>
-
-            <td>
-              Realizează montajul,
-              măsoară U și I,
-              completează tabelul.
-            </td>
-
-            <td>
-              Experiment,
-              investigație
-            </td>
-
-            <td>
-              Grupe,
-              aparatură
-            </td>
-
-            <td>
-              22 min
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              5
-            </td>
-
-            <td>
-              Fixare
-            </td>
-
-            <td>
-              Propune interpretarea
-              rezultatelor obținute.
-            </td>
-
-            <td>
-              Calculează U/I
-              și formulează concluzia.
-            </td>
-
-            <td>
-              Conversație,
-              problematizare
-            </td>
-
-            <td>
-              Grupe + frontal
-            </td>
-
-            <td>
-              8 min
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              6
-            </td>
-
-            <td>
-              Evaluare și transfer
-            </td>
-
-            <td>
-              Propune o problemă scurtă
-              și oferă feedback.
-            </td>
-
-            <td>
-              Aplică relația U = R · I
-              într-o situație nouă.
-            </td>
-
-            <td>
-              Exercițiul
-            </td>
-
-            <td>
-              Individual
-            </td>
-
-            <td>
-              9 min
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
+    <div class="physics-example">
+
+      <h3>
+        Tema
+      </h3>
+
+      <p>
+        Studiul experimental
+        al relației dintre tensiunea electrică
+        și intensitatea curentului
+        pentru un conductor.
+      </p>
 
     </div>
+
+
+    <h3>
+      Competența specifică
+    </h3>
 
 
     <div class="callout">
 
-      Totalul timpului din model este
-      <b>50 minute</b>.
-
-      Alocarea este exemplificativă
-      și trebuie adaptată lecției reale.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       10. EXEMPLU OHM
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec10"
-  >
-
-    <h2>
-      10. Exemplu sintetic — Legea lui Ohm
-    </h2>
-
-
-    <div class="update-note">
-
-      Exemplul este un
-      <b>model didactic</b>,
-      construit pe tiparul unei activități experimentale
-      despre Legea lui Ohm existente în materialele de
-      metodică încărcate.
+      Se preia exact
+      din programa școlară
+      corespunzătoare clasei
+      și situației analizate.
 
     </div>
 
 
     <h3>
-      Tema lecției
+      Obiective operaționale — exemplu
     </h3>
 
-    <div class="definitie">
 
-      Verificarea experimentală a legii lui Ohm
-      pentru o porțiune de circuit.
+    <div class="objective-example">
+
+      O1 —
+      elevii vor fi capabili
+      să realizeze corect
+      circuitul experimental
+      după schema oferită.
+
+    </div>
+
+
+    <div class="objective-example">
+
+      O2 —
+      elevii vor fi capabili
+      să măsoare tensiunea U
+      și intensitatea I,
+      utilizând corect
+      aparatele de măsură.
+
+    </div>
+
+
+    <div class="objective-example">
+
+      O3 —
+      elevii vor fi capabili
+      să organizeze valorile
+      într-un tabel de date.
+
+    </div>
+
+
+    <div class="objective-example">
+
+      O4 —
+      elevii vor fi capabili
+      să formuleze o concluzie
+      privind relația
+      dintre U și I
+      pentru conductorul studiat.
 
     </div>
 
 
     <h3>
-      Competență vizată
+      Resurse
     </h3>
 
-    <p>
-      Se selectează
-      <b>competența specifică din programa școlară
-      aplicabilă clasei</b>.
-
-      Nu se inventează un cod de competență
-      în lipsa programei clasei.
-    </p>
-
-
-    <h3>
-      Obiective operaționale
-    </h3>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O1
-      </span>
-
-      Să realizeze corect montajul cu
-      sursă, rezistor, ampermetru și voltmetru.
-
-    </div>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O2
-      </span>
-
-      Să măsoare tensiunea și intensitatea
-      curentului pentru minimum trei seturi de valori.
-
-    </div>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O3
-      </span>
-
-      Să calculeze raportul U/I
-      pentru valorile măsurate.
-
-    </div>
-
-
-    <div class="objective">
-
-      <span class="objective-code">
-        O4
-      </span>
-
-      Să formuleze concluzia privind
-      relația dintre U și I
-      pentru un rezistor cu rezistență constantă.
-
-    </div>
-
-
-    <h3>
-      Resurse materiale
-    </h3>
 
     <ul>
 
@@ -3358,272 +3426,282 @@ footer.site {
       </li>
 
       <li>
+        întrerupător;
+      </li>
+
+      <li>
         conductoare de legătură;
       </li>
 
       <li>
-        fișă de activitate experimentală.
+        fișă de activitate.
       </li>
 
     </ul>
 
 
     <h3>
-      Sarcina elevului
+      Strategie
     </h3>
 
 
-    <div class="exam-answer">
-
-      Realizează montajul,
-      măsoară U și I,
-      completează tabelul,
-      calculează raportul U/I
-      și formulează concluzia
-      pe baza datelor experimentale.
-
-    </div>
+    <p>
+      Experiment,
+      conversație euristică,
+      problematizare,
+      lucru pe grupe,
+      fișă de activitate
+      și evaluare formativă.
+    </p>
 
 
     <h3>
-      Evaluare
+      Model de desfășurare
     </h3>
 
-    <p>
-      Profesorul poate utiliza
-      observarea sistematică și o fișă de lucru,
-      urmărind:
-    </p>
 
-    <ul>
+    <div class="table-wrap">
 
-      <li>
-        corectitudinea montajului;
-      </li>
+      <table>
 
-      <li>
-        utilizarea aparatelor;
-      </li>
+        <thead>
 
-      <li>
-        corectitudinea măsurătorilor;
-      </li>
+          <tr>
 
-      <li>
-        efectuarea calculelor;
-      </li>
+            <th>
+              Secvență
+            </th>
 
-      <li>
-        formularea concluziei.
-      </li>
+            <th>
+              Profesor
+            </th>
 
-    </ul>
+            <th>
+              Elevi
+            </th>
 
-  </section>
+            <th>
+              Metode / resurse
+            </th>
 
+            <th>
+              Evaluare
+            </th>
 
-  <!-- =======================================================
-       11. INTRA INTER TRANS
-       ======================================================= -->
+          </tr>
 
-  <section
-    class="card"
-    id="sec11"
-  >
-
-    <h2>
-      11. Abordări intra-, inter- și transdisciplinare
-    </h2>
+        </thead>
 
 
-    <p>
-      Aceste abordări sunt menționate
-      <b>explicit</b>
-      în programa de Titularizare Fizică 2026
-      în legătură cu proiectele de lecție.
-    </p>
+        <tbody>
+
+          <tr>
+
+            <td>
+              Reactualizare
+            </td>
+
+            <td>
+              Solicită identificarea
+              mărimilor U, I și R
+              și a unităților SI.
+            </td>
+
+            <td>
+              Răspund,
+              argumentează,
+              corectează eventualele erori.
+            </td>
+
+            <td>
+              conversație
+            </td>
+
+            <td>
+              întrebări orale
+            </td>
+
+          </tr>
 
 
-    <div class="grid3">
+          <tr>
+
+            <td>
+              Situație-problemă
+            </td>
+
+            <td>
+              Întreabă
+              cum poate fi studiat experimental
+              efectul modificării tensiunii.
+            </td>
+
+            <td>
+              Formulează ipoteze
+              și propun măsurători.
+            </td>
+
+            <td>
+              problematizare
+            </td>
+
+            <td>
+              feedback
+            </td>
+
+          </tr>
 
 
-      <div class="mini-card approach intra">
+          <tr>
 
-        <h3>
-          Intradisciplinară
-        </h3>
+            <td>
+              Activitate experimentală
+            </td>
 
-        <p>
-          Se realizează conexiuni între
-          concepte și capitole din cadrul
-          aceleiași discipline — Fizica.
-        </p>
+            <td>
+              Organizează grupele,
+              monitorizează
+              și intervine când este necesar.
+            </td>
 
-        <p>
-          Exemplu:
-          energie mecanică
-          ↔ lucru mecanic
-          ↔ putere.
-        </p>
+            <td>
+              Realizează montajul,
+              măsoară U și I,
+              notează datele.
+            </td>
 
-      </div>
+            <td>
+              experiment,
+              trusă,
+              fișă
+            </td>
 
+            <td>
+              observare sistematică
+            </td>
 
-      <div class="mini-card approach inter">
-
-        <h3>
-          Interdisciplinară
-        </h3>
-
-        <p>
-          Sunt corelate concepte și metode
-          din două sau mai multe discipline.
-        </p>
-
-        <p>
-          Exemplu:
-          Fizică + Matematică
-          pentru reprezentarea și analiza
-          graficului U = f(I).
-        </p>
-
-      </div>
+          </tr>
 
 
-      <div class="mini-card approach trans">
+          <tr>
 
-        <h3>
-          Transdisciplinară
-        </h3>
+            <td>
+              Analiza
+            </td>
 
-        <p>
-          Activitatea pornește de la
-          o problemă sau situație complexă
-          care depășește granițele unei singure discipline.
-        </p>
+            <td>
+              Ghidează compararea datelor
+              și formularea relației.
+            </td>
 
-        <p>
-          Exemplu:
-          eficiența energetică a unei locuințe,
-          analizată prin Fizică,
-          Matematică,
-          tehnologie și contexte cotidiene.
-        </p>
+            <td>
+              Calculează,
+              compară,
+              reprezintă
+              și interpretează.
+            </td>
 
-      </div>
+            <td>
+              conversație euristică
+            </td>
 
+            <td>
+              verificarea fișei
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Concluzie
+            </td>
+
+            <td>
+              Sistematizează
+              concluziile corecte.
+            </td>
+
+            <td>
+              Formulează
+              relația dintre U și I.
+            </td>
+
+            <td>
+              explicație,
+              dialog
+            </td>
+
+            <td>
+              răspuns oral /
+              scurt răspuns scris
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Transfer
+            </td>
+
+            <td>
+              Propune o situație nouă.
+            </td>
+
+            <td>
+              Aplică relația
+              într-o problemă
+              sau interpretează
+              un alt set de date.
+            </td>
+
+            <td>
+              problemă
+            </td>
+
+            <td>
+              evaluare formativă
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
 
     </div>
 
 
-    <div class="warning">
+    <div class="exam-box">
 
-      Clasificarea trebuie
-      <b>argumentată prin activitatea propusă</b>.
+      Observă alinierea:
 
-      Nu este suficient să scrii în proiect
-      „lecție interdisciplinară”
-      dacă activitatea nu realizează efectiv
-      conexiuni între discipline.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       12. DIFERENTIERE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec12"
-  >
-
-    <h2>
-      12. Diferențierea și adaptarea lecției
-    </h2>
-
-
-    <p>
-      Proiectarea trebuie să permită adaptarea
-      la nivelul real al clasei și la
-      particularitățile elevilor.
-    </p>
-
-
-    <div class="grid2">
-
-      <div class="mini-card">
-
-        <h3>
-          Sarcini diferențiate
-        </h3>
-
-        <p>
-          Probleme cu niveluri diferite
-          de dificultate sau sprijin.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Ritm diferit
-        </h3>
-
-        <p>
-          Sarcini suplimentare pentru elevii
-          care finalizează mai repede.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Sprijin vizual
-        </h3>
-
-        <p>
-          Scheme,
-          grafice,
-          demonstrații și simulări.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Organizare flexibilă
-        </h3>
-
-        <p>
-          Activitate individuală,
-          pe perechi sau pe grupe.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="callout">
+      <br><br>
 
       <strong>
-        Exemplu la rezolvarea de probleme:
+        măsoară
+        → activitate experimentală
+        → observație directă;
       </strong>
 
-      un grup poate primi relația fizică
-      deja selectată,
-      iar alt grup poate primi
-      o problemă de transfer în care trebuie
-      să identifice singur legea potrivită.
+      <br><br>
+
+      <strong>
+        interpretează
+        → analiza datelor
+        → concluzie;
+      </strong>
+
+      <br><br>
+
+      <strong>
+        aplică
+        → situație nouă
+        → transfer.
+      </strong>
 
     </div>
 
@@ -3631,68 +3709,33 @@ footer.site {
 
 
   <!-- =======================================================
-       13. EVALUAREA
+       13. EVALUARE
        ======================================================= -->
 
   <section
     class="card"
-    id="sec13"
+    id="evaluare"
   >
 
     <h2>
-      13. Evaluarea trebuie proiectată împreună cu învățarea
+      13. Evaluarea trebuie proiectată odată cu lecția
     </h2>
 
 
     <p>
-      Evaluarea nu se adaugă la final
-      după ce proiectul este terminat.
-      Ea trebuie corelată cu obiectivele și
-      activitățile lecției.
+      Evaluarea nu trebuie adăugată
+      la finalul proiectului
+      ca o rubrică formală.
     </p>
 
 
-    <div class="process">
-
-      <div class="process-card">
-
-        <b>
-          Obiectiv
-        </b>
-
-        Ce trebuie să poată face elevul?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Activitate
-        </b>
-
-        În ce situație exersează?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Evaluare
-        </b>
-
-        Ce dovadă arată că obiectivul este atins?
-
-      </div>
-
-    </div>
+    <p>
+      Pentru fiecare obiectiv,
+      profesorul trebuie să știe
+      <strong>ce dovadă</strong>
+      va arăta că obiectivul
+      a fost atins.
+    </p>
 
 
     <div class="table-wrap">
@@ -3708,11 +3751,15 @@ footer.site {
             </th>
 
             <th>
-              Activitate
+              Activitatea elevului
             </th>
 
             <th>
-              Evaluare adecvată
+              Dovada
+            </th>
+
+            <th>
+              Evaluare
             </th>
 
           </tr>
@@ -3725,29 +3772,16 @@ footer.site {
           <tr>
 
             <td>
-              Identifică o mărime fizică
+              Realizează circuitul
             </td>
 
             <td>
-              Analizează o situație
+              Construiește montajul
             </td>
 
             <td>
-              Întrebare orală /
-              item scurt
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Realizează un montaj
-            </td>
-
-            <td>
-              Activitate experimentală
+              Montaj funcțional
+              și sigur
             </td>
 
             <td>
@@ -3760,16 +3794,19 @@ footer.site {
           <tr>
 
             <td>
-              Aplică o lege
+              Măsoară U și I
             </td>
 
             <td>
-              Rezolvare de problemă
+              Utilizează instrumentele
             </td>
 
             <td>
-              Item semiobiectiv /
-              subiectiv
+              Valori consemnate corect
+            </td>
+
+            <td>
+              Fișă + observare
             </td>
 
           </tr>
@@ -3778,16 +3815,42 @@ footer.site {
           <tr>
 
             <td>
-              Formulează o concluzie
+              Interpretează date
             </td>
 
             <td>
-              Analiza datelor
+              Compară valorile
             </td>
 
             <td>
-              Răspuns scurt /
-              criterii de apreciere
+              Relație / grafic
+              corect interpretat
+            </td>
+
+            <td>
+              Răspuns scris sau oral
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Formulează concluzia
+            </td>
+
+            <td>
+              Argumentează
+              pe baza măsurătorilor
+            </td>
+
+            <td>
+              Concluzie coerentă
+            </td>
+
+            <td>
+              Criterii explicite
             </td>
 
           </tr>
@@ -3799,110 +3862,12 @@ footer.site {
     </div>
 
 
-    <div class="exam-box">
-
-      <strong>
-        Principiu:
-      </strong>
-
-      dacă obiectivul spune
-      „să realizeze un montaj”,
-      o întrebare de memorare nu este suficientă
-      pentru a verifica atingerea obiectivului.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       14. EXAMEN
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="sec14"
-  >
-
-    <h2>
-      14. Cum formulezi un răspuns pentru examen?
-    </h2>
-
-
-    <p>
-      Dacă cerința solicită:
-    </p>
-
-
     <div class="callout">
 
-      <b>
-        „Realizați / prezentați un proiect de lecție
-        pentru conținutul dat.”
-      </b>
-
-    </div>
-
-
-    <p>
-      construiește răspunsul în această ordine:
-    </p>
-
-
-    <div class="exam-answer">
-
-      <p>
-        <b>1. Datele lecției</b><br>
-        clasă · unitate de învățare ·
-        temă · durată.
-      </p>
-
-      <p>
-        <b>2. Competența specifică</b><br>
-        preluată din programa școlară oferită
-        sau indicată în subiect.
-      </p>
-
-      <p>
-        <b>3. Obiective operaționale</b><br>
-        formulate prin comportamente observabile.
-      </p>
-
-      <p>
-        <b>4. Tipul lecției</b><br>
-        stabilit și justificat prin finalitatea dominantă.
-      </p>
-
-      <p>
-        <b>5. Resurse și strategii</b><br>
-        metode · mijloace · forme de organizare · timp.
-      </p>
-
-      <p>
-        <b>6. Desfășurarea</b><br>
-        activitatea profesorului și activitatea elevilor,
-        organizate în etape coerente.
-      </p>
-
-      <p>
-        <b>7. Evaluarea</b><br>
-        instrumente și criterii corelate
-        cu obiectivele.
-      </p>
-
-    </div>
-
-
-    <div class="danger">
-
       <strong>
-        La Titularizare:
+        Obiectiv fără dovadă
+        = obiectiv greu de verificat.
       </strong>
-
-      nu inventa o competență specifică
-      și nu atribui un cod unei competențe
-      dacă acesta nu este furnizat sau
-      verificat în programa școlară aplicabilă.
 
     </div>
 
@@ -3910,17 +3875,35 @@ footer.site {
 
 
   <!-- =======================================================
-       15. CAPCANE + RECAP
+       14. DIFERENTIERE
        ======================================================= -->
 
   <section
     class="card"
-    id="sec15"
+    id="diferentiere"
   >
 
     <h2>
-      15. Capcane și recapitulare
+      14. Diferențiere și adaptare
     </h2>
+
+
+    <p>
+      Programa de concurs
+      subliniază necesitatea
+      unui demers didactic
+      adaptat elevilor
+      și contextelor educaționale.
+    </p>
+
+
+    <p>
+      Diferențierea nu înseamnă
+      renunțarea la competență,
+      ci ajustarea
+      căii prin care elevul
+      este sprijinit să progreseze.
+    </p>
 
 
     <div class="grid2">
@@ -3929,13 +3912,14 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Obiectiv = activitatea profesorului
+          Sprijin
         </h3>
 
         <p>
-          Greșit.
-          Obiectivul trebuie formulat prin
-          performanța elevului.
+          schemă de montaj,
+          întrebări ghidate,
+          tabel parțial structurat,
+          exemplu inițial.
         </p>
 
       </div>
@@ -3944,13 +3928,13 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Competența este inventată
+          Ritm
         </h3>
 
         <p>
-          Greșit.
-          Competența specifică se raportează
-          la programa școlară.
+          timp suplimentar,
+          fragmentarea sarcinii,
+          verificări intermediare.
         </p>
 
       </div>
@@ -3959,12 +3943,15 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Lecția este doar discursul profesorului
+          Complexitate
         </h3>
 
         <p>
-          Proiectul trebuie să descrie
-          explicit activitatea elevilor.
+          aceeași competență
+          poate fi exersată
+          în contexte
+          cu niveluri diferite
+          de dificultate.
         </p>
 
       </div>
@@ -3973,79 +3960,591 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Metode fără legătură cu obiectivele
+          Extindere
         </h3>
 
         <p>
-          Metoda se alege în funcție de
-          competența și activitatea proiectată.
+          elevii care progresează rapid
+          pot primi
+          o sarcină de transfer
+          sau investigație suplimentară.
         </p>
 
       </div>
 
+    </div>
 
-      <div class="mini-card">
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        În activitatea
+        privind legea lui Ohm:
+      </p>
+
+      <p>
+        un grup poate primi
+        schema circuitului
+        deja reprezentată,
+        în timp ce alt grup
+        poate primi sarcina
+        de a proiecta singur
+        schema adecvată.
+      </p>
+
+      <p>
+        Competența urmărită
+        rămâne coerentă,
+        dar nivelul de sprijin
+        diferă.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. INTERDISCIPLINAR
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="interdisciplinar"
+  >
+
+    <h2>
+      15. Abordări intra-, inter- și transdisciplinare
+    </h2>
+
+
+    <p>
+      Programa de Titularizare
+      menționează explicit
+      aceste abordări
+      în proiectele de lecție.
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          INTRADISCIPLINAR
+        </span>
 
         <h3>
-          Evaluare doar la final
+          Conexiuni în interiorul Fizicii
         </h3>
 
         <p>
-          Evaluarea formativă poate fi integrată
-          în întregul parcurs al lecției.
+          Sunt corelate
+          concepte sau domenii
+          ale aceleiași discipline.
         </p>
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          INTERDISCIPLINAR
+        </span>
 
         <h3>
-          Timp nerealist
+          Conexiuni între discipline
         </h3>
 
         <p>
-          Un experiment real presupune timp pentru
-          organizare, măsurare, prelucrare și concluzii.
+          Fizica este corelată
+          explicit cu Matematica,
+          Chimia,
+          Biologia,
+          Informatica
+          sau alte domenii.
         </p>
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="mini-card lesson-type">
+
+        <span class="type-label">
+          TRANSDISCIPLINAR
+        </span>
 
         <h3>
-          „Interdisciplinar” doar în titlu
+          Problemă din lumea reală
         </h3>
 
         <p>
-          Trebuie să existe efectiv
-          conexiuni între discipline.
+          Cunoașterea din mai multe domenii
+          este mobilizată
+          pentru o situație
+          autentică și complexă.
         </p>
 
       </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Proiect rigid
-        </h3>
-
-        <p>
-          Profesorul trebuie să poată adapta
-          activitatea la reacțiile elevilor.
-        </p>
-
-      </div>
-
 
     </div>
 
 
     <h3>
-      Recapitulare rapidă
+      Exemple la Fizică
     </h3>
+
+
+    <div class="grid3">
+
+
+      <div class="physics-example">
+
+        <h3>
+          Intra
+        </h3>
+
+        <p>
+          Energia mecanică
+          este corelată
+          cu lucrul mecanic,
+          puterea
+          și conservarea energiei.
+        </p>
+
+      </div>
+
+
+      <div class="physics-example">
+
+        <h3>
+          Inter
+        </h3>
+
+        <p>
+          Legea lui Ohm
+          + reprezentarea matematică
+          a dependenței liniare
+          + prelucrarea digitală
+          a datelor.
+        </p>
+
+      </div>
+
+
+      <div class="physics-example">
+
+        <h3>
+          Trans
+        </h3>
+
+        <p>
+          Analiza consumului energetic
+          al unei locuințe
+          și propunerea
+          unor soluții argumentate
+          pentru reducerea consumului.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Interdisciplinaritatea
+        nu înseamnă doar
+        să enumeri două discipline.
+      </strong>
+
+      <br><br>
+
+      Trebuie să existe
+      o conexiune reală
+      în activitatea de învățare.
+
+    </div>
+
+
+    <div class="callout">
+
+      Într-un document curricular
+      oficial actual,
+      activitățile sunt prezentate
+      explicit ca putând integra
+      domenii ȘTIAM
+      și ca exemple adaptabile
+      la contextul clasei.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       16. EXAMEN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="examen"
+  >
+
+    <h2>
+      16. Cum construiești proiectul la concurs?
+    </h2>
+
+
+    <p>
+      Dacă subiectul solicită
+      proiectarea unei lecții
+      sau a unei secvențe didactice,
+      lucrează în această ordine:
+    </p>
+
+
+    <div class="exam-box">
+
+      <p>
+        <strong>
+          1. Identific contextul.
+        </strong>
+      </p>
+
+      <p>
+        Clasă,
+        conținut,
+        durată
+        și cerința exactă.
+      </p>
+
+
+      <p>
+        <strong>
+          2. Selectez competența specifică.
+        </strong>
+      </p>
+
+      <p>
+        O preiau
+        din programa aplicabilă,
+        dacă aceasta este furnizată
+        sau poate fi identificată
+        din documentele cerute.
+      </p>
+
+
+      <p>
+        <strong>
+          3. Formulez obiectivele.
+        </strong>
+      </p>
+
+      <p>
+        Acțiuni observabile
+        și verificabile.
+      </p>
+
+
+      <p>
+        <strong>
+          4. Aleg strategia.
+        </strong>
+      </p>
+
+      <p>
+        Metode,
+        forme de organizare,
+        mijloace
+        și resurse
+        adecvate obiectivelor.
+      </p>
+
+
+      <p>
+        <strong>
+          5. Construiesc activitatea elevului.
+        </strong>
+      </p>
+
+      <p>
+        Ce face concret elevul
+        pentru a forma
+        competența?
+      </p>
+
+
+      <p>
+        <strong>
+          6. Proiectez evaluarea.
+        </strong>
+      </p>
+
+      <p>
+        Ce dovadă
+        arată atingerea
+        fiecărui obiectiv?
+      </p>
+
+
+      <p>
+        <strong>
+          7. Verific alinierea.
+        </strong>
+      </p>
+
+      <p>
+        Competența,
+        obiectivele,
+        activitățile
+        și evaluarea
+        trebuie să fie coerente.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Formula de concurs:
+      </strong>
+
+      <br><br>
+
+      COMPETENȚĂ
+
+      <br>
+
+      → OBIECTIVE
+
+      <br>
+
+      → STRATEGIE
+
+      <br>
+
+      → ACTIVITATEA ELEVULUI
+
+      <br>
+
+      → EVALUARE
+
+      <br>
+
+      → FEEDBACK
+
+    </div>
+
+
+    <div class="warning">
+
+      Dacă cerința spune
+      „proiectați”,
+      nu răspunde
+      numai cu teoria
+      proiectului de lecție.
+
+      <br><br>
+
+      Trebuie construit
+      <strong>demersul concret cerut</strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       17. CAPCANE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="capcane"
+  >
+
+    <h2>
+      17. Capcane frecvente
+    </h2>
+
+
+    <div class="grid2">
+
+
+      <div class="trap">
+
+        <strong>
+          Competență inventată.
+        </strong>
+
+        <br>
+
+        Codul și formularea
+        se preiau din programă.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Obiectiv neobservabil.
+        </strong>
+
+        <br>
+
+        „Să știe”
+        sau „să înțeleagă”
+        nu arată suficient
+        cum verificăm performanța.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Metode enumerate fără rol.
+        </strong>
+
+        <br>
+
+        Strategia trebuie
+        să susțină activitatea concretă.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Profesorul face tot.
+        </strong>
+
+        <br>
+
+        Proiectul trebuie
+        să arate și
+        activitatea elevului.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Experiment doar decorativ.
+        </strong>
+
+        <br>
+
+        Dacă elevul doar privește
+        fără o sarcină cognitivă,
+        valoarea formativă scade.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Evaluare fără obiectiv.
+        </strong>
+
+        <br>
+
+        Itemul sau întrebarea finală
+        trebuie să verifice
+        performanța urmărită.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Interdisciplinar doar în titlu.
+        </strong>
+
+        <br>
+
+        Trebuie să existe
+        o conexiune efectivă
+        între domenii.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Etape rigide pentru orice lecție.
+        </strong>
+
+        <br>
+
+        Structura se adaptează
+        tipului și obiectivelor lecției.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Obiective prea numeroase.
+        </strong>
+
+        <br>
+
+        O lecție trebuie
+        să poată genera
+        în mod realist
+        dovezi pentru obiectivele declarate.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Resurse fictive.
+        </strong>
+
+        <br>
+
+        Proiectul trebuie
+        să fie realizabil
+        în contextul dat.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       18. RECAP
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="recapitulare"
+  >
+
+    <h2>
+      18. Recapitulare rapidă
+    </h2>
 
 
     <div class="recap-grid">
@@ -4054,7 +4553,7 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Reper curricular
+          Reper
         </b>
 
         Programa școlară.
@@ -4065,10 +4564,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Competențe
+          Competență
         </b>
 
-        Se preiau din programă.
+        Se preia,
+        nu se inventează.
 
       </div>
 
@@ -4076,10 +4576,24 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Obiective
+          Obiectiv
         </b>
 
-        Performanțe observabile.
+        Performanță
+        observabilă.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Tip
+        </b>
+
+        Se alege
+        după funcția dominantă
+        a lecției.
 
       </div>
 
@@ -4090,19 +4604,9 @@ footer.site {
           Strategie
         </b>
 
-        Metode + mijloace +
-        organizare.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Profesor
-        </b>
-
-        Organizează și facilitează.
+        Metode +
+        organizare +
+        mijloace.
 
       </div>
 
@@ -4113,10 +4617,8 @@ footer.site {
           Elev
         </b>
 
-        Observă,
-        experimentează,
-        aplică,
-        explică.
+        Activitate concretă,
+        nu rol pasiv.
 
       </div>
 
@@ -4127,7 +4629,8 @@ footer.site {
           Evaluare
         </b>
 
-        Corelată cu obiectivele.
+        Dovezi legate
+        de obiective.
 
       </div>
 
@@ -4135,56 +4638,80 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Transfer
+          Diferențiere
         </b>
 
-        Aplicare în situații noi.
+        Ajustarea sprijinului
+        și dificultății.
 
       </div>
 
 
+      <div class="recap-item">
+
+        <b>
+          Interdisciplinar
+        </b>
+
+        Conexiune reală
+        între domenii.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          2027
+        </b>
+
+        Programa oficială
+        trebuie reverificată.
+
+      </div>
+
     </div>
 
 
-    <div class="exam-answer">
+    <div class="exam-box">
 
-      <b>
-        Formula de memorare:
-      </b>
+      <strong>
+        Formula de 30 de secunde:
+      </strong>
 
       <br><br>
 
-      COMPETENȚĂ
+      PROGRAMĂ
 
       <br>
       ↓
       <br>
 
-      OBIECTIVE
+      COMPETENȚĂ SPECIFICĂ
 
       <br>
       ↓
       <br>
 
-      CONȚINUT + ACTIVITĂȚI
+      OBIECTIVE OPERAȚIONALE
 
       <br>
       ↓
       <br>
 
-      METODE + RESURSE
+      ACTIVITĂȚI + STRATEGIE
 
       <br>
       ↓
       <br>
 
-      EVALUARE
+      DOVEZI DE ÎNVĂȚARE
 
       <br>
       ↓
       <br>
 
-      FEEDBACK + TRANSFER
+      EVALUARE + FEEDBACK
 
     </div>
 
@@ -4198,8 +4725,9 @@ footer.site {
 
       <b>1.</b>
 
-      Care este diferența dintre
-      competența specifică și obiectivul operațional?
+      Care este diferența
+      dintre competența specifică
+      și obiectivul operațional?
 
     </div>
 
@@ -4208,8 +4736,9 @@ footer.site {
 
       <b>2.</b>
 
-      Enumeră minimum șase componente
-      ale unui proiect de lecție.
+      De ce un obiectiv
+      trebuie formulat
+      printr-o performanță observabilă?
 
     </div>
 
@@ -4218,9 +4747,9 @@ footer.site {
 
       <b>3.</b>
 
-      De ce formularea
-      „elevul să înțeleagă legea lui Ohm”
-      este insuficient operaționalizată?
+      Care sunt
+      principalele componente
+      ale strategiei didactice?
 
     </div>
 
@@ -4229,10 +4758,9 @@ footer.site {
 
       <b>4.</b>
 
-      Ce diferență există între
-      activitatea profesorului și
-      activitatea elevului în etapa
-      de dirijare a învățării?
+      De ce proiectul
+      trebuie să descrie explicit
+      activitatea elevului?
 
     </div>
 
@@ -4241,8 +4769,12 @@ footer.site {
 
       <b>5.</b>
 
-      Dă un exemplu de activitate
-      interdisciplinară Fizică–Matematică.
+      Ce înseamnă
+      alinierea dintre
+      competență,
+      obiectiv,
+      activitate
+      și evaluare?
 
     </div>
 
@@ -4251,9 +4783,11 @@ footer.site {
 
       <b>6.</b>
 
-      De ce o competență practică
-      nu poate fi evaluată suficient
-      numai printr-un item de memorare?
+      Dă câte un exemplu
+      de abordare intradisciplinară,
+      interdisciplinară
+      și transdisciplinară
+      pornind de la un conținut de Fizică.
 
     </div>
 
@@ -4262,82 +4796,119 @@ footer.site {
 
       <b>7.</b>
 
-      Construiește mental trei obiective operaționale
-      pentru o lecție experimentală
-      și verifică dacă sunt observabile.
-
-    </div>
-
-
-    <div class="update-note">
-
-      <strong>
-        Reper pentru Titularizare Fizică 2027
-      </strong>
-
-      <p>
-        Programa disponibilă pentru 2026
-        cere proiecte de lecție
-        pentru diferite tipuri de lecții,
-        inclusiv abordări
-        intra-, inter- și transdisciplinare.
-      </p>
-
-      <p>
-        Pentru sesiunea 2027 trebuie
-        reverificate programa oficială de concurs
-        și programele școlare de Fizică
-        aflate atunci în vigoare.
-      </p>
+      Cum ai evalua
+      într-o lecție
+      obiectivul:
+      „elevul realizează corect
+      un circuit electric”?
 
     </div>
 
 
     <h3>
-      Surse de lucru
+      Surse și repere
     </h3>
 
 
-    <ul class="bibliografie">
+    <ul class="sources">
 
       <li>
-        Programa pentru concursul de ocupare
-        a posturilor didactice —
+        Programa pentru concursul
+        de ocupare a posturilor didactice —
         disciplina Fizică,
         versiunea disponibilă pentru 2026.
       </li>
 
       <li>
-        Planurile-cadru și programele școlare
-        de Fizică în vigoare.
+        Programele școlare de Fizică
+        aflate în vigoare.
       </li>
 
       <li>
-        Modelul de proiect de lecție din
-        ANEXA 14.07.2026 —
-        competențe,
-        tipul lecției,
-        resurse,
-        obiective operaționale și
-        evenimentele activității didactice.
+        Planurile-cadru
+        aflate în vigoare.
       </li>
 
       <li>
-        Materialele de metodică încărcate privind
-        experimentul,
-        conversația euristică,
-        problematizarea,
-        demonstrația și investigația.
+        M.E.C. – C.N.C.,
+        Ghid metodologic pentru aplicarea
+        programei de Fizică,
+        clasele VI–VIII,
+        Editura Aramis,
+        București,
+        2001.
       </li>
 
       <li>
-        Activitatea experimentală privind
-        Legea lui Ohm din materialul
-        de metodică Definitivat 2015,
-        utilizată ca reper pentru exemplul aplicativ.
+        M.E.C. – C.N.C.,
+        Ghid metodologic,
+        aria curriculară
+        Matematică și Științe ale naturii,
+        Liceu,
+        Editura Aramis,
+        București,
+        2001.
+      </li>
+
+      <li>
+        Ciascai, L.,
+        Didactica fizicii,
+        Editura Corint,
+        București,
+        2001.
+      </li>
+
+      <li>
+        Document curricular oficial
+        publicat în 2026,
+        utilizat pentru exemplificarea
+        structurii unui proiect de lecție
+        și a abordărilor ȘTIAM.
       </li>
 
     </ul>
+
+
+    <div class="source-note">
+
+      <strong>
+        Notă metodologică:
+      </strong>
+
+      programa de Titularizare Fizică 2026
+      cere proiecte de lecție
+      pentru diferite tipuri de lecții
+      și menționează explicit
+      abordările intra-,
+      inter-
+      și transdisciplinare.
+
+      <br><br>
+
+      Programa nu fixează,
+      în formularea acestui punct,
+      o singură taxonomie
+      a tipurilor de lecții
+      și nici un unic șablon
+      obligatoriu de proiect didactic.
+
+      <br><br>
+
+      Clasificările,
+      secvențele
+      și tabelul din această lecție
+      sunt organizări pedagogice
+      pentru pregătirea concursului.
+
+      <br><br>
+
+      Pentru Titularizare Fizică 2027,
+      programa oficială
+      și documentele curriculare
+      în vigoare trebuie reverificate
+      după publicare.
+
+    </div>
 
   </section>
 
@@ -4351,7 +4922,7 @@ footer.site {
 
 <nav
   class="pager"
-  aria-label="Navigare între lecțiile despre proiectarea didactică"
+  aria-label="Navigare între lecțiile de proiectare didactică"
 >
 
   <a href="planificarea-calendaristica.html">
@@ -4368,16 +4939,1093 @@ footer.site {
 
 <footer class="site">
 
-  Tematica pentru didactica fizicii ·
+  Tematica pentru didactica Fizicii ·
   Proiectarea didactică ·
-  Proiectarea lecțiilor ·
+  Proiectarea lecției ·
   Titularizare Fizică
 
 </footer>
 
 
 <!-- =========================================================
-     JAVASCRIPT — ZI / NOAPTE
+     SCENARIU AUDIO ASCUNS
+     Playerul este generat automat
+     de componenta audio comună.
+     ========================================================= -->
+
+<template id="audio-lesson-script">
+
+  <p>
+    Bun găsit.
+    În această lecție discutăm
+    despre proiectarea lecției de Fizică.
+  </p>
+
+  <p>
+    Este o temă importantă
+    pentru Titularizare,
+    deoarece aici
+    nu este suficient
+    să cunoașteți niște definiții.
+  </p>
+
+  <p>
+    Trebuie să puteți construi
+    un demers didactic coerent.
+  </p>
+
+  <p>
+    Programa disponibilă
+    pentru Titularizare Fizică 2026
+    cere explicit
+    proiecte de lecție
+    pentru diferite tipuri de lecții,
+    inclusiv abordări
+    intra,
+    inter
+    și transdisciplinare.
+  </p>
+
+  <p>
+    Pentru 2027,
+    formularea exactă
+    trebuie verificată
+    după publicarea programei oficiale.
+  </p>
+
+  <p>
+    Începem cu întrebarea:
+    ce este proiectul de lecție?
+  </p>
+
+  <p>
+    Proiectul de lecție
+    este un instrument
+    prin care profesorul
+    anticipează și organizează
+    o activitate didactică concretă.
+  </p>
+
+  <p>
+    Aici trebuie să facem
+    imediat o distincție.
+  </p>
+
+  <p>
+    Proiectul de lecție
+    nu este o compunere
+    despre ceea ce profesorul
+    intenționează să spună.
+  </p>
+
+  <p>
+    Și nu este nici
+    un scenariu rigid
+    care trebuie urmat
+    mecanic,
+    indiferent de ce se întâmplă
+    în clasă.
+  </p>
+
+  <p>
+    Proiectarea înseamnă
+    să anticipăm
+    cum poate ajunge elevul
+    de la nivelul său inițial
+    la performanța urmărită.
+  </p>
+
+  <p>
+    Întrebarea principală este:
+    ce trebuie să poată face elevul
+    la final
+    și prin ce activități
+    poate ajunge acolo?
+  </p>
+
+  <p>
+    Proiectul de lecție
+    este și ultimul nivel
+    al unei ierarhii
+    pe care trebuie
+    să o avem foarte clară.
+  </p>
+
+  <p>
+    Mai întâi avem
+    programa școlară.
+  </p>
+
+  <p>
+    Din programă
+    rezultă proiectarea
+    parcursului amplu,
+    prin planificarea calendaristică.
+  </p>
+
+  <p>
+    Apoi avem
+    proiectarea unității
+    de învățare.
+  </p>
+
+  <p>
+    Iar la nivelul
+    activității concrete
+    avem proiectul de lecție.
+  </p>
+
+  <p>
+    Deci:
+    programă,
+    planificare,
+    unitate,
+    lecție.
+  </p>
+
+  <p>
+    Primul reper important
+    într-un proiect
+    este competența specifică.
+  </p>
+
+  <p>
+    Și aici apare
+    o regulă
+    care trebuie respectată
+    foarte strict.
+  </p>
+
+  <p>
+    Competența specifică
+    nu se inventează.
+  </p>
+
+  <p>
+    Nu inventăm
+    nici codul,
+    nici formularea.
+  </p>
+
+  <p>
+    O preluăm
+    din programa școlară
+    aplicabilă clasei respective.
+  </p>
+
+  <p>
+    În schimb,
+    profesorul trebuie
+    să selecteze competența
+    care poate fi dezvoltată
+    în mod real
+    prin activitatea proiectată.
+  </p>
+
+  <p>
+    De exemplu,
+    dacă declarăm
+    o competență
+    de investigare experimentală,
+    elevul trebuie
+    să investigheze ceva.
+  </p>
+
+  <p>
+    Să observe,
+    să măsoare,
+    să analizeze,
+    să compare
+    și să formuleze concluzii.
+  </p>
+
+  <p>
+    Dacă profesorul vorbește
+    aproape toată ora,
+    iar elevul doar ascultă,
+    avem o problemă
+    de coerență
+    între competența declarată
+    și activitatea efectivă.
+  </p>
+
+  <p>
+    După competență
+    apar obiectivele operaționale.
+  </p>
+
+  <p>
+    Acestea traduc
+    finalitatea activității
+    într-o performanță
+    concretă și observabilă.
+  </p>
+
+  <p>
+    Un obiectiv de tipul:
+    elevul să înțeleagă
+    legea lui Ohm,
+    este prea vag
+    pentru proiectare.
+  </p>
+
+  <p>
+    Cum observ
+    înțelegerea?
+  </p>
+
+  <p>
+    Mai bine formulez:
+    elevul determină
+    experimental
+    rezistența conductorului.
+  </p>
+
+  <p>
+    Sau:
+    elevul reprezintă
+    grafic
+    dependența dintre
+    intensitatea curentului
+    și tensiunea aplicată.
+  </p>
+
+  <p>
+    Sau:
+    elevul formulează
+    o concluzie
+    pe baza valorilor măsurate.
+  </p>
+
+  <p>
+    Observați diferența.
+  </p>
+
+  <p>
+    Acțiunea poate fi văzută,
+    analizată
+    și evaluată.
+  </p>
+
+  <p>
+    Un document curricular
+    oficial din 2026
+    folosește exact această logică.
+  </p>
+
+  <p>
+    Obiectivele sunt formulate
+    prin ceea ce elevii
+    vor fi capabili să facă,
+    de exemplu
+    să se orienteze
+    cu ajutorul gnomonului
+    sau să refacă
+    un calcul.
+  </p>
+
+  <p>
+    Următoarea problemă:
+    tipul lecției.
+  </p>
+
+  <p>
+    Programa cere
+    diferite tipuri de lecții,
+    dar nu stabilește
+    în acel punct
+    o listă unică
+    obligatorie.
+  </p>
+
+  <p>
+    În pregătirea pedagogică
+    putem vorbi,
+    de exemplu,
+    despre lecție
+    de dobândire
+    a noilor achiziții,
+    lecție practică,
+    lecție de consolidare,
+    lecție de evaluare
+    sau lecție mixtă.
+  </p>
+
+  <p>
+    În documente curriculare
+    oficiale actuale
+    apare și formularea:
+    lecție de
+    predare,
+    învățare,
+    evaluare.
+  </p>
+
+  <p>
+    Important este
+    să nu transformăm
+    o clasificare pedagogică
+    într-o obligație
+    pe care programa
+    nu o precizează.
+  </p>
+
+  <p>
+    Tipul lecției
+    trebuie să fie coerent
+    cu scopul dominant
+    al activității.
+  </p>
+
+  <p>
+    Ajungem la
+    strategia didactică.
+  </p>
+
+  <p>
+    Aici includem
+    metodele,
+    formele de organizare,
+    mijloacele
+    și resursele
+    necesare activității.
+  </p>
+
+  <p>
+    La Fizică,
+    putem utiliza
+    experimentul,
+    conversația euristică,
+    problematizarea,
+    demonstrația,
+    investigația
+    și rezolvarea de probleme.
+  </p>
+
+  <p>
+    Dar atenție.
+  </p>
+
+  <p>
+    Nu trebuie
+    să trecem în proiect
+    șase metode
+    doar pentru ca proiectul
+    să pară sofisticat.
+  </p>
+
+  <p>
+    Fiecare metodă
+    trebuie să aibă
+    un rol clar.
+  </p>
+
+  <p>
+    Dacă vreau
+    ca elevii să descopere
+    o relație
+    pe baza măsurătorilor,
+    experimentul
+    și conversația euristică
+    sunt ușor de justificat.
+  </p>
+
+  <p>
+    Dacă vreau
+    doar să demonstrez
+    utilizarea corectă
+    a unui aparat,
+    demonstrația
+    poate avea
+    un rol mai important.
+  </p>
+
+  <p>
+    În proiect
+    apar și resursele.
+  </p>
+
+  <p>
+    Un exemplu curricular
+    oficial din 2026
+    indică metode și procedee,
+    materiale,
+    resurse psihice
+    și resurse temporale.
+  </p>
+
+  <p>
+    Pentru Fizică,
+    resursele materiale
+    sunt deosebit
+    de importante.
+  </p>
+
+  <p>
+    Dacă proiectăm
+    un experiment,
+    trebuie să avem
+    aparatura necesară
+    sau să adaptăm
+    forma de organizare.
+  </p>
+
+  <p>
+    Nu putem proiecta
+    șase grupe
+    cu șase montaje
+    dacă știm
+    că există
+    un singur set experimental,
+    fără să explicăm
+    cum rezolvăm
+    această limitare.
+  </p>
+
+  <p>
+    Ajungem acum
+    la desfășurarea lecției.
+  </p>
+
+  <p>
+    Într-un model curricular
+    oficial din 2026
+    apar etape precum:
+    moment organizatoric,
+    actualizarea cunoștințelor,
+    captarea atenției,
+    anunțarea temei și obiectivelor,
+    dirijarea învățării
+    și fixarea cunoștințelor.
+  </p>
+
+  <p>
+    Putem avea apoi,
+    în funcție de proiect,
+    evaluare,
+    feedback
+    și transfer.
+  </p>
+
+  <p>
+    Dar nu memorăm
+    această succesiune
+    ca pe o rețetă
+    valabilă pentru orice lecție.
+  </p>
+
+  <p>
+    Dacă avem
+    o lecție practică
+    de laborator,
+    centrul de greutate
+    al lecției
+    va fi activitatea experimentală.
+  </p>
+
+  <p>
+    Dacă avem
+    o lecție de evaluare,
+    organizarea va fi diferită.
+  </p>
+
+  <p>
+    Dacă avem
+    o activitate investigativă,
+    putem porni
+    direct de la
+    o situație-problemă.
+  </p>
+
+  <p>
+    Deci secvențele
+    se adaptează
+    finalității activității.
+  </p>
+
+  <p>
+    Un alt criteriu
+    pentru proiectul bun
+    este să vedem
+    clar activitatea profesorului
+    și activitatea elevului.
+  </p>
+
+  <p>
+    Profesorul poate organiza,
+    ghida,
+    formula întrebări,
+    monitoriza,
+    oferi feedback
+    și sistematiza.
+  </p>
+
+  <p>
+    Elevul trebuie
+    să facă ceva
+    din punct de vedere cognitiv
+    sau practic.
+  </p>
+
+  <p>
+    Să observe.
+  </p>
+
+  <p>
+    Să măsoare.
+  </p>
+
+  <p>
+    Să compare.
+  </p>
+
+  <p>
+    Să calculeze.
+  </p>
+
+  <p>
+    Să explice.
+  </p>
+
+  <p>
+    Să argumenteze.
+  </p>
+
+  <p>
+    Să formuleze concluzii.
+  </p>
+
+  <p>
+    Aceasta este
+    una dintre cele mai bune
+    verificări ale unui proiect.
+  </p>
+
+  <p>
+    Dacă aproape toate propozițiile
+    încep cu
+    profesorul prezintă,
+    profesorul explică,
+    profesorul demonstrează,
+    profesorul spune,
+    proiectul probabil
+    nu este suficient
+    centrat pe activitatea elevului.
+  </p>
+
+  <p>
+    Ajungem la
+    conceptul de aliniere.
+  </p>
+
+  <p>
+    Competența,
+    obiectivul,
+    activitatea
+    și evaluarea
+    trebuie să spună
+    aceeași poveste.
+  </p>
+
+  <p>
+    Să luăm
+    un exemplu bun.
+  </p>
+
+  <p>
+    Obiectiv:
+    elevul măsoară
+    tensiunea și intensitatea.
+  </p>
+
+  <p>
+    Activitate:
+    elevul lucrează
+    cu voltmetrul
+    și ampermetrul.
+  </p>
+
+  <p>
+    Evaluare:
+    profesorul observă
+    conectarea aparatelor
+    și verifică
+    valorile consemnate.
+  </p>
+
+  <p>
+    Avem aliniere.
+  </p>
+
+  <p>
+    Acum un exemplu slab.
+  </p>
+
+  <p>
+    Competență:
+    investigarea experimentală.
+  </p>
+
+  <p>
+    Activitate:
+    profesorul explică.
+  </p>
+
+  <p>
+    Evaluare:
+    elevul reproduce
+    o definiție.
+  </p>
+
+  <p>
+    Aici competența
+    declarată
+    nu este demonstrată.
+  </p>
+
+  <p>
+    Să construim
+    mental un exemplu
+    despre legea lui Ohm.
+  </p>
+
+  <p>
+    Nu folosim
+    un cod fictiv
+    de competență.
+  </p>
+
+  <p>
+    Într-o situație reală,
+    competența se preia
+    din programa clasei.
+  </p>
+
+  <p>
+    Tema poate fi:
+    studiul experimental
+    al relației dintre tensiune
+    și intensitatea curentului
+    pentru un conductor.
+  </p>
+
+  <p>
+    Un obiectiv:
+    elevul realizează
+    corect circuitul.
+  </p>
+
+  <p>
+    Al doilea:
+    măsoară U și I.
+  </p>
+
+  <p>
+    Al treilea:
+    organizează datele
+    într-un tabel.
+  </p>
+
+  <p>
+    Al patrulea:
+    formulează concluzia
+    pe baza măsurătorilor.
+  </p>
+
+  <p>
+    Profesorul poate porni
+    cu o situație-problemă.
+  </p>
+
+  <p>
+    Cum putem determina
+    dacă intensitatea curentului
+    se modifică
+    într-un mod regulat
+    atunci când modificăm
+    tensiunea aplicată?
+  </p>
+
+  <p>
+    Elevii formulează ipoteze.
+  </p>
+
+  <p>
+    Apoi realizează montajul.
+  </p>
+
+  <p>
+    Măsoară.
+  </p>
+
+  <p>
+    Înregistrează date.
+  </p>
+
+  <p>
+    Compară.
+  </p>
+
+  <p>
+    Eventual reprezintă
+    grafic datele.
+  </p>
+
+  <p>
+    Și formulează concluzia.
+  </p>
+
+  <p>
+    Evaluarea poate avea loc
+    pe tot parcursul.
+  </p>
+
+  <p>
+    Profesorul observă
+    realizarea montajului.
+  </p>
+
+  <p>
+    Verifică utilizarea
+    aparatelor.
+  </p>
+
+  <p>
+    Analizează tabelul.
+  </p>
+
+  <p>
+    Ascultă argumentarea.
+  </p>
+
+  <p>
+    Și oferă feedback.
+  </p>
+
+  <p>
+    Acest exemplu arată
+    de ce evaluarea
+    nu trebuie adăugată
+    artificial
+    în ultimele două minute
+    ale lecției.
+  </p>
+
+  <p>
+    Ea trebuie gândită
+    odată cu obiectivele.
+  </p>
+
+  <p>
+    Dacă obiectivul spune
+    că elevul realizează
+    un circuit,
+    dovada
+    trebuie să fie
+    realizarea circuitului.
+  </p>
+
+  <p>
+    Dacă obiectivul spune
+    că interpretează date,
+    trebuie să îi oferim
+    date de interpretat.
+  </p>
+
+  <p>
+    Dacă obiectivul spune
+    că formulează o concluzie,
+    trebuie să analizăm
+    concluzia produsă.
+  </p>
+
+  <p>
+    Următoarea temă
+    este diferențierea.
+  </p>
+
+  <p>
+    Diferențierea
+    nu înseamnă
+    că unii elevi
+    nu mai urmăresc
+    finalitatea curriculară.
+  </p>
+
+  <p>
+    Putem modifica
+    nivelul de sprijin,
+    ritmul
+    sau complexitatea sarcinii.
+  </p>
+
+  <p>
+    De exemplu,
+    un grup primește
+    schema circuitului
+    deja desenată.
+  </p>
+
+  <p>
+    Alt grup
+    primește sarcina
+    să construiască singur
+    schema necesară.
+  </p>
+
+  <p>
+    Elevii care au nevoie
+    de sprijin
+    pot primi
+    întrebări intermediare.
+  </p>
+
+  <p>
+    Elevii care avansează rapid
+    pot primi
+    o problemă de transfer.
+  </p>
+
+  <p>
+    Ajungem acum
+    la o cerință
+    menționată explicit
+    în programa de Titularizare:
+    abordările intra,
+    inter
+    și transdisciplinare.
+  </p>
+
+  <p>
+    Intradisciplinar
+    înseamnă
+    că realizăm conexiuni
+    în interiorul Fizicii.
+  </p>
+
+  <p>
+    De exemplu,
+    legăm lucrul mecanic,
+    energia
+    și puterea.
+  </p>
+
+  <p>
+    Interdisciplinar
+    înseamnă
+    că legăm Fizica
+    de alte discipline.
+  </p>
+
+  <p>
+    De exemplu,
+    datele experimentale
+    din legea lui Ohm
+    pot fi analizate
+    prin reprezentări matematice
+    și prelucrate
+    cu instrumente digitale.
+  </p>
+
+  <p>
+    Transdisciplinar
+    înseamnă
+    că pornim
+    de la o problemă
+    relevantă din lumea reală
+    și mobilizăm
+    cunoștințe din mai multe domenii.
+  </p>
+
+  <p>
+    De exemplu,
+    consumul energetic
+    al unei locuințe.
+  </p>
+
+  <p>
+    Elevii pot utiliza
+    Fizică,
+    Matematică,
+    competențe digitale
+    și elemente economice
+    pentru a analiza
+    consumul
+    și a propune soluții.
+  </p>
+
+  <p>
+    Atenție.
+    Interdisciplinar
+    nu înseamnă
+    să scriu la final:
+    legături cu Matematica.
+  </p>
+
+  <p>
+    Legătura trebuie
+    să existe
+    în activitatea elevului.
+  </p>
+
+  <p>
+    Pentru concurs,
+    când ni se cere
+    să proiectăm o lecție,
+    ordinea de lucru
+    poate fi aceasta.
+  </p>
+
+  <p>
+    Mai întâi
+    identific contextul.
+  </p>
+
+  <p>
+    Apoi competența.
+  </p>
+
+  <p>
+    Formulez obiectivele.
+  </p>
+
+  <p>
+    Aleg strategia
+    și resursele.
+  </p>
+
+  <p>
+    Construiesc
+    activitatea elevului.
+  </p>
+
+  <p>
+    Proiectez evaluarea.
+  </p>
+
+  <p>
+    Și verific alinierea.
+  </p>
+
+  <p>
+    Formula este:
+    competență,
+    obiective,
+    strategie,
+    activitatea elevului,
+    evaluare,
+    feedback.
+  </p>
+
+  <p>
+    Să recapitulăm
+    și capcanele.
+  </p>
+
+  <p>
+    Prima:
+    inventarea competenței.
+    Greșit.
+  </p>
+
+  <p>
+    A doua:
+    obiective neobservabile.
+  </p>
+
+  <p>
+    A treia:
+    o listă foarte lungă
+    de metode
+    care nu apar
+    efectiv în lecție.
+  </p>
+
+  <p>
+    A patra:
+    profesorul face tot,
+    iar elevul doar ascultă.
+  </p>
+
+  <p>
+    A cincea:
+    experimentul apare
+    doar ca decor.
+  </p>
+
+  <p>
+    A șasea:
+    evaluarea nu verifică
+    obiectivele declarate.
+  </p>
+
+  <p>
+    A șaptea:
+    interdisciplinaritatea
+    este doar o etichetă.
+  </p>
+
+  <p>
+    Și a opta:
+    folosirea aceleiași
+    succesiuni rigide
+    pentru orice tip de lecție.
+  </p>
+
+  <p>
+    Rețineți formula finală.
+  </p>
+
+  <p>
+    Programa oferă
+    competența.
+  </p>
+
+  <p>
+    Competența este transpusă
+    în obiective
+    observabile.
+  </p>
+
+  <p>
+    Obiectivele determină
+    activitățile
+    și strategia.
+  </p>
+
+  <p>
+    Activitatea elevului
+    produce dovezi.
+  </p>
+
+  <p>
+    Iar evaluarea
+    interpretează
+    acele dovezi
+    și oferă feedback.
+  </p>
+
+  <p>
+    Pentru Titularizare Fizică 2027,
+    după publicarea
+    programei oficiale,
+    verificăm exact
+    formularea temei
+    și documentele curriculare
+    aflate în vigoare.
+  </p>
+
+  <p>
+    Aceasta a fost lecția
+    despre proiectarea
+    lecției de Fizică.
+  </p>
+
+</template>
+
+
+<!-- =========================================================
+     JAVASCRIPT — TEMA
      ========================================================= -->
 
 <script>
@@ -4449,6 +6097,17 @@ themeToggle.addEventListener(
 updateThemeButton();
 
 </script>
+
+
+<!-- =========================================================
+     COMPONENTA AUDIO COMUNĂ
+     Playerul și CSS-ul audio sunt preluate automat.
+     ========================================================= -->
+
+<script
+  src="../assets/audio/audio-lesson.js"
+  defer
+></script>
 
 
 </body>
