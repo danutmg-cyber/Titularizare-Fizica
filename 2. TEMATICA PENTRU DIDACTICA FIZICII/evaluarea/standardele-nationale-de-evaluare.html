@@ -135,6 +135,38 @@ li { margin-bottom: 4px; }
 @media (prefers-color-scheme: dark) { .nota-atentie { background: #3a2d0f; color: #ffd98a; } }
 footer { margin-top: 30px; text-align: center; color: var(--muted); font-size: 13px; }
 .bibliografie li { font-size: 13.5px; color: var(--muted); }
+.audio-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.audio-box .info { flex: 1; min-width: 180px; }
+.audio-box .info b { display: block; font-size: 15px; }
+.audio-box .info span { font-size: 12.5px; color: var(--muted); }
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.audio-btn:hover { transform: translateY(-1px); }
+.audio-btn:disabled { opacity: .6; cursor: default; transform: none; }
+.audio-btn.secondary { background: var(--muted); }
+.audio-progress { font-size: 12px; color: var(--muted); min-width: 60px; text-align: right; }
 </style>
 </head>
 <body>
@@ -147,6 +179,15 @@ footer { margin-top: 30px; text-align: center; color: var(--muted); font-size: 1
   <h1>Standardele naționale de evaluare</h1>
   <p class="subtitle">Lecție de metodică — pregătire titularizare, disciplina Fizică</p>
 </header>
+
+<div class="audio-box">
+  <div class="info">
+    <b>🔊 Rezumat audio</b>
+    <span id="audioStatus">Generat în browser, offline — apasă play</span>
+  </div>
+  <button class="audio-btn" id="playBtn" onclick="toggleRezumat()">▶ Ascultă</button>
+  <button class="audio-btn secondary" id="stopBtn" onclick="stopRezumat()" disabled>■ Stop</button>
+</div>
 
 <nav class="toc">
   <ol>
@@ -327,5 +368,87 @@ footer { margin-top: 30px; text-align: center; color: var(--muted); font-size: 1
 </footer>
 
 </main>
+
+<script>
+const rezumatText = `Standardele naționale de evaluare. Pe paisprezece august două mii douăzeci și șase, a fost publicat Ordinul ministrului educației numărul patru mii șase sute cincisprezece, prin care se aprobă standardele naționale de evaluare pentru clasele întâi până la a opta, inclusiv pentru fizică, la clasele a șasea, a șaptea și a opta. Standardele devin obligatorii din anul școlar două mii douăzeci și șase, doi mii douăzeci și șapte.
+
+Standardele nu înlocuiesc programa școlară, ci o completează cu repere clare despre ce ar trebui să demonstreze elevul, pentru fiecare competență specifică. Fiecare standard are două părți: standardul de învățare, care descrie ce știe, ce face și cum valorizează elevul cunoștințele, și descriptorii de performanță, pe trei niveluri: de bază, consolidat și avansat.
+
+Documentul general vorbește despre cinci niveluri de performanță: avansat, consolidat, de bază, în formare și în dificultate. Însă standardele publicate pe discipline detaliază explicit doar primele trei.
+
+O schimbare importantă este mutarea accentului de la reproducerea informației, la evaluarea competenței reale: raționament, transfer, decizie și verificare, urmărite prin cinci dimensiuni: cunoaștere conceptuală, procedeu, justificare, judecată critică și acțiune responsabilă.
+
+Un aspect încă deschis: nu există, deocamdată, o metodologie oficială de transformare a acestor niveluri în note de la unu la zece. Ministerul a confirmat că această corespondență urmează să fie stabilită ulterior.`;
+
+let utterance = null;
+let isPlaying = false;
+
+function toggleRezumat() {
+  const playBtn = document.getElementById('playBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const status = document.getElementById('audioStatus');
+
+  if (!('speechSynthesis' in window)) {
+    status.textContent = 'Browserul nu suportă sinteza vocală.';
+    return;
+  }
+
+  if (isPlaying && speechSynthesis.speaking && !speechSynthesis.paused) {
+    speechSynthesis.pause();
+    playBtn.textContent = '▶ Continuă';
+    status.textContent = 'Pauză.';
+    return;
+  }
+
+  if (speechSynthesis.paused) {
+    speechSynthesis.resume();
+    playBtn.textContent = '⏸ Pauză';
+    status.textContent = 'Se redă rezumatul...';
+    return;
+  }
+
+  utterance = new SpeechSynthesisUtterance(rezumatText);
+  utterance.lang = 'ro-RO';
+  utterance.rate = 0.98;
+
+  const voices = speechSynthesis.getVoices();
+  const roVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ro'));
+  if (roVoice) utterance.voice = roVoice;
+
+  utterance.onstart = () => {
+    isPlaying = true;
+    playBtn.textContent = '⏸ Pauză';
+    stopBtn.disabled = false;
+    status.textContent = 'Se redă rezumatul...';
+  };
+  utterance.onend = () => {
+    isPlaying = false;
+    playBtn.textContent = '▶ Ascultă';
+    stopBtn.disabled = true;
+    status.textContent = 'Rezumat terminat.';
+  };
+  utterance.onerror = () => {
+    status.textContent = 'A apărut o eroare la redare.';
+  };
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+function stopRezumat() {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
+  isPlaying = false;
+  document.getElementById('playBtn').textContent = '▶ Ascultă';
+  document.getElementById('stopBtn').disabled = true;
+  document.getElementById('audioStatus').textContent = 'Oprit.';
+}
+
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+</script>
+
 </body>
 </html>
