@@ -1,454 +1,4706 @@
 <!DOCTYPE html>
 <html lang="ro">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Standardele naționale de evaluare · Evaluarea · Titularizare Fizică</title>
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="description"
+  content="Standardele naționale de evaluare pentru pregătirea Titularizare Fizică 2027: cadrul legal, standarde de învățare, descriptori de performanță, nivelurile De bază, Consolidat și Avansat, aplicarea la Fizică și proiectarea evaluării."
+>
+
+<title>
+  Standardele naționale de evaluare · Didactica Fizicii · Titularizare Fizică
+</title>
+
+
+<!-- =========================================================
+     TEMA INIȚIALĂ
+     ========================================================= -->
+
+<script>
+(function () {
+
+  const savedTheme =
+    localStorage.getItem("titularizare-theme");
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme =
+    savedTheme || (prefersDark ? "dark" : "light");
+
+  document.documentElement.dataset.theme = theme;
+
+})();
+</script>
+
+
 <style>
-:root {
-  --bg: #f4f6f5;
-  --card: #ffffff;
-  --text: #17211f;
-  --muted: #66736f;
-  --accent: #1f6f6b;
-  --accent-2: #e08a00;
-  --border: #dfe6e3;
-  --code-bg: #eef3f1;
+
+/* =========================================================
+   TEMA ZI
+   ========================================================= */
+
+:root,
+html[data-theme="light"] {
+
+  color-scheme: light;
+
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
+
+  --text: #1a2033;
+  --text-muted: #4d5875;
+
+  --navy: #16213e;
+  --navy-2: #0f3460;
+
+  --accent: #3f8cff;
+  --accent-2: #ffb703;
+
+  --border: #dfe4f0;
+
+  --soft-blue: #edf5ff;
+  --soft-green: #edf9f1;
+  --soft-yellow: #fff8dc;
+  --soft-red: #fff0f0;
+  --soft-purple: #f4efff;
+  --soft-gray: #f6f7fa;
+
+  --definition-bg: #edf5ff;
+  --definition-border: #3f8cff;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
+  --exam-bg: #edf9f1;
+  --exam-border: #278447;
+
+  --danger-bg: #fff0f0;
+  --danger-border: #c2414b;
+
+  --update-bg: #f4efff;
+  --update-border: #7a4fb5;
+
+  --level-base: #b07a00;
+  --level-consolidated: #2576ad;
+  --level-advanced: #278447;
+
+  --shadow:
+    0 2px 10px rgba(22, 33, 62, .08);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1716;
-    --card: #16211f;
-    --text: #edf4f2;
-    --muted: #a9b8b4;
-    --accent: #4fb3ac;
-    --accent-2: #ffbf5c;
-    --border: #2a3835;
-    --code-bg: #10201c;
-  }
+
+
+/* =========================================================
+   TEMA NOAPTE
+   ========================================================= */
+
+html[data-theme="dark"] {
+
+  color-scheme: dark;
+
+  --bg: #10162b;
+  --bg-card: #1a2340;
+
+  --text: #e8ecfb;
+  --text-muted: #a7b0d1;
+
+  --navy: #0b1023;
+  --navy-2: #16213e;
+
+  --accent: #6fa8ff;
+  --accent-2: #ffcd4a;
+
+  --border: #2a3459;
+
+  --soft-blue: #182944;
+  --soft-green: #163a24;
+  --soft-yellow: #372f16;
+  --soft-red: #3a1c21;
+  --soft-purple: #29203e;
+  --soft-gray: #19213a;
+
+  --definition-bg: #182944;
+  --definition-border: #6fa8ff;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
+  --exam-bg: #163a24;
+  --exam-border: #62c681;
+
+  --danger-bg: #3a1c21;
+  --danger-border: #ef7b84;
+
+  --update-bg: #29203e;
+  --update-border: #a98cff;
+
+  --level-base: #b68b29;
+  --level-consolidated: #4b91c2;
+  --level-advanced: #4fa775;
+
+  --shadow:
+    0 2px 14px rgba(0,0,0,.4);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
 }
-* { box-sizing: border-box; }
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 18px;
+}
+
 body {
+
   margin: 0;
-  padding: 40px 18px 60px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  font-family:
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
   background: var(--bg);
   color: var(--text);
-  line-height: 1.65;
+
+  line-height: 1.68;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+
 }
-main { max-width: 720px; margin: 0 auto; }
-.back {
-  display: inline-block;
-  margin-bottom: 18px;
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
+
+a {
+  overflow-wrap: anywhere;
 }
-.back:hover { color: var(--text); }
-header { text-align: center; margin-bottom: 24px; }
-.badge-nou {
-  display: inline-block;
-  background: var(--accent-2);
-  color: #402d00;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  padding: 3px 10px;
-  border-radius: 999px;
-  margin-bottom: 10px;
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
-h1 { margin: 0 0 6px; font-size: clamp(24px, 6vw, 32px); line-height: 1.15; }
-.subtitle { margin: 0; color: var(--muted); font-size: 15px; }
-nav.toc {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-nav.toc a { color: var(--accent); text-decoration: none; }
-nav.toc a:hover { text-decoration: underline; }
-nav.toc ol { columns: 2; padding-left: 18px; margin: 0; }
-@media (max-width: 560px) { nav.toc ol { columns: 1; } }
-section.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px 22px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.06);
-}
-h2 {
-  font-size: 19px;
-  margin-top: 0;
-  color: var(--accent);
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 6px;
-}
-h3 { font-size: 16px; margin-bottom: 6px; margin-top: 18px; }
-.definitie {
-  background: var(--code-bg);
-  border-left: 4px solid var(--accent);
-  border-radius: 6px;
+
+
+/* =========================================================
+   ACCESIBILITATE
+   ========================================================= */
+
+.skip-link {
+
+  position: absolute;
+
+  top: -60px;
+  left: 14px;
+
+  z-index: 1000;
+
   padding: 10px 14px;
-  margin: 10px 0;
-  font-size: 15px;
-}
-.definitie b.term { color: var(--accent-2); }
-.exemplu {
-  border: 1px dashed var(--border);
+
   border-radius: 8px;
-  padding: 10px 14px;
-  margin: 10px 0;
-  font-size: 14px;
-  color: var(--muted);
-}
-.exemplu b { color: var(--text); }
-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
-th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
-th { background: var(--code-bg); color: var(--accent); }
-ul, ol { padding-left: 20px; }
-li { margin-bottom: 4px; }
-.niveluri-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
-.nivel-card { border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #fff; }
-.nivel-A { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
-.nivel-B { background: linear-gradient(135deg, #0f3460, #1565c0); }
-.nivel-C { background: linear-gradient(135deg, #8a5a00, #b8860b); }
-.nivel-D1 { background: linear-gradient(135deg, #8a3b12, #c1440e); }
-.nivel-D2 { background: linear-gradient(135deg, #7a1a1a, #b71c1c); }
-.nivel-card b { display: block; font-size: 15px; margin-bottom: 4px; }
-.recap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 12px 0; }
-.recap-item { background: var(--accent); color: #fff; border-radius: 10px; padding: 12px 14px; font-size: 13px; }
-.recap-item b { display: block; font-size: 14px; margin-bottom: 4px; color: #fff2d6; }
-.nota-atentie {
-  background: #fff4e0;
-  border-left: 4px solid var(--accent-2);
-  border-radius: 6px;
-  padding: 10px 14px;
-  margin: 10px 0;
-  font-size: 14px;
-  color: #5c3d00;
-}
-@media (prefers-color-scheme: dark) { .nota-atentie { background: #3a2d0f; color: #ffd98a; } }
-footer { margin-top: 30px; text-align: center; color: var(--muted); font-size: 13px; }
-.bibliografie li { font-size: 13.5px; color: var(--muted); }
-.audio-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-.audio-box .info { flex: 1; min-width: 180px; }
-.audio-box .info b { display: block; font-size: 15px; }
-.audio-box .info span { font-size: 12.5px; color: var(--muted); }
-.audio-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+
   background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-size: 14px;
+  color: #ffffff;
+
   font-weight: 700;
-  cursor: pointer;
-  transition: transform .15s ease, opacity .15s ease;
+  text-decoration: none;
+
 }
-.audio-btn:hover { transform: translateY(-1px); }
-.audio-btn:disabled { opacity: .6; cursor: default; transform: none; }
-.audio-btn.secondary { background: var(--muted); }
-.audio-progress { font-size: 12px; color: var(--muted); min-width: 60px; text-align: right; }
+
+.skip-link:focus {
+  top: 12px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header.top {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: var(--header-text);
+
+  padding:
+    24px
+    max(18px, env(safe-area-inset-right))
+    22px
+    max(18px, env(safe-area-inset-left));
+
+}
+
+.top-inner {
+
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+}
+
+.header-row {
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+}
+
+.header-text {
+  min-width: 0;
+}
+
+.breadcrumb {
+
+  margin-bottom: 10px;
+
+  color: #b9c3e6;
+
+  font-size: .84rem;
+  line-height: 1.5;
+
+}
+
+.breadcrumb a {
+
+  color: #cfe0ff;
+  text-decoration: none;
+
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
+
+header.top h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(1.45rem, 4vw, 1.95rem);
+
+  line-height: 1.22;
+
+  font-weight: 760;
+
+}
+
+header.top p.subtitle {
+
+  margin: 7px 0 0;
+
+  color: var(--header-muted);
+
+  font-size:
+    clamp(.88rem, 2.4vw, .98rem);
+
+}
+
+
+/* =========================================================
+   TEMA
+   ========================================================= */
+
+.theme-toggle {
+
+  flex: 0 0 auto;
+
+  min-height: 44px;
+
+  padding: 9px 14px;
+
+  border:
+    1px solid rgba(255,255,255,.3);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  color: #ffffff;
+
+  font: inherit;
+
+  font-size: .86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,.18);
+}
+
+.theme-toggle:focus-visible {
+
+  outline:
+    3px solid var(--accent-2);
+
+  outline-offset: 3px;
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+
+  width: min(900px, 100%);
+
+  margin: 28px auto 60px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+}
+
+
+/* =========================================================
+   CARDURI
+   ========================================================= */
+
+section.card {
+
+  background: var(--bg-card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow);
+
+  padding:
+    clamp(18px, 4vw, 24px);
+
+  margin-bottom: 22px;
+
+}
+
+section.card > :first-child {
+  margin-top: 0;
+}
+
+section.card > :last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TITLURI
+   ========================================================= */
+
+h2 {
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom:
+    2px solid var(--accent);
+
+  color: var(--navy-2);
+
+  font-size:
+    clamp(1.12rem, 3vw, 1.3rem);
+
+  line-height: 1.32;
+
+}
+
+html[data-theme="dark"] h2 {
+  color: var(--accent);
+}
+
+h3 {
+
+  margin: 22px 0 8px;
+
+  color: var(--text);
+
+  font-size:
+    clamp(1rem, 2.5vw, 1.09rem);
+
+}
+
+p {
+  margin: .7rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin: .42rem 0;
+}
+
+
+/* =========================================================
+   CUPRINS
+   ========================================================= */
+
+.toc {
+
+  columns: 2;
+  column-gap: 38px;
+
+  font-size: .93rem;
+
+}
+
+.toc ol {
+  margin: 0;
+}
+
+.toc li {
+  break-inside: avoid;
+}
+
+.toc a {
+
+  color: var(--accent);
+  text-decoration: none;
+
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   DEFINITII
+   ========================================================= */
+
+.definition {
+
+  margin: 15px 0;
+
+  padding: 16px 18px;
+
+  border-left:
+    5px solid var(--definition-border);
+
+  border-radius:
+    0 10px 10px 0;
+
+  background: var(--definition-bg);
+
+}
+
+.definition-term {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--accent);
+
+  font-size: 1.03rem;
+  font-weight: 800;
+
+}
+
+
+/* =========================================================
+   CASETE
+   ========================================================= */
+
+.callout,
+.warning,
+.exam-box,
+.danger,
+.update-note,
+.source-note {
+
+  margin: 16px 0;
+
+  padding: 15px 17px;
+
+  border-radius: 10px;
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.update-note {
+
+  background: var(--update-bg);
+
+  border-left:
+    5px solid var(--update-border);
+
+}
+
+.source-note {
+
+  background: var(--soft-gray);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+
+}
+
+
+/* =========================================================
+   GRILE
+   ========================================================= */
+
+.grid2 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 14px;
+
+  margin: 15px 0;
+
+}
+
+.grid3 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.mini-card {
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--soft-blue);
+
+}
+
+.mini-card h3 {
+
+  margin: 0 0 6px;
+
+  color: var(--accent);
+
+}
+
+.mini-card p {
+  margin: .4rem 0;
+}
+
+
+/* =========================================================
+   FLUX
+   ========================================================= */
+
+.process {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr auto 1fr;
+
+  align-items: stretch;
+
+  gap: 9px;
+
+  margin: 18px 0;
+
+}
+
+.process-card {
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 110px;
+
+  padding: 14px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--soft-blue);
+
+  text-align: center;
+
+}
+
+.process-card b {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--accent);
+
+}
+
+.process-arrow {
+
+  display: flex;
+
+  align-items: center;
+
+  color: var(--accent);
+
+  font-size: 1.45rem;
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   NIVELURI
+   ========================================================= */
+
+.level-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 16px 0;
+
+}
+
+.level-card {
+
+  min-height: 150px;
+
+  padding: 17px;
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+}
+
+.level-card b {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 1.03rem;
+
+}
+
+.level-card.base {
+  background:
+    linear-gradient(
+      135deg,
+      #8c6400,
+      var(--level-base)
+    );
+}
+
+.level-card.consolidated {
+  background:
+    linear-gradient(
+      135deg,
+      #174c75,
+      var(--level-consolidated)
+    );
+}
+
+.level-card.advanced {
+  background:
+    linear-gradient(
+      135deg,
+      #176030,
+      var(--level-advanced)
+    );
+}
+
+
+/* =========================================================
+   CINCI NIVELURI GENERALE
+   ========================================================= */
+
+.scale-five {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, minmax(120px,1fr));
+
+  gap: 8px;
+
+  margin: 15px 0;
+
+}
+
+.scale-item {
+
+  padding: 12px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  background: var(--soft-gray);
+
+}
+
+.scale-item b {
+
+  display: block;
+
+  color: var(--accent);
+
+  margin-bottom: 3px;
+
+}
+
+
+/* =========================================================
+   TABELE
+   ========================================================= */
+
+.table-wrap {
+
+  width: 100%;
+
+  margin: 14px 0;
+
+  overflow-x: auto;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  -webkit-overflow-scrolling: touch;
+
+}
+
+table {
+
+  width: 100%;
+
+  min-width: 760px;
+
+  border-collapse: collapse;
+
+  background: var(--bg-card);
+
+}
+
+th,
+td {
+
+  padding: 11px 12px;
+
+  border-bottom:
+    1px solid var(--border);
+
+  text-align: left;
+  vertical-align: top;
+
+}
+
+th {
+
+  background: var(--soft-blue);
+
+  font-size: .9rem;
+
+}
+
+td {
+  font-size: .91rem;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   DIMENSIUNI
+   ========================================================= */
+
+.dimension {
+
+  position: relative;
+
+  padding-top: 51px;
+
+}
+
+.dimension-code {
+
+  position: absolute;
+
+  top: 13px;
+  left: 14px;
+
+  min-width: 29px;
+
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: var(--navy-2);
+  color: #ffffff;
+
+  font-size: .72rem;
+  font-weight: 850;
+
+}
+
+
+/* =========================================================
+   FIZICA
+   ========================================================= */
+
+.physics-example {
+
+  margin: 16px 0;
+
+  padding: 17px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--soft-blue),
+      var(--bg-card)
+    );
+
+}
+
+.physics-example h3 {
+
+  margin: 0 0 8px;
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   CHECK
+   ========================================================= */
+
+.check {
+
+  position: relative;
+
+  padding:
+    13px 14px 13px 44px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--soft-green);
+
+}
+
+.check::before {
+
+  content: "✓";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--exam-border);
+  color: #ffffff;
+
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   CAPCANE
+   ========================================================= */
+
+.trap {
+
+  position: relative;
+
+  padding:
+    13px 14px 13px 46px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--soft-red);
+
+}
+
+.trap::before {
+
+  content: "!";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--danger-border);
+  color: #ffffff;
+
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   RECAP
+   ========================================================= */
+
+.recap-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(175px,1fr)
+    );
+
+  gap: 11px;
+
+  margin: 14px 0;
+
+}
+
+.recap-item {
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+  font-size: .86rem;
+
+}
+
+.recap-item b {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--accent-2);
+
+  font-size: .96rem;
+
+}
+
+
+/* =========================================================
+   INTREBARI
+   ========================================================= */
+
+.question {
+
+  margin: 11px 0;
+
+  padding: 14px 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--bg-card);
+
+}
+
+.question b {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   SURSE
+   ========================================================= */
+
+.sources li {
+
+  color: var(--text-muted);
+
+  font-size: .88rem;
+
+}
+
+
+/* =========================================================
+   NAVIGARE
+   ========================================================= */
+
+nav.pager {
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 14px;
+
+  width: min(900px,100%);
+
+  margin: 0 auto 28px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  font-size: .91rem;
+
+}
+
+nav.pager a {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  color: var(--accent);
+
+  text-decoration: none;
+
+  font-weight: 650;
+
+}
+
+nav.pager a:hover,
+nav.pager a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer.site {
+
+  padding:
+    18px 16px 30px;
+
+  color: var(--text-muted);
+
+  text-align: center;
+
+  font-size: .8rem;
+  line-height: 1.55;
+
+}
+
+
+/* =========================================================
+   TABLETA
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .grid3,
+  .level-grid {
+
+    grid-template-columns:
+      repeat(2, minmax(0,1fr));
+
+  }
+
+  .scale-five {
+
+    grid-template-columns:
+      repeat(3, minmax(120px,1fr));
+
+  }
+
+}
+
+
+/* =========================================================
+   TELEFON
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  header.top {
+    padding-top: 18px;
+  }
+
+  .header-row {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    align-self: flex-start;
+  }
+
+  .toc {
+    columns: 1;
+  }
+
+  .grid2,
+  .grid3,
+  .level-grid,
+  .scale-five {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .process {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .process-arrow {
+
+    justify-content: center;
+
+    transform: rotate(90deg);
+
+  }
+
+  main {
+    margin-top: 18px;
+  }
+
+  nav.pager {
+
+    flex-direction: column;
+    align-items: stretch;
+
+  }
+
+  nav.pager a {
+
+    justify-content: center;
+
+    padding: 7px 10px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--bg-card);
+
+  }
+
+}
+
+
+/* =========================================================
+   ECRANE MICI
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  section.card {
+    padding: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCERE ANIMATII
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+
+    transition-duration:
+      .01ms !important;
+
+    animation-duration:
+      .01ms !important;
+
+  }
+
+}
+
 </style>
+
 </head>
+
+
 <body>
-<main>
 
-<a class="back" href="index.html">← Evaluarea</a>
 
-<header>
-  <span class="badge-nou">Ordin 4.615/2026 · aplicabil din 2026–2027</span>
-  <h1>Standardele naționale de evaluare</h1>
-  <p class="subtitle">Lecție de metodică — pregătire titularizare, disciplina Fizică</p>
+<a
+  class="skip-link"
+  href="#continut"
+>
+  Sari la conținut
+</a>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="top">
+
+  <div class="top-inner">
+
+    <div class="header-row">
+
+      <div class="header-text">
+
+        <div class="breadcrumb">
+
+          <a href="../../index.html">
+            Acasă
+          </a>
+
+          &rsaquo;
+
+          <a href="../index.html">
+            Didactică
+          </a>
+
+          &rsaquo;
+
+          <a href="index.html">
+            Evaluarea
+          </a>
+
+          &rsaquo;
+
+          Standardele naționale de evaluare
+
+        </div>
+
+
+        <h1>
+          Standardele naționale de evaluare
+        </h1>
+
+
+        <p class="subtitle">
+          Ordinul MEC nr. 4.615/2026 ·
+          evaluare criterială ·
+          standarde de învățare ·
+          descriptori de performanță · Fizică VI–VIII
+        </p>
+
+      </div>
+
+
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Comută tema zi/noapte"
+        aria-pressed="false"
+      >
+        Tema: Zi
+      </button>
+
+    </div>
+
+  </div>
+
 </header>
 
-<div class="audio-box">
-  <div class="info">
-    <b>🔊 Rezumat audio</b>
-    <span id="audioStatus">Generat în browser, offline — apasă play</span>
-  </div>
-  <button class="audio-btn" id="playBtn" onclick="toggleRezumat()">▶ Ascultă</button>
-  <button class="audio-btn secondary" id="stopBtn" onclick="stopRezumat()" disabled>■ Stop</button>
-</div>
 
-<nav class="toc">
-  <ol>
-    <li><a href="#sec0">De ce contează această temă acum</a></li>
-    <li><a href="#sec1">Repere generale de evaluare</a></li>
-    <li><a href="#sec2">Cadrul legal al noilor standarde</a></li>
-    <li><a href="#sec3">Ce sunt — și ce nu sunt — standardele</a></li>
-    <li><a href="#sec4">Structura unui standard național</a></li>
-    <li><a href="#sec5">Cele cinci niveluri de performanță</a></li>
-    <li><a href="#sec6">De la reproducere la competență</a></li>
-    <li><a href="#sec7">Proiectarea inversă (backward design)</a></li>
-    <li><a href="#sec8">Standardele la disciplina Fizică</a></li>
-    <li><a href="#sec9">Un singur ecosistem de evaluare</a></li>
-    <li><a href="#sec10">Aspecte încă deschise</a></li>
-    <li><a href="#sec11">Implicații practice</a></li>
-    <li><a href="#sec12">Sinteză recapitulativă</a></li>
-    <li><a href="#sec13">Bibliografie și surse</a></li>
-  </ol>
-</nav>
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
 
-<section class="card" id="sec0">
-  <h2>0. De ce contează această temă acum</h2>
-  <p>Pe 14 august 2026, în Monitorul Oficial nr. 674 bis, a fost publicat <b>Ordinul ministrului educației și cercetării nr. 4.615/2026</b>, prin care sunt aprobate standardele naționale de evaluare pentru învățământul primar și gimnazial (clasele I–VIII), inclusiv pentru disciplina <b>Fizică</b> (clasele VI–VIII). Standardele devin obligatorii începând cu anul școlar 2026–2027, atât pentru evaluarea de la clasă, cât și pentru evaluările și examenele naționale.</p>
-  <p>Este o schimbare de fond în modul de proiectare a evaluării — tratată aici ca temă distinctă, care se sprijină pe teoria generală a evaluării (vezi lecția „Definiții, funcții, tipuri și forme de evaluare”) fără a o înlocui.</p>
-</section>
+<main id="continut">
 
-<section class="card" id="sec1">
-  <h2>1. Repere generale de evaluare</h2>
-  <p>Cadrul clasic al evaluării — pe care noile standarde îl completează, nu îl înlocuiesc — rămâne organizat în jurul celor trei tipuri de evaluare (inițială, continuă/formativă, sumativă) și al metodelor tradiționale/complementare, detaliate în lecțiile dedicate din acest capitol.</p>
-</section>
 
-<section class="card" id="sec2">
-  <h2>2. Cadrul legal al noilor standarde</h2>
-  <div class="definitie">Legea învățământului preuniversitar nr. 198/2023, art. 95 alin. (2), prevede că toate evaluările se realizează pe baza standardelor naționale de evaluare.</div>
-  <p>Prevederea transformă standardele într-un <b>referențial obligatoriu</b>, deopotrivă pentru evaluarea internă (la clasă) și pentru evaluarea externă (națională și internațională). Standardele au fost dezvoltate, pilotate și validate în cadrul proiectului „Reglementări noi pentru un curriculum relevant și educație deschisă — RECRED”, coordonat de Centrul Național pentru Curriculum și Evaluare (CNCE), și vizează disciplinele din <b>trunchiul comun</b>.</p>
-</section>
+  <!-- =======================================================
+       STATUT
+       ======================================================= -->
 
-<section class="card" id="sec3">
-  <h2>3. Ce sunt — și ce nu sunt — standardele</h2>
-  <div class="definitie">
-    <b class="term">Standardele naționale de evaluare</b> sunt repere clare privind nivelul așteptat de performanță pe care elevii trebuie să îl demonstreze prin raportare la competențele specifice din programa școlară.
-  </div>
-  <p>Sunt compuse din <b>standarde de învățare</b> și <b>descriptori ai nivelurilor de performanță</b>, formulate pentru fiecare competență specifică a programei.</p>
-  <div class="nota-atentie">
-    <b>Ce NU sunt standardele:</b>
+  <section class="card">
+
+    <h2>
+      De ce este importantă această lecție pentru 2027?
+    </h2>
+
+
+    <p>
+      Programa disponibilă pentru
+      <strong>Titularizare Fizică 2026</strong>
+      tratează evaluarea prin:
+      obiective și funcții,
+      tipuri de evaluare,
+      metode,
+      calitățile instrumentelor
+      și tipologia itemilor.
+    </p>
+
+
+    <p>
+      <strong>
+        Standardele naționale de evaluare
+        nu apar explicit ca punct separat
+        în programa 2026.
+      </strong>
+    </p>
+
+
+    <div class="update-note">
+
+      După desfășurarea concursului din 2026,
+      cadrul normativ s-a modificat.
+
+      <br><br>
+
+      Prin
+      <strong>
+        Ordinul ministrului educației și cercetării
+        nr. 4.615 din 4 august 2026
+      </strong>
+      au fost aprobate
+      standardele naționale de evaluare
+      pentru învățământul primar și gimnazial.
+
+      <br><br>
+
+      Ordinul se aplică
+      începând cu
+      <strong>anul școlar 2026–2027</strong>.
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Pentru Titularizare Fizică 2027:
+      </strong>
+
+      această lecție reprezintă
+      o actualizare normativă importantă,
+      dar nu presupunem
+      că programa de concurs 2027
+      va introduce automat tema
+      în aceeași formulare.
+
+      Programa oficială 2027
+      trebuie verificată după publicare.
+
+    </div>
+
+  </section>
+
+
+  <!--
+    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+    DE assets/audio/audio-lesson.js
+  -->
+
+
+  <!-- =======================================================
+       CUPRINS
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Cuprins
+    </h2>
+
+
+    <div class="toc">
+
+      <ol>
+
+        <li>
+          <a href="#cadru-legal">
+            Cadrul legal
+          </a>
+        </li>
+
+        <li>
+          <a href="#definitie">
+            Ce sunt standardele?
+          </a>
+        </li>
+
+        <li>
+          <a href="#arhitectura">
+            Locul în curriculum
+          </a>
+        </li>
+
+        <li>
+          <a href="#structura">
+            Structura standardelor
+          </a>
+        </li>
+
+        <li>
+          <a href="#niveluri">
+            Cele trei niveluri
+          </a>
+        </li>
+
+        <li>
+          <a href="#cinci-niveluri">
+            A, B, C, D1 și D2
+          </a>
+        </li>
+
+        <li>
+          <a href="#dimensiuni">
+            Ce se urmărește în evaluare?
+          </a>
+        </li>
+
+        <li>
+          <a href="#criteriala">
+            Evaluarea criterială
+          </a>
+        </li>
+
+        <li>
+          <a href="#proiectare">
+            Proiectarea inversă
+          </a>
+        </li>
+
+        <li>
+          <a href="#fizica">
+            Standardele la Fizică
+          </a>
+        </li>
+
+        <li>
+          <a href="#exemplu">
+            Exemplu didactic
+          </a>
+        </li>
+
+        <li>
+          <a href="#feedback">
+            Eroare, feedback și progres
+          </a>
+        </li>
+
+        <li>
+          <a href="#note">
+            Standarde și note
+          </a>
+        </li>
+
+        <li>
+          <a href="#examen">
+            Ce reții pentru Titularizare?
+          </a>
+        </li>
+
+        <li>
+          <a href="#capcane">
+            Capcane frecvente
+          </a>
+        </li>
+
+        <li>
+          <a href="#recapitulare">
+            Recapitulare
+          </a>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       1. CADRU LEGAL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="cadru-legal"
+  >
+
+    <h2>
+      1. Cadrul legal
+    </h2>
+
+
+    <p>
+      Legea învățământului preuniversitar
+      nr. 198/2023,
+      art. 95 alin. (2),
+      stabilește principiul potrivit căruia
+      evaluările se realizează
+      pe baza standardelor naționale
+      de evaluare.
+    </p>
+
+
+    <div class="exam-box">
+
+      Standardele devin astfel
+      un <strong>referențial al evaluării</strong>,
+      nu o simplă recomandare metodică.
+
+    </div>
+
+
+    <p>
+      Ordinul MEC nr. 4.615/2026
+      aprobă:
+    </p>
+
+
     <ul>
-      <li>nu sunt un supliment la programa școlară, ci o componentă reglatoare distinctă a curriculumului național;</li>
-      <li>nu impun o metodă unică de evaluare;</li>
-      <li>nu sunt liste birocratice de verificare și nici grile fixe care ar înlocui raționamentul profesional al cadrului didactic.</li>
+
+      <li>
+        Nota de prezentare
+        a standardelor naționale de evaluare;
+      </li>
+
+      <li>
+        documentul de politică educațională
+        privind descriptorii de performanță;
+      </li>
+
+      <li>
+        centralizatorul disciplinelor;
+      </li>
+
+      <li>
+        standardele pentru disciplinele
+        din învățământul primar și gimnazial.
+      </li>
+
     </ul>
-  </div>
-  <p>Standardele descriu <b>rezultate ale învățării</b>, nu conținuturi de predat — completează programa, fără a o dubla.</p>
-</section>
 
-<section class="card" id="sec4">
-  <h2>4. Structura unui standard național</h2>
-  <table>
-    <tr><th>Componentă</th><th>Ce precizează</th></tr>
-    <tr><td><b>Standardul de învățare</b></td><td>Ce cunoștințe, abilități și atitudini ar trebui să demonstreze elevul după un an școlar, pentru o competență dată.</td></tr>
-    <tr><td><b>Descriptorii nivelurilor de performanță</b></td><td>Ce poate face elevul, observabil, la fiecare din cele trei niveluri: De bază, Consolidat, Avansat.</td></tr>
-  </table>
-  <div class="exemplu"><b>Schema generală:</b> Competență specifică (din programă) → Standard de învățare (ce știe / ce face / cum valorizează elevul) → Descriptori pe 3 niveluri (De bază → context familiar; Consolidat → contexte variate; Avansat → context cotidian complex).</div>
-  <p>Termenul „standard de învățare” (nu „standard de conținut”) subliniază că referențialul este <b>rezultatul învățării</b>, nu lista de teme predate. Descriptorii sunt formulați, de regulă, în jurul unui singur verb-acțiune (identifică, explică, argumentează, transferă).</p>
-</section>
 
-<section class="card" id="sec5">
-  <h2>5. Cele cinci niveluri de performanță</h2>
-  <p>Documentul de politică educațională (Anexa nr. 2) definește <b>cinci niveluri</b> de dezvoltare a competențelor, deși standardele publicate pe discipline detaliază explicit doar trei (De bază, Consolidat, Avansat); D1 și D2 rămân descrise la nivel general.</p>
-  <div class="niveluri-grid">
-    <div class="nivel-card nivel-A"><b>A · Avansat</b>Nivel avansat, constant; generalizează, modelează, transferă în contexte complexe. Autonom în învățare.</div>
-    <div class="nivel-card nivel-B"><b>B · Consolidat</b>Nivel adecvat, constant; transferă în contexte variate. Sprijin ocazional.</div>
-    <div class="nivel-card nivel-C"><b>C · De bază</b>Nivel minim acceptabil, în contexte familiare. Sprijin constant.</div>
-    <div class="nivel-card nivel-D1"><b>D1 · În formare</b>Nivel lacunar, ocazional, în contexte familiare. Sprijin constant și individualizat, la clasă.</div>
-    <div class="nivel-card nivel-D2"><b>D2 · În dificultate</b>Sub nivelul minim. Sprijin educațional specializat, în afara clasei.</div>
-  </div>
-  <div class="nota-atentie">
-    <b>Atenție — punct sensibil, semnalat public:</b> nu există, deocamdată, o corespondență precizată între niveluri și notele 1–10. Ministerul Educației a confirmat că metodologia de transformare în note nu a fost încă elaborată; va fi dezvoltată „dacă sistemul va simți nevoia”, potrivit directorului CNCE, Bogdan Cristescu.
-  </div>
-</section>
+    <div class="callout">
 
-<section class="card" id="sec6">
-  <h2>6. De la reproducere la competență</h2>
-  <p>Schimbarea centrală: de la evaluarea reproducerii informației, la evaluarea competenței — accent pe <b>raționament, transfer, decizie și verificare</b>. Cinci dimensiuni urmărite:</p>
-  <ol>
-    <li><b>Cunoaștere conceptuală</b> — înțelege conceptele și relațiile, nu doar termenii;</li>
-    <li><b>Procedeu</b> — aplică o metodă relevantă;</li>
-    <li><b>Justificare</b> — explică de ce metoda e adecvată;</li>
-    <li><b>Judecată critică</b> — identifică limite, erori, date insuficiente;</li>
-    <li><b>Acțiune responsabilă</b> — transformă ce știe într-o opțiune etică și civică.</li>
-  </ol>
-  <p>Dovezi posibile: explicații, clasificări, exemple/contraexemple, analiza de surse, interpretarea datelor, argumentarea, raționamentul cauzal, alegerea argumentată, proiecte, portofolii, reflecție.</p>
-  <div class="exemplu"><b>Exemplu la Fizică:</b> pentru „investighează experimental o dependență între mărimi fizice”, dovada nu e doar rezultatul numeric, ci și justificarea instrumentelor alese, identificarea surselor de eroare și decizia dacă rezultatul confirmă ipoteza.</div>
-</section>
+      <strong>
+        Aplicare:
+      </strong>
 
-<section class="card" id="sec7">
-  <h2>7. Proiectarea inversă (backward design)</h2>
-  <div class="definitie">Profesorul pornește de la performanța pe care elevul trebuie să o atingă, stabilește ce dovezi ar arăta că a atins-o, și abia apoi proiectează sarcinile și activitățile de învățare.</div>
-  <p>Logica „predau → exersez → evaluez” devine: <b>stabilesc standardul → definesc dovada → proiectez activitatea</b>. Abordarea reduce arbitrariul evaluării și atenuează efectul „ceea ce nu se evaluează nu se învață”.</p>
-</section>
+      începând cu anul școlar
+      <strong>2026–2027</strong>.
 
-<section class="card" id="sec8">
-  <h2>8. Standardele la disciplina Fizică</h2>
-  <p>Standardele pentru Fizică sunt elaborate pentru <b>clasele a VI-a – a VIII-a</b>. Pentru fiecare competență specifică, standardul precizează: nivelul de complexitate cognitivă, conținuturile asociate, standardul de învățare și descriptorii celor trei niveluri.</p>
-  <div class="exemplu">
-    <b>Exemplu ilustrativ (schematic), pentru o competență de investigație experimentală:</b>
-    <ul>
-      <li><b>De bază</b> — realizează măsurători simple, ghidat, în context familiar (ex. determinarea masei cu balanța, după protocol dat);</li>
-      <li><b>Consolidat</b> — planifică și realizează un experiment simplu, în contexte variate, interpretând corect datele;</li>
-      <li><b>Avansat</b> — proiectează independent un experiment în context complex, argumentează metodologic și evaluează critic limitele rezultatului.</li>
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       2. DEFINITIE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="definitie"
+  >
+
+    <h2>
+      2. Ce sunt standardele naționale de evaluare?
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Standardele naționale de evaluare
+      </span>
+
+      reprezintă repere
+      privind nivelul de performanță
+      pe care elevul trebuie să îl demonstreze
+      prin raportare
+      la competențele specifice
+      din programa școlară.
+
+    </div>
+
+
+    <p>
+      Ele descriu
+      <strong>rezultate ale învățării</strong>.
+    </p>
+
+
+    <p>
+      Nu stabilesc o nouă listă
+      de conținuturi care trebuie predate
+      și nu înlocuiesc
+      competențele specifice
+      din programa școlară.
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="check">
+
+        <strong>
+          Precizează
+        </strong>
+
+        <br>
+
+        ce performanță este așteptată
+        de la elev.
+
+      </div>
+
+
+      <div class="check">
+
+        <strong>
+          Fac evaluabilă competența
+        </strong>
+
+        <br>
+
+        prin descriptori observabili.
+
+      </div>
+
+
+      <div class="check">
+
+        <strong>
+          Oferă un reper comun
+        </strong>
+
+        <br>
+
+        pentru profesori,
+        elevi și familii.
+
+      </div>
+
+
+      <div class="check">
+
+        <strong>
+          Susțin comparabilitatea
+        </strong>
+
+        <br>
+
+        prin criterii comune
+        de interpretare.
+
+      </div>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Standardele nu sunt
+        o metodă de evaluare.
+      </strong>
+
+      Ele reprezintă reperul
+      în raport cu care
+      proiectăm și interpretăm evaluarea.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. ARHITECTURA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="arhitectura"
+  >
+
+    <h2>
+      3. Locul standardelor în curriculum
+    </h2>
+
+
+    <p>
+      Cadrul curricular actual
+      le plasează alături de
+      planurile-cadru
+      și programele școlare.
+    </p>
+
+
+    <div class="process">
+
+      <div class="process-card">
+
+        <b>
+          Plan-cadru
+        </b>
+
+        Ce discipline
+        și ce resursă de timp?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          Programă
+        </b>
+
+        Ce competențe
+        și conținuturi?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          Standarde
+        </b>
+
+        Ce nivel de performanță
+        este demonstrat?
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Formula de memorare:
+      </strong>
+
+      <br><br>
+
+      PLAN-CADRU
+      → PROGRAMĂ
+      → STANDARDE DE EVALUARE
+
+      <br><br>
+
+      structură
+      → finalități curriculare
+      → niveluri de performanță.
+
+    </div>
+
+
+    <div class="warning">
+
+      Standardele
+      <strong>completează programa</strong>,
+      dar nu o înlocuiesc.
+
+      O sarcină de evaluare
+      trebuie să rămână
+      în limitele curriculumului aplicabil.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. STRUCTURA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="structura"
+  >
+
+    <h2>
+      4. Cum este organizat un standard?
+    </h2>
+
+
+    <p>
+      Pentru fiecare competență specifică,
+      documentele standardelor
+      sunt organizate
+      prin mai multe componente.
+    </p>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Componentă
+            </th>
+
+            <th>
+              Rol
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              <strong>
+                Competența specifică
+              </strong>
+            </td>
+
+            <td>
+              Este preluată
+              din programa școlară
+              și constituie referentul direct.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Complexitatea cognitivă
+              </strong>
+            </td>
+
+            <td>
+              Orientează nivelul
+              operațiilor cognitive solicitate.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Conținuturile asociate
+              </strong>
+            </td>
+
+            <td>
+              Susțin formarea
+              și evaluarea competenței.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Standardul de învățare
+              </strong>
+            </td>
+
+            <td>
+              Precizează ce cunoștințe,
+              abilități și atitudini
+              ar trebui să demonstreze elevul.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Descriptorii
+              </strong>
+            </td>
+
+            <td>
+              Descriu observabil
+              performanța la nivelurile
+              De bază,
+              Consolidat
+              și Avansat.
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="callout">
+
+      Descriptorul bun
+      exprimă ceea ce
+      <strong>poate face elevul</strong>,
+      nu o etichetă vagă
+      precum „știe bine”.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. NIVELURI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="niveluri"
+  >
+
+    <h2>
+      5. Cele trei niveluri utilizate în standardele pe discipline
+    </h2>
+
+
+    <p>
+      Modelul standardelor
+      utilizează explicit
+      trei niveluri de performanță:
+    </p>
+
+
+    <div class="level-grid">
+
+
+      <div class="level-card base">
+
+        <b>
+          Nivelul 2 · De bază
+        </b>
+
+        Performanța se manifestă
+        în principal
+        în contexte familiare,
+        cu un nivel mai mare
+        de sprijin.
+
+      </div>
+
+
+      <div class="level-card consolidated">
+
+        <b>
+          Nivelul 3 · Consolidat
+        </b>
+
+        Elevul operează
+        în contexte variate,
+        cu un grad mai mare
+        de autonomie și transfer.
+
+      </div>
+
+
+      <div class="level-card advanced">
+
+        <b>
+          Nivelul 4 · Avansat
+        </b>
+
+        Elevul operează
+        autonom,
+        transferă și modelează
+        în contexte
+        cu complexitate mai mare.
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Progresia nu înseamnă
+      doar „mai multe informații”.
+
+      <br><br>
+
+      Ea presupune creșterea:
+
+      <br>
+
+      <strong>
+        complexității
+        + transferului
+        + autonomiei.
+      </strong>
+
+    </div>
+
+
+    <div class="danger">
+
+      Nu inventa o corespondență
+      de tip:
+
+      <br><br>
+
+      De bază = nota 5,
+      Consolidat = nota 8,
+      Avansat = nota 10.
+
+      <br><br>
+
+      Documentele trebuie utilizate
+      conform metodologiilor
+      și instrumentelor oficiale aplicabile.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. CINCI NIVELURI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="cinci-niveluri"
+  >
+
+    <h2>
+      6. De ce apar și A, B, C, D1 și D2?
+    </h2>
+
+
+    <p>
+      Documentul general
+      de politică educațională
+      privind descriptorii
+      prezintă o scară generală
+      cu cinci niveluri
+      de dezvoltare a competențelor.
+    </p>
+
+
+    <div class="scale-five">
+
+
+      <div class="scale-item">
+
+        <b>
+          A
+        </b>
+
+        Avansat
+
+      </div>
+
+
+      <div class="scale-item">
+
+        <b>
+          B
+        </b>
+
+        Consolidat
+
+      </div>
+
+
+      <div class="scale-item">
+
+        <b>
+          C
+        </b>
+
+        De bază
+
+      </div>
+
+
+      <div class="scale-item">
+
+        <b>
+          D1
+        </b>
+
+        În formare
+
+      </div>
+
+
+      <div class="scale-item">
+
+        <b>
+          D2
+        </b>
+
+        În dificultate
+
+      </div>
+
+
+    </div>
+
+
+    <p>
+      Această scară generală
+      descrie și situațiile
+      în care elevul
+      nu atinge încă
+      nivelul minim acceptabil.
+    </p>
+
+
+    <div class="warning">
+
+      <strong>
+        Nu confunda cele două arhitecturi.
+      </strong>
+
+      <br><br>
+
+      În documentul general al descriptorilor:
+      <strong>A, B, C, D1, D2</strong>.
+
+      <br><br>
+
+      În standardele disciplinare
+      sunt detaliați explicit
+      descriptorii pentru:
+
+      <strong>
+        De bază,
+        Consolidat,
+        Avansat.
+      </strong>
+
+    </div>
+
+
+    <div class="callout">
+
+      D1 și D2 sunt utile
+      pentru înțelegerea
+      nevoii de sprijin
+      și de remediere,
+      dar nu trebuie prezentate
+      ca și cum ar constitui
+      încă două coloane
+      ale fiecărui standard disciplinar.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. DIMENSIUNI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="dimensiuni"
+  >
+
+    <h2>
+      7. Ce este important să evaluăm?
+    </h2>
+
+
+    <p>
+      Nota de prezentare
+      evidențiază cinci dimensiuni
+      relevante ale evaluării competențelor.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card dimension">
+
+        <span class="dimension-code">
+          1
+        </span>
+
+        <h3>
+          Cunoaștere conceptuală
+        </h3>
+
+        <p>
+          Înțelege elevul
+          conceptele și relațiile,
+          nu doar termenii?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card dimension">
+
+        <span class="dimension-code">
+          2
+        </span>
+
+        <h3>
+          Procedeu
+        </h3>
+
+        <p>
+          Poate aplica
+          o metodă relevantă?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card dimension">
+
+        <span class="dimension-code">
+          3
+        </span>
+
+        <h3>
+          Justificare
+        </h3>
+
+        <p>
+          Poate explica
+          de ce metoda aleasă
+          este adecvată?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card dimension">
+
+        <span class="dimension-code">
+          4
+        </span>
+
+        <h3>
+          Judecată critică
+        </h3>
+
+        <p>
+          Poate identifica
+          limite,
+          erori
+          sau date insuficiente?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card dimension">
+
+        <span class="dimension-code">
+          5
+        </span>
+
+        <h3>
+          Acțiune responsabilă
+        </h3>
+
+        <p>
+          Poate utiliza cunoașterea
+          pentru o decizie
+          argumentată și responsabilă?
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu la Fizică
+      </h3>
+
+      <p>
+        Într-o investigație experimentală,
+        nu evaluăm doar
+        valoarea numerică obținută.
+      </p>
+
+      <p>
+        Putem urmări:
+        înțelegerea fenomenului,
+        alegerea procedurii,
+        justificarea aparaturii,
+        identificarea surselor de eroare
+        și concluzia argumentată.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. CRITERIALA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="criteriala"
+  >
+
+    <h2>
+      8. De la evaluarea normativă la evaluarea criterială
+    </h2>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Comparație normativă
+        </h3>
+
+        <p>
+          Accentul cade
+          pe poziția elevului
+          în raport cu ceilalți.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Raportare criterială
+        </h3>
+
+        <p>
+          Performanța este comparată
+          cu descrieri explicite
+          ale nivelului așteptat.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <p>
+      Standardele susțin
+      o evaluare mai transparentă,
+      în care elevul poate înțelege
+      nu doar
+      <strong>ce rezultat a obținut</strong>,
+      ci și
+      <strong>ce caracterizează nivelul respectiv</strong>.
+    </p>
+
+
+    <div class="exam-box">
+
+      Întrebarea devine:
+
+      <br><br>
+
+      nu
+      <strong>
+        „este elevul mai bun decât colegii?”
+      </strong>
+
+      <br><br>
+
+      ci
+
+      <strong>
+        „ce nivel de performanță
+        demonstrează în raport
+        cu criteriul stabilit?”
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. PROIECTARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="proiectare"
+  >
+
+    <h2>
+      9. Proiectarea inversă
+    </h2>
+
+
+    <p>
+      Standardele susțin
+      logica de
+      <strong>proiectare inversă</strong>
+      sau
+      <em>backward design</em>.
+    </p>
+
+
+    <div class="process">
+
+      <div class="process-card">
+
+        <b>
+          Performanța
+        </b>
+
+        Ce trebuie
+        să demonstreze elevul?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          Dovada
+        </b>
+
+        Ce produs sau acțiune
+        ar demonstra performanța?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          Activitatea
+        </b>
+
+        Ce situații de învățare
+        îl pregătesc pentru aceasta?
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        STANDARD
+        → DOVADĂ
+        → SARCINĂ DE EVALUARE
+        → ACTIVITATE DE ÎNVĂȚARE
+      </strong>
+
+    </div>
+
+
+    <div class="warning">
+
+      Proiectarea inversă
+      nu înseamnă
+      „predăm doar ce pică la test”.
+
+      Ideea este alinierea
+      între finalitatea curriculară,
+      învățare
+      și evaluare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. FIZICA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="fizica"
+  >
+
+    <h2>
+      10. Standardele naționale la disciplina Fizică
+    </h2>
+
+
+    <p>
+      Pentru Fizică,
+      standardele aprobate
+      vizează
+      <strong>clasele a VI-a – a VIII-a</strong>.
+    </p>
+
+
+    <p>
+      Ele sunt organizate
+      în relație
+      cu competențele specifice
+      ale programelor școlare
+      de Fizică.
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="check">
+        competență specifică
+      </div>
+
+      <div class="check">
+        complexitate cognitivă
+      </div>
+
+      <div class="check">
+        conținuturi asociate
+      </div>
+
+      <div class="check">
+        standard de învățare
+      </div>
+
+      <div class="check">
+        descriptor De bază
+      </div>
+
+      <div class="check">
+        descriptor Consolidat / Avansat
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      Pentru profesorul de Fizică,
+      standardul nu înlocuiește
+      programa disciplinei.
+
+      <br><br>
+
+      Profesorul citește:
+
+      <strong>
+        programa + standardul
+      </strong>
+
+      pentru a proiecta
+      evaluarea coerentă
+      a competenței.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. EXEMPLU
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="exemplu"
+  >
+
+    <h2>
+      11. Exemplu didactic de progresie la Fizică
+    </h2>
+
+
+    <div class="warning">
+
+      <strong>
+        Exemplul de mai jos este didactic.
+      </strong>
+
+      El ilustrează logica
+      celor trei niveluri,
+      dar nu reproduce literal
+      un descriptor oficial
+      din Anexa pentru Fizică.
+
+    </div>
+
+
+    <p>
+      Să presupunem
+      o competență care implică
+      investigarea experimentală
+      a relației dintre două mărimi fizice.
+    </p>
+
+
+    <div class="level-grid">
+
+
+      <div class="level-card base">
+
+        <b>
+          De bază
+        </b>
+
+        Elevul realizează,
+        cu ghidaj,
+        măsurători într-un context familiar
+        și consemnează datele relevante.
+
+      </div>
+
+
+      <div class="level-card consolidated">
+
+        <b>
+          Consolidat
+        </b>
+
+        Elevul aplică procedura
+        în contexte variate,
+        organizează datele
+        și formulează
+        o concluzie corectă.
+
+      </div>
+
+
+      <div class="level-card advanced">
+
+        <b>
+          Avansat
+        </b>
+
+        Elevul planifică
+        cu autonomie mai mare,
+        justifică alegerile,
+        analizează limitele
+        și transferă concluziile
+        într-un context mai complex.
+
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu — Legea lui Ohm
+      </h3>
+
+      <p>
+        Într-o activitate experimentală,
+        elevul poate măsura
+        tensiunea U
+        și intensitatea I
+        pentru mai multe situații.
+      </p>
+
+      <p>
+        Evaluarea nu urmărește
+        numai obținerea relației numerice,
+        ci poate include:
+      </p>
+
+      <ul>
+
+        <li>
+          realizarea montajului;
+        </li>
+
+        <li>
+          alegerea corectă a instrumentelor;
+        </li>
+
+        <li>
+          organizarea datelor;
+        </li>
+
+        <li>
+          identificarea relației dintre mărimi;
+        </li>
+
+        <li>
+          justificarea concluziei;
+        </li>
+
+        <li>
+          discutarea eventualelor erori experimentale.
+        </li>
+
+      </ul>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. FEEDBACK
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="feedback"
+  >
+
+    <h2>
+      12. Eroarea, feedbackul și progresul
+    </h2>
+
+
+    <p>
+      Standardele dau erorii
+      o funcție diagnostică.
+    </p>
+
+
+    <div class="process">
+
+      <div class="process-card">
+
+        <b>
+          Observ eroarea
+        </b>
+
+        Unde apare?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          O clasific
+        </b>
+
+        Conceptuală?
+        Procedurală?
+        Calcul?
+        Interpretare?
+
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-card">
+
+        <b>
+          Dau direcția
+        </b>
+
+        Care este
+        pasul următor?
+
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Elevul scrie corect
+        relația fizică,
+        dar obține un rezultat greșit
+        deoarece transformă incorect
+        formula.
+      </p>
+
+      <p>
+        Feedback slab:
+      </p>
+
+      <p>
+        <strong>
+          „Greșit.”
+        </strong>
+      </p>
+
+      <p>
+        Feedback mai util:
+      </p>
+
+      <p>
+        <strong>
+          „Relația fizică este corectă.
+          Eroarea apare la izolarea necunoscutei.
+          Reia transformarea algebrică
+          din această etapă.”
+        </strong>
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Feedbackul de calitate
+      indică:
+
+      <br><br>
+
+      <strong>
+        unde este elevul
+        + tipul erorii
+        + pasul următor.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. NOTE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="note"
+  >
+
+    <h2>
+      13. Standardele și notele de la 1 la 10
+    </h2>
+
+
+    <p>
+      Introducerea standardelor
+      <strong>nu elimină sistemul actual de notare</strong>.
+    </p>
+
+
+    <p>
+      În gimnaziu,
+      rezultatele școlare
+      continuă să fie exprimate
+      prin note de la 1 la 10,
+      conform cadrului legal aplicabil.
+    </p>
+
+
+    <div class="warning">
+
+      Documentul general al descriptorilor
+      precizează că scala este
+      compatibilă cu sistemul de notare,
+      dar nu trebuie inventată
+      o conversie mecanică
+      între fiecare nivel
+      și o anumită notă.
+
+    </div>
+
+
+    <div class="danger">
+
+      Evită formule precum:
+
+      <br><br>
+
+      „Avansat = 10”
+      <br>
+      „Consolidat = 8”
+      <br>
+      „De bază = 5”
+
+      <br><br>
+
+      dacă o metodologie oficială
+      sau un barem concret
+      nu stabilește această corespondență.
+
+    </div>
+
+
+    <div class="callout">
+
+      Standardul oferă
+      un <strong>referențial de performanță</strong>.
+
+      Nota este rezultatul
+      unui proces de evaluare
+      realizat conform
+      instrumentului,
+      baremului
+      și normelor aplicabile.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. EXAMEN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="examen"
+  >
+
+    <h2>
+      14. Ce trebuie să reții pentru Titularizare?
+    </h2>
+
+
+    <div class="exam-answer">
+
+      <p>
+        <strong>1. Statut.</strong>
+      </p>
+
+      <p>
+        Standardele au devenit
+        reper normativ actual
+        pentru evaluare,
+        iar standardele pentru
+        primar și gimnaziu
+        se aplică din anul școlar 2026–2027.
+      </p>
+
+
+      <p>
+        <strong>2. Definiție.</strong>
+      </p>
+
+      <p>
+        Ele precizează
+        nivelurile de performanță așteptate
+        în raport cu
+        competențele specifice
+        din programa școlară.
+      </p>
+
+
+      <p>
+        <strong>3. Structură.</strong>
+      </p>
+
+      <p>
+        Standard de învățare
+        + descriptori
+        ai nivelurilor de performanță.
+      </p>
+
+
+      <p>
+        <strong>4. Niveluri disciplinare.</strong>
+      </p>
+
+      <p>
+        De bază,
+        Consolidat,
+        Avansat.
+      </p>
+
+
+      <p>
+        <strong>5. Principiu.</strong>
+      </p>
+
+      <p>
+        Evaluarea devine
+        mai explicit criterială:
+        performanța elevului
+        este raportată
+        la descrieri comune de nivel.
+      </p>
+
+
+      <p>
+        <strong>6. Aplicare.</strong>
+      </p>
+
+      <p>
+        Profesorul pornește
+        de la performanța așteptată,
+        stabilește dovada,
+        apoi proiectează sarcina
+        și activitatea de învățare.
+      </p>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Pentru sesiunea 2027:
+      </strong>
+
+      nu afirma în răspuns
+      că standardele constituie
+      „punct explicit al programei de titularizare”
+      până când programa oficială 2027
+      nu confirmă acest lucru.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. CAPCANE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="capcane"
+  >
+
+    <h2>
+      15. Capcane frecvente
+    </h2>
+
+
+    <div class="grid2">
+
+
+      <div class="trap">
+
+        <strong>
+          Standard = programă.
+        </strong>
+
+        <br>
+
+        Fals.
+        Programa stabilește
+        competențe și conținuturi;
+        standardul precizează
+        nivelul performanței.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Standard = test.
+        </strong>
+
+        <br>
+
+        Fals.
+        Testul este un instrument
+        construit în raport cu standardul.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Există doar cinci niveluri
+          în tabelele disciplinare.
+        </strong>
+
+        <br>
+
+        Fals.
+        Standardele disciplinare
+        detaliază trei niveluri:
+        De bază,
+        Consolidat,
+        Avansat.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          D1 și D2 sunt încă două coloane
+          ale fiecărui standard.
+        </strong>
+
+        <br>
+
+        Nu.
+        Ele apar
+        în cadrul general
+        al descriptorilor.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Nivelul poate fi transformat
+          automat într-o notă.
+        </strong>
+
+        <br>
+
+        Nu inventăm
+        o conversie mecanică.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Standardele înlocuiesc
+          judecata profesională.
+        </strong>
+
+        <br>
+
+        Fals.
+        Ele oferă repere comune
+        pentru proiectarea
+        și interpretarea evaluării.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Standardele înseamnă
+          doar mai multe teste.
+        </strong>
+
+        <br>
+
+        Fals.
+        Evaluarea poate utiliza
+        metode și dovezi diverse.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Tema a fost deja
+          în programa Titularizare 2026.
+        </strong>
+
+        <br>
+
+        Nu explicit.
+        Este o actualizare normativă
+        apărută ulterior.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       16. RECAP
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="recapitulare"
+  >
+
+    <h2>
+      16. Recapitulare rapidă
+    </h2>
+
+
+    <div class="recap-grid">
+
+
+      <div class="recap-item">
+
+        <b>
+          Act normativ
+        </b>
+
+        Ordin MEC
+        nr. 4.615/2026.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Aplicare
+        </b>
+
+        Din anul școlar
+        2026–2027.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Referent
+        </b>
+
+        Competența specifică
+        din programă.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Structură
+        </b>
+
+        Standard de învățare
+        + descriptori.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Niveluri
+        </b>
+
+        De bază ·
+        Consolidat ·
+        Avansat.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Filosofie
+        </b>
+
+        Evaluare criterială,
+        pe competențe.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Proiectare
+        </b>
+
+        Standard →
+        dovadă →
+        sarcină.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Feedback
+        </b>
+
+        Tipul erorii
+        + pasul următor.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Fizică
+        </b>
+
+        Standardele aprobate
+        pentru VI–VIII.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          2027
+        </b>
+
+        Programa concursului
+        trebuie reverificată.
+
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Formula de 30 de secunde:
+      </strong>
+
+      <br><br>
+
+      COMPETENȚĂ SPECIFICĂ
+
+      <br>
+      ↓
+      <br>
+
+      STANDARD DE ÎNVĂȚARE
+
+      <br>
+      ↓
+      <br>
+
+      DESCRIPTORI
+
+      <br>
+      ↓
+      <br>
+
+      DE BAZĂ · CONSOLIDAT · AVANSAT
+
+      <br>
+      ↓
+      <br>
+
+      DOVADĂ DE ÎNVĂȚARE
+
+      <br>
+      ↓
+      <br>
+
+      SARCINĂ + FEEDBACK
+
+    </div>
+
+
+    <h3>
+      Autoevaluare
+    </h3>
+
+
+    <div class="question">
+
+      <b>1.</b>
+
+      Care este diferența
+      dintre programă
+      și standardul național de evaluare?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>2.</b>
+
+      Care sunt cele două componente
+      fundamentale
+      ale standardelor naționale
+      de evaluare?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>3.</b>
+
+      Care sunt
+      cele trei niveluri
+      detaliate
+      în standardele disciplinare?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>4.</b>
+
+      De ce apar și
+      nivelurile D1
+      și D2
+      în documentul general?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>5.</b>
+
+      Ce înseamnă
+      evaluare criterială?
+
+    </div>
+
+
+    <div class="question">
+
+      <b>6.</b>
+
+      Explică logica
+      proiectării inverse.
+
+    </div>
+
+
+    <div class="question">
+
+      <b>7.</b>
+
+      Construiește un exemplu
+      de evaluare la Fizică
+      în care să urmărești
+      cunoașterea conceptuală,
+      procedeul
+      și justificarea.
+
+    </div>
+
+
+    <h3>
+      Surse și repere
+    </h3>
+
+
+    <ul class="sources">
+
+      <li>
+        Legea învățământului preuniversitar
+        nr. 198/2023,
+        cu modificările și completările ulterioare,
+        art. 95–97.
+      </li>
+
+      <li>
+        Ordinul ministrului educației și cercetării
+        nr. 4.615 din 4 august 2026
+        privind aprobarea standardelor naționale
+        de evaluare pentru învățământul
+        primar și gimnazial.
+      </li>
+
+      <li>
+        Anexa nr. 1 —
+        Nota de prezentare
+        a standardelor naționale de evaluare.
+      </li>
+
+      <li>
+        Anexa nr. 2 —
+        Documentul de politică educațională
+        privind descriptorii de performanță.
+      </li>
+
+      <li>
+        Anexa nr. 13 —
+        Standardele naționale de evaluare
+        pentru Fizică,
+        clasele VI–VIII.
+      </li>
+
+      <li>
+        Programa pentru concursul
+        de ocupare a posturilor didactice —
+        disciplina Fizică,
+        versiunea disponibilă pentru 2026.
+      </li>
+
     </ul>
-  </div>
-  <p style="font-size:13px;color:var(--muted);">Notă: exemplul e construit didactic, după schema oficială, pentru a ilustra progresia — nu reproduce literal un standard publicat.</p>
-</section>
 
-<section class="card" id="sec9">
-  <h2>9. Un singur ecosistem de evaluare</h2>
-  <table>
-    <tr><th>Formă de evaluare</th><th>Rol în ecosistem</th></tr>
-    <tr><td>Inițială/diagnostică</td><td>„Hartă a punctelor de sprijin”</td></tr>
-    <tr><td>Continuă/formativă</td><td>Informații pentru progresul elevului</td></tr>
-    <tr><td>Sumativă</td><td>Certifică nivelul atins, pe aceiași descriptori</td></tr>
-    <tr><td>Evaluări naționale (II, IV, VI, VIII) și examene</td><td>Evaluare externă, același referențial</td></tr>
-    <tr><td>Evaluări internaționale (PISA, TIMSS, PIRLS)</td><td>Comparabilitate la nivel de sistem</td></tr>
-  </table>
-  <p>Pentru a limita subiectivitatea aplicării descriptorilor, standardele sunt însoțite de un aparat de ancorare psihometrică: structura testelor, banca de itemi calibrată, procedura de stabilire a pragurilor de performanță.</p>
-</section>
 
-<section class="card" id="sec10">
-  <h2>10. Aspecte încă deschise</h2>
-  <div class="nota-atentie">
-    <ul>
-      <li><b>Lipsa corespondenței cu notele 1–10</b> — nu există încă o metodologie oficială de transformare A/B/C/D1/D2 → notă;</li>
-      <li><b>Descrierea incompletă a D1/D2</b> — documentul-cadru menționează 5 niveluri, dar standardele pe discipline detaliază explicit doar 3;</li>
-      <li><b>Calibrare în lucru</b> — ministrul a declarat că standardele ar trebui să reducă notele de 9–10 acordate „în masă”, dar mecanismul exact rămâne, la acest moment, nefinalizat public.</li>
-    </ul>
-  </div>
-  <p>Utile pentru a distinge <b>ce e deja reglementat</b> (structura standardelor, cele 3 niveluri detaliate) de <b>ce e încă în dezbatere</b> (transformarea în note, tratarea elevilor de nivel D2).</p>
-</section>
+    <div class="source-note">
 
-<section class="card" id="sec11">
-  <h2>11. Implicații practice</h2>
-  <ul>
-    <li>proiectarea unităților de învățare pornind de la competențe și standardul de învățare, nu doar de la conținuturi;</li>
-    <li>construirea itemilor astfel încât să vizeze explicit una sau mai multe din cele 5 dimensiuni, nu doar reproducerea unei formule;</li>
-    <li>raportarea rezultatelor la descriptorii de nivel, ca reper calitativ, în completarea notei numerice;</li>
-    <li>identificarea din timp a elevilor de nivel „În formare”/„În dificultate”, pentru sprijin individualizat sau specializat.</li>
-  </ul>
-</section>
+      <strong>
+        Notă pentru pregătirea 2027:
+      </strong>
 
-<section class="card" id="sec12">
-  <h2>12. Sinteză recapitulativă</h2>
-  <div class="recap-grid">
-    <div class="recap-item"><b>Temei legal</b>Legea 198/2023, art. 95 alin. (2)</div>
-    <div class="recap-item"><b>Act normativ</b>Ordinul MEC nr. 4.615/2026, MO 674 bis/14.08.2026</div>
-    <div class="recap-item"><b>Aplicabilitate</b>Din 2026–2027, clasele I–VIII</div>
-    <div class="recap-item"><b>Structură</b>Standard de învățare + descriptori pe 3 niveluri</div>
-    <div class="recap-item"><b>Niveluri</b>A, B, C, D1, D2</div>
-    <div class="recap-item"><b>5 dimensiuni</b>Cunoaștere, procedeu, justificare, judecată critică, acțiune</div>
-    <div class="recap-item"><b>Abordare</b>Proiectare inversă (backward design)</div>
-    <div class="recap-item"><b>La Fizică</b>Clasele VI–VIII, pe competențe specifice</div>
-  </div>
-  <p style="margin-top:14px;"><b>Idee-cheie pentru examen:</b> standardele nu înlocuiesc programa, ci o completează cu un referențial explicit al rezultatelor așteptate — trecerea esențială e de la „ce reproduce elevul” la „ce poate face cu ceea ce știe”.</p>
-</section>
+      pagina include
+      o modificare normativă
+      produsă după programa
+      utilizată pentru Titularizare 2026.
 
-<section class="card bibliografie" id="sec13">
-  <h2>13. Bibliografie și surse</h2>
-  <ul>
-    <li>Ordinul MEC nr. 4.615/2026 privind aprobarea standardelor naționale de evaluare, MO Partea I, nr. 674 bis din 14.08.2026</li>
-    <li>Legea învățământului preuniversitar nr. 198/2023, art. 95</li>
-    <li>Moise, A., <i>OFICIAL Standardele naționale de evaluare pentru clasele I-VIII</i>, Edupedu.ro, 15 august 2026</li>
-    <li>Proiectul RECRED, Centrul Național pentru Curriculum și Evaluare</li>
-    <li>Programa de Metodică — Titularizare, disciplina Fizică, ediția în vigoare</li>
-  </ul>
-</section>
+      <br><br>
 
-<footer>
-  2. Tematica pentru didactica fizicii · Evaluarea · Titularizare Fizică
-</footer>
+      Prin urmare,
+      conținutul privind standardele
+      trebuie păstrat ca reper actual
+      pentru practica didactică
+      și pentru pregătirea concursului,
+      dar statutul său exact
+      în tematica Titularizare 2027
+      trebuie verificat
+      după publicarea programei oficiale.
+
+    </div>
+
+  </section>
+
 
 </main>
 
+
+<!-- =========================================================
+     NAVIGARE
+     ========================================================= -->
+
+<nav
+  class="pager"
+  aria-label="Navigare între lecțiile despre evaluare"
+>
+
+  <a href="metode-traditionale-si-alternative-de-evaluare.html">
+    ← Metode de evaluare
+  </a>
+
+
+  <a href="index.html">
+    Evaluarea ↑
+  </a>
+
+</nav>
+
+
+<footer class="site">
+
+  Tematica pentru didactica Fizicii ·
+  Evaluarea ·
+  Standardele naționale de evaluare ·
+  Titularizare Fizică
+
+</footer>
+
+
+<!-- =========================================================
+     SCENARIU AUDIO ASCUNS
+     Playerul este generat automat
+     de componenta audio comună.
+     ========================================================= -->
+
+<template id="audio-lesson-script">
+
+  <p>
+    Bun găsit.
+    În această lecție discutăm
+    despre standardele naționale de evaluare,
+    una dintre cele mai importante
+    actualizări recente
+    pentru evaluarea școlară.
+  </p>
+
+  <p>
+    Facem însă de la început
+    o precizare foarte importantă
+    pentru pregătirea Titularizării.
+  </p>
+
+  <p>
+    Programa disponibilă
+    pentru Titularizare Fizică 2026
+    nu conține explicit
+    o temă separată
+    intitulată standardele naționale
+    de evaluare.
+  </p>
+
+  <p>
+    Programa cere
+    obiectivele și funcțiile evaluării,
+    tipuri de evaluare,
+    metode,
+    calitățile instrumentelor
+    și tipologia itemilor.
+  </p>
+
+  <p>
+    Standardele au devenit însă
+    reper normativ actual
+    după concursul din 2026.
+  </p>
+
+  <p>
+    Prin Ordinul
+    ministrului educației și cercetării
+    numărul patru mii șase sute cincisprezece
+    din anul două mii douăzeci și șase,
+    au fost aprobate
+    standardele naționale de evaluare
+    pentru învățământul primar
+    și gimnazial.
+  </p>
+
+  <p>
+    Ele se aplică
+    începând cu anul școlar
+    două mii douăzeci și șase,
+    două mii douăzeci și șapte.
+  </p>
+
+  <p>
+    Așadar,
+    pentru Titularizare 2027
+    trebuie să le cunoaștem,
+    dar trebuie și să verificăm
+    dacă programa oficială
+    le introduce explicit
+    în tematica de concurs.
+  </p>
+
+  <p>
+    Să vedem acum
+    ce sunt standardele.
+  </p>
+
+  <p>
+    Ele reprezintă repere
+    privind nivelul de performanță
+    pe care elevul
+    trebuie să îl demonstreze
+    în raport cu
+    o competență specifică
+    din programa școlară.
+  </p>
+
+  <p>
+    Aceasta este
+    prima idee esențială.
+  </p>
+
+  <p>
+    Standardul nu înlocuiește
+    competența specifică.
+  </p>
+
+  <p>
+    Competența rămâne
+    în programa școlară.
+  </p>
+
+  <p>
+    Standardul ne ajută
+    să răspundem la întrebarea:
+    cum arată,
+    concret,
+    performanța elevului?
+  </p>
+
+  <p>
+    Cu alte cuvinte,
+    programa spune
+    ce competență trebuie formată,
+    iar standardul
+    descrie nivelul
+    la care acea competență
+    poate fi demonstrată.
+  </p>
+
+  <p>
+    Să legăm documentele.
+  </p>
+
+  <p>
+    Planul-cadru
+    stabilește disciplinele
+    și timpul.
+  </p>
+
+  <p>
+    Programa stabilește
+    competențele
+    și conținuturile.
+  </p>
+
+  <p>
+    Standardele
+    precizează
+    nivelurile de performanță.
+  </p>
+
+  <p>
+    Această legătură
+    este foarte importantă
+    pentru concurs.
+  </p>
+
+  <p>
+    Standardele nu sunt
+    încă o programă.
+  </p>
+
+  <p>
+    Și nu sunt
+    nici un test gata făcut.
+  </p>
+
+  <p>
+    Sunt referențialul
+    în raport cu care
+    profesorul proiectează
+    și interpretează evaluarea.
+  </p>
+
+  <p>
+    Cum este organizat
+    un standard?
+  </p>
+
+  <p>
+    Punctul de plecare
+    este competența specifică
+    din programa școlară.
+  </p>
+
+  <p>
+    Sunt precizate apoi,
+    după structura documentelor,
+    complexitatea cognitivă,
+    conținuturile asociate,
+    standardul de învățare
+    și descriptorii
+    nivelurilor de performanță.
+  </p>
+
+  <p>
+    Standardul de învățare
+    spune ce cunoștințe,
+    abilități
+    și atitudini
+    ar trebui să demonstreze elevul.
+  </p>
+
+  <p>
+    Descriptorul merge
+    un pas mai departe.
+  </p>
+
+  <p>
+    El descrie
+    în termeni observabili
+    ce poate face elevul
+    la un anumit nivel.
+  </p>
+
+  <p>
+    Aici apare
+    o distincție foarte importantă,
+    pentru că în documente
+    putem întâlni
+    două reprezentări
+    ale nivelurilor.
+  </p>
+
+  <p>
+    Standardele pe discipline
+    utilizează explicit
+    trei niveluri.
+  </p>
+
+  <p>
+    De bază.
+  </p>
+
+  <p>
+    Consolidat.
+  </p>
+
+  <p>
+    Avansat.
+  </p>
+
+  <p>
+    În documentul oficial,
+    ele apar și ca
+    nivelul doi,
+    nivelul trei
+    și nivelul patru.
+  </p>
+
+  <p>
+    La nivelul De bază,
+    elevul demonstrează
+    performanța
+    mai ales în contexte familiare
+    și are nevoie
+    de mai mult sprijin.
+  </p>
+
+  <p>
+    La nivelul Consolidat,
+    elevul poate opera
+    în contexte mai variate
+    și transferă mai sigur
+    ceea ce a învățat.
+  </p>
+
+  <p>
+    La nivelul Avansat,
+    crește autonomia,
+    complexitatea
+    și capacitatea de transfer.
+  </p>
+
+  <p>
+    Atenție:
+    progresia nu înseamnă
+    pur și simplu
+    că elevul memorează
+    mai multe formule.
+  </p>
+
+  <p>
+    Crește
+    complexitatea situațiilor,
+    autonomia
+    și calitatea
+    utilizării cunoașterii.
+  </p>
+
+  <p>
+    Atunci de ce
+    mai apar uneori
+    cinci niveluri:
+    A,
+    B,
+    C,
+    D unu
+    și D doi?
+  </p>
+
+  <p>
+    Pentru că documentul general
+    de politică educațională
+    privind descriptorii
+    descrie o scară mai largă
+    a dezvoltării competențelor.
+  </p>
+
+  <p>
+    A înseamnă Avansat.
+  </p>
+
+  <p>
+    B,
+    Consolidat.
+  </p>
+
+  <p>
+    C,
+    De bază.
+  </p>
+
+  <p>
+    D unu,
+    În formare.
+  </p>
+
+  <p>
+    Iar D doi,
+    În dificultate.
+  </p>
+
+  <p>
+    Ultimele două
+    descriu situații
+    în care elevul
+    nu demonstrează încă
+    nivelul minim acceptabil
+    în mod constant.
+  </p>
+
+  <p>
+    Dar trebuie să fim exacți.
+  </p>
+
+  <p>
+    Nu spunem
+    că fiecare tabel disciplinar
+    are cinci coloane
+    A, B, C, D unu și D doi.
+  </p>
+
+  <p>
+    Standardele disciplinare
+    detaliază explicit
+    nivelurile
+    De bază,
+    Consolidat
+    și Avansat.
+  </p>
+
+  <p>
+    Aceasta este
+    una dintre corecțiile
+    importante față de
+    o prezentare prea simplificată
+    a sistemului.
+  </p>
+
+  <p>
+    Ce urmărește
+    noua abordare
+    a evaluării?
+  </p>
+
+  <p>
+    Documentele indică
+    cinci dimensiuni relevante.
+  </p>
+
+  <p>
+    Prima:
+    cunoașterea conceptuală.
+  </p>
+
+  <p>
+    Elevul înțelege
+    conceptele
+    și relațiile dintre ele?
+  </p>
+
+  <p>
+    A doua:
+    procedeul.
+  </p>
+
+  <p>
+    Poate aplica
+    o metodă relevantă?
+  </p>
+
+  <p>
+    A treia:
+    justificarea.
+  </p>
+
+  <p>
+    Poate explica
+    de ce metoda aleasă
+    este potrivită?
+  </p>
+
+  <p>
+    A patra:
+    judecata critică.
+  </p>
+
+  <p>
+    Poate identifica
+    limite,
+    erori,
+    date insuficiente
+    sau probleme
+    ale unui model?
+  </p>
+
+  <p>
+    Și a cincea:
+    acțiunea responsabilă.
+  </p>
+
+  <p>
+    Poate transforma
+    ceea ce știe
+    într-o decizie
+    argumentată
+    și responsabilă?
+  </p>
+
+  <p>
+    Pentru Fizică,
+    aceste dimensiuni
+    sunt foarte naturale.
+  </p>
+
+  <p>
+    Să luăm
+    un experiment.
+  </p>
+
+  <p>
+    Nu este suficient
+    ca elevul să scrie
+    valoarea numerică finală.
+  </p>
+
+  <p>
+    Putem verifica
+    dacă înțelege fenomenul,
+    dacă a ales
+    metoda potrivită,
+    dacă justifică aparatura,
+    dacă identifică
+    sursele de eroare
+    și dacă formulează
+    o concluzie susținută
+    de date.
+  </p>
+
+  <p>
+    Ajungem la
+    o altă idee centrală:
+    evaluarea criterială.
+  </p>
+
+  <p>
+    Într-o abordare
+    predominant normativă,
+    elevul este comparat
+    în mare măsură
+    cu ceilalți elevi.
+  </p>
+
+  <p>
+    În evaluarea criterială,
+    întrebarea principală este:
+    ce performanță demonstrează
+    în raport cu
+    un criteriu explicit?
+  </p>
+
+  <p>
+    Standardele creează
+    tocmai acest limbaj comun.
+  </p>
+
+  <p>
+    Elevul,
+    profesorul
+    și familia
+    pot înțelege
+    ce înseamnă
+    un anumit nivel
+    și care este
+    pasul următor.
+  </p>
+
+  <p>
+    De aici vine
+    și ideea de
+    proiectare inversă.
+  </p>
+
+  <p>
+    Profesorul nu începe
+    doar cu întrebarea:
+    ce pagini predau?
+  </p>
+
+  <p>
+    Începe cu:
+    ce trebuie
+    să poată demonstra elevul?
+  </p>
+
+  <p>
+    Apoi:
+    ce dovadă
+    mi-ar arăta
+    că a atins performanța?
+  </p>
+
+  <p>
+    Apoi construiește
+    sarcina de evaluare.
+  </p>
+
+  <p>
+    Și abia apoi
+    proiectează
+    activitățile de învățare
+    care pregătesc elevul
+    pentru acea performanță.
+  </p>
+
+  <p>
+    Formula este:
+    standard,
+    dovadă,
+    sarcină,
+    activitate.
+  </p>
+
+  <p>
+    Să aplicăm
+    acest lucru la Fizică.
+  </p>
+
+  <p>
+    Standardele aprobate
+    pentru Fizică
+    vizează clasele
+    a șasea,
+    a șaptea
+    și a opta.
+  </p>
+
+  <p>
+    Pentru fiecare competență,
+    profesorul poate identifica
+    standardul de învățare
+    și descriptorii
+    celor trei niveluri.
+  </p>
+
+  <p>
+    Să luăm
+    un exemplu didactic,
+    nu o transcriere
+    din standardul oficial.
+  </p>
+
+  <p>
+    Presupunem
+    o competență
+    de investigație experimentală.
+  </p>
+
+  <p>
+    La nivelul De bază,
+    elevul poate efectua
+    măsurători simple,
+    într-un context familiar,
+    după un protocol
+    și cu sprijin.
+  </p>
+
+  <p>
+    La nivelul Consolidat,
+    poate aplica
+    aceeași logică
+    în situații mai variate,
+    poate organiza datele
+    și formula
+    o concluzie corectă.
+  </p>
+
+  <p>
+    La nivelul Avansat,
+    poate lucra
+    cu autonomie mai mare,
+    justifica alegerile
+    și analiza critic
+    limitele rezultatului.
+  </p>
+
+  <p>
+    Observați:
+    nu am schimbat
+    pur și simplu
+    numărul de exerciții.
+  </p>
+
+  <p>
+    Am schimbat
+    complexitatea,
+    autonomia
+    și calitatea
+    raționamentului.
+  </p>
+
+  <p>
+    Standardele schimbă
+    și modul
+    în care privim eroarea.
+  </p>
+
+  <p>
+    O eroare
+    nu este numai
+    ceva ce penalizăm.
+  </p>
+
+  <p>
+    Este și informație
+    pentru reglarea învățării.
+  </p>
+
+  <p>
+    De exemplu,
+    elevul a ales
+    corect legea fizică,
+    dar a greșit
+    transformarea algebrică.
+  </p>
+
+  <p>
+    Feedbackul:
+    greșit,
+    nu este suficient.
+  </p>
+
+  <p>
+    Mai util este:
+    relația fizică este corectă,
+    eroarea apare
+    la izolarea necunoscutei,
+    reia transformarea
+    de aici.
+  </p>
+
+  <p>
+    Acest feedback
+    identifică
+    tipul erorii
+    și oferă
+    o direcție de progres.
+  </p>
+
+  <p>
+    Mai există
+    o întrebare importantă:
+    ce se întâmplă
+    cu notele?
+  </p>
+
+  <p>
+    Standardele nu elimină
+    notele de la unu la zece
+    în gimnaziu.
+  </p>
+
+  <p>
+    Documentele generale
+    spun că descriptorii
+    sunt compatibili
+    cu scala de notare existentă.
+  </p>
+
+  <p>
+    Dar nu trebuie
+    să inventăm
+    o formulă mecanică
+    de tip
+    Avansat egal zece,
+    Consolidat egal opt
+    sau De bază egal cinci.
+  </p>
+
+  <p>
+    Dacă o metodologie,
+    un barem
+    sau un instrument oficial
+    stabilește o conversie,
+    atunci o folosim.
+  </p>
+
+  <p>
+    Dacă nu,
+    nu o inventăm.
+  </p>
+
+  <p>
+    Pentru Titularizare,
+    acesta este
+    un principiu foarte important:
+    diferențiem
+    ceea ce este reglementat
+    de ceea ce doar presupunem.
+  </p>
+
+  <p>
+    Să recapitulăm
+    capcanele.
+  </p>
+
+  <p>
+    Prima:
+    standardul este programa.
+    Fals.
+  </p>
+
+  <p>
+    A doua:
+    standardul este un test.
+    Fals.
+  </p>
+
+  <p>
+    A treia:
+    fiecare standard disciplinar
+    are cinci niveluri detaliate.
+    Fals.
+  </p>
+
+  <p>
+    Sunt detaliate
+    De bază,
+    Consolidat
+    și Avansat.
+  </p>
+
+  <p>
+    A patra:
+    nivelul de performanță
+    poate fi transformat automat
+    într-o anumită notă.
+    Nu fără
+    un reper oficial
+    care să stabilească acest lucru.
+  </p>
+
+  <p>
+    A cincea:
+    standardele înlocuiesc
+    judecata profesională
+    a profesorului.
+    Fals.
+  </p>
+
+  <p>
+    Ele oferă
+    un referențial comun,
+    dar profesorul
+    continuă să proiecteze
+    metode,
+    instrumente
+    și situații de evaluare.
+  </p>
+
+  <p>
+    Și a șasea:
+    standardele au fost
+    deja punct explicit
+    în programa
+    Titularizare Fizică 2026.
+  </p>
+
+  <p>
+    Nu.
+  </p>
+
+  <p>
+    Ele reprezintă
+    o actualizare normativă
+    apărută ulterior
+    și foarte relevantă
+    pentru pregătirea 2027.
+  </p>
+
+  <p>
+    Formula finală
+    pe care merită
+    să o rețineți este:
+  </p>
+
+  <p>
+    competență specifică,
+    standard de învățare,
+    descriptori,
+    De bază,
+    Consolidat,
+    Avansat,
+    dovadă,
+    sarcină
+    și feedback.
+  </p>
+
+  <p>
+    Pentru Titularizare Fizică 2027,
+    după publicarea
+    programei oficiale,
+    verificăm exact
+    dacă și cum
+    standardele naționale
+    de evaluare
+    sunt introduse
+    în tematica de concurs.
+  </p>
+
+  <p>
+    Aceasta a fost lecția
+    despre standardele
+    naționale de evaluare.
+  </p>
+
+</template>
+
+
+<!-- =========================================================
+     JAVASCRIPT — TEMA
+     ========================================================= -->
+
 <script>
-const rezumatText = `Standardele naționale de evaluare. Pe paisprezece august două mii douăzeci și șase, a fost publicat Ordinul ministrului educației numărul patru mii șase sute cincisprezece, prin care se aprobă standardele naționale de evaluare pentru clasele întâi până la a opta, inclusiv pentru fizică, la clasele a șasea, a șaptea și a opta. Standardele devin obligatorii din anul școlar două mii douăzeci și șase, doi mii douăzeci și șapte.
 
-Standardele nu înlocuiesc programa școlară, ci o completează cu repere clare despre ce ar trebui să demonstreze elevul, pentru fiecare competență specifică. Fiecare standard are două părți: standardul de învățare, care descrie ce știe, ce face și cum valorizează elevul cunoștințele, și descriptorii de performanță, pe trei niveluri: de bază, consolidat și avansat.
+const themeToggle =
+  document.getElementById("themeToggle");
 
-Documentul general vorbește despre cinci niveluri de performanță: avansat, consolidat, de bază, în formare și în dificultate. Însă standardele publicate pe discipline detaliază explicit doar primele trei.
 
-O schimbare importantă este mutarea accentului de la reproducerea informației, la evaluarea competenței reale: raționament, transfer, decizie și verificare, urmărite prin cinci dimensiuni: cunoaștere conceptuală, procedeu, justificare, judecată critică și acțiune responsabilă.
+function currentTheme() {
 
-Un aspect încă deschis: nu există, deocamdată, o metodologie oficială de transformare a acestor niveluri în note de la unu la zece. Ministerul a confirmat că această corespondență urmează să fie stabilită ulterior.`;
+  return document.documentElement.dataset.theme === "dark"
+    ? "dark"
+    : "light";
 
-let utterance = null;
-let isPlaying = false;
-
-function toggleRezumat() {
-  const playBtn = document.getElementById('playBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  const status = document.getElementById('audioStatus');
-
-  if (!('speechSynthesis' in window)) {
-    status.textContent = 'Browserul nu suportă sinteza vocală.';
-    return;
-  }
-
-  if (isPlaying && speechSynthesis.speaking && !speechSynthesis.paused) {
-    speechSynthesis.pause();
-    playBtn.textContent = '▶ Continuă';
-    status.textContent = 'Pauză.';
-    return;
-  }
-
-  if (speechSynthesis.paused) {
-    speechSynthesis.resume();
-    playBtn.textContent = '⏸ Pauză';
-    status.textContent = 'Se redă rezumatul...';
-    return;
-  }
-
-  utterance = new SpeechSynthesisUtterance(rezumatText);
-  utterance.lang = 'ro-RO';
-  utterance.rate = 0.98;
-
-  const voices = speechSynthesis.getVoices();
-  const roVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ro'));
-  if (roVoice) utterance.voice = roVoice;
-
-  utterance.onstart = () => {
-    isPlaying = true;
-    playBtn.textContent = '⏸ Pauză';
-    stopBtn.disabled = false;
-    status.textContent = 'Se redă rezumatul...';
-  };
-  utterance.onend = () => {
-    isPlaying = false;
-    playBtn.textContent = '▶ Ascultă';
-    stopBtn.disabled = true;
-    status.textContent = 'Rezumat terminat.';
-  };
-  utterance.onerror = () => {
-    status.textContent = 'A apărut o eroare la redare.';
-  };
-
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
 }
 
-function stopRezumat() {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-  }
-  isPlaying = false;
-  document.getElementById('playBtn').textContent = '▶ Ascultă';
-  document.getElementById('stopBtn').disabled = true;
-  document.getElementById('audioStatus').textContent = 'Oprit.';
+
+function updateThemeButton() {
+
+  const dark =
+    currentTheme() === "dark";
+
+  themeToggle.textContent =
+    dark
+      ? "Tema: Noapte"
+      : "Tema: Zi";
+
+  themeToggle.setAttribute(
+    "aria-pressed",
+    dark ? "true" : "false"
+  );
+
+  themeToggle.setAttribute(
+    "title",
+    dark
+      ? "Comută la tema de zi"
+      : "Comută la tema de noapte"
+  );
+
 }
 
-if ('speechSynthesis' in window) {
-  speechSynthesis.onvoiceschanged = () => {};
+
+function toggleTheme() {
+
+  const next =
+    currentTheme() === "dark"
+      ? "light"
+      : "dark";
+
+  document.documentElement.dataset.theme =
+    next;
+
+  localStorage.setItem(
+    "titularizare-theme",
+    next
+  );
+
+  updateThemeButton();
+
 }
+
+
+themeToggle.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+updateThemeButton();
+
 </script>
 
+
+<!-- =========================================================
+     COMPONENTA AUDIO COMUNA
+     CSS-ul playerului este încărcat automat.
+     ========================================================= -->
+
+<script
+  src="../assets/audio/audio-lesson.js"
+  defer
+></script>
+
+
 </body>
+
 </html>
