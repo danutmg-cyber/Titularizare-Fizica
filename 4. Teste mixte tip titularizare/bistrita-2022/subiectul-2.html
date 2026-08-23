@@ -1,1 +1,1296 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Subiectul al II-lea – Fizică – Varianta 2, 2022</title>
+
+<style>
+    :root {
+        --navy: #17365d;
+        --blue: #2f75b5;
+        --light-blue: #eaf3f8;
+        --green: #548235;
+        --light-green: #edf5e8;
+        --red: #c00000;
+        --gold: #bf9000;
+        --light-gold: #fff7df;
+        --gray: #666;
+        --border: #d6dce4;
+        --paper: #ffffff;
+        --background: #f4f6f8;
+        --violet: #7030a0;
+        --light-violet: #f4ecf9;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: var(--background);
+        color: #202020;
+        font-family: "Segoe UI", Arial, sans-serif;
+        line-height: 1.58;
+    }
+
+    main {
+        max-width: 1050px;
+        margin: 35px auto;
+        padding: 45px 58px;
+        background: var(--paper);
+        box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+
+    h1 {
+        color: var(--navy);
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        color: var(--navy);
+        margin-top: 42px;
+        padding-bottom: 7px;
+        border-bottom: 3px solid var(--blue);
+    }
+
+    h3 {
+        color: #214f7b;
+        margin-top: 30px;
+    }
+
+    h4 {
+        margin-top: 24px;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: var(--gray);
+        margin-bottom: 30px;
+    }
+
+    .score {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 2px 9px;
+        border-radius: 12px;
+        color: white;
+        background: var(--green);
+        font-size: .82rem;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    .total {
+        padding: 14px 18px;
+        border-left: 5px solid var(--green);
+        background: var(--light-green);
+        font-weight: 600;
+        margin: 20px 0;
+    }
+
+    .data {
+        padding: 15px 18px;
+        background: var(--light-blue);
+        border-left: 4px solid var(--blue);
+        margin: 14px 0;
+    }
+
+    .system {
+        padding: 15px 18px;
+        background: var(--light-violet);
+        border-left: 4px solid var(--violet);
+        margin: 14px 0;
+    }
+
+    .derivation {
+        padding: 16px 19px;
+        background: #fafafa;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        margin: 12px 0 18px;
+    }
+
+    .equation {
+        text-align: center;
+        font-family: "Cambria Math", "Times New Roman", serif;
+        font-size: 1.12rem;
+        margin: 11px 0;
+    }
+
+    .answer {
+        padding: 14px 18px;
+        background: var(--light-green);
+        border-left: 5px solid var(--green);
+        font-size: 1.08rem;
+        margin: 16px 0;
+    }
+
+    .warning {
+        padding: 13px 17px;
+        background: var(--light-gold);
+        border-left: 4px solid var(--gold);
+        margin: 15px 0;
+    }
+
+    .important {
+        color: var(--red);
+        font-weight: 700;
+    }
+
+    .step {
+        display: inline-block;
+        min-width: 105px;
+        color: var(--navy);
+        font-weight: 700;
+    }
+
+    .forces {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin: 18px 0;
+    }
+
+    .force-card {
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 15px 18px;
+        background: #fafcff;
+    }
+
+    .force-card h4 {
+        color: var(--navy);
+        margin-top: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+    }
+
+    th, td {
+        border: 1px solid var(--border);
+        padding: 9px 12px;
+        vertical-align: top;
+    }
+
+    th {
+        background: var(--navy);
+        color: white;
+    }
+
+    tr:nth-child(even) td {
+        background: #fafafa;
+    }
+
+    ul, ol {
+        padding-left: 26px;
+    }
+
+    li {
+        margin-bottom: 6px;
+    }
+
+    .check {
+        color: var(--green);
+        font-weight: 700;
+    }
+
+    .note {
+        font-size: .92rem;
+        color: #555;
+    }
+
+    .mini-title {
+        font-weight: 700;
+        color: var(--navy);
+        margin-top: 12px;
+    }
+
+    .final-box {
+        margin-top: 35px;
+        border: 2px solid var(--green);
+        border-radius: 8px;
+        padding: 20px;
+        background: #fbfff9;
+    }
+
+    @media (max-width: 760px) {
+        main {
+            margin: 0;
+            padding: 25px 20px;
+        }
+
+        .forces {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media print {
+        body {
+            background: white;
+        }
+
+        main {
+            margin: 0;
+            padding: 15mm;
+            box-shadow: none;
+            max-width: none;
+        }
+
+        h2, h3 {
+            break-after: avoid;
+        }
+
+        .derivation,
+        .answer,
+        .data,
+        .system {
+            break-inside: avoid;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<main>
+
+<h1>SUBIECTUL al II-lea – REZOLVARE COMPLETĂ</h1>
+
+<p class="subtitle">
+    Fizică – calificați – Varianta 2 – 30.08.2022<br>
+    Rezolvare redactată în ordinea cerințelor și a baremului de evaluare
+</p>
+
+<div class="total">
+    <strong>Punctaj Subiectul al II-lea: 30 puncte</strong><br>
+    II.1. Circuit electric de curent continuu – 15 p<br>
+    II.2. Dinamica unui sistem de două corpuri – 15 p
+</div>
+
+
+<!-- ========================================================= -->
+<h2>II.1. Circuit electric de curent continuu – 15 p</h2>
+<!-- ========================================================= -->
+
+
+<h3>Enunț – datele problemei</h3>
+
+<div class="data">
+    Se consideră circuitul electric din enunț, pentru care:
+    <div class="equation">
+        E = 12 V
+    </div>
+
+    <div class="equation">
+        r = 1 Ω
+    </div>
+
+    <p>
+        Când întrerupătorul <strong>K este închis</strong>,
+        intensitatea curentului prin rezistorul R<sub>2</sub> este:
+    </p>
+
+    <div class="equation">
+        I<sub>1</sub> = 1 A
+    </div>
+
+    <p>
+        Când întrerupătorul <strong>K este deschis</strong>,
+        intensitatea curentului prin același rezistor este:
+    </p>
+
+    <div class="equation">
+        I<sub>2</sub> = 0,5 A
+    </div>
+</div>
+
+
+<h3>Cerințe</h3>
+
+<ol>
+    <li>
+        determinarea rezistențelor
+        R<sub>1</sub> și R<sub>2</sub>;
+    </li>
+
+    <li>
+        determinarea puterii electrice debitate pe cele două
+        rezistoare când K este închis;
+    </li>
+
+    <li>
+        determinarea randamentului circuitului când K este deschis.
+    </li>
+</ol>
+
+
+<h3>a) Determinarea rezistențelor R₁ și R₂ – 5 p</h3>
+
+
+<h4>1. Întrerupătorul K închis – determinarea lui R₂ <span class="score">3 p</span></h4>
+
+<div class="system">
+    <strong>Observație esențială asupra circuitului:</strong><br>
+    Când întrerupătorul K este închis,
+    rezistorul R<sub>1</sub> este <strong>scurtcircuitat</strong>.
+    Prin urmare, curentul electric nu trece prin R<sub>1</sub>,
+    iar în circuitul activ rămân rezistența R<sub>2</sub> și
+    rezistența internă r a sursei.
+</div>
+
+<p>
+Aplicăm legea lui Ohm pentru întregul circuit:
+</p>
+
+<div class="equation">
+    I = E / (R + r)
+</div>
+
+<p>
+În această situație:
+</p>
+
+<div class="equation">
+    R = R<sub>2</sub>
+</div>
+
+<p>deci:</p>
+
+<div class="equation">
+    I<sub>1</sub>
+    =
+    E / (R<sub>2</sub> + r)
+</div>
+
+<p>
+Rezolvăm ecuația în raport cu R<sub>2</sub>:
+</p>
+
+<div class="derivation">
+
+    <div class="equation">
+        I<sub>1</sub>(R<sub>2</sub> + r) = E
+    </div>
+
+    <div class="equation">
+        R<sub>2</sub> + r = E/I<sub>1</sub>
+    </div>
+
+    <div class="equation">
+        R<sub>2</sub>
+        =
+        E/I<sub>1</sub> - r
+    </div>
+
+    <div class="equation">
+        R<sub>2</sub>
+        =
+        12 V / 1 A - 1 Ω
+    </div>
+
+    <div class="equation">
+        R<sub>2</sub>
+        =
+        12 Ω - 1 Ω
+    </div>
+
+    <div class="equation">
+        <strong>R<sub>2</sub> = 11 Ω</strong>
+    </div>
+
+</div>
+
+<div class="answer">
+    <strong>Rezultat:</strong>
+    R<sub>2</sub> = <strong>11 Ω</strong>.
+</div>
+
+
+<h4>2. Întrerupătorul K deschis – determinarea lui R₁ <span class="score">2 p</span></h4>
+
+<div class="system">
+    Când întrerupătorul K este deschis,
+    R<sub>1</sub> nu mai este scurtcircuitat.
+    Rezistoarele R<sub>1</sub> și R<sub>2</sub> sunt parcurse de
+    același curent și sunt conectate în serie cu rezistența internă r.
+</div>
+
+<p>
+Rezistența totală a circuitului este:
+</p>
+
+<div class="equation">
+    R<sub>tot</sub>
+    =
+    R<sub>1</sub> + R<sub>2</sub> + r
+</div>
+
+<p>Legea lui Ohm pentru întregul circuit devine:</p>
+
+<div class="equation">
+    I<sub>2</sub>
+    =
+    E /
+    (R<sub>1</sub> + R<sub>2</sub> + r)
+</div>
+
+<p>
+Rezolvăm în raport cu R<sub>1</sub>:
+</p>
+
+<div class="derivation">
+
+    <div class="equation">
+        R<sub>1</sub> + R<sub>2</sub> + r
+        =
+        E/I<sub>2</sub>
+    </div>
+
+    <div class="equation">
+        R<sub>1</sub>
+        =
+        E/I<sub>2</sub>
+        -
+        R<sub>2</sub>
+        -
+        r
+    </div>
+
+    <div class="equation">
+        R<sub>1</sub>
+        =
+        12 V / 0,5 A
+        -
+        11 Ω
+        -
+        1 Ω
+    </div>
+
+    <div class="equation">
+        R<sub>1</sub>
+        =
+        24 Ω - 12 Ω
+    </div>
+
+    <div class="equation">
+        <strong>R<sub>1</sub> = 12 Ω</strong>
+    </div>
+
+</div>
+
+<div class="answer">
+    <strong>Răspuns la punctul a):</strong><br>
+    R<sub>1</sub> = <strong>12 Ω</strong><br>
+    R<sub>2</sub> = <strong>11 Ω</strong>
+</div>
+
+
+<!-- ========================================================= -->
+
+<h3>
+    b) Puterea electrică debitată pe cele două rezistoare
+    când K este închis <span class="score">5 p</span>
+</h3>
+
+<p>
+Când K este închis, R<sub>1</sub> este scurtcircuitat.
+</p>
+
+<p>
+Prin urmare:
+</p>
+
+<div class="equation">
+    I<sub>R1</sub> = 0 A
+</div>
+
+<p>iar prin R<sub>2</sub>:</p>
+
+<div class="equation">
+    I<sub>R2</sub> = I<sub>1</sub> = 1 A
+</div>
+
+<p>
+Puterea disipată pe un rezistor este dată de legea Joule:
+</p>
+
+<div class="equation">
+    P = RI<sup>2</sup>
+</div>
+
+
+<h4>Puterea pe R₁</h4>
+
+<div class="equation">
+    P<sub>1</sub>
+    =
+    R<sub>1</sub>I<sub>R1</sub><sup>2</sup>
+</div>
+
+<div class="equation">
+    P<sub>1</sub>
+    =
+    12 Ω · (0 A)<sup>2</sup>
+</div>
+
+<div class="equation">
+    P<sub>1</sub> = 0 W
+</div>
+
+
+<h4>Puterea pe R₂</h4>
+
+<div class="equation">
+    P<sub>2</sub>
+    =
+    R<sub>2</sub>I<sub>1</sub><sup>2</sup>
+</div>
+
+<div class="equation">
+    P<sub>2</sub>
+    =
+    11 Ω · (1 A)<sup>2</sup>
+</div>
+
+<div class="equation">
+    P<sub>2</sub> = 11 W
+</div>
+
+
+<h4>Puterea totală debitată pe cele două rezistoare</h4>
+
+<div class="derivation">
+
+    <div class="equation">
+        P = P<sub>1</sub> + P<sub>2</sub>
+    </div>
+
+    <div class="equation">
+        P = 0 W + 11 W
+    </div>
+
+    <div class="equation">
+        <strong>P = 11 W</strong>
+    </div>
+
+</div>
+
+<div class="answer">
+    <strong>Răspuns la punctul b):</strong>
+    P = <strong>11 W</strong>.
+</div>
+
+<div class="warning">
+    <strong>Atenție la examen:</strong>
+    nu se introduce R<sub>1</sub> în calculul puterii ca și cum ar fi
+    parcurs de curent. Pentru K închis, R<sub>1</sub> este
+    scurtcircuitat, deci I<sub>R1</sub> = 0.
+</div>
+
+
+<!-- ========================================================= -->
+
+<h3>
+    c) Randamentul circuitului când K este deschis
+    <span class="score">5 p</span>
+</h3>
+
+<p>
+Când K este deschis, rezistența exterioară a circuitului este:
+</p>
+
+<div class="equation">
+    R = R<sub>1</sub> + R<sub>2</sub>
+</div>
+
+<div class="equation">
+    R = 12 Ω + 11 Ω
+</div>
+
+<div class="equation">
+    <strong>R = 23 Ω</strong>
+</div>
+
+<p>
+Randamentul unui circuit electric simplu este raportul dintre
+puterea utilă consumată în circuitul exterior și puterea totală
+furnizată de sursă:
+</p>
+
+<div class="equation">
+    η = P<sub>util</sub>/P<sub>total</sub>
+</div>
+
+<p>
+Avem:
+</p>
+
+<div class="equation">
+    P<sub>util</sub> = I<sup>2</sup>R
+</div>
+
+<div class="equation">
+    P<sub>total</sub> = EI
+</div>
+
+<p>
+Din legea lui Ohm pentru întregul circuit:
+</p>
+
+<div class="equation">
+    E = I(R+r)
+</div>
+
+<p>Astfel:</p>
+
+<div class="derivation">
+
+    <div class="equation">
+        η
+        =
+        I<sup>2</sup>R /
+        [I · I(R+r)]
+    </div>
+
+    <div class="equation">
+        η = R/(R+r)
+    </div>
+
+</div>
+
+<p>Introducem valorile:</p>
+
+<div class="equation">
+    η
+    =
+    23 Ω /
+    (23 Ω + 1 Ω)
+</div>
+
+<div class="equation">
+    η = 23/24
+</div>
+
+<div class="equation">
+    η ≈ 0,9583
+</div>
+
+<p>
+În procente:
+</p>
+
+<div class="equation">
+    η ≈ 0,9583 · 100%
+</div>
+
+<div class="equation">
+    <strong>η ≈ 95,83%</strong>
+</div>
+
+<div class="answer">
+    <strong>Răspuns la punctul c):</strong>
+    η = <strong>0,9583 ≈ 95,83%</strong>.
+</div>
+
+
+<h3>Verificarea problemei II.1</h3>
+
+<div class="derivation">
+
+    <p class="mini-title">Verificare pentru K închis:</p>
+
+    <div class="equation">
+        I<sub>1</sub>
+        =
+        E/(R<sub>2</sub>+r)
+        =
+        12/(11+1)
+        =
+        1 A
+    </div>
+
+    <p class="check">✓ coincide cu valoarea din enunț.</p>
+
+    <p class="mini-title">Verificare pentru K deschis:</p>
+
+    <div class="equation">
+        I<sub>2</sub>
+        =
+        12/(12+11+1)
+        =
+        12/24
+        =
+        0,5 A
+    </div>
+
+    <p class="check">✓ coincide cu valoarea din enunț.</p>
+
+</div>
+
+
+<!-- ========================================================= -->
+<h2>II.2. Dinamica unui sistem de două corpuri – 15 p</h2>
+<!-- ========================================================= -->
+
+
+<h3>Datele problemei</h3>
+
+<div class="data">
+
+    <div class="equation">
+        m<sub>1</sub> = 2 kg
+    </div>
+
+    <div class="equation">
+        m<sub>2</sub> = 8 kg
+    </div>
+
+    <div class="equation">
+        F = 60 N
+    </div>
+
+    <div class="equation">
+        g = 10 m/s<sup>2</sup>
+    </div>
+
+    <p>
+        Cele două corpuri sunt legate printr-un fir
+        <strong>inextensibil, de masă neglijabilă</strong>.
+    </p>
+
+    <p>
+        Suprafața este plană și orizontală, iar
+        <strong>frecările sunt neglijate</strong>.
+    </p>
+
+</div>
+
+
+<h3>Cerințe</h3>
+
+<ol>
+    <li>accelerația sistemului;</li>
+    <li>tensiunea din firul de legătură.</li>
+</ol>
+
+
+<h3>
+    1. Separarea corpurilor și identificarea forțelor
+    <span class="score">5 p</span>
+</h3>
+
+<p>
+Aplicăm <strong>metoda separării corpurilor</strong>.
+Fiecare corp este analizat separat.
+</p>
+
+<div class="forces">
+
+    <div class="force-card">
+        <h4>Corpul 1 – masa m₁</h4>
+
+        <ul>
+            <li>
+                <strong>G<sub>1</sub> = m<sub>1</sub>g</strong>,
+                greutatea, vertical în jos;
+            </li>
+
+            <li>
+                <strong>N<sub>1</sub></strong>,
+                reacțiunea normală a planului, vertical în sus;
+            </li>
+
+            <li>
+                <strong>F</strong>,
+                forța exterioară aplicată, orizontal în sensul mișcării;
+            </li>
+
+            <li>
+                <strong>T</strong>,
+                tensiunea firului, orizontal în sens opus lui F.
+            </li>
+        </ul>
+    </div>
+
+    <div class="force-card">
+        <h4>Corpul 2 – masa m₂</h4>
+
+        <ul>
+            <li>
+                <strong>G<sub>2</sub> = m<sub>2</sub>g</strong>,
+                greutatea, vertical în jos;
+            </li>
+
+            <li>
+                <strong>N<sub>2</sub></strong>,
+                reacțiunea normală a planului, vertical în sus;
+            </li>
+
+            <li>
+                <strong>T</strong>,
+                tensiunea firului, orizontal în sensul mișcării.
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="warning">
+    <strong>În lucrarea scrisă:</strong>
+    se recomandă desenarea diagramelor de corp liber pentru
+    m<sub>1</sub> și m<sub>2</sub>, cu toate forțele reprezentate
+    prin vectori și cu sensurile corecte.
+</div>
+
+
+<h3>
+    2. Principiul fundamental al dinamicii
+    <span class="score">3 p</span>
+</h3>
+
+<p>
+Alegem axa Ox orizontală în sensul mișcării și axa Oy verticală
+orientată în sus.
+</p>
+
+<p>
+Principiul fundamental al dinamicii este:
+</p>
+
+<div class="equation">
+    ΣF⃗ = ma⃗
+</div>
+
+
+<h4>Pentru corpul 1</h4>
+
+<div class="equation">
+    F⃗ + T⃗ + N⃗<sub>1</sub> + G⃗<sub>1</sub>
+    =
+    m<sub>1</sub>a⃗
+</div>
+
+
+<h4>Pentru corpul 2</h4>
+
+<div class="equation">
+    T⃗ + N⃗<sub>2</sub> + G⃗<sub>2</sub>
+    =
+    m<sub>2</sub>a⃗
+</div>
+
+
+<h3>
+    3. Proiecția ecuațiilor pe axe
+    <span class="score">3 p</span>
+</h3>
+
+<h4>Pe axa Oy</h4>
+
+<p>
+Nu există accelerație verticală.
+</p>
+
+<p>Pentru corpul 1:</p>
+
+<div class="equation">
+    N<sub>1</sub> - G<sub>1</sub> = 0
+</div>
+
+<div class="equation">
+    N<sub>1</sub> = m<sub>1</sub>g
+</div>
+
+<p>Pentru corpul 2:</p>
+
+<div class="equation">
+    N<sub>2</sub> - G<sub>2</sub> = 0
+</div>
+
+<div class="equation">
+    N<sub>2</sub> = m<sub>2</sub>g
+</div>
+
+
+<h4>Pe axa Ox</h4>
+
+<p>
+Pentru corpul 1:
+</p>
+
+<div class="equation">
+    <strong>
+    F - T = m<sub>1</sub>a
+    </strong>
+    &nbsp;&nbsp; (1)
+</div>
+
+<p>
+Pentru corpul 2:
+</p>
+
+<div class="equation">
+    <strong>
+    T = m<sub>2</sub>a
+    </strong>
+    &nbsp;&nbsp; (2)
+</div>
+
+<div class="system">
+
+    Sistemul de ecuații dinamice relevante este:
+
+    <div class="equation">
+        {
+        &nbsp;F - T = m<sub>1</sub>a
+        <br>
+        &nbsp;T = m<sub>2</sub>a
+        &nbsp;}
+    </div>
+
+</div>
+
+
+<h3>
+    4. Determinarea accelerației sistemului
+    <span class="score">2 p</span>
+</h3>
+
+<p>
+Adunăm relațiile (1) și (2):
+</p>
+
+<div class="derivation">
+
+    <div class="equation">
+        F - T + T
+        =
+        m<sub>1</sub>a
+        +
+        m<sub>2</sub>a
+    </div>
+
+    <div class="equation">
+        F
+        =
+        (m<sub>1</sub> + m<sub>2</sub>)a
+    </div>
+
+</div>
+
+<p>Rezultă:</p>
+
+<div class="equation">
+    a
+    =
+    F /
+    (m<sub>1</sub> + m<sub>2</sub>)
+</div>
+
+<p>Numeric:</p>
+
+<div class="equation">
+    a
+    =
+    60 N /
+    (2 kg + 8 kg)
+</div>
+
+<div class="equation">
+    a
+    =
+    60 N / 10 kg
+</div>
+
+<div class="equation">
+    <strong>
+    a = 6 m/s<sup>2</sup>
+    </strong>
+</div>
+
+<div class="answer">
+    <strong>Accelerația sistemului:</strong>
+    a = <strong>6 m/s²</strong>.
+</div>
+
+
+<h3>
+    5. Determinarea tensiunii din fir
+    <span class="score">2 p</span>
+</h3>
+
+<p>
+Folosim relația pentru corpul 2:
+</p>
+
+<div class="equation">
+    T = m<sub>2</sub>a
+</div>
+
+<p>Introducem valorile:</p>
+
+<div class="equation">
+    T
+    =
+    8 kg · 6 m/s<sup>2</sup>
+</div>
+
+<div class="equation">
+    <strong>T = 48 N</strong>
+</div>
+
+<div class="answer">
+    <strong>Tensiunea din fir:</strong>
+    T = <strong>48 N</strong>.
+</div>
+
+
+<h3>6. Verificarea rezultatului</h3>
+
+<p>
+Verificăm ecuația corpului 1:
+</p>
+
+<div class="equation">
+    F - T = m<sub>1</sub>a
+</div>
+
+<p>Membrul stâng:</p>
+
+<div class="equation">
+    F - T = 60 N - 48 N = 12 N
+</div>
+
+<p>Membrul drept:</p>
+
+<div class="equation">
+    m<sub>1</sub>a
+    =
+    2 kg · 6 m/s<sup>2</sup>
+    =
+    12 N
+</div>
+
+<p>Deci:</p>
+
+<div class="equation">
+    12 N = 12 N
+</div>
+
+<p class="check">
+    ✓ Ecuația dinamică este verificată.
+</p>
+
+
+<h4>Verificarea prin tratarea celor două corpuri ca un singur sistem</h4>
+
+<p>
+Pentru sistemul format din cele două corpuri,
+tensiunea T este o forță internă și se elimină din ecuația
+dinamică a sistemului.
+</p>
+
+<p>
+Forța exterioară orizontală rezultantă este F:
+</p>
+
+<div class="equation">
+    F
+    =
+    (m<sub>1</sub> + m<sub>2</sub>)a
+</div>
+
+<div class="equation">
+    60 N
+    =
+    (2 kg + 8 kg) · 6 m/s<sup>2</sup>
+</div>
+
+<div class="equation">
+    60 N = 60 N
+</div>
+
+<p class="check">
+    ✓ Rezultatul este consistent.
+</p>
+
+
+<div class="final-box">
+
+    <h3 style="margin-top:0;">Răspuns final – Subiectul al II-lea</h3>
+
+    <p>
+        <strong>II.1.</strong>
+    </p>
+
+    <div class="equation">
+        R<sub>1</sub> = 12 Ω
+        &nbsp;&nbsp;&nbsp;
+        R<sub>2</sub> = 11 Ω
+    </div>
+
+    <div class="equation">
+        P = 11 W
+    </div>
+
+    <div class="equation">
+        η = 0,9583 ≈ 95,83%
+    </div>
+
+    <p>
+        <strong>II.2.</strong>
+    </p>
+
+    <div class="equation">
+        a = 6 m/s<sup>2</sup>
+    </div>
+
+    <div class="equation">
+        T = 48 N
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<h2>Verificare finală în raport cu baremul</h2>
+<!-- ========================================================= -->
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Cerință</th>
+            <th>Element urmărit</th>
+            <th>Punctaj</th>
+            <th>Rezultat</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+            <td>II.1.a</td>
+            <td>
+                K închis; R<sub>1</sub> scurtcircuitat;
+                determinarea lui R<sub>2</sub>
+            </td>
+            <td>3 p</td>
+            <td>R<sub>2</sub> = 11 Ω</td>
+        </tr>
+
+        <tr>
+            <td>II.1.a</td>
+            <td>
+                K deschis; determinarea lui R<sub>1</sub>
+            </td>
+            <td>2 p</td>
+            <td>R<sub>1</sub> = 12 Ω</td>
+        </tr>
+
+        <tr>
+            <td>II.1.b</td>
+            <td>
+                Puterea debitată pe cele două rezistoare
+                pentru K închis
+            </td>
+            <td>5 p</td>
+            <td>P = 11 W</td>
+        </tr>
+
+        <tr>
+            <td>II.1.c</td>
+            <td>
+                Randamentul circuitului pentru K deschis
+            </td>
+            <td>5 p</td>
+            <td>η = 95,83%</td>
+        </tr>
+
+        <tr>
+            <th colspan="2">Total II.1</th>
+            <th>15 p</th>
+            <th>Complet</th>
+        </tr>
+
+        <tr>
+            <td>II.2</td>
+            <td>
+                Separarea corpurilor și reprezentarea forțelor
+            </td>
+            <td>5 p</td>
+            <td>Realizată</td>
+        </tr>
+
+        <tr>
+            <td>II.2</td>
+            <td>
+                Aplicarea principiului fundamental al dinamicii
+            </td>
+            <td>3 p</td>
+            <td>Realizată</td>
+        </tr>
+
+        <tr>
+            <td>II.2</td>
+            <td>
+                Transcrierea scalară a ecuațiilor pe Ox
+            </td>
+            <td>3 p</td>
+            <td>
+                F − T = m<sub>1</sub>a;<br>
+                T = m<sub>2</sub>a
+            </td>
+        </tr>
+
+        <tr>
+            <td>II.2</td>
+            <td>Calculul accelerației</td>
+            <td>2 p</td>
+            <td>a = 6 m/s²</td>
+        </tr>
+
+        <tr>
+            <td>II.2</td>
+            <td>Calculul tensiunii</td>
+            <td>2 p</td>
+            <td>T = 48 N</td>
+        </tr>
+
+        <tr>
+            <th colspan="2">Total II.2</th>
+            <th>15 p</th>
+            <th>Complet</th>
+        </tr>
+
+        <tr>
+            <th colspan="2">TOTAL SUBIECTUL al II-lea</th>
+            <th>30 p</th>
+            <th>30 / 30 p</th>
+        </tr>
+
+    </tbody>
+
+</table>
+
+<p class="note">
+    Rezolvarea urmează rezultatele și succesiunea operațiilor din
+    baremul oficial al Variantei 2. La redactarea pe foaia de concurs,
+    se recomandă scrierea explicită a legilor utilizate, a ecuațiilor
+    înainte de înlocuirea numerică și a unităților de măsură pentru
+    rezultatele finale.
+</p>
+
+</main>
+
+</body>
+</html>
