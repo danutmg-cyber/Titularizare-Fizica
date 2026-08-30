@@ -10,8 +10,13 @@
   content="width=device-width, initial-scale=1.0"
 >
 
+<meta
+  name="description"
+  content="Competențe-cheie, proiectarea programei școlare pe baza competențelor și analiza programelor școlare de Fizică."
+>
+
 <title>
-  3. Tipuri și segmente de curriculum · Titularizare Fizică
+  3. Competențe-cheie și analiza programei de Fizică · Titularizare Fizică
 </title>
 
 
@@ -32,7 +37,8 @@
   const theme =
     savedTheme || (prefersDark ? "dark" : "light");
 
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme =
+    theme;
 
 })();
 </script>
@@ -41,7 +47,7 @@
 <style>
 
 /* =========================================================
-   TEMA ZI
+   CULORI
    ========================================================= */
 
 :root,
@@ -73,17 +79,16 @@ html[data-theme="light"] {
   --definition-bg: #edf5ff;
   --definition-border: #3f8cff;
 
-  --warning-bg: #fff8dc;
-  --warning-border: #e7a900;
-
   --exam-bg: #edf9f1;
   --exam-border: #278447;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
 
   --danger-bg: #fff0f0;
   --danger-border: #c2414b;
 
-  --update-bg: #f4efff;
-  --update-border: #7a4fb5;
+  --purple-border: #7a4fb5;
 
   --shadow:
     0 2px 10px rgba(22, 33, 62, .08);
@@ -93,10 +98,6 @@ html[data-theme="light"] {
 
 }
 
-
-/* =========================================================
-   TEMA NOAPTE
-   ========================================================= */
 
 html[data-theme="dark"] {
 
@@ -126,20 +127,19 @@ html[data-theme="dark"] {
   --definition-bg: #182944;
   --definition-border: #6fa8ff;
 
-  --warning-bg: #372f16;
-  --warning-border: #ffcd4a;
-
   --exam-bg: #163a24;
   --exam-border: #62c681;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
 
   --danger-bg: #3a1c21;
   --danger-border: #ef7b84;
 
-  --update-bg: #29203e;
-  --update-border: #a98cff;
+  --purple-border: #a98cff;
 
   --shadow:
-    0 2px 14px rgba(0,0,0,.4);
+    0 2px 14px rgba(0, 0, 0, .4);
 
   --header-text: #ffffff;
   --header-muted: #c7d1f0;
@@ -156,8 +156,10 @@ html[data-theme="dark"] {
 }
 
 html {
+
   scroll-behavior: smooth;
   scroll-padding-top: 18px;
+
 }
 
 body {
@@ -338,7 +340,6 @@ header.top p.subtitle {
   color: #ffffff;
 
   font: inherit;
-
   font-size: .86rem;
   font-weight: 700;
 
@@ -349,7 +350,10 @@ header.top p.subtitle {
 }
 
 .theme-toggle:hover {
-  background: rgba(255,255,255,.18);
+
+  background:
+    rgba(255,255,255,.18);
+
 }
 
 .theme-toggle:focus-visible {
@@ -413,7 +417,7 @@ section.card > :last-child {
 
 
 /* =========================================================
-   TITLURI
+   TITLURI ȘI TEXT
    ========================================================= */
 
 h2 {
@@ -441,7 +445,8 @@ html[data-theme="dark"] h2 {
 
 h3 {
 
-  margin: 22px 0 8px;
+  margin:
+    20px 0 8px;
 
   color: var(--text);
 
@@ -501,14 +506,15 @@ li {
 
 
 /* =========================================================
-   DEFINITII
+   DEFINIȚII
    ========================================================= */
 
 .definition {
 
   margin: 15px 0;
 
-  padding: 16px 18px;
+  padding:
+    16px 18px;
 
   border-left:
     5px solid var(--definition-border);
@@ -516,7 +522,8 @@ li {
   border-radius:
     0 10px 10px 0;
 
-  background: var(--definition-bg);
+  background:
+    var(--definition-bg);
 
 }
 
@@ -542,63 +549,19 @@ li {
    CASETE
    ========================================================= */
 
-.callout,
-.warning,
+.source-note,
 .exam-box,
+.warning,
 .danger,
-.update-note,
-.source-note {
+.callout,
+.analysis-box {
 
   margin: 16px 0;
 
-  padding: 15px 17px;
+  padding:
+    15px 17px;
 
   border-radius: 10px;
-
-}
-
-.callout {
-
-  background: var(--soft-blue);
-
-  border:
-    1px solid var(--definition-border);
-
-}
-
-.warning {
-
-  background: var(--warning-bg);
-
-  border-left:
-    5px solid var(--warning-border);
-
-}
-
-.exam-box {
-
-  background: var(--exam-bg);
-
-  border-left:
-    5px solid var(--exam-border);
-
-}
-
-.danger {
-
-  background: var(--danger-bg);
-
-  border-left:
-    5px solid var(--danger-border);
-
-}
-
-.update-note {
-
-  background: var(--update-bg);
-
-  border-left:
-    5px solid var(--update-border);
 
 }
 
@@ -611,7 +574,52 @@ li {
 
   color: var(--text-muted);
 
-  font-size: .88rem;
+  font-size: .9rem;
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.analysis-box {
+
+  background: var(--soft-purple);
+
+  border-left:
+    5px solid var(--purple-border);
 
 }
 
@@ -633,12 +641,12 @@ li {
 
 }
 
-.grid3 {
+.grid4 {
 
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0,1fr));
+    repeat(2, minmax(0,1fr));
 
   gap: 12px;
 
@@ -673,75 +681,66 @@ li {
 
 
 /* =========================================================
-   TIPURI DE CURRICULUM
+   COMPETENȚE CHEIE
    ========================================================= */
 
-.type-card {
+.key-card {
 
   position: relative;
 
-  overflow: hidden;
+  padding:
+    15px 15px 15px 53px;
 
-  padding-top: 20px;
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--bg-card);
 
 }
 
-.type-card::before {
-
-  content: "";
+.key-number {
 
   position: absolute;
 
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 15px;
+  left: 14px;
 
-  height: 5px;
+  display: grid;
+
+  width: 27px;
+  height: 27px;
+
+  place-items: center;
+
+  border-radius: 50%;
 
   background: var(--accent);
 
-}
-
-.type-label {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  min-height: 29px;
-
-  margin-bottom: 8px;
-
-  padding: 4px 10px;
-
-  border-radius: 999px;
-
-  background: var(--navy-2);
   color: #ffffff;
 
-  font-size: .72rem;
+  font-size: .82rem;
   font-weight: 800;
 
 }
 
-.type-label.old {
-  background: #a96700;
-}
+.key-card strong {
 
-.type-label.new {
-  background: #278447;
-}
+  display: block;
 
-.type-label.flexible {
-  background: #7a4fb5;
+  color: var(--accent);
+
+  line-height: 1.35;
+
 }
 
 
 /* =========================================================
-   TRASEE
+   FLUX
    ========================================================= */
 
-.track {
+.flow {
 
   display: grid;
 
@@ -756,14 +755,14 @@ li {
 
 }
 
-.track-card {
+.flow-card {
 
   display: flex;
 
   flex-direction: column;
   justify-content: center;
 
-  min-height: 115px;
+  min-height: 105px;
 
   padding: 14px;
 
@@ -778,7 +777,7 @@ li {
 
 }
 
-.track-card b {
+.flow-card b {
 
   display: block;
 
@@ -786,11 +785,9 @@ li {
 
   color: var(--accent);
 
-  font-size: 1.02rem;
-
 }
 
-.track-arrow {
+.flow-arrow {
 
   display: flex;
 
@@ -798,83 +795,80 @@ li {
 
   color: var(--accent);
 
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 900;
 
 }
 
 
 /* =========================================================
-   COMPARATIE
+   LANȚ CURRICULAR
    ========================================================= */
 
-.compare-grid {
+.chain {
 
   display: grid;
 
-  grid-template-columns:
-    repeat(2, minmax(0,1fr));
+  gap: 10px;
 
-  gap: 14px;
-
-  margin: 16px 0;
+  margin: 17px 0;
 
 }
 
-.compare-card {
+.chain-item {
+
+  position: relative;
+
+  padding:
+    14px 16px 14px 51px;
 
   border:
     1px solid var(--border);
 
-  border-radius: 12px;
-
-  overflow: hidden;
+  border-radius: 10px;
 
   background: var(--bg-card);
 
 }
 
-.compare-title {
+.chain-number {
 
-  padding: 12px 15px;
+  position: absolute;
+
+  top: 13px;
+  left: 14px;
+
+  display: grid;
+
+  width: 25px;
+  height: 25px;
+
+  place-items: center;
+
+  border-radius: 50%;
 
   background: var(--navy-2);
+
   color: #ffffff;
 
   font-weight: 800;
 
 }
 
-.compare-title.old {
-  background: #8a5708;
-}
-
-.compare-title.new {
-  background: #1f7040;
-}
-
-.compare-body {
-  padding: 15px;
-}
-
-.compare-body p:first-child {
-  margin-top: 0;
-}
-
-.compare-body p:last-child {
-  margin-bottom: 0;
+.chain-item strong {
+  color: var(--accent);
 }
 
 
 /* =========================================================
-   TABELE
+   TABEL
    ========================================================= */
 
 .table-wrap {
 
   width: 100%;
 
-  margin: 14px 0;
+  margin: 15px 0;
 
   overflow-x: auto;
 
@@ -890,8 +884,7 @@ li {
 table {
 
   width: 100%;
-
-  min-width: 780px;
+  min-width: 680px;
 
   border-collapse: collapse;
 
@@ -930,49 +923,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   TAG
-   ========================================================= */
-
-.tag {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  margin: 2px 2px 2px 0;
-
-  padding: 3px 8px;
-
-  border-radius: 999px;
-
-  color: #ffffff;
-
-  font-size: .71rem;
-  font-weight: 800;
-
-  white-space: nowrap;
-
-}
-
-.tag.exam {
-  background: #a96700;
-}
-
-.tag.current {
-  background: #278447;
-}
-
-.tag.transition {
-  background: #7a4fb5;
-}
-
-.tag.required {
-  background: #0f3460;
-}
-
-
-/* =========================================================
-   FIZICA
+   EXEMPLU FIZICĂ
    ========================================================= */
 
 .physics-example {
@@ -1000,6 +951,95 @@ tr:last-child td {
   margin: 0 0 8px;
 
   color: var(--accent);
+
+}
+
+
+/* =========================================================
+   CRITERII
+   ========================================================= */
+
+.criterion {
+
+  padding: 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--bg-card);
+
+}
+
+.criterion strong {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--accent);
+
+  font-size: 1.02rem;
+
+}
+
+
+/* =========================================================
+   CHECKLIST
+   ========================================================= */
+
+.checklist {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 10px;
+
+  margin: 15px 0;
+
+}
+
+.check {
+
+  position: relative;
+
+  padding:
+    13px 14px 13px 44px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--soft-green);
+
+}
+
+.check::before {
+
+  content: "✓";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+
+  width: 22px;
+  height: 22px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--exam-border);
+  color: #ffffff;
+
+  font-weight: 900;
 
 }
 
@@ -1034,10 +1074,11 @@ tr:last-child td {
   top: 12px;
 
   display: grid;
-  place-items: center;
 
   width: 22px;
   height: 22px;
+
+  place-items: center;
 
   border-radius: 50%;
 
@@ -1050,7 +1091,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   EXAMEN
+   RĂSPUNS EXAMEN
    ========================================================= */
 
 .exam-answer {
@@ -1080,7 +1121,7 @@ tr:last-child td {
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(175px,1fr)
+      minmax(180px,1fr)
     );
 
   gap: 11px;
@@ -1122,7 +1163,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   INTREBARI
+   ÎNTREBĂRI
    ========================================================= */
 
 .question {
@@ -1144,17 +1185,24 @@ tr:last-child td {
   color: var(--accent);
 }
 
+.question a {
 
-/* =========================================================
-   SURSE
-   ========================================================= */
+  display: inline-block;
 
-.sources li {
+  margin-top: 6px;
 
-  color: var(--text-muted);
+  color: var(--accent);
 
   font-size: .88rem;
+  font-weight: 700;
 
+  text-decoration: none;
+
+}
+
+.question a:hover,
+.question a:focus-visible {
+  text-decoration: underline;
 }
 
 
@@ -1195,9 +1243,8 @@ nav.pager a {
 
   color: var(--accent);
 
+  font-weight: 700;
   text-decoration: none;
-
-  font-weight: 650;
 
 }
 
@@ -1213,41 +1260,38 @@ nav.pager a:focus-visible {
 
 footer.site {
 
+  width: min(900px,100%);
+
+  margin: 0 auto 40px;
+
   padding:
-    18px 16px 30px;
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
 
   color: var(--text-muted);
 
+  font-size: .82rem;
   text-align: center;
 
-  font-size: .8rem;
-  line-height: 1.55;
-
 }
 
 
 /* =========================================================
-   TABLETA
+   RESPONSIVE
    ========================================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 720px) {
 
-  .grid3 {
-    grid-template-columns:
-      repeat(2, minmax(0,1fr));
+  .toc {
+    columns: 1;
   }
 
-}
-
-
-/* =========================================================
-   TELEFON
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-  header.top {
-    padding-top: 18px;
+  .grid2,
+  .grid4,
+  .checklist {
+    grid-template-columns: 1fr;
   }
 
   .header-row {
@@ -1258,34 +1302,15 @@ footer.site {
     align-self: flex-start;
   }
 
-  .toc {
-    columns: 1;
-  }
-
-  .grid2,
-  .grid3,
-  .compare-grid {
-
+  .flow {
     grid-template-columns: 1fr;
-
   }
 
-  .track {
-
-    grid-template-columns: 1fr;
-
-  }
-
-  .track-arrow {
+  .flow-arrow {
 
     justify-content: center;
-
     transform: rotate(90deg);
 
-  }
-
-  main {
-    margin-top: 18px;
   }
 
   nav.pager {
@@ -1299,7 +1324,7 @@ footer.site {
 
     justify-content: center;
 
-    padding: 7px 10px;
+    padding: 8px 10px;
 
     border:
       1px solid var(--border);
@@ -1312,10 +1337,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   ECRANE MICI
-   ========================================================= */
 
 @media (max-width: 380px) {
 
@@ -1335,7 +1356,7 @@ footer.site {
 
 
 /* =========================================================
-   REDUCERE ANIMATII
+   REDUCERE ANIMAȚII
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1406,18 +1427,20 @@ footer.site {
 
           &rsaquo;
 
-          Tipuri de curriculum
+          Competențe și programa de Fizică
 
         </div>
 
 
         <h1>
-          3. Tipuri și segmente de curriculum
+          3. Competențe-cheie și analiza programei de Fizică
         </h1>
 
+
         <p class="subtitle">
-          TC · CD · CDȘ · CDL · CS · CDEOȘ ·
-          cadrul anterior și cadrul curricular actual
+          competențe-cheie · competențe generale ·
+          competențe specifice · activități de învățare ·
+          conținuturi · analiză curriculară
         </p>
 
       </div>
@@ -1441,87 +1464,78 @@ footer.site {
 
 
 <!-- =========================================================
-     MAIN
+     CONȚINUT
      ========================================================= -->
 
 <main id="continut">
 
 
   <!-- =======================================================
-       PROGRAMA
+       INTRODUCERE
        ======================================================= -->
 
   <section class="card">
 
     <h2>
-      Ce trebuie să știi pentru Titularizare?
+      Ce trebuie să înveți
     </h2>
 
 
-    <p>
-      Programa disponibilă pentru
-      <strong>Titularizare Fizică 2026</strong>
-      nu cere aici o taxonomie generală
-      a tuturor formelor de curriculum.
-    </p>
+    <div class="source-note">
 
-
-    <p>
-      Ea solicită,
-      în cadrul planurilor-cadru,
-      semnificația conceptelor:
-    </p>
-
-
-    <div class="exam-answer">
-
-      <strong>trunchi comun — TC;</strong>
-
-      <br>
-
-      <strong>curriculum diferențiat — CD;</strong>
-
-      <br>
-
-      <strong>curriculum la decizia școlii — CDȘ;</strong>
-
-      <br>
-
-      <strong>curriculum în dezvoltare locală — CDL;</strong>
-
-      <br>
-
-      precum și
-      <strong>ariile curriculare</strong>.
+      <strong>Conformitate:</strong>
+      această lecție este realizată în conformitate cu
+      Programa pentru titularizare Fizică 2026,
+      secțiunea „Tematica pentru didactica fizicii”,
+      punctul I.3.
 
     </div>
 
 
     <p>
-      În această lecție folosim sintagma
-      <strong>„tipuri și segmente de curriculum”</strong>
-      ca organizare pedagogică
-      pentru aceste componente.
+      Pentru această temă trebuie să stăpânești
+      trei componente:
     </p>
 
 
-    <div class="warning">
+    <ol>
 
-      <strong>
-        Atenție pentru Titularizare 2027.
-      </strong>
+      <li>
+        <strong>domeniile de competențe-cheie;</strong>
+      </li>
 
-      În noile planuri-cadru liceale
-      apare structura
-      <strong>TC + CS + CDEOȘ</strong>,
-      unde CS înseamnă
-      curriculum de specialitate,
-      iar CDEOȘ înseamnă
-      curriculum la decizia elevului
-      din oferta școlii.
+      <li>
+        <strong>
+          proiectarea programei școlare
+          pe baza competențelor;
+        </strong>
+      </li>
 
-      Programa oficială din 2027
-      trebuie verificată înainte de examen.
+      <li>
+        <strong>
+          analiza programelor școlare de Fizică
+        </strong>
+        din perspectiva
+        pertinenței,
+        relevanței,
+        eficienței interne
+        și accesibilității.
+      </li>
+
+    </ol>
+
+
+    <div class="exam-box">
+
+      <strong>Ținta pentru examen:</strong>
+      să poți explica relația dintre
+      competențele-cheie,
+      competențele disciplinei,
+      activitățile de învățare,
+      conținuturi
+      și evaluare,
+      apoi să poți analiza critic
+      o programă școlară de Fizică.
 
     </div>
 
@@ -1529,8 +1543,8 @@ footer.site {
 
 
   <!--
-    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
-    DE assets/audio/audio-lesson.js
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
   -->
 
 
@@ -1550,74 +1564,92 @@ footer.site {
       <ol>
 
         <li>
-          <a href="#principiu">
-            Ideea centrală
+          <a href="#competenta">
+            Ce este o competență?
           </a>
         </li>
 
         <li>
-          <a href="#tc">
-            Trunchiul comun — TC
+          <a href="#competente-cheie">
+            Cele opt competențe-cheie
           </a>
         </li>
 
         <li>
-          <a href="#cd">
-            Curriculum diferențiat — CD
+          <a href="#fizica-cheie">
+            Contribuția Fizicii
           </a>
         </li>
 
         <li>
-          <a href="#cds">
-            Curriculum la decizia școlii — CDȘ
+          <a href="#niveluri">
+            Competențe-cheie, generale și specifice
           </a>
         </li>
 
         <li>
-          <a href="#cdl">
-            Curriculum în dezvoltare locală — CDL
+          <a href="#proiectare">
+            Proiectarea pe baza competențelor
           </a>
         </li>
 
         <li>
-          <a href="#cs">
-            Curriculum de specialitate — CS
+          <a href="#structura">
+            Structura unei programe școlare
           </a>
         </li>
 
         <li>
-          <a href="#cdeos">
-            CDEOȘ
+          <a href="#programa-fizica">
+            Competențele generale la Fizică
           </a>
         </li>
 
         <li>
-          <a href="#comparatie">
-            Cadrul anterior vs. cadrul nou
+          <a href="#exemplu">
+            Exemplu de proiectare la Fizică
           </a>
         </li>
 
         <li>
-          <a href="#statut">
-            Obligatoriu sau flexibil?
+          <a href="#analiza">
+            Analiza unei programe școlare
           </a>
         </li>
 
         <li>
-          <a href="#fizica">
-            Exemple pentru Fizică
+          <a href="#pertinenta">
+            Pertinența
           </a>
         </li>
 
         <li>
-          <a href="#alegere">
-            Cum identifici corect termenul?
+          <a href="#relevanta">
+            Relevanța
+          </a>
+        </li>
+
+        <li>
+          <a href="#eficienta">
+            Eficiența internă
+          </a>
+        </li>
+
+        <li>
+          <a href="#accesibilitate">
+            Accesibilitatea
+          </a>
+        </li>
+
+        <li>
+          <a href="#algoritm">
+            Algoritm de analiză
           </a>
         </li>
 
         <li>
           <a href="#examen">
-            Cum formulezi la examen?
+            Formulare pentru examen
           </a>
         </li>
 
@@ -1633,6 +1665,12 @@ footer.site {
           </a>
         </li>
 
+        <li>
+          <a href="#autoevaluare">
+            Autoevaluare
+          </a>
+        </li>
+
       </ol>
 
     </div>
@@ -1641,1214 +1679,91 @@ footer.site {
 
 
   <!-- =======================================================
-       1. PRINCIPIU
+       1. COMPETENȚA
        ======================================================= -->
 
   <section
     class="card"
-    id="principiu"
+    id="competenta"
   >
 
     <h2>
-      1. Ideea centrală
-    </h2>
-
-
-    <p>
-      Planurile-cadru nu conțin doar o listă
-      de discipline.
-      Ele organizează disciplinele
-      în componente curriculare
-      cu funcții diferite.
-    </p>
-
-
-    <div class="grid3">
-
-
-      <div class="mini-card type-card">
-
-        <span class="type-label">
-          COMUN
-        </span>
-
-        <h3>
-          Componenta comună
-        </h3>
-
-        <p>
-          Asigură baza de formare
-          obligatorie comună.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card type-card">
-
-        <span class="type-label old">
-          SPECIFIC
-        </span>
-
-        <h3>
-          Componenta diferențiată
-        </h3>
-
-        <p>
-          Particularizează pregătirea
-          în funcție de traseul educațional.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card type-card">
-
-        <span class="type-label flexible">
-          FLEXIBIL
-        </span>
-
-        <h3>
-          Componenta de opțiune
-        </h3>
-
-        <p>
-          Permite dezvoltarea unei oferte
-          adaptate elevilor și școlii.
-        </p>
-
-      </div>
-
-
-    </div>
-
-
-    <div class="callout">
-
-      <strong>
-        Pentru înțelegere:
-      </strong>
-
-      <br><br>
-
-      există o parte
-      <strong>comună</strong>,
-
-      o parte care
-      <strong>particularizează traseul de formare</strong>
-
-      și o parte care oferă
-      <strong>spațiu de alegere și flexibilitate</strong>.
-
-    </div>
-
-
-    <div class="danger">
-
-      Nu aplica această schemă
-      ca pe o definiție juridică universală.
-
-      Denumirile concrete ale segmentelor
-      depind de planul-cadru
-      și de cadrul normativ aplicabil.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       2. TC
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="tc"
-  >
-
-    <h2>
-      2. Trunchiul comun — TC
+      1. Ce este o competență?
     </h2>
 
 
     <div class="definition">
 
       <span class="definition-term">
-        Trunchiul comun
+        Competența
       </span>
 
       <p>
-        reprezintă componenta obligatorie comună
-        a curriculumului,
-        stabilită central prin planurile-cadru.
-      </p>
-
-    </div>
-
-
-    <div class="grid2">
-
-      <div class="mini-card">
-
-        <h3>
-          Caracter
-        </h3>
-
-        <p>
-          Obligatoriu.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Rol
-        </h3>
-
-        <p>
-          Asigură baza comună
-          a formării elevilor.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Stabilire
-        </h3>
-
-        <p>
-          La nivel central.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Abreviere
-        </h3>
-
-        <p>
-          TC.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      <strong>
-        Formulare sigură:
-      </strong>
-
-      <br><br>
-
-      TC =
-      <strong>
-        componenta obligatorie comună
-        prevăzută prin planul-cadru.
-      </strong>
-
-    </div>
-
-
-    <div class="warning">
-
-      Trunchiul comun nu înseamnă
-      „toate disciplinele studiate de elev”.
-
-      El este un
-      <strong>segment curricular</strong>
-      al planului-cadru.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       3. CD
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cd"
-  >
-
-    <h2>
-      3. Curriculumul diferențiat — CD
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculumul diferențiat
-      </span>
-
-      <p>
-        este componenta utilizată
-        în cadrul curricular anterior
-        pentru diferențierea pregătirii
-        în funcție de filieră,
-        profil,
-        specializare
-        sau domeniul de pregătire.
+        presupune mobilizarea integrată
+        a cunoștințelor,
+        abilităților
+        și atitudinilor sau valorilor
+        pentru rezolvarea eficientă
+        a unor sarcini
+        în contexte determinate.
       </p>
 
     </div>
 
 
     <p>
-      Funcția lui este de a adapta
-      pregătirea obligatorie
-      la particularitățile traseului
-      educațional urmat de elev.
-    </p>
-
-
-    <div class="grid2">
-
-      <div class="mini-card">
-
-        <h3>
-          Nu este „la alegere”
-        </h3>
-
-        <p>
-          În planurile care utilizează CD,
-          acesta face parte din
-          pregătirea obligatorie
-          specifică profilului sau specializării.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Diferențiază
-        </h3>
-
-        <p>
-          Pregătirea în funcție de
-          profilul și traseul școlar.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="track">
-
-      <div class="track-card">
-
-        <b>
-          TC
-        </b>
-
-        Baza comună.
-
-      </div>
-
-      <div class="track-arrow">
-        +
-      </div>
-
-      <div class="track-card">
-
-        <b>
-          CD
-        </b>
-
-        Pregătirea obligatorie
-        diferențiată.
-
-      </div>
-
-      <div class="track-arrow">
-        +
-      </div>
-
-      <div class="track-card">
-
-        <b>
-          CDȘ
-        </b>
-
-        Componenta flexibilă
-        a cadrului anterior.
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        Pentru programa 2026:
-      </strong>
-
-      termenul „curriculum diferențiat”
-      trebuie cunoscut,
-      deoarece apare explicit
-      în tematica pentru didactica Fizicii.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       4. CDS
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cds"
-  >
-
-    <h2>
-      4. Curriculum la decizia școlii — CDȘ
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculum la decizia școlii
-      </span>
-
-      <p>
-        desemnează,
-        în cadrul curricular anterior,
-        componenta flexibilă
-        a curriculumului
-        prin care unitatea de învățământ
-        își constituia oferta curriculară,
-        în limitele cadrului legal aplicabil.
-      </p>
-
-    </div>
-
-
-    <p>
-      CDȘ oferea spațiu pentru
-      adaptarea ofertei educaționale
-      la:
-    </p>
-
-
-    <div class="grid3">
-
-      <div class="mini-card">
-
-        <h3>
-          Elevi
-        </h3>
-
-        <p>
-          interese,
-          nevoi,
-          aptitudini.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Școală
-        </h3>
-
-        <p>
-          profil,
-          resurse,
-          proiect instituțional.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Comunitate
-        </h3>
-
-        <p>
-          contexte și nevoi
-          educaționale locale.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      Programa de Titularizare 2026
-      folosește în continuare
-      termenul <strong>CDȘ</strong>.
-
-      La concurs,
-      terminologia documentului oficial
-      al sesiunii are prioritate.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       5. CDL
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cdl"
-  >
-
-    <h2>
-      5. Curriculum în dezvoltare locală — CDL
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculum în dezvoltare locală
-      </span>
-
-      <p>
-        reprezintă o componentă curriculară
-        asociată în special
-        învățământului profesional
-        și tehnologic,
-        construită în raport cu
-        particularitățile calificării,
-        ale școlii
-        și ale contextului economic și local.
-      </p>
-
-    </div>
-
-
-    <p>
-      CDL poate crea o legătură mai puternică
-      între pregătirea școlară
-      și cerințele mediului profesional
-      sau economic local.
+      Într-un curriculum centrat pe competențe,
+      elevul nu trebuie doar
+      să reproducă informații,
+      ci să poată
+      <strong>utiliza ceea ce știe</strong>
+      pentru a explica,
+      investiga,
+      interpreta,
+      decide
+      sau rezolva probleme.
     </p>
 
 
     <div class="callout">
 
-      <strong>
-        Pentru examen:
-      </strong>
-
-      CDȘ și CDL apar împreună
-      în formularea programei 2026,
-      dar
-      <strong>nu sunt termeni identici</strong>.
-
-    </div>
-
-
-    <div class="danger">
-
-      Evită formularea:
+      <strong>Ideea esențială:</strong>
 
       <br><br>
 
-      „CDL este un alt nume pentru CDȘ.”
+      cunoștințele sunt necesare,
+      dar nu reprezintă singure competența.
 
       <br><br>
 
-      Este o simplificare incorectă.
+      Competența devine vizibilă
+      atunci când elevul
+      <strong>mobilizează achizițiile
+      într-o situație concretă</strong>.
 
     </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       6. CS
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cs"
-  >
-
-    <h2>
-      6. Curriculumul de specialitate — CS
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculum de specialitate — CS
-      </span>
-
-      <p>
-        este componenta obligatorie
-        utilizată în noile planuri-cadru liceale
-        pentru pregătirea specifică
-        filierei,
-        profilului,
-        specializării
-        sau calificării,
-        după caz.
-      </p>
-
-    </div>
-
-
-    <p>
-      În noile planuri-cadru,
-      CS apare alături de:
-    </p>
-
-
-    <div class="track">
-
-      <div class="track-card">
-
-        <b>
-          TC
-        </b>
-
-        Trunchi comun.
-
-      </div>
-
-      <div class="track-arrow">
-        +
-      </div>
-
-      <div class="track-card">
-
-        <b>
-          CS
-        </b>
-
-        Curriculum
-        de specialitate.
-
-      </div>
-
-      <div class="track-arrow">
-        +
-      </div>
-
-      <div class="track-card">
-
-        <b>
-          CDEOȘ
-        </b>
-
-        Componentă
-        de opțiune.
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        CD și CS nu trebuie prezentate
-        ca sinonime absolute.
-      </strong>
-
-      Ele aparțin unor structuri curriculare
-      diferite.
-
-      Într-o explicație de tranziție
-      putem spune că CS ocupă,
-      în noua structură liceală,
-      zona pregătirii obligatorii
-      specifice traseului de formare.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       7. CDEOS
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cdeos"
-  >
-
-    <h2>
-      7. Curriculum la decizia elevului din oferta școlii — CDEOȘ
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        CDEOȘ
-      </span>
-
-      <p>
-        reprezintă oferta educațională
-        propusă de școală,
-        constituită din discipline,
-        domenii de studiu
-        sau module de pregătire opționale,
-        în concordanță cu
-        nevoile și interesele elevilor,
-        specificul școlii
-        și nevoile comunității.
-      </p>
-
-    </div>
-
-
-    <p>
-      Ideea centrală a noii denumiri
-      este vizibilă chiar în nume:
-    </p>
-
-
-    <div class="grid3">
-
-      <div class="mini-card">
-
-        <h3>
-          Școala
-        </h3>
-
-        <p>
-          construiește și propune
-          oferta curriculară.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Elevul
-        </h3>
-
-        <p>
-          participă la procesul de alegere,
-          conform cadrului aplicabil.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Oferta
-        </h3>
-
-        <p>
-          trebuie să răspundă
-          unor nevoi și interese reale.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      În metodologia actuală,
-      CDEOȘ este un
-      <strong>segment al curriculumului național</strong>
-      care completează componentele obligatorii:
-
-      <br><br>
-
-      <strong>
-        trunchi comun + curriculum de specialitate.
-      </strong>
-
-    </div>
-
-
-    <div class="danger">
-
-      Nu interpreta „la decizia elevului”
-      ca libertate nelimitată
-      de a inventa orice disciplină.
-
-      Elevul alege
-      dintr-o
-      <strong>ofertă curriculară organizată
-      și aprobată conform procedurilor</strong>.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       8. COMPARATIE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="comparatie"
-  >
-
-    <h2>
-      8. Cadrul anterior și cadrul curricular nou
-    </h2>
-
-
-    <p>
-      Pentru pregătirea concursului din 2027,
-      acesta este punctul cel mai important
-      al lecției.
-    </p>
-
-
-    <div class="compare-grid">
-
-
-      <div class="compare-card">
-
-        <div class="compare-title old">
-          Structuri anterioare / încă relevante în tranziție
-        </div>
-
-        <div class="compare-body">
-
-          <p>
-            <span class="tag exam">TC</span>
-            Trunchi comun
-          </p>
-
-          <p>
-            <span class="tag exam">CD</span>
-            Curriculum diferențiat
-          </p>
-
-          <p>
-            <span class="tag exam">CDȘ</span>
-            Curriculum la decizia școlii
-          </p>
-
-          <p>
-            <span class="tag exam">CDL</span>
-            Curriculum în dezvoltare locală,
-            în contexte specifice
-          </p>
-
-          <p>
-            Aceasta este terminologia
-            pe care programa de Titularizare Fizică 2026
-            o solicită explicit.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="compare-card">
-
-        <div class="compare-title new">
-          Noile planuri-cadru
-        </div>
-
-        <div class="compare-body">
-
-          <p>
-            <span class="tag current">TC</span>
-            Trunchi comun
-          </p>
-
-          <p>
-            <span class="tag current">CS</span>
-            Curriculum de specialitate
-          </p>
-
-          <p>
-            <span class="tag current">CDEOȘ</span>
-            Curriculum la decizia elevului
-            din oferta școlii
-          </p>
-
-          <p>
-            Noile planuri-cadru liceale
-            utilizează explicit
-            aceste trei coloane curriculare.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="update-note">
-
-      <strong>
-        Regula esențială:
-      </strong>
-
-      <p>
-        Nu înlocui automat în răspuns:
-      </p>
-
-      <p>
-        CD cu CS
-        sau
-        CDȘ cu CDEOȘ.
-      </p>
-
-      <p>
-        Mai întâi identifică
-        <strong>cadrul curricular</strong>
-        la care se referă cerința.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       9. STATUT
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="statut"
-  >
-
-    <h2>
-      9. Obligatoriu sau flexibil?
-    </h2>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Segment
-            </th>
-
-            <th>
-              Caracter general
-            </th>
-
-            <th>
-              Context
-            </th>
-
-            <th>
-              Ce trebuie să reții?
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          <tr>
-
-            <td>
-              <strong>TC</strong>
-            </td>
-
-            <td>
-              Obligatoriu
-            </td>
-
-            <td>
-              Cadrul anterior și nou
-            </td>
-
-            <td>
-              Baza comună.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              <strong>CD</strong>
-            </td>
-
-            <td>
-              Obligatoriu
-              în structurile care îl utilizează
-            </td>
-
-            <td>
-              Cadrul anterior
-            </td>
-
-            <td>
-              Particularizează pregătirea.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              <strong>CDȘ</strong>
-            </td>
-
-            <td>
-              Componentă flexibilă
-            </td>
-
-            <td>
-              Cadrul anterior
-            </td>
-
-            <td>
-              Oferta curriculară a școlii
-              în vechea terminologie.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              <strong>CDL</strong>
-            </td>
-
-            <td>
-              Componentă dezvoltată
-              în contexte profesionale / tehnologice
-            </td>
-
-            <td>
-              Contexte specifice
-            </td>
-
-            <td>
-              Legătură cu nevoile locale
-              și pregătirea profesională.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              <strong>CS</strong>
-            </td>
-
-            <td>
-              Obligatoriu
-            </td>
-
-            <td>
-              Noul cadru liceal
-            </td>
-
-            <td>
-              Pregătire specifică
-              traseului de formare.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              <strong>CDEOȘ</strong>
-            </td>
-
-            <td>
-              Opțional / flexibil
-            </td>
-
-            <td>
-              Cadrul actual
-            </td>
-
-            <td>
-              Elevul alege
-              din oferta școlii.
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-    <div class="callout">
-
-      <strong>
-        Pentru memorare:
-      </strong>
-
-      <br><br>
-
-      TC și componenta specifică
-      <strong>asigură partea obligatorie</strong>;
-
-      <br>
-
-      CDȘ / CDEOȘ reprezintă
-      <strong>zona de flexibilitate curriculară</strong>
-      în cadre diferite.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       10. FIZICA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="fizica"
-  >
-
-    <h2>
-      10. Exemple pentru Fizică
-    </h2>
-
-
-    <h3>
-      Exemplul 1 — disciplina Fizică în planul-cadru
-    </h3>
 
 
     <div class="physics-example">
 
+      <h3>
+        Exemplu la Fizică
+      </h3>
+
       <p>
-        Statutul și numărul de ore pentru Fizică
-        nu se stabilesc generic
-        prin simpla afirmație
-        „Fizica aparține trunchiului comun”
-        sau
-        „Fizica aparține curriculumului de specialitate”.
+        A memora relația
+        <strong>U = R · I</strong>
+        reprezintă o achiziție de cunoaștere.
       </p>
 
       <p>
-        Ele trebuie citite
-        din <strong>planul-cadru concret</strong>
-        aplicabil nivelului,
-        filierei,
-        profilului
-        și clasei respective.
+        A utiliza relația
+        pentru interpretarea datelor experimentale,
+        pentru determinarea unei rezistențe
+        sau pentru explicarea funcționării
+        unui circuit
+        presupune mobilizarea competenței.
       </p>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        Capcană:
-      </strong>
-
-      aceeași disciplină poate avea
-      poziționări și alocări diferite
-      în planuri-cadru diferite.
-
-      Nu generaliza fără să verifici
-      planul aplicabil.
-
-    </div>
-
-
-    <h3>
-      Exemplul 2 — Astronomia ca CDEOȘ
-    </h3>
-
-
-    <div class="physics-example">
-
-      <p>
-        Programele școlare aprobate în 2026
-        pentru discipline de Astronomie
-        precizează explicit
-        că acestea pot face parte
-        din
-        <strong>
-          Curriculumul la decizia elevului
-          din oferta școlii — CDEOȘ.
-        </strong>
-      </p>
-
-      <p>
-        Este un exemplu util pentru profesorul de Fizică,
-        deoarece arată concret
-        cum o disciplină apropiată
-        de domeniul Fizicii
-        poate apărea în oferta opțională.
-      </p>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      La examen,
-      când dai un exemplu,
-      diferențiază clar:
-
-      <br><br>
-
-      <strong>
-        disciplina obligatorie din planul-cadru
-      </strong>
-
-      de
-
-      <strong>
-        disciplina opțională din CDEOȘ.
-      </strong>
 
     </div>
 
@@ -2856,93 +1771,805 @@ footer.site {
 
 
   <!-- =======================================================
-       11. IDENTIFICARE
+       2. CELE OPT COMPETENȚE-CHEIE
        ======================================================= -->
 
   <section
     class="card"
-    id="alegere"
+    id="competente-cheie"
   >
 
     <h2>
-      11. Cum identifici termenul corect?
+      2. Domeniile de competențe-cheie
     </h2>
 
 
     <p>
-      Folosește trei întrebări.
+      Profilul de formare al absolventului
+      este fundamentat
+      pe opt competențe-cheie.
+      Acestea au caracter transversal
+      și sunt dezvoltate
+      prin contribuția mai multor discipline.
     </p>
 
 
-    <div class="grid3">
+    <div class="grid4">
 
 
-      <div class="mini-card type-card">
+      <div class="key-card">
 
-        <span class="type-label">
+        <span class="key-number">
           1
         </span>
 
-        <h3>
-          Ce document am?
-        </h3>
+        <strong>
+          Competența de citire,
+          scriere și înțelegere a mesajului
+        </strong>
 
         <p>
-          Programă de concurs,
-          plan-cadru,
-          lege,
-          metodologie?
+          Înțelegerea,
+          interpretarea
+          și formularea mesajelor
+          în contexte variate.
         </p>
 
       </div>
 
 
-      <div class="mini-card type-card">
+      <div class="key-card">
 
-        <span class="type-label">
+        <span class="key-number">
           2
         </span>
 
-        <h3>
-          Din ce perioadă?
-        </h3>
+        <strong>
+          Competența în multilingvism
+        </strong>
 
         <p>
-          Cadru anterior
-          sau noile planuri?
+          Utilizarea limbilor
+          în contexte de comunicare
+          și interacțiune interculturală.
         </p>
 
       </div>
 
 
-      <div class="mini-card type-card">
+      <div class="key-card">
 
-        <span class="type-label">
+        <span class="key-number">
           3
         </span>
 
-        <h3>
-          Ce statut are?
-        </h3>
+        <strong>
+          Competența matematică
+          și competența în științe,
+          tehnologie și inginerie
+        </strong>
 
         <p>
-          Obligatoriu,
-          specific
-          sau opțional?
+          Raționament matematic,
+          investigație științifică,
+          rezolvare de probleme
+          și utilizarea tehnologiei.
         </p>
 
       </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          4
+        </span>
+
+        <strong>
+          Competența digitală
+        </strong>
+
+        <p>
+          Utilizarea critică,
+          responsabilă și sigură
+          a tehnologiilor digitale.
+        </p>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          5
+        </span>
+
+        <strong>
+          Competența personală,
+          socială și a învăța să înveți
+        </strong>
+
+        <p>
+          Autoreglare,
+          colaborare,
+          reflecție
+          și gestionarea propriei învățări.
+        </p>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          6
+        </span>
+
+        <strong>
+          Competența civică,
+          juridică și de protejare a mediului
+        </strong>
+
+        <p>
+          Participare responsabilă,
+          respectarea drepturilor
+          și raportarea responsabilă la mediu.
+        </p>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          7
+        </span>
+
+        <strong>
+          Competența antreprenorială
+        </strong>
+
+        <p>
+          Inițiativă,
+          creativitate,
+          luarea deciziilor
+          și realizarea de proiecte.
+        </p>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          8
+        </span>
+
+        <strong>
+          Competența de sensibilizare
+          și exprimare culturală
+        </strong>
+
+        <p>
+          Înțelegerea,
+          aprecierea
+          și exprimarea
+          diversității culturale.
+        </p>
+
+      </div>
+
 
     </div>
 
 
-    <div class="exam-answer">
+    <div class="exam-box">
 
+      <strong>Pentru examen:</strong>
+      nu este suficient
+      să memorezi lista.
+      Trebuie să înțelegi
+      că disciplinele școlare
+      contribuie împreună
+      la dezvoltarea
+      acestor competențe-cheie.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. FIZICA ȘI COMPETENȚELE-CHEIE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="fizica-cheie"
+  >
+
+    <h2>
+      3. Cum contribuie Fizica la competențele-cheie?
+    </h2>
+
+
+    <p>
+      Contribuția directă
+      a disciplinei Fizică
+      este evidentă în special
+      pentru competența matematică
+      și competența în științe,
+      tehnologie și inginerie.
+    </p>
+
+
+    <p>
+      Totuși,
+      activitățile de Fizică
+      contribuie și la dezvoltarea
+      altor competențe-cheie.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Comunicare
+        </h3>
+
+        <p>
+          Elevul formulează explicații,
+          argumentează concluzii
+          și utilizează
+          limbajul științific.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Științe și matematică
+        </h3>
+
+        <p>
+          Măsoară,
+          modelează,
+          calculează,
+          investighează
+          și verifică ipoteze.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Digital
+        </h3>
+
+        <p>
+          Utilizează simulări,
+          senzori,
+          foi de calcul
+          și prelucrează date.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Personal și social
+        </h3>
+
+        <p>
+          Lucrează în echipă,
+          își monitorizează progresul
+          și își argumentează deciziile.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Civic și mediu
+        </h3>
+
+        <p>
+          Analizează probleme
+          privind energia,
+          tehnologia,
+          riscurile
+          și protecția mediului.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Antreprenorial
+        </h3>
+
+        <p>
+          Propune soluții,
+          proiectează produse simple
+          și evaluează
+          avantaje și limite.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>Nu spune:</strong>
+      „Fizica dezvoltă numai
+      competența în științe”.
+
+      <br><br>
+
+      Competențele-cheie
+      sunt transversale,
+      iar aceeași activitate
+      poate contribui simultan
+      la mai multe dintre ele.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. NIVELURI DE COMPETENȚĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="niveluri"
+  >
+
+    <h2>
+      4. Competențe-cheie, generale și specifice
+    </h2>
+
+
+    <div class="flow">
+
+
+      <div class="flow-card">
+
+        <b>
+          COMPETENȚE-CHEIE
+        </b>
+
+        Finalități transversale
+        ale formării absolventului.
+
+      </div>
+
+
+      <div class="flow-arrow">
+        →
+      </div>
+
+
+      <div class="flow-card">
+
+        <b>
+          COMPETENȚE GENERALE
+        </b>
+
+        Direcțiile majore
+        de formare
+        specifice disciplinei.
+
+      </div>
+
+
+      <div class="flow-arrow">
+        →
+      </div>
+
+
+      <div class="flow-card">
+
+        <b>
+          COMPETENȚE SPECIFICE
+        </b>
+
+        Achiziții urmărite
+        într-un anumit an
+        de studiu.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Competențele generale
+      </span>
+
+      <p>
+        exprimă direcțiile majore
+        de formare
+        pe care disciplina
+        le dezvoltă pe parcursul
+        unui nivel sau ciclu de învățământ.
+      </p>
+
+    </div>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Competențele specifice
+      </span>
+
+      <p>
+        sunt derivate
+        din competențele generale
+        și exprimă achiziții
+        care se formează
+        și se dezvoltă
+        pe parcursul unui an de studiu.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>De memorat:</strong>
+
+      <br><br>
+
+      competențele-cheie
+      sunt transversale;
+
+      <br>
+
+      competențele generale
+      particularizează contribuția disciplinei;
+
+      <br>
+
+      competențele specifice
+      concretizează progresul
+      la nivelul unui an de studiu.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. PROIECTAREA PE BAZA COMPETENȚELOR
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="proiectare"
+  >
+
+    <h2>
+      5. Proiectarea programei școlare pe baza competențelor
+    </h2>
+
+
+    <p>
+      În proiectarea curriculară
+      centrată pe competențe,
+      punctul de plecare
+      nu este lista de capitole.
+    </p>
+
+
+    <p>
+      Se pornește
+      de la finalitățile urmărite,
+      iar conținuturile
+      sunt selectate
+      ca suport pentru
+      formarea competențelor.
+    </p>
+
+
+    <div class="chain">
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          1
+        </span>
+
+        <strong>
+          Profilul de formare
+          și competențele-cheie
+        </strong>
+
+        <br>
+
+        Stabilesc finalitățile
+        generale ale formării elevului.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          2
+        </span>
+
+        <strong>
+          Competențele generale
+          ale disciplinei
+        </strong>
+
+        <br>
+
+        Exprimă contribuția
+        specifică a disciplinei
+        la profilul absolventului.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          3
+        </span>
+
+        <strong>
+          Competențele specifice
+        </strong>
+
+        <br>
+
+        Detaliază progresul
+        care trebuie realizat
+        într-un an de studiu.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          4
+        </span>
+
+        <strong>
+          Activitățile de învățare
+        </strong>
+
+        <br>
+
+        Creează situațiile
+        prin care elevul
+        formează și exersează
+        competența.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          5
+        </span>
+
+        <strong>
+          Conținuturile
+        </strong>
+
+        <br>
+
+        Oferă suportul conceptual
+        și factual necesar
+        formării competențelor.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          6
+        </span>
+
+        <strong>
+          Sugestiile metodologice
+          și evaluarea
+        </strong>
+
+        <br>
+
+        Orientează organizarea
+        experiențelor de învățare
+        și verificarea
+        nivelului de competență.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>Capcană de examen:</strong>
+
+      <br><br>
+
+      într-o programă centrată
+      pe competențe,
+      conținuturile nu reprezintă
+      finalitatea ultimă.
+
+      <br><br>
+
+      Ele sunt
+      <strong>mijloace pentru formarea
+      și dezvoltarea competențelor</strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. STRUCTURA PROGRAMEI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="structura"
+  >
+
+    <h2>
+      6. Ce urmărești într-o programă școlară?
+    </h2>
+
+
+    <p>
+      Pentru a analiza corect
+      o programă,
+      trebuie mai întâi
+      să îi identifici componentele.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Nota de prezentare
+        </h3>
+
+        <p>
+          Explică statutul,
+          filosofia
+          și logica programei.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competențe generale
+        </h3>
+
+        <p>
+          Exprimă finalitățile
+          majore ale disciplinei.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competențe specifice
+        </h3>
+
+        <p>
+          Detaliază achizițiile
+          urmărite într-un an
+          de studiu.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Activități de învățare
+        </h3>
+
+        <p>
+          Exemplifică modalități
+          prin care competențele
+          pot fi formate.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Conținuturi
+        </h3>
+
+        <p>
+          Oferă suportul
+          științific și conceptual
+          al învățării.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Sugestii metodologice
+        </h3>
+
+        <p>
+          Orientează
+          proiectarea,
+          predarea,
+          învățarea
+          și evaluarea.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>Întrebarea centrală:</strong>
+
+      <br><br>
+
+      există coerență între
       <strong>
-        DOCUMENT
-        → CADRU CURRICULAR
-        → STATUT
-        → TERMEN CORECT
+        competențe,
+        activități,
+        conținuturi
+        și evaluare?
       </strong>
 
     </div>
@@ -2951,7 +2578,934 @@ footer.site {
 
 
   <!-- =======================================================
-       12. EXAMEN
+       7. COMPETENȚELE GENERALE FIZICĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="programa-fizica"
+  >
+
+    <h2>
+      7. Exemplu: competențele generale ale Fizicii la gimnaziu
+    </h2>
+
+
+    <p>
+      Programa de Fizică
+      pentru gimnaziu
+      evidențiază foarte clar
+      logica proiectării
+      pe baza competențelor.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competența generală 1
+        </h3>
+
+        <p>
+          Investigarea științifică structurată,
+          în principal experimentală,
+          a unor fenomene fizice.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competența generală 2
+        </h3>
+
+        <p>
+          Explicarea științifică
+          a unor fenomene fizice
+          și a unor aplicații tehnice
+          ale acestora.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competența generală 3
+        </h3>
+
+        <p>
+          Interpretarea unor date
+          și informații,
+          obținute experimental
+          sau din alte surse,
+          privind fenomene fizice
+          și aplicații tehnice.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competența generală 4
+        </h3>
+
+        <p>
+          Rezolvarea de probleme
+          și situații-problemă
+          prin metode specifice Fizicii.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Observă progresia:</strong>
+
+      <br><br>
+
+      investigare
+      → explicare
+      → interpretare
+      → rezolvare de probleme.
+
+      <br><br>
+
+      Aceste direcții
+      sunt apoi concretizate
+      prin competențe specifice
+      pentru fiecare clasă.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. EXEMPLU DE PROIECTARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="exemplu"
+  >
+
+    <h2>
+      8. Exemplu de proiectare centrată pe competență
+    </h2>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu: Legea lui Ohm
+      </h3>
+
+
+      <p>
+        Presupunem că urmărim
+        dezvoltarea unei competențe specifice
+        care solicită explicarea
+        calitativă și cantitativă
+        a unui fenomen fizic,
+        folosind limbajul științific adecvat.
+      </p>
+
+
+      <div class="chain">
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            1
+          </span>
+
+          <strong>
+            Competență urmărită
+          </strong>
+
+          <br>
+
+          Explicarea relației
+          dintre tensiune,
+          intensitatea curentului
+          și rezistența electrică.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            2
+          </span>
+
+          <strong>
+            Conținut
+          </strong>
+
+          <br>
+
+          Legea lui Ohm
+          pentru o porțiune de circuit.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            3
+          </span>
+
+          <strong>
+            Activitate de învățare
+          </strong>
+
+          <br>
+
+          Elevii măsoară
+          tensiunea și intensitatea curentului
+          pentru mai multe situații,
+          organizează datele într-un tabel
+          și reprezintă grafic
+          dependența dintre mărimi.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            4
+          </span>
+
+          <strong>
+            Concluzie
+          </strong>
+
+          <br>
+
+          Elevii formulează
+          relația dintre mărimile măsurate
+          pe baza datelor experimentale.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            5
+          </span>
+
+          <strong>
+            Evaluare
+          </strong>
+
+          <br>
+
+          Elevul interpretează
+          un nou set de date
+          sau rezolvă
+          o situație-problemă
+          utilizând relația studiată.
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>Observă:</strong>
+
+      <br><br>
+
+      nu am pornit
+      de la întrebarea
+      „ce formulă trebuie predată?”,
+      ci de la întrebarea
+      <strong>
+        „ce trebuie să poată face elevul?”
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. ANALIZA PROGRAMEI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="analiza"
+  >
+
+    <h2>
+      9. Analiza unei programe școlare de Fizică
+    </h2>
+
+
+    <p>
+      Analiza unei programe
+      nu înseamnă
+      simpla enumerare
+      a componentelor ei.
+    </p>
+
+
+    <p>
+      Trebuie apreciată
+      <strong>calitatea construcției curriculare</strong>
+      și măsura în care aceasta
+      poate susține
+      formarea eficientă a elevilor.
+    </p>
+
+
+    <div class="analysis-box">
+
+      <strong>
+        Criteriile de bază
+        pe care trebuie să le stăpânești:
+      </strong>
+
+      <br><br>
+
+      <strong>1. Pertinență</strong>
+
+      <br>
+
+      <strong>2. Relevanță</strong>
+
+      <br>
+
+      <strong>3. Eficiență internă</strong>
+
+      <br>
+
+      <strong>4. Accesibilitate</strong>
+
+    </div>
+
+
+    <p>
+      La Fizică,
+      analiza trebuie să urmărească
+      și corectitudinea științifică,
+      coerența progresiei
+      și caracterul aplicativ
+      al învățării.
+    </p>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. PERTINENȚĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="pertinenta"
+  >
+
+    <h2>
+      10. Pertinența programei
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Pertinența
+      </span>
+
+      <p>
+        exprimă măsura în care
+        finalitățile,
+        competențele
+        și conținuturile programei
+        sunt adecvate
+        scopurilor educaționale,
+        profilului de formare
+        și nevoilor de dezvoltare
+        ale elevilor.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Competențele contribuie
+        la profilul de formare
+        al absolventului?
+      </div>
+
+      <div class="check">
+        Finalitățile sunt adecvate
+        nivelului de învățământ?
+      </div>
+
+      <div class="check">
+        Conținuturile susțin
+        competențele urmărite?
+      </div>
+
+      <div class="check">
+        Programa răspunde
+        finalităților educației
+        științifice?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Formulă scurtă:</strong>
+
+      <br><br>
+
+      pertinență =
+      <strong>
+        concordanța programei
+        cu finalitățile și nevoile educaționale
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. RELEVANȚĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="relevanta"
+  >
+
+    <h2>
+      11. Relevanța programei
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Relevanța
+      </span>
+
+      <p>
+        exprimă utilitatea
+        și semnificația
+        achizițiilor propuse
+        pentru elev,
+        pentru continuarea învățării
+        și pentru utilizarea cunoștințelor
+        în contexte reale.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Elevul poate utiliza
+        ceea ce învață
+        în situații noi?
+      </div>
+
+      <div class="check">
+        Sunt realizate legături
+        cu viața cotidiană
+        și aplicațiile tehnice?
+      </div>
+
+      <div class="check">
+        Programa dezvoltă
+        gândirea științifică
+        și rezolvarea de probleme?
+      </div>
+
+      <div class="check">
+        Achizițiile pregătesc
+        învățarea ulterioară?
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Studierea presiunii
+        devine mai relevantă
+        atunci când elevul
+        o utilizează pentru explicarea
+        funcționării unei prese hidraulice,
+        a presiunii hidrostatice
+        sau a unor situații reale,
+        nu doar pentru reproducerea
+        unei formule.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Formulă scurtă:</strong>
+
+      <br><br>
+
+      relevanță =
+      <strong>
+        utilitate,
+        semnificație
+        și posibilitate de transfer
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. EFICIENȚĂ INTERNĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="eficienta"
+  >
+
+    <h2>
+      12. Eficiența internă a programei
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Eficiența internă
+      </span>
+
+      <p>
+        exprimă gradul de coerență
+        dintre componentele programei
+        și posibilitatea realizării
+        competențelor propuse
+        printr-o organizare adecvată
+        a conținuturilor,
+        activităților,
+        timpului
+        și evaluării.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Ce verifici?
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Competențele generale
+        și specifice sunt coerente?
+      </div>
+
+      <div class="check">
+        Activitățile de învățare
+        formează efectiv
+        competențele vizate?
+      </div>
+
+      <div class="check">
+        Conținuturile sunt selectate
+        în raport cu competențele?
+      </div>
+
+      <div class="check">
+        Evaluarea poate verifica
+        competențele urmărite?
+      </div>
+
+      <div class="check">
+        Volumul conținuturilor
+        este compatibil
+        cu timpul disponibil?
+      </div>
+
+      <div class="check">
+        Există o progresie
+        logică și evitarea
+        suprapunerilor inutile?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Formulă scurtă:</strong>
+
+      <br><br>
+
+      eficiență internă =
+      <strong>
+        coerența dintre componentele programei
+        și realizabilitatea lor
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. ACCESIBILITATE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="accesibilitate"
+  >
+
+    <h2>
+      13. Accesibilitatea programei
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Accesibilitatea
+      </span>
+
+      <p>
+        exprimă adecvarea
+        competențelor,
+        conținuturilor,
+        limbajului
+        și nivelului de complexitate
+        la vârsta,
+        experiența
+        și achizițiile anterioare
+        ale elevilor.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Conceptele sunt adecvate
+        nivelului de dezvoltare
+        al elevilor?
+      </div>
+
+      <div class="check">
+        Noile achiziții
+        se sprijină
+        pe achiziții anterioare?
+      </div>
+
+      <div class="check">
+        Complexitatea crește
+        progresiv?
+      </div>
+
+      <div class="check">
+        Limbajul științific
+        este introdus
+        într-o formă accesibilă?
+      </div>
+
+      <div class="check">
+        Activitățile sunt realizabile
+        pentru nivelul clasei?
+      </div>
+
+      <div class="check">
+        Programa permite
+        adaptarea și diferențierea
+        învățării?
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu de progresie
+      </h3>
+
+      <p>
+        În investigarea experimentală,
+        elevul poate trece progresiv
+        de la observarea
+        și înregistrarea simplă a datelor
+        la organizarea,
+        prelucrarea
+        și evaluarea critică
+        a rezultatelor.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Formulă scurtă:</strong>
+
+      <br><br>
+
+      accesibilitate =
+      <strong>
+        adecvarea la elev
+        și progresia dificultății
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. ALGORITM ANALIZĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="algoritm"
+  >
+
+    <h2>
+      14. Algoritm pentru analiza unei programe de Fizică
+    </h2>
+
+
+    <p>
+      Dacă primești la examen
+      o cerință de analiză,
+      poți utiliza următoarea ordine.
+    </p>
+
+
+    <div class="chain">
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          1
+        </span>
+
+        <strong>
+          Identifică finalitățile
+        </strong>
+
+        <br>
+
+        Ce competențe generale
+        și specifice
+        urmărește programa?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          2
+        </span>
+
+        <strong>
+          Verifică relațiile interne
+        </strong>
+
+        <br>
+
+        Sunt corelate
+        competențele,
+        activitățile de învățare,
+        conținuturile
+        și evaluarea?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          3
+        </span>
+
+        <strong>
+          Analizează pertinența
+        </strong>
+
+        <br>
+
+        Răspunde programa
+        finalităților educaționale
+        și profilului de formare?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          4
+        </span>
+
+        <strong>
+          Analizează relevanța
+        </strong>
+
+        <br>
+
+        Achizițiile sunt utile,
+        semnificative
+        și transferabile?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          5
+        </span>
+
+        <strong>
+          Analizează eficiența internă
+        </strong>
+
+        <br>
+
+        Programa este coerentă
+        și realizabilă
+        în timpul disponibil?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          6
+        </span>
+
+        <strong>
+          Analizează accesibilitatea
+        </strong>
+
+        <br>
+
+        Nivelul de dificultate
+        este adecvat elevilor
+        și progresiv?
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          7
+        </span>
+
+        <strong>
+          Formulează concluzia
+        </strong>
+
+        <br>
+
+        Precizează punctele forte
+        și, dacă este cazul,
+        limitele identificate,
+        argumentând prin elemente
+        concrete ale programei.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Nu scrie doar:</strong>
+      „programa este pertinentă,
+      relevantă și accesibilă”.
+
+      <br><br>
+
+      Fiecare apreciere
+      trebuie
+      <strong>argumentată</strong>
+      prin raportare
+      la elementele programei.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. FORMULARE PENTRU EXAMEN
        ======================================================= -->
 
   <section
@@ -2960,95 +3514,81 @@ footer.site {
   >
 
     <h2>
-      12. Cum formulezi la examen?
+      15. Formulare pentru examen
     </h2>
 
 
-    <p>
-      Dacă cerința solicită
-      semnificația conceptelor din planurile-cadru,
-      poți organiza răspunsul astfel:
-    </p>
-
-
     <div class="exam-answer">
 
       <p>
-        <strong>Trunchiul comun</strong>
-        reprezintă componenta obligatorie comună
-        prevăzută prin planurile-cadru.
+        Curriculumul centrat pe competențe
+        urmărește formarea capacității elevului
+        de a mobiliza
+        cunoștințe,
+        abilități
+        și atitudini
+        în contexte variate.
       </p>
-
 
       <p>
-        <strong>Curriculumul diferențiat</strong>
-        este componenta utilizată
-        în structurile curriculare anterioare
-        pentru diferențierea pregătirii obligatorii
-        în funcție de traseul educațional.
+        Competențele-cheie
+        au caracter transversal
+        și fundamentează
+        profilul de formare
+        al absolventului.
+        La nivelul unei discipline,
+        acestea sunt particularizate
+        prin competențe generale,
+        care exprimă
+        direcțiile majore ale formării.
       </p>
-
 
       <p>
-        <strong>Curriculumul la decizia școlii</strong>
-        reprezintă,
-        în cadrul curricular anterior,
-        componenta flexibilă
-        prin care școala își constituie
-        oferta curriculară.
+        Competențele specifice
+        sunt derivate
+        din competențele generale
+        și se formează
+        pe parcursul unui an de studiu.
+        Pentru dezvoltarea lor
+        sunt selectate
+        activități de învățare
+        și conținuturi adecvate.
       </p>
-
 
       <p>
-        <strong>Curriculumul în dezvoltare locală</strong>
-        este asociat în special
-        pregătirii profesionale și tehnologice,
-        fiind corelat cu particularitățile
-        și nevoile contextului local.
+        În această perspectivă,
+        conținuturile nu reprezintă
+        scopul final al programei,
+        ci suportul
+        pentru formarea competențelor.
       </p>
-
-    </div>
-
-
-    <p>
-      Dacă subiectul utilizează
-      noua terminologie,
-      completezi:
-    </p>
-
-
-    <div class="exam-answer">
 
       <p>
-        <strong>Curriculumul de specialitate</strong>
-        este componenta obligatorie
-        specifică traseului de formare
-        în noile planuri-cadru.
+        Analiza unei programe școlare
+        poate urmări
+        pertinența,
+        relevanța,
+        eficiența internă
+        și accesibilitatea.
       </p>
-
 
       <p>
-        <strong>CDEOȘ</strong>
-        reprezintă oferta de discipline,
-        domenii sau module opționale
-        propusă de școală,
-        din care elevul alege
-        potrivit procedurilor aplicabile.
+        Pertinența exprimă
+        concordanța dintre programă,
+        finalitățile educaționale
+        și nevoile de formare;
+        relevanța vizează
+        utilitatea și transferabilitatea
+        achizițiilor;
+        eficiența internă
+        urmărește coerența
+        și realizabilitatea
+        componentelor programei;
+        iar accesibilitatea
+        se referă la adecvarea
+        nivelului de complexitate
+        la particularitățile elevilor.
       </p>
-
-    </div>
-
-
-    <div class="warning">
-
-      Nu transforma răspunsul
-      într-o lecție despre reforma curriculară
-      dacă cerința nu solicită acest lucru.
-
-      Răspunde întâi
-      <strong>exact la termenii din subiect</strong>,
-      apoi poți preciza tranziția
-      dacă este relevantă.
 
     </div>
 
@@ -3056,7 +3596,7 @@ footer.site {
 
 
   <!-- =======================================================
-       13. CAPCANE
+       16. CAPCANE
        ======================================================= -->
 
   <section
@@ -3065,7 +3605,7 @@ footer.site {
   >
 
     <h2>
-      13. Capcane frecvente
+      16. Capcane frecvente
     </h2>
 
 
@@ -3075,28 +3615,17 @@ footer.site {
       <div class="trap">
 
         <strong>
-          CD este opțional.
+          Competența este
+          același lucru
+          cu o informație memorată.
         </strong>
 
-        <br>
-
-        Fals în structurile
-        în care CD reprezintă
-        pregătirea obligatorie diferențiată.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          CDȘ și CDL sunt identice.
-        </strong>
-
-        <br>
+        <br><br>
 
         Fals.
-        Se raportează la contexte curriculare diferite.
+        Competența presupune
+        mobilizarea achizițiilor
+        într-o situație.
 
       </div>
 
@@ -3104,13 +3633,14 @@ footer.site {
       <div class="trap">
 
         <strong>
-          CDȘ și CDEOȘ sunt sinonime perfecte.
+          Competențele-cheie
+          aparțin unei singure discipline.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Apar în cadre curriculare succesive.
+        Ele au caracter transversal.
 
       </div>
 
@@ -3118,28 +3648,15 @@ footer.site {
       <div class="trap">
 
         <strong>
-          CD și CS sunt același termen.
+          Conținuturile reprezintă
+          finalitatea programei.
         </strong>
 
-        <br>
-
-        Nu.
-        Ele apar în structuri curriculare diferite.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          CDEOȘ este stabilit exclusiv de elev.
-        </strong>
-
-        <br>
+        <br><br>
 
         Fals.
-        Elevul alege din oferta curriculară
-        construită conform procedurilor.
+        Conținuturile sunt suport
+        pentru formarea competențelor.
 
       </div>
 
@@ -3147,15 +3664,16 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Toate disciplinele au același statut
-          în toate planurile.
+          Competențele specifice
+          sunt independente
+          de competențele generale.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Statutul trebuie verificat
-        în planul-cadru aplicabil.
+        Ele sunt derivate
+        din competențele generale.
 
       </div>
 
@@ -3163,34 +3681,42 @@ footer.site {
       <div class="trap">
 
         <strong>
-          „Tipuri de curriculum” înseamnă
-          obligatoriu curriculum formal,
-          ascuns și nul.
+          Pertinența
+          și relevanța
+          sunt exact același lucru.
         </strong>
 
-        <br>
-
-        Nu pentru această lecție.
-        Programa 2026 cere explicit
-        conceptele asociate planurilor-cadru.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Pentru 2027 putem presupune
-          că programa rămâne identică.
-        </strong>
-
-        <br>
+        <br><br>
 
         Fals.
-        Programa oficială trebuie verificată
-        după publicare.
+        Pertinența privește
+        concordanța cu finalitățile,
+        iar relevanța privește
+        utilitatea și semnificația
+        achizițiilor.
 
       </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Analiza programei
+          înseamnă doar
+          enumerarea componentelor.
+        </strong>
+
+        <br><br>
+
+        Fals.
+        Trebuie analizate
+        relațiile,
+        coerența,
+        utilitatea
+        și adecvarea acestora.
+
+      </div>
+
 
     </div>
 
@@ -3198,7 +3724,7 @@ footer.site {
 
 
   <!-- =======================================================
-       14. RECAP
+       17. RECAPITULARE
        ======================================================= -->
 
   <section
@@ -3207,7 +3733,7 @@ footer.site {
   >
 
     <h2>
-      14. Recapitulare rapidă
+      17. Recapitulare rapidă
     </h2>
 
 
@@ -3217,10 +3743,10 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          TC
+          Competențe-cheie
         </b>
 
-        Baza obligatorie comună.
+        Finalități transversale.
 
       </div>
 
@@ -3228,11 +3754,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          CD
+          Competențe generale
         </b>
 
-        Pregătire obligatorie diferențiată
-        în cadrul anterior.
+        Direcții majore
+        ale disciplinei.
 
       </div>
 
@@ -3240,11 +3766,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          CDȘ
+          Competențe specifice
         </b>
 
-        Componentă flexibilă
-        în vechea structură.
+        Achiziții urmărite
+        anual.
 
       </div>
 
@@ -3252,11 +3778,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          CDL
+          Activități
         </b>
 
-        Componentă adaptată
-        contextului local și profesional.
+        Situații
+        pentru formarea competenței.
 
       </div>
 
@@ -3264,11 +3790,10 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          CS
+          Conținuturi
         </b>
 
-        Pregătire obligatorie specifică
-        în noul cadru.
+        Suport pentru competențe.
 
       </div>
 
@@ -3276,10 +3801,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          CDEOȘ
+          Pertinență
         </b>
 
-        Alegere din oferta școlii.
+        Concordanță
+        cu finalitățile.
 
       </div>
 
@@ -3287,11 +3813,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Cadru anterior
+          Relevanță
         </b>
 
-        TC + CD + CDȘ,
-        după planul aplicabil.
+        Utilitate
+        și transfer.
 
       </div>
 
@@ -3299,10 +3825,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Cadru nou
+          Eficiență internă
         </b>
 
-        TC + CS + CDEOȘ.
+        Coerență
+        și realizabilitate.
 
       </div>
 
@@ -3310,13 +3837,14 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          2027
+          Accesibilitate
         </b>
 
-        Programa oficială
-        trebuie reverificată.
+        Adecvare
+        la nivelul elevului.
 
       </div>
+
 
     </div>
 
@@ -3329,49 +3857,71 @@ footer.site {
 
       <br><br>
 
-      CADRU ANTERIOR
+      competențe-cheie
 
       <br>
 
-      <strong>
-        TC + CD + CDȘ
-      </strong>
-
-      <br><br>
-
-      versus
-
-      <br><br>
-
-      CADRU NOU
+      ↓
 
       <br>
 
-      <strong>
-        TC + CS + CDEOȘ
-      </strong>
+      competențe generale
 
-      <br><br>
+      <br>
 
-      <small>
-        Structura concretă se verifică
-        întotdeauna în planul-cadru aplicabil.
-      </small>
+      ↓
+
+      <br>
+
+      competențe specifice
+
+      <br>
+
+      ↓
+
+      <br>
+
+      activități de învățare + conținuturi
+
+      <br>
+
+      ↓
+
+      <br>
+
+      evaluare.
 
     </div>
 
+  </section>
 
-    <h3>
-      Autoevaluare
-    </h3>
+
+  <!-- =======================================================
+       18. AUTOEVALUARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="autoevaluare"
+  >
+
+    <h2>
+      18. Autoevaluare
+    </h2>
 
 
     <div class="question">
 
       <b>1.</b>
+      Ce înseamnă
+      abordarea curriculară
+      centrată pe competențe?
 
-      Ce reprezintă trunchiul comun
-      și care este statutul său?
+      <br>
+
+      <a href="#competenta">
+        Verifică secțiunea 1
+      </a>
 
     </div>
 
@@ -3379,10 +3929,14 @@ footer.site {
     <div class="question">
 
       <b>2.</b>
+      Enumeră cele opt
+      domenii de competențe-cheie.
 
-      De ce curriculumul diferențiat
-      nu trebuie confundat
-      cu un curriculum opțional?
+      <br>
+
+      <a href="#competente-cheie">
+        Verifică secțiunea 2
+      </a>
 
     </div>
 
@@ -3390,9 +3944,16 @@ footer.site {
     <div class="question">
 
       <b>3.</b>
+      Prin ce activități
+      poate Fizica contribui
+      la dezvoltarea
+      mai multor competențe-cheie?
 
-      Care este diferența dintre
-      CDȘ și CDL?
+      <br>
+
+      <a href="#fizica-cheie">
+        Verifică secțiunea 3
+      </a>
 
     </div>
 
@@ -3400,8 +3961,16 @@ footer.site {
     <div class="question">
 
       <b>4.</b>
+      Care este diferența
+      dintre competențele-cheie,
+      competențele generale
+      și competențele specifice?
 
-      Ce înseamnă CDEOȘ?
+      <br>
+
+      <a href="#niveluri">
+        Verifică secțiunea 4
+      </a>
 
     </div>
 
@@ -3409,9 +3978,16 @@ footer.site {
     <div class="question">
 
       <b>5.</b>
+      În ce ordine
+      se proiectează logic
+      o programă centrată
+      pe competențe?
 
-      Care sunt cele trei componente
-      utilizate în noile planuri-cadru liceale?
+      <br>
+
+      <a href="#proiectare">
+        Verifică secțiunea 5
+      </a>
 
     </div>
 
@@ -3419,10 +3995,17 @@ footer.site {
     <div class="question">
 
       <b>6.</b>
+      Care sunt cele patru
+      competențe generale
+      ale Fizicii
+      prezentate în exemplul
+      pentru gimnaziu?
 
-      De ce nu este corect
-      să folosim CD și CS
-      ca sinonime absolute?
+      <br>
+
+      <a href="#programa-fizica">
+        Verifică secțiunea 7
+      </a>
 
     </div>
 
@@ -3430,73 +4013,147 @@ footer.site {
     <div class="question">
 
       <b>7.</b>
+      Ce înseamnă
+      pertinența unei programe?
 
-      Ce document verifici
-      pentru a stabili
-      statutul concret al disciplinei Fizică?
+      <br>
+
+      <a href="#pertinenta">
+        Verifică secțiunea 10
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>8.</b>
+      Care este diferența
+      dintre pertinență
+      și relevanță?
+
+      <br>
+
+      <a href="#relevanta">
+        Verifică secțiunea 11
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>9.</b>
+      Ce urmărește
+      eficiența internă
+      a unei programe?
+
+      <br>
+
+      <a href="#eficienta">
+        Verifică secțiunea 12
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>10.</b>
+      Prin ce elemente
+      poate fi apreciată
+      accesibilitatea
+      unei programe de Fizică?
+
+      <br>
+
+      <a href="#accesibilitate">
+        Verifică secțiunea 13
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>11.</b>
+      Prezintă,
+      în ordine,
+      pașii unei analize
+      de programă școlară.
+
+      <br>
+
+      <a href="#algoritm">
+        Verifică secțiunea 14
+      </a>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Tema este consolidată
+      dacă poți explica
+      fără ajutor:
+
+      <br><br>
+
+      <strong>
+        competențe-cheie
+        → competențe generale
+        → competențe specifice
+        → activități și conținuturi
+        → evaluare
+      </strong>
+
+      <br><br>
+
+      și poți analiza
+      o programă prin:
+
+      <br><br>
+
+      <strong>
+        pertinență
+        → relevanță
+        → eficiență internă
+        → accesibilitate.
+      </strong>
 
     </div>
 
 
     <h3>
-      Surse și repere
+      Surse de studiu
     </h3>
 
 
-    <ul class="sources">
+    <ul>
 
       <li>
-        Programa pentru concursul de ocupare
-        a posturilor didactice —
-        disciplina Fizică,
-        versiunea disponibilă pentru 2026.
+        Programa pentru concursul
+        de ocupare a posturilor didactice,
+        disciplina Fizică.
       </li>
 
       <li>
-        Planurile-cadru de învățământ
-        gimnazial și liceal în vigoare.
+        Profilul de formare
+        al absolventului.
       </li>
 
       <li>
-        Ordinul nr. 4.350/2025
-        privind planurile-cadru
-        pentru învățământul liceal
-        cu frecvență zi.
+        Programele școlare de Fizică
+        în vigoare.
       </li>
 
       <li>
-        Ordinul nr. 3.454/2026
-        și metodologia privind
-        Curriculumul la decizia elevului
-        din oferta școlii — CDEOȘ.
-      </li>
-
-      <li>
-        Programele școlare pentru discipline
-        opționale din oferta națională,
-        inclusiv programele de Astronomie
-        aprobate în 2026.
+        Reperele metodologice
+        pentru aplicarea curriculumului
+        la disciplina Fizică.
       </li>
 
     </ul>
-
-
-    <div class="source-note">
-
-      <strong>
-        Notă pentru Titularizare 2027:
-      </strong>
-
-      această lecție păstrează separat
-      terminologia programei 2026
-      și terminologia noilor planuri-cadru.
-
-      După publicarea programei oficiale
-      pentru concursul din 2027,
-      terminologia și accentul tematic
-      trebuie reverificate.
-
-    </div>
 
   </section>
 
@@ -3514,7 +4171,7 @@ footer.site {
 >
 
   <a href="2-componente.html">
-    ← 2. Componentele curriculumului
+    ← 2. Rolul și proiectarea CDEOȘ
   </a>
 
 
@@ -3529,7 +4186,7 @@ footer.site {
 
   Tematica pentru didactica Fizicii ·
   Curriculum ·
-  Tipuri și segmente de curriculum ·
+  Competențe-cheie și analiza programei ·
   Titularizare Fizică
 
 </footer>
@@ -3537,742 +4194,795 @@ footer.site {
 
 <!-- =========================================================
      SCENARIU AUDIO ASCUNS
-     Playerul este generat automat.
+
+     Reguli:
+     - "curriculum" este scris "curiculum";
+     - "curricular" este scris "curicular";
+     - nu folosim abrevieri greu de pronunțat;
+     - "Ohm" este scris fonetic "Ohme".
      ========================================================= -->
 
 <template id="audio-lesson-script">
 
+
   <p>
     Bun găsit.
-    În lecția aceasta discutăm
-    despre tipurile și segmentele
-    de curriculum
-    pe care trebuie să le distingem
-    pentru Titularizarea la Fizică.
+    În această lecție
+    studiem competențele cheie,
+    proiectarea programei școlare
+    pe baza competențelor
+    și analiza programelor
+    școlare de Fizică.
   </p>
 
-  <p>
-    Înainte de orice,
-    facem o precizare importantă.
-  </p>
-
-  <p>
-    Programa disponibilă
-    pentru Titularizare Fizică 2026
-    nu cere o clasificare generală
-    a curriculumului
-    în formal,
-    nonformal,
-    ascuns
-    sau alte categorii pedagogice.
-  </p>
-
-  <p>
-    Ea cere explicit,
-    în legătură cu planurile-cadru,
-    semnificația conceptelor:
-    trunchi comun,
-    curriculum diferențiat,
-    curriculum la decizia școlii,
-    curriculum în dezvoltare locală
-    și arii curriculare.
-  </p>
-
-  <p>
-    De aceea,
-    în această lecție
-    ne concentrăm exact
-    asupra segmentelor curriculare
-    relevante pentru programă.
-  </p>
-
-  <p>
-    Există însă o dificultate.
-  </p>
-
-  <p>
-    Sistemul curricular românesc
-    se află într-o perioadă de tranziție,
-    iar noile planuri-cadru liceale
-    utilizează și termeni noi.
-  </p>
-
-  <p>
-    Prin urmare,
-    trebuie să înțelegem
-    atât vocabularul cerut
-    de programa 2026,
-    cât și vocabularul
-    care apare în noile planuri.
-  </p>
-
-  <p>
-    Începem cu trunchiul comun,
-    prescurtat T C.
-  </p>
-
-  <p>
-    Trunchiul comun reprezintă
-    componenta obligatorie comună
-    prevăzută prin planurile-cadru.
-  </p>
-
-  <p>
-    Rolul lui este să asigure
-    o bază comună de formare
-    pentru elevii
-    cărora li se aplică
-    planul-cadru respectiv.
-  </p>
-
-  <p>
-    Dacă la examen
-    suntem întrebați
-    ce este trunchiul comun,
-    formularea scurtă și sigură este:
-    componenta obligatorie comună,
-    stabilită central
-    prin planul-cadru.
-  </p>
-
-  <p>
-    Atenție însă.
-    Trunchiul comun
-    nu înseamnă automat
-    toate disciplinele
-    pe care le studiază elevul.
-  </p>
-
-  <p>
-    Este doar una dintre componentele
-    structurii curriculare.
-  </p>
-
-  <p>
-    Următorul termen este
-    curriculumul diferențiat,
-    prescurtat C D.
-  </p>
-
-  <p>
-    Acest concept apare explicit
-    în programa de Titularizare 2026.
-  </p>
-
-  <p>
-    Curriculumul diferențiat
-    este utilizat
-    în structurile curriculare anterioare
-    pentru diferențierea pregătirii
-    în funcție de filieră,
-    profil,
-    specializare
-    sau domeniul de pregătire.
-  </p>
-
-  <p>
-    Aici apare o capcană
-    foarte frecventă.
-  </p>
-
-  <p>
-    Cuvântul diferențiat
-    îi face pe unii candidați
-    să creadă că este
-    o componentă opțională.
-  </p>
-
-  <p>
-    Nu.
-  </p>
-
-  <p>
-    În planurile care folosesc
-    structura
-    trunchi comun,
-    curriculum diferențiat
-    și curriculum la decizia școlii,
-    curriculumul diferențiat
-    face parte din pregătirea obligatorie
-    specifică traseului educațional.
-  </p>
-
-  <p>
-    Cu alte cuvinte,
-    T C oferă baza comună,
-    iar C D particularizează
-    pregătirea obligatorie.
-  </p>
-
-  <p>
-    Trecem la curriculumul
-    la decizia școlii,
-    prescurtat C D Ș.
-  </p>
-
-  <p>
-    În cadrul curricular anterior,
-    C D Ș reprezintă
-    componenta flexibilă
-    prin care unitatea de învățământ
-    își construiește
-    propria ofertă curriculară,
-    în limitele reglementărilor aplicabile.
-  </p>
-
-  <p>
-    Ideea de flexibilitate
-    este esențială aici.
-  </p>
-
-  <p>
-    Oferta poate ține cont
-    de interesele elevilor,
-    de resursele și profilul școlii
-    și de particularitățile comunității.
-  </p>
-
-  <p>
-    Programa 2026
-    menționează alături de C D Ș
-    și curriculumul în dezvoltare locală,
-    prescurtat C D L.
-  </p>
-
-  <p>
-    Atenție.
-    C D Ș și C D L
-    nu sunt același concept
-    exprimat prin două denumiri.
-  </p>
-
-  <p>
-    Curriculumul în dezvoltare locală
-    este asociat în special
-    învățământului profesional
-    și tehnologic.
-  </p>
-
-  <p>
-    El permite raportarea
-    pregătirii
-    la particularitățile calificării,
-    la resursele școlii
-    și la nevoile contextului
-    economic și local.
-  </p>
 
   <p>
     Pentru examen,
-    dacă programa spune
-    curriculum la decizia școlii
-    slash
-    curriculum în dezvoltare locală,
-    nu trebuie să concluzionăm
-    că termenii sunt identici.
+    trebuie să stăpânești
+    trei idei mari.
   </p>
 
-  <p>
-    Ei apar împreună
-    deoarece sunt forme
-    de flexibilizare curriculară
-    în contexte diferite.
-  </p>
 
   <p>
-    Ajungem acum
-    la noul cadru curricular.
+    Prima:
+    domeniile de competențe cheie.
   </p>
 
-  <p>
-    Noile planuri-cadru liceale
-    utilizează structura:
-    T C,
-    C S
-    și CDEOȘ.
-  </p>
 
   <p>
-    T C rămâne
-    trunchiul comun.
+    A doua:
+    modul în care
+    o programă școlară
+    este proiectată
+    pornind de la competențe.
   </p>
 
-  <p>
-    C S înseamnă
-    curriculum de specialitate.
-  </p>
 
   <p>
-    Curriculumul de specialitate
-    reprezintă componenta obligatorie
-    specifică traseului de formare.
+    A treia:
+    modul în care
+    analizăm o programă de Fizică
+    din perspectiva
+    pertinenței,
+    relevanței,
+    eficienței interne
+    și accesibilității.
   </p>
 
-  <p>
-    El particularizează pregătirea
-    în funcție de filieră,
-    profil,
-    specializare
-    sau calificare,
-    după caz.
-  </p>
 
   <p>
-    Este tentant să spunem:
-    C D a devenit C S.
+    Începem cu noțiunea
+    de competență.
   </p>
 
-  <p>
-    Pentru înțelegere,
-    această comparație poate fi utilă.
-    Dar la examen
-    nu prezentăm C D și C S
-    ca două sinonime absolute.
-  </p>
 
   <p>
-    Sunt termeni
-    aparținând unor structuri curriculare
-    diferite.
+    O competență presupune
+    mobilizarea integrată
+    a cunoștințelor,
+    abilităților
+    și atitudinilor sau valorilor
+    pentru rezolvarea
+    unor sarcini
+    în contexte determinate.
   </p>
 
-  <p>
-    Următorul termen nou
-    este CDEOȘ.
-  </p>
 
   <p>
-    CDEOȘ înseamnă
-    curriculum la decizia elevului
-    din oferta școlii.
+    Cu alte cuvinte,
+    nu este suficient
+    ca elevul
+    să reproducă o informație.
   </p>
 
+
   <p>
-    Metodologia actuală îl definește
-    ca oferta educațională
-    propusă de școală,
-    constituită din discipline,
-    domenii de studiu
-    sau module opționale,
+    El trebuie să poată utiliza
+    ceea ce știe
+    pentru a explica,
+    investiga,
+    interpreta
+    sau rezolva probleme.
+  </p>
+
+
+  <p>
+    Luăm un exemplu din Fizică.
+  </p>
+
+
+  <p>
+    A memora relația
+    U egal R ori I
+    reprezintă
+    o achiziție de cunoaștere.
+  </p>
+
+
+  <p>
+    A utiliza această relație
+    pentru interpretarea
+    unor date experimentale
+    sau pentru rezolvarea
+    unei situații noi
+    presupune mobilizarea
+    unei competențe.
+  </p>
+
+
+  <p>
+    Trecem la
+    competențele cheie.
+  </p>
+
+
+  <p>
+    Profilul de formare
+    al absolventului
+    este construit
+    pe opt competențe cheie.
+  </p>
+
+
+  <p>
+    Prima este
+    competența de citire,
+    scriere
+    și înțelegere a mesajului.
+  </p>
+
+
+  <p>
+    A doua este
+    competența
+    în multilingvism.
+  </p>
+
+
+  <p>
+    A treia este
+    competența matematică
+    și competența
+    în științe,
+    tehnologie
+    și inginerie.
+  </p>
+
+
+  <p>
+    A patra este
+    competența digitală,
+    inclusiv utilizarea sigură
+    și responsabilă
+    a tehnologiei.
+  </p>
+
+
+  <p>
+    A cincea este
+    competența personală,
+    socială
+    și a învăța să înveți.
+  </p>
+
+
+  <p>
+    A șasea este
+    competența civică,
+    juridică
+    și de protejare
+    a mediului.
+  </p>
+
+
+  <p>
+    A șaptea este
+    competența antreprenorială.
+  </p>
+
+
+  <p>
+    A opta este
+    competența de sensibilizare
+    și exprimare culturală.
+  </p>
+
+
+  <p>
+    Aceste competențe
+    au caracter transversal.
+  </p>
+
+
+  <p>
+    Asta înseamnă
+    că nu aparțin
+    unei singure discipline.
+  </p>
+
+
+  <p>
+    Fizica are o contribuție directă
+    la competența matematică
+    și la competența
+    în științe,
+    tehnologie
+    și inginerie.
+  </p>
+
+
+  <p>
+    Dar contribuie
+    și la comunicare,
+    competență digitală,
+    colaborare,
+    protecția mediului
+    și inițiativă.
+  </p>
+
+
+  <p>
+    De exemplu,
+    când elevii realizează
+    un experiment în echipă,
+    măsoară,
+    calculează,
+    reprezintă grafic date
+    și argumentează o concluzie,
+    sunt dezvoltate simultan
+    mai multe competențe.
+  </p>
+
+
+  <p>
+    Urmează relația dintre
+    competențele cheie,
+    competențele generale
+    și competențele specifice.
+  </p>
+
+
+  <p>
+    Competențele cheie
+    reprezintă
+    finalități transversale.
+  </p>
+
+
+  <p>
+    Competențele generale
+    exprimă direcțiile majore
+    de formare
+    specifice unei discipline.
+  </p>
+
+
+  <p>
+    Competențele specifice
+    sunt derivate
+    din competențele generale
+    și se formează
+    pe parcursul
+    unui an de studiu.
+  </p>
+
+
+  <p>
+    Formula de memorat este:
+    competențe cheie,
+    apoi competențe generale,
+    apoi competențe specifice.
+  </p>
+
+
+  <p>
+    Trecem acum
+    la proiectarea programei școlare
+    pe baza competențelor.
+  </p>
+
+
+  <p>
+    Într-un curiculum
+    centrat pe competențe,
+    nu pornim
+    de la lista de capitole.
+  </p>
+
+
+  <p>
+    Pornim de la întrebarea:
+    ce trebuie să poată face elevul?
+  </p>
+
+
+  <p>
+    Mai întâi
+    avem profilul de formare
+    și competențele cheie.
+  </p>
+
+
+  <p>
+    Din acestea
+    se particularizează
+    competențele generale
+    ale disciplinei.
+  </p>
+
+
+  <p>
+    Din competențele generale
+    sunt derivate
+    competențele specifice.
+  </p>
+
+
+  <p>
+    Pentru competențele specifice
+    sunt proiectate
+    activități de învățare
+    și sunt selectate
+    conținuturile.
+  </p>
+
+
+  <p>
+    Apoi,
+    strategiile didactice
+    și evaluarea
+    trebuie să fie
     în concordanță
-    cu nevoile și interesele elevilor,
-    cu specificul școlii
-    și cu nevoile comunității.
+    cu competențele urmărite.
   </p>
 
-  <p>
-    Observați diferența de accent
-    din denumire.
-  </p>
 
   <p>
-    Școala construiește oferta,
-    dar elevul participă
-    la alegerea din această ofertă,
-    conform procedurilor aplicabile.
+    Reține:
+    conținuturile
+    nu sunt scopul final.
   </p>
 
-  <p>
-    Asta nu înseamnă
-    că elevul poate inventa
-    orice disciplină
-    și că școala este obligată
-    să o organizeze.
-  </p>
 
   <p>
-    Alegerea se face
-    dintr-o ofertă curriculară
-    construită și aprobată
-    potrivit cadrului legal.
+    Ele reprezintă
+    suportul pentru formarea
+    competențelor.
   </p>
 
-  <p>
-    În metodologia actuală,
-    CDEOȘ este descris
-    ca segment al curriculumului național
-    care completează
-    componentele obligatorii:
-    trunchiul comun
-    și curriculumul de specialitate.
-  </p>
 
   <p>
-    Acum putem compara
-    cele două structuri.
+    Într-o programă școlară
+    urmărim,
+    în principal,
+    nota de prezentare,
+    competențele generale,
+    competențele specifice,
+    activitățile de învățare,
+    conținuturile
+    și sugestiile metodologice.
   </p>
 
-  <p>
-    În cadrul anterior,
-    pentru planurile care folosesc
-    această organizare,
-    avem:
-    T C,
-    C D,
-    C D Ș.
-  </p>
 
   <p>
-    În noul cadru liceal,
-    avem:
-    T C,
-    C S,
-    CDEOȘ.
+    La Fizică,
+    programa de gimnaziu
+    poate fi înțeleasă
+    prin patru direcții majore.
   </p>
 
-  <p>
-    Aceasta este una dintre
-    cele mai importante comparații
-    pe care trebuie să o rețineți
-    pentru pregătirea concursului din 2027.
-  </p>
-
-  <p>
-    Dar comparația trebuie folosită
-    cu precizie.
-  </p>
-
-  <p>
-    Nu spunem pur și simplu
-    C D egal C S
-    și C D Ș egal CDEOȘ.
-  </p>
-
-  <p>
-    Spunem că apar
-    în cadre curriculare succesive
-    și că îndeplinesc funcții
-    comparabile în anumite privințe,
-    dar terminologia
-    și regulile aplicabile
-    sunt cele ale documentului
-    pe care îl analizăm.
-  </p>
-
-  <p>
-    Să discutăm și statutul.
-  </p>
-
-  <p>
-    T C este obligatoriu.
-  </p>
-
-  <p>
-    C D,
-    în structurile care îl folosesc,
-    este de asemenea
-    parte a pregătirii obligatorii
-    specifice.
-  </p>
-
-  <p>
-    C S,
-    în noul cadru,
-    este componenta obligatorie
-    specifică traseului de formare.
-  </p>
-
-  <p>
-    C D Ș
-    și CDEOȘ
-    reprezintă zona de flexibilitate
-    și opțiune curriculară,
-    fiecare în cadrul său.
-  </p>
-
-  <p>
-    C D L are un context specific,
-    mai ales profesional și tehnologic,
-    legat de nevoile locale
-    și de formarea profesională.
-  </p>
-
-  <p>
-    Să vedem acum
-    ce înseamnă toate acestea
-    pentru profesorul de Fizică.
-  </p>
-
-  <p>
-    Prima regulă:
-    nu presupunem
-    statutul disciplinei Fizică
-    doar din memorie.
-  </p>
-
-  <p>
-    Verificăm planul-cadru
-    aplicabil clasei,
-    profilului
-    și specializării.
-  </p>
-
-  <p>
-    Aceeași disciplină
-    poate avea alocări diferite
-    sau poate apărea
-    în componente diferite
-    în funcție de planul-cadru analizat.
-  </p>
-
-  <p>
-    A doua aplicație
-    este zona opționalelor.
-  </p>
-
-  <p>
-    În programele aprobate în 2026,
-    există discipline de Astronomie
-    prezentate explicit
-    ca discipline opționale
-    incluse în CDEOȘ.
-  </p>
-
-  <p>
-    Pentru profesorul de Fizică,
-    acesta este un exemplu foarte bun
-    de disciplină apropiată
-    de domeniul său de specialitate,
-    care poate apărea
-    în oferta curriculară opțională.
-  </p>
-
-  <p>
-    Ajungem la o regulă
-    foarte utilă pentru examen.
-  </p>
-
-  <p>
-    Când întâlnim
-    o abreviere curriculară,
-    nu răspundem automat.
-  </p>
-
-  <p>
-    Ne punem mai întâi
-    trei întrebări.
-  </p>
 
   <p>
     Prima:
-    ce document am în față?
+    investigarea științifică,
+    în principal experimentală,
+    a fenomenelor fizice.
   </p>
 
-  <p>
-    Este programa de concurs?
-    Un plan-cadru?
-    O metodologie?
-    O lege?
-  </p>
 
   <p>
     A doua:
-    din ce cadru curricular
-    face parte documentul?
+    explicarea științifică
+    a fenomenelor fizice
+    și a aplicațiilor tehnice.
   </p>
 
-  <p>
-    Este cadrul anterior
-    sau noua structură?
-  </p>
 
   <p>
     A treia:
-    ce statut are componenta?
+    interpretarea
+    datelor și informațiilor
+    obținute experimental
+    sau din alte surse.
   </p>
 
-  <p>
-    Este obligatorie,
-    specifică
-    sau opțională?
-  </p>
-
-  <p>
-    Deci formula este:
-    document,
-    cadru curricular,
-    statut,
-    termen corect.
-  </p>
-
-  <p>
-    Să trecem acum
-    prin capcanele frecvente.
-  </p>
-
-  <p>
-    Prima:
-    curriculumul diferențiat
-    este opțional.
-    Fals.
-  </p>
-
-  <p>
-    A doua:
-    C D Ș și C D L
-    sunt identice.
-    Fals.
-  </p>
-
-  <p>
-    A treia:
-    C D Ș și CDEOȘ
-    sunt sinonime perfecte.
-    Fals.
-  </p>
 
   <p>
     A patra:
-    C D și C S
-    sunt exact același termen.
-    Fals.
+    rezolvarea de probleme
+    și situații problemă
+    prin metode specifice Fizicii.
   </p>
 
-  <p>
-    A cincea:
-    CDEOȘ este decis
-    exclusiv de elev.
-    Fals.
-  </p>
 
   <p>
-    Elevul alege
-    din oferta organizată
-    de școală
-    conform procedurilor.
+    Reține progresia:
+    investigare,
+    explicare,
+    interpretare
+    și rezolvare de probleme.
   </p>
 
-  <p>
-    A șasea:
-    disciplina Fizică
-    are exact același statut
-    în toate planurile-cadru.
-    Fals.
-  </p>
 
   <p>
-    Trebuie verificat
-    planul-cadru concret.
+    Luăm acum
+    un exemplu simplu
+    de proiectare.
   </p>
 
-  <p>
-    A șaptea:
-    dacă titlul lecției este
-    tipuri de curriculum,
-    trebuie să învățăm
-    obligatoriu curriculum formal,
-    ascuns,
-    nul
-    și toate taxonomiile pedagogice.
-  </p>
 
   <p>
-    Nu pentru această temă.
+    Conținutul este
+    legea lui Ohme
+    pentru o porțiune
+    de circuit.
   </p>
 
-  <p>
-    Programa de Titularizare 2026
-    indică explicit
-    conceptele pe care trebuie
-    să le cunoaștem
-    în legătură cu planurile-cadru.
-  </p>
 
   <p>
-    Recapitulăm.
+    Nu pornim
+    de la ideea:
+    trebuie să predau formula.
   </p>
 
-  <p>
-    T C:
-    baza obligatorie comună.
-  </p>
 
   <p>
-    C D:
-    pregătirea obligatorie diferențiată
-    în cadrul anterior.
+    Pornim de la competență.
   </p>
 
-  <p>
-    C D Ș:
-    componenta flexibilă
-    în vechea structură curriculară.
-  </p>
 
   <p>
-    C D L:
-    componentă asociată
-    mai ales pregătirii profesionale
-    și nevoilor locale.
+    De exemplu,
+    elevul trebuie
+    să explice relația
+    dintre tensiune,
+    intensitatea curentului
+    și rezistența electrică.
   </p>
 
-  <p>
-    C S:
-    curriculum de specialitate,
-    componenta obligatorie specifică
-    în noul cadru liceal.
-  </p>
 
   <p>
-    CDEOȘ:
-    curriculum la decizia elevului
-    din oferta școlii,
-    segmentul opțional
-    al cadrului actual.
+    Pentru aceasta,
+    elevii pot măsura
+    tensiunea
+    și intensitatea curentului
+    pentru mai multe situații.
   </p>
 
-  <p>
-    Formula de comparație
-    pe care merită să o rețineți este:
-  </p>
 
   <p>
-    cadrul anterior:
-    T C,
-    C D,
-    C D Ș.
+    Ei notează datele
+    într-un tabel,
+    le reprezintă grafic
+    și formulează
+    o concluzie.
   </p>
 
-  <p>
-    cadrul nou:
-    T C,
-    C S,
-    CDEOȘ.
-  </p>
 
   <p>
-    Dar nu uitați:
-    termenii nu se înlocuiesc
-    mecanic unul cu altul.
+    La evaluare,
+    elevul primește
+    o situație nouă,
+    în care trebuie
+    să interpreteze datele
+    sau să utilizeze
+    relația studiată.
   </p>
 
-  <p>
-    La examen,
-    primul reper este întotdeauna
-    formularea cerinței
-    și programa oficială
-    a sesiunii respective.
-  </p>
 
   <p>
-    Pentru Titularizare Fizică 2027,
-    după publicarea programei,
-    trebuie să verificăm
-    dacă sunt păstrate
-    noțiunile C D,
-    C D Ș și C D L
-    sau dacă tematica este actualizată
-    la noua structură
-    T C,
-    C S,
-    CDEOȘ.
+    Aceasta este
+    proiectarea centrată
+    pe competență.
   </p>
 
+
   <p>
-    Aceasta a fost lecția
-    despre tipurile și segmentele
-    de curriculum.
+    Trecem acum
+    la analiza
+    unei programe școlare.
   </p>
+
+
+  <p>
+    Pentru examen,
+    trebuie să cunoști
+    patru criterii principale:
+    pertinența,
+    relevanța,
+    eficiența internă
+    și accesibilitatea.
+  </p>
+
+
+  <p>
+    Începem cu pertinența.
+  </p>
+
+
+  <p>
+    Pertinența arată
+    dacă programa
+    este în concordanță
+    cu finalitățile educaționale,
+    cu profilul de formare
+    și cu nevoile elevilor.
+  </p>
+
+
+  <p>
+    Formula scurtă este:
+    pertinență,
+    concordanță cu finalitățile
+    și nevoile educaționale.
+  </p>
+
+
+  <p>
+    Urmează relevanța.
+  </p>
+
+
+  <p>
+    Relevanța privește
+    utilitatea și semnificația
+    achizițiilor
+    pentru elev.
+  </p>
+
+
+  <p>
+    Întrebarea este:
+    poate elevul utiliza
+    ceea ce învață
+    în contexte reale
+    și în situații noi?
+  </p>
+
+
+  <p>
+    Formula scurtă este:
+    relevanță,
+    utilitate,
+    semnificație
+    și transfer.
+  </p>
+
+
+  <p>
+    Urmează eficiența internă.
+  </p>
+
+
+  <p>
+    Eficiența internă
+    privește coerența
+    dintre componentele programei.
+  </p>
+
+
+  <p>
+    Verificăm dacă
+    activitățile de învățare
+    dezvoltă competențele urmărite,
+    dacă acele conținuturi
+    sunt potrivite
+    pentru competențe,
+    dacă evaluarea
+    verifică ceea ce s-a urmărit
+    și dacă totul poate fi realizat
+    în timpul disponibil.
+  </p>
+
+
+  <p>
+    Formula scurtă este:
+    eficiență internă,
+    coerență
+    și realizabilitate.
+  </p>
+
+
+  <p>
+    Ultimul criteriu principal
+    este accesibilitatea.
+  </p>
+
+
+  <p>
+    Accesibilitatea arată
+    dacă nivelul de complexitate
+    este adecvat
+    vârstei,
+    experienței
+    și achizițiilor anterioare
+    ale elevului.
+  </p>
+
+
+  <p>
+    Verificăm,
+    de asemenea,
+    dacă dificultatea
+    crește progresiv
+    și dacă limbajul științific
+    este introdus
+    într-o formă adecvată.
+  </p>
+
+
+  <p>
+    Formula scurtă este:
+    accesibilitate,
+    adecvare la elev
+    și progresia dificultății.
+  </p>
+
+
+  <p>
+    Atenție la diferența
+    dintre pertinență
+    și relevanță.
+  </p>
+
+
+  <p>
+    Pertinența întreabă:
+    este programa potrivită
+    finalităților educaționale?
+  </p>
+
+
+  <p>
+    Relevanța întreabă:
+    este ceea ce învață elevul
+    util și semnificativ?
+  </p>
+
+
+  <p>
+    Pentru analiza
+    unei programe de Fizică,
+    poți folosi
+    următoarea ordine.
+  </p>
+
+
+  <p>
+    Mai întâi,
+    identifici competențele
+    și finalitățile.
+  </p>
+
+
+  <p>
+    Apoi verifici
+    legătura dintre
+    competențe,
+    activități,
+    conținuturi
+    și evaluare.
+  </p>
+
+
+  <p>
+    După aceea,
+    analizezi pertinența,
+    relevanța,
+    eficiența internă
+    și accesibilitatea.
+  </p>
+
+
+  <p>
+    La final,
+    formulezi
+    o concluzie argumentată.
+  </p>
+
+
+  <p>
+    Nu este suficient
+    să scrii:
+    programa este pertinentă
+    și relevantă.
+  </p>
+
+
+  <p>
+    Trebuie să explici
+    de ce,
+    folosind elemente concrete
+    din programă.
+  </p>
+
+
+  <p>
+    Recapitulăm schema finală.
+  </p>
+
+
+  <p>
+    Competențe cheie:
+    finalități transversale.
+  </p>
+
+
+  <p>
+    Competențe generale:
+    direcții majore
+    ale disciplinei.
+  </p>
+
+
+  <p>
+    Competențe specifice:
+    achiziții urmărite
+    într-un an.
+  </p>
+
+
+  <p>
+    Activități de învățare:
+    situații prin care
+    se formează competențele.
+  </p>
+
+
+  <p>
+    Conținuturi:
+    suport pentru competențe.
+  </p>
+
+
+  <p>
+    Pertinență:
+    concordanță
+    cu finalitățile.
+  </p>
+
+
+  <p>
+    Relevanță:
+    utilitate
+    și transfer.
+  </p>
+
+
+  <p>
+    Eficiență internă:
+    coerență
+    și realizabilitate.
+  </p>
+
+
+  <p>
+    Accesibilitate:
+    adecvare la elev
+    și progresie.
+  </p>
+
+
+  <p>
+    Dacă poți explica
+    aceste relații
+    și poți analiza
+    argumentat
+    o programă de Fizică,
+    ai stăpânit
+    această temă.
+  </p>
+
 
 </template>
 
@@ -4301,15 +5011,18 @@ function updateThemeButton() {
   const dark =
     currentTheme() === "dark";
 
+
   themeToggle.textContent =
     dark
       ? "Tema: Noapte"
       : "Tema: Zi";
 
+
   themeToggle.setAttribute(
     "aria-pressed",
     dark ? "true" : "false"
   );
+
 
   themeToggle.setAttribute(
     "title",
@@ -4328,13 +5041,16 @@ function toggleTheme() {
       ? "light"
       : "dark";
 
+
   document.documentElement.dataset.theme =
     next;
+
 
   localStorage.setItem(
     "titularizare-theme",
     next
   );
+
 
   updateThemeButton();
 
@@ -4353,7 +5069,7 @@ updateThemeButton();
 
 
 <!-- =========================================================
-     COMPONENTA AUDIO COMUNA
+     COMPONENTA AUDIO COMUNĂ
      ========================================================= -->
 
 <script
