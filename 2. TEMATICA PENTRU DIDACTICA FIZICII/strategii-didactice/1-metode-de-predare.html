@@ -10,8 +10,13 @@
   content="width=device-width, initial-scale=1.0"
 >
 
+<meta
+  name="description"
+  content="Metode didactice utilizate la Fizică: definiții, clasificare orientativă, explicație, observație, conversație euristică, problematizare, demonstrație, experiment, descoperire, investigație, modelare, cooperare, rezolvare de probleme și studiu de caz."
+>
+
 <title>
-  Metode didactice · Strategii didactice · Titularizare Fizică
+  1. Metode didactice utilizate la Fizică · Strategii didactice
 </title>
 
 
@@ -32,7 +37,8 @@
   const theme =
     savedTheme || (prefersDark ? "dark" : "light");
 
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme =
+    theme;
 
 })();
 </script>
@@ -41,7 +47,7 @@
 <style>
 
 /* =========================================================
-   TEMA ZI
+   CULORI
    ========================================================= */
 
 :root,
@@ -73,14 +79,16 @@ html[data-theme="light"] {
   --definition-bg: #edf5ff;
   --definition-border: #3f8cff;
 
-  --warning-bg: #fff8dc;
-  --warning-border: #e7a900;
-
   --exam-bg: #edf9f1;
   --exam-border: #278447;
 
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
   --danger-bg: #fff0f0;
   --danger-border: #c2414b;
+
+  --purple-border: #7857b4;
 
   --shadow:
     0 2px 10px rgba(22, 33, 62, .08);
@@ -90,10 +98,6 @@ html[data-theme="light"] {
 
 }
 
-
-/* =========================================================
-   TEMA NOAPTE
-   ========================================================= */
 
 html[data-theme="dark"] {
 
@@ -123,14 +127,16 @@ html[data-theme="dark"] {
   --definition-bg: #182944;
   --definition-border: #6fa8ff;
 
-  --warning-bg: #372f16;
-  --warning-border: #ffcd4a;
-
   --exam-bg: #163a24;
   --exam-border: #62c681;
 
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
   --danger-bg: #3a1c21;
   --danger-border: #ef7b84;
+
+  --purple-border: #a98cff;
 
   --shadow:
     0 2px 14px rgba(0,0,0,.4);
@@ -150,8 +156,10 @@ html[data-theme="dark"] {
 }
 
 html {
+
   scroll-behavior: smooth;
   scroll-padding-top: 18px;
+
 }
 
 body {
@@ -332,7 +340,6 @@ header.top p.subtitle {
   color: #ffffff;
 
   font: inherit;
-
   font-size: .86rem;
   font-weight: 700;
 
@@ -343,7 +350,10 @@ header.top p.subtitle {
 }
 
 .theme-toggle:hover {
-  background: rgba(255,255,255,.18);
+
+  background:
+    rgba(255,255,255,.18);
+
 }
 
 .theme-toggle:focus-visible {
@@ -435,9 +445,7 @@ html[data-theme="dark"] h2 {
 
 h3 {
 
-  margin: 22px 0 8px;
-
-  color: var(--text);
+  margin: 20px 0 8px;
 
   font-size:
     clamp(1rem, 2.5vw, 1.09rem);
@@ -495,14 +503,15 @@ li {
 
 
 /* =========================================================
-   DEFINITII
+   DEFINIȚII
    ========================================================= */
 
 .definition {
 
   margin: 15px 0;
 
-  padding: 16px 18px;
+  padding:
+    16px 18px;
 
   border-left:
     5px solid var(--definition-border);
@@ -510,7 +519,8 @@ li {
   border-radius:
     0 10px 10px 0;
 
-  background: var(--definition-bg);
+  background:
+    var(--definition-bg);
 
 }
 
@@ -527,22 +537,40 @@ li {
 
 }
 
+.definition p {
+  margin: 0;
+}
+
 
 /* =========================================================
    CASETE
    ========================================================= */
 
+.source-note,
 .callout,
 .warning,
 .exam-box,
 .danger,
-.source-note {
+.special-note {
 
   margin: 16px 0;
 
   padding: 15px 17px;
 
   border-radius: 10px;
+
+}
+
+.source-note {
+
+  background: var(--soft-gray);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-size: .9rem;
 
 }
 
@@ -582,16 +610,12 @@ li {
 
 }
 
-.source-note {
+.special-note {
 
-  background: var(--soft-gray);
+  background: var(--soft-purple);
 
-  border:
-    1px solid var(--border);
-
-  color: var(--text-muted);
-
-  font-size: .88rem;
+  border-left:
+    5px solid var(--purple-border);
 
 }
 
@@ -653,182 +677,10 @@ li {
 
 
 /* =========================================================
-   METODA
+   METODĂ
    ========================================================= */
 
 .method-card {
-
-  position: relative;
-
-  overflow: hidden;
-
-  padding-top: 20px;
-
-}
-
-.method-card::before {
-
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  top: 0;
-  right: 0;
-
-  height: 5px;
-
-  background: var(--accent);
-
-}
-
-.method-label {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  min-height: 29px;
-
-  margin-bottom: 8px;
-
-  padding: 4px 10px;
-
-  border-radius: 999px;
-
-  background: var(--navy-2);
-  color: #ffffff;
-
-  font-size: .72rem;
-  font-weight: 850;
-
-}
-
-
-/* =========================================================
-   AVANTAJE / LIMITE
-   ========================================================= */
-
-.pros-cons {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0,1fr));
-
-  gap: 12px;
-
-  margin: 14px 0;
-
-}
-
-.pro,
-.con {
-
-  padding: 14px 16px;
-
-  border-radius: 10px;
-
-}
-
-.pro {
-
-  background: var(--soft-green);
-
-  border-left:
-    4px solid var(--exam-border);
-
-}
-
-.con {
-
-  background: var(--soft-red);
-
-  border-left:
-    4px solid var(--danger-border);
-
-}
-
-.pro b,
-.con b {
-
-  display: block;
-
-  margin-bottom: 5px;
-
-}
-
-
-/* =========================================================
-   PROCES
-   ========================================================= */
-
-.process {
-
-  display: grid;
-
-  grid-template-columns:
-    1fr auto 1fr auto 1fr;
-
-  align-items: stretch;
-
-  gap: 9px;
-
-  margin: 18px 0;
-
-}
-
-.process-card {
-
-  display: flex;
-
-  flex-direction: column;
-  justify-content: center;
-
-  min-height: 108px;
-
-  padding: 14px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 11px;
-
-  background: var(--soft-blue);
-
-  text-align: center;
-
-}
-
-.process-card b {
-
-  display: block;
-
-  margin-bottom: 5px;
-
-  color: var(--accent);
-
-}
-
-.process-arrow {
-
-  display: flex;
-
-  align-items: center;
-
-  color: var(--accent);
-
-  font-size: 1.45rem;
-  font-weight: 900;
-
-}
-
-
-/* =========================================================
-   EXEMPLE FIZICA
-   ========================================================= */
-
-.physics-example {
 
   margin: 16px 0;
 
@@ -848,6 +700,161 @@ li {
 
 }
 
+.method-label {
+
+  display: inline-block;
+
+  margin-bottom: 9px;
+
+  padding: 4px 9px;
+
+  border-radius: 999px;
+
+  background: var(--navy-2);
+  color: #ffffff;
+
+  font-size: .77rem;
+  font-weight: 800;
+
+  letter-spacing: .02em;
+
+}
+
+.method-card h3 {
+
+  margin: 0 0 8px;
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   AVANTAJ / LIMITĂ
+   ========================================================= */
+
+.pros-cons {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.pro,
+.con {
+
+  padding: 14px 15px;
+
+  border-radius: 10px;
+
+}
+
+.pro {
+
+  background: var(--soft-green);
+
+  border-left:
+    4px solid var(--exam-border);
+
+}
+
+.con {
+
+  background: var(--soft-yellow);
+
+  border-left:
+    4px solid var(--warning-border);
+
+}
+
+.pro strong,
+.con strong {
+
+  display: block;
+  margin-bottom: 5px;
+
+}
+
+
+/* =========================================================
+   PROCES
+   ========================================================= */
+
+.process {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, auto);
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  margin: 18px 0;
+
+}
+
+.process-step {
+
+  min-width: 95px;
+
+  padding: 11px 9px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 9px;
+
+  background: var(--soft-blue);
+
+  text-align: center;
+
+  font-size: .83rem;
+  font-weight: 750;
+
+}
+
+.process-arrow {
+
+  color: var(--accent);
+
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   EXEMPLE FIZICĂ
+   ========================================================= */
+
+.physics-example {
+
+  margin: 16px 0;
+
+  padding: 17px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--soft-purple),
+      var(--bg-card)
+    );
+
+}
+
 .physics-example h3 {
 
   margin: 0 0 8px;
@@ -858,7 +865,7 @@ li {
 
 
 /* =========================================================
-   PASI
+   PAȘI
    ========================================================= */
 
 .steps {
@@ -892,7 +899,6 @@ li {
 .step::before {
 
   counter-increment: step;
-
   content: counter(step);
 
   position: absolute;
@@ -933,7 +939,7 @@ li {
 
   width: 100%;
 
-  margin: 14px 0;
+  margin: 15px 0;
 
   overflow-x: auto;
 
@@ -949,8 +955,7 @@ li {
 table {
 
   width: 100%;
-
-  min-width: 780px;
+  min-width: 720px;
 
   border-collapse: collapse;
 
@@ -989,57 +994,14 @@ tr:last-child td {
 
 
 /* =========================================================
-   CHECK
-   ========================================================= */
-
-.check {
-
-  position: relative;
-
-  padding:
-    13px 14px 13px 44px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 10px;
-
-  background: var(--soft-green);
-
-}
-
-.check::before {
-
-  content: "✓";
-
-  position: absolute;
-
-  left: 14px;
-  top: 12px;
-
-  display: grid;
-  place-items: center;
-
-  width: 22px;
-  height: 22px;
-
-  border-radius: 50%;
-
-  background: var(--exam-border);
-  color: #ffffff;
-
-  font-weight: 900;
-
-}
-
-
-/* =========================================================
    CAPCANE
    ========================================================= */
 
 .trap {
 
   position: relative;
+
+  margin: 11px 0;
 
   padding:
     13px 14px 13px 46px;
@@ -1079,7 +1041,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   RECAP
+   RECAPITULARE
    ========================================================= */
 
 .recap-grid {
@@ -1089,7 +1051,7 @@ tr:last-child td {
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(175px,1fr)
+      minmax(170px,1fr)
     );
 
   gap: 11px;
@@ -1131,21 +1093,21 @@ tr:last-child td {
 
 
 /* =========================================================
-   INTREBARI
+   ÎNTREBĂRI
    ========================================================= */
 
 .question {
 
-  margin: 11px 0;
+  margin: 10px 0;
 
-  padding: 14px 16px;
+  padding: 13px 14px;
 
   border:
     1px solid var(--border);
 
   border-radius: 10px;
 
-  background: var(--bg-card);
+  background: var(--soft-gray);
 
 }
 
@@ -1153,16 +1115,28 @@ tr:last-child td {
   color: var(--accent);
 }
 
+details.answer {
 
-/* =========================================================
-   SURSE
-   ========================================================= */
+  margin: 8px 0 14px;
 
-.sources li {
+  padding: 11px 13px;
 
-  color: var(--text-muted);
+  border:
+    1px solid var(--border);
 
-  font-size: .88rem;
+  border-radius: 9px;
+
+  background: var(--bg-card);
+
+}
+
+details.answer summary {
+
+  cursor: pointer;
+
+  color: var(--accent);
+
+  font-weight: 700;
 
 }
 
@@ -1204,9 +1178,8 @@ nav.pager a {
 
   color: var(--accent);
 
+  font-weight: 700;
   text-decoration: none;
-
-  font-weight: 650;
 
 }
 
@@ -1222,50 +1195,48 @@ nav.pager a:focus-visible {
 
 footer.site {
 
+  width: min(900px,100%);
+
+  margin: 0 auto 40px;
+
   padding:
-    18px 16px 30px;
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
 
   color: var(--text-muted);
 
+  font-size: .82rem;
   text-align: center;
 
-  font-size: .8rem;
-  line-height: 1.55;
-
 }
 
 
 /* =========================================================
-   TABLETA
+   RESPONSIVE
    ========================================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 780px) {
 
-  .grid3 {
-    grid-template-columns:
-      repeat(2, minmax(0,1fr));
+  .process {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .process-arrow {
+
+    text-align: center;
+
+    transform: rotate(90deg);
+
   }
 
 }
 
 
-/* =========================================================
-   TELEFON
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-  header.top {
-    padding-top: 18px;
-  }
-
-  .header-row {
-    flex-direction: column;
-  }
-
-  .theme-toggle {
-    align-self: flex-start;
-  }
+@media (max-width: 700px) {
 
   .toc {
     columns: 1;
@@ -1274,23 +1245,21 @@ footer.site {
   .grid2,
   .grid3,
   .pros-cons {
+
     grid-template-columns: 1fr;
-  }
-
-  .process {
-    grid-template-columns: 1fr;
-  }
-
-  .process-arrow {
-
-    justify-content: center;
-
-    transform: rotate(90deg);
 
   }
 
-  main {
-    margin-top: 18px;
+  .header-row {
+
+    flex-direction: column;
+
+  }
+
+  .theme-toggle {
+
+    align-self: flex-start;
+
   }
 
   nav.pager {
@@ -1304,7 +1273,7 @@ footer.site {
 
     justify-content: center;
 
-    padding: 7px 10px;
+    padding: 8px 10px;
 
     border:
       1px solid var(--border);
@@ -1317,10 +1286,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   ECRANE MICI
-   ========================================================= */
 
 @media (max-width: 380px) {
 
@@ -1338,10 +1303,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   REDUCERE ANIMATII
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -1417,15 +1378,13 @@ footer.site {
 
 
         <h1>
-          Strategii didactice. Metode didactice
+          1. Metode didactice utilizate la Fizică
         </h1>
 
 
         <p class="subtitle">
-          Prezentare · caracterizare · utilizare ·
-          experiment · conversație euristică ·
-          problematizare · cooperare · investigație ·
-          rezolvare de probleme
+          prezentare · caracterizare · utilizare ·
+          alegerea metodei · aplicare la Fizică
         </p>
 
       </div>
@@ -1449,98 +1408,83 @@ footer.site {
 
 
 <!-- =========================================================
-     MAIN
+     CONȚINUT
      ========================================================= -->
 
 <main id="continut">
 
 
   <!-- =======================================================
-       PROGRAMA
+       1. REPER
        ======================================================= -->
 
   <section class="card">
 
     <h2>
-      Ce cere programa de Titularizare?
+      1. Reperul lecției
     </h2>
 
 
-    <p>
-      Programa disponibilă pentru
-      <strong>Titularizare Fizică 2026</strong>
-      include, în capitolul
-      „Strategii didactice utilizate
-      în procesul de predare–învățare–evaluare”:
-    </p>
+    <div class="source-note">
+
+      Programa pentru concursul de ocupare
+      a posturilor didactice la disciplina Fizică
+      este utilizată în această lecție
+      ca reper pentru delimitarea tematicii.
+
+      <br><br>
+
+      Ea solicită
+      prezentarea,
+      caracterizarea
+      și utilizarea metodelor didactice
+      și acordă un loc distinct
+      experimentului
+      și rezolvării de probleme
+      în demersul didactic la Fizică.
+
+      <br><br>
+
+      Terminologia și orientarea metodologică
+      sunt raportate la cadrul curricular
+      și la programele școlare
+      aflate în vigoare.
+
+      <br><br>
+
+      Pentru concurs,
+      formularea exactă a tematicii
+      trebuie reverificată
+      după publicarea documentelor oficiale
+      ale sesiunii vizate.
+
+    </div>
 
 
     <div class="exam-box">
 
       <strong>
-        „Metode didactice
-        — prezentare, caracterizare, utilizare.”
+        Ce trebuie să poți face:
       </strong>
 
-    </div>
+      <br><br>
 
+      să
+      <strong>definești</strong>
+      metoda,
 
-    <p>
-      Programa acordă apoi
-      un loc distinct
-      metodelor specifice
-      demersului didactic la Fizică:
-    </p>
+      să explici
+      <strong>cum se aplică</strong>,
 
+      să precizezi
+      <strong>ce activitate desfășoară elevul</strong>,
 
-    <div class="grid2">
+      să o legi de
+      <strong>competența urmărită</strong>
 
-      <div class="mini-card">
-
-        <h3>
-          Experimentul
-        </h3>
-
-        <p>
-          integrarea în lecție,
-          activități de laborator
-          și evaluarea activităților practice.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Rezolvarea de probleme
-        </h3>
-
-        <p>
-          proiectarea secvențelor
-          de învățare
-          și evaluarea prin probleme.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        Pentru Titularizare Fizică 2027:
-      </strong>
-
-      această lecție este fundamentată
-      pe programa oficială disponibilă
-      pentru 2026.
-
-      Formularea exactă
-      a programei pentru 2027
-      trebuie reverificată
-      după publicare.
+      și să argumentezi
+      <strong>utilitatea</strong>
+      ei într-o situație concretă de Fizică.
 
     </div>
 
@@ -1548,8 +1492,8 @@ footer.site {
 
 
   <!--
-    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
-    DE assets/audio/audio-lesson.js
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
   -->
 
 
@@ -1569,26 +1513,38 @@ footer.site {
       <ol>
 
         <li>
-          <a href="#strategie">
-            Strategie, metodă și procedeu
+          <a href="#vocabular">
+            Strategie, metodă, procedeu, mijloc, formă
           </a>
         </li>
 
         <li>
           <a href="#caracterizare">
-            Cum caracterizăm o metodă?
+            Cum caracterizăm o metodă
+          </a>
+        </li>
+
+        <li>
+          <a href="#logica-fizicii">
+            Logica demersului la Fizică
           </a>
         </li>
 
         <li>
           <a href="#clasificare">
-            O clasificare pentru studiu
+            Clasificare orientativă
           </a>
         </li>
 
         <li>
           <a href="#explicatia">
             Explicația
+          </a>
+        </li>
+
+        <li>
+          <a href="#observatia">
+            Observația
           </a>
         </li>
 
@@ -1605,6 +1561,12 @@ footer.site {
         </li>
 
         <li>
+          <a href="#demonstratia">
+            Demonstrația didactică
+          </a>
+        </li>
+
+        <li>
           <a href="#experimentul">
             Experimentul
           </a>
@@ -1617,8 +1579,8 @@ footer.site {
         </li>
 
         <li>
-          <a href="#demonstratia">
-            Demonstrația
+          <a href="#investigatia">
+            Investigația
           </a>
         </li>
 
@@ -1635,50 +1597,62 @@ footer.site {
         </li>
 
         <li>
-          <a href="#investigatia">
-            Investigația
-          </a>
-        </li>
-
-        <li>
           <a href="#probleme">
             Rezolvarea de probleme
           </a>
         </li>
 
         <li>
-          <a href="#fisa">
-            Fișa de lucru
+          <a href="#exercitiul">
+            Exercițiul
           </a>
         </li>
 
         <li>
-          <a href="#alegere">
+          <a href="#studiu-caz">
+            Studiul de caz
+          </a>
+        </li>
+
+        <li>
+          <a href="#distinctii">
+            Distincții care trebuie stăpânite
+          </a>
+        </li>
+
+        <li>
+          <a href="#nu-sunt-metode">
+            Ce nu este automat metodă
+          </a>
+        </li>
+
+        <li>
+          <a href="#alegerea">
             Alegerea metodei
           </a>
         </li>
 
         <li>
-          <a href="#subiecte">
-            Modele din subiectele de examen
-          </a>
-        </li>
-
-        <li>
-          <a href="#examen">
-            Formulă de răspuns la concurs
+          <a href="#concurs">
+            Model de răspuns
           </a>
         </li>
 
         <li>
           <a href="#capcane">
-            Capcane frecvente
+            Capcane
           </a>
         </li>
 
         <li>
           <a href="#recapitulare">
             Recapitulare
+          </a>
+        </li>
+
+        <li>
+          <a href="#autoevaluare">
+            Autoevaluare
           </a>
         </li>
 
@@ -1690,32 +1664,37 @@ footer.site {
 
 
   <!-- =======================================================
-       1. STRATEGIE
+       2. VOCABULAR
        ======================================================= -->
 
   <section
     class="card"
-    id="strategie"
+    id="vocabular"
   >
 
     <h2>
-      1. Strategie didactică, metodă și procedeu
+      2. Strategie, metodă, procedeu, mijloc și formă de organizare
     </h2>
 
 
     <div class="definition">
 
       <span class="definition-term">
-        Strategia didactică
+        Strategie didactică
       </span>
 
-      reprezintă organizarea coerentă
-      a metodelor,
-      procedeelor,
-      mijloacelor
-      și formelor de organizare
-      pentru realizarea
-      finalităților unei activități didactice.
+      <p>
+        Reprezintă ansamblul coerent
+        și flexibil de decizii
+        prin care profesorul corelează
+        metodele,
+        procedeele,
+        mijloacele de învățământ,
+        formele de organizare
+        și modalitățile de evaluare
+        pentru realizarea
+        competențelor urmărite.
+      </p>
 
     </div>
 
@@ -1723,16 +1702,20 @@ footer.site {
     <div class="definition">
 
       <span class="definition-term">
-        Metoda didactică
+        Metodă didactică
       </span>
 
-      reprezintă o cale de organizare
-      și desfășurare
-      a procesului de predare–învățare,
-      aleasă în raport cu
-      competențele,
-      conținutul
-      și particularitățile elevilor.
+      <p>
+        Reprezintă calea
+        de organizare și desfășurare
+        a activității profesorului
+        și a elevilor
+        pentru realizarea
+        unei sarcini de învățare
+        și pentru formarea
+        sau dezvoltarea
+        unor competențe.
+      </p>
 
     </div>
 
@@ -1740,82 +1723,118 @@ footer.site {
     <div class="definition">
 
       <span class="definition-term">
-        Procedeul didactic
+        Procedeu didactic
       </span>
 
-      este o modalitate concretă
-      de realizare
-      a unei secvențe
-      din cadrul unei metode.
+      <p>
+        Reprezintă o modalitate
+        concretă și punctuală
+        de realizare
+        a unei metode didactice.
+      </p>
 
     </div>
 
 
-    <div class="process">
+    <div class="definition">
 
-      <div class="process-card">
+      <span class="definition-term">
+        Mijloc de învățământ
+      </span>
 
-        <b>
-          Competența
-        </b>
-
-        Ce trebuie
-        să poată face elevul?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Metoda
-        </b>
-
-        Prin ce cale
-        organizăm învățarea?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Activitatea
-        </b>
-
-        Ce face efectiv elevul?
-
-      </div>
+      <p>
+        Reprezintă resursa materială,
+        experimentală,
+        vizuală
+        sau digitală
+        utilizată pentru sprijinirea
+        predării,
+        învățării
+        și evaluării.
+      </p>
 
     </div>
 
 
-    <div class="danger">
+    <div class="definition">
+
+      <span class="definition-term">
+        Formă de organizare
+      </span>
+
+      <p>
+        Reprezintă modul
+        în care este organizată
+        participarea elevilor:
+        activitate frontală,
+        individuală,
+        în perechi
+        sau pe grupe.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
 
       <strong>
-        Metoda nu este același lucru
-        cu mijlocul de învățământ.
+        Nu le confunda:
       </strong>
 
       <br><br>
 
-      Experimentul poate fi metodă.
+      strategie
+      ≠
+      metodă
+      ≠
+      procedeu
+      ≠
+      mijloc
+      ≠
+      formă de organizare.
 
-      <br>
+    </div>
 
-      Trusa de laborator
-      este mijloc de învățământ.
 
-      <br>
+    <div class="physics-example">
 
-      Lucrul pe grupe
-      este formă de organizare.
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Profesorul urmărește
+        investigarea dependenței
+        intensității curentului
+        de tensiunea aplicată
+        unui rezistor.
+      </p>
+
+      <p>
+        <strong>Metoda:</strong>
+        investigația experimentală.
+      </p>
+
+      <p>
+        <strong>Procedeu:</strong>
+        formularea unei ipoteze
+        și compararea valorilor măsurate.
+      </p>
+
+      <p>
+        <strong>Mijloace:</strong>
+        sursă,
+        rezistor,
+        ampermetru,
+        voltmetru,
+        conductoare.
+      </p>
+
+      <p>
+        <strong>Forma de organizare:</strong>
+        lucru în perechi
+        sau pe grupe.
+      </p>
 
     </div>
 
@@ -1823,7 +1842,7 @@ footer.site {
 
 
   <!-- =======================================================
-       2. CARACTERIZARE
+       3. CARACTERIZAREA UNEI METODE
        ======================================================= -->
 
   <section
@@ -1832,1303 +1851,47 @@ footer.site {
   >
 
     <h2>
-      2. Cum caracterizăm o metodă la Titularizare?
+      3. Cum caracterizăm o metodă didactică
     </h2>
 
 
     <p>
-      Programa nu cere
-      simpla enumerare
-      a denumirilor.
-      Cere
-      <strong>prezentare,
-      caracterizare și utilizare</strong>.
-    </p>
-
-
-    <div class="exam-box">
-
-      Pentru fiecare metodă,
-      construiește răspunsul astfel:
-
-      <br><br>
-
-      <strong>
-        DEFINIȚIE
-        → CUM SE APLICĂ
-        → CE DEZVOLTĂ
-        → EXEMPLU LA FIZICĂ
-        → AVANTAJ
-        → LIMITĂ
-      </strong>
-
-    </div>
-
-
-    <div class="grid2">
-
-      <div class="check">
-
-        <strong>
-          Definește
-        </strong>
-
-        <br>
-
-        Spune în ce constă metoda.
-
-      </div>
-
-
-      <div class="check">
-
-        <strong>
-          Operaționalizează
-        </strong>
-
-        <br>
-
-        Arată ce fac
-        profesorul și elevii.
-
-      </div>
-
-
-      <div class="check">
-
-        <strong>
-          Leagă de competență
-        </strong>
-
-        <br>
-
-        Explică de ce este utilă
-        pentru rezultatul urmărit.
-
-      </div>
-
-
-      <div class="check">
-
-        <strong>
-          Particularizează
-        </strong>
-
-        <br>
-
-        Utilizează un exemplu concret
-        de Fizică.
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
       La concurs,
-      afirmația:
-
-      <br><br>
-
-      <em>
-        „experimentul este o metodă activă
-        și dezvoltă gândirea”
-      </em>
-
-      <br><br>
-
-      este mult mai slabă decât
-      descrierea unei activități
-      în care elevul măsoară,
-      prelucrează date
-      și formulează concluzii.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       3. CLASIFICARE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="clasificare"
-  >
-
-    <h2>
-      3. O clasificare utilă pentru studiu
-    </h2>
-
-
-    <p>
-      Metodele pot fi clasificate
-      după criterii diferite.
-      Pentru această lecție
-      folosim o organizare pedagogică
-      simplă și funcțională.
+      simpla enumerare
+      a unor metode
+      este insuficientă.
     </p>
-
-
-    <div class="grid3">
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          COMUNICARE
-        </span>
-
-        <h3>
-          Metode de comunicare
-        </h3>
-
-        <p>
-          explicația,
-          conversația,
-          lucrul cu textul.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          EXPLORARE
-        </span>
-
-        <h3>
-          Explorarea realității
-        </h3>
-
-        <p>
-          observația,
-          experimentul,
-          demonstrația,
-          modelarea.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          ACȚIUNE
-        </span>
-
-        <h3>
-          Metode bazate pe acțiune
-        </h3>
-
-        <p>
-          exercițiul,
-          rezolvarea de probleme,
-          proiectul,
-          activitățile practice.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          EURISTIC
-        </span>
-
-        <h3>
-          Metode de descoperire
-        </h3>
-
-        <p>
-          problematizarea,
-          conversația euristică,
-          descoperirea,
-          investigația.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          COOPERARE
-        </span>
-
-        <h3>
-          Metode colaborative
-        </h3>
-
-        <p>
-          activități în care
-          elevii rezolvă
-          sarcini comune
-          prin roluri și colaborare.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card method-card">
-
-        <span class="method-label">
-          MIXT
-        </span>
-
-        <h3>
-          Combinații metodice
-        </h3>
-
-        <p>
-          Într-o lecție reală,
-          metodele sunt frecvent
-          combinate într-o strategie.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        Această clasificare
-        este o organizare pedagogică
-        pentru studiu.
-      </strong>
-
-      <br><br>
-
-      Programa 2026
-      cere metode didactice,
-      prezentarea,
-      caracterizarea
-      și utilizarea lor,
-      dar nu fixează în acel punct
-      o singură taxonomie textuală
-      obligatorie.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       4. EXPLICATIA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="explicatia"
-  >
-
-    <h2>
-      4. Explicația
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Explicația
-      </span>
-
-      este metoda prin care
-      profesorul clarifică
-      concepte,
-      relații,
-      cauze
-      sau mecanisme,
-      organizând logic
-      informația științifică.
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu la Fizică
-      </h3>
-
-      <p>
-        Profesorul explică
-        de ce presiunea hidrostatică
-        crește cu adâncimea,
-        corelând relația
-        <strong>p = ρgh</strong>
-        cu semnificația fizică
-        a mărimilor.
-      </p>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaj
-        </b>
-
-        Poate clarifica rapid
-        concepte abstracte
-        și relații cauzale.
-
-      </div>
-
-
-      <div class="con">
-
-        <b>
-          Limită
-        </b>
-
-        Dacă este utilizată exclusiv,
-        poate menține elevul
-        într-un rol predominant receptiv.
-
-      </div>
-
-    </div>
-
-
-    <div class="callout">
-
-      Explicația devine mai eficientă
-      când este combinată
-      cu întrebări,
-      reprezentări,
-      experiment
-      sau rezolvare de sarcini.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       5. CONVERSATIA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="conversatia"
-  >
-
-    <h2>
-      5. Conversația euristică
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Conversația euristică
-      </span>
-
-      utilizează întrebări
-      formulate progresiv
-      pentru a conduce elevii
-      spre descoperirea,
-      clarificarea
-      sau aprofundarea
-      unor relații și explicații.
-
-    </div>
-
-
-    <p>
-      Profesorul nu furnizează
-      imediat concluzia,
-      ci organizează
-      traseul de gândire.
-    </p>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu — plutirea corpurilor
-      </h3>
-
-      <p>
-        Profesorul poate porni
-        de la observația
-        că un corp pare
-        mai ușor în apă.
-      </p>
-
-      <p>
-        Întrebările pot evolua:
-      </p>
-
-      <ul>
-
-        <li>
-          Ce forțe acționează asupra corpului?
-        </li>
-
-        <li>
-          Ce indică dinamometrul în aer?
-        </li>
-
-        <li>
-          Ce indică în apă?
-        </li>
-
-        <li>
-          Ce diferență observăm?
-        </li>
-
-        <li>
-          Ce forță suplimentară
-          trebuie să acționeze?
-        </li>
-
-      </ul>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaj
-        </b>
-
-        Stimulează participarea,
-        argumentarea
-        și feedbackul imediat.
-
-      </div>
-
-
-      <div class="con">
-
-        <b>
-          Limită
-        </b>
-
-        Necesită întrebări
-        bine proiectate
-        și poate consuma timp.
-
-      </div>
-
-    </div>
-
-
-    <div class="danger">
-
-      Conversația euristică
-      nu este o succesiune
-      de întrebări la care
-      profesorul răspunde singur.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       6. PROBLEMATIZAREA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="problematizarea"
-  >
-
-    <h2>
-      6. Problematizarea
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Problematizarea
-      </span>
-
-      pornește de la
-      o situație-problemă
-      sau o întrebare provocatoare
-      care determină elevul
-      să caute explicații,
-      relații
-      și soluții.
-
-    </div>
 
 
     <div class="process">
 
-      <div class="process-card">
-
-        <b>
-          Situație
-        </b>
-
-        Apare o contradicție,
-        o întrebare
-        sau un rezultat surprinzător.
-
+      <div class="process-step">
+        DEFINIȚIE
       </div>
 
       <div class="process-arrow">
         →
       </div>
 
-      <div class="process-card">
-
-        <b>
-          Căutare
-        </b>
-
-        Elevul formulează
-        ipoteze
-        și analizează date.
-
+      <div class="process-step">
+        APLICARE
       </div>
 
       <div class="process-arrow">
         →
       </div>
 
-      <div class="process-card">
-
-        <b>
-          Soluție
-        </b>
-
-        Concluzia este argumentată
-        pe baza dovezilor.
-
+      <div class="process-step">
+        UTILITATE
       </div>
 
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu dintr-un subiect de metodică
-      </h3>
-
-      <p>
-        Pentru determinarea
-        centrului de greutate
-        al unei plăci,
-        elevii suspendă corpul
-        din puncte diferite
-        și trasează verticalele.
-      </p>
-
-      <p>
-        Situația-problemă:
-      </p>
-
-      <p>
-        <strong>
-          De ce verticalele
-          se intersectează
-          în același punct
-          și ce semnificație fizică
-          are acel punct?
-        </strong>
-      </p>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaj
-        </b>
-
-        Dezvoltă gândirea critică,
-        creativitatea,
-        analiza
-        și căutarea cauzelor.
-
+      <div class="process-arrow">
+        →
       </div>
 
-
-      <div class="con">
-
-        <b>
-          Limită
-        </b>
-
-        Situația-problemă
-        trebuie proiectată atent;
-        dacă soluția este evidentă,
-        problematizarea dispare.
-
+      <div class="process-step">
+        LIMITĂ
       </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       7. EXPERIMENT
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="experimentul"
-  >
-
-    <h2>
-      7. Experimentul — metodă esențială în Fizică
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Experimentul
-      </span>
-
-      presupune provocarea,
-      observarea
-      și studierea unui fenomen
-      în condiții controlate,
-      prin utilizarea
-      unor proceduri,
-      aparate
-      și măsurători.
-
-    </div>
-
-
-    <p>
-      Importanța experimentului
-      este subliniată direct
-      de programa de concurs,
-      care îl tratează separat
-      între metodele specifice
-      demersului didactic la Fizică.
-    </p>
-
-
-    <h3>
-      Elevul poate
-    </h3>
-
-
-    <div class="grid3">
-
-      <div class="check">
-        formula ipoteze
-      </div>
-
-      <div class="check">
-        realiza montajul
-      </div>
-
-      <div class="check">
-        utiliza instrumente
-      </div>
-
-      <div class="check">
-        efectua măsurători
-      </div>
-
-      <div class="check">
-        organiza datele
-      </div>
-
-      <div class="check">
-        interpreta rezultatele
-      </div>
-
-      <div class="check">
-        realiza grafice
-      </div>
-
-      <div class="check">
-        verifica o relație
-      </div>
-
-      <div class="check">
-        formula concluzii
-      </div>
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu — Legea lui Ohm
-      </h3>
-
-      <p>
-        Elevii realizează
-        un circuit cu rezistor,
-        ampermetru
-        și voltmetru.
-      </p>
-
-      <p>
-        Pentru diferite valori
-        ale tensiunii U
-        măsoară intensitatea I,
-        completează un tabel
-        și analizează raportul
-        <strong>U/I</strong>.
-      </p>
-
-      <p>
-        În condițiile corespunzătoare,
-        ajung la relația:
-      </p>
-
-      <p>
-        <strong>
-          U = R · I.
-        </strong>
-      </p>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaje
-        </b>
-
-        implicare directă;
-        competențe de investigare;
-        legătură între model
-        și fenomen;
-        deprinderi experimentale.
-
-      </div>
-
-
-      <div class="con">
-
-        <b>
-          Limite
-        </b>
-
-        necesită timp,
-        aparatură,
-        organizare
-        și respectarea condițiilor
-        de siguranță.
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      Pentru experiment,
-      descrierea bună la examen include:
-
-      <br><br>
-
-      <strong>
-        SCOP
-        → MATERIALE
-        → MONTAJ
-        → MOD DE LUCRU
-        → DATE
-        → PRELUCRARE
-        → CONCLUZIE
-      </strong>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       8. DESCOPERIRE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="descoperirea"
-  >
-
-    <h2>
-      8. Învățarea prin descoperire
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Învățarea prin descoperire
-      </span>
-
-      organizează activitatea
-      astfel încât elevul
-      să ajungă la
-      o relație,
-      regulă
-      sau concluzie
-      prin analiza proprie
-      a unei situații
-      sau a unor date,
-      cu sprijinul profesorului.
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu oficial anterior — Legea lui Ohm
-      </h3>
-
-      <p>
-        Într-un material de metodică
-        pentru Definitivat 2015,
-        elevii măsoară U și I,
-        reprezintă grafic
-        dependența
-        și observă constanța
-        raportului U/I.
-      </p>
-
-      <p>
-        Metoda indicată:
-        <strong>
-          învățarea prin descoperire.
-        </strong>
-      </p>
-
-    </div>
-
-
-    <div class="callout">
-
-      Diferența față de
-      o simplă comunicare
-      a legii este importantă.
-
-      <br><br>
-
-      Profesorul nu începe
-      prin a oferi concluzia
-      și apoi cere elevului
-      să o verifice formal.
-
-      <br><br>
-
-      Datele și activitatea
-      sunt utilizate
-      pentru construirea concluziei.
-
-    </div>
-
-
-    <div class="warning">
-
-      „Descoperire”
-      nu înseamnă
-      că elevul este lăsat
-      fără orientare.
-
-      Profesorul poate proiecta
-      sarcini,
-      întrebări
-      și repere intermediare.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       9. DEMONSTRATIA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="demonstratia"
-  >
-
-    <h2>
-      9. Demonstrația didactică
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Demonstrația
-      </span>
-
-      constă în prezentarea
-      unui fenomen,
-      proces,
-      obiect
-      sau mod de lucru,
-      astfel încât elevii
-      să poată observa
-      elementele relevante
-      și să construiască
-      explicații corecte.
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu din Titularizare 2023
-      </h3>
-
-      <p>
-        Profesorul realizează frontal
-        circuite cu becuri
-        conectate în serie
-        și în paralel.
-      </p>
-
-      <p>
-        Elevii observă
-        comportarea becurilor,
-        răspund la întrebări
-        și consemnează
-        observațiile
-        într-un protocol.
-      </p>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaj
-        </b>
-
-        Permite prezentarea controlată
-        a unui fenomen
-        și poate clarifica
-        utilizarea corectă
-        a aparaturii.
-
-      </div>
-
-
-      <div class="con">
-
-        <b>
-          Limită
-        </b>
-
-        Dacă elevul doar privește,
-        componenta practică
-        rămâne predominant
-        la profesor.
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      Demonstrația devine mai activă
-      când elevii primesc
-      <strong>sarcini de observație</strong>:
-
-      ce urmăresc,
-      ce consemnează,
-      ce compară
-      și ce concluzie formulează.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       10. MODELARE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="modelarea"
-  >
-
-    <h2>
-      10. Modelarea
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Modelarea
-      </span>
-
-      utilizează modele
-      conceptuale,
-      grafice,
-      matematice
-      sau materiale
-      pentru reprezentarea
-      și explicarea
-      unor sisteme
-      sau fenomene.
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemple la Fizică
-      </h3>
-
-      <ul>
-
-        <li>
-          modelul gazului ideal;
-        </li>
-
-        <li>
-          linii de câmp
-          pentru reprezentarea
-          unui câmp electric;
-        </li>
-
-        <li>
-          grafice de mișcare;
-        </li>
-
-        <li>
-          modele de circuit;
-        </li>
-
-        <li>
-          simularea unei orbite
-          sau a unui sistem greu
-          de observat direct.
-        </li>
-
-      </ul>
-
-    </div>
-
-
-    <div class="callout">
-
-      Un model
-      nu este realitatea însăși.
-
-      <br><br>
-
-      Profesorul trebuie
-      să facă vizibile
-      <strong>
-        utilitatea modelului
-        și limitele sale.
-      </strong>
-
-    </div>
-
-
-    <div class="danger">
-
-      Software-ul,
-      calculatorul
-      sau simularea digitală
-      nu trebuie confundate automat
-      cu metoda didactică.
-
-      Ele pot funcționa
-      ca mijloace sau resurse
-      într-o strategie de modelare,
-      investigație
-      ori demonstrație.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       11. COOPERAREA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cooperarea"
-  >
-
-    <h2>
-      11. Învățarea prin cooperare
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Învățarea prin cooperare
-      </span>
-
-      organizează elevii
-      în grupuri mici
-      pentru realizarea
-      unei sarcini comune,
-      fiecare membru având
-      responsabilități clare
-      și contribuind
-      la produsul grupului.
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Exemplu din Titularizare 2022
-      </h3>
-
-      <p>
-        Clasa este organizată
-        în echipe de patru elevi,
-        cu roluri precum:
-      </p>
-
-      <ul>
-
-        <li>
-          coordonator;
-        </li>
-
-        <li>
-          observator;
-        </li>
-
-        <li>
-          responsabil cu calculele;
-        </li>
-
-        <li>
-          raportor.
-        </li>
-
-      </ul>
-
-      <p>
-        Echipa analizează
-        funcționarea
-        unui sistem hidraulic
-        utilizând legea lui Pascal.
-      </p>
-
-    </div>
-
-
-    <div class="pros-cons">
-
-      <div class="pro">
-
-        <b>
-          Avantaje
-        </b>
-
-        dezvoltă colaborarea,
-        comunicarea,
-        responsabilitatea
-        și argumentarea.
-
-      </div>
-
-
-      <div class="con">
-
-        <b>
-          Limite
-        </b>
-
-        pot apărea participare inegală,
-        conflicte
-        sau preluarea sarcinii
-        de către un singur elev.
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      Pentru cooperare,
-      precizează:
-
-      <br><br>
-
-      <strong>
-        SARCINA COMUNĂ
-        + ROLURILE
-        + RESPONSABILITATEA INDIVIDUALĂ
-        + MODUL DE RAPORTARE
-      </strong>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       12. INVESTIGATIA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="investigatia"
-  >
-
-    <h2>
-      12. Investigația
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Investigația
-      </span>
-
-      implică elevul
-      într-un demers de cercetare:
-      formularea unei probleme,
-      construirea unor ipoteze,
-      colectarea și analiza datelor
-      și formularea concluziilor.
 
     </div>
 
@@ -3138,10 +1901,11 @@ footer.site {
       <div class="step">
 
         <b>
-          Formularea problemei
+          Numește și definește metoda.
         </b>
 
-        Ce vrem să aflăm?
+        Arată care este
+        mecanismul ei didactic esențial.
 
       </div>
 
@@ -3149,11 +1913,13 @@ footer.site {
       <div class="step">
 
         <b>
-          Ipoteza
+          Descrie aplicarea.
         </b>
 
-        Ce anticipăm
-        și de ce?
+        Spune concret
+        ce face profesorul
+        și mai ales
+        ce face elevul.
 
       </div>
 
@@ -3161,12 +1927,13 @@ footer.site {
       <div class="step">
 
         <b>
-          Proiectarea demersului
+          Leagă metoda de competență.
         </b>
 
-        Ce variabile,
-        materiale
-        și măsurători sunt necesare?
+        Precizează
+        ce comportament observabil
+        sau ce achiziție
+        este urmărită.
 
       </div>
 
@@ -3174,11 +1941,12 @@ footer.site {
       <div class="step">
 
         <b>
-          Colectarea datelor
+          Dă un exemplu de Fizică.
         </b>
 
-        Elevii observă
-        și măsoară.
+        Exemplul trebuie
+        să fie științific corect
+        și suficient de concret.
 
       </div>
 
@@ -3186,12 +1954,13 @@ footer.site {
       <div class="step">
 
         <b>
-          Analiza
+          Argumentează utilitatea.
         </b>
 
-        Datele sunt comparate,
-        reprezentate
-        și interpretate.
+        Nu scrie doar
+        „este o metodă eficientă”.
+        Arată de ce este adecvată
+        acelei activități.
 
       </div>
 
@@ -3199,12 +1968,1257 @@ footer.site {
       <div class="step">
 
         <b>
-          Concluzia
+          Precizează o limită sau o condiție.
         </b>
 
-        Ipoteza este analizată
-        în raport cu dovezile.
+        Timp,
+        resurse,
+        siguranță,
+        nivelul elevilor
+        sau necesitatea ghidajului.
 
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Formulă de redactare:
+      </strong>
+
+      <br><br>
+
+      METODĂ
+      →
+      CE FAC ELEVII
+      →
+      COMPETENȚĂ
+      →
+      EXEMPLU DE FIZICĂ
+      →
+      UTILITATE
+      →
+      LIMITĂ.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. LOGICA DEMERSULUI LA FIZICĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="logica-fizicii"
+  >
+
+    <h2>
+      4. Logica demersului didactic la Fizică
+    </h2>
+
+
+    <p>
+      Fizica nu trebuie predată
+      ca o succesiune
+      de formule de memorat.
+    </p>
+
+
+    <p>
+      Un demers coerent
+      pornește frecvent
+      de la fenomen,
+      observație
+      sau problemă
+      și ajunge progresiv
+      la model,
+      explicație,
+      formalizare
+      și aplicare.
+    </p>
+
+
+    <div class="process">
+
+      <div class="process-step">
+        OBSERVĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        DESCRIE
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        MODELEAZĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        EXPLICĂ
+      </div>
+
+    </div>
+
+
+    <div class="process">
+
+      <div class="process-step">
+        FORMALIZEAZĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        APLICĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        VERIFICĂ
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      Aceasta este
+      o
+      <strong>schemă didactică orientativă</strong>,
+      nu o succesiune rigidă
+      și obligatorie
+      pentru orice lecție.
+
+    </div>
+
+
+    <p>
+      În funcție de competență,
+      profesorul poate începe
+      de la un experiment,
+      o situație-problemă,
+      un model,
+      un grafic,
+      o demonstrație,
+      un studiu de caz
+      sau o problemă de Fizică.
+    </p>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. CLASIFICARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="clasificare"
+  >
+
+    <h2>
+      5. Clasificarea metodelor — orientativ
+    </h2>
+
+
+    <div class="warning">
+
+      Clasificările metodelor didactice
+      sunt
+      <strong>instrumente pedagogice</strong>.
+
+      <br><br>
+
+      Ele nu reprezintă
+      o taxonomie juridică
+      unică și obligatorie.
+      Aceeași metodă
+      poate fi încadrată diferit
+      în funcție de criteriul utilizat.
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Familie
+            </th>
+
+            <th>
+              Exemple
+            </th>
+
+            <th>
+              Accent principal
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>
+              Comunicare orală
+            </td>
+
+            <td>
+              explicația,
+              conversația euristică
+            </td>
+
+            <td>
+              explicare,
+              dialog,
+              argumentare
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Explorare directă
+            </td>
+
+            <td>
+              observația,
+              demonstrația,
+              experimentul
+            </td>
+
+            <td>
+              contact cu fenomenul
+              sau cu reprezentarea lui
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Euristice
+            </td>
+
+            <td>
+              problematizarea,
+              descoperirea,
+              investigația
+            </td>
+
+            <td>
+              căutare,
+              ipoteze,
+              raționament
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Acțiune pe modele
+              și probleme
+            </td>
+
+            <td>
+              modelarea,
+              exercițiul,
+              rezolvarea de probleme
+            </td>
+
+            <td>
+              reprezentare,
+              aplicare,
+              transfer
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Interactive
+              și colaborative
+            </td>
+
+            <td>
+              învățarea prin cooperare,
+              studiul de caz
+            </td>
+
+            <td>
+              colaborare,
+              argumentare,
+              decizie
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. EXPLICAȚIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="explicatia"
+  >
+
+    <h2>
+      6. Explicația
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Explicația
+      </span>
+
+      <p>
+        Este metoda
+        prin care profesorul
+        clarifică logic și sistematic
+        un fenomen,
+        un concept,
+        o relație
+        sau un mecanism,
+        evidențiind legăturile
+        cauzale și semnificația
+        fizică a acestora.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Cum se aplică
+    </h3>
+
+    <p>
+      Profesorul pornește
+      de la achizițiile elevilor,
+      precizează fenomenul
+      sau problema,
+      introduce treptat
+      conceptele necesare,
+      explică relațiile dintre mărimi
+      și verifică înțelegerea
+      prin întrebări
+      sau aplicații scurte.
+    </p>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu de Fizică
+      </h3>
+
+      <p>
+        Pentru presiunea hidrostatică,
+        relația
+        <strong>p = ρgh</strong>
+        nu este doar enunțată.
+      </p>
+
+      <p>
+        Se explică
+        de ce presiunea
+        crește cu adâncimea,
+        care este rolul
+        densității lichidului
+        și în ce condiții
+        este utilizată relația.
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Clarifică rapid
+        relațiile conceptuale
+        și cauzale.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Folosită excesiv,
+        poate transforma elevul
+        într-un receptor pasiv.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. OBSERVAȚIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="observatia"
+  >
+
+    <h2>
+      7. Observația
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Observația didactică
+      </span>
+
+      <p>
+        Este metoda
+        de explorare directă
+        și sistematică
+        prin care elevul urmărește
+        un fenomen,
+        un obiect,
+        un proces
+        sau o reprezentare,
+        pe baza unor criterii
+        și a unui scop
+        explicit.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Nu este simplul „a privi”
+    </h3>
+
+    <p>
+      Observația didactică
+      presupune stabilirea
+      obiectului observării,
+      a criteriilor,
+      înregistrarea datelor relevante
+      și formularea
+      unei interpretări
+      sau concluzii.
+    </p>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Elevii urmăresc
+        oscilațiile unui pendul
+        pentru lungimi diferite
+        și consemnează
+        modul în care se modifică
+        perioada.
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Dezvoltă atenția,
+        descrierea riguroasă
+        și identificarea
+        informațiilor relevante.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Fără criterii clare,
+        elevul poate remarca
+        elemente întâmplătoare
+        și poate formula
+        concluzii nejustificate.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. CONVERSAȚIA EURISTICĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="conversatia"
+  >
+
+    <h2>
+      8. Conversația euristică
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Conversația euristică
+      </span>
+
+      <p>
+        Este metoda dialogată
+        prin care profesorul
+        utilizează o succesiune
+        de întrebări
+        bine construite
+        pentru a conduce elevii
+        spre identificarea
+        unor relații,
+        explicații
+        sau concluzii.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      Cuvântul-cheie este
+      <strong>euristică</strong>:
+      elevul nu reproduce
+      pur și simplu
+      răspunsul profesorului,
+      ci participă
+      la construirea lui.
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu — forța arhimedică
+      </h3>
+
+      <p>
+        Profesorul poate construi
+        traseul:
+      </p>
+
+      <p>
+        Ce indică dinamometrul
+        când corpul este în aer?
+      </p>
+
+      <p>
+        Ce se modifică
+        atunci când corpul
+        este introdus în apă?
+      </p>
+
+      <p>
+        Ce forțe acționează?
+      </p>
+
+      <p>
+        Cum explicăm
+        diferența indicațiilor?
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Dezvoltă raționamentul,
+        argumentarea
+        și permite feedback imediat.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Necesită întrebări
+        atent ordonate;
+        întrebările prea sugestive
+        pot transforma descoperirea
+        într-o simplă ghicire
+        a răspunsului profesorului.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. PROBLEMATIZAREA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="problematizarea"
+  >
+
+    <h2>
+      9. Problematizarea
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Problematizarea
+      </span>
+
+      <p>
+        Este metoda
+        prin care elevul este pus
+        în fața unei situații-problemă
+        care generează
+        o dificultate cognitivă
+        și îl determină
+        să caute explicații,
+        relații
+        sau soluții.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      O situație-problemă
+      nu este orice întrebare.
+
+      <br><br>
+
+      Ea trebuie
+      să creeze o nevoie reală
+      de analiză și explicație,
+      care nu poate fi rezolvată
+      doar prin reproducerea
+      imediată a unei definiții.
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Un corp suspendat
+        de un dinamometru
+        pare „mai ușor”
+        atunci când este introdus
+        într-un lichid.
+      </p>
+
+      <p>
+        <strong>
+          Situația-problemă:
+        </strong>
+
+        dacă greutatea corpului
+        nu s-a modificat,
+        de ce indicația
+        dinamometrului scade?
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Stimulează curiozitatea,
+        gândirea cauzală
+        și formularea
+        de ipoteze.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        O situație prea dificilă
+        produce blocaj,
+        iar una prea simplă
+        nu mai generează
+        problematizare autentică.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. DEMONSTRAȚIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="demonstratia"
+  >
+
+    <h2>
+      10. Demonstrația didactică
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Demonstrația didactică
+      </span>
+
+      <p>
+        Este metoda
+        prin care profesorul
+        sau o altă persoană desemnată
+        prezintă elevilor
+        un obiect,
+        un model,
+        un fenomen,
+        un experiment
+        sau un mod de lucru,
+        iar observarea elevilor
+        este orientată
+        prin sarcini și întrebări.
+      </p>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        Profesorul realizează
+        două circuite
+        cu becuri:
+        unul în serie
+        și unul în paralel.
+      </p>
+
+      <p>
+        Elevii urmăresc
+        comportarea circuitelor
+        atunci când
+        un bec este scos,
+        notează observațiile
+        și explică diferențele.
+      </p>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Demonstrația nu înseamnă
+        că elevul este obligatoriu pasiv.
+      </strong>
+
+      <br><br>
+
+      El poate observa
+      după criterii stabilite,
+      completa un protocol,
+      formula predicții,
+      compara rezultate
+      și argumenta concluzii.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Permite observarea
+        unui fenomen
+        chiar atunci când
+        aparatura este limitată
+        sau montajul necesită
+        controlul profesorului.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Elevii nu dobândesc,
+        prin simpla observare,
+        aceleași deprinderi practice
+        ca atunci când
+        execută personal experimentul.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. EXPERIMENTUL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="experimentul"
+  >
+
+    <h2>
+      11. Experimentul
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Experimentul didactic
+      </span>
+
+      <p>
+        Este metoda
+        de explorare directă
+        prin care se provoacă,
+        se modifică
+        sau se controlează
+        în mod intenționat
+        condițiile de producere
+        a unui fenomen,
+        pentru observare,
+        măsurare,
+        verificarea unei ipoteze
+        sau stabilirea
+        unor relații fizice.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Activitatea elevului poate include
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+        formularea întrebării
+        și a ipotezei;
+      </div>
+
+      <div class="mini-card">
+        realizarea sau completarea
+        montajului;
+      </div>
+
+      <div class="mini-card">
+        manipularea controlată
+        a variabilelor;
+      </div>
+
+      <div class="mini-card">
+        utilizarea instrumentelor
+        de măsură;
+      </div>
+
+      <div class="mini-card">
+        colectarea
+        și organizarea datelor;
+      </div>
+
+      <div class="mini-card">
+        reprezentarea grafică
+        și interpretarea;
+      </div>
+
+      <div class="mini-card">
+        estimarea
+        incertitudinilor;
+      </div>
+
+      <div class="mini-card">
+        formularea
+        și validarea concluziilor.
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu — legea lui Ohm pentru un rezistor
+      </h3>
+
+      <p>
+        Elevii realizează
+        un circuit
+        cu sursă,
+        rezistor,
+        ampermetru
+        și voltmetru.
+      </p>
+
+      <p>
+        Modifică tensiunea
+        aplicată rezistorului,
+        măsoară intensitatea curentului,
+        înregistrează valorile,
+        construiesc graficul
+        și analizează
+        raportul
+        <strong>U/I</strong>.
+      </p>
+
+      <p>
+        Pentru un conductor ohmic
+        menținut aproximativ
+        la temperatură constantă,
+        datele permit evidențierea
+        relației
+        <strong>U = RI</strong>.
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Dezvoltă competențe
+        de investigare,
+        măsurare,
+        prelucrare a datelor
+        și utilizare corectă
+        a aparaturii.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită / condiție
+        </strong>
+
+        Necesită timp,
+        materiale,
+        organizare,
+        controlul variabilelor
+        și respectarea
+        normelor de securitate.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. DESCOPERIRE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="descoperirea"
+  >
+
+    <h2>
+      12. Învățarea prin descoperire
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Învățarea prin descoperire
+      </span>
+
+      <p>
+        Este metoda
+        prin care elevul ajunge
+        la o relație,
+        regulă,
+        proprietate
+        sau concluzie
+        prin analiza
+        unor situații,
+        date,
+        exemple
+        sau rezultate experimentale,
+        cu un grad variabil
+        de ghidaj din partea profesorului.
+      </p>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        În loc să primească
+        de la început
+        legea lui Ohm,
+        elevii măsoară
+        perechi de valori
+        <strong>U</strong>
+        și
+        <strong>I</strong>,
+        reprezintă grafic datele
+        și identifică
+        relația dintre mărimi.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      Descoperirea poate fi
+      <strong>ghidată</strong>.
+
+      <br><br>
+
+      Profesorul nu trebuie
+      să lase elevii
+      fără repere;
+      el poate organiza
+      materialele,
+      întrebările
+      și pașii de analiză
+      fără a furniza
+      concluzia de la început.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Favorizează înțelegerea
+        relațiilor
+        și participarea cognitivă
+        activă.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Descoperirea complet
+        neghidată poate fi
+        ineficientă,
+        mai ales pentru
+        conținuturi dificile
+        sau elevi fără
+        achizițiile prealabile necesare.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. INVESTIGAȚIA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="investigatia"
+  >
+
+    <h2>
+      13. Investigația
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Investigația
+      </span>
+
+      <p>
+        Este metoda
+        prin care elevii parcurg,
+        integral sau parțial,
+        un demers asemănător
+        cercetării științifice:
+        formulează o problemă
+        sau o întrebare,
+        emit ipoteze,
+        proiectează modalități
+        de verificare,
+        colectează și analizează date,
+        apoi formulează
+        și evaluează concluzii.
+      </p>
+
+    </div>
+
+
+    <div class="process">
+
+      <div class="process-step">
+        ÎNTREBARE
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        IPOTEZĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        DATE
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        CONCLUZIE
       </div>
 
     </div>
@@ -3217,24 +3231,56 @@ footer.site {
       </h3>
 
       <p>
-        Elevii investighează:
+        Elevii investighează
+        de ce depinde
+        perioada unui pendul simplu
+        în condițiile
+        experimentului școlar.
       </p>
 
       <p>
+        Ei propun variabile,
+        mențin constante
+        celelalte condiții,
+        măsoară perioadele,
+        compară datele
+        și formulează concluzii
+        compatibile
+        cu precizia măsurărilor.
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
         <strong>
-          „De ce factori depinde
-          perioada unui pendul?”
+          Avantaj
         </strong>
-      </p>
 
-      <p>
-        Modifică controlat
-        lungimea,
-        masa
-        sau amplitudinea,
-        efectuează măsurători
-        și compară rezultatele.
-      </p>
+        Dezvoltă gândirea științifică,
+        autonomia,
+        formularea ipotezelor
+        și argumentarea
+        pe baza dovezilor.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Necesită proiectare atentă,
+        timp suficient
+        și sarcini adaptate
+        nivelului elevilor.
+
+      </div>
 
     </div>
 
@@ -3242,7 +3288,291 @@ footer.site {
 
 
   <!-- =======================================================
-       13. PROBLEME
+       14. MODELAREA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="modelarea"
+  >
+
+    <h2>
+      14. Modelarea
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Modelarea
+      </span>
+
+      <p>
+        Este metoda
+        prin care un sistem,
+        un fenomen
+        sau un proces real
+        este reprezentat
+        printr-un model
+        care păstrează
+        caracteristicile relevante
+        pentru problema studiată.
+      </p>
+
+    </div>
+
+
+    <p>
+      Modelul poate fi:
+    </p>
+
+
+    <div class="grid3">
+
+      <div class="mini-card">
+        material;
+      </div>
+
+      <div class="mini-card">
+        grafic;
+      </div>
+
+      <div class="mini-card">
+        schematic;
+      </div>
+
+      <div class="mini-card">
+        matematic;
+      </div>
+
+      <div class="mini-card">
+        conceptual;
+      </div>
+
+      <div class="mini-card">
+        computațional.
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemple
+      </h3>
+
+      <p>
+        punct material;
+        corp rigid;
+        gaz ideal;
+        rază de lumină;
+        linii de câmp;
+        schema unui circuit;
+        diagrama forțelor;
+        graficul unei mișcări.
+      </p>
+
+    </div>
+
+
+    <div class="warning">
+
+      Modelarea este riguroasă
+      numai dacă se precizează
+      <strong>
+        ipotezele,
+        domeniul de valabilitate
+        și limitele modelului.
+      </strong>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Reduce complexitatea
+        realității
+        și facilitează
+        explicarea,
+        predicția
+        și calculul.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Confundarea modelului
+        cu realitatea
+        poate conduce
+        la interpretări greșite.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. COOPERAREA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="cooperarea"
+  >
+
+    <h2>
+      15. Învățarea prin cooperare
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Învățarea prin cooperare
+      </span>
+
+      <p>
+        Este metoda sau strategia
+        de învățare
+        în care elevii lucrează
+        în grupuri mici
+        pentru realizarea
+        unei sarcini comune,
+        în condiții de
+        interdependență,
+        responsabilitate individuală
+        și interacțiune constructivă.
+      </p>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Lucrul pe grupe
+        nu este automat
+        învățare prin cooperare.
+      </strong>
+
+    </div>
+
+
+    <p>
+      Pentru cooperare autentică,
+      sunt utile:
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+        o sarcină comună clară;
+      </div>
+
+      <div class="mini-card">
+        responsabilități individuale;
+      </div>
+
+      <div class="mini-card">
+        roluri funcționale;
+      </div>
+
+      <div class="mini-card">
+        schimb real de informații;
+      </div>
+
+      <div class="mini-card">
+        decizie sau produs comun;
+      </div>
+
+      <div class="mini-card">
+        reflecție asupra modului
+        de colaborare.
+      </div>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu
+      </h3>
+
+      <p>
+        O grupă investighează
+        funcționarea
+        unei prese hidraulice.
+      </p>
+
+      <p>
+        Pot exista roluri precum:
+        coordonator,
+        responsabil cu datele,
+        responsabil cu calculele
+        și raportor.
+      </p>
+
+      <p>
+        Toți membrii trebuie
+        să poată explica
+        concluzia grupului.
+      </p>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Dezvoltă comunicarea,
+        argumentarea,
+        responsabilitatea
+        și colaborarea.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Fără responsabilizare,
+        unii elevi pot domina activitatea,
+        iar alții pot participa
+        foarte puțin.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       16. REZOLVAREA DE PROBLEME
        ======================================================= -->
 
   <section
@@ -3251,18 +3581,8 @@ footer.site {
   >
 
     <h2>
-      13. Rezolvarea de probleme
+      16. Rezolvarea de probleme
     </h2>
-
-
-    <p>
-      Rezolvarea de probleme
-      este atât de importantă
-      pentru didactica Fizicii
-      încât programa 2026
-      o tratează distinct,
-      alături de experiment.
-    </p>
 
 
     <div class="definition">
@@ -3271,69 +3591,31 @@ footer.site {
         Rezolvarea de probleme
       </span>
 
-      organizează învățarea
-      prin analiza unei situații fizice,
-      construirea modelului,
-      selectarea legilor relevante,
-      efectuarea raționamentului
-      și verificarea rezultatului.
+      <p>
+        Este metoda
+        prin care elevul analizează
+        o situație fizică,
+        construiește
+        un model adecvat,
+        identifică legile aplicabile,
+        stabilește relațiile
+        dintre mărimi,
+        efectuează calculele
+        și verifică
+        semnificația fizică
+        a rezultatului.
+      </p>
 
     </div>
-
-
-    <div class="process">
-
-      <div class="process-card">
-
-        <b>
-          Situația fizică
-        </b>
-
-        Ce sistem avem?
-        Ce se cere?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Modelul
-        </b>
-
-        Ce legi
-        și ipoteze folosim?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Verificarea
-        </b>
-
-        Unități,
-        sens fizic,
-        rezultat.
-
-      </div>
-
-    </div>
-
-
-    <h3>
-      Algoritm de lucru util
-    </h3>
 
 
     <div class="exam-box">
+
+      <strong>
+        Algoritm de lucru:
+      </strong>
+
+      <br><br>
 
       DATE ÎN SI
 
@@ -3353,7 +3635,7 @@ footer.site {
       ↓
       <br>
 
-      LEGI FIZICE
+      LEGI
 
       <br>
       ↓
@@ -3371,25 +3653,867 @@ footer.site {
       ↓
       <br>
 
-      VERIFICARE ȘI INTERPRETARE
+      VERIFICARE
+
+      <br>
+      ↓
+      <br>
+
+      RĂSPUNS
+
+    </div>
+
+
+    <h3>
+      Ce trebuie verificat
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+        unitățile de măsură;
+      </div>
+
+      <div class="mini-card">
+        ordinul de mărime;
+      </div>
+
+      <div class="mini-card">
+        semnul rezultatului;
+      </div>
+
+      <div class="mini-card">
+        compatibilitatea
+        cu ipotezele;
+      </div>
+
+      <div class="mini-card">
+        plauzibilitatea fizică;
+      </div>
+
+      <div class="mini-card">
+        existența
+        unei metode alternative.
+      </div>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Rezolvarea de probleme
+        nu înseamnă
+        „aleg formula și înlocuiesc”.
+      </strong>
+
+      <br><br>
+
+      Partea esențială
+      este construirea
+      modelului fizic
+      și justificarea
+      legilor utilizate.
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Dezvoltă modelarea,
+        transferul,
+        raționamentul cantitativ
+        și verificarea critică.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Problemele repetitive,
+        rezolvate exclusiv algoritmic,
+        pot conduce
+        la aplicarea mecanică
+        a formulelor.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       17. EXERCIȚIUL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="exercitiul"
+  >
+
+    <h2>
+      17. Exercițiul
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Exercițiul
+      </span>
+
+      <p>
+        Este metoda
+        bazată pe executarea
+        conștientă și repetată
+        a unor acțiuni
+        sau operații
+        pentru formarea,
+        consolidarea
+        sau automatizarea
+        unor deprinderi
+        și proceduri.
+      </p>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemple
+      </h3>
+
+      <p>
+        transformarea unităților;
+        citirea unui grafic;
+        reprezentarea vectorilor;
+        realizarea unei diagrame
+        a forțelor;
+        aplicarea repetată
+        a unei relații fizice
+        în contexte gradate.
+      </p>
 
     </div>
 
 
     <div class="warning">
 
-      Metoda nu trebuie redusă
-      la memorarea
-      unei formule-tip.
+      <strong>
+        Exercițiul și problema
+        nu sunt identice.
+      </strong>
 
       <br><br>
 
-      O problemă bună
-      trebuie să solicite
+      Exercițiul urmărește frecvent
+      consolidarea unei operații
+      sau proceduri deja cunoscute.
+
+      <br><br>
+
+      Problema poate cere
+      alegerea modelului,
+      selectarea legilor
+      și construirea
+      unei strategii de rezolvare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       18. STUDIUL DE CAZ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="studiu-caz"
+  >
+
+    <h2>
+      18. Studiul de caz
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Studiul de caz
+      </span>
+
+      <p>
+        Este metoda
+        prin care elevii analizează
+        o situație reală
+        sau simulată,
+        suficient de complexă
+        pentru a necesita
+        selectarea informațiilor,
+        aplicarea conceptelor,
+        formularea explicațiilor
+        și argumentarea
+        unei concluzii
+        sau decizii.
+      </p>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu — instalații electrice
+      </h3>
+
+      <p>
+        Într-o locuință,
+        defectarea unui bec
+        nu determină stingerea
+        celorlalte.
+      </p>
+
+      <p>
+        Într-o anumită instalație
+        cu becuri,
+        scoaterea unui bec
+        poate întrerupe
+        funcționarea întregului circuit.
+      </p>
+
+      <p>
+        Elevii trebuie să analizeze
+        modul de conectare,
+        să compare
+        conexiunea serie
+        și conexiunea paralel
+        și să explice
+        consecințele practice.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      Un simplu exemplu
+      din viața cotidiană
+      nu este automat
+      studiu de caz.
+
+      <br><br>
+
+      Trebuie să existe
+      o situație ce necesită
       <strong>
-        analiza situației fizice
-        și alegerea justificată
-        a legilor.
+        analiză,
+        selectarea datelor,
+        aplicarea conceptelor
+        și argumentarea concluziei.
+      </strong>
+
+    </div>
+
+
+    <div class="pros-cons">
+
+      <div class="pro">
+
+        <strong>
+          Avantaj
+        </strong>
+
+        Favorizează transferul
+        cunoștințelor
+        către contexte autentice.
+
+      </div>
+
+
+      <div class="con">
+
+        <strong>
+          Limită
+        </strong>
+
+        Cazul trebuie ales
+        astfel încât complexitatea
+        situației reale
+        să nu ascundă
+        conceptul fizic urmărit.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       19. DISTINCȚII
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="distinctii"
+  >
+
+    <h2>
+      19. Distincții care trebuie stăpânite
+    </h2>
+
+
+    <h3>
+      Demonstrație vs. experiment realizat de elev
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Demonstrație
+        </h3>
+
+        <p>
+          Profesorul prezintă
+          fenomenul,
+          montajul
+          sau procedura.
+        </p>
+
+        <p>
+          Elevul observă,
+          înregistrează,
+          interpretează
+          și răspunde.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Experiment realizat de elev
+        </h3>
+
+        <p>
+          Elevul manipulează
+          aparatura,
+          modifică variabile,
+          măsoară,
+          prelucrează date
+          și formulează concluzii.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      Un
+      <strong>experiment demonstrativ</strong>
+      este un experiment
+      utilizat într-o secvență
+      de demonstrație didactică.
+
+    </div>
+
+
+    <h3>
+      Descoperire vs. investigație
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Descoperire
+        </h3>
+
+        <p>
+          Accentul cade
+          pe construirea
+          unei relații,
+          reguli
+          sau concluzii
+          din date și situații
+          selectate didactic.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Investigație
+        </h3>
+
+        <p>
+          Accentul cade
+          pe ciclul mai amplu:
+          întrebare,
+          ipoteză,
+          plan,
+          date,
+          analiză,
+          validare,
+          concluzie.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Problematizare vs. rezolvare de probleme
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Problematizare
+        </h3>
+
+        <p>
+          Creează
+          o dificultate cognitivă
+          care solicită
+          căutarea explicației.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Rezolvare de probleme
+        </h3>
+
+        <p>
+          Solicită construirea
+          și rezolvarea
+          unui model fizic
+          pentru o situație dată.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      Lucru pe grupe vs. cooperare
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Lucru pe grupe
+        </h3>
+
+        <p>
+          Este în primul rând
+          o
+          <strong>formă de organizare</strong>.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Învățare prin cooperare
+        </h3>
+
+        <p>
+          Presupune
+          sarcină comună,
+          interdependență,
+          responsabilitate individuală
+          și colaborare autentică.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       20. CE NU ESTE AUTOMAT METODĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="nu-sunt-metode"
+  >
+
+    <h2>
+      20. Ce nu este automat o metodă didactică
+    </h2>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Fișa de lucru
+        </h3>
+
+        <p>
+          Este, riguros,
+          un
+          <strong>suport sau instrument didactic</strong>
+          pe care pot fi construite
+          exerciții,
+          probleme,
+          investigații,
+          studii de caz
+          sau evaluări.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Simulatorul
+        </h3>
+
+        <p>
+          Este o
+          <strong>resursă digitală</strong>
+          sau un mijloc
+          de învățământ.
+        </p>
+
+        <p>
+          Poate susține
+          demonstrația,
+          investigația,
+          descoperirea
+          sau modelarea.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Lucrul în perechi
+        </h3>
+
+        <p>
+          Este o
+          <strong>formă de organizare</strong>,
+          nu o metodă
+          prin simpla așezare
+          a doi elevi împreună.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Tabla interactivă
+        </h3>
+
+        <p>
+          Este un
+          <strong>mijloc de învățământ</strong>.
+        </p>
+
+        <p>
+          Metoda depinde
+          de activitatea
+          realizată cu ajutorul ei.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+
+      În unele materiale metodice
+      poate apărea expresia
+      <strong>„metoda fișei de lucru”</strong>.
+
+      <br><br>
+
+      Pentru un răspuns riguros,
+      este mai sigur să precizezi
+      metoda dominantă
+      — de exemplu exercițiul,
+      rezolvarea de probleme
+      sau investigația —
+      și să prezinți fișa
+      ca suport al activității,
+      dacă cerința sau baremul
+      nu stabilește explicit
+      o altă terminologie.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       21. ALEGEREA METODEI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="alegerea"
+  >
+
+    <h2>
+      21. Cum alegem metoda
+    </h2>
+
+
+    <p>
+      Nu există
+      o metodă universal
+      „cea mai bună”.
+    </p>
+
+
+    <p>
+      Alegerea pornește
+      de la ceea ce trebuie
+      să poată face elevul.
+    </p>
+
+
+    <div class="process">
+
+      <div class="process-step">
+        COMPETENȚĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        ACTIVITATE
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        METODĂ
+      </div>
+
+      <div class="process-arrow">
+        →
+      </div>
+
+      <div class="process-step">
+        DOVADĂ
+      </div>
+
+    </div>
+
+
+    <h3>
+      Criterii de alegere
+    </h3>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+
+        <h3>
+          Competența urmărită
+        </h3>
+
+        <p>
+          Ce trebuie
+          să poată face elevul?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Conținutul
+        </h3>
+
+        <p>
+          Fenomen,
+          concept,
+          lege,
+          model,
+          experiment
+          sau problemă?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Nivelul elevilor
+        </h3>
+
+        <p>
+          Ce achiziții prealabile
+          au?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Resursele
+        </h3>
+
+        <p>
+          Ce aparatură,
+          materiale
+          și tehnologie
+          sunt disponibile?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Timpul
+        </h3>
+
+        <p>
+          Cât poate dura
+          realist activitatea?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Siguranța
+        </h3>
+
+        <p>
+          Poate fi realizată
+          activitatea în condiții
+          de securitate?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Feedbackul
+        </h3>
+
+        <p>
+          Cum aflu
+          dacă elevul
+          a învățat?
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Incluziunea
+        </h3>
+
+        <p>
+          Activitatea poate fi
+          accesibilă și adaptată
+          elevilor clasei?
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        „Aleg această metodă
+        pentru că este modernă”
+      </strong>
+
+      nu este
+      o justificare didactică.
+
+    </div>
+
+
+    <div class="exam-box">
+
+      O justificare bună
+      are forma:
+
+      <br><br>
+
+      <strong>
+        metoda este adecvată
+        deoarece permite elevilor
+        să realizeze acțiunea X,
+        necesară formării
+        competenței Y,
+        în contextul Z.
       </strong>
 
     </div>
@@ -3398,280 +4522,117 @@ footer.site {
 
 
   <!-- =======================================================
-       14. FISA
+       22. MODEL DE RĂSPUNS
        ======================================================= -->
 
   <section
     class="card"
-    id="fisa"
+    id="concurs"
   >
 
     <h2>
-      14. Fișa de lucru și activitatea individuală
+      22. Model de răspuns pentru concurs
     </h2>
 
 
+    <div class="source-note">
+
+      Exemplul de mai jos
+      este un model
+      de structurare a răspunsului,
+      nu un barem oficial.
+
+    </div>
+
+
     <p>
-      Materialul metodic
-      utilizat pentru pregătire
-      tratează și utilizarea
-      fișei de lucru individuale.
+      <strong>
+        Cerință ipotetică:
+      </strong>
+
+      Prezentați o metodă
+      activ-participativă
+      adecvată unei activități
+      privind legea lui Ohm
+      și argumentați utilitatea ei.
     </p>
 
 
-    <div class="definition">
+    <div class="method-card">
 
-      <span class="definition-term">
-        Fișa de lucru
+      <span class="method-label">
+        MODEL DE REDACTARE
       </span>
 
-      organizează sarcini
-      adaptate obiectivelor
-      și nivelului elevilor,
-      precum întrebări,
-      exerciții,
-      completări,
-      interpretări
-      sau probleme.
-
-    </div>
-
-
-    <div class="grid2">
-
-      <div class="check">
-        consolidarea cunoștințelor
-      </div>
-
-      <div class="check">
-        autonomie în lucru
-      </div>
-
-      <div class="check">
-        ritm individual
-      </div>
-
-      <div class="check">
-        aplicarea în contexte variate
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      Mai riguros,
-      în multe contexte,
-      fișa este privită
-      ca <strong>suport / instrument de lucru</strong>
-      integrat unei metode
-      și unei forme de organizare.
-
-      <br><br>
-
-      La examen,
-      urmărește terminologia
-      exactă a cerinței
-      și a sursei folosite.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       15. ALEGERE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="alegere"
-  >
-
-    <h2>
-      15. Cum alegem metoda?
-    </h2>
-
-
-    <p>
-      Nu există
-      o metodă universal superioară.
-    </p>
-
-
-    <p>
-      Alegerea trebuie să pornească
-      de la ceea ce vrem
-      să formeze și să demonstreze elevul.
-    </p>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Ținta activității
-            </th>
-
-            <th>
-              Metodă potrivită
-            </th>
-
-            <th>
-              De ce?
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          <tr>
-
-            <td>
-              Clarificarea
-              unui concept abstract
-            </td>
-
-            <td>
-              Explicație +
-              modelare
-            </td>
-
-            <td>
-              Organizează relațiile
-              conceptuale.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Descoperirea
-              unei relații
-            </td>
-
-            <td>
-              Experiment +
-              conversație euristică
-            </td>
-
-            <td>
-              Elevul lucrează
-              cu date și dovezi.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Investigarea
-              unui fenomen
-            </td>
-
-            <td>
-              Investigație
-            </td>
-
-            <td>
-              Implică ipoteze,
-              procedură,
-              date și concluzii.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Creativitate
-              și căutarea soluției
-            </td>
-
-            <td>
-              Problematizare
-            </td>
-
-            <td>
-              Situația-problemă
-              provoacă analiza.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Competențe sociale
-              și rezolvare colaborativă
-            </td>
-
-            <td>
-              Cooperare
-            </td>
-
-            <td>
-              Elevii au roluri
-              și responsabilitate comună.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Aplicarea legilor
-              în situații cantitative
-            </td>
-
-            <td>
-              Rezolvare de probleme
-            </td>
-
-            <td>
-              Solicită modelare
-              și raționament fizic.
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              Prezentarea controlată
-              a unui fenomen
-            </td>
-
-            <td>
-              Demonstrație
-            </td>
-
-            <td>
-              Toată clasa
-              poate observa
-              aceleași condiții.
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
+      <h3>
+        Învățarea prin descoperire
+        realizată experimental
+      </h3>
+
+      <p>
+        Învățarea prin descoperire
+        este o metodă
+        prin care elevii ajung
+        la identificarea
+        unei relații sau concluzii
+        prin analiza
+        unor date și situații,
+        cu ghidajul profesorului.
+      </p>
+
+      <p>
+        În cadrul activității,
+        elevii realizează
+        un circuit electric
+        cu rezistor,
+        ampermetru
+        și voltmetru,
+        modifică tensiunea
+        aplicată rezistorului
+        și măsoară
+        intensitatea curentului
+        pentru mai multe valori.
+      </p>
+
+      <p>
+        Datele sunt organizate
+        într-un tabel
+        și reprezentate grafic.
+        Elevii analizează
+        relația dintre
+        tensiune și intensitate
+        și constată,
+        pentru rezistorul studiat
+        și în condițiile menținerii
+        aproximativ constante
+        a temperaturii,
+        caracterul constant
+        al raportului
+        U/I.
+      </p>
+
+      <p>
+        Metoda este utilă
+        deoarece implică elevii
+        în măsurare,
+        prelucrarea datelor
+        și formularea
+        unei concluzii
+        bazate pe dovezi,
+        favorizând înțelegerea
+        relației fizice
+        și dezvoltarea
+        competențelor investigative.
+      </p>
+
+      <p>
+        Aplicarea metodei
+        necesită aparatură adecvată,
+        timp pentru măsurători
+        și respectarea
+        regulilor de securitate
+        în lucrul cu circuite electrice.
+      </p>
 
     </div>
 
@@ -3679,7 +4640,343 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Regula:
+        De ce este bun răspunsul?
+      </strong>
+
+      <br><br>
+
+      1. numește metoda;
+
+      <br>
+
+      2. o definește;
+
+      <br>
+
+      3. descrie acțiuni concrete
+      ale elevilor;
+
+      <br>
+
+      4. este corect științific;
+
+      <br>
+
+      5. argumentează utilitatea;
+
+      <br>
+
+      6. precizează o condiție
+      de aplicare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       23. CAPCANE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="capcane"
+  >
+
+    <h2>
+      23. Capcane frecvente
+    </h2>
+
+
+    <div class="trap">
+
+      Enumeri zece metode
+      fără să caracterizezi
+      metoda cerută.
+
+    </div>
+
+
+    <div class="trap">
+
+      Scrii doar definiția,
+      fără să arăți
+      ce fac concret elevii.
+
+    </div>
+
+
+    <div class="trap">
+
+      Numești
+      „lucrul pe grupe”
+      drept metodă,
+      fără a preciza
+      mecanismele cooperării.
+
+    </div>
+
+
+    <div class="trap">
+
+      Numești
+      simulatorul,
+      calculatorul
+      sau tabla interactivă
+      drept metodă didactică.
+
+    </div>
+
+
+    <div class="trap">
+
+      Confunzi
+      experimentul realizat
+      de elev
+      cu demonstrația
+      făcută de profesor.
+
+    </div>
+
+
+    <div class="trap">
+
+      Confunzi
+      problematizarea
+      cu orice problemă numerică.
+
+    </div>
+
+
+    <div class="trap">
+
+      Prezinți investigația
+      ca simplă executare
+      a unor instrucțiuni,
+      fără întrebare,
+      ipoteză,
+      date
+      și concluzie.
+
+    </div>
+
+
+    <div class="trap">
+
+      Justifici metoda
+      prin formula
+      „este modernă”
+      sau
+      „este atractivă”,
+      fără legătură
+      cu competența urmărită.
+
+    </div>
+
+
+    <div class="trap">
+
+      În rezolvarea unei probleme
+      sari direct la formulă,
+      fără model,
+      ipoteze
+      și verificarea rezultatului.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       24. RECAPITULARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="recapitulare"
+  >
+
+    <h2>
+      24. Recapitulare
+    </h2>
+
+
+    <div class="recap-grid">
+
+
+      <div class="recap-item">
+
+        <b>
+          Explicația
+        </b>
+
+        Clarifică logic
+        concepte
+        și relații.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Observația
+        </b>
+
+        Urmărire sistematică
+        după criterii.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Conversația euristică
+        </b>
+
+        Întrebări progresive
+        → concluzie.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Problematizarea
+        </b>
+
+        Situație-problemă
+        → căutarea explicației.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Demonstrația
+        </b>
+
+        Profesorul prezintă;
+        elevul observă
+        și interpretează.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Experimentul
+        </b>
+
+        Variabile
+        + măsurări
+        + date
+        + concluzii.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Descoperirea
+        </b>
+
+        Elevul construiește
+        relația din dovezi.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Investigația
+        </b>
+
+        Întrebare
+        → ipoteză
+        → date
+        → concluzie.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Modelarea
+        </b>
+
+        Realitate
+        → model
+        → predicție.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Cooperarea
+        </b>
+
+        Sarcină comună
+        + responsabilitate individuală.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Rezolvarea de probleme
+        </b>
+
+        Model
+        → legi
+        → calcul
+        → verificare.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Exercițiul
+        </b>
+
+        Exersare conștientă
+        și gradată.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Studiul de caz
+        </b>
+
+        Situație autentică
+        → analiză
+        → argumentare.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Formula esențială:
       </strong>
 
       <br><br>
@@ -3702,13 +4999,13 @@ footer.site {
       ↓
       <br>
 
-      MIJLOACE + ORGANIZARE
+      MIJLOACE + FORMĂ DE ORGANIZARE
 
       <br>
       ↓
       <br>
 
-      EVALUARE
+      DOVADĂ DE ÎNVĂȚARE
 
     </div>
 
@@ -3716,662 +5013,17 @@ footer.site {
 
 
   <!-- =======================================================
-       16. SUBIECTE
+       25. AUTOEVALUARE
        ======================================================= -->
 
   <section
     class="card"
-    id="subiecte"
+    id="autoevaluare"
   >
 
     <h2>
-      16. Modele de aplicare întâlnite în subiecte
+      25. Autoevaluare
     </h2>
-
-
-    <p>
-      Subiectele anterioare
-      arată foarte bine
-      ce înseamnă
-      să trecem de la definiție
-      la aplicare.
-    </p>
-
-
-    <div class="grid2">
-
-
-      <div class="mini-card">
-
-        <h3>
-          Definitivat 2015
-        </h3>
-
-        <p>
-          Legea lui Ohm.
-        </p>
-
-        <p>
-          Metodă activ-participativă:
-          <strong>
-            învățarea prin descoperire.
-          </strong>
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Titularizare 2020
-        </h3>
-
-        <p>
-          Centrul de greutate.
-        </p>
-
-        <p>
-          Metodă pentru stimularea creativității:
-          <strong>
-            problematizarea.
-          </strong>
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Titularizare 2022
-        </h3>
-
-        <p>
-          Legea lui Pascal.
-        </p>
-
-        <p>
-          Organizare prin
-          <strong>
-            învățare prin cooperare.
-          </strong>
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Titularizare 2023
-        </h3>
-
-        <p>
-          Conexiunea becurilor.
-        </p>
-
-        <p>
-          <strong>
-            demonstrație didactică
-          </strong>
-          cu protocol de observație.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="callout">
-
-      Observă tiparul:
-
-      <br><br>
-
-      <strong>
-        metoda nu este cerută izolat;
-      </strong>
-
-      ea trebuie legată
-      de un conținut,
-      de activitatea elevilor
-      și de competența urmărită.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       17. EXAMEN
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="examen"
-  >
-
-    <h2>
-      17. Cum formulezi un răspuns bun la concurs?
-    </h2>
-
-
-    <p>
-      Dacă cerința spune,
-      de exemplu:
-    </p>
-
-
-    <div class="callout">
-
-      <strong>
-        „Precizați o metodă didactică
-        activ-participativă
-        și argumentați utilitatea acesteia
-        în cadrul activității de învățare.”
-      </strong>
-
-    </div>
-
-
-    <p>
-      poți lucra în această ordine:
-    </p>
-
-
-    <div class="exam-box">
-
-      <p>
-        <strong>
-          1. Denumesc metoda.
-        </strong>
-      </p>
-
-      <p>
-        Învățarea prin descoperire.
-      </p>
-
-
-      <p>
-        <strong>
-          2. Descriu aplicarea concretă.
-        </strong>
-      </p>
-
-      <p>
-        Elevii realizează
-        montajul electric,
-        măsoară U și I,
-        completează tabelul
-        și reprezintă grafic datele.
-      </p>
-
-
-      <p>
-        <strong>
-          3. Leg metoda
-          de competență.
-        </strong>
-      </p>
-
-      <p>
-        Activitatea dezvoltă
-        observarea,
-        investigarea,
-        interpretarea datelor
-        și formularea concluziilor.
-      </p>
-
-
-      <p>
-        <strong>
-          4. Argumentez utilitatea.
-        </strong>
-      </p>
-
-      <p>
-        Elevii ajung la relația
-        dintre mărimile electrice
-        pe baza propriilor
-        date experimentale,
-        nu doar prin memorare.
-      </p>
-
-
-      <p>
-        <strong>
-          5. Precizez limita,
-          dacă este solicitată.
-        </strong>
-      </p>
-
-      <p>
-        Activitatea necesită
-        timp,
-        materiale
-        și organizare adecvată.
-      </p>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      <strong>
-        Formula de memorare:
-      </strong>
-
-      <br><br>
-
-      METODĂ
-
-      <br>
-
-      → ACTIVITATE CONCRETĂ
-
-      <br>
-
-      → COMPETENȚĂ
-
-      <br>
-
-      → UTILITATE
-
-      <br>
-
-      → AVANTAJ / LIMITĂ
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       18. CAPCANE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="capcane"
-  >
-
-    <h2>
-      18. Capcane frecvente
-    </h2>
-
-
-    <div class="grid2">
-
-
-      <div class="trap">
-
-        <strong>
-          Metodă = strategie.
-        </strong>
-
-        <br>
-
-        Nu.
-        Metoda este
-        o componentă a strategiei.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Metodă = mijloc.
-        </strong>
-
-        <br>
-
-        Nu.
-        Experimentul poate fi metodă;
-        trusa este mijloc.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          „Metodă modernă”
-          = automat metodă bună.
-        </strong>
-
-        <br>
-
-        Fals.
-        Eficiența depinde
-        de adecvarea la obiectiv
-        și context.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Experiment = profesorul arată ceva.
-        </strong>
-
-        <br>
-
-        Incomplet.
-        Trebuie precizat
-        rolul elevului
-        și scopul experimental.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Conversație euristică
-          = întrebări multe.
-        </strong>
-
-        <br>
-
-        Nu.
-        Întrebările trebuie
-        să construiască
-        un traseu logic.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Problematizare
-          = orice problemă numerică.
-        </strong>
-
-        <br>
-
-        Nu.
-        Este nevoie
-        de o situație-problemă
-        care provoacă
-        o căutare reală.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Cooperare = elevii stau în grup.
-        </strong>
-
-        <br>
-
-        Nu.
-        Sunt necesare
-        sarcină comună,
-        roluri
-        și responsabilitate.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Metoda se justifică
-          prin definiție.
-        </strong>
-
-        <br>
-
-        Nu.
-        Utilitatea trebuie argumentată
-        în situația concretă.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Simularea digitală
-          înlocuiește automat experimentul real.
-        </strong>
-
-        <br>
-
-        Nu.
-        Alegerea depinde
-        de competența urmărită
-        și de posibilitățile reale.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Rezolvarea problemei =
-          introducerea datelor într-o formulă.
-        </strong>
-
-        <br>
-
-        Nu.
-        Este necesară
-        modelarea situației fizice.
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       19. RECAP
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="recapitulare"
-  >
-
-    <h2>
-      19. Recapitulare rapidă
-    </h2>
-
-
-    <div class="recap-grid">
-
-
-      <div class="recap-item">
-
-        <b>
-          Strategie
-        </b>
-
-        Combinație coerentă
-        de metode,
-        mijloace
-        și organizare.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Metodă
-        </b>
-
-        Calea de organizare
-        a învățării.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Explicație
-        </b>
-
-        Clarificare conceptuală.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Conversație euristică
-        </b>
-
-        Întrebări progresive.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Problematizare
-        </b>
-
-        Situație-problemă
-        și căutarea soluției.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Experiment
-        </b>
-
-        Fenomen,
-        măsurare,
-        date,
-        concluzie.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Descoperire
-        </b>
-
-        Elevul construiește
-        relația din dovezi.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Demonstrație
-        </b>
-
-        Observarea dirijată
-        a unui fenomen.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Cooperare
-        </b>
-
-        Roluri +
-        sarcină comună.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Investigație
-        </b>
-
-        Problemă →
-        ipoteză →
-        date →
-        concluzie.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Probleme
-        </b>
-
-        Model fizic →
-        legi →
-        calcul →
-        verificare.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Concurs
-        </b>
-
-        Metodă →
-        aplicare →
-        utilitate.
-
-      </div>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      <strong>
-        Formula de 30 de secunde:
-      </strong>
-
-      <br><br>
-
-      NU aleg metoda
-      pentru că este
-      „modernă”.
-
-      <br><br>
-
-      Aleg:
-
-      <strong>
-        COMPETENȚA
-        → ACTIVITATEA ELEVULUI
-        → METODA
-        → RESURSELE
-        → DOVADA DE ÎNVĂȚARE
-      </strong>
-
-    </div>
-
-
-    <h3>
-      Autoevaluare
-    </h3>
 
 
     <div class="question">
@@ -4381,53 +5033,150 @@ footer.site {
       Care este diferența
       dintre strategie,
       metodă,
-      procedeu
-      și mijloc de învățământ?
+      procedeu,
+      mijloc de învățământ
+      și formă de organizare?
 
     </div>
+
+
+    <details class="answer">
+
+      <summary>
+        Verifică răspunsul
+      </summary>
+
+      <p>
+        Strategia integrează
+        deciziile didactice;
+        metoda este calea
+        de organizare a activității;
+        procedeul este
+        o modalitate punctuală
+        de realizare a metodei;
+        mijlocul este resursa utilizată;
+        forma de organizare stabilește
+        modul de participare
+        a elevilor.
+      </p>
+
+    </details>
 
 
     <div class="question">
 
       <b>2.</b>
 
-      Cum caracterizezi
-      o metodă didactică
-      într-un răspuns de concurs?
+      Prin ce se deosebește
+      demonstrația didactică
+      de experimentul
+      realizat de elev?
 
     </div>
+
+
+    <details class="answer">
+
+      <summary>
+        Verifică răspunsul
+      </summary>
+
+      <p>
+        În demonstrație,
+        profesorul prezintă
+        fenomenul sau montajul,
+        iar elevii observă
+        și interpretează.
+        În experimentul realizat
+        de elev,
+        elevul manipulează
+        aparatura,
+        măsoară,
+        prelucrează datele
+        și formulează concluzii.
+      </p>
+
+    </details>
 
 
     <div class="question">
 
       <b>3.</b>
 
-      Care este diferența
-      dintre demonstrație
-      și experiment realizat de elevi?
+      De ce simplul
+      lucru pe grupe
+      nu este suficient
+      pentru a vorbi despre
+      învățare prin cooperare?
 
     </div>
+
+
+    <details class="answer">
+
+      <summary>
+        Verifică răspunsul
+      </summary>
+
+      <p>
+        Cooperarea presupune,
+        pe lângă organizarea
+        pe grupe,
+        o sarcină comună,
+        interdependență,
+        responsabilitate individuală,
+        interacțiune
+        și contribuția efectivă
+        a membrilor grupului.
+      </p>
+
+    </details>
 
 
     <div class="question">
 
       <b>4.</b>
 
-      De ce învățarea prin descoperire
-      este potrivită
-      pentru verificarea experimentală
-      a legii lui Ohm?
+      Care este diferența
+      dintre problematizare
+      și rezolvarea de probleme?
 
     </div>
+
+
+    <details class="answer">
+
+      <summary>
+        Verifică răspunsul
+      </summary>
+
+      <p>
+        Problematizarea creează
+        o dificultate cognitivă
+        care solicită
+        căutarea unei explicații.
+        Rezolvarea de probleme
+        presupune construirea
+        unui model fizic,
+        alegerea legilor,
+        efectuarea calculelor
+        și verificarea rezultatului.
+      </p>
+
+    </details>
 
 
     <div class="question">
 
       <b>5.</b>
 
-      Ce condiții trebuie îndeplinite
-      pentru ca lucrul pe grupe
-      să devină învățare prin cooperare?
+      Construiește
+      un exemplu
+      de conversație euristică
+      format din minimum
+      patru întrebări progresive
+      pentru un fenomen
+      de Fizică ales de tine.
 
     </div>
 
@@ -4436,9 +5185,10 @@ footer.site {
 
       <b>6.</b>
 
-      Construiește o situație-problemă
-      pentru un conținut
-      de Fizică ales de tine.
+      Construiește
+      o situație-problemă
+      care să poată declanșa
+      o investigație experimentală.
 
     </div>
 
@@ -4447,130 +5197,74 @@ footer.site {
 
       <b>7.</b>
 
-      De ce rezolvarea de probleme
-      nu trebuie redusă
-      la aplicarea mecanică
-      a unei formule?
+      Pentru o competență
+      de interpretare
+      a unui grafic fizic,
+      ce metodă ai alege
+      și cum ai argumenta
+      alegerea?
 
     </div>
 
 
-    <h3>
-      Surse și repere
-    </h3>
+    <div class="question">
 
+      <b>8.</b>
 
-    <ul class="sources">
-
-      <li>
-        Programa pentru concursul
-        de ocupare a posturilor didactice —
-        disciplina Fizică,
-        versiunea disponibilă pentru 2026.
-      </li>
-
-      <li>
-        M.E.C. – C.N.C.,
-        Ghid metodologic pentru aplicarea
-        programei de Fizică,
-        clasele VI–VIII,
-        Editura Aramis,
-        București,
-        2001.
-      </li>
-
-      <li>
-        Ciascai, L.,
-        Didactica fizicii,
-        Editura Corint,
-        București,
-        2001.
-      </li>
-
-      <li>
-        Ciascai, L.,
-        Predarea și învățarea fizicii
-        în gimnaziu și liceu,
-        1999.
-      </li>
-
-      <li>
-        Ciascai, L.,
-        Strategii euristice
-        de instruire la fizică,
-        1999.
-      </li>
-
-      <li>
-        Oprea, C. L.,
-        Strategii didactice interactive,
-        E.D.P.,
-        București,
-        2007.
-      </li>
-
-      <li>
-        Materialul metodic
-        „Itemi și metode didactice”.
-      </li>
-
-      <li>
-        Subiecte de metodică
-        din sesiunile
-        Definitivat 2015
-        și Titularizare
-        2020, 2022 și 2023.
-      </li>
-
-    </ul>
-
-
-    <div class="source-note">
-
-      <strong>
-        Notă metodologică:
-      </strong>
-
-      programa 2026 cere explicit
-      metode didactice —
-      prezentare,
-      caracterizare
-      și utilizare —
-      și tratează separat
-      experimentul
-      și rezolvarea de probleme
-      ca metode specifice
-      demersului didactic la Fizică.
-
-      <br><br>
-
-      Clasificarea generală
-      utilizată în această lecție
-      este o organizare pedagogică
-      pentru studiu,
-      nu o taxonomie
-      impusă textual
-      de programa de concurs.
-
-      <br><br>
-
-      Exemplele privind
-      învățarea prin descoperire,
-      problematizarea,
-      cooperarea
-      și demonstrația
-      sunt fundamentate
-      pe materiale de metodică
-      și subiecte anterioare.
-
-      <br><br>
-
-      Pentru Titularizare Fizică 2027,
-      programa oficială
-      trebuie reverificată
-      după publicare.
+      De ce simulatorul
+      nu trebuie confundat
+      cu metoda didactică?
 
     </div>
+
+
+    <details class="answer">
+
+      <summary>
+        Verifică răspunsul
+      </summary>
+
+      <p>
+        Simulatorul este
+        un mijloc
+        sau o resursă digitală.
+        Metoda este dată
+        de modul în care
+        elevii lucrează cu acesta:
+        investigație,
+        descoperire,
+        demonstrație,
+        modelare
+        sau alt demers.
+      </p>
+
+    </details>
+
+
+    <div class="question">
+
+      <b>9.</b>
+
+      Prezintă în maximum
+      șase propoziții
+      metoda experimentului
+      într-un răspuns
+      de concurs.
+
+    </div>
+
+
+    <div class="question">
+
+      <b>10.</b>
+
+      Ce verificări trebuie făcute
+      înainte de formularea
+      răspunsului final
+      într-o problemă de Fizică?
+
+    </div>
+
 
   </section>
 
@@ -4584,7 +5278,7 @@ footer.site {
 
 <nav
   class="pager"
-  aria-label="Navigare între lecțiile despre strategii didactice"
+  aria-label="Navigare între lecțiile de strategii didactice"
 >
 
   <a href="index.html">
@@ -4593,7 +5287,7 @@ footer.site {
 
 
   <a href="2-mijloace-de-invatamant.html">
-    Mijloace de învățământ →
+    2. Mijloace de învățământ →
   </a>
 
 </nav>
@@ -4601,371 +5295,435 @@ footer.site {
 
 <footer class="site">
 
-  Tematica pentru didactica Fizicii ·
+  Didactica Fizicii ·
   Strategii didactice ·
-  Metode didactice ·
-  Titularizare Fizică
+  Metode didactice
 
 </footer>
 
 
 <!-- =========================================================
      SCENARIU AUDIO ASCUNS
-     Playerul este generat automat
-     de componenta audio comună.
+
+     Textul audio este separat de textul vizibil.
+     Formulele sunt verbalizate.
      ========================================================= -->
 
 <template id="audio-lesson-script">
 
+
   <p>
     Bun găsit.
-    În lecția aceasta discutăm
-    despre metodele didactice
-    utilizate în predarea și învățarea Fizicii.
+    În această lecție
+    studiem metodele didactice
+    utilizate la Fizică.
   </p>
 
-  <p>
-    Este o temă importantă
-    pentru Titularizare,
-    pentru că aici nu ajunge
-    să memorăm o listă
-    cu nume de metode.
-  </p>
 
   <p>
-    Programa disponibilă
-    pentru Titularizare Fizică 2026
-    cere explicit
-    prezentarea,
-    caracterizarea
-    și utilizarea
-    metodelor didactice.
+    Ideea principală
+    este următoarea.
+    Nu este suficient
+    să memorăm numele
+    unor metode.
   </p>
 
-  <p>
-    În plus,
-    experimentul
-    și rezolvarea de probleme
-    sunt tratate separat
-    în programă
-    ca elemente specifice
-    demersului didactic la Fizică.
-  </p>
 
   <p>
-    Pentru concursul din 2027,
-    programa oficială
-    va trebui verificată
-    din nou după publicare.
+    Trebuie să știm
+    ce presupune fiecare metodă,
+    ce fac concret elevii,
+    ce competență dezvoltă,
+    când este potrivită
+    și ce limite are.
   </p>
 
+
   <p>
-    Începem cu o distincție
-    pe care trebuie
-    să o aveți foarte clară.
+    Începem prin a diferenția
+    cinci noțiuni:
+    strategie,
+    metodă,
+    procedeu,
+    mijloc de învățământ
+    și formă de organizare.
   </p>
+
 
   <p>
     Strategia didactică
-    nu este același lucru
-    cu metoda didactică.
+    reprezintă ansamblul
+    coerent și flexibil
+    de decizii
+    prin care profesorul
+    organizează
+    procesul de învățare.
   </p>
 
-  <p>
-    Strategia este
-    construcția de ansamblu.
-  </p>
 
   <p>
-    În ea combinăm
-    metode,
-    procedee,
-    mijloace
-    și forme de organizare.
+    Metoda didactică
+    este calea
+    prin care profesorul
+    și elevii
+    desfășoară activitatea
+    pentru realizarea
+    unei sarcini de învățare.
   </p>
 
-  <p>
-    Metoda este
-    o cale prin care
-    organizăm învățarea.
-  </p>
 
   <p>
-    Procedeul este
-    o modalitate concretă,
-    mai restrânsă,
-    utilizată într-o secvență.
+    Procedeul didactic
+    este o modalitate
+    concretă și punctuală
+    de realizare
+    a unei metode.
   </p>
 
-  <p>
-    Iar mijlocul de învățământ
-    este resursa
-    pe care o folosim.
-  </p>
 
   <p>
-    De exemplu,
-    experimentul poate fi metoda.
+    Mijlocul de învățământ
+    este resursa utilizată:
+    aparat,
+    material,
+    model,
+    imagine,
+    fișă
+    sau resursă digitală.
   </p>
 
-  <p>
-    Trusa de electricitate
-    este mijlocul.
-  </p>
 
   <p>
-    Lucrul pe grupe
-    este forma de organizare.
+    Forma de organizare
+    indică modul
+    în care participă elevii:
+    frontal,
+    individual,
+    în perechi
+    sau pe grupe.
   </p>
 
-  <p>
-    Această diferență
-    este foarte importantă
-    la examen.
-  </p>
 
   <p>
-    Acum,
-    când ni se cere
-    să caracterizăm o metodă,
-    ce trebuie să spunem?
+    Reținem.
+    Strategie,
+    metodă,
+    procedeu,
+    mijloc
+    și formă de organizare
+    nu sunt sinonime.
   </p>
 
-  <p>
-    O formulă foarte bună
-    este aceasta.
-  </p>
 
   <p>
-    Definiție.
+    Cum prezentăm
+    o metodă
+    într-un răspuns
+    de concurs?
   </p>
 
-  <p>
-    Aplicare concretă.
-  </p>
 
   <p>
-    Ce dezvoltă.
+    Mai întâi,
+    numim și definim metoda.
   </p>
 
-  <p>
-    Exemplu la Fizică.
-  </p>
 
   <p>
-    Avantaj.
+    Apoi arătăm
+    cum se aplică.
   </p>
 
-  <p>
-    Și,
-    dacă este necesar,
-    limită sau dezavantaj.
-  </p>
 
   <p>
-    A spune doar
-    că o metodă
-    este activă
-    nu este suficient.
+    Precizăm concret
+    ce fac elevii.
   </p>
 
-  <p>
-    Trebuie să vedem
-    ce face elevul
-    și de ce activitatea respectivă
-    dezvoltă competența urmărită.
-  </p>
 
   <p>
-    Să luăm prima metodă:
+    Legăm activitatea
+    de competența urmărită.
+  </p>
+
+
+  <p>
+    Dăm un exemplu
+    corect de Fizică.
+  </p>
+
+
+  <p>
+    Argumentăm utilitatea
+    și precizăm
+    cel puțin o limită
+    sau o condiție
+    de aplicare.
+  </p>
+
+
+  <p>
+    Formula de lucru este:
+    metodă,
+    activitatea elevului,
+    competență,
+    exemplu,
+    utilitate
+    și limită.
+  </p>
+
+
+  <p>
+    În predarea Fizicii,
+    este util să pornim
+    frecvent de la fenomen
+    și să ajungem
+    treptat la formalizare.
+  </p>
+
+
+  <p>
+    O schemă orientativă este:
+    observă,
+    descrie,
+    modelează,
+    explică,
+    formalizează,
+    aplică
+    și verifică.
+  </p>
+
+
+  <p>
+    Aceasta nu este
+    o succesiune rigidă.
+  </p>
+
+
+  <p>
+    Prima metodă analizată:
     explicația.
   </p>
 
+
   <p>
-    Explicația este utilă
-    atunci când profesorul
-    trebuie să clarifice
-    un concept,
-    o relație
-    sau un mecanism.
+    Explicația clarifică
+    logic și sistematic
+    un fenomen,
+    un concept
+    sau o relație fizică.
   </p>
+
 
   <p>
     De exemplu,
-    putem explica
-    de ce presiunea hidrostatică
-    crește cu adâncimea.
+    pentru presiunea hidrostatică,
+    nu prezentăm doar formula.
   </p>
 
-  <p>
-    Nu citim doar formula
-    p egal rho ori g ori h.
-  </p>
 
   <p>
-    Explicăm semnificația
-    fiecărei mărimi
-    și relația fizică
-    dintre ele.
+    Explicăm de ce
+    presiunea crește
+    cu adâncimea
+    și ce semnificație
+    au mărimile fizice
+    din relație.
   </p>
 
-  <p>
-    Avantajul explicației
-    este eficiența
-    în clarificarea conceptelor.
-  </p>
 
   <p>
-    Limita apare
-    când este utilizată exclusiv,
-    iar elevul rămâne
+    Explicația este eficientă
+    pentru clarificare,
+    dar nu trebuie
+    utilizată exclusiv,
+    deoarece elevul poate rămâne
     doar receptor.
   </p>
 
-  <p>
-    Urmează
-    conversația euristică.
-  </p>
 
   <p>
-    Aici profesorul
+    Următoarea metodă:
+    observația.
+  </p>
+
+
+  <p>
+    Observația didactică
+    este urmărirea
+    sistematică
+    a unui fenomen,
+    după criterii
+    și cu un scop clar.
+  </p>
+
+
+  <p>
+    Observația
+    nu înseamnă
+    simplul a privi.
+  </p>
+
+
+  <p>
+    Elevul trebuie
+    să știe ce urmărește,
+    să înregistreze
+    informațiile relevante
+    și să formuleze
+    o interpretare.
+  </p>
+
+
+  <p>
+    Conversația euristică
     utilizează întrebări progresive
     pentru a conduce elevul
     spre o concluzie.
   </p>
 
-  <p>
-    Cuvântul progresive
-    este important.
-  </p>
 
   <p>
-    Întrebările nu sunt
-    aruncate la întâmplare.
-  </p>
-
-  <p>
+    Întrebările
+    nu sunt întâmplătoare.
     Ele construiesc
     un traseu de gândire.
   </p>
 
+
   <p>
-    De exemplu,
-    într-un experiment
-    privind forța arhimedică,
-    profesorul poate întreba:
-    ce forțe acționează?
+    În studiul
+    forței arhimedice,
+    putem întreba:
     ce indică dinamometrul în aer?
     ce indică în apă?
-    ce diferență apare?
-    cum o putem explica?
+    ce forțe acționează?
+    cum explicăm diferența?
   </p>
 
-  <p>
-    Elevul este condus
-    spre relația fizică
-    prin propriul raționament.
-  </p>
 
   <p>
-    Avantajul este
-    participarea activă
-    și feedbackul imediat.
-  </p>
-
-  <p>
-    Limita este
-    că metoda necesită timp
-    și întrebări foarte bine construite.
-  </p>
-
-  <p>
-    Ajungem la problematizare.
-  </p>
-
-  <p>
-    Problematizarea pornește
+    Problematizarea
+    pornește
     de la o situație
-    care nu poate fi rezolvată
-    prin simpla reproducere
-    a unei informații.
+    care creează
+    o dificultate cognitivă.
   </p>
 
-  <p>
-    Elevul trebuie
-    să caute o explicație.
-  </p>
 
   <p>
-    Un exemplu foarte bun
-    apare într-un subiect
-    de Titularizare din 2020.
+    Elevul nu poate răspunde
+    doar reproducând
+    o definiție.
+    El trebuie
+    să caute explicația.
   </p>
 
-  <p>
-    Elevii suspendă
-    o placă de carton
-    din puncte diferite
-    și trasează verticalele
-    cu un fir cu plumb.
-  </p>
 
   <p>
-    Verticalele
-    se intersectează
-    în același punct.
+    De exemplu,
+    un corp pare mai ușor
+    când este introdus
+    într-un lichid.
   </p>
 
-  <p>
-    Întrebarea este:
-    de ce?
-  </p>
 
   <p>
-    Și ce semnificație fizică
-    are punctul de intersecție?
+    Dacă greutatea corpului
+    nu s-a modificat,
+    de ce indicația
+    dinamometrului scade?
   </p>
 
-  <p>
-    Elevul trebuie
-    să observe,
-    să compare
-    și să explice.
-  </p>
 
   <p>
-    Asta este mult mai aproape
-    de problematizare
-    decât o simplă întrebare factuală.
+    Aceasta poate deveni
+    o situație-problemă.
   </p>
 
-  <p>
-    Ajungem acum
-    la experiment,
-    probabil metoda
-    cea mai caracteristică
-    predării Fizicii.
-  </p>
 
   <p>
-    Programa îi acordă
-    explicit
-    un loc distinct.
+    Demonstrația didactică
+    presupune prezentarea
+    unui obiect,
+    model,
+    fenomen,
+    experiment
+    sau mod de lucru
+    de către profesor.
   </p>
+
+
+  <p>
+    Elevii observă,
+    notează,
+    compară
+    și interpretează.
+  </p>
+
+
+  <p>
+    Demonstrația
+    nu înseamnă obligatoriu
+    elev pasiv.
+  </p>
+
+
+  <p>
+    Într-un experiment demonstrativ,
+    profesorul poate realiza
+    două circuite cu becuri,
+    unul în serie
+    și unul în paralel.
+  </p>
+
+
+  <p>
+    Elevii observă
+    ce se întâmplă
+    când este scos
+    unul dintre becuri
+    și explică diferența.
+  </p>
+
+
+  <p>
+    Ajungem la experiment,
+    una dintre metodele
+    esențiale
+    ale demersului didactic
+    la Fizică.
+  </p>
+
 
   <p>
     Prin experiment,
-    elevul poate formula ipoteze,
-    realiza montaje,
-    utiliza instrumente,
+    condițiile fenomenului
+    sunt provocate,
+    modificate
+    sau controlate
+    intenționat.
+  </p>
+
+
+  <p>
+    Elevul poate formula
+    o ipoteză,
+    realiza montajul,
+    controla variabile,
     măsura,
-    organiza date
+    organiza date,
+    reprezenta grafic
     și formula concluzii.
   </p>
 
+
   <p>
-    Să luăm legea lui Ohm.
+    Un exemplu este
+    verificarea experimentală
+    a legii lui Ohme.
   </p>
+
 
   <p>
     Elevii realizează
@@ -4975,559 +5733,430 @@ footer.site {
     și voltmetru.
   </p>
 
-  <p>
-    Modifică tensiunea.
-  </p>
 
   <p>
-    Măsoară intensitatea.
+    Modifică tensiunea,
+    măsoară intensitatea
+    și organizează
+    valorile într-un tabel.
   </p>
 
-  <p>
-    Completează un tabel.
-  </p>
 
   <p>
-    Calculează raportul
-    U împărțit la I.
+    Apoi analizează
+    graficul
+    și raportul dintre
+    tensiune
+    și intensitate.
   </p>
 
-  <p>
-    Și analizează
-    dacă acesta rămâne constant
-    în condițiile experimentului.
-  </p>
 
   <p>
-    În felul acesta,
-    relația
-    U egal R ori I
-    este conectată
-    cu date reale.
+    Pentru un rezistor ohmic,
+    menținut aproximativ
+    la temperatură constantă,
+    datele evidențiază
+    relația dintre
+    tensiune,
+    rezistență
+    și intensitatea curentului.
   </p>
 
-  <p>
-    Experimentul dezvoltă
-    competențe de investigare
-    și deprinderi practice.
-  </p>
-
-  <p>
-    Dar necesită
-    aparatură,
-    timp,
-    pregătire
-    și condiții de siguranță.
-  </p>
-
-  <p>
-    Foarte apropiată
-    este învățarea prin descoperire.
-  </p>
-
-  <p>
-    Într-un material
-    de Definitivat 2015,
-    pentru legea lui Ohm,
-    metoda indicată
-    este chiar
-    învățarea prin descoperire.
-  </p>
-
-  <p>
-    Elevii nu primesc
-    pur și simplu
-    legea și apoi o repetă.
-  </p>
-
-  <p>
-    Măsoară.
-  </p>
-
-  <p>
-    Compară.
-  </p>
-
-  <p>
-    Reprezintă grafic.
-  </p>
-
-  <p>
-    Și formulează concluzia
-    pe baza datelor.
-  </p>
-
-  <p>
-    Atenție însă.
-  </p>
 
   <p>
     Învățarea prin descoperire
-    nu înseamnă
-    că profesorul spune:
-    descurcați-vă singuri.
+    presupune ca elevul
+    să ajungă
+    la o relație,
+    regulă
+    sau concluzie
+    prin analiza dovezilor.
   </p>
 
-  <p>
-    Profesorul poate
-    proiecta sarcinile,
-    poate oferi
-    întrebări orientative
-    și poate organiza
-    succesiunea activității.
-  </p>
 
   <p>
-    Urmează demonstrația.
+    Descoperirea
+    poate fi ghidată.
   </p>
 
-  <p>
-    Aici fenomenul
-    sau procedeul
-    este prezentat
-    în mod controlat,
-    de regulă profesorul
-    având rolul principal
-    în manipularea dispozitivului.
-  </p>
 
   <p>
-    Titularizarea 2023
-    ne oferă
-    un exemplu foarte bun.
+    Profesorul organizează
+    datele,
+    materialele
+    și întrebările,
+    fără a furniza
+    concluzia
+    de la început.
   </p>
 
-  <p>
-    Profesorul realizează
-    circuite cu becuri
-    în serie
-    și în paralel.
-  </p>
 
   <p>
-    Elevii observă
-    ce se întâmplă
-    când un bec
-    este scos.
+    Investigația
+    este un demers
+    mai amplu.
   </p>
 
-  <p>
-    Dar observația
-    nu este lăsată
-    la nivelul
-    uite ce interesant.
-  </p>
 
   <p>
-    Elevii primesc întrebări,
-    consemnează rezultatele
-    și formulează concluzii.
+    Ea poate cuprinde:
+    întrebare,
+    ipoteză,
+    plan de lucru,
+    colectarea datelor,
+    analiza,
+    validarea
+    și concluzia.
   </p>
 
-  <p>
-    Aceasta este cheia
-    unei demonstrații
-    bine integrate.
-  </p>
 
   <p>
-    Următoarea metodă:
-    modelarea.
+    De exemplu,
+    elevii pot investiga
+    de ce depinde
+    perioada
+    unui pendul simplu.
   </p>
 
-  <p>
-    Fizica utilizează
-    permanent modele.
-  </p>
 
   <p>
-    Modelul gazului ideal.
+    Ei trebuie
+    să distingă
+    variabila modificată,
+    variabila măsurată
+    și condițiile
+    care trebuie menținute
+    cât mai constante.
   </p>
 
-  <p>
-    Linii de câmp.
-  </p>
 
   <p>
-    Grafice.
+    Modelarea
+    reprezintă utilizarea
+    unui model
+    pentru a surprinde
+    caracteristicile relevante
+    ale unui sistem
+    sau fenomen.
   </p>
 
-  <p>
-    Scheme de circuit.
-  </p>
 
   <p>
-    Modele matematice.
+    Exemple de modele
+    sunt:
+    punctul material,
+    corpul rigid,
+    gazul ideal,
+    raza de lumină,
+    schema circuitului
+    și diagrama forțelor.
   </p>
 
-  <p>
-    Profesorul trebuie
-    să îi ajute pe elevi
-    să înțeleagă
-    nu doar ce explică modelul,
-    ci și ce limite are.
-  </p>
 
   <p>
-    O simulare digitală
-    poate sprijini modelarea,
-    dar calculatorul
-    nu devine prin el însuși
-    metodă didactică.
+    La modelare,
+    trebuie precizate
+    ipotezele
+    și limitele modelului.
   </p>
 
-  <p>
-    Este important
-    să păstrăm diferența
-    dintre metodă
-    și mijloc.
-  </p>
 
   <p>
-    Ajungem la
-    învățarea prin cooperare.
+    Învățarea prin cooperare
+    înseamnă mai mult
+    decât așezarea elevilor
+    în grupe.
   </p>
 
-  <p>
-    Titularizarea 2022
-    oferă un exemplu
-    cu legea lui Pascal.
-  </p>
 
   <p>
-    Elevii sunt organizați
-    în echipe de patru.
+    Ea presupune
+    o sarcină comună,
+    responsabilitate individuală,
+    interdependență
+    și colaborare reală.
   </p>
 
+
   <p>
-    Au roluri:
-    coordonator,
-    observator,
+    Pot exista roluri
+    precum coordonator,
+    responsabil cu datele,
     responsabil cu calculele
     și raportor.
   </p>
 
-  <p>
-    Acesta este
-    un detaliu important.
-  </p>
 
   <p>
-    Cooperarea nu înseamnă
-    doar că patru elevi
-    stau la aceeași masă.
+    Dar fiecare elev
+    trebuie să poată explica
+    concluzia grupului.
   </p>
 
-  <p>
-    Trebuie să existe
-    o sarcină comună,
-    contribuții reale
-    și responsabilitate.
-  </p>
 
   <p>
-    Avantajele sunt
-    colaborarea,
-    comunicarea,
-    argumentarea
-    și responsabilitatea.
+    Rezolvarea de probleme
+    este o metodă
+    specifică și importantă
+    în învățarea Fizicii.
   </p>
 
-  <p>
-    Dar dacă rolurile
-    sunt neclare,
-    un elev poate face
-    toată munca,
-    iar ceilalți
-    pot rămâne pasivi.
-  </p>
 
   <p>
-    Următoarea metodă
-    este investigația.
+    Ea nu trebuie redusă
+    la alegerea
+    unei formule.
   </p>
 
-  <p>
-    Aici avem
-    un demers aproape complet
-    de cercetare școlară.
-  </p>
 
   <p>
-    Pornim de la
-    o întrebare.
-  </p>
-
-  <p>
-    Formulăm ipoteze.
-  </p>
-
-  <p>
-    Proiectăm modul
-    de investigare.
-  </p>
-
-  <p>
-    Colectăm date.
-  </p>
-
-  <p>
-    Le analizăm.
-  </p>
-
-  <p>
-    Și formulăm concluzii.
-  </p>
-
-  <p>
-    De exemplu:
-    de ce factori depinde
-    perioada unui pendul?
-  </p>
-
-  <p>
-    Elevii modifică
-    o variabilă
-    și încearcă
-    să le controleze
-    pe celelalte.
-  </p>
-
-  <p>
-    Aici profesorul
-    poate evalua
-    nu doar rezultatul final,
-    ci și calitatea
-    demersului investigativ.
-  </p>
-
-  <p>
-    Ajungem acum
-    la rezolvarea de probleme.
-  </p>
-
-  <p>
-    Programa de Titularizare
-    o tratează separat,
-    ceea ce ne arată
-    importanța ei.
-  </p>
-
-  <p>
-    Dar o problemă de Fizică
-    nu trebuie redusă
-    la identificarea formulei
-    în care introducem datele.
-  </p>
-
-  <p>
-    Elevul trebuie
-    să înțeleagă sistemul.
-  </p>
-
-  <p>
-    Să precizeze
-    ipotezele.
-  </p>
-
-  <p>
-    Să aleagă legile.
-  </p>
-
-  <p>
-    Să lucreze simbolic.
-  </p>
-
-  <p>
-    Să calculeze
-    cu unități.
-  </p>
-
-  <p>
-    Și să verifice
-    dacă rezultatul
-    are sens fizic.
-  </p>
-
-  <p>
-    Un algoritm foarte bun
-    este:
-    date în SI,
+    Algoritmul recomandat este:
+    date în Sistemul Internațional,
     cerință,
     sistem și ipoteze,
     legi,
     calcul simbolic,
-    calcul numeric,
-    verificare,
-    răspuns.
+    calcul numeric cu unități,
+    verificare
+    și răspuns.
   </p>
 
-  <p>
-    Acum întrebarea decisivă:
-    cum alegem metoda?
-  </p>
 
   <p>
-    Nu pornim de la:
-    vreau să folosesc
-    o metodă modernă.
+    Verificarea include
+    unitățile,
+    ordinul de mărime,
+    semnul,
+    plauzibilitatea
+    și compatibilitatea
+    cu ipotezele modelului.
   </p>
 
-  <p>
-    Pornim de la:
-    ce competență
-    trebuie să demonstreze elevul?
-  </p>
 
   <p>
-    Dacă vreau
-    investigație experimentală,
-    o prelegere
-    nu este suficientă.
+    Exercițiul
+    este metoda
+    bazată pe executarea
+    conștientă și repetată
+    a unor acțiuni.
   </p>
 
-  <p>
-    Dacă vreau
-    clarificarea rapidă
-    a unui concept dificil,
-    explicația
-    poate avea un rol important.
-  </p>
 
   <p>
-    Dacă vreau
-    construirea unei concluzii
-    din date,
-    experimentul,
-    conversația euristică
-    și descoperirea
-    pot funcționa împreună.
+    El poate fi utilizat
+    pentru transformări de unități,
+    citirea graficelor,
+    reprezentarea vectorilor
+    sau aplicarea
+    unor proceduri cunoscute.
   </p>
 
-  <p>
-    Dacă vreau
-    o soluție argumentată
-    la o situație nouă,
-    problematizarea
-    poate fi potrivită.
-  </p>
 
   <p>
-    La Titularizare,
-    subiectele anterioare
-    ne oferă un tipar clar.
+    Exercițiul
+    nu este identic
+    cu problema.
   </p>
 
-  <p>
-    Definitivat 2015:
-    învățare prin descoperire,
-    legea lui Ohm.
-  </p>
 
   <p>
-    Titularizare 2020:
-    problematizare,
-    centrul de greutate.
+    Problema poate solicita
+    construirea modelului
+    și alegerea
+    unei strategii noi.
   </p>
 
-  <p>
-    Titularizare 2022:
-    cooperare,
-    legea lui Pascal.
-  </p>
 
   <p>
-    Titularizare 2023:
-    demonstrație didactică,
-    conexiuni de becuri.
+    Studiul de caz
+    pornește
+    de la o situație
+    reală sau simulată.
   </p>
 
-  <p>
-    Observați elementul comun.
-  </p>
 
   <p>
-    Metoda este mereu
-    legată de
-    o activitate concretă
-    de Fizică.
+    Elevii selectează
+    informațiile relevante,
+    aplică noțiunile de Fizică
+    și argumentează
+    o concluzie.
   </p>
 
-  <p>
-    De aceea,
-    dacă la examen
-    vi se cere
-    o metodă
-    și utilitatea ei,
-    nu vă opriți
-    la definiție.
-  </p>
 
   <p>
-    Spuneți metoda.
+    De exemplu,
+    pot compara
+    funcționarea becurilor
+    conectate în serie
+    și în paralel
+    într-un context
+    de instalație electrică.
   </p>
 
-  <p>
-    Arătați exact
-    ce fac elevii.
-  </p>
 
   <p>
-    Legați activitatea
-    de competența urmărită.
+    Acum câteva distincții
+    importante.
   </p>
 
-  <p>
-    Și argumentați
-    de ce metoda
-    este adecvată
-    în acel context.
-  </p>
 
   <p>
-    Formula finală este:
+    Demonstrația
+    nu este același lucru
+    cu experimentul
+    realizat de elev.
+  </p>
+
+
+  <p>
+    Descoperirea
+    nu este identică
+    cu investigația.
+  </p>
+
+
+  <p>
+    Problematizarea
+    nu este identică
+    cu rezolvarea
+    unei probleme numerice.
+  </p>
+
+
+  <p>
+    Lucrul pe grupe
+    este o formă
+    de organizare.
+  </p>
+
+
+  <p>
+    Devine învățare
+    prin cooperare
+    numai atunci când
+    există mecanisme reale
+    de cooperare.
+  </p>
+
+
+  <p>
+    Fișa de lucru
+    este, în formularea riguroasă,
+    un suport
+    sau instrument didactic.
+  </p>
+
+
+  <p>
+    Simulatorul
+    este o resursă digitală
+    sau un mijloc
+    de învățământ.
+  </p>
+
+
+  <p>
+    Metoda este dată
+    de activitatea
+    realizată cu ajutorul
+    acestor resurse.
+  </p>
+
+
+  <p>
+    Cum alegem metoda?
+  </p>
+
+
+  <p>
+    Pornim
+    de la competența urmărită.
+  </p>
+
+
+  <p>
+    Stabilim
+    ce trebuie să facă elevul.
+  </p>
+
+
+  <p>
+    Alegem metoda
+    care permite
+    acea activitate.
+  </p>
+
+
+  <p>
+    Apoi alegem
+    mijloacele
+    și forma de organizare.
+  </p>
+
+
+  <p>
+    În final,
+    stabilim
+    ce dovadă de învățare
+    vom observa.
+  </p>
+
+
+  <p>
+    Nu alegem o metodă
+    doar pentru că
+    este considerată modernă.
+  </p>
+
+
+  <p>
+    O metodă este potrivită
+    atunci când este adecvată
+    competenței,
+    conținutului,
+    nivelului elevilor,
+    resurselor,
+    timpului
+    și condițiilor de siguranță.
+  </p>
+
+
+  <p>
+    Pentru răspunsul
+    de concurs,
+    reținem formula:
     metodă,
-    activitate concretă,
+    activitatea elevului,
     competență,
-    utilitate,
-    avantaj
+    exemplu de Fizică,
+    utilitate
     și limită.
   </p>
 
-  <p>
-    Și mai rețineți ceva.
-  </p>
 
   <p>
-    Nu există
-    o metodă universal bună.
+    Iar pentru rezolvarea
+    problemelor de Fizică,
+    reținem:
+    date în Sistemul Internațional,
+    cerință,
+    sistem și ipoteze,
+    legi,
+    calcul simbolic,
+    calcul numeric cu unități,
+    verificare
+    și răspuns.
   </p>
 
-  <p>
-    O metodă este bună
-    atunci când este
-    adecvată competenței,
-    conținutului,
-    elevilor,
-    resurselor
-    și situației didactice.
-  </p>
 
   <p>
-    Pentru Titularizare Fizică 2027,
-    după publicarea
-    programei oficiale,
-    trebuie reverificate
-    formularea temei
-    și eventualele actualizări.
+    Aceasta a fost
+    lecția despre
+    metodele didactice
+    utilizate la Fizică.
   </p>
 
-  <p>
-    Aceasta a fost lecția
-    despre metodele didactice
-    utilizate în predarea
-    și învățarea Fizicii.
-  </p>
 
 </template>
 
@@ -5556,15 +6185,18 @@ function updateThemeButton() {
   const dark =
     currentTheme() === "dark";
 
+
   themeToggle.textContent =
     dark
       ? "Tema: Noapte"
       : "Tema: Zi";
 
+
   themeToggle.setAttribute(
     "aria-pressed",
     dark ? "true" : "false"
   );
+
 
   themeToggle.setAttribute(
     "title",
@@ -5583,13 +6215,16 @@ function toggleTheme() {
       ? "light"
       : "dark";
 
+
   document.documentElement.dataset.theme =
     next;
+
 
   localStorage.setItem(
     "titularizare-theme",
     next
   );
+
 
   updateThemeButton();
 
@@ -5609,7 +6244,6 @@ updateThemeButton();
 
 <!-- =========================================================
      COMPONENTA AUDIO COMUNĂ
-     Playerul și CSS-ul audio sunt preluate automat.
      ========================================================= -->
 
 <script
