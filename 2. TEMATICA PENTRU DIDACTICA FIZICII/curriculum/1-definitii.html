@@ -12,36 +12,12 @@
 
 <meta
   name="description"
-  content="Definiții fundamentale privind curriculumul național, planurile-cadru, segmentele curriculare și resursele de sprijin."
+  content="Lecții de curriculum pentru pregătirea didacticii Fizicii: definiții, componentele curriculumului național, tipuri de curriculum și competențe-cheie."
 >
 
 <title>
-  1. Definiții fundamentale ale curriculumului · Titularizare Fizică
+  Curriculum · Didactica Fizicii · Titularizare Fizică
 </title>
-
-
-<!-- =========================================================
-     TEMA INIȚIALĂ
-     ========================================================= -->
-
-<script>
-(function () {
-
-  const savedTheme =
-    localStorage.getItem("titularizare-theme");
-
-  const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  const theme =
-    savedTheme || (prefersDark ? "dark" : "light");
-
-  document.documentElement.dataset.theme =
-    theme;
-
-})();
-</script>
 
 
 <style>
@@ -50,69 +26,36 @@
    CULORI
    ========================================================= */
 
-:root,
-html[data-theme="light"] {
+:root {
 
-  color-scheme: light;
+  --bg: #f4f6f5;
+  --text: #17211f;
+  --muted: #66736f;
 
-  --bg: #f4f6fb;
-  --bg-card: #ffffff;
+  --card-1: #1f6f6b;
+  --card-2: #2f6fa8;
+  --card-3: #7a4fb5;
+  --card-4: #b56a32;
 
-  --text: #1a2033;
-  --text-muted: #4d5875;
-
-  --navy: #16213e;
-  --navy-2: #0f3460;
-
-  --accent: #3f8cff;
-  --accent-2: #ffb703;
-
-  --border: #dfe4f0;
-
-  --soft-blue: #edf5ff;
-  --soft-gray: #f6f7fa;
-
-  --definition-bg: #edf5ff;
-  --definition-border: #3f8cff;
-
-  --shadow:
-    0 2px 10px rgba(22, 33, 62, .08);
-
-  --header-text: #ffffff;
-  --header-muted: #c7d1f0;
+  --focus: #ffbf47;
 
 }
 
 
-html[data-theme="dark"] {
+@media (prefers-color-scheme: dark) {
 
-  color-scheme: dark;
+  :root {
 
-  --bg: #10162b;
-  --bg-card: #1a2340;
+    --bg: #0f1716;
+    --text: #edf4f2;
+    --muted: #a9b8b4;
 
-  --text: #e8ecfb;
-  --text-muted: #a7b0d1;
+    --card-1: #236f6c;
+    --card-2: #346fa5;
+    --card-3: #7650a9;
+    --card-4: #a66031;
 
-  --navy: #0b1023;
-  --navy-2: #16213e;
-
-  --accent: #6fa8ff;
-  --accent-2: #ffcd4a;
-
-  --border: #2a3459;
-
-  --soft-blue: #182944;
-  --soft-gray: #19213a;
-
-  --definition-bg: #182944;
-  --definition-border: #6fa8ff;
-
-  --shadow:
-    0 2px 14px rgba(0, 0, 0, .4);
-
-  --header-text: #ffffff;
-  --header-muted: #c7d1f0;
+  }
 
 }
 
@@ -125,72 +68,73 @@ html[data-theme="dark"] {
   box-sizing: border-box;
 }
 
-html {
-
-  scroll-behavior: smooth;
-  scroll-padding-top: 18px;
-
-}
-
 body {
 
   margin: 0;
 
+  padding:
+    40px
+    max(18px, env(safe-area-inset-right))
+    40px
+    max(18px, env(safe-area-inset-left));
+
   font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
     "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
     sans-serif;
 
   background: var(--bg);
   color: var(--text);
 
-  line-height: 1.68;
-
-  transition:
-    background-color .2s ease,
-    color .2s ease;
-
-}
-
-a {
-  overflow-wrap: anywhere;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
 }
 
 
 /* =========================================================
-   ACCESIBILITATE
+   CONȚINUT
    ========================================================= */
 
-.skip-link {
+main {
 
-  position: absolute;
-
-  top: -60px;
-  left: 14px;
-
-  z-index: 1000;
-
-  padding: 10px 14px;
-
-  border-radius: 8px;
-
-  background: var(--accent);
-  color: #ffffff;
-
-  font-weight: 700;
-  text-decoration: none;
+  max-width: 680px;
+  margin: 0 auto;
 
 }
 
-.skip-link:focus {
-  top: 12px;
+
+/* =========================================================
+   ÎNAPOI
+   ========================================================= */
+
+.back {
+
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  color: var(--muted);
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.back:focus-visible {
+
+  outline:
+    3px solid var(--focus);
+
+  outline-offset: 4px;
+
+  border-radius: 4px;
+
 }
 
 
@@ -198,376 +142,189 @@ a {
    HEADER
    ========================================================= */
 
-header.top {
+header {
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--navy),
-      var(--navy-2)
-    );
+  margin-bottom: 32px;
 
-  color: var(--header-text);
-
-  padding:
-    24px
-    max(18px, env(safe-area-inset-right))
-    22px
-    max(18px, env(safe-area-inset-left));
+  text-align: center;
 
 }
 
-.top-inner {
+h1 {
 
-  width: min(900px, 100%);
-  margin: 0 auto;
+  margin: 0 0 7px;
 
-}
+  font-size:
+    clamp(24px, 6vw, 34px);
 
-.header-row {
-
-  display: flex;
-
-  align-items: flex-start;
-  justify-content: space-between;
-
-  gap: 20px;
+  line-height: 1.15;
 
 }
 
-.header-text {
-  min-width: 0;
-}
-
-.breadcrumb {
-
-  margin-bottom: 10px;
-
-  color: #b9c3e6;
-
-  font-size: .84rem;
-  line-height: 1.5;
-
-}
-
-.breadcrumb a {
-
-  color: #cfe0ff;
-  text-decoration: none;
-
-}
-
-.breadcrumb a:hover,
-.breadcrumb a:focus-visible {
-  text-decoration: underline;
-}
-
-header.top h1 {
+.subtitle {
 
   margin: 0;
 
-  font-size:
-    clamp(1.45rem, 4vw, 1.95rem);
+  color: var(--muted);
 
-  line-height: 1.22;
-
-  font-weight: 760;
-
-}
-
-header.top p.subtitle {
-
-  margin: 7px 0 0;
-
-  color: var(--header-muted);
-
-  font-size:
-    clamp(.88rem, 2.4vw, .98rem);
+  font-size: 16px;
 
 }
 
 
 /* =========================================================
-   BUTON TEMA
+   LISTA LECȚIILOR
    ========================================================= */
 
-.theme-toggle {
+.grid {
+
+  display: grid;
+
+  gap: 12px;
+
+}
+
+
+/* =========================================================
+   BUTOANE
+   ========================================================= */
+
+a.btn {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 72px;
+
+  padding: 18px 22px;
+
+  border-radius: 14px;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-weight: 700;
+  font-size: 17px;
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.15);
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease,
+    filter .15s ease;
+
+}
+
+a.btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.2);
+
+  filter: brightness(1.04);
+
+}
+
+a.btn:active {
+  transform: translateY(0);
+}
+
+a.btn:focus-visible {
+
+  outline:
+    3px solid var(--focus);
+
+  outline-offset: 4px;
+
+}
+
+
+/* =========================================================
+   NUMĂR
+   ========================================================= */
+
+.nr {
+
+  display: grid;
+
+  place-items: center;
 
   flex: 0 0 auto;
 
-  min-height: 44px;
-
-  padding: 9px 14px;
+  width: 36px;
+  height: 36px;
 
   border:
-    1px solid rgba(255,255,255,.3);
+    1px solid rgba(255,255,255,.28);
 
-  border-radius: 999px;
+  border-radius: 50%;
 
   background:
     rgba(255,255,255,.10);
 
-  color: #ffffff;
-
-  font: inherit;
-  font-size: .86rem;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  white-space: nowrap;
-
-}
-
-.theme-toggle:hover {
-
-  background:
-    rgba(255,255,255,.18);
-
-}
-
-.theme-toggle:focus-visible {
-
-  outline:
-    3px solid var(--accent-2);
-
-  outline-offset: 3px;
+  font-variant-numeric: tabular-nums;
 
 }
 
 
 /* =========================================================
-   MAIN
+   TEXT BUTON
    ========================================================= */
 
-main {
-
-  width: min(900px, 100%);
-
-  margin: 28px auto 60px;
-
-  padding:
-    0
-    max(16px, env(safe-area-inset-right))
-    0
-    max(16px, env(safe-area-inset-left));
-
-}
-
-
-/* =========================================================
-   CARDURI
-   ========================================================= */
-
-section.card {
-
-  background: var(--bg-card);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 14px;
-
-  box-shadow: var(--shadow);
-
-  padding:
-    clamp(18px, 4vw, 24px);
-
-  margin-bottom: 22px;
-
-}
-
-section.card > :first-child {
-  margin-top: 0;
-}
-
-section.card > :last-child {
-  margin-bottom: 0;
-}
-
-
-/* =========================================================
-   TITLURI
-   ========================================================= */
-
-h2 {
-
-  margin-top: 0;
-  margin-bottom: 16px;
-
-  padding-bottom: 8px;
-
-  border-bottom:
-    2px solid var(--accent);
-
-  color: var(--navy-2);
-
-  font-size:
-    clamp(1.12rem, 3vw, 1.3rem);
-
-  line-height: 1.32;
-
-}
-
-html[data-theme="dark"] h2 {
-  color: var(--accent);
-}
-
-p {
-  margin: .7rem 0;
-}
-
-
-/* =========================================================
-   NOTĂ DE BAZĂ
-   ========================================================= */
-
-.source-note {
-
-  margin: 0;
-
-  padding:
-    15px 17px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 10px;
-
-  background: var(--soft-gray);
-
-  color: var(--text-muted);
-
-  font-size: .92rem;
-
-}
-
-
-/* =========================================================
-   CUPRINS
-   ========================================================= */
-
-.toc {
-
-  columns: 2;
-  column-gap: 38px;
-
-  font-size: .93rem;
-
-}
-
-.toc ol {
-
-  margin: 0;
-  padding-left: 1.45rem;
-
-}
-
-.toc li {
-
-  margin: .42rem 0;
-  break-inside: avoid;
-
-}
-
-.toc a {
-
-  color: var(--accent);
-  text-decoration: none;
-
-}
-
-.toc a:hover,
-.toc a:focus-visible {
-  text-decoration: underline;
-}
-
-
-/* =========================================================
-   DEFINIȚII
-   ========================================================= */
-
-.definition {
-
-  margin: 0;
-
-  padding:
-    17px 19px;
-
-  border-left:
-    5px solid var(--definition-border);
-
-  border-radius:
-    0 10px 10px 0;
-
-  background:
-    var(--definition-bg);
-
-}
-
-.definition-term {
-
-  display: block;
-
-  margin-bottom: 7px;
-
-  color: var(--accent);
-
-  font-size: 1.04rem;
-  font-weight: 800;
-
-}
-
-.definition p {
-  margin: 0;
-}
-
-
-/* =========================================================
-   NAVIGARE
-   ========================================================= */
-
-nav.pager {
+.lesson-text {
 
   display: flex;
+  flex-direction: column;
 
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 14px;
-
-  width: min(900px,100%);
-
-  margin: 0 auto 28px;
-
-  padding:
-    0
-    max(16px, env(safe-area-inset-right))
-    0
-    max(16px, env(safe-area-inset-left));
-
-  font-size: .91rem;
+  min-width: 0;
 
 }
 
-nav.pager a {
+.lesson-title {
 
-  display: inline-flex;
-
-  align-items: center;
-
-  min-height: 44px;
-
-  color: var(--accent);
-
-  font-weight: 700;
-  text-decoration: none;
+  line-height: 1.28;
 
 }
 
-nav.pager a:hover,
-nav.pager a:focus-visible {
-  text-decoration: underline;
+.lesson-desc {
+
+  margin-top: 3px;
+
+  color:
+    rgba(255,255,255,.80);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  line-height: 1.35;
+
+}
+
+
+/* =========================================================
+   CULORI LECȚII
+   ========================================================= */
+
+.b1 {
+  background: var(--card-1);
+}
+
+.b2 {
+  background: var(--card-2);
+}
+
+.b3 {
+  background: var(--card-3);
+}
+
+.b4 {
+  background: var(--card-4);
 }
 
 
@@ -575,22 +332,16 @@ nav.pager a:focus-visible {
    FOOTER
    ========================================================= */
 
-footer.site {
+footer {
 
-  width: min(900px,100%);
+  margin-top: 36px;
 
-  margin: 0 auto 40px;
+  color: var(--muted);
 
-  padding:
-    0
-    max(16px, env(safe-area-inset-right))
-    0
-    max(16px, env(safe-area-inset-left));
-
-  color: var(--text-muted);
-
-  font-size: .82rem;
   text-align: center;
+
+  font-size: 13px;
+  line-height: 1.5;
 
 }
 
@@ -599,57 +350,23 @@ footer.site {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 720px) {
-
-  .toc {
-    columns: 1;
-  }
-
-  .header-row {
-    flex-direction: column;
-  }
-
-  .theme-toggle {
-    align-self: flex-start;
-  }
-
-  nav.pager {
-
-    flex-direction: column;
-    align-items: stretch;
-
-  }
-
-  nav.pager a {
-
-    justify-content: center;
-
-    padding: 8px 10px;
-
-    border:
-      1px solid var(--border);
-
-    border-radius: 9px;
-
-    background: var(--bg-card);
-
-  }
-
-}
-
-
-@media (max-width: 380px) {
+@media (max-width: 480px) {
 
   body {
-    font-size: 15px;
+    padding-top: 28px;
   }
 
-  .theme-toggle {
-    width: 100%;
+  a.btn {
+
+    padding:
+      17px 18px;
+
+    font-size: 16px;
+
   }
 
-  section.card {
-    padding: 16px;
+  .lesson-desc {
+    font-size: 12.5px;
   }
 
 }
@@ -660,10 +377,6 @@ footer.site {
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
-  html {
-    scroll-behavior: auto;
-  }
 
   *,
   *::before,
@@ -687,1009 +400,166 @@ footer.site {
 <body>
 
 
-<a
-  class="skip-link"
-  href="#continut"
->
-  Sari la conținut
-</a>
+<main>
 
 
-<!-- =========================================================
-     HEADER
-     ========================================================= -->
-
-<header class="top">
-
-  <div class="top-inner">
-
-    <div class="header-row">
-
-      <div class="header-text">
-
-        <div class="breadcrumb">
-
-          <a href="../../index.html">
-            Acasă
-          </a>
-
-          &rsaquo;
-
-          <a href="../index.html">
-            Didactică
-          </a>
-
-          &rsaquo;
-
-          <a href="index.html">
-            Curriculum
-          </a>
-
-          &rsaquo;
-
-          Definiții fundamentale
-
-        </div>
+  <a
+    class="back"
+    href="../index.html"
+  >
+    ← Didactica Fizicii
+  </a>
 
 
-        <h1>
-          1. Definiții fundamentale ale curriculumului
-        </h1>
+  <header>
+
+    <h1>
+      Curriculum
+    </h1>
+
+    <p class="subtitle">
+      Alege lecția
+    </p>
+
+  </header>
 
 
-        <p class="subtitle">
-          curriculum național · plan-cadru · arie curriculară ·
-          trunchi comun · curriculum de specialitate · CDEOȘ ·
-          programă școlară · standarde de evaluare ·
-          profilul absolventului · manual · auxiliar didactic
-        </p>
-
-      </div>
+  <div
+    class="grid"
+    aria-label="Lecții de curriculum"
+  >
 
 
-      <button
-        class="theme-toggle"
-        id="themeToggle"
-        type="button"
-        aria-label="Comută tema zi/noapte"
-        aria-pressed="false"
-      >
-        Tema: Zi
-      </button>
+    <!-- =====================================================
+         1. DEFINIȚII
+         ===================================================== -->
 
-    </div>
+    <a
+      class="btn b1"
+      href="1-definitii.html"
+    >
+
+      <span class="nr">
+        1
+      </span>
+
+      <span class="lesson-text">
+
+        <span class="lesson-title">
+          Definiții
+        </span>
+
+        <span class="lesson-desc">
+          Noțiunile fundamentale
+          ale curriculumului
+        </span>
+
+      </span>
+
+    </a>
+
+
+    <!-- =====================================================
+         2. COMPONENTELE CURRICULUMULUI NAȚIONAL
+         ===================================================== -->
+
+    <a
+      class="btn b2"
+      href="2-componente.html"
+    >
+
+      <span class="nr">
+        2
+      </span>
+
+      <span class="lesson-text">
+
+        <span class="lesson-title">
+          Componentele curriculumului național
+        </span>
+
+        <span class="lesson-desc">
+          Planuri-cadru,
+          programe școlare
+          și standarde naționale de evaluare
+        </span>
+
+      </span>
+
+    </a>
+
+
+    <!-- =====================================================
+         3. TIPURI DE CURRICULUM
+         ===================================================== -->
+
+    <a
+      class="btn b3"
+      href="3-tipuri-de-curriculum.html"
+    >
+
+      <span class="nr">
+        3
+      </span>
+
+      <span class="lesson-text">
+
+        <span class="lesson-title">
+          Tipuri de curriculum
+        </span>
+
+        <span class="lesson-desc">
+          Structuri și tipuri curriculare
+          în cadrul actual
+        </span>
+
+      </span>
+
+    </a>
+
+
+    <!-- =====================================================
+         4. COMPETENȚE-CHEIE
+         ===================================================== -->
+
+    <a
+      class="btn b4"
+      href="4-competente-cheie.html"
+    >
+
+      <span class="nr">
+        4
+      </span>
+
+      <span class="lesson-text">
+
+        <span class="lesson-title">
+          Competențe-cheie
+        </span>
+
+        <span class="lesson-desc">
+          Profilul absolventului
+          și sistemul competențelor
+        </span>
+
+      </span>
+
+    </a>
+
 
   </div>
 
-</header>
 
+  <footer>
 
-<!-- =========================================================
-     CONȚINUT
-     ========================================================= -->
+    Didactica Fizicii ·
+    Curriculum ·
+    Titularizare Fizică
 
-<main id="continut">
-
-
-  <!-- =======================================================
-       BAZA LECȚIEI
-       ======================================================= -->
-
-  <section class="card">
-
-    <h2>
-      Baza lecției
-    </h2>
-
-
-    <div class="source-note">
-
-      Terminologia este raportată la
-      Legea învățământului preuniversitar nr. 198/2023,
-      în forma în vigoare,
-      la Cadrul de Referință al Curriculumului Național
-      și la planurile-cadru de învățământ aplicabile.
-      Programa pentru concursul de titularizare
-      este utilizată ca reper pentru delimitarea tematicii.
-
-    </div>
-
-  </section>
-
-
-  <!--
-       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
-       DE assets/audio/audio-lesson.js
-  -->
-
-
-  <!-- =======================================================
-       CUPRINS
-       ======================================================= -->
-
-  <section class="card">
-
-    <h2>
-      Definiții
-    </h2>
-
-
-    <div class="toc">
-
-      <ol>
-
-        <li>
-          <a href="#curriculum-national">
-            Curriculumul național
-          </a>
-        </li>
-
-        <li>
-          <a href="#plan-cadru">
-            Planul-cadru de învățământ
-          </a>
-        </li>
-
-        <li>
-          <a href="#arie-curriculara">
-            Aria curriculară
-          </a>
-        </li>
-
-        <li>
-          <a href="#trunchi-comun">
-            Trunchiul comun
-          </a>
-        </li>
-
-        <li>
-          <a href="#curriculum-specialitate">
-            Curriculumul de specialitate
-          </a>
-        </li>
-
-        <li>
-          <a href="#cdeos">
-            Curriculumul la decizia elevului din oferta școlii
-          </a>
-        </li>
-
-        <li>
-          <a href="#programa-scolara">
-            Programa școlară
-          </a>
-        </li>
-
-        <li>
-          <a href="#standarde-evaluare">
-            Standardele naționale de evaluare
-          </a>
-        </li>
-
-        <li>
-          <a href="#profil-absolvent">
-            Profilul de formare al absolventului
-          </a>
-        </li>
-
-        <li>
-          <a href="#manual">
-            Manualul școlar alternativ
-          </a>
-        </li>
-
-        <li>
-          <a href="#auxiliar">
-            Auxiliarul didactic
-          </a>
-        </li>
-
-      </ol>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       1. CURRICULUM NAȚIONAL
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="curriculum-national"
-  >
-
-    <h2>
-      1. Curriculumul național
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculumul național
-      </span>
-
-      <p>
-        reprezintă ansamblul coerent
-        al elementelor care reglementează
-        activitatea didactică
-        din învățământul preuniversitar.
-        Acesta include
-        planurile-cadru de învățământ,
-        programele școlare
-        și standardele naționale de evaluare.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       2. PLAN-CADRU
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="plan-cadru"
-  >
-
-    <h2>
-      2. Planul-cadru de învățământ
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Planul-cadru de învățământ
-      </span>
-
-      <p>
-        este un document curricular reglator
-        care configurează parcursul educațional
-        al elevului și stabilește
-        disciplinele de studiu
-        și/sau modulele de pregătire,
-        precum și numărul de ore
-        alocat acestora,
-        în funcție de nivelul de învățământ,
-        anul de studiu
-        și, la liceu,
-        de filieră,
-        profil
-        și specializare sau calificare profesională.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       3. ARIE CURRICULARĂ
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="arie-curriculara"
-  >
-
-    <h2>
-      3. Aria curriculară
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Aria curriculară
-      </span>
-
-      <p>
-        reprezintă o grupare
-        de discipline de studiu
-        și/sau module de pregătire
-        care au finalități,
-        conținuturi ale învățării,
-        aspecte metodologice
-        și rezultate ale învățării
-        corelate.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       4. TRUNCHI COMUN
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="trunchi-comun"
-  >
-
-    <h2>
-      4. Trunchiul comun
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Trunchiul comun
-      </span>
-
-      <p>
-        reprezintă segmentul curricular
-        constituit din disciplinele de studiu,
-        domeniile de studiu
-        și/sau modulele de pregătire
-        cu caracter obligatoriu,
-        stabilite la nivel central.
-        În învățământul liceal,
-        acesta cuprinde disciplinele
-        și modulele obligatorii
-        pentru toți elevii,
-        indiferent de filieră,
-        profil
-        și specializare sau calificare profesională.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       5. CURRICULUM DE SPECIALITATE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="curriculum-specialitate"
-  >
-
-    <h2>
-      5. Curriculumul de specialitate
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculumul de specialitate
-      </span>
-
-      <p>
-        reprezintă segmentul curricular
-        al învățământului liceal
-        constituit din discipline
-        și/sau module de pregătire obligatorii
-        care reflectă specificul profilului,
-        al specializării
-        sau al calificării profesionale.
-        Acesta are caracter complementar
-        față de trunchiul comun.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       6. CDEOȘ
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="cdeos"
-  >
-
-    <h2>
-      6. Curriculumul la decizia elevului din oferta școlii
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Curriculumul la decizia elevului
-        din oferta școlii — CDEOȘ
-      </span>
-
-      <p>
-        reprezintă segmentul curricular
-        constituit din discipline de studiu
-        și/sau module de pregătire
-        și orele asociate acestora,
-        alese de elev
-        din oferta unității de învățământ,
-        în funcție de propriile nevoi
-        și interese de cunoaștere.
-        Oferta poate fi elaborată
-        la nivel național,
-        regional,
-        local
-        sau la nivelul unității de învățământ.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       7. PROGRAMA ȘCOLARĂ
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="programa-scolara"
-  >
-
-    <h2>
-      7. Programa școlară
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Programa școlară
-      </span>
-
-      <p>
-        este un document curricular reglator
-        care detaliază curriculumul
-        unei discipline de studiu
-        sau al unui modul de pregătire
-        din planul-cadru
-        și stabilește oferta educațională
-        corespunzătoare unui parcurs școlar
-        și unui buget de timp determinate.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       8. STANDARDE NAȚIONALE DE EVALUARE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="standarde-evaluare"
-  >
-
-    <h2>
-      8. Standardele naționale de evaluare
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Standardele naționale de evaluare
-      </span>
-
-      <p>
-        reprezintă repere curriculare
-        privind nivelul de performanță
-        așteptat de la elevi,
-        stabilit prin raportare
-        la competențele specifice.
-        Ele cuprind standarde de învățare
-        și descriptori ai nivelurilor
-        de performanță.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       9. PROFILUL DE FORMARE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="profil-absolvent"
-  >
-
-    <h2>
-      9. Profilul de formare al absolventului
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Profilul de formare al absolventului
-      </span>
-
-      <p>
-        reprezintă o componentă reglatoare
-        a curriculumului național
-        și un referențial
-        pentru proiectarea,
-        implementarea
-        și evaluarea acestuia.
-        Profilul indică nivelurile preconizate
-        în dobândirea competențelor,
-        în raport cu stadiile de dezvoltare
-        ale elevilor.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       10. MANUAL ȘCOLAR
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="manual"
-  >
-
-    <h2>
-      10. Manualul școlar alternativ
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Manualul școlar alternativ
-      </span>
-
-      <p>
-        este un instrument de sprijin
-        pentru implementarea
-        curriculumului național,
-        elaborat și evaluat
-        pe baza programei școlare aprobate
-        pentru disciplina respectivă.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       11. AUXILIAR DIDACTIC
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="auxiliar"
-  >
-
-    <h2>
-      11. Auxiliarul didactic
-    </h2>
-
-
-    <div class="definition">
-
-      <span class="definition-term">
-        Auxiliarul didactic
-      </span>
-
-      <p>
-        este o resursă complementară
-        utilizată pentru sprijinirea
-        procesului educațional,
-        distinctă de manualul școlar.
-        Materialele și auxiliarele didactice
-        utilizate la clasă
-        se selectează în condițiile
-        prevăzute de legislația
-        și metodologia în vigoare.
-      </p>
-
-    </div>
-
-  </section>
+  </footer>
 
 
 </main>
-
-
-<!-- =========================================================
-     NAVIGARE
-     ========================================================= -->
-
-<nav
-  class="pager"
-  aria-label="Navigare între lecțiile de curriculum"
->
-
-  <a href="index.html">
-    ← Curriculum
-  </a>
-
-
-  <a href="2-componente.html">
-    Lecția următoare →
-  </a>
-
-</nav>
-
-
-<footer class="site">
-
-  Didactica Fizicii ·
-  Curriculum ·
-  Definiții fundamentale
-
-</footer>
-
-
-<!-- =========================================================
-     SCENARIU AUDIO ASCUNS
-
-     REGULI PENTRU SINTEZA VOCALĂ:
-
-     - textul audio este separat de textul vizibil;
-     - "curriculum" este scris fonetic "curiculum";
-     - "curricular" este scris fonetic "curicular";
-     - acronimul CDEOȘ nu apare în textul audio;
-     - acronimele TC și CS nu sunt utilizate;
-     - denumirile sunt rostite integral.
-     ========================================================= -->
-
-<template id="audio-lesson-script">
-
-
-  <p>
-    Bun găsit.
-    Această lecție conține
-    definițiile fundamentale
-    referitoare la curiculumul național.
-  </p>
-
-
-  <p>
-    Curiculumul național
-    reprezintă ansamblul coerent
-    al elementelor
-    care reglementează
-    activitatea didactică
-    din învățământul preuniversitar.
-  </p>
-
-
-  <p>
-    Curiculumul național
-    include
-    planurile cadru de învățământ,
-    programele școlare
-    și standardele naționale
-    de evaluare.
-  </p>
-
-
-  <p>
-    Planul cadru de învățământ
-    este un document curicular reglator
-    care configurează
-    parcursul educațional al elevului.
-  </p>
-
-
-  <p>
-    Planul cadru stabilește
-    disciplinele de studiu
-    și modulele de pregătire,
-    precum și numărul de ore
-    alocat acestora,
-    în funcție
-    de nivelul de învățământ
-    și anul de studiu.
-  </p>
-
-
-  <p>
-    La liceu,
-    planul cadru
-    este diferențiat
-    și în funcție de filieră,
-    profil
-    și specializare
-    sau calificare profesională.
-  </p>
-
-
-  <p>
-    Aria curiculară
-    reprezintă o grupare
-    de discipline de studiu
-    și module de pregătire
-    care au finalități,
-    conținuturi ale învățării,
-    aspecte metodologice
-    și rezultate ale învățării
-    corelate.
-  </p>
-
-
-  <p>
-    Trunchiul comun
-    reprezintă segmentul curicular
-    constituit din disciplinele,
-    domeniile de studiu
-    și modulele de pregătire
-    cu caracter obligatoriu,
-    stabilite la nivel central.
-  </p>
-
-
-  <p>
-    În învățământul liceal,
-    trunchiul comun
-    cuprinde disciplinele
-    și modulele obligatorii
-    pentru toți elevii,
-    indiferent de filieră,
-    profil
-    și specializare
-    sau calificare profesională.
-  </p>
-
-
-  <p>
-    Curiculumul de specialitate
-    reprezintă segmentul curicular
-    al învățământului liceal
-    constituit din discipline
-    și module de pregătire obligatorii
-    care reflectă
-    specificul profilului,
-    al specializării
-    sau al calificării profesionale.
-  </p>
-
-
-  <p>
-    Curiculumul de specialitate
-    are caracter complementar
-    față de trunchiul comun.
-  </p>
-
-
-  <p>
-    Curiculumul la decizia elevului
-    din oferta școlii
-    reprezintă segmentul curicular
-    constituit din discipline de studiu
-    și module de pregătire,
-    împreună cu orele
-    asociate acestora,
-    alese de elev
-    din oferta școlii.
-  </p>
-
-
-  <p>
-    Alegerea se realizează
-    în funcție de
-    propriile nevoi
-    și interese de cunoaștere
-    ale elevului.
-  </p>
-
-
-  <p>
-    Oferta poate fi elaborată
-    la nivel național,
-    regional,
-    local
-    sau la nivelul
-    unității de învățământ.
-  </p>
-
-
-  <p>
-    Programa școlară
-    este un document curicular reglator
-    care detaliază curiculumul
-    unei discipline de studiu
-    sau al unui modul de pregătire
-    din planul cadru.
-  </p>
-
-
-  <p>
-    Programa școlară
-    stabilește oferta educațională
-    corespunzătoare
-    unui parcurs școlar
-    și unui buget de timp
-    determinate.
-  </p>
-
-
-  <p>
-    Standardele naționale
-    de evaluare
-    reprezintă repere curiculare
-    privind nivelul de performanță
-    așteptat de la elevi,
-    prin raportare
-    la competențele specifice.
-  </p>
-
-
-  <p>
-    Standardele naționale
-    de evaluare
-    cuprind standarde de învățare
-    și descriptori
-    ai nivelurilor de performanță.
-  </p>
-
-
-  <p>
-    Profilul de formare
-    al absolventului
-    reprezintă
-    o componentă reglatoare
-    a curiculumului național.
-  </p>
-
-
-  <p>
-    Profilul de formare
-    este un referențial
-    pentru proiectarea,
-    implementarea
-    și evaluarea
-    curiculumului național.
-  </p>
-
-
-  <p>
-    Acesta indică
-    nivelurile preconizate
-    în dobândirea competențelor,
-    în raport
-    cu stadiile de dezvoltare
-    ale elevilor.
-  </p>
-
-
-  <p>
-    Manualul școlar alternativ
-    este un instrument de sprijin
-    pentru implementarea
-    curiculumului național.
-  </p>
-
-
-  <p>
-    Manualul este elaborat
-    și evaluat
-    pe baza programei școlare
-    aprobate
-    pentru disciplina respectivă.
-  </p>
-
-
-  <p>
-    Auxiliarul didactic
-    este o resursă complementară
-    utilizată pentru sprijinirea
-    procesului educațional,
-    distinctă
-    de manualul școlar.
-  </p>
-
-
-</template>
-
-
-<!-- =========================================================
-     JAVASCRIPT — TEMA
-     ========================================================= -->
-
-<script>
-
-const themeToggle =
-  document.getElementById("themeToggle");
-
-
-function currentTheme() {
-
-  return document.documentElement.dataset.theme === "dark"
-    ? "dark"
-    : "light";
-
-}
-
-
-function updateThemeButton() {
-
-  const dark =
-    currentTheme() === "dark";
-
-
-  themeToggle.textContent =
-    dark
-      ? "Tema: Noapte"
-      : "Tema: Zi";
-
-
-  themeToggle.setAttribute(
-    "aria-pressed",
-    dark ? "true" : "false"
-  );
-
-
-  themeToggle.setAttribute(
-    "title",
-    dark
-      ? "Comută la tema de zi"
-      : "Comută la tema de noapte"
-  );
-
-}
-
-
-function toggleTheme() {
-
-  const next =
-    currentTheme() === "dark"
-      ? "light"
-      : "dark";
-
-
-  document.documentElement.dataset.theme =
-    next;
-
-
-  localStorage.setItem(
-    "titularizare-theme",
-    next
-  );
-
-
-  updateThemeButton();
-
-}
-
-
-themeToggle.addEventListener(
-  "click",
-  toggleTheme
-);
-
-
-updateThemeButton();
-
-</script>
-
-
-<!-- =========================================================
-     COMPONENTA AUDIO COMUNĂ
-     ========================================================= -->
-
-<script
-  src="../assets/audio/audio-lesson.js"
-  defer
-></script>
 
 
 </body>
