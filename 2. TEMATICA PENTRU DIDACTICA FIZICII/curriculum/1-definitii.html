@@ -12,12 +12,36 @@
 
 <meta
   name="description"
-  content="Lecții de curriculum pentru pregătirea didacticii Fizicii: definiții, componentele curriculumului național, tipuri de curriculum și competențe-cheie."
+  content="Definiții fundamentale de curriculum pentru didactica Fizicii: curriculum național, plan-cadru, programă școlară, standarde de evaluare, arie curriculară, trunchi comun, curriculum de specialitate, CDEOȘ, filieră, profil, specializare și calificare profesională."
 >
 
 <title>
-  Curriculum · Didactica Fizicii · Titularizare Fizică
+  1. Definiții fundamentale ale curriculumului · Titularizare Fizică
 </title>
+
+
+<!-- =========================================================
+     TEMA INIȚIALĂ
+     ========================================================= -->
+
+<script>
+(function () {
+
+  const savedTheme =
+    localStorage.getItem("titularizare-theme");
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme =
+    savedTheme || (prefersDark ? "dark" : "light");
+
+  document.documentElement.dataset.theme =
+    theme;
+
+})();
+</script>
 
 
 <style>
@@ -26,36 +50,99 @@
    CULORI
    ========================================================= */
 
-:root {
+:root,
+html[data-theme="light"] {
 
-  --bg: #f4f6f5;
-  --text: #17211f;
-  --muted: #66736f;
+  color-scheme: light;
 
-  --card-1: #1f6f6b;
-  --card-2: #2f6fa8;
-  --card-3: #7a4fb5;
-  --card-4: #b56a32;
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
 
-  --focus: #ffbf47;
+  --text: #1a2033;
+  --text-muted: #4d5875;
+
+  --navy: #16213e;
+  --navy-2: #0f3460;
+
+  --accent: #3f8cff;
+  --accent-2: #ffb703;
+
+  --border: #dfe4f0;
+
+  --soft-blue: #edf5ff;
+  --soft-green: #edf9f1;
+  --soft-yellow: #fff8dc;
+  --soft-red: #fff0f0;
+  --soft-purple: #f4efff;
+  --soft-gray: #f6f7fa;
+
+  --definition-bg: #edf5ff;
+  --definition-border: #3f8cff;
+
+  --exam-bg: #edf9f1;
+  --exam-border: #278447;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
+  --danger-bg: #fff0f0;
+  --danger-border: #c2414b;
+
+  --purple-border: #7857b4;
+
+  --shadow:
+    0 2px 10px rgba(22, 33, 62, .08);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
 
 }
 
 
-@media (prefers-color-scheme: dark) {
+html[data-theme="dark"] {
 
-  :root {
+  color-scheme: dark;
 
-    --bg: #0f1716;
-    --text: #edf4f2;
-    --muted: #a9b8b4;
+  --bg: #10162b;
+  --bg-card: #1a2340;
 
-    --card-1: #236f6c;
-    --card-2: #346fa5;
-    --card-3: #7650a9;
-    --card-4: #a66031;
+  --text: #e8ecfb;
+  --text-muted: #a7b0d1;
 
-  }
+  --navy: #0b1023;
+  --navy-2: #16213e;
+
+  --accent: #6fa8ff;
+  --accent-2: #ffcd4a;
+
+  --border: #2a3459;
+
+  --soft-blue: #182944;
+  --soft-green: #163a24;
+  --soft-yellow: #372f16;
+  --soft-red: #3a1c21;
+  --soft-purple: #29203e;
+  --soft-gray: #19213a;
+
+  --definition-bg: #182944;
+  --definition-border: #6fa8ff;
+
+  --exam-bg: #163a24;
+  --exam-border: #62c681;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
+  --danger-bg: #3a1c21;
+  --danger-border: #ef7b84;
+
+  --purple-border: #a98cff;
+
+  --shadow:
+    0 2px 14px rgba(0,0,0,.4);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
 
 }
 
@@ -68,73 +155,72 @@
   box-sizing: border-box;
 }
 
+html {
+
+  scroll-behavior: smooth;
+  scroll-padding-top: 18px;
+
+}
+
 body {
 
   margin: 0;
 
-  padding:
-    40px
-    max(18px, env(safe-area-inset-right))
-    40px
-    max(18px, env(safe-area-inset-left));
-
   font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
     "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
     sans-serif;
 
   background: var(--bg);
   color: var(--text);
 
+  line-height: 1.68;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+
+}
+
+a {
+  overflow-wrap: anywhere;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 
 /* =========================================================
-   CONȚINUT
+   ACCESIBILITATE
    ========================================================= */
 
-main {
+.skip-link {
 
-  max-width: 680px;
-  margin: 0 auto;
+  position: absolute;
 
-}
+  top: -60px;
+  left: 14px;
 
+  z-index: 1000;
 
-/* =========================================================
-   ÎNAPOI
-   ========================================================= */
+  padding: 10px 14px;
 
-.back {
+  border-radius: 8px;
 
-  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
 
-  margin-bottom: 18px;
-
-  color: var(--muted);
-
+  font-weight: 700;
   text-decoration: none;
 
-  font-size: 14px;
-  font-weight: 600;
-
 }
 
-.back:hover {
-  color: var(--text);
-}
-
-.back:focus-visible {
-
-  outline:
-    3px solid var(--focus);
-
-  outline-offset: 4px;
-
-  border-radius: 4px;
-
+.skip-link:focus {
+  top: 12px;
 }
 
 
@@ -142,189 +228,681 @@ main {
    HEADER
    ========================================================= */
 
-header {
+header.top {
 
-  margin-bottom: 32px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
 
-  text-align: center;
+  color: var(--header-text);
 
-}
-
-h1 {
-
-  margin: 0 0 7px;
-
-  font-size:
-    clamp(24px, 6vw, 34px);
-
-  line-height: 1.15;
-
-}
-
-.subtitle {
-
-  margin: 0;
-
-  color: var(--muted);
-
-  font-size: 16px;
+  padding:
+    24px
+    max(18px, env(safe-area-inset-right))
+    22px
+    max(18px, env(safe-area-inset-left));
 
 }
 
+.top-inner {
 
-/* =========================================================
-   LISTA LECȚIILOR
-   ========================================================= */
-
-.grid {
-
-  display: grid;
-
-  gap: 12px;
+  width: min(900px, 100%);
+  margin: 0 auto;
 
 }
 
-
-/* =========================================================
-   BUTOANE
-   ========================================================= */
-
-a.btn {
+.header-row {
 
   display: flex;
 
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
 
-  gap: 15px;
+  gap: 20px;
 
-  min-height: 72px;
+}
 
-  padding: 18px 22px;
+.header-text {
+  min-width: 0;
+}
 
-  border-radius: 14px;
+.breadcrumb {
 
-  color: #ffffff;
+  margin-bottom: 10px;
 
+  color: #b9c3e6;
+
+  font-size: .84rem;
+  line-height: 1.5;
+
+}
+
+.breadcrumb a {
+
+  color: #cfe0ff;
   text-decoration: none;
 
-  font-weight: 700;
-  font-size: 17px;
+}
 
-  box-shadow:
-    0 2px 6px rgba(0,0,0,.15);
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
 
-  transition:
-    transform .15s ease,
-    box-shadow .15s ease,
-    filter .15s ease;
+header.top h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(1.45rem, 4vw, 1.95rem);
+
+  line-height: 1.22;
+
+  font-weight: 760;
 
 }
 
-a.btn:hover {
+header.top p.subtitle {
 
-  transform: translateY(-2px);
+  margin: 7px 0 0;
 
-  box-shadow:
-    0 4px 10px rgba(0,0,0,.2);
+  color: var(--header-muted);
 
-  filter: brightness(1.04);
-
-}
-
-a.btn:active {
-  transform: translateY(0);
-}
-
-a.btn:focus-visible {
-
-  outline:
-    3px solid var(--focus);
-
-  outline-offset: 4px;
+  font-size:
+    clamp(.88rem, 2.4vw, .98rem);
 
 }
 
 
 /* =========================================================
-   NUMĂR
+   BUTON TEMA
    ========================================================= */
 
-.nr {
-
-  display: grid;
-
-  place-items: center;
+.theme-toggle {
 
   flex: 0 0 auto;
 
-  width: 36px;
-  height: 36px;
+  min-height: 44px;
+
+  padding: 9px 14px;
 
   border:
-    1px solid rgba(255,255,255,.28);
+    1px solid rgba(255,255,255,.3);
 
-  border-radius: 50%;
+  border-radius: 999px;
 
   background:
     rgba(255,255,255,.10);
 
-  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+.theme-toggle:hover {
+
+  background:
+    rgba(255,255,255,.18);
+
+}
+
+.theme-toggle:focus-visible {
+
+  outline:
+    3px solid var(--accent-2);
+
+  outline-offset: 3px;
 
 }
 
 
 /* =========================================================
-   TEXT BUTON
+   MAIN
    ========================================================= */
 
-.lesson-text {
+main {
 
-  display: flex;
-  flex-direction: column;
+  width: min(900px, 100%);
 
-  min-width: 0;
+  margin: 28px auto 60px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
 
 }
 
-.lesson-title {
 
-  line-height: 1.28;
+/* =========================================================
+   CARDURI
+   ========================================================= */
+
+section.card {
+
+  background: var(--bg-card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow);
+
+  padding:
+    clamp(18px, 4vw, 24px);
+
+  margin-bottom: 22px;
 
 }
 
-.lesson-desc {
+section.card > :first-child {
+  margin-top: 0;
+}
 
-  margin-top: 3px;
+section.card > :last-child {
+  margin-bottom: 0;
+}
 
-  color:
-    rgba(255,255,255,.80);
 
-  font-size: 13px;
-  font-weight: 500;
+/* =========================================================
+   TITLURI
+   ========================================================= */
+
+h2 {
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom:
+    2px solid var(--accent);
+
+  color: var(--navy-2);
+
+  font-size:
+    clamp(1.12rem, 3vw, 1.3rem);
+
+  line-height: 1.32;
+
+}
+
+html[data-theme="dark"] h2 {
+  color: var(--accent);
+}
+
+h3 {
+
+  margin: 20px 0 8px;
+
+  font-size:
+    clamp(1rem, 2.5vw, 1.09rem);
 
   line-height: 1.35;
 
 }
 
+p {
+  margin: .7rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin: .42rem 0;
+}
+
 
 /* =========================================================
-   CULORI LECȚII
+   CUPRINS
    ========================================================= */
 
-.b1 {
-  background: var(--card-1);
+.toc {
+
+  columns: 2;
+  column-gap: 38px;
+
+  font-size: .93rem;
+
 }
 
-.b2 {
-  background: var(--card-2);
+.toc ol {
+  margin: 0;
 }
 
-.b3 {
-  background: var(--card-3);
+.toc li {
+  break-inside: avoid;
 }
 
-.b4 {
-  background: var(--card-4);
+.toc a {
+
+  color: var(--accent);
+  text-decoration: none;
+
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   DEFINIȚII
+   ========================================================= */
+
+.definition {
+
+  margin: 15px 0;
+
+  padding:
+    16px 18px;
+
+  border-left:
+    5px solid var(--definition-border);
+
+  border-radius:
+    0 10px 10px 0;
+
+  background:
+    var(--definition-bg);
+
+}
+
+.definition-term {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--accent);
+
+  font-size: 1.03rem;
+  font-weight: 800;
+
+}
+
+.definition p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   CASETE
+   ========================================================= */
+
+.source-note,
+.callout,
+.warning,
+.exam-box,
+.danger,
+.special-note {
+
+  margin: 16px 0;
+
+  padding: 15px 17px;
+
+  border-radius: 10px;
+
+}
+
+.source-note {
+
+  background: var(--soft-gray);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-size: .9rem;
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.special-note {
+
+  background: var(--soft-purple);
+
+  border-left:
+    5px solid var(--purple-border);
+
+}
+
+
+/* =========================================================
+   GRILE
+   ========================================================= */
+
+.grid2 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 14px;
+
+  margin: 15px 0;
+
+}
+
+.grid3 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.mini-card {
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--soft-blue);
+
+}
+
+.mini-card h3 {
+
+  margin: 0 0 6px;
+
+  color: var(--accent);
+
+}
+
+.mini-card p {
+  margin: .4rem 0;
+}
+
+
+/* =========================================================
+   IERARHIE
+   ========================================================= */
+
+.hierarchy {
+
+  display: grid;
+
+  gap: 8px;
+
+  width: min(620px, 100%);
+
+  margin: 18px auto;
+
+}
+
+.hierarchy-item {
+
+  padding: 13px 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-weight: 750;
+
+}
+
+.hierarchy-item.level1 {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+}
+
+.hierarchy-item.level2 {
+  background: var(--soft-blue);
+}
+
+.hierarchy-item.level3 {
+  background: var(--soft-green);
+}
+
+.hierarchy-item.level4 {
+  background: var(--soft-yellow);
+}
+
+.hierarchy-arrow {
+
+  color: var(--accent);
+
+  text-align: center;
+
+  font-size: 1.25rem;
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   TABELE
+   ========================================================= */
+
+.table-wrap {
+
+  width: 100%;
+
+  margin: 15px 0;
+
+  overflow-x: auto;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  -webkit-overflow-scrolling: touch;
+
+}
+
+table {
+
+  width: 100%;
+  min-width: 680px;
+
+  border-collapse: collapse;
+
+  background: var(--bg-card);
+
+}
+
+th,
+td {
+
+  padding: 11px 12px;
+
+  border-bottom:
+    1px solid var(--border);
+
+  text-align: left;
+  vertical-align: top;
+
+}
+
+th {
+
+  background: var(--soft-blue);
+
+  font-size: .9rem;
+
+}
+
+td {
+  font-size: .9rem;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   RECAPITULARE
+   ========================================================= */
+
+.recap-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(170px,1fr)
+    );
+
+  gap: 11px;
+
+  margin: 14px 0;
+
+}
+
+.recap-item {
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+  font-size: .86rem;
+
+}
+
+.recap-item b {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--accent-2);
+
+  font-size: .96rem;
+
+}
+
+
+/* =========================================================
+   NAVIGARE
+   ========================================================= */
+
+nav.pager {
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 14px;
+
+  width: min(900px,100%);
+
+  margin: 0 auto 28px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  font-size: .91rem;
+
+}
+
+nav.pager a {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  color: var(--accent);
+
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+nav.pager a:hover,
+nav.pager a:focus-visible {
+  text-decoration: underline;
 }
 
 
@@ -332,16 +910,22 @@ a.btn:focus-visible {
    FOOTER
    ========================================================= */
 
-footer {
+footer.site {
 
-  margin-top: 36px;
+  width: min(900px,100%);
 
-  color: var(--muted);
+  margin: 0 auto 40px;
 
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  color: var(--text-muted);
+
+  font-size: .82rem;
   text-align: center;
-
-  font-size: 13px;
-  line-height: 1.5;
 
 }
 
@@ -350,33 +934,72 @@ footer {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
 
-  body {
-    padding-top: 28px;
+  .toc {
+    columns: 1;
   }
 
-  a.btn {
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
 
-    padding:
-      17px 18px;
+  .header-row {
+    flex-direction: column;
+  }
 
-    font-size: 16px;
+  .theme-toggle {
+    align-self: flex-start;
+  }
+
+  nav.pager {
+
+    flex-direction: column;
+    align-items: stretch;
 
   }
 
-  .lesson-desc {
-    font-size: 12.5px;
+  nav.pager a {
+
+    justify-content: center;
+
+    padding: 8px 10px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--bg-card);
+
   }
 
 }
 
 
-/* =========================================================
-   REDUCERE ANIMAȚII
-   ========================================================= */
+@media (max-width: 380px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  section.card {
+    padding: 16px;
+  }
+
+}
+
 
 @media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
 
   *,
   *::before,
@@ -400,166 +1023,2530 @@ footer {
 <body>
 
 
-<main>
+<a
+  class="skip-link"
+  href="#continut"
+>
+  Sari la conținut
+</a>
 
 
-  <a
-    class="back"
-    href="../index.html"
-  >
-    ← Didactica Fizicii
-  </a>
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
 
+<header class="top">
 
-  <header>
+  <div class="top-inner">
 
-    <h1>
-      Curriculum
-    </h1>
+    <div class="header-row">
 
-    <p class="subtitle">
-      Alege lecția
-    </p>
+      <div class="header-text">
 
-  </header>
+        <div class="breadcrumb">
 
+          <a href="../../index.html">
+            Acasă
+          </a>
 
-  <div
-    class="grid"
-    aria-label="Lecții de curriculum"
-  >
+          &rsaquo;
 
+          <a href="../index.html">
+            Didactică
+          </a>
 
-    <!-- =====================================================
-         1. DEFINIȚII
-         ===================================================== -->
+          &rsaquo;
 
-    <a
-      class="btn b1"
-      href="1-definitii.html"
-    >
+          <a href="index.html">
+            Curriculum
+          </a>
 
-      <span class="nr">
-        1
-      </span>
+          &rsaquo;
 
-      <span class="lesson-text">
-
-        <span class="lesson-title">
           Definiții
-        </span>
 
-        <span class="lesson-desc">
-          Noțiunile fundamentale
-          ale curriculumului
-        </span>
-
-      </span>
-
-    </a>
+        </div>
 
 
-    <!-- =====================================================
-         2. COMPONENTELE CURRICULUMULUI NAȚIONAL
-         ===================================================== -->
-
-    <a
-      class="btn b2"
-      href="2-componente.html"
-    >
-
-      <span class="nr">
-        2
-      </span>
-
-      <span class="lesson-text">
-
-        <span class="lesson-title">
-          Componentele curriculumului național
-        </span>
-
-        <span class="lesson-desc">
-          Planuri-cadru,
-          programe școlare
-          și standarde naționale de evaluare
-        </span>
-
-      </span>
-
-    </a>
+        <h1>
+          1. Definiții fundamentale
+        </h1>
 
 
-    <!-- =====================================================
-         3. TIPURI DE CURRICULUM
-         ===================================================== -->
+        <p class="subtitle">
+          vocabularul curricular esențial
+          pentru didactica Fizicii
+        </p>
 
-    <a
-      class="btn b3"
-      href="3-tipuri-de-curriculum.html"
-    >
-
-      <span class="nr">
-        3
-      </span>
-
-      <span class="lesson-text">
-
-        <span class="lesson-title">
-          Tipuri de curriculum
-        </span>
-
-        <span class="lesson-desc">
-          Structuri și tipuri curriculare
-          în cadrul actual
-        </span>
-
-      </span>
-
-    </a>
+      </div>
 
 
-    <!-- =====================================================
-         4. COMPETENȚE-CHEIE
-         ===================================================== -->
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Comută tema zi/noapte"
+        aria-pressed="false"
+      >
+        Tema: Zi
+      </button>
 
-    <a
-      class="btn b4"
-      href="4-competente-cheie.html"
-    >
-
-      <span class="nr">
-        4
-      </span>
-
-      <span class="lesson-text">
-
-        <span class="lesson-title">
-          Competențe-cheie
-        </span>
-
-        <span class="lesson-desc">
-          Profilul absolventului
-          și sistemul competențelor
-        </span>
-
-      </span>
-
-    </a>
-
+    </div>
 
   </div>
 
+</header>
 
-  <footer>
 
-    Didactica Fizicii ·
-    Curriculum ·
-    Titularizare Fizică
+<!-- =========================================================
+     CONȚINUT
+     ========================================================= -->
 
-  </footer>
+<main id="continut">
+
+
+  <!-- =======================================================
+       INTRODUCERE
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Reperul lecției
+    </h2>
+
+
+    <div class="source-note">
+
+      Terminologia și clasificarea
+      sunt raportate la
+      Legea învățământului preuniversitar
+      nr. 198/2023,
+      în forma în vigoare,
+      la Cadrul de Referință
+      al Curriculumului Național
+      și la planurile-cadru
+      aplicabile.
+
+      <br><br>
+
+      Programa pentru concursul
+      de titularizare Fizică
+      este utilizată
+      ca reper pentru delimitarea
+      tematicii didactice.
+
+    </div>
+
+
+    <p>
+      Această lecție
+      se limitează la
+      <strong>definirea noțiunilor</strong>.
+    </p>
+
+
+    <p>
+      Relațiile dintre componente,
+      tipurile de curriculum
+      și competențele-cheie
+      sunt dezvoltate
+      în lecțiile următoare.
+    </p>
+
+  </section>
+
+
+  <!--
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
+  -->
+
+
+  <!-- =======================================================
+       CUPRINS
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Cuprins
+    </h2>
+
+
+    <div class="toc">
+
+      <ol>
+
+        <li>
+          <a href="#curriculum">
+            Curriculum
+          </a>
+        </li>
+
+        <li>
+          <a href="#curriculum-national">
+            Curriculumul național
+          </a>
+        </li>
+
+        <li>
+          <a href="#plan-cadru">
+            Planul-cadru
+          </a>
+        </li>
+
+        <li>
+          <a href="#programa">
+            Programa școlară
+          </a>
+        </li>
+
+        <li>
+          <a href="#standarde">
+            Standardele naționale de evaluare
+          </a>
+        </li>
+
+        <li>
+          <a href="#manual">
+            Manualul școlar alternativ
+          </a>
+        </li>
+
+        <li>
+          <a href="#auxiliar">
+            Auxiliarul didactic
+          </a>
+        </li>
+
+        <li>
+          <a href="#aria">
+            Aria curriculară
+          </a>
+        </li>
+
+        <li>
+          <a href="#trunchi-comun">
+            Trunchiul comun
+          </a>
+        </li>
+
+        <li>
+          <a href="#curriculum-specialitate">
+            Curriculumul de specialitate
+          </a>
+        </li>
+
+        <li>
+          <a href="#cdeos">
+            Curriculumul la decizia elevului din oferta școlii
+          </a>
+        </li>
+
+        <li>
+          <a href="#filiera">
+            Filiera
+          </a>
+        </li>
+
+        <li>
+          <a href="#profil">
+            Profilul
+          </a>
+        </li>
+
+        <li>
+          <a href="#specializare">
+            Specializarea
+          </a>
+        </li>
+
+        <li>
+          <a href="#calificare">
+            Calificarea profesională
+          </a>
+        </li>
+
+        <li>
+          <a href="#recapitulare">
+            Sinteză
+          </a>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       1. CURRICULUM
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="curriculum"
+  >
+
+    <h2>
+      1. Curriculum
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Curriculum — sens larg
+      </span>
+
+      <p>
+        Reprezintă ansamblul structurat
+        al proceselor
+        și al experiențelor de învățare
+        prin care trece elevul
+        pe durata parcursului său școlar.
+      </p>
+
+    </div>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Curriculum — sens restrâns
+      </span>
+
+      <p>
+        Reprezintă ansamblul coerent
+        al documentelor de tip reglator
+        care descriu
+        parcursul de învățare
+        oferit elevului de școală.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       2. CURRICULUM NAȚIONAL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="curriculum-national"
+  >
+
+    <h2>
+      2. Curriculumul național
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Curriculumul național
+      </span>
+
+      <p>
+        Este ansamblul coerent
+        al elementelor
+        care reglementează activitatea
+        personalului didactic
+        din învățământul preuniversitar
+        și include
+        planurile-cadru de învățământ,
+        programele școlare
+        și standardele naționale
+        de evaluare.
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Curriculumul național =
+      </strong>
+
+      <br><br>
+
+      planuri-cadru
+
+      <br>
+
+      +
+
+      <br>
+
+      programe școlare
+
+      <br>
+
+      +
+
+      <br>
+
+      standarde naționale de evaluare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. PLAN-CADRU
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="plan-cadru"
+  >
+
+    <h2>
+      3. Planul-cadru de învățământ
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Planul-cadru de învățământ
+      </span>
+
+      <p>
+        Este un document curricular
+        de tip reglator
+        care stabilește,
+        diferențiat după nivelul
+        și forma de învățământ
+        și, după caz,
+        după filieră,
+        profil,
+        specializare
+        sau calificare profesională,
+        disciplinele,
+        domeniile de studiu
+        și modulele obligatorii
+        și opționale,
+        precum și bugetul de timp
+        alocat acestora.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. PROGRAMA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="programa"
+  >
+
+    <h2>
+      4. Programa școlară
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Programa școlară
+      </span>
+
+      <p>
+        Este documentul curricular
+        de tip reglator
+        care stabilește,
+        pentru o disciplină,
+        un domeniu de studiu
+        sau un modul de pregătire,
+        oferta educațională
+        corelată cu statutul
+        și bugetul de timp
+        prevăzute în planul-cadru.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. STANDARDE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="standarde"
+  >
+
+    <h2>
+      5. Standardele naționale de evaluare
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Standardele naționale de evaluare
+      </span>
+
+      <p>
+        Sunt repere
+        privind nivelurile
+        de performanță așteptate
+        în raport cu competențele
+        prevăzute de curriculum,
+        utilizate pentru
+        proiectarea și interpretarea
+        evaluării rezultatelor învățării.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. MANUAL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="manual"
+  >
+
+    <h2>
+      6. Manualul școlar alternativ
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Manualul școlar alternativ
+      </span>
+
+      <p>
+        Este un instrument
+        de sprijin didactic,
+        elaborat și evaluat
+        în raport cu programa școlară
+        aprobată,
+        utilizat pentru
+        implementarea curriculumului.
+      </p>
+
+    </div>
+
+
+    <div class="warning">
+
+      Manualul școlar
+      <strong>
+        nu este una dintre cele trei
+        componente constitutive
+        ale curriculumului național
+      </strong>
+      enumerate de lege.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. AUXILIAR
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="auxiliar"
+  >
+
+    <h2>
+      7. Auxiliarul didactic
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Auxiliarul didactic
+      </span>
+
+      <p>
+        Este o resursă
+        educațională complementară
+        utilizată pentru sprijinirea
+        activității de
+        predare,
+        învățare
+        și evaluare,
+        în concordanță
+        cu curriculumul aplicabil.
+      </p>
+
+    </div>
+
+
+    <div class="warning">
+
+      Auxiliarul didactic
+      este o
+      <strong>resursă de sprijin</strong>,
+      nu o componentă constitutivă
+      a curriculumului național.
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. ARIA CURRICULARĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="aria"
+  >
+
+    <h2>
+      8. Aria curriculară
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Aria curriculară
+      </span>
+
+      <p>
+        Reprezintă o grupare
+        de discipline școlare
+        care au în comun
+        anumite concepte,
+        principii
+        și metodologii
+        și care facilitează
+        abordările multidisciplinare
+        și interdisciplinare.
+      </p>
+
+    </div>
+
+
+    <p>
+      Cadrul curricular actual
+      utilizează șapte arii curriculare:
+    </p>
+
+
+    <div class="grid2">
+
+      <div class="mini-card">
+        Limbă și comunicare
+      </div>
+
+      <div class="mini-card">
+        <strong>
+          Matematică și Științe ale naturii
+        </strong>
+      </div>
+
+      <div class="mini-card">
+        Om și societate
+      </div>
+
+      <div class="mini-card">
+        Arte
+      </div>
+
+      <div class="mini-card">
+        Educație fizică, sport și sănătate
+      </div>
+
+      <div class="mini-card">
+        Tehnologii
+      </div>
+
+      <div class="mini-card">
+        Consiliere și orientare
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      Disciplina
+      <strong>Fizică</strong>
+      aparține ariei curriculare
+      <strong>
+        Matematică și Științe ale naturii.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. TRUNCHI COMUN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="trunchi-comun"
+  >
+
+    <h2>
+      9. Trunchiul comun
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Trunchiul comun
+      </span>
+
+      <p>
+        Este segmentul curricular
+        constituit din disciplinele,
+        domeniile de studiu
+        și/sau modulele de pregătire
+        obligatorii,
+        stabilite la nivel central
+        și prevăzute
+        în planurile-cadru.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. CURRICULUM DE SPECIALITATE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="curriculum-specialitate"
+  >
+
+    <h2>
+      10. Curriculumul de specialitate
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Curriculumul de specialitate
+      </span>
+
+      <p>
+        Este segmentul curricular
+        specific învățământului liceal,
+        constituit din discipline
+        și/sau module obligatorii
+        care reflectă
+        specificul profilului,
+        specializării
+        sau calificării profesionale
+        și completează
+        trunchiul comun.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. CDEOȘ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="cdeos"
+  >
+
+    <h2>
+      11. Curriculumul la decizia elevului din oferta școlii
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Curriculumul la decizia elevului
+        din oferta școlii — CDEOȘ
+      </span>
+
+      <p>
+        Reprezintă oferta educațională
+        propusă de școală,
+        constituită din discipline,
+        domenii de studiu
+        și/sau module de pregătire
+        opționale,
+        din care elevul alege
+        în funcție de
+        nevoile și interesele sale
+        de învățare.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. FILIERA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="filiera"
+  >
+
+    <h2>
+      12. Filiera
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Filieră
+      </span>
+
+      <p>
+        Reprezintă categoria majoră
+        de organizare
+        a învățământului liceal,
+        care grupează profiluri
+        cu o orientare generală
+        comună a formării.
+      </p>
+
+    </div>
+
+
+    <p>
+      În învățământul liceal
+      funcționează
+      <strong>trei filiere</strong>:
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Filiera teoretică
+        </h3>
+
+        <p>
+          Grupează profilurile
+          <strong>real</strong>
+          și
+          <strong>umanist</strong>.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Filiera vocațională
+        </h3>
+
+        <p>
+          Grupează profilurile
+          <strong>militar</strong>,
+          <strong>teologic</strong>,
+          <strong>sportiv</strong>,
+          <strong>artistic</strong>
+          și
+          <strong>pedagogic</strong>.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Filiera tehnologică
+        </h3>
+
+        <p>
+          Grupează profilurile
+          <strong>tehnic</strong>,
+          <strong>servicii</strong>
+          și
+          <strong>
+            resurse naturale și protecția mediului
+          </strong>.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Filiere:
+      </strong>
+
+      <br><br>
+
+      teoretică
+
+      <br>
+
+      vocațională
+
+      <br>
+
+      tehnologică.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. PROFILUL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="profil"
+  >
+
+    <h2>
+      13. Profilul
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Profil
+      </span>
+
+      <p>
+        Reprezintă o subdiviziune
+        a unei filiere liceale,
+        care particularizează
+        orientarea educațională
+        și curriculară
+        a pregătirii elevilor.
+      </p>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Filieră
+            </th>
+
+            <th>
+              Profiluri
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Teoretică
+              </strong>
+            </td>
+
+            <td>
+              real;
+              umanist
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Vocațională
+              </strong>
+            </td>
+
+            <td>
+              militar;
+              teologic;
+              sportiv;
+              artistic;
+              pedagogic
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Tehnologică
+              </strong>
+            </td>
+
+            <td>
+              tehnic;
+              servicii;
+              resurse naturale
+              și protecția mediului
+            </td>
+
+          </tr>
+
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Profilul liceal
+        nu este același lucru
+        cu profilul de formare
+        al absolventului.
+      </strong>
+
+      <br><br>
+
+      Profilul liceal
+      este o categorie
+      de organizare
+      în interiorul unei filiere.
+
+      <br><br>
+
+      Profilul de formare
+      al absolventului
+      este un referențial curricular
+      privind competențele
+      și atributele așteptate
+      la finalul unui nivel
+      de învățământ.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. SPECIALIZAREA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="specializare"
+  >
+
+    <h2>
+      14. Specializarea
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Specializare
+      </span>
+
+      <p>
+        Reprezintă un traseu
+        educațional specific
+        organizat în cadrul
+        unui profil,
+        prin care pregătirea
+        elevului este particularizată
+        în raport cu domeniul
+        de formare ales.
+      </p>
+
+    </div>
+
+
+    <div class="hierarchy">
+
+
+      <div class="hierarchy-item level1">
+        ÎNVĂȚĂMÂNT LICEAL
+      </div>
+
+
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
+
+
+      <div class="hierarchy-item level2">
+        FILIERĂ
+      </div>
+
+
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
+
+
+      <div class="hierarchy-item level3">
+        PROFIL
+      </div>
+
+
+      <div class="hierarchy-arrow">
+        ↓
+      </div>
+
+
+      <div class="hierarchy-item level4">
+        SPECIALIZARE
+        sau
+        CALIFICARE PROFESIONALĂ
+      </div>
+
+
+    </div>
+
+
+    <h3>
+      Specializări ale filierei teoretice
+    </h3>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Profil real
+        </h3>
+
+        <p>
+          <strong>
+            Matematică-informatică
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            Științe ale naturii
+          </strong>
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Profil umanist
+        </h3>
+
+        <p>
+          <strong>
+            Științe sociale
+          </strong>
+        </p>
+
+        <p>
+          <strong>
+            Filologie
+          </strong>
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <h3>
+      Specializări ale filierei vocaționale
+    </h3>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Profil
+            </th>
+
+            <th>
+              Specializări / exemple prevăzute
+              în planurile-cadru
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Artistic
+              </strong>
+            </td>
+
+            <td>
+              Muzică;
+              Arte vizuale;
+              Conservare-restaurare bunuri culturale;
+              Arhitectură, arte ambientale și design;
+              Coregrafie;
+              Arta actorului
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Militar
+              </strong>
+            </td>
+
+            <td>
+              Matematică-informatică militară
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Pedagogic
+              </strong>
+            </td>
+
+            <td>
+              Pedagogia educației timpurii;
+              Pedagogia învățământului primar;
+              Pedagogie generală;
+              Pedagogia educației nonformale;
+              Mediere școlară
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Sportiv
+              </strong>
+            </td>
+
+            <td>
+              Specializările
+              și disciplinele de specialitate
+              sunt stabilite
+              prin planurile-cadru
+              specifice profilului sportiv.
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              <strong>
+                Teologic
+              </strong>
+            </td>
+
+            <td>
+              Specializările sunt diferențiate
+              potrivit cultului
+              și planului-cadru
+              specific aplicabil.
+            </td>
+
+          </tr>
+
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <h3>
+      Filiera tehnologică
+    </h3>
+
+
+    <div class="special-note">
+
+      În filiera tehnologică,
+      organizarea pregătirii
+      este realizată
+      prin
+      <strong>
+        profiluri,
+        domenii de pregătire de bază
+        și calificări profesionale.
+      </strong>
+
+      <br><br>
+
+      De aceea,
+      nu există o singură
+      listă scurtă de specializări
+      echivalentă celor patru
+      specializări ale filierei teoretice.
+
+    </div>
+
+
+    <div class="warning">
+
+      Denumirile concrete
+      ale specializărilor
+      trebuie verificate
+      în planul-cadru
+      și în actul normativ
+      aplicabil.
+
+      <br><br>
+
+      Ele nu trebuie memorate
+      ca o listă
+      definitivă și invariabilă.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. CALIFICAREA PROFESIONALĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="calificare"
+  >
+
+    <h2>
+      15. Calificarea profesională
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Calificare profesională
+      </span>
+
+      <p>
+        Reprezintă rezultatul formal
+        al unui parcurs
+        de educație
+        și formare profesională,
+        exprimat prin rezultate
+        ale învățării
+        și raportat
+        la un nivel
+        al Cadrului Național
+        al Calificărilor.
+      </p>
+
+    </div>
+
+
+    <p>
+      În filiera tehnologică
+      sunt prevăzute
+      calificări profesionale
+      corespunzătoare
+      <strong>nivelurilor 3 și 4</strong>
+      ale Cadrului Național
+      al Calificărilor.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Calificare de nivel 3
+        </h3>
+
+        <p>
+          Reprezintă un nivel
+          de calificare profesională
+          prevăzut în parcursul
+          învățământului
+          liceal tehnologic.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Calificare de nivel 4
+        </h3>
+
+        <p>
+          Reprezintă nivelul
+          superior de calificare
+          urmărit în parcursul complet
+          al învățământului
+          liceal tehnologic.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Standardul de pregătire profesională
+      </span>
+
+      <p>
+        Este documentul
+        de referință
+        pentru calificarea profesională
+        din învățământul
+        profesional și tehnic,
+        prin care sunt descrise
+        rezultatele învățării
+        specifice calificării.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      Rezultatele învățării
+      asociate calificării profesionale
+      sunt exprimate prin
+      <strong>
+        cunoștințe,
+        abilități
+        și atitudini,
+      </strong>
+      în raport cu nivelul
+      de calificare.
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Specializare
+        ≠
+        calificare profesională.
+      </strong>
+
+      <br><br>
+
+      <strong>
+        Specializarea
+      </strong>
+      particularizează
+      traseul educațional
+      din cadrul unui profil.
+
+      <br><br>
+
+      <strong>
+        Calificarea profesională
+      </strong>
+      exprimă rezultatul formal
+      al pregătirii profesionale
+      raportat la
+      Cadrul Național
+      al Calificărilor.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       16. SINTEZĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="recapitulare"
+  >
+
+    <h2>
+      16. Sinteza definițiilor
+    </h2>
+
+
+    <div class="recap-grid">
+
+
+      <div class="recap-item">
+
+        <b>
+          Curriculum
+        </b>
+
+        Procese
+        și experiențe
+        de învățare.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Curriculum național
+        </b>
+
+        Planuri-cadru
+        + programe
+        + standarde.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Plan-cadru
+        </b>
+
+        Discipline,
+        statut
+        și buget de timp.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Programă
+        </b>
+
+        Oferta educațională
+        a disciplinei
+        sau modulului.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Standarde
+        </b>
+
+        Repere
+        ale performanței
+        așteptate.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Manual
+        </b>
+
+        Instrument
+        de sprijin.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Auxiliar
+        </b>
+
+        Resursă
+        complementară.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Arie curriculară
+        </b>
+
+        Grupare
+        de discipline
+        înrudite.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Trunchi comun
+        </b>
+
+        Segment
+        obligatoriu.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Curriculum de specialitate
+        </b>
+
+        Segment liceal
+        specific profilului,
+        specializării
+        sau calificării.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          CDEOȘ
+        </b>
+
+        Oferta opțională
+        din care
+        elevul alege.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Filieră
+        </b>
+
+        Categoria majoră
+        de organizare
+        a liceului.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Profil
+        </b>
+
+        Subdiviziune
+        a filierei.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Specializare
+        </b>
+
+        Traseu educațional
+        specific
+        unui profil.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Calificare profesională
+        </b>
+
+        Rezultat formal
+        al pregătirii
+        profesionale.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Ierarhia pentru liceu:
+      </strong>
+
+      <br><br>
+
+      ÎNVĂȚĂMÂNT LICEAL
+
+      <br>
+
+      ↓
+
+      <br>
+
+      <strong>FILIERĂ</strong>
+
+      <br>
+
+      ↓
+
+      <br>
+
+      <strong>PROFIL</strong>
+
+      <br>
+
+      ↓
+
+      <br>
+
+      <strong>
+        SPECIALIZARE
+        / CALIFICARE PROFESIONALĂ
+      </strong>
+
+    </div>
+
+  </section>
 
 
 </main>
+
+
+<!-- =========================================================
+     NAVIGARE
+     ========================================================= -->
+
+<nav
+  class="pager"
+  aria-label="Navigare între lecțiile de curriculum"
+>
+
+  <a href="index.html">
+    ← Curriculum
+  </a>
+
+
+  <a href="2-componente.html">
+    2. Componentele curriculumului național →
+  </a>
+
+</nav>
+
+
+<footer class="site">
+
+  Didactica Fizicii ·
+  Curriculum ·
+  Definiții fundamentale
+
+</footer>
+
+
+<!-- =========================================================
+     SCENARIU AUDIO ASCUNS
+
+     IMPORTANT:
+     - textul vizibil rămâne ortografiat normal;
+     - numai aici folosim forme fonetice pentru sintetizator;
+     - "curriculum" este redat "curiculum";
+     - "curricular" este redat "curicular";
+     - nu se rostesc acronime greu de sintetizat;
+     - denumirea curriculumului opțional se spune integral.
+     ========================================================= -->
+
+<template id="audio-lesson-script">
+
+
+  <p>
+    Bun găsit.
+    În această lecție
+    definim noțiunile fundamentale
+    ale curiculumului.
+  </p>
+
+
+  <p>
+    Lecția este dedicată
+    definițiilor.
+    Relațiile dintre aceste noțiuni
+    vor fi dezvoltate
+    în lecțiile următoare.
+  </p>
+
+
+  <p>
+    Începem
+    cu termenul curiculum.
+  </p>
+
+
+  <p>
+    În sens larg,
+    curiculumul reprezintă
+    ansamblul structurat
+    al proceselor
+    și experiențelor de învățare
+    prin care trece elevul
+    pe durata
+    parcursului școlar.
+  </p>
+
+
+  <p>
+    În sens restrâns,
+    curiculumul cuprinde
+    ansamblul coerent
+    al documentelor reglatoare
+    care descriu
+    parcursul de învățare
+    oferit elevului.
+  </p>
+
+
+  <p>
+    Următorul termen:
+    curiculumul național.
+  </p>
+
+
+  <p>
+    Curiculumul național
+    este ansamblul coerent
+    al elementelor
+    care reglementează
+    activitatea personalului didactic
+    din învățământul preuniversitar.
+  </p>
+
+
+  <p>
+    El include
+    planurile cadru,
+    programele școlare
+    și standardele naționale
+    de evaluare.
+  </p>
+
+
+  <p>
+    Reținem:
+    planuri cadru,
+    programe școlare,
+    standarde naționale
+    de evaluare.
+  </p>
+
+
+  <p>
+    Planul cadru
+    este un document
+    curicular reglator.
+  </p>
+
+
+  <p>
+    El stabilește
+    disciplinele,
+    domeniile de studiu
+    și modulele
+    obligatorii
+    și opționale,
+    precum și bugetul
+    de timp.
+  </p>
+
+
+  <p>
+    La liceu,
+    planul cadru
+    este diferențiat,
+    după caz,
+    în funcție de filieră,
+    profil,
+    specializare
+    sau calificare profesională.
+  </p>
+
+
+  <p>
+    Programa școlară
+    este un document
+    curicular reglator.
+  </p>
+
+
+  <p>
+    Ea stabilește,
+    pentru o disciplină,
+    un domeniu de studiu
+    sau un modul,
+    oferta educațională
+    corelată
+    cu planul cadru.
+  </p>
+
+
+  <p>
+    Standardele naționale
+    de evaluare
+    sunt repere
+    privind nivelurile
+    de performanță
+    așteptate.
+  </p>
+
+
+  <p>
+    Ele sunt utilizate
+    pentru proiectarea
+    și interpretarea
+    evaluării rezultatelor
+    învățării.
+  </p>
+
+
+  <p>
+    Manualul școlar alternativ
+    este un instrument
+    de sprijin didactic.
+  </p>
+
+
+  <p>
+    El este elaborat
+    în raport
+    cu programa școlară
+    aprobată
+    și sprijină
+    implementarea curiculumului.
+  </p>
+
+
+  <p>
+    Manualul
+    nu este una
+    dintre cele trei
+    componente constitutive
+    ale curiculumului național.
+  </p>
+
+
+  <p>
+    Auxiliarul didactic
+    este o resursă
+    educațională complementară.
+  </p>
+
+
+  <p>
+    El sprijină
+    activitățile
+    de predare,
+    învățare
+    și evaluare.
+  </p>
+
+
+  <p>
+    Și auxiliarul
+    este o resursă de sprijin,
+    nu o componentă
+    constitutivă
+    a curiculumului național.
+  </p>
+
+
+  <p>
+    Aria curiculară
+    reprezintă
+    o grupare
+    de discipline
+    care au în comun
+    anumite concepte,
+    principii
+    și metodologii.
+  </p>
+
+
+  <p>
+    Există șapte
+    arii curiculare.
+  </p>
+
+
+  <p>
+    Limbă și comunicare.
+  </p>
+
+
+  <p>
+    Matematică
+    și Științe ale naturii.
+  </p>
+
+
+  <p>
+    Om și societate.
+  </p>
+
+
+  <p>
+    Arte.
+  </p>
+
+
+  <p>
+    Educație fizică,
+    sport și sănătate.
+  </p>
+
+
+  <p>
+    Tehnologii.
+  </p>
+
+
+  <p>
+    Consiliere
+    și orientare.
+  </p>
+
+
+  <p>
+    Fizica aparține
+    ariei curiculare
+    Matematică
+    și Științe ale naturii.
+  </p>
+
+
+  <p>
+    Trunchiul comun
+    este segmentul curicular
+    constituit
+    din discipline,
+    domenii de studiu
+    și module obligatorii,
+    stabilite
+    la nivel central.
+  </p>
+
+
+  <p>
+    Curiculumul
+    de specialitate
+    este segmentul
+    specific
+    învățământului liceal.
+  </p>
+
+
+  <p>
+    El cuprinde
+    discipline
+    și module obligatorii
+    care reflectă
+    specificul profilului,
+    specializării
+    sau calificării profesionale.
+  </p>
+
+
+  <p>
+    Curiculumul
+    la decizia elevului
+    din oferta școlii
+    reprezintă
+    oferta educațională
+    opțională
+    propusă de școală.
+  </p>
+
+
+  <p>
+    Elevul alege
+    din această ofertă
+    în funcție
+    de nevoile
+    și interesele sale
+    de învățare.
+  </p>
+
+
+  <p>
+    Trecem acum
+    la organizarea
+    învățământului liceal.
+  </p>
+
+
+  <p>
+    Filiera
+    reprezintă
+    categoria majoră
+    de organizare
+    a învățământului liceal.
+  </p>
+
+
+  <p>
+    Există trei filiere.
+  </p>
+
+
+  <p>
+    Filiera teoretică.
+  </p>
+
+
+  <p>
+    Filiera vocațională.
+  </p>
+
+
+  <p>
+    Filiera tehnologică.
+  </p>
+
+
+  <p>
+    Filiera teoretică
+    are două profiluri:
+    real
+    și umanist.
+  </p>
+
+
+  <p>
+    Filiera vocațională
+    are profilurile:
+    militar,
+    teologic,
+    sportiv,
+    artistic
+    și pedagogic.
+  </p>
+
+
+  <p>
+    Filiera tehnologică
+    are profilurile:
+    tehnic,
+    servicii,
+    resurse naturale
+    și protecția mediului.
+  </p>
+
+
+  <p>
+    Profilul
+    este o subdiviziune
+    a unei filiere.
+  </p>
+
+
+  <p>
+    El particularizează
+    orientarea educațională
+    și curiculară
+    a pregătirii elevilor.
+  </p>
+
+
+  <p>
+    Atenție.
+    Profilul liceal
+    nu este același lucru
+    cu profilul de formare
+    al absolventului.
+  </p>
+
+
+  <p>
+    Specializarea
+    reprezintă
+    un traseu educațional
+    specific,
+    organizat
+    în cadrul unui profil.
+  </p>
+
+
+  <p>
+    În filiera teoretică,
+    profilul real
+    are specializările
+    matematică informatică
+    și științe ale naturii.
+  </p>
+
+
+  <p>
+    Profilul umanist
+    are specializările
+    științe sociale
+    și filologie.
+  </p>
+
+
+  <p>
+    În filiera vocațională,
+    profilul artistic
+    cuprinde specializări
+    precum muzică,
+    arte vizuale,
+    conservare restaurare
+    bunuri culturale,
+    arhitectură,
+    arte ambientale și design,
+    coregrafie
+    și arta actorului.
+  </p>
+
+
+  <p>
+    Profilul militar
+    include specializarea
+    matematică informatică militară.
+  </p>
+
+
+  <p>
+    Profilul pedagogic
+    cuprinde
+    pedagogia educației timpurii,
+    pedagogia învățământului primar,
+    pedagogie generală,
+    pedagogia educației nonformale
+    și mediere școlară.
+  </p>
+
+
+  <p>
+    Pentru profilurile
+    sportiv
+    și teologic,
+    specializările sunt stabilite
+    prin planurile cadru
+    specifice.
+  </p>
+
+
+  <p>
+    În filiera tehnologică,
+    pregătirea este organizată
+    prin profiluri,
+    domenii de pregătire
+    și calificări profesionale.
+  </p>
+
+
+  <p>
+    Ajungem
+    la calificarea profesională.
+  </p>
+
+
+  <p>
+    Calificarea profesională
+    reprezintă rezultatul formal
+    al unui parcurs
+    de educație
+    și formare profesională.
+  </p>
+
+
+  <p>
+    Ea este exprimată
+    prin rezultate
+    ale învățării
+    și raportată
+    la un nivel
+    al Cadrului Național
+    al Calificărilor.
+  </p>
+
+
+  <p>
+    În filiera tehnologică
+    sunt prevăzute
+    calificări profesionale
+    de nivel trei
+    și de nivel patru.
+  </p>
+
+
+  <p>
+    Standardul
+    de pregătire profesională
+    este documentul
+    de referință
+    pentru calificarea profesională.
+  </p>
+
+
+  <p>
+    El descrie
+    rezultatele învățării
+    specifice calificării.
+  </p>
+
+
+  <p>
+    Nu confundăm
+    specializarea
+    cu calificarea profesională.
+  </p>
+
+
+  <p>
+    Specializarea
+    particularizează
+    traseul educațional
+    din cadrul unui profil.
+  </p>
+
+
+  <p>
+    Calificarea profesională
+    exprimă rezultatul formal
+    al pregătirii profesionale.
+  </p>
+
+
+  <p>
+    Recapitulăm
+    ierarhia liceală.
+  </p>
+
+
+  <p>
+    Învățământ liceal.
+  </p>
+
+
+  <p>
+    Filieră.
+  </p>
+
+
+  <p>
+    Profil.
+  </p>
+
+
+  <p>
+    Specializare
+    sau calificare profesională.
+  </p>
+
+
+  <p>
+    Iar pentru vocabularul
+    curicular,
+    reținem:
+    curiculum național,
+    plan cadru,
+    programă,
+    standarde,
+    arie curiculară,
+    trunchi comun,
+    curiculum de specialitate
+    și curiculum
+    la decizia elevului
+    din oferta școlii.
+  </p>
+
+
+  <p>
+    Acestea sunt
+    definițiile de bază
+    necesare pentru
+    lecțiile următoare.
+  </p>
+
+
+</template>
+
+
+<!-- =========================================================
+     JAVASCRIPT — TEMA
+     ========================================================= -->
+
+<script>
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+
+function currentTheme() {
+
+  return document.documentElement.dataset.theme === "dark"
+    ? "dark"
+    : "light";
+
+}
+
+
+function updateThemeButton() {
+
+  const dark =
+    currentTheme() === "dark";
+
+
+  themeToggle.textContent =
+    dark
+      ? "Tema: Noapte"
+      : "Tema: Zi";
+
+
+  themeToggle.setAttribute(
+    "aria-pressed",
+    dark ? "true" : "false"
+  );
+
+
+  themeToggle.setAttribute(
+    "title",
+    dark
+      ? "Comută la tema de zi"
+      : "Comută la tema de noapte"
+  );
+
+}
+
+
+function toggleTheme() {
+
+  const next =
+    currentTheme() === "dark"
+      ? "light"
+      : "dark";
+
+
+  document.documentElement.dataset.theme =
+    next;
+
+
+  localStorage.setItem(
+    "titularizare-theme",
+    next
+  );
+
+
+  updateThemeButton();
+
+}
+
+
+themeToggle.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+updateThemeButton();
+
+</script>
+
+
+<!-- =========================================================
+     COMPONENTA AUDIO COMUNĂ
+     ========================================================= -->
+
+<script
+  src="../assets/audio/audio-lesson.js"
+  defer
+></script>
 
 
 </body>
