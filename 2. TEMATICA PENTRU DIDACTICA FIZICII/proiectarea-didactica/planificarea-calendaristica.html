@@ -10,6 +10,11 @@
   content="width=device-width, initial-scale=1.0"
 >
 
+<meta
+  name="description"
+  content="Planificarea calendaristică la Fizică: documente de referință, etape de elaborare, unități de învățare, buget de timp și utilizarea cotei de 25% aflate la dispoziția cadrului didactic."
+>
+
 <title>
   Planificarea calendaristică · Didactica Fizicii · Titularizare Fizică
 </title>
@@ -32,7 +37,8 @@
   const theme =
     savedTheme || (prefersDark ? "dark" : "light");
 
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme =
+    theme;
 
 })();
 </script>
@@ -41,7 +47,7 @@
 <style>
 
 /* =========================================================
-   TEMA ZI
+   CULORI
    ========================================================= */
 
 :root,
@@ -93,10 +99,6 @@ html[data-theme="light"] {
 
 }
 
-
-/* =========================================================
-   TEMA NOAPTE
-   ========================================================= */
 
 html[data-theme="dark"] {
 
@@ -338,7 +340,6 @@ header.top p.subtitle {
   color: #ffffff;
 
   font: inherit;
-
   font-size: .86rem;
   font-weight: 700;
 
@@ -349,7 +350,10 @@ header.top p.subtitle {
 }
 
 .theme-toggle:hover {
-  background: rgba(255,255,255,.18);
+
+  background:
+    rgba(255,255,255,.18);
+
 }
 
 .theme-toggle:focus-visible {
@@ -501,14 +505,15 @@ li {
 
 
 /* =========================================================
-   DEFINITII
+   DEFINIȚII
    ========================================================= */
 
 .definition {
 
   margin: 15px 0;
 
-  padding: 16px 18px;
+  padding:
+    16px 18px;
 
   border-left:
     5px solid var(--definition-border);
@@ -516,7 +521,8 @@ li {
   border-radius:
     0 10px 10px 0;
 
-  background: var(--definition-bg);
+  background:
+    var(--definition-bg);
 
 }
 
@@ -547,7 +553,8 @@ li {
 
   margin: 16px 0;
 
-  padding: 15px 17px;
+  padding:
+    15px 17px;
 
   border-radius: 10px;
 
@@ -607,7 +614,7 @@ li {
 
   color: var(--text-muted);
 
-  font-size: .88rem;
+  font-size: .9rem;
 
 }
 
@@ -669,7 +676,7 @@ li {
 
 
 /* =========================================================
-   IERARHIE PROIECTARE
+   IERARHIE
    ========================================================= */
 
 .hierarchy {
@@ -700,13 +707,16 @@ li {
 }
 
 .hierarchy-item.program {
+
   background:
     linear-gradient(
       135deg,
       var(--navy),
       var(--navy-2)
     );
+
   color: #ffffff;
+
 }
 
 .hierarchy-item.plan {
@@ -734,7 +744,7 @@ li {
 
 
 /* =========================================================
-   PASI
+   PAȘI
    ========================================================= */
 
 .steps {
@@ -857,7 +867,6 @@ li {
 .process-arrow {
 
   display: flex;
-
   align-items: center;
 
   color: var(--accent);
@@ -892,8 +901,7 @@ li {
 table {
 
   width: 100%;
-
-  min-width: 820px;
+  min-width: 900px;
 
   border-collapse: collapse;
 
@@ -932,7 +940,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   FIZICA
+   EXEMPLU FIZICĂ
    ========================================================= */
 
 .physics-example {
@@ -967,6 +975,19 @@ tr:last-child td {
 /* =========================================================
    CHECK
    ========================================================= */
+
+.checklist {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 10px;
+
+  margin: 15px 0;
+
+}
 
 .check {
 
@@ -1107,7 +1128,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   INTREBARI
+   ÎNTREBĂRI
    ========================================================= */
 
 .question {
@@ -1129,17 +1150,24 @@ tr:last-child td {
   color: var(--accent);
 }
 
+.question a {
 
-/* =========================================================
-   SURSE
-   ========================================================= */
+  display: inline-block;
 
-.sources li {
+  margin-top: 6px;
 
-  color: var(--text-muted);
+  color: var(--accent);
 
   font-size: .88rem;
+  font-weight: 700;
 
+  text-decoration: none;
+
+}
+
+.question a:hover,
+.question a:focus-visible {
+  text-decoration: underline;
 }
 
 
@@ -1180,9 +1208,8 @@ nav.pager a {
 
   color: var(--accent);
 
+  font-weight: 700;
   text-decoration: none;
-
-  font-weight: 650;
 
 }
 
@@ -1198,43 +1225,38 @@ nav.pager a:focus-visible {
 
 footer.site {
 
+  width: min(900px,100%);
+
+  margin: 0 auto 40px;
+
   padding:
-    18px 16px 30px;
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
 
   color: var(--text-muted);
 
+  font-size: .82rem;
   text-align: center;
 
-  font-size: .8rem;
-  line-height: 1.55;
-
 }
 
 
 /* =========================================================
-   TABLETA
+   RESPONSIVE
    ========================================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 720px) {
 
-  .grid3 {
-
-    grid-template-columns:
-      repeat(2, minmax(0,1fr));
-
+  .toc {
+    columns: 1;
   }
 
-}
-
-
-/* =========================================================
-   TELEFON
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-  header.top {
-    padding-top: 18px;
+  .grid2,
+  .grid3,
+  .checklist {
+    grid-template-columns: 1fr;
   }
 
   .header-row {
@@ -1245,33 +1267,15 @@ footer.site {
     align-self: flex-start;
   }
 
-  .toc {
-    columns: 1;
-  }
-
-  .grid2,
-  .grid3 {
-
-    grid-template-columns: 1fr;
-
-  }
-
   .process {
-
     grid-template-columns: 1fr;
-
   }
 
   .process-arrow {
 
     justify-content: center;
-
     transform: rotate(90deg);
 
-  }
-
-  main {
-    margin-top: 18px;
   }
 
   nav.pager {
@@ -1285,7 +1289,7 @@ footer.site {
 
     justify-content: center;
 
-    padding: 7px 10px;
+    padding: 8px 10px;
 
     border:
       1px solid var(--border);
@@ -1298,10 +1302,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   ECRANE FOARTE MICI
-   ========================================================= */
 
 @media (max-width: 380px) {
 
@@ -1321,7 +1321,7 @@ footer.site {
 
 
 /* =========================================================
-   REDUCERE ANIMATII
+   REDUCERE ANIMAȚII
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1403,9 +1403,9 @@ footer.site {
 
 
         <p class="subtitle">
-          Programă · competențe specifice ·
-          unități de învățare · conținuturi ·
-          buget de timp · succesiune · adaptare
+          programă · plan-cadru · competențe ·
+          unități de învățare · buget de timp ·
+          75% + 25% · diagnoză · adaptare
         </p>
 
       </div>
@@ -1436,75 +1436,64 @@ footer.site {
 
 
   <!-- =======================================================
-       PROGRAMA
+       INTRODUCERE
        ======================================================= -->
 
   <section class="card">
 
     <h2>
-      Ce cere programa de Titularizare?
+      Ce trebuie să înveți
     </h2>
 
 
-    <p>
-      Programa disponibilă pentru
-      <strong>Titularizare Fizică 2026</strong>
-      include explicit,
-      în tema privind proiectarea activității didactice:
-    </p>
+    <div class="source-note">
 
+      Lecția este construită
+      pe baza cadrului normativ
+      și curricular în vigoare:
+      Legea învățământului preuniversitar
+      nr. 198/2023,
+      Instrucțiunea nr. 8
+      din 1 septembrie 2025,
+      planul-cadru,
+      programa școlară
+      și calendarul anului școlar aplicabile.
 
-    <div class="exam-box">
-
-      <strong>
-        planificarea calendaristică;
-      </strong>
-
-      <br>
-
-      <strong>
-        proiectarea unității de învățare;
-      </strong>
-
-      <br>
-
-      <strong>
-        proiecte de lecție
-        pentru diferite tipuri de lecții,
-        inclusiv abordări intra-,
-        inter- și transdisciplinare.
-      </strong>
+      Programa pentru concursul de titularizare
+      este utilizată ca reper
+      pentru delimitarea tematicii.
 
     </div>
 
 
     <p>
-      Aceste trei niveluri
-      nu trebuie confundate.
-      Planificarea calendaristică
-      oferă perspectiva amplă asupra
-      parcursului didactic,
-      iar proiectarea unității
-      și proiectul de lecție
-      cresc progresiv
-      nivelul de detaliu.
+      Pentru această temă
+      trebuie să poți explica
+      <strong>
+        ce este planificarea calendaristică,
+        de la ce documente pornește,
+        cum se elaborează,
+        ce conține
+        și cum se utilizează
+        cota de 25% din timpul disciplinei
+        aflată la dispoziția cadrului didactic.
+      </strong>
     </p>
 
 
-    <div class="warning">
+    <div class="exam-box">
 
+      <strong>Ideea centrală:</strong>
+
+      planificarea calendaristică
+      transformă programa școlară
+      într-un
       <strong>
-        Pentru Titularizare Fizică 2027:
-      </strong>
-
-      această lecție este construită
-      pe programa disponibilă pentru 2026.
-
-      După publicarea programei oficiale 2027
-      trebuie verificată
-      formularea exactă
-      și documentele curriculare
-      aflate atunci în vigoare.
+        parcurs didactic anual,
+        coerent,
+        realist
+        și adaptabil
+      </strong>.
 
     </div>
 
@@ -1512,8 +1501,8 @@ footer.site {
 
 
   <!--
-    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
-    DE assets/audio/audio-lesson.js
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
   -->
 
 
@@ -1534,25 +1523,25 @@ footer.site {
 
         <li>
           <a href="#definitie">
-            Ce este planificarea calendaristică?
+            Definiția planificării
           </a>
         </li>
 
         <li>
-          <a href="#ierarhie">
+          <a href="#loc">
             Locul în proiectarea didactică
           </a>
         </li>
 
         <li>
           <a href="#documente">
-            Documente și repere necesare
+            Documentele de referință
           </a>
         </li>
 
         <li>
-          <a href="#competente">
-            Competențe și conținuturi
+          <a href="#buget">
+            Stabilirea bugetului de timp
           </a>
         </li>
 
@@ -1569,26 +1558,50 @@ footer.site {
         </li>
 
         <li>
-          <a href="#timp">
-            Bugetul de timp
+          <a href="#cota">
+            Regula 75% – 25%
+          </a>
+        </li>
+
+        <li>
+          <a href="#destinatii">
+            Utilizarea cotei de 25%
+          </a>
+        </li>
+
+        <li>
+          <a href="#distribuire">
+            Modalități de distribuire
+          </a>
+        </li>
+
+        <li>
+          <a href="#diagnoza">
+            Rolul diagnozei
           </a>
         </li>
 
         <li>
           <a href="#structura">
-            Structura unui model
+            Structura planificării
           </a>
         </li>
 
         <li>
-          <a href="#exemplu">
-            Exemplu de Fizică
+          <a href="#model">
+            Model orientativ
           </a>
         </li>
 
         <li>
           <a href="#flexibilitate">
-            Flexibilitate și adaptare
+            Caracterul deschis al planificării
+          </a>
+        </li>
+
+        <li>
+          <a href="#avizare">
+            Avizare și evidență
           </a>
         </li>
 
@@ -1600,7 +1613,7 @@ footer.site {
 
         <li>
           <a href="#examen">
-            Cum răspunzi la concurs?
+            Formulare pentru examen
           </a>
         </li>
 
@@ -1616,6 +1629,12 @@ footer.site {
           </a>
         </li>
 
+        <li>
+          <a href="#autoevaluare">
+            Autoevaluare
+          </a>
+        </li>
+
       </ol>
 
     </div>
@@ -1624,7 +1643,7 @@ footer.site {
 
 
   <!-- =======================================================
-       1. DEFINITIE
+       1. DEFINIȚIE
        ======================================================= -->
 
   <section
@@ -1640,59 +1659,77 @@ footer.site {
     <div class="definition">
 
       <span class="definition-term">
-        Definiție de lucru
+        Planificarea calendaristică
       </span>
 
-      Planificarea calendaristică
-      este documentul de proiectare didactică
-      prin care profesorul organizează
-      în timp parcursul curricular
-      al unei discipline,
-      corelând competențele specifice,
-      conținuturile,
-      unitățile de învățare
-      și resursa de timp disponibilă.
+      <p>
+        este documentul
+        de proiectare didactică
+        prin care cadrul didactic
+        organizează în timp
+        parcurgerea programei școlare,
+        corelând
+        competențele,
+        conținuturile,
+        unitățile de învățare
+        și bugetul de timp
+        disponibil.
+      </p>
 
     </div>
 
 
     <p>
-      Cu alte cuvinte,
-      profesorul transformă
-      programa școlară
-      într-un
-      <strong>parcurs didactic coerent
-      pentru anul școlar</strong>.
+      Prin planificare,
+      profesorul construiește
+      un parcurs didactic
+      pentru clasa concretă
+      cu care lucrează.
     </p>
 
 
     <div class="callout">
 
-      <strong>
-        Planificarea răspunde
-        în principal la întrebările:
-      </strong>
+      Planificarea răspunde
+      în principal
+      la întrebările:
 
       <br><br>
 
-      Ce competențe urmăresc?
+      <strong>
+        Ce competențe urmăresc?
+      </strong>
 
       <br>
 
-      Prin ce conținuturi?
+      <strong>
+        Prin ce conținuturi?
+      </strong>
 
       <br>
 
-      Cum le grupez
-      în unități de învățare?
+      <strong>
+        Cum le grupez
+        în unități de învățare?
+      </strong>
 
       <br>
 
-      În ce succesiune?
+      <strong>
+        În ce succesiune?
+      </strong>
 
       <br>
 
-      Cu ce buget de timp?
+      <strong>
+        În ce perioadă?
+      </strong>
+
+      <br>
+
+      <strong>
+        Cu ce buget de timp?
+      </strong>
 
     </div>
 
@@ -1700,12 +1737,16 @@ footer.site {
     <div class="danger">
 
       <strong>
-        Planificarea nu este
-        transcrierea cuprinsului manualului.
+        Planificarea calendaristică
+        nu este cuprinsul manualului
+        împărțit pe săptămâni.
       </strong>
 
+      <br><br>
+
       Reperul curricular
-      este programa școlară aplicabilă.
+      este
+      <strong>programa școlară</strong>.
 
     </div>
 
@@ -1713,12 +1754,12 @@ footer.site {
 
 
   <!-- =======================================================
-       2. IERARHIE
+       2. LOCUL ÎN PROIECTARE
        ======================================================= -->
 
   <section
     class="card"
-    id="ierarhie"
+    id="loc"
   >
 
     <h2>
@@ -1737,15 +1778,7 @@ footer.site {
       </div>
 
       <div class="hierarchy-item plan">
-
         PLANIFICARE CALENDARISTICĂ
-
-        <br>
-
-        <small>
-          perspectiva asupra parcursului anual
-        </small>
-
       </div>
 
       <div class="hierarchy-arrow">
@@ -1753,16 +1786,7 @@ footer.site {
       </div>
 
       <div class="hierarchy-item unit">
-
         PROIECTAREA UNITĂȚII DE ÎNVĂȚARE
-
-        <br>
-
-        <small>
-          organizarea unei secvențe ample
-          de învățare
-        </small>
-
       </div>
 
       <div class="hierarchy-arrow">
@@ -1770,56 +1794,65 @@ footer.site {
       </div>
 
       <div class="hierarchy-item lesson">
-
-        PROIECTUL DE LECȚIE
-
-        <br>
-
-        <small>
-          activitatea didactică concretă
-        </small>
-
+        PROIECTAREA ACTIVITĂȚII / LECȚIEI
       </div>
 
     </div>
 
 
-    <div class="exam-box">
-
-      <strong>
-        De la general la particular:
-      </strong>
-
-      <br><br>
-
-      PROGRAMĂ
-
-      <br>
-      ↓
-      <br>
-
-      PLANIFICARE
-
-      <br>
-      ↓
-      <br>
-
-      UNITATE DE ÎNVĂȚARE
-
-      <br>
-      ↓
-      <br>
-
-      LECȚIE
-
-    </div>
+    <p>
+      Planificarea calendaristică
+      se situează
+      între programa școlară
+      și proiectarea detaliată
+      a unităților de învățare.
+    </p>
 
 
     <p>
-      Fiecare nivel
-      trebuie să rămână coerent
-      cu nivelul anterior.
+      Ea oferă perspectiva
+      <strong>anuală</strong>
+      asupra parcursului,
+      în timp ce proiectarea
+      unei unități de învățare
+      detaliază un segment
+      al acestui parcurs.
     </p>
+
+
+    <div class="exam-box">
+
+      <strong>De la general la particular:</strong>
+
+      <br><br>
+
+      programă
+
+      <br>
+
+      ↓
+
+      <br>
+
+      planificare calendaristică
+
+      <br>
+
+      ↓
+
+      <br>
+
+      unitate de învățare
+
+      <br>
+
+      ↓
+
+      <br>
+
+      activitate didactică / lecție.
+
+    </div>
 
   </section>
 
@@ -1834,128 +1867,130 @@ footer.site {
   >
 
     <h2>
-      3. De ce documente și informații avem nevoie?
+      3. Documentele și informațiile de referință
     </h2>
 
 
     <p>
-      Planificarea nu se redactează
-      în abstract.
-      Profesorul trebuie să cunoască
-      documentele curriculare
-      și condițiile reale
-      în care va lucra.
+      Planificarea se elaborează
+      pentru o situație didactică
+      precisă:
+      clasă,
+      disciplină,
+      profil
+      și an școlar.
     </p>
 
 
-    <div class="grid2">
+    <div class="checklist">
 
 
-      <div class="mini-card">
+      <div class="check">
 
-        <h3>
-          Programa școlară
-        </h3>
+        <strong>
+          Programa școlară în vigoare
+        </strong>
 
-        <p>
-          Oferă competențele specifice,
-          conținuturile
-          și celelalte repere
-          curriculare aplicabile.
-        </p>
+        <br>
 
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Planul-cadru
-        </h3>
-
-        <p>
-          Permite identificarea
-          statutului disciplinei
-          și a resursei de timp
-          corespunzătoare.
-        </p>
+        Furnizează competențele,
+        conținuturile
+        și celelalte repere curriculare.
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="check">
 
-        <h3>
-          Structura anului școlar
-        </h3>
+        <strong>
+          Planul-cadru aplicabil
+        </strong>
 
-        <p>
-          Permite distribuirea
-          realistă în timp
-          a unităților de învățare.
-        </p>
+        <br>
 
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Contextul clasei
-        </h3>
-
-        <p>
-          Nivelul elevilor,
-          ritmul de lucru,
-          resursele disponibile
-          și particularitățile colectivului.
-        </p>
+        Precizează
+        numărul de ore
+        alocat disciplinei.
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="check">
 
-        <h3>
-          Resursele școlii
-        </h3>
+        <strong>
+          Calendarul anului școlar
+        </strong>
 
-        <p>
-          Laborator,
-          aparatură,
-          resurse digitale,
-          spații și materiale.
-        </p>
+        <br>
+
+        Permite stabilirea
+        perioadelor efective
+        de activitate didactică.
+
+      </div>
+
+
+      <div class="check">
+
+        <strong>
+          Structura clasei
+        </strong>
+
+        <br>
+
+        Nivelul real al achizițiilor,
+        ritmul de lucru
+        și nevoile elevilor.
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="check">
 
-        <h3>
-          Calendarul real al activității
-        </h3>
+        <strong>
+          Diagnoza inițială
+        </strong>
 
-        <p>
-          Perioade de curs,
-          activități instituționale
-          și alte elemente
-          care pot influența
-          ritmul proiectat.
-        </p>
+        <br>
+
+        Fundamentează
+        adaptarea demersului
+        la situația concretă.
 
       </div>
+
+
+      <div class="check">
+
+        <strong>
+          Resursele disponibile
+        </strong>
+
+        <br>
+
+        Laborator,
+        aparatură,
+        resurse digitale
+        și alte condiții reale
+        de desfășurare.
+
+      </div>
+
 
     </div>
 
 
     <div class="warning">
 
-      Numărul concret de ore,
-      perioadele și documentele aplicabile
-      trebuie verificate
-      pentru clasa și anul școlar
-      pentru care se realizează planificarea.
+      În perioadele
+      de introducere progresivă
+      a unor noi planuri-cadru
+      sau programe,
+      profesorul verifică
+      <strong>
+        documentele aplicabile
+        exact clasei pentru care planifică
+      </strong>.
 
     </div>
 
@@ -1963,124 +1998,92 @@ footer.site {
 
 
   <!-- =======================================================
-       4. COMPETENTE
+       4. BUGET DE TIMP
        ======================================================= -->
 
   <section
     class="card"
-    id="competente"
+    id="buget"
   >
 
     <h2>
-      4. Competențele specifice și conținuturile
+      4. Stabilirea bugetului de timp
     </h2>
 
 
     <p>
-      În proiectarea bazată pe competențe,
-      profesorul nu pornește
-      de la întrebarea:
+      Înainte de repartizarea
+      unităților de învățare,
+      profesorul stabilește
+      bugetul anual real
+      de timp pentru disciplină.
     </p>
+
+
+    <p>
+      Acesta rezultă
+      din corelarea:
+    </p>
+
+
+    <ul>
+
+      <li>
+        numărului de ore
+        prevăzut prin planul-cadru;
+      </li>
+
+      <li>
+        calendarului anului școlar;
+      </li>
+
+      <li>
+        perioadelor efective
+        de activitate didactică;
+      </li>
+
+      <li>
+        particularităților
+        organizării activității școlii.
+      </li>
+
+    </ul>
 
 
     <div class="callout">
 
-      „Ce capitol din manual
-      predau săptămâna viitoare?”
+      <strong>Important:</strong>
 
-    </div>
-
-
-    <p>
-      ci de la întrebarea:
-    </p>
-
-
-    <div class="exam-box">
-
-      <strong>
-        „Ce competență specifică
-        urmăresc și prin ce situații
-        de învățare poate fi formată?”
-      </strong>
-
-    </div>
-
-
-    <p>
-      Conținuturile reprezintă
-      suportul prin care
-      se formează și se dezvoltă
-      competențele prevăzute
-      de programă.
-    </p>
-
-
-    <div class="process">
-
-      <div class="process-card">
-
-        <b>
-          Competență
-        </b>
-
-        Ce trebuie să poată face elevul?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Conținut
-        </b>
-
-        Prin ce domeniu de Fizică
-        lucrez?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Activitate
-        </b>
-
-        Ce experiență de învățare
-        va realiza elevul?
-
-      </div>
-
-    </div>
-
-
-    <div class="danger">
-
-      Nu inventa coduri
-      sau formulări de competențe.
+      nu se presupune automat
+      un anumit număr
+      de săptămâni de curs.
 
       <br><br>
 
-      Dacă într-un răspuns de concurs
-      este necesară competența specifică,
-      aceasta trebuie preluată
-      din programa școlară
-      corespunzătoare situației.
+      Bugetul de timp
+      se determină
+      pentru anul școlar
+      și clasa concretă.
 
     </div>
+
+
+    <p>
+      Din bugetul total
+      al disciplinei
+      se reflectă apoi
+      raportul legal
+      dintre timpul
+      acoperit prin programă
+      și timpul aflat
+      la dispoziția cadrului didactic.
+    </p>
 
   </section>
 
 
   <!-- =======================================================
-       5. UNITATI
+       5. UNITĂȚI DE ÎNVĂȚARE
        ======================================================= -->
 
   <section
@@ -2099,70 +2102,67 @@ footer.site {
         Unitatea de învățare
       </span>
 
-      poate fi privită,
-      în proiectarea didactică,
-      drept o structură coerentă
-      de activități și conținuturi
-      organizate în jurul
-      unor competențe urmărite,
-      desfășurată pe parcursul
-      mai multor ore.
+      <p>
+        reprezintă un parcurs didactic
+        coerent,
+        constituit în jurul
+        unor competențe
+        și conținuturi corelate,
+        desfășurat pe parcursul
+        mai multor activități didactice
+        și finalizat,
+        de regulă,
+        printr-o formă de evaluare
+        și reflecție asupra învățării.
+      </p>
 
     </div>
 
 
     <p>
-      În planificarea calendaristică
-      nu dezvoltăm în detaliu
-      fiecare activitate
-      a unității.
+      În planificarea calendaristică,
+      unitățile de învățare
+      constituie principalele
+      blocuri de organizare
+      a parcursului anual.
     </p>
 
 
     <p>
-      Stabilim în principal:
-    </p>
-
-
-    <div class="grid2">
-
-      <div class="check">
-        denumirea unității
-      </div>
-
-      <div class="check">
-        competențele specifice vizate
-      </div>
-
-      <div class="check">
-        conținuturile asociate
-      </div>
-
-      <div class="check">
-        resursa de timp
-      </div>
-
-      <div class="check">
-        poziționarea în parcursul anual
-      </div>
-
-      <div class="check">
-        eventualele observații și ajustări
-      </div>
-
-    </div>
-
-
-    <div class="warning">
-
-      O unitate de învățare
+      O unitate
       nu trebuie confundată
       cu o singură lecție.
+    </p>
 
-      Ea cuprinde,
-      de regulă,
-      un parcurs didactic
-      mai amplu.
+
+    <div class="exam-box">
+
+      În planificare
+      stabilim pentru fiecare unitate,
+      în principal:
+
+      <br><br>
+
+      competențele urmărite,
+
+      <br>
+
+      conținuturile,
+
+      <br>
+
+      resursa de timp,
+
+      <br>
+
+      poziția în calendar,
+
+      <br>
+
+      precum și,
+      unde este cazul,
+      utilizarea cotei
+      aflate la dispoziția profesorului.
 
     </div>
 
@@ -2179,7 +2179,7 @@ footer.site {
   >
 
     <h2>
-      6. Etapele elaborării planificării
+      6. Etapele elaborării planificării calendaristice
     </h2>
 
 
@@ -2189,13 +2189,16 @@ footer.site {
       <div class="step">
 
         <b>
-          Citirea integrală a programei
+          Studierea integrală a programei
         </b>
 
-        Profesorul identifică
-        competențele specifice,
-        conținuturile
-        și reperele metodologice relevante.
+        Se identifică
+        nota de prezentare,
+        competențele,
+        conținuturile,
+        sugestiile metodologice
+        și, dacă sunt incluse,
+        standardele de evaluare.
 
       </div>
 
@@ -2203,14 +2206,15 @@ footer.site {
       <div class="step">
 
         <b>
-          Corelarea competențelor
-          cu domeniile de conținut
+          Verificarea planului-cadru
         </b>
 
         Se stabilește
-        prin ce conținuturi
-        pot fi dezvoltate
-        competențele urmărite.
+        numărul de ore
+        alocat disciplinei
+        pentru clasa,
+        profilul
+        și situația concretă.
 
       </div>
 
@@ -2218,12 +2222,42 @@ footer.site {
       <div class="step">
 
         <b>
-          Stabilirea unităților de învățare
+          Stabilirea bugetului anual de timp
         </b>
 
-        Conținuturile și activitățile
-        sunt grupate
-        în structuri coerente.
+        Se corelează
+        alocarea orară
+        cu structura
+        anului școlar.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>
+          Analiza situației inițiale
+        </b>
+
+        Se iau în considerare
+        nivelul achizițiilor,
+        dificultățile,
+        diferențele dintre elevi
+        și nevoile reale ale clasei.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>
+          Asocierea competențelor și conținuturilor
+        </b>
+
+        Se construiesc
+        grupări coerente
+        care vor constitui
+        unități de învățare.
 
       </div>
 
@@ -2235,10 +2269,10 @@ footer.site {
         </b>
 
         Unitățile sunt ordonate
-        astfel încât să existe
-        continuitate,
-        progresie
-        și prerechizite adecvate.
+        într-o progresie logică,
+        ținând cont
+        de achizițiile necesare
+        și de relațiile dintre concepte.
 
       </div>
 
@@ -2246,11 +2280,29 @@ footer.site {
       <div class="step">
 
         <b>
-          Estimarea bugetului de timp
+          Repartizarea timpului
         </b>
 
-        Se distribuie realist
-        numărul de ore disponibil.
+        Se alocă
+        un număr realist de ore
+        fiecărei unități,
+        inclusiv evaluării
+        și activităților adaptate
+        nevoilor elevilor.
+
+      </div>
+
+
+      <div class="step">
+
+        <b>
+          Planificarea cotei de 25%
+        </b>
+
+        Se marchează explicit
+        utilizarea timpului
+        aflat la dispoziția cadrului didactic
+        și finalitățile urmărite.
 
       </div>
 
@@ -2261,9 +2313,10 @@ footer.site {
           Calendarizarea
         </b>
 
-        Unitățile sunt poziționate
-        în perioadele concrete
-        ale anului școlar.
+        Unitățile
+        și secvențele
+        sunt distribuite
+        pe perioadele de curs.
 
       </div>
 
@@ -2271,52 +2324,123 @@ footer.site {
       <div class="step">
 
         <b>
-          Verificarea coerenței
+          Revizuirea periodică
         </b>
 
-        Profesorul verifică
-        dacă sunt acoperite
-        competențele și conținuturile
-        prevăzute de programă.
+        Planificarea se ajustează
+        pe baza
+        progresului real
+        și a diagnozelor periodice.
 
       </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. 75 / 25
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="cota"
+  >
+
+    <h2>
+      7. Regula 75% – 25%
+    </h2>
+
+
+    <p>
+      Pentru fiecare disciplină
+      și domeniu de studiu,
+      cadrul legislativ actual
+      stabilește două componente
+      ale timpului didactic.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          75% din timp
+        </h3>
+
+        <p>
+          Programa școlară
+          acoperă
+          75% din orele
+          de predare
+          și de evaluare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          25% din timp
+        </h3>
+
+        <p>
+          25% din timpul
+          alocat disciplinei
+          se află
+          la dispoziția
+          cadrului didactic.
+        </p>
+
+      </div>
+
 
     </div>
 
 
     <div class="exam-box">
 
+      <strong>De memorat:</strong>
+
+      <br><br>
+
       <strong>
-        O formulă utilă:
+        75% — parcurgerea programei;
+      </strong>
+
+      <br>
+
+      <strong>
+        25% — timp la dispoziția cadrului didactic,
+        utilizat în funcție de nevoile elevilor.
+      </strong>
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        Cota de 25%
+        nu este CDEOȘ.
       </strong>
 
       <br><br>
 
-      PROGRAMĂ
-
-      <br>
-      ↓
-      <br>
-
-      COMPETENȚE + CONȚINUTURI
-
-      <br>
-      ↓
-      <br>
-
-      UNITĂȚI DE ÎNVĂȚARE
-
-      <br>
-      ↓
-      <br>
-
-      SUCCESIUNE + TIMP
-
-      <br>
-      ↓
-      <br>
-
-      PLANIFICARE
+      Ea reprezintă
+      timp aflat la dispoziția profesorului
+      <strong>
+        în cadrul disciplinei respective
+      </strong>
+      și constituie
+      o completare
+      și o adaptare
+      a parcurgerii programei școlare.
 
     </div>
 
@@ -2324,115 +2448,298 @@ footer.site {
 
 
   <!-- =======================================================
-       7. TIMP
+       8. DESTINAȚII 25
        ======================================================= -->
 
   <section
     class="card"
-    id="timp"
+    id="destinatii"
   >
 
     <h2>
-      7. Bugetul de timp
+      8. Pentru ce poate fi utilizată cota de 25%?
     </h2>
 
 
     <p>
-      Una dintre funcțiile importante
-      ale planificării este
-      distribuirea realistă
-      a timpului.
+      Utilizarea timpului
+      aflat la dispoziția profesorului
+      se stabilește
+      în funcție de
+      nevoile și interesele reale
+      ale elevilor
+      și de specificul clasei.
     </p>
 
 
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Remediere
+        </h3>
+
+        <p>
+          Corectarea lacunelor
+          și sprijinirea elevilor
+          care întâmpină dificultăți.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Consolidare
+        </h3>
+
+        <p>
+          Fixarea,
+          exersarea
+          și stabilizarea
+          achizițiilor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Aprofundare
+        </h3>
+
+        <p>
+          Sarcini mai complexe,
+          analiză,
+          argumentare
+          și probleme nonrutiniere.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Extindere
+        </h3>
+
+        <p>
+          Proiecte,
+          aplicații,
+          investigații
+          și conexiuni controlate
+          cu alte domenii.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Performanță
+        </h3>
+
+        <p>
+          Activități diferențiate
+          pentru elevii
+          cu potențial ridicat.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Transfer
+        </h3>
+
+        <p>
+          Aplicarea competențelor
+          în situații-problemă
+          și contexte
+          din viața de zi cu zi.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemple la Fizică
+      </h3>
+
+      <p>
+        În funcție
+        de rezultatele diagnozei,
+        profesorul poate utiliza
+        această cotă pentru:
+      </p>
+
+
+      <ul>
+
+        <li>
+          remedierea dificultăților
+          de utilizare
+          a mărimilor și unităților fizice;
+        </li>
+
+        <li>
+          consolidarea
+          interpretării grafice
+          a datelor experimentale;
+        </li>
+
+        <li>
+          aprofundarea
+          prin probleme nonrutiniere;
+        </li>
+
+        <li>
+          investigații experimentale
+          suplimentare;
+        </li>
+
+        <li>
+          proiecte aplicative;
+        </li>
+
+        <li>
+          transferul
+          conceptelor de Fizică
+          în situații cotidiene.
+        </li>
+
+      </ul>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. DISTRIBUIRE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="distribuire"
+  >
+
+    <h2>
+      9. Cum poate fi distribuită cota de 25%?
+    </h2>
+
+
     <p>
-      Profesorul trebuie să evite
-      două extreme:
+      Timpul aflat
+      la dispoziția cadrului didactic
+      <strong>
+        nu trebuie obligatoriu
+        organizat în ore întregi separate.
+      </strong>
     </p>
 
 
     <div class="grid2">
 
-      <div class="trap">
 
-        <strong>
-          Supraestimarea
-        </strong>
+      <div class="mini-card">
 
-        <br>
+        <h3>
+          Varianta 1 — ore distincte
+        </h3>
 
-        O unitate primește
-        mult prea multe ore,
-        iar la finalul anului
-        nu mai rămâne timp
-        pentru alte domenii.
+        <p>
+          Profesorul poate planifica
+          anumite ore
+          sau secvențe
+          dedicate explicit
+          remedierii,
+          consolidării,
+          aprofundării,
+          extinderii
+          sau performanței.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Varianta 2 — timp integrat
+        </h3>
+
+        <p>
+          Cota poate fi distribuită
+          și în interiorul
+          fiecărei ore
+          sau al unor ore,
+          cu condiția
+          ca timpul cumulat
+          să respecte
+          ponderea legală.
+        </p>
 
       </div>
 
-
-      <div class="trap">
-
-        <strong>
-          Subestimarea
-        </strong>
-
-        <br>
-
-        O unitate experimentală
-        sau una cu multe probleme
-        primește prea puțin timp
-        pentru învățare reală.
-
-      </div>
 
     </div>
 
 
-    <h3>
-      La Fizică, timpul trebuie să țină cont și de
-    </h3>
+    <div class="update-note">
+
+      Dacă profesorul alege
+      distribuirea integrată
+      în interiorul orelor,
+      această abordare
+      trebuie menționată explicit
+      în planificarea calendaristică.
+
+    </div>
 
 
-    <ul>
+    <div class="physics-example">
 
-      <li>
-        activitățile experimentale;
-      </li>
+      <h3>
+        Exemplu numeric
+      </h3>
 
-      <li>
-        rezolvarea de probleme;
-      </li>
+      <p>
+        Dacă bugetul anual
+        al unei discipline
+        este de
+        <strong>72 de ore</strong>,
+        cota de 25%
+        reprezintă
+        echivalentul a
+        <strong>18 ore</strong>.
+      </p>
 
-      <li>
-        consolidare și sistematizare;
-      </li>
-
-      <li>
-        evaluare și feedback;
-      </li>
-
-      <li>
-        ritmul real al clasei;
-      </li>
-
-      <li>
-        necesitatea remedierii,
-        atunci când aceasta apare.
-      </li>
-
-    </ul>
-
-
-    <div class="callout">
-
-      Planificarea bună
-      nu urmărește doar
-      „să încapă materia”.
-
-      <br><br>
-
-      Ea trebuie să permită
-      <strong>învățarea efectivă</strong>.
+      <p>
+        Aceste 18 ore
+        nu trebuie obligatoriu
+        plasate ca 18 ore
+        distincte.
+        Timpul poate fi
+        distribuit și integrat,
+        dacă totalul anual
+        și modul de utilizare
+        sunt evidențiate
+        în planificare.
+      </p>
 
     </div>
 
@@ -2440,7 +2747,114 @@ footer.site {
 
 
   <!-- =======================================================
-       8. STRUCTURA
+       10. DIAGNOZA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="diagnoza"
+  >
+
+    <h2>
+      10. Diagnoza și planificarea
+    </h2>
+
+
+    <p>
+      Utilizarea cotei
+      aflate la dispoziția profesorului
+      nu se stabilește arbitrar.
+    </p>
+
+
+    <p>
+      Alegerea activităților
+      trebuie să fie fundamentată
+      pe:
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Diagnoză inițială
+        </h3>
+
+        <p>
+          Identifică
+          nivelul de pornire,
+          achizițiile,
+          lacunele
+          și diferențele
+          dintre elevi.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Diagnoză periodică
+        </h3>
+
+        <p>
+          Urmărește
+          progresul real
+          și permite
+          reajustarea planificării
+          pe parcurs.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>
+        Diagnoză
+        → decizie didactică
+        → activitate adaptată
+        → evaluare formativă
+        → reajustare.
+      </strong>
+
+    </div>
+
+
+    <p>
+      În funcție
+      de nevoile identificate,
+      pot fi prevăzute
+      și momente
+      de lucru diferențiat
+      pe grupuri
+      sau subgrupuri.
+    </p>
+
+
+    <div class="warning">
+
+      Atunci când sunt prevăzute
+      activități diferențiate,
+      planificarea poate indica
+      resursele
+      și sarcinile diferențiate
+      corespunzătoare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. STRUCTURA
        ======================================================= -->
 
   <section
@@ -2449,15 +2863,125 @@ footer.site {
   >
 
     <h2>
-      8. Structura unui model de planificare
+      11. Ce trebuie să conțină planificarea?
     </h2>
 
 
     <p>
-      Un model pedagogic uzual
-      poate organiza informația
-      prin coloane precum:
+      Nu trebuie confundată
+      existența unor elemente necesare
+      cu existența
+      unui singur model tabelar
+      obligatoriu pentru toate situațiile.
     </p>
+
+
+    <p>
+      Un model funcțional
+      de planificare
+      trebuie să permită
+      identificarea clară
+      a următoarelor elemente:
+    </p>
+
+
+    <div class="checklist">
+
+
+      <div class="check">
+        unitățile de învățare;
+      </div>
+
+
+      <div class="check">
+        competențele urmărite;
+      </div>
+
+
+      <div class="check">
+        conținuturile asociate;
+      </div>
+
+
+      <div class="check">
+        numărul de ore;
+      </div>
+
+
+      <div class="check">
+        perioada
+        sau săptămânile
+        de desfășurare;
+      </div>
+
+
+      <div class="check">
+        utilizarea explicită
+        a cotei de 25%;
+      </div>
+
+
+      <div class="check">
+        finalitatea activităților
+        realizate în această cotă;
+      </div>
+
+
+      <div class="check">
+        observații
+        și ajustări,
+        după caz.
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Pentru cota de 25%,
+      planificarea trebuie
+      să permită identificarea
+      <strong>
+        locului în parcurs
+        și a finalității urmărite
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. MODEL
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="model"
+  >
+
+    <h2>
+      12. Model orientativ de planificare
+    </h2>
+
+
+    <div class="warning">
+
+      Tabelul de mai jos
+      este un
+      <strong>model orientativ</strong>,
+      nu un formular național unic.
+
+      <br><br>
+
+      Codurile competențelor
+      și formulările conținuturilor
+      se preiau
+      din programa școlară
+      aplicabilă clasei respective.
+
+    </div>
 
 
     <div class="table-wrap">
@@ -2467,10 +2991,6 @@ footer.site {
         <thead>
 
           <tr>
-
-            <th>
-              Nr.
-            </th>
 
             <th>
               Unitatea de învățare
@@ -2485,11 +3005,15 @@ footer.site {
             </th>
 
             <th>
-              Nr. de ore
+              Nr. ore
             </th>
 
             <th>
               Perioada
+            </th>
+
+            <th>
+              Cota de 25% / finalitate
             </th>
 
             <th>
@@ -2506,33 +3030,76 @@ footer.site {
           <tr>
 
             <td>
-              1
+              Unitatea de învățare 1
             </td>
 
             <td>
-              Denumirea unității
-            </td>
-
-            <td>
-              Codurile / formulările
+              Codurile exacte
               din programa aplicabilă
             </td>
 
             <td>
-              Conținuturile relevante
+              Conținuturile
+              asociate
             </td>
 
             <td>
-              Bugetul estimat
+              conform bugetului stabilit
             </td>
 
             <td>
-              Săptămână /
-              interval
+              perioada planificată
             </td>
 
             <td>
-              Ajustări
+              de exemplu:
+              consolidare / remediere /
+              transfer,
+              dacă este cazul
+            </td>
+
+            <td>
+              ajustări
+              și observații
+            </td>
+
+          </tr>
+
+
+          <tr>
+
+            <td>
+              Unitatea de învățare 2
+            </td>
+
+            <td>
+              Codurile exacte
+              din programa aplicabilă
+            </td>
+
+            <td>
+              Conținuturile
+              asociate
+            </td>
+
+            <td>
+              conform bugetului stabilit
+            </td>
+
+            <td>
+              perioada planificată
+            </td>
+
+            <td>
+              de exemplu:
+              aprofundare /
+              extindere /
+              performanță
+            </td>
+
+            <td>
+              ajustări
+              și observații
             </td>
 
           </tr>
@@ -2544,22 +3111,19 @@ footer.site {
     </div>
 
 
-    <div class="warning">
+    <div class="danger">
 
       <strong>
-        Acesta este un model didactic
-        de organizare,
-        nu afirmația că există
-        un singur formular universal
-        obligatoriu pentru orice context.
+        Nu inventa coduri
+        de competențe specifice.
       </strong>
 
       <br><br>
 
-      Dacă o instituție
-      sau un document oficial aplicabil
-      stabilește un format,
-      se utilizează acel format.
+      Acestea se preiau
+      exact din programa
+      aflată în vigoare
+      pentru clasa respectivă.
 
     </div>
 
@@ -2567,183 +3131,7 @@ footer.site {
 
 
   <!-- =======================================================
-       9. EXEMPLU
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="exemplu"
-  >
-
-    <h2>
-      9. Exemplu didactic pentru Fizică
-    </h2>
-
-
-    <div class="warning">
-
-      Exemplul următor
-      este construit
-      exclusiv pentru înțelegerea
-      structurii planificării.
-
-      <br><br>
-
-      <strong>
-        Nu reprezintă o planificare oficială
-        pentru o clasă anume
-        și nu reproduce coduri
-        de competențe dintr-o programă.
-      </strong>
-
-    </div>
-
-
-    <div class="physics-example">
-
-      <h3>
-        Unitate exemplificativă:
-        Circuite electrice
-      </h3>
-
-
-      <p>
-        Profesorul poate urmări,
-        în funcție de programa aplicabilă,
-        dezvoltarea unor competențe
-        legate de:
-      </p>
-
-
-      <ul>
-
-        <li>
-          identificarea și utilizarea
-          mărimilor electrice;
-        </li>
-
-        <li>
-          realizarea și interpretarea
-          unor circuite;
-        </li>
-
-        <li>
-          utilizarea instrumentelor
-          de măsură;
-        </li>
-
-        <li>
-          aplicarea relațiilor fizice;
-        </li>
-
-        <li>
-          formularea concluziilor
-          din activitatea experimentală.
-        </li>
-
-      </ul>
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Unitate
-            </th>
-
-            <th>
-              Competențe
-            </th>
-
-            <th>
-              Conținuturi posibile
-            </th>
-
-            <th>
-              Timp
-            </th>
-
-            <th>
-              Perioadă
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          <tr>
-
-            <td>
-              Circuite electrice
-            </td>
-
-            <td>
-              Se preiau
-              din programa aplicabilă
-            </td>
-
-            <td>
-              Intensitatea curentului;
-              tensiunea;
-              rezistența;
-              legea lui Ohm;
-              conexiuni electrice;
-              aplicații experimentale
-            </td>
-
-            <td>
-              Se stabilește
-              în raport cu
-              planul-cadru
-              și clasa concretă
-            </td>
-
-            <td>
-              Se stabilește
-              în funcție de
-              structura anului școlar
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-    <div class="exam-box">
-
-      Observă că exemplul
-      <strong>nu inventează</strong>
-      nici coduri de competență,
-      nici număr oficial de ore.
-
-      <br><br>
-
-      Aceste elemente
-      trebuie preluate
-      din documentele aplicabile
-      situației concrete.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       10. FLEXIBILITATE
+       13. FLEXIBILITATE
        ======================================================= -->
 
   <section
@@ -2752,99 +3140,83 @@ footer.site {
   >
 
     <h2>
-      10. Planificarea este un instrument flexibil
+      13. Planificarea este un document deschis
     </h2>
 
 
     <p>
-      Planificarea reprezintă
-      o anticipare argumentată
-      a parcursului didactic.
+      Planificarea calendaristică
+      nu este un document rigid,
+      stabilit definitiv
+      în prima zi
+      a anului școlar.
     </p>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Caracterul deschis al planificării
+      </span>
+
+      <p>
+        înseamnă că aceasta
+        poate fi actualizată periodic,
+        în funcție de
+        ritmul real al învățării,
+        rezultatele diagnozei,
+        progresul elevilor
+        și situațiile concrete
+        apărute pe parcurs.
+      </p>
+
+    </div>
 
 
     <p>
-      Activitatea reală
-      poate impune ajustări.
+      Componenta
+      privind utilizarea
+      cotei de 25%
+      se recomandă
+      a fi revizuită periodic:
     </p>
 
 
-    <div class="grid2">
+    <ul>
 
+      <li>
+        la începutul
+        unui nou interval de cursuri;
+      </li>
 
-      <div class="mini-card">
+      <li>
+        la finalul
+        unei unități de învățare;
+      </li>
 
-        <h3>
-          Ritmul clasei
-        </h3>
+      <li>
+        ori de câte ori
+        diagnosticul
+        sau progresul elevilor
+        impune acest lucru.
+      </li>
 
-        <p>
-          O competență poate necesita
-          mai mult timp
-          decât s-a estimat inițial.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Evaluarea formativă
-        </h3>
-
-        <p>
-          Poate evidenția
-          necesitatea unei secvențe
-          de remediere.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Activitatea experimentală
-        </h3>
-
-        <p>
-          Uneori necesită
-          reorganizarea timpului
-          sau a resurselor.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Contextul școlii
-        </h3>
-
-        <p>
-          Poate modifica
-          calendarizarea concretă
-          a activităților.
-        </p>
-
-      </div>
-
-    </div>
+    </ul>
 
 
     <div class="callout">
 
       <strong>
-        Flexibil nu înseamnă arbitrar.
+        Planificarea anticipă,
+        dar nu ignoră realitatea clasei.
       </strong>
 
       <br><br>
 
-      Modificările trebuie să păstreze
-      coerența cu programa
-      și atingerea finalităților curriculare.
+      Profesorul planifică,
+      observă progresul,
+      evaluează
+      și reajustează.
 
     </div>
 
@@ -2852,7 +3224,64 @@ footer.site {
 
 
   <!-- =======================================================
-       11. DIFERENTE
+       14. AVIZARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="avizare"
+  >
+
+    <h2>
+      14. Avizarea și evidența activităților
+    </h2>
+
+
+    <p>
+      Planificările calendaristice
+      care includ
+      alocarea timpului
+      aflat la dispoziția cadrului didactic
+      sunt avizate
+      de directorul
+      unității de învățământ.
+    </p>
+
+
+    <p>
+      Evidența activităților
+      realizate în această cotă
+      se face
+      <strong>sintetic</strong>
+      în planificarea calendaristică.
+    </p>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Principiul este:
+        claritate fără birocratizare inutilă.
+      </strong>
+
+      <br><br>
+
+      Planificarea trebuie
+      să evidențieze
+      ceea ce este necesar
+      pentru înțelegerea
+      deciziei didactice,
+      fără transformarea documentului
+      într-un scenariu
+      detaliat al fiecărei ore.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. DIFERENȚE
        ======================================================= -->
 
   <section
@@ -2861,7 +3290,7 @@ footer.site {
   >
 
     <h2>
-      11. Planificare calendaristică, unitate de învățare și lecție
+      15. Planificare calendaristică, unitate de învățare și lecție
     </h2>
 
 
@@ -2878,7 +3307,7 @@ footer.site {
             </th>
 
             <th>
-              Orizont
+              Ce organizează?
             </th>
 
             <th>
@@ -2905,12 +3334,14 @@ footer.site {
             </td>
 
             <td>
-              Parcurs amplu
+              Parcursul anual
             </td>
 
             <td>
               Cum distribui
-              curriculumul în timp?
+              programa
+              și timpul
+              pe parcursul anului?
             </td>
 
             <td>
@@ -2924,18 +3355,20 @@ footer.site {
 
             <td>
               <strong>
-                Unitatea de învățare
+                Proiectarea unității de învățare
               </strong>
             </td>
 
             <td>
-              Mai multe ore
+              Un parcurs coerent
+              de formare
+              a unor competențe
             </td>
 
             <td>
               Cum organizez
-              o secvență coerentă
-              pentru formarea competențelor?
+              activitățile
+              din această unitate?
             </td>
 
             <td>
@@ -2949,22 +3382,23 @@ footer.site {
 
             <td>
               <strong>
-                Proiectul de lecție
+                Proiectarea lecției
               </strong>
             </td>
 
             <td>
-              Activitate concretă
+              O activitate didactică
+              concretă
             </td>
 
             <td>
-              Ce fac profesorul
-              și elevii
-              în această lecție?
+              Ce fac
+              profesorul și elevii
+              în această activitate?
             </td>
 
             <td>
-              Ridicat
+              Detaliat
             </td>
 
           </tr>
@@ -2978,20 +3412,12 @@ footer.site {
 
     <div class="danger">
 
+      Planificarea calendaristică
       <strong>
-        Planificarea calendaristică
-        nu conține scenariul detaliat
+        nu conține
+        scenariul detaliat
         al fiecărei lecții.
       </strong>
-
-      <br><br>
-
-      Dacă descrii
-      minut cu minut
-      activitatea profesorului și elevilor,
-      ai trecut deja
-      la un alt nivel
-      al proiectării.
 
     </div>
 
@@ -2999,7 +3425,7 @@ footer.site {
 
 
   <!-- =======================================================
-       12. EXAMEN
+       16. EXAMEN
        ======================================================= -->
 
   <section
@@ -3008,140 +3434,93 @@ footer.site {
   >
 
     <h2>
-      12. Cum răspunzi la concurs?
+      16. Formulare pentru examen
     </h2>
-
-
-    <p>
-      Dacă cerința solicită
-      prezentarea planificării calendaristice,
-      un răspuns bine organizat
-      poate urma structura:
-    </p>
 
 
     <div class="exam-box">
 
       <p>
-        <strong>
-          1. Definiție
-        </strong>
+        Planificarea calendaristică
+        este documentul
+        de proiectare didactică
+        prin care cadrul didactic
+        organizează în timp
+        parcurgerea programei școlare,
+        corelând competențele,
+        conținuturile,
+        unitățile de învățare
+        și bugetul de timp disponibil.
+      </p>
+
+      <p>
+        Elaborarea planificării
+        pornește de la
+        programa școlară
+        și planul-cadru
+        aplicabile clasei respective,
+        precum și de la
+        calendarul anului școlar
+        și de la diagnoza
+        nivelului real al elevilor.
+      </p>
+
+      <p>
+        Profesorul analizează programa,
+        corelează competențele
+        cu conținuturile,
+        stabilește unitățile de învățare,
+        succesiunea acestora
+        și resursa de timp,
+        apoi realizează
+        calendarizarea.
+      </p>
+
+      <p>
+        Conform cadrului legislativ actual,
+        programa școlară
+        acoperă 75%
+        din orele de predare
+        și de evaluare,
+        iar 25% din timpul
+        alocat disciplinei
+        se află
+        la dispoziția cadrului didactic.
+      </p>
+
+      <p>
+        Acest timp poate fi utilizat,
+        în funcție de nevoile
+        și interesele elevilor,
+        pentru remediere,
+        consolidare,
+        aprofundare,
+        extindere,
+        performanță
+        și transferul competențelor
+        în contexte de viață.
+      </p>
+
+      <p>
+        În planificarea calendaristică,
+        utilizarea cotei de 25%
+        este evidențiată explicit
+        la nivel de unități de învățare
+        sau secvențe,
+        împreună cu finalitățile urmărite.
       </p>
 
       <p>
         Planificarea calendaristică
-        organizează în timp
-        parcursul curricular,
-        corelând competențele specifice,
-        conținuturile,
-        unitățile de învățare
-        și resursa de timp.
+        este un document deschis,
+        care poate fi revizuit
+        pe parcurs
+        în funcție de
+        diagnoza periodică,
+        progresul elevilor
+        și ritmul real
+        de parcurgere a programei.
       </p>
-
-
-      <p>
-        <strong>
-          2. Documente de referință
-        </strong>
-      </p>
-
-      <p>
-        Programa școlară,
-        planul-cadru,
-        structura anului școlar
-        și contextul clasei.
-      </p>
-
-
-      <p>
-        <strong>
-          3. Etapele
-        </strong>
-      </p>
-
-      <p>
-        Analiza programei,
-        asocierea competențe–conținuturi,
-        stabilirea unităților,
-        succesiunea,
-        alocarea timpului
-        și calendarizarea.
-      </p>
-
-
-      <p>
-        <strong>
-          4. Structura
-        </strong>
-      </p>
-
-      <p>
-        Unități de învățare,
-        competențe specifice,
-        conținuturi,
-        număr de ore,
-        perioadă
-        și observații,
-        conform modelului utilizat.
-      </p>
-
-
-      <p>
-        <strong>
-          5. Caracterul flexibil
-        </strong>
-      </p>
-
-      <p>
-        Planificarea poate fi ajustată
-        în funcție de progresul elevilor
-        și de situația didactică reală,
-        fără pierderea coerenței curriculare.
-      </p>
-
-    </div>
-
-
-    <div class="callout">
-
-      <strong>
-        Formula scurtă pentru examen:
-      </strong>
-
-      <br><br>
-
-      DEFINIȚIE
-
-      <br>
-
-      → DOCUMENTE
-
-      <br>
-
-      → ETAPE
-
-      <br>
-
-      → STRUCTURĂ
-
-      <br>
-
-      → FLEXIBILITATE
-
-    </div>
-
-
-    <div class="warning">
-
-      Dacă cerința solicită
-      realizarea efectivă
-      a unei planificări,
-      nu este suficientă
-      prezentarea teoriei.
-
-      Trebuie construit
-      tabelul sau produsul
-      cerut de subiect.
 
     </div>
 
@@ -3149,7 +3528,7 @@ footer.site {
 
 
   <!-- =======================================================
-       13. CAPCANE
+       17. CAPCANE
        ======================================================= -->
 
   <section
@@ -3158,7 +3537,7 @@ footer.site {
   >
 
     <h2>
-      13. Capcane frecvente
+      17. Capcane frecvente
     </h2>
 
 
@@ -3168,13 +3547,15 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Planificarea = cuprinsul manualului.
+          Planificarea se face
+          după manual.
         </strong>
 
-        <br>
+        <br><br>
 
-        Fals.
-        Reperul este programa.
+        Greșit.
+        Reperul curricular
+        este programa școlară.
 
       </div>
 
@@ -3182,15 +3563,16 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Conținutul este punctul de pornire absolut.
+          Cota de 25%
+          este CDEOȘ.
         </strong>
 
-        <br>
+        <br><br>
 
-        Incomplet.
-        În proiectarea pe competențe
-        trebuie urmărită
-        corelarea cu competențele specifice.
+        Greșit.
+        Este timp
+        aflat la dispoziția profesorului
+        în cadrul disciplinei.
 
       </div>
 
@@ -3198,13 +3580,16 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Codurile competențelor pot fi inventate.
+          Cele 25%
+          trebuie să fie
+          obligatoriu ore separate.
         </strong>
 
-        <br>
+        <br><br>
 
-        Fals.
-        Se preiau din programa aplicabilă.
+        Greșit.
+        Timpul poate fi
+        și distribuit integrat.
 
       </div>
 
@@ -3212,15 +3597,18 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Numărul de ore poate fi ales
-          fără verificarea planului-cadru.
+          Profesorul stabilește
+          cele 25%
+          fără diagnoză.
         </strong>
 
-        <br>
+        <br><br>
 
-        Fals.
-        Bugetul de timp
-        depinde de cadrul curricular aplicabil.
+        Greșit.
+        Utilizarea lor
+        trebuie raportată
+        la nevoile reale
+        ale elevilor.
 
       </div>
 
@@ -3228,15 +3616,15 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Planificarea este definitivă
-          din prima zi.
+          Planificarea nu se modifică
+          după ce a fost realizată.
         </strong>
 
-        <br>
+        <br><br>
 
-        Nu.
-        Poate necesita ajustări
-        argumentate.
+        Greșit.
+        Este un document deschis,
+        revizuibil periodic.
 
       </div>
 
@@ -3244,48 +3632,58 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Planificarea = proiectul de lecție.
+          Există un singur tabel
+          obligatoriu
+          pentru orice planificare.
         </strong>
 
-        <br>
+        <br><br>
 
-        Fals.
-        Sunt niveluri diferite
+        Greșit.
+        Important este
+        ca documentul să conțină
+        informațiile necesare
+        și să respecte
+        prevederile aplicabile.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Pot inventa codurile
+          competențelor
+          pentru un exemplu.
+        </strong>
+
+        <br><br>
+
+        Greșit.
+        Codurile se preiau
+        exact din programa
+        aplicabilă.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Planificarea calendaristică
+          descrie minut cu minut
+          lecțiile.
+        </strong>
+
+        <br><br>
+
+        Greșit.
+        Acesta este un nivel
+        mult mai general
         de proiectare.
 
       </div>
 
-
-      <div class="trap">
-
-        <strong>
-          Orice tabel este obligatoriu universal.
-        </strong>
-
-        <br>
-
-        Nu.
-        Se verifică modelul
-        și cerințele aplicabile.
-
-      </div>
-
-
-      <div class="trap">
-
-        <strong>
-          Scopul este doar
-          să terminăm toate capitolele.
-        </strong>
-
-        <br>
-
-        Nu.
-        Scopul este
-        formarea competențelor
-        prevăzute curricular.
-
-      </div>
 
     </div>
 
@@ -3293,7 +3691,7 @@ footer.site {
 
 
   <!-- =======================================================
-       14. RECAP
+       18. RECAPITULARE
        ======================================================= -->
 
   <section
@@ -3302,7 +3700,7 @@ footer.site {
   >
 
     <h2>
-      14. Recapitulare rapidă
+      18. Recapitulare rapidă
     </h2>
 
 
@@ -3326,8 +3724,8 @@ footer.site {
           Resursa de timp
         </b>
 
-        Se verifică
-        prin cadrul aplicabil.
+        Plan-cadru
+        + calendar școlar.
 
       </div>
 
@@ -3335,11 +3733,10 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Competențe
+          Organizare
         </b>
 
-        Se preiau
-        din programă.
+        Unități de învățare.
 
       </div>
 
@@ -3347,11 +3744,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Conținuturi
+          75%
         </b>
 
-        Susțin formarea
-        competențelor.
+        Timp acoperit
+        prin programă.
 
       </div>
 
@@ -3359,11 +3756,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Unități
+          25%
         </b>
 
-        Grupează coerent
-        parcursul de învățare.
+        Timp la dispoziția
+        profesorului.
 
       </div>
 
@@ -3371,10 +3768,10 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Timp
+          Fundamentare
         </b>
 
-        Se distribuie realist.
+        Diagnoza elevilor.
 
       </div>
 
@@ -3382,11 +3779,15 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Calendarizare
+          Finalități 25%
         </b>
 
-        Unitățile sunt poziționate
-        în parcursul anual.
+        Remediere,
+        consolidare,
+        aprofundare,
+        extindere,
+        performanță,
+        transfer.
 
       </div>
 
@@ -3394,11 +3795,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Flexibilitate
+          Distribuire
         </b>
 
-        Ajustări argumentate,
-        nu improvizație.
+        Ore distincte
+        sau timp integrat.
 
       </div>
 
@@ -3406,26 +3807,14 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Nivel
+          Caracter
         </b>
 
-        Mai general decât
-        proiectarea unității
-        și a lecției.
+        Document deschis
+        și revizuibil.
 
       </div>
 
-
-      <div class="recap-item">
-
-        <b>
-          2027
-        </b>
-
-        Documentele oficiale
-        trebuie reverificate.
-
-      </div>
 
     </div>
 
@@ -3433,58 +3822,99 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Formula de 30 de secunde:
+        Schema fundamentală:
       </strong>
 
       <br><br>
 
-      PROGRAMĂ
+      PROGRAMĂ + PLAN-CADRU
 
       <br>
+
       ↓
-      <br>
-
-      COMPETENȚE + CONȚINUTURI
 
       <br>
+
+      BUGET DE TIMP
+
+      <br>
+
       ↓
+
+      <br>
+
+      DIAGNOZĂ
+
+      <br>
+
+      ↓
+
       <br>
 
       UNITĂȚI DE ÎNVĂȚARE
 
       <br>
-      ↓
-      <br>
 
-      RESURSĂ DE TIMP
+      ↓
 
       <br>
+
+      COMPETENȚE + CONȚINUTURI
+
+      <br>
+
       ↓
+
+      <br>
+
+      75% + 25%
+
+      <br>
+
+      ↓
+
       <br>
 
       CALENDARIZARE
 
       <br>
+
       ↓
+
       <br>
 
-      AJUSTARE
+      MONITORIZARE ȘI AJUSTARE
 
     </div>
 
+  </section>
 
-    <h3>
-      Autoevaluare
-    </h3>
+
+  <!-- =======================================================
+       19. AUTOEVALUARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="autoevaluare"
+  >
+
+    <h2>
+      19. Autoevaluare
+    </h2>
 
 
     <div class="question">
 
       <b>1.</b>
+      Definește
+      planificarea calendaristică.
 
-      Ce rol are
-      planificarea calendaristică
-      în proiectarea didactică?
+      <br>
+
+      <a href="#definitie">
+        Verifică secțiunea 1
+      </a>
 
     </div>
 
@@ -3492,10 +3922,15 @@ footer.site {
     <div class="question">
 
       <b>2.</b>
+      Care sunt
+      documentele principale
+      de la care pornește profesorul?
 
-      Care este documentul curricular
-      de la care trebuie
-      să pornească profesorul?
+      <br>
+
+      <a href="#documente">
+        Verifică secțiunea 3
+      </a>
 
     </div>
 
@@ -3503,10 +3938,15 @@ footer.site {
     <div class="question">
 
       <b>3.</b>
+      Cum se stabilește
+      bugetul anual
+      de timp?
 
-      Care este relația
-      dintre competențe
-      și conținuturi?
+      <br>
+
+      <a href="#buget">
+        Verifică secțiunea 4
+      </a>
 
     </div>
 
@@ -3514,10 +3954,15 @@ footer.site {
     <div class="question">
 
       <b>4.</b>
+      Care sunt
+      etapele elaborării
+      planificării?
 
-      Enumără în ordine
-      etapele principale
-      ale elaborării planificării.
+      <br>
+
+      <a href="#etape">
+        Verifică secțiunea 6
+      </a>
 
     </div>
 
@@ -3525,11 +3970,14 @@ footer.site {
     <div class="question">
 
       <b>5.</b>
+      Ce semnificație are
+      raportul 75% – 25%?
 
-      De ce bugetul de timp
-      nu poate fi stabilit
-      doar după numărul
-      de pagini din manual?
+      <br>
+
+      <a href="#cota">
+        Verifică secțiunea 7
+      </a>
 
     </div>
 
@@ -3537,11 +3985,14 @@ footer.site {
     <div class="question">
 
       <b>6.</b>
+      Pentru ce poate fi
+      utilizată cota de 25%?
 
-      Care este diferența
-      dintre planificarea calendaristică
-      și proiectarea
-      unei unități de învățare?
+      <br>
+
+      <a href="#destinatii">
+        Verifică secțiunea 8
+      </a>
 
     </div>
 
@@ -3549,107 +4000,141 @@ footer.site {
     <div class="question">
 
       <b>7.</b>
+      Cota de 25%
+      trebuie organizată
+      numai în ore distincte?
 
-      De ce planificarea
+      <br>
+
+      <a href="#distribuire">
+        Verifică secțiunea 9
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>8.</b>
+      Ce rol are
+      diagnoza inițială
+      și periodică?
+
+      <br>
+
+      <a href="#diagnoza">
+        Verifică secțiunea 10
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>9.</b>
+      Ce elemente
       trebuie să permită
-      ajustări pe parcurs?
+      identificarea
+      într-o planificare?
+
+      <br>
+
+      <a href="#structura">
+        Verifică secțiunea 11
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>10.</b>
+      De ce este planificarea
+      un document deschis?
+
+      <br>
+
+      <a href="#flexibilitate">
+        Verifică secțiunea 13
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>11.</b>
+      Care este diferența
+      dintre planificarea calendaristică,
+      proiectarea unității de învățare
+      și proiectarea unei lecții?
+
+      <br>
+
+      <a href="#diferente">
+        Verifică secțiunea 15
+      </a>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Consideră tema consolidată
+      dacă poți explica,
+      fără să consulți lecția:
+
+      <br><br>
+
+      <strong>
+        programă
+        → buget de timp
+        → diagnoză
+        → unități de învățare
+        → 75% + 25%
+        → calendarizare
+        → ajustare.
+      </strong>
 
     </div>
 
 
     <h3>
-      Surse și repere
+      Surse normative și curriculare
     </h3>
 
 
-    <ul class="sources">
+    <ul>
 
       <li>
-        Programa pentru concursul
-        de ocupare a posturilor didactice —
-        disciplina Fizică,
-        versiunea disponibilă pentru 2026.
+        Legea învățământului preuniversitar
+        nr. 198/2023,
+        cu modificările și completările ulterioare;
       </li>
 
       <li>
-        Planurile-cadru
-        pentru învățământul gimnazial
-        și liceal aflate în vigoare,
-        conform situației concrete.
+        Instrucțiunea nr. 8
+        din 1 septembrie 2025
+        privind utilizarea timpului
+        aflat la dispoziția cadrului didactic;
       </li>
 
       <li>
-        Programele școlare de Fizică
-        aflate în vigoare.
+        planul-cadru
+        aplicabil clasei;
       </li>
 
       <li>
-        M.E.C. – C.N.C.,
-        Ghid metodologic pentru aplicarea
-        programei de Fizică.
-        Clasele VI–VIII,
-        Editura Aramis,
-        București,
-        2001.
+        programa școlară
+        aplicabilă disciplinei Fizică;
       </li>
 
       <li>
-        M.E.C. – C.N.C.,
-        Ghid metodologic.
-        Aria curriculară
-        Matematică și Științe ale naturii.
-        Liceu,
-        Editura Aramis,
-        București,
-        2001.
-      </li>
-
-      <li>
-        Ciascai, L.,
-        Didactica fizicii,
-        Editura Corint,
-        București,
-        2001.
+        calendarul
+        anului școlar în curs.
       </li>
 
     </ul>
-
-
-    <div class="source-note">
-
-      <strong>
-        Notă metodologică:
-      </strong>
-
-      programa de Titularizare Fizică 2026
-      cere explicit
-      „planificare calendaristică”,
-      dar nu impune,
-      prin formularea punctului din tematică,
-      un singur tabel universal
-      care să fie reprodus mecanic.
-
-      <br><br>
-
-      Modelul de tabel
-      și exemplele din această lecție
-      au rol pedagogic.
-      Pentru o situație reală
-      se verifică programa,
-      planul-cadru,
-      structura anului școlar
-      și eventualele modele
-      sau cerințe instituționale aplicabile.
-
-      <br><br>
-
-      Pentru Titularizare Fizică 2027,
-      programa oficială
-      și documentele curriculare
-      în vigoare trebuie reverificate
-      după publicare.
-
-    </div>
 
   </section>
 
@@ -3680,831 +4165,714 @@ footer.site {
 
 <footer class="site">
 
-  Tematica pentru didactica Fizicii ·
+  Didactica Fizicii ·
   Proiectarea didactică ·
-  Planificarea calendaristică ·
-  Titularizare Fizică
+  Planificarea calendaristică
 
 </footer>
 
 
 <!-- =========================================================
      SCENARIU AUDIO ASCUNS
-     Playerul este generat automat
-     de componenta audio comună.
+
+     REGULI:
+     - "curriculum" se redă fonetic "curiculum";
+     - "curricular" se redă fonetic "curicular";
+     - procentele se scriu în cuvinte;
+     - acronimele greu de pronunțat sunt evitate;
+     - formulările sunt scurte pentru sinteza vocală.
      ========================================================= -->
 
 <template id="audio-lesson-script">
 
+
   <p>
     Bun găsit.
-    În această lecție discutăm
-    despre planificarea calendaristică,
-    primul nivel important
-    al proiectării activității didactice
-    pe care trebuie să îl stăpâniți
-    pentru Titularizarea la Fizică.
+    În această lecție
+    studiem planificarea calendaristică.
   </p>
 
-  <p>
-    Programa disponibilă
-    pentru Titularizare Fizică 2026
-    include explicit,
-    în proiectarea activității didactice,
-    planificarea calendaristică,
-    proiectarea unității de învățare
-    și proiectele de lecție.
-  </p>
 
   <p>
-    Pentru concursul din 2027,
-    formularea trebuie verificată din nou
-    după publicarea programei oficiale.
+    Ideea centrală este simplă.
   </p>
 
-  <p>
-    Începem cu ideea centrală.
-  </p>
 
   <p>
     Planificarea calendaristică
     este documentul
-    prin care profesorul transformă
+    prin care profesorul
+    organizează în timp
+    parcurgerea programei școlare.
+  </p>
+
+
+  <p>
+    Ea corelează
+    competențele,
+    conținuturile,
+    unitățile de învățare
+    și timpul disponibil.
+  </p>
+
+
+  <p>
+    Cu alte cuvinte,
+    profesorul transformă
     programa școlară
     într-un parcurs didactic
-    organizat în timp.
+    coerent pentru anul școlar.
   </p>
 
-  <p>
-    Rețineți formularea:
-    programa ne spune
-    ce trebuie urmărit curricular,
-    iar planificarea ne ajută
-    să organizăm acest parcurs
-    pe durata anului școlar.
-  </p>
-
-  <p>
-    Aici apare
-    una dintre cele mai frecvente
-    confuzii ale candidaților.
-  </p>
 
   <p>
     Planificarea nu este
     cuprinsul manualului
-    trecut într-un tabel
-    și împărțit pe săptămâni.
+    împărțit pe săptămâni.
   </p>
 
-  <p>
-    Reperul este programa.
-  </p>
 
   <p>
-    Manualul este
-    o resursă didactică.
+    Reperul principal
+    este programa școlară.
   </p>
 
-  <p>
-    Profesorul poate utiliza
-    un anumit manual,
-    dar proiectarea curriculară
-    trebuie să rămână
-    raportată la programă.
-  </p>
 
   <p>
-    Unde se află
-    planificarea calendaristică
-    în ansamblul proiectării?
+    Manualul
+    este o resursă
+    de sprijin.
   </p>
 
-  <p>
-    Avem mai întâi
-    programa școlară.
-  </p>
 
   <p>
-    Din ea construim
-    planificarea calendaristică.
+    În ansamblul proiectării didactice,
+    avem următoarea succesiune.
   </p>
 
-  <p>
-    Planificarea ne oferă
-    perspectiva amplă
-    asupra parcursului.
-  </p>
 
   <p>
-    Apoi proiectăm
-    unitățile de învățare.
+    Programa școlară.
   </p>
 
-  <p>
-    Iar la un nivel
-    și mai concret,
-    proiectăm lecțiile.
-  </p>
 
   <p>
-    Deci:
-    programă,
-    planificare,
-    unitate de învățare,
-    lecție.
+    Planificarea calendaristică.
   </p>
+
+
+  <p>
+    Proiectarea unității
+    de învățare.
+  </p>
+
+
+  <p>
+    Apoi,
+    proiectarea
+    activității didactice
+    sau a lecției.
+  </p>
+
 
   <p>
     De la general
     spre particular.
   </p>
 
+
   <p>
-    Ce trebuie să aibă profesorul
-    înainte să înceapă
-    planificarea?
+    Ce documente
+    trebuie consultate
+    înainte de realizarea
+    planificării?
   </p>
+
 
   <p>
     În primul rând,
     programa școlară
-    aplicabilă clasei respective.
+    în vigoare
+    pentru clasa respectivă.
   </p>
 
+
   <p>
-    De acolo preluăm
-    competențele specifice,
+    Din programă
+    preluăm
+    competențele,
     conținuturile
-    și celelalte repere curriculare.
+    și celelalte
+    repere curiculare.
   </p>
+
 
   <p>
     În al doilea rând,
-    avem nevoie
-    de planul-cadru,
-    pentru a cunoaște
-    resursa de timp
-    asociată disciplinei
+    verificăm planul cadru.
+  </p>
+
+
+  <p>
+    Planul cadru
+    ne arată
+    timpul alocat disciplinei
     în situația concretă.
   </p>
 
-  <p>
-    Nu inventăm
-    numărul de ore.
-  </p>
-
-  <p>
-    Îl verificăm
-    în documentele aplicabile.
-  </p>
 
   <p>
     În al treilea rând,
-    trebuie să cunoaștem
-    structura anului școlar.
+    consultăm calendarul
+    anului școlar.
   </p>
 
-  <p>
-    Planificarea trebuie să fie
-    posibilă în timp real,
-    nu doar frumoasă
-    pe hârtie.
-  </p>
 
   <p>
-    În sfârșit,
-    contează contextul clasei.
+    Nu presupunem automat
+    un anumit număr
+    de săptămâni.
   </p>
 
-  <p>
-    Două clase
-    pot avea aceeași programă,
-    dar un ritm
-    și nevoi diferite.
-  </p>
 
   <p>
-    Acest lucru nu schimbă
-    finalitățile curriculare,
-    dar poate influența
-    modul concret
-    în care distribuim timpul.
+    Stabilim bugetul
+    real de timp
+    pentru anul școlar.
   </p>
 
-  <p>
-    Ajungem la relația
-    dintre competențe
-    și conținuturi.
-  </p>
 
   <p>
-    În proiectarea centrată
-    pe competențe,
-    nu pornim doar de la:
-    ce capitol predau?
+    Mai avem nevoie
+    de informații
+    despre clasa concretă.
   </p>
 
-  <p>
-    Întrebarea mai bună este:
-    ce competență specifică
-    urmăresc
-    și prin ce conținut
-    și activitate
-    poate fi dezvoltată?
-  </p>
 
   <p>
-    Conținuturile
-    nu dispar.
+    Nivelul elevilor,
+    achizițiile anterioare,
+    dificultățile,
+    ritmul de lucru
+    și resursele disponibile.
   </p>
 
-  <p>
-    Fizica rămâne Fizică:
-    mecanică,
-    termodinamică,
-    electricitate,
-    optică
-    și celelalte domenii.
-  </p>
 
   <p>
-    Dar conținuturile
-    sunt utilizate
-    pentru formarea
-    și dezvoltarea competențelor
-    prevăzute de programă.
+    Un rol important
+    îl are
+    diagnoza inițială.
   </p>
 
-  <p>
-    O atenționare importantă
-    pentru concurs.
-  </p>
 
   <p>
-    Dacă ni se cere
-    o competență specifică,
-    nu inventăm
-    codul sau formularea.
+    Diagnoza arată
+    nivelul real
+    de la care pornim.
   </p>
 
-  <p>
-    O preluăm
-    din programa școlară
-    corespunzătoare.
-  </p>
 
   <p>
-    Următorul pas
-    este stabilirea
-    unităților de învățare.
+    După analiza programei,
+    competențele
+    și conținuturile
+    sunt grupate
+    în unități de învățare.
   </p>
 
-  <p>
-    O unitate de învățare
-    reprezintă
-    un parcurs coerent,
-    mai amplu decât
-    o singură lecție.
-  </p>
 
   <p>
-    În planificarea calendaristică
-    nu descriem
-    minut cu minut
-    ceea ce se întâmplă
-    în fiecare oră.
+    Unitatea de învățare
+    este un parcurs
+    didactic coerent,
+    mai amplu
+    decât o singură lecție.
   </p>
 
+
   <p>
-    Stabilim unitatea,
+    În planificare
+    stabilim unitatea,
     competențele urmărite,
     conținuturile,
-    timpul
-    și poziția ei
-    în parcursul anual.
+    numărul de ore
+    și perioada
+    în care se desfășoară.
   </p>
 
-  <p>
-    Cum elaborăm efectiv
-    planificarea?
-  </p>
 
   <p>
-    Primul pas:
-    citim integral programa.
+    Trecem acum
+    la o regulă
+    foarte importantă.
   </p>
 
-  <p>
-    Nu doar lista
-    de conținuturi.
-  </p>
 
   <p>
-    Identificăm competențele,
-    conținuturile
-    și reperele relevante.
+    Pentru fiecare disciplină,
+    programa școlară
+    acoperă
+    șaptezeci și cinci la sută
+    din orele de predare
+    și evaluare.
   </p>
 
-  <p>
-    Al doilea pas:
-    corelăm competențele
-    cu domeniile de conținut.
-  </p>
 
   <p>
-    Al treilea:
-    construim
-    unitățile de învățare.
+    Douăzeci și cinci la sută
+    din timpul disciplinei
+    se află
+    la dispoziția
+    cadrului didactic.
   </p>
 
-  <p>
-    Al patrulea:
-    stabilim succesiunea.
-  </p>
 
   <p>
-    Aici trebuie
-    să existe logică.
+    Reține:
+    șaptezeci și cinci la sută
+    programă,
+    douăzeci și cinci la sută
+    timp la dispoziția profesorului.
   </p>
 
-  <p>
-    Unele achiziții
-    sunt prerechizite
-    pentru altele.
-  </p>
 
   <p>
-    De aceea,
-    nu ordonăm unitățile
-    pur și simplu
-    după preferința personală.
+    Această cotă
+    de douăzeci și cinci la sută
+    nu este
+    curiculumul la decizia elevului
+    din oferta școlii.
   </p>
 
-  <p>
-    Urmează
-    estimarea bugetului de timp.
-  </p>
 
   <p>
-    Aici apar frecvent
-    planificări nerealiste.
+    Este timp
+    aflat la dispoziția profesorului
+    în cadrul disciplinei respective.
   </p>
+
+
+  <p>
+    Ce poate face profesorul
+    în acest timp?
+  </p>
+
+
+  <p>
+    Poate organiza
+    activități de remediere.
+  </p>
+
+
+  <p>
+    Remedierea
+    urmărește corectarea
+    lacunelor de bază.
+  </p>
+
+
+  <p>
+    Poate organiza
+    activități de consolidare.
+  </p>
+
+
+  <p>
+    Consolidarea
+    urmărește fixarea
+    și exersarea
+    achizițiilor.
+  </p>
+
+
+  <p>
+    Poate organiza
+    activități de aprofundare.
+  </p>
+
+
+  <p>
+    Aprofundarea
+    poate include
+    probleme mai complexe,
+    analiză
+    și argumentare.
+  </p>
+
+
+  <p>
+    Poate realiza
+    activități de extindere.
+  </p>
+
 
   <p>
     De exemplu,
-    o unitate
-    care include experimente,
-    rezolvare de probleme
-    și evaluare
-    primește prea puține ore.
+    proiecte aplicative,
+    investigații
+    sau activități
+    cu resurse digitale.
   </p>
 
-  <p>
-    Pe hârtie,
-    totul pare să încapă.
-  </p>
 
   <p>
-    În clasă,
-    profesorul descoperă
-    că nu există timp
-    pentru învățare reală.
+    Poate organiza
+    activități
+    pentru performanță.
   </p>
 
-  <p>
-    La Fizică,
-    trebuie să luăm în calcul
-    timpul necesar
-    activităților experimentale,
-    măsurătorilor,
-    analizei datelor,
-    problemelor,
-    feedbackului
-    și consolidării.
-  </p>
 
   <p>
-    Scopul planificării
-    nu este doar
-    să terminăm capitolele.
+    Și poate urmări
+    transferul competențelor
+    în situații
+    din viața de zi cu zi.
   </p>
 
-  <p>
-    Scopul este
-    să creăm condițiile
-    pentru formarea competențelor.
-  </p>
 
   <p>
-    După estimarea timpului
-    urmează calendarizarea.
+    Utilizarea acestor activități
+    nu se decide
+    arbitrar.
   </p>
 
-  <p>
-    Adică plasăm
-    unitățile de învățare
-    în perioadele concrete
-    ale anului școlar.
-  </p>
 
   <p>
-    La final,
-    verificăm coerența.
+    Ea se bazează
+    pe diagnoza inițială
+    și,
+    atunci când este necesar,
+    pe diagnoze periodice.
   </p>
 
-  <p>
-    Am urmărit
-    toate competențele necesare?
-  </p>
 
   <p>
-    Am acoperit
-    conținuturile programei?
+    Profesorul observă
+    progresul real
+    al elevilor
+    și adaptează
+    planificarea.
   </p>
 
-  <p>
-    Este realist
-    bugetul de timp?
-  </p>
 
   <p>
-    Există o succesiune logică?
+    În planificarea calendaristică,
+    utilizarea cotei
+    de douăzeci și cinci la sută
+    trebuie marcată explicit.
   </p>
 
-  <p>
-    Aceste întrebări
-    sunt mai importante
-    decât simplul aspect
-    al tabelului.
-  </p>
 
   <p>
-    Apropo de tabel,
-    ce rubrici putem întâlni?
+    Se precizează
+    locul în unitatea
+    de învățare
+    sau în secvența didactică,
+    precum și finalitatea urmărită.
   </p>
 
-  <p>
-    Un model uzual
-    poate include:
-    unitatea de învățare,
-    competențele specifice,
-    conținuturile,
-    numărul de ore,
-    perioada
-    și observațiile.
-  </p>
 
   <p>
-    Atenție însă.
-  </p>
-
-  <p>
-    Nu trebuie să transformăm
-    acest model
-    într-o regulă absolută
-    și universală.
-  </p>
-
-  <p>
-    Dacă există
-    un format oficial
-    sau instituțional aplicabil,
-    îl folosim pe acela.
-  </p>
-
-  <p>
-    La concurs,
-    urmăm exact
-    cerința subiectului.
-  </p>
-
-  <p>
-    Să luăm acum
-    un exemplu de Fizică.
-  </p>
-
-  <p>
-    Presupunem
-    o unitate
-    despre circuite electrice.
-  </p>
-
-  <p>
-    Repet:
-    este doar
-    un exemplu didactic.
-  </p>
-
-  <p>
-    Nu inventăm
-    un cod de competență
-    și nici un număr oficial
+    O altă idee importantă:
+    aceste procente
+    nu obligă profesorul
+    să organizeze
+    două categorii separate
     de ore.
   </p>
 
-  <p>
-    Profesorul identifică
-    în programa aplicabilă
-    competențele
-    pe care le poate dezvolta
-    prin această unitate.
-  </p>
 
   <p>
-    Conținuturile pot include,
-    în funcție de programă,
-    intensitatea curentului,
-    tensiunea,
-    rezistența,
-    legea lui Om
-    și conexiunile electrice.
+    Timpul aflat
+    la dispoziția profesorului
+    poate fi organizat
+    în ore distincte.
   </p>
 
-  <p>
-    În unitate
-    pot apărea activități
-    experimentale,
-    interpretarea datelor
-    și rezolvarea de probleme.
-  </p>
 
   <p>
-    Profesorul estimează timpul
-    și plasează unitatea
-    în parcursul anual.
+    Dar poate fi
+    și distribuit
+    în interiorul orelor,
+    dacă totalul
+    respectă ponderea legală.
   </p>
 
-  <p>
-    Acesta este nivelul
-    planificării calendaristice.
-  </p>
 
   <p>
-    Dacă începem
-    să descriem exact
-    cum conectăm ampermetrul,
-    ce întrebare adresăm elevilor
-    și ce concluzie
-    vor formula,
-    ne apropiem deja
-    de proiectarea unității
-    sau a lecției.
+    În această situație,
+    modul de distribuire
+    trebuie menționat
+    explicit
+    în planificare.
   </p>
 
+
   <p>
-    Ajungem astfel
-    la diferența
-    dintre cele trei niveluri.
+    Luăm un exemplu numeric.
   </p>
+
+
+  <p>
+    Dacă bugetul anual
+    este de
+    șaptezeci și două de ore,
+    douăzeci și cinci la sută
+    reprezintă
+    echivalentul
+    a optsprezece ore.
+  </p>
+
+
+  <p>
+    Aceste optsprezece ore
+    pot fi planificate
+    separat
+    sau pot fi distribuite
+    în interiorul
+    activităților didactice.
+  </p>
+
+
+  <p>
+    Pentru Fizică,
+    timpul poate fi utilizat
+    pentru remedierea
+    dificultăților de calcul,
+    consolidarea
+    interpretării graficelor,
+    activități experimentale
+    suplimentare,
+    probleme de aprofundare
+    sau proiecte aplicative.
+  </p>
+
 
   <p>
     Planificarea calendaristică
-    răspunde:
-    cum distribui curriculumul
+    este un document deschis.
+  </p>
+
+
+  <p>
+    Asta înseamnă
+    că poate fi modificată
+    pe parcurs.
+  </p>
+
+
+  <p>
+    Revizuirea se poate face
+    la începutul
+    unui nou interval de cursuri,
+    la finalul
+    unei unități de învățare
+    sau atunci când
+    progresul elevilor
+    o impune.
+  </p>
+
+
+  <p>
+    Profesorul nu trebuie
+    să urmeze mecanic
+    o planificare
+    care nu mai corespunde
+    situației reale a clasei.
+  </p>
+
+
+  <p>
+    Planifică,
+    observă,
+    evaluează
+    și reajustează.
+  </p>
+
+
+  <p>
+    Ce trebuie să apară
+    într-un model funcțional
+    de planificare?
+  </p>
+
+
+  <p>
+    Unitățile de învățare.
+  </p>
+
+
+  <p>
+    Competențele.
+  </p>
+
+
+  <p>
+    Conținuturile.
+  </p>
+
+
+  <p>
+    Numărul de ore.
+  </p>
+
+
+  <p>
+    Perioada de desfășurare.
+  </p>
+
+
+  <p>
+    Utilizarea explicită
+    a cotei
+    de douăzeci și cinci la sută,
+    acolo unde este planificată.
+  </p>
+
+
+  <p>
+    Finalitatea urmărită.
+  </p>
+
+
+  <p>
+    Și observațiile
+    necesare
+    pentru ajustare.
+  </p>
+
+
+  <p>
+    Nu există motiv
+    să inventăm codurile
+    competențelor.
+  </p>
+
+
+  <p>
+    Acestea se preiau
+    exact
+    din programa școlară
+    aplicabilă clasei.
+  </p>
+
+
+  <p>
+    Planificarea calendaristică
+    nu trebuie confundată
+    cu proiectarea unității
+    de învățare.
+  </p>
+
+
+  <p>
+    Planificarea răspunde:
+    cum distribui
+    parcursul curicular
     în timp?
   </p>
 
+
   <p>
     Proiectarea unității
+    de învățare
     răspunde:
     cum organizez
-    o secvență coerentă
+    un parcurs coerent
     pentru formarea
     unor competențe?
   </p>
 
+
   <p>
-    Proiectul de lecție
+    Proiectarea lecției
     răspunde:
     ce fac concret
-    profesorul și elevii
+    profesorul
+    și elevii
     în această activitate?
   </p>
 
-  <p>
-    O altă idee importantă:
-    planificarea nu trebuie privită
-    ca un document rigid,
-    imposibil de modificat.
-  </p>
-
-  <p>
-    Activitatea reală
-    poate arăta
-    că elevii au nevoie
-    de mai mult timp.
-  </p>
-
-  <p>
-    Evaluarea formativă
-    poate evidenția
-    o dificultate
-    care necesită remediere.
-  </p>
-
-  <p>
-    O activitate experimentală
-    poate necesita
-    reorganizarea unei secvențe.
-  </p>
-
-  <p>
-    Profesorul poate ajusta
-    planificarea.
-  </p>
-
-  <p>
-    Dar flexibilitatea
-    nu înseamnă arbitrar.
-  </p>
-
-  <p>
-    Nu renunțăm
-    pur și simplu
-    la competențe sau conținuturi
-    pentru că nu ne mai încape timpul.
-  </p>
-
-  <p>
-    Ajustarea trebuie
-    să păstreze
-    coerența cu programa.
-  </p>
-
-  <p>
-    Pentru concurs,
-    dacă trebuie
-    să prezentăm teoretic
-    planificarea calendaristică,
-    putem folosi
-    o structură în cinci pași.
-  </p>
-
-  <p>
-    Unu:
-    definiția.
-  </p>
-
-  <p>
-    Doi:
-    documentele de referință.
-  </p>
-
-  <p>
-    Trei:
-    etapele elaborării.
-  </p>
-
-  <p>
-    Patru:
-    structura documentului.
-  </p>
-
-  <p>
-    Cinci:
-    caracterul flexibil
-    și adaptabil.
-  </p>
-
-  <p>
-    Dacă însă cerința
-    spune să elaborăm
-    o planificare,
-    teoria singură
-    nu este suficientă.
-  </p>
-
-  <p>
-    Trebuie să construim
-    efectiv produsul cerut.
-  </p>
-
-  <p>
-    Să trecem rapid
-    prin capcanele frecvente.
-  </p>
-
-  <p>
-    Prima:
-    planificarea este
-    cuprinsul manualului.
-    Fals.
-  </p>
-
-  <p>
-    A doua:
-    pot inventa
-    competențele specifice.
-    Fals.
-  </p>
-
-  <p>
-    A treia:
-    pot stabili
-    oricâte ore doresc,
-    fără să verific
-    cadrul curricular.
-    Fals.
-  </p>
-
-  <p>
-    A patra:
-    planificarea este
-    proiectul de lecție.
-    Fals.
-  </p>
-
-  <p>
-    A cincea:
-    planificarea nu poate
-    fi ajustată.
-    Fals.
-  </p>
-
-  <p>
-    Și a șasea:
-    scopul planificării
-    este doar să terminăm
-    toate capitolele.
-    Fals.
-  </p>
-
-  <p>
-    Scopul este
-    organizarea coerentă
-    a parcursului
-    pentru formarea competențelor.
-  </p>
 
   <p>
     Recapitulăm.
   </p>
 
-  <p>
-    Programa este
-    reperul curricular.
-  </p>
 
   <p>
-    Identificăm
-    competențele
-    și conținuturile.
+    Reperul principal:
+    programa școlară.
   </p>
 
-  <p>
-    Construim
-    unitățile de învățare.
-  </p>
 
   <p>
-    Stabilim succesiunea.
+    Timpul disciplinei:
+    planul cadru
+    și calendarul școlar.
   </p>
 
-  <p>
-    Alocăm realist timpul.
-  </p>
 
   <p>
-    Calendarizăm.
+    Organizarea:
+    unități de învățare.
   </p>
 
-  <p>
-    Verificăm coerența.
-  </p>
 
   <p>
-    Și ajustăm,
-    atunci când este necesar,
-    fără să pierdem
-    finalitățile curriculare.
+    Șaptezeci și cinci la sută:
+    timpul acoperit
+    prin programă.
   </p>
 
-  <p>
-    Formula finală este:
-    programă,
-    competențe și conținuturi,
-    unități de învățare,
-    timp,
-    calendarizare,
-    ajustare.
-  </p>
 
   <p>
-    Pentru Titularizare Fizică 2027,
-    după publicarea
-    documentelor oficiale,
-    trebuie reverificate
-    programa de concurs,
-    programele școlare
-    și celelalte repere
-    curriculare aplicabile.
+    Douăzeci și cinci la sută:
+    timp la dispoziția
+    cadrului didactic.
   </p>
 
+
   <p>
-    Aceasta a fost lecția
-    despre planificarea calendaristică.
+    Fundamentarea:
+    diagnoza
+    și progresul elevilor.
   </p>
+
+
+  <p>
+    Finalitățile:
+    remediere,
+    consolidare,
+    aprofundare,
+    extindere,
+    performanță
+    și transfer.
+  </p>
+
+
+  <p>
+    Iar planificarea
+    este un document
+    deschis
+    și adaptabil.
+  </p>
+
+
+  <p>
+    Dacă poți explica
+    această succesiune
+    și poți construi
+    un model de planificare
+    fără să confunzi
+    programa,
+    manualul,
+    unitatea de învățare
+    și cota de timp
+    aflată la dispoziția profesorului,
+    ai stăpânit
+    această temă.
+  </p>
+
 
 </template>
 
@@ -4533,15 +4901,18 @@ function updateThemeButton() {
   const dark =
     currentTheme() === "dark";
 
+
   themeToggle.textContent =
     dark
       ? "Tema: Noapte"
       : "Tema: Zi";
 
+
   themeToggle.setAttribute(
     "aria-pressed",
     dark ? "true" : "false"
   );
+
 
   themeToggle.setAttribute(
     "title",
@@ -4560,13 +4931,16 @@ function toggleTheme() {
       ? "light"
       : "dark";
 
+
   document.documentElement.dataset.theme =
     next;
+
 
   localStorage.setItem(
     "titularizare-theme",
     next
   );
+
 
   updateThemeButton();
 
@@ -4585,8 +4959,7 @@ updateThemeButton();
 
 
 <!-- =========================================================
-     COMPONENTA AUDIO COMUNA
-     Playerul și CSS-ul audio sunt preluate automat.
+     COMPONENTA AUDIO COMUNĂ
      ========================================================= -->
 
 <script
