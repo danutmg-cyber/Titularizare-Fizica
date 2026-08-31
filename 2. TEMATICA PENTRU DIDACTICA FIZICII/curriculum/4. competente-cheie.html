@@ -1,0 +1,5189 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="description"
+  content="Competențe-cheie, proiectarea programei școlare pe baza competențelor și analiza programelor școlare de Fizică."
+>
+
+<title>
+  3. Competențe-cheie. Proiectarea și analiza programei de Fizică
+</title>
+
+
+<!-- =========================================================
+     TEMA INIȚIALĂ
+     ========================================================= -->
+
+<script>
+(function () {
+
+  const savedTheme =
+    localStorage.getItem("titularizare-theme");
+
+  const prefersDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const theme =
+    savedTheme || (prefersDark ? "dark" : "light");
+
+  document.documentElement.dataset.theme =
+    theme;
+
+})();
+</script>
+
+
+<style>
+
+/* =========================================================
+   CULORI
+   ========================================================= */
+
+:root,
+html[data-theme="light"] {
+
+  color-scheme: light;
+
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
+
+  --text: #1a2033;
+  --text-muted: #4d5875;
+
+  --navy: #16213e;
+  --navy-2: #0f3460;
+
+  --accent: #3f8cff;
+  --accent-2: #ffb703;
+
+  --border: #dfe4f0;
+
+  --soft-blue: #edf5ff;
+  --soft-green: #edf9f1;
+  --soft-yellow: #fff8dc;
+  --soft-red: #fff0f0;
+  --soft-purple: #f5f0ff;
+  --soft-gray: #f6f7fa;
+
+  --definition-bg: #edf5ff;
+  --definition-border: #3f8cff;
+
+  --exam-bg: #edf9f1;
+  --exam-border: #278447;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
+
+  --danger-bg: #fff0f0;
+  --danger-border: #c2414b;
+
+  --purple-border: #7756b3;
+
+  --shadow:
+    0 2px 10px rgba(22, 33, 62, .08);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+html[data-theme="dark"] {
+
+  color-scheme: dark;
+
+  --bg: #10162b;
+  --bg-card: #1a2340;
+
+  --text: #e8ecfb;
+  --text-muted: #a7b0d1;
+
+  --navy: #0b1023;
+  --navy-2: #16213e;
+
+  --accent: #6fa8ff;
+  --accent-2: #ffcd4a;
+
+  --border: #2a3459;
+
+  --soft-blue: #182944;
+  --soft-green: #163a24;
+  --soft-yellow: #372f16;
+  --soft-red: #3a1c21;
+  --soft-purple: #2a2240;
+  --soft-gray: #19213a;
+
+  --definition-bg: #182944;
+  --definition-border: #6fa8ff;
+
+  --exam-bg: #163a24;
+  --exam-border: #62c681;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
+
+  --danger-bg: #3a1c21;
+  --danger-border: #ef7b84;
+
+  --purple-border: #ab8cff;
+
+  --shadow:
+    0 2px 14px rgba(0, 0, 0, .4);
+
+  --header-text: #ffffff;
+  --header-muted: #c7d1f0;
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+
+  scroll-behavior: smooth;
+  scroll-padding-top: 18px;
+
+}
+
+body {
+
+  margin: 0;
+
+  font-family:
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+
+  line-height: 1.68;
+
+  transition:
+    background-color .2s ease,
+    color .2s ease;
+
+}
+
+a {
+  overflow-wrap: anywhere;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   ACCESIBILITATE
+   ========================================================= */
+
+.skip-link {
+
+  position: absolute;
+
+  top: -60px;
+  left: 14px;
+
+  z-index: 1000;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header.top {
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: var(--header-text);
+
+  padding:
+    24px
+    max(18px, env(safe-area-inset-right))
+    22px
+    max(18px, env(safe-area-inset-left));
+
+}
+
+.top-inner {
+
+  width: min(900px, 100%);
+  margin: 0 auto;
+
+}
+
+.header-row {
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+}
+
+.header-text {
+  min-width: 0;
+}
+
+.breadcrumb {
+
+  margin-bottom: 10px;
+
+  color: #b9c3e6;
+
+  font-size: .84rem;
+  line-height: 1.5;
+
+}
+
+.breadcrumb a {
+
+  color: #cfe0ff;
+  text-decoration: none;
+
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
+
+header.top h1 {
+
+  margin: 0;
+
+  font-size:
+    clamp(1.45rem, 4vw, 1.95rem);
+
+  line-height: 1.22;
+
+  font-weight: 760;
+
+}
+
+header.top p.subtitle {
+
+  margin: 7px 0 0;
+
+  color: var(--header-muted);
+
+  font-size:
+    clamp(.88rem, 2.4vw, .98rem);
+
+}
+
+
+/* =========================================================
+   BUTON TEMA
+   ========================================================= */
+
+.theme-toggle {
+
+  flex: 0 0 auto;
+
+  min-height: 44px;
+
+  padding: 9px 14px;
+
+  border:
+    1px solid rgba(255,255,255,.3);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  color: #ffffff;
+
+  font: inherit;
+  font-size: .86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+.theme-toggle:hover {
+
+  background:
+    rgba(255,255,255,.18);
+
+}
+
+.theme-toggle:focus-visible {
+
+  outline:
+    3px solid var(--accent-2);
+
+  outline-offset: 3px;
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+main {
+
+  width: min(900px, 100%);
+
+  margin: 28px auto 60px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+}
+
+
+/* =========================================================
+   CARDURI
+   ========================================================= */
+
+section.card {
+
+  background: var(--bg-card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow);
+
+  padding:
+    clamp(18px, 4vw, 24px);
+
+  margin-bottom: 22px;
+
+}
+
+section.card > :first-child {
+  margin-top: 0;
+}
+
+section.card > :last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TITLURI ȘI TEXT
+   ========================================================= */
+
+h2 {
+
+  margin-top: 0;
+  margin-bottom: 16px;
+
+  padding-bottom: 8px;
+
+  border-bottom:
+    2px solid var(--accent);
+
+  color: var(--navy-2);
+
+  font-size:
+    clamp(1.12rem, 3vw, 1.3rem);
+
+  line-height: 1.32;
+
+}
+
+html[data-theme="dark"] h2 {
+  color: var(--accent);
+}
+
+h3 {
+
+  margin:
+    20px 0 8px;
+
+  color: var(--text);
+
+  font-size:
+    clamp(1rem, 2.5vw, 1.09rem);
+
+  line-height: 1.35;
+
+}
+
+p {
+  margin: .7rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin: .42rem 0;
+}
+
+
+/* =========================================================
+   CUPRINS
+   ========================================================= */
+
+.toc {
+
+  columns: 2;
+  column-gap: 38px;
+
+  font-size: .93rem;
+
+}
+
+.toc ol {
+  margin: 0;
+}
+
+.toc li {
+  break-inside: avoid;
+}
+
+.toc a {
+
+  color: var(--accent);
+  text-decoration: none;
+
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   DEFINIȚII
+   ========================================================= */
+
+.definition {
+
+  margin: 15px 0;
+
+  padding:
+    16px 18px;
+
+  border-left:
+    5px solid var(--definition-border);
+
+  border-radius:
+    0 10px 10px 0;
+
+  background:
+    var(--definition-bg);
+
+}
+
+.definition-term {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--accent);
+
+  font-size: 1.03rem;
+  font-weight: 800;
+
+}
+
+.definition p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   CASETE
+   ========================================================= */
+
+.source-note,
+.exam-box,
+.warning,
+.danger,
+.callout,
+.analysis-box {
+
+  margin: 16px 0;
+
+  padding:
+    15px 17px;
+
+  border-radius: 10px;
+
+}
+
+.source-note {
+
+  background: var(--soft-gray);
+
+  border:
+    1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-size: .9rem;
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.analysis-box {
+
+  background: var(--soft-purple);
+
+  border-left:
+    5px solid var(--purple-border);
+
+}
+
+
+/* =========================================================
+   GRILE
+   ========================================================= */
+
+.grid2 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 14px;
+
+  margin: 15px 0;
+
+}
+
+.grid4 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.mini-card {
+
+  padding: 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--soft-blue);
+
+}
+
+.mini-card h3 {
+
+  margin: 0 0 6px;
+
+  color: var(--accent);
+
+}
+
+.mini-card p {
+  margin: .4rem 0;
+}
+
+
+/* =========================================================
+   COMPETENȚE-CHEIE
+   ========================================================= */
+
+.key-card {
+
+  position: relative;
+
+  padding:
+    15px 15px 15px 54px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 11px;
+
+  background: var(--bg-card);
+
+}
+
+.key-number {
+
+  position: absolute;
+
+  top: 15px;
+  left: 14px;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 27px;
+  height: 27px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-size: .82rem;
+  font-weight: 800;
+
+}
+
+.key-card strong {
+
+  display: block;
+
+  color: var(--accent);
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   FLUX / LANȚ
+   ========================================================= */
+
+.chain {
+
+  display: grid;
+
+  gap: 11px;
+
+  margin: 17px 0;
+
+}
+
+.chain-item {
+
+  position: relative;
+
+  padding:
+    14px 16px 14px 52px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--bg-card);
+
+}
+
+.chain-number {
+
+  position: absolute;
+
+  top: 13px;
+  left: 14px;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  background: var(--navy-2);
+  color: #ffffff;
+
+  font-weight: 800;
+
+}
+
+.chain-item strong {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   CHECKLIST
+   ========================================================= */
+
+.checklist {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 10px;
+
+  margin: 15px 0;
+
+}
+
+.check {
+
+  position: relative;
+
+  padding:
+    13px 14px 13px 44px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--soft-green);
+
+}
+
+.check::before {
+
+  content: "✓";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--exam-border);
+  color: #ffffff;
+
+  font-weight: 900;
+
+}
+
+
+/* =========================================================
+   EXEMPLU FIZICĂ
+   ========================================================= */
+
+.physics-example {
+
+  margin: 16px 0;
+
+  padding: 17px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--soft-blue),
+      var(--bg-card)
+    );
+
+}
+
+.physics-example h3 {
+
+  margin: 0 0 8px;
+
+  color: var(--accent);
+
+}
+
+
+/* =========================================================
+   RĂSPUNS EXAMEN
+   ========================================================= */
+
+.exam-answer {
+
+  margin: 14px 0;
+
+  padding: 17px 18px;
+
+  border:
+    2px solid var(--exam-border);
+
+  border-radius: 11px;
+
+  background: var(--exam-bg);
+
+}
+
+
+/* =========================================================
+   RECAP
+   ========================================================= */
+
+.recap-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px,1fr)
+    );
+
+  gap: 11px;
+
+  margin: 14px 0;
+
+}
+
+.recap-item {
+
+  padding: 13px 14px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--navy),
+      var(--navy-2)
+    );
+
+  color: #ffffff;
+
+  font-size: .86rem;
+
+}
+
+.recap-item b {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--accent-2);
+
+  font-size: .96rem;
+
+}
+
+
+/* =========================================================
+   ÎNTREBĂRI
+   ========================================================= */
+
+.question {
+
+  margin: 11px 0;
+
+  padding: 14px 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 10px;
+
+  background: var(--bg-card);
+
+}
+
+.question b {
+  color: var(--accent);
+}
+
+.question a {
+
+  display: inline-block;
+
+  margin-top: 6px;
+
+  color: var(--accent);
+
+  font-size: .88rem;
+  font-weight: 700;
+
+  text-decoration: none;
+
+}
+
+.question a:hover,
+.question a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   NAVIGARE
+   ========================================================= */
+
+nav.pager {
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 14px;
+
+  width: min(900px,100%);
+
+  margin: 0 auto 28px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  font-size: .91rem;
+
+}
+
+nav.pager a {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 44px;
+
+  color: var(--accent);
+
+  font-weight: 700;
+  text-decoration: none;
+
+}
+
+nav.pager a:hover,
+nav.pager a:focus-visible {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer.site {
+
+  width: min(900px,100%);
+
+  margin: 0 auto 40px;
+
+  padding:
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
+
+  color: var(--text-muted);
+
+  font-size: .82rem;
+  text-align: center;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+  .toc {
+    columns: 1;
+  }
+
+  .grid2,
+  .grid4,
+  .checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .header-row {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    align-self: flex-start;
+  }
+
+  nav.pager {
+
+    flex-direction: column;
+    align-items: stretch;
+
+  }
+
+  nav.pager a {
+
+    justify-content: center;
+
+    padding: 8px 10px;
+
+    border:
+      1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--bg-card);
+
+  }
+
+}
+
+
+@media (max-width: 380px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .theme-toggle {
+    width: 100%;
+  }
+
+  section.card {
+    padding: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCERE ANIMAȚII
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+
+    transition-duration:
+      .01ms !important;
+
+    animation-duration:
+      .01ms !important;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<a
+  class="skip-link"
+  href="#continut"
+>
+  Sari la conținut
+</a>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="top">
+
+  <div class="top-inner">
+
+    <div class="header-row">
+
+      <div class="header-text">
+
+        <div class="breadcrumb">
+
+          <a href="../../index.html">
+            Acasă
+          </a>
+
+          &rsaquo;
+
+          <a href="../index.html">
+            Didactică
+          </a>
+
+          &rsaquo;
+
+          <a href="index.html">
+            Curriculum
+          </a>
+
+          &rsaquo;
+
+          Competențe și programa de Fizică
+
+        </div>
+
+
+        <h1>
+          3. Competențe-cheie. Proiectarea și analiza programei de Fizică
+        </h1>
+
+
+        <p class="subtitle">
+          competențe-cheie · competențe generale ·
+          competențe specifice · activități de învățare ·
+          conținuturi · standarde · analiza programei
+        </p>
+
+      </div>
+
+
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Comută tema zi/noapte"
+        aria-pressed="false"
+      >
+        Tema: Zi
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     CONȚINUT
+     ========================================================= -->
+
+<main id="continut">
+
+
+  <!-- =======================================================
+       INTRODUCERE
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Ce trebuie să înveți
+    </h2>
+
+
+    <div class="source-note">
+
+      Conținutul lecției este raportat
+      la cadrul normativ și curricular în vigoare.
+      Programa pentru concursul de titularizare
+      este utilizată numai ca reper
+      pentru delimitarea tematicii.
+
+    </div>
+
+
+    <p>
+      Pentru această temă trebuie să stăpânești
+      trei aspecte:
+    </p>
+
+
+    <ol>
+
+      <li>
+        <strong>
+          competențele-cheie
+        </strong>
+        care fundamentează
+        profilul de formare al absolventului;
+      </li>
+
+      <li>
+        <strong>
+          proiectarea programei școlare
+          pe baza competențelor;
+        </strong>
+      </li>
+
+      <li>
+        <strong>
+          analiza unei programe școlare de Fizică
+        </strong>
+        din perspectiva
+        pertinenței,
+        relevanței,
+        eficienței interne
+        și accesibilității.
+      </li>
+
+    </ol>
+
+
+    <div class="exam-box">
+
+      <strong>Ținta pentru examen:</strong>
+
+      <br><br>
+
+      să poți explica
+      lanțul curricular
+
+      <strong>
+        profilul absolventului
+        → competențe
+        → activități de învățare
+        → conținuturi
+        → evaluare
+      </strong>
+
+      și să poți analiza argumentat
+      o programă școlară de Fizică.
+
+    </div>
+
+  </section>
+
+
+  <!--
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
+  -->
+
+
+  <!-- =======================================================
+       CUPRINS
+       ======================================================= -->
+
+  <section class="card">
+
+    <h2>
+      Cuprins
+    </h2>
+
+
+    <div class="toc">
+
+      <ol>
+
+        <li>
+          <a href="#competenta">
+            Competența
+          </a>
+        </li>
+
+        <li>
+          <a href="#competente-cheie">
+            Cele opt competențe-cheie
+          </a>
+        </li>
+
+        <li>
+          <a href="#fizica">
+            Contribuția Fizicii
+          </a>
+        </li>
+
+        <li>
+          <a href="#sistem">
+            Sistemul de competențe
+          </a>
+        </li>
+
+        <li>
+          <a href="#programa">
+            Structura programei școlare
+          </a>
+        </li>
+
+        <li>
+          <a href="#standarde">
+            Standardele de evaluare
+          </a>
+        </li>
+
+        <li>
+          <a href="#timp">
+            Regula 75% – 25%
+          </a>
+        </li>
+
+        <li>
+          <a href="#proiectare">
+            Proiectarea pe baza competențelor
+          </a>
+        </li>
+
+        <li>
+          <a href="#exemplu">
+            Exemplu la Fizică
+          </a>
+        </li>
+
+        <li>
+          <a href="#analiza">
+            Analiza programei
+          </a>
+        </li>
+
+        <li>
+          <a href="#pertinenta">
+            Pertinența
+          </a>
+        </li>
+
+        <li>
+          <a href="#relevanta">
+            Relevanța
+          </a>
+        </li>
+
+        <li>
+          <a href="#eficienta">
+            Eficiența internă
+          </a>
+        </li>
+
+        <li>
+          <a href="#accesibilitate">
+            Accesibilitatea
+          </a>
+        </li>
+
+        <li>
+          <a href="#algoritm">
+            Algoritm de analiză
+          </a>
+        </li>
+
+        <li>
+          <a href="#examen">
+            Formulare pentru examen
+          </a>
+        </li>
+
+        <li>
+          <a href="#recapitulare">
+            Recapitulare
+          </a>
+        </li>
+
+        <li>
+          <a href="#autoevaluare">
+            Autoevaluare
+          </a>
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       1. COMPETENȚA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="competenta"
+  >
+
+    <h2>
+      1. Competența
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Competența
+      </span>
+
+      <p>
+        reprezintă o achiziție integrată
+        care presupune mobilizarea
+        cunoștințelor,
+        abilităților
+        și atitudinilor
+        pentru realizarea unor sarcini
+        și pentru rezolvarea unor situații
+        în contexte variate.
+      </p>
+
+    </div>
+
+
+    <p>
+      Curriculumul actual
+      este centrat pe competențe.
+      Aceasta înseamnă
+      că învățarea nu se reduce
+      la memorarea și reproducerea
+      unor informații.
+    </p>
+
+
+    <p>
+      Elevul trebuie să poată
+      <strong>
+        utiliza,
+        transfera
+        și mobiliza
+      </strong>
+      ceea ce a învățat.
+    </p>
+
+
+    <div class="callout">
+
+      <strong>
+        Competență =
+        cunoștințe + abilități + atitudini,
+        mobilizate într-un context.
+      </strong>
+
+    </div>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu la Fizică
+      </h3>
+
+      <p>
+        Memorarea relației
+        <strong>U = R · I</strong>
+        reprezintă o achiziție de cunoaștere.
+      </p>
+
+      <p>
+        Utilizarea acestei relații
+        pentru interpretarea
+        unor date experimentale,
+        pentru determinarea
+        unei mărimi necunoscute
+        sau pentru explicarea
+        funcționării unui circuit
+        presupune mobilizarea competenței.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       2. COMPETENȚE-CHEIE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="competente-cheie"
+  >
+
+    <h2>
+      2. Cele opt competențe-cheie
+    </h2>
+
+
+    <p>
+      Profilul de formare
+      al absolventului
+      este construit
+      pe opt competențe-cheie.
+    </p>
+
+
+    <p>
+      Acestea au caracter
+      <strong>transversal</strong>:
+      dezvoltarea lor
+      nu aparține exclusiv
+      unei singure discipline.
+    </p>
+
+
+    <div class="grid4">
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          1
+        </span>
+
+        <strong>
+          Competența de citire,
+          scriere și înțelegere a mesajului
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          2
+        </span>
+
+        <strong>
+          Competența în multilingvism
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          3
+        </span>
+
+        <strong>
+          Competența matematică
+          și competența în științe,
+          tehnologie și inginerie
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          4
+        </span>
+
+        <strong>
+          Competența digitală,
+          inclusiv de siguranță pe internet
+          și securitate cibernetică
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          5
+        </span>
+
+        <strong>
+          Competența personală,
+          socială
+          și de a învăța să înveți
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          6
+        </span>
+
+        <strong>
+          Competența civică,
+          juridică
+          și de protejare a mediului
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          7
+        </span>
+
+        <strong>
+          Competența antreprenorială
+        </strong>
+
+      </div>
+
+
+      <div class="key-card">
+
+        <span class="key-number">
+          8
+        </span>
+
+        <strong>
+          Competența de sensibilizare
+          și exprimare culturală
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>Pentru examen:</strong>
+
+      trebuie să cunoști
+      denumirile celor opt competențe
+      și să poți explica
+      faptul că ele sunt
+      <strong>transversale</strong>
+      și fundamentează
+      profilul de formare
+      al absolventului.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. FIZICA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="fizica"
+  >
+
+    <h2>
+      3. Contribuția Fizicii la competențele-cheie
+    </h2>
+
+
+    <p>
+      Fizica contribuie direct
+      la dezvoltarea
+      competenței matematice
+      și a competenței
+      în științe,
+      tehnologie și inginerie.
+    </p>
+
+
+    <p>
+      În același timp,
+      activitățile de Fizică
+      pot contribui
+      la dezvoltarea
+      mai multor competențe-cheie.
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Comunicare
+        </h3>
+
+        <p>
+          Formularea explicațiilor,
+          interpretarea informațiilor,
+          argumentarea concluziilor
+          și utilizarea limbajului științific.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Matematică și științe
+        </h3>
+
+        <p>
+          Măsurarea,
+          modelarea,
+          investigarea,
+          calculul
+          și rezolvarea de probleme.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Competență digitală
+        </h3>
+
+        <p>
+          Utilizarea simulărilor,
+          senzorilor,
+          aplicațiilor
+          și instrumentelor digitale
+          pentru colectarea
+          și prelucrarea datelor.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Învățare și colaborare
+        </h3>
+
+        <p>
+          Activitățile experimentale
+          și proiectele
+          dezvoltă cooperarea,
+          autoreglarea
+          și reflecția asupra învățării.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Mediu și cetățenie
+        </h3>
+
+        <p>
+          Analiza energiei,
+          resurselor,
+          riscurilor tehnologice
+          și efectelor asupra mediului.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Inițiativă
+        </h3>
+
+        <p>
+          Proiectarea unor investigații,
+          alegerea soluțiilor
+          și evaluarea rezultatelor.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>Nu limita Fizica</strong>
+      doar la competența
+      în științe și matematică.
+
+      <br><br>
+
+      Competențele-cheie
+      sunt transversale,
+      iar aceeași activitate
+      poate dezvolta
+      mai multe competențe simultan.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       4. SISTEMUL DE COMPETENȚE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="sistem"
+  >
+
+    <h2>
+      4. Sistemul de competențe
+    </h2>
+
+
+    <h3>
+      Competențele-cheie
+    </h3>
+
+
+    <p>
+      Reprezintă
+      finalități transversale
+      ale formării absolventului
+      și fundamentează
+      proiectarea curriculumului.
+    </p>
+
+
+    <h3>
+      Competențele generale
+    </h3>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Competențele generale
+      </span>
+
+      <p>
+        sunt achiziții integrate
+        de cunoștințe,
+        abilități și atitudini,
+        formate pe parcursul
+        mai multor ani școlari
+        sau al unui nivel de școlarizare.
+        Ele sunt derivate
+        din competențele-cheie
+        și contribuie
+        la realizarea profilului
+        de formare al absolventului.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Competențele specifice
+    </h3>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Competențele specifice
+      </span>
+
+      <p>
+        reprezintă achiziții integrate
+        urmărite în cadrul
+        unei discipline
+        pe parcursul
+        unui an școlar
+        sau al unui modul
+        și sunt derivate
+        din competențele generale.
+      </p>
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>Relația de bază:</strong>
+
+      <br><br>
+
+      competențe-cheie
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe generale
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe specifice.
+
+    </div>
+
+
+    <div class="warning">
+
+      Cadrul curricular actual
+      introduce perspectiva
+      formulării competențelor generale
+      și la nivelul ariilor curriculare.
+
+      <br><br>
+
+      Această abordare
+      este prevăzută
+      pentru introducere progresivă.
+      Profesorul utilizează întotdeauna
+      <strong>
+        competențele din programa
+        efectiv aplicabilă
+        clasei și disciplinei respective
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. STRUCTURA PROGRAMEI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="programa"
+  >
+
+    <h2>
+      5. Structura programei școlare
+    </h2>
+
+
+    <p>
+      Programa școlară
+      este documentul curricular reglator
+      pe baza căruia profesorul
+      își proiectează
+      și desfășoară activitatea.
+    </p>
+
+
+    <p>
+      În structura actuală
+      a programelor pentru discipline
+      se regăsesc următoarele elemente:
+    </p>
+
+
+    <div class="chain">
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          1
+        </span>
+
+        <strong>
+          Nota de prezentare
+        </strong>
+
+        <br>
+
+        Precizează statutul disciplinei,
+        alocarea orară,
+        contribuția disciplinei
+        la profilul absolventului
+        și logica programei.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          2
+        </span>
+
+        <strong>
+          Competențele generale
+        </strong>
+
+        <br>
+
+        Exprimă direcțiile majore
+        de formare
+        urmărite prin disciplină
+        sau, în perspectiva
+        cadrului actual,
+        prin aria curriculară.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          3
+        </span>
+
+        <strong>
+          Competențele specifice
+        </strong>
+
+        <br>
+
+        Integrează
+        cunoștințe,
+        abilități
+        și atitudini
+        și exprimă achizițiile
+        urmărite într-un an școlar.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          4
+        </span>
+
+        <strong>
+          Standardele de evaluare
+        </strong>
+
+        <br>
+
+        Sunt formulate
+        în relație
+        cu competențele specifice
+        și sunt introduse progresiv
+        în programele școlare.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          5
+        </span>
+
+        <strong>
+          Exemplele de activități de învățare
+        </strong>
+
+        <br>
+
+        Prezintă contexte
+        și modalități
+        prin care competențele specifice
+        pot fi formate,
+        exersate,
+        consolidate
+        și evaluate formativ.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          6
+        </span>
+
+        <strong>
+          Conținuturile învățării
+        </strong>
+
+        <br>
+
+        Reprezintă suportul conceptual
+        și factual
+        pentru dezvoltarea
+        competențelor specifice.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          7
+        </span>
+
+        <strong>
+          Sugestiile metodologice
+        </strong>
+
+        <br>
+
+        Orientează profesorul
+        în proiectarea și realizarea
+        situațiilor de
+        predare,
+        învățare
+        și evaluare.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          8
+        </span>
+
+        <strong>
+          Bibliografia
+        </strong>
+
+        <br>
+
+        Este inclusă,
+        după caz.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>Capcană:</strong>
+
+      conținuturile
+      nu reprezintă
+      finalitatea programei.
+
+      <br><br>
+
+      Ele contribuie,
+      împreună cu abilitățile
+      și atitudinile,
+      la formarea competențelor.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       6. STANDARDE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="standarde"
+  >
+
+    <h2>
+      6. Standardele de evaluare
+    </h2>
+
+
+    <p>
+      În cadrul curricular actual,
+      standardele de evaluare
+      sunt asociate
+      competențelor specifice.
+    </p>
+
+
+    <p>
+      Ele descriu
+      ceea ce elevul trebuie
+      să demonstreze
+      după parcurgerea
+      experiențelor de învățare,
+      prin raportare la:
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Cunoștințe
+        </h3>
+
+        <p>
+          Ce știe
+          și ce înțelege elevul.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Abilități
+        </h3>
+
+        <p>
+          Ce poate face elevul
+          cu ceea ce știe.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Atitudini
+        </h3>
+
+        <p>
+          Cum se raportează elevul
+          la ceea ce știe
+          și la ceea ce face.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Performanță
+        </h3>
+
+        <p>
+          Nivelul demonstrat
+          prin sarcini
+          și situații de evaluare.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="callout">
+
+      Standardele de evaluare
+      fac legătura
+      dintre
+      <strong>
+        competențele specifice
+        și evaluarea rezultatelor învățării
+      </strong>.
+
+    </div>
+
+
+    <div class="warning">
+
+      Standardele sunt introduse
+      <strong>progresiv</strong>
+      în programele școlare.
+
+      <br><br>
+
+      De aceea,
+      la analiza unei programe concrete
+      verifici structura
+      documentului aflat efectiv
+      în vigoare pentru clasa respectivă.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. TIMPUL 75 / 25
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="timp"
+  >
+
+    <h2>
+      7. Programa și timpul la dispoziția profesorului
+    </h2>
+
+
+    <p>
+      Legea prevede,
+      pentru fiecare disciplină
+      și domeniu de studiu,
+      următoarea repartizare:
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          75%
+        </h3>
+
+        <p>
+          Programa școlară
+          acoperă
+          75% din orele
+          de predare
+          și de evaluare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          25%
+        </h3>
+
+        <p>
+          25% din timpul
+          alocat disciplinei
+          rămâne la dispoziția
+          cadrului didactic.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>De memorat:</strong>
+
+      <br><br>
+
+      <strong>
+        75% programă
+        + 25% timp la dispoziția profesorului.
+      </strong>
+
+    </div>
+
+
+    <p>
+      Această flexibilitate
+      permite profesorului
+      să adapteze demersul didactic
+      la situația concretă
+      și la nevoile de învățare
+      ale elevilor,
+      cu respectarea documentelor curriculare
+      aplicabile.
+    </p>
+
+  </section>
+
+
+  <!-- =======================================================
+       8. PROIECTAREA PE BAZA COMPETENȚELOR
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="proiectare"
+  >
+
+    <h2>
+      8. Proiectarea programei pe baza competențelor
+    </h2>
+
+
+    <p>
+      Logica unei programe
+      centrate pe competențe
+      pornește de la
+      <strong>
+        ceea ce trebuie să poată face elevul
+      </strong>,
+      nu de la enumerarea
+      conținuturilor care trebuie predate.
+    </p>
+
+
+    <div class="chain">
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          1
+        </span>
+
+        <strong>
+          Profilul de formare
+          al absolventului
+        </strong>
+
+        <br>
+
+        Stabilește
+        finalitățile generale
+        ale parcursului educațional.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          2
+        </span>
+
+        <strong>
+          Competențele-cheie
+        </strong>
+
+        <br>
+
+        Fundamentează
+        profilul absolventului
+        și proiectarea curriculară.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          3
+        </span>
+
+        <strong>
+          Competențele generale
+        </strong>
+
+        <br>
+
+        Exprimă
+        direcțiile majore
+        ale formării.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          4
+        </span>
+
+        <strong>
+          Competențele specifice
+        </strong>
+
+        <br>
+
+        Concretizează
+        achizițiile urmărite
+        într-un an de studiu.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          5
+        </span>
+
+        <strong>
+          Activitățile de învățare
+        </strong>
+
+        <br>
+
+        Creează situațiile
+        prin care competențele
+        sunt formate,
+        exersate și consolidate.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          6
+        </span>
+
+        <strong>
+          Conținuturile
+        </strong>
+
+        <br>
+
+        Oferă suportul
+        conceptual și factual
+        necesar formării
+        competențelor.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          7
+        </span>
+
+        <strong>
+          Evaluarea
+        </strong>
+
+        <br>
+
+        Verifică
+        nivelul la care
+        competențele au fost dezvoltate.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Schema de memorat:
+      </strong>
+
+      <br><br>
+
+      profilul absolventului
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe-cheie
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe generale
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe specifice
+
+      <br>
+
+      ↓
+
+      <br>
+
+      activități de învățare
+      + conținuturi
+
+      <br>
+
+      ↓
+
+      <br>
+
+      evaluare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. EXEMPLU LA FIZICĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="exemplu"
+  >
+
+    <h2>
+      9. Exemplu de proiectare la Fizică
+    </h2>
+
+
+    <div class="physics-example">
+
+      <h3>
+        Exemplu: Legea lui Ohm
+      </h3>
+
+
+      <p>
+        Pentru ilustrarea logicii
+        de proiectare,
+        presupunem că urmărim
+        formarea capacității elevului
+        de a investiga
+        și interpreta relația
+        dintre tensiunea electrică,
+        intensitatea curentului
+        și rezistența electrică.
+      </p>
+
+
+      <div class="chain">
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            1
+          </span>
+
+          <strong>
+            Competența urmărită
+          </strong>
+
+          <br>
+
+          Investigarea
+          și interpretarea
+          relației dintre
+          mărimile electrice
+          caracteristice circuitului.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            2
+          </span>
+
+          <strong>
+            Conținut
+          </strong>
+
+          <br>
+
+          Legea lui Ohm
+          pentru o porțiune de circuit.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            3
+          </span>
+
+          <strong>
+            Activitate de învățare
+          </strong>
+
+          <br>
+
+          Elevii măsoară
+          tensiunea electrică
+          și intensitatea curentului
+          pentru mai multe situații
+          și înregistrează
+          datele într-un tabel.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            4
+          </span>
+
+          <strong>
+            Prelucrarea datelor
+          </strong>
+
+          <br>
+
+          Elevii analizează
+          raportul dintre mărimi
+          și reprezintă grafic
+          rezultatele experimentale.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            5
+          </span>
+
+          <strong>
+            Concluzia
+          </strong>
+
+          <br>
+
+          Elevii formulează
+          relația dintre
+          tensiune,
+          intensitate
+          și rezistență,
+          pe baza datelor obținute.
+
+        </div>
+
+
+        <div class="chain-item">
+
+          <span class="chain-number">
+            6
+          </span>
+
+          <strong>
+            Evaluarea
+          </strong>
+
+          <br>
+
+          Elevul interpretează
+          un nou set de date
+          sau rezolvă
+          o situație-problemă
+          în care aplică
+          relația studiată.
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="callout">
+
+      <strong>Principiul:</strong>
+
+      nu întrebăm mai întâi
+      „ce formulă predau?”,
+
+      <br><br>
+
+      ci
+
+      <strong>
+        „ce trebuie să poată face elevul
+        folosind cunoștințele de Fizică?”
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       10. ANALIZA PROGRAMEI
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="analiza"
+  >
+
+    <h2>
+      10. Analiza unei programe școlare de Fizică
+    </h2>
+
+
+    <p>
+      Analiza programei
+      nu înseamnă
+      simpla enumerare
+      a componentelor documentului.
+    </p>
+
+
+    <p>
+      Profesorul trebuie să aprecieze
+      <strong>
+        calitatea construcției curriculare
+        și coerența dintre componente
+      </strong>.
+    </p>
+
+
+    <div class="analysis-box">
+
+      <strong>
+        Pentru titularizare,
+        reține patru criterii principale:
+      </strong>
+
+      <br><br>
+
+      1. pertinența;
+
+      <br>
+
+      2. relevanța;
+
+      <br>
+
+      3. eficiența internă;
+
+      <br>
+
+      4. accesibilitatea.
+
+    </div>
+
+
+    <p>
+      La Fizică,
+      analiza trebuie să țină cont
+      și de:
+    </p>
+
+
+    <div class="checklist">
+
+
+      <div class="check">
+        corectitudinea științifică
+        a conținuturilor;
+      </div>
+
+
+      <div class="check">
+        progresia logică
+        a conceptelor;
+      </div>
+
+
+      <div class="check">
+        relația dintre
+        teorie și experiment;
+      </div>
+
+
+      <div class="check">
+        posibilitatea realizării
+        activităților practice;
+      </div>
+
+
+      <div class="check">
+        dezvoltarea capacității
+        de investigare;
+      </div>
+
+
+      <div class="check">
+        transferul achizițiilor
+        în situații noi;
+      </div>
+
+
+      <div class="check">
+        corelarea cu timpul
+        alocat disciplinei;
+      </div>
+
+
+      <div class="check">
+        adecvarea la
+        particularitățile elevilor.
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       11. PERTINENȚA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="pertinenta"
+  >
+
+    <h2>
+      11. Pertinența
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        În analiza curriculară
+      </span>
+
+      <p>
+        pertinența poate fi apreciată
+        prin concordanța
+        dintre finalitățile,
+        competențele
+        și conținuturile programei,
+        pe de o parte,
+        și profilul de formare,
+        nivelul de școlarizare
+        și nevoile educaționale,
+        pe de altă parte.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Competențele contribuie
+        la profilul de formare
+        al absolventului?
+      </div>
+
+      <div class="check">
+        Finalitățile sunt adecvate
+        nivelului de școlarizare?
+      </div>
+
+      <div class="check">
+        Conținuturile susțin
+        competențele urmărite?
+      </div>
+
+      <div class="check">
+        Programa contribuie
+        la formarea
+        unei culturi științifice funcționale?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Pertinență =
+        concordanță cu finalitățile
+        și nevoile educaționale.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       12. RELEVANȚA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="relevanta"
+  >
+
+    <h2>
+      12. Relevanța
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        În analiza curriculară
+      </span>
+
+      <p>
+        relevanța poate fi apreciată
+        prin utilitatea,
+        semnificația
+        și posibilitatea de transfer
+        a achizițiilor
+        în contexte școlare,
+        cotidiene,
+        științifice
+        și tehnologice.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Elevul poate utiliza
+        ceea ce învață
+        în situații noi?
+      </div>
+
+      <div class="check">
+        Există legături
+        cu fenomene
+        și situații reale?
+      </div>
+
+      <div class="check">
+        Sunt valorificate
+        aplicațiile științei
+        și tehnologiei?
+      </div>
+
+      <div class="check">
+        Achizițiile susțin
+        învățarea ulterioară?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Relevanță =
+        utilitate,
+        semnificație
+        și transfer.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       13. EFICIENȚA INTERNĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="eficienta"
+  >
+
+    <h2>
+      13. Eficiența internă
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        În analiza curriculară
+      </span>
+
+      <p>
+        eficiența internă
+        poate fi apreciată
+        prin coerența
+        dintre componentele programei
+        și prin posibilitatea
+        realizării competențelor urmărite
+        în condițiile
+        de timp și resurse disponibile.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Competențele generale
+        și specifice
+        sunt coerent corelate?
+      </div>
+
+      <div class="check">
+        Activitățile de învățare
+        dezvoltă competențele vizate?
+      </div>
+
+      <div class="check">
+        Conținuturile
+        sunt adecvate
+        competențelor?
+      </div>
+
+      <div class="check">
+        Evaluarea
+        poate evidenția
+        nivelul competențelor?
+      </div>
+
+      <div class="check">
+        Volumul programei
+        este compatibil
+        cu timpul disponibil?
+      </div>
+
+      <div class="check">
+        Există progresie
+        fără suprapuneri
+        sau încărcare inutilă?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Eficiență internă =
+        coerență
+        și realizabilitate.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. ACCESIBILITATEA
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="accesibilitate"
+  >
+
+    <h2>
+      14. Accesibilitatea
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        În analiza curriculară
+      </span>
+
+      <p>
+        accesibilitatea
+        poate fi apreciată
+        prin adecvarea
+        nivelului de complexitate,
+        a limbajului,
+        a conținuturilor
+        și a activităților
+        la particularitățile de vârstă,
+        la achizițiile anterioare
+        și la posibilitățile de învățare
+        ale elevilor.
+      </p>
+
+    </div>
+
+
+    <h3>
+      Întrebări de analiză
+    </h3>
+
+
+    <div class="checklist">
+
+      <div class="check">
+        Noile concepte
+        se bazează
+        pe achiziții anterioare?
+      </div>
+
+      <div class="check">
+        Gradul de dificultate
+        crește progresiv?
+      </div>
+
+      <div class="check">
+        Limbajul științific
+        este adecvat
+        nivelului elevilor?
+      </div>
+
+      <div class="check">
+        Activitățile experimentale
+        sunt realizabile?
+      </div>
+
+      <div class="check">
+        Sarcinile permit
+        sprijin și diferențiere?
+      </div>
+
+      <div class="check">
+        Este evitată
+        supraîncărcarea
+        nejustificată?
+      </div>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Accesibilitate =
+        adecvare la elev
+        și progresie a dificultății.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       15. ALGORITM
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="algoritm"
+  >
+
+    <h2>
+      15. Algoritm pentru analiza unei programe de Fizică
+    </h2>
+
+
+    <p>
+      La o cerință de analiză
+      poți utiliza
+      următoarea ordine:
+    </p>
+
+
+    <div class="chain">
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          1
+        </span>
+
+        <strong>
+          Identifică programa aplicabilă
+        </strong>
+
+        <br>
+
+        Verifică
+        nivelul,
+        clasa,
+        filiera,
+        profilul,
+        specializarea
+        și statutul disciplinei.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          2
+        </span>
+
+        <strong>
+          Citește nota de prezentare
+        </strong>
+
+        <br>
+
+        Identifică
+        viziunea disciplinei,
+        statutul
+        și contribuția la
+        profilul absolventului.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          3
+        </span>
+
+        <strong>
+          Identifică sistemul de competențe
+        </strong>
+
+        <br>
+
+        Urmărește
+        competențele generale
+        și competențele specifice.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          4
+        </span>
+
+        <strong>
+          Verifică relațiile interne
+        </strong>
+
+        <br>
+
+        Analizează legătura dintre
+        competențe,
+        activități de învățare,
+        conținuturi
+        și evaluare.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          5
+        </span>
+
+        <strong>
+          Analizează pertinența
+        </strong>
+
+        <br>
+
+        Verifică raportarea
+        la finalitățile
+        și nevoile educaționale.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          6
+        </span>
+
+        <strong>
+          Analizează relevanța
+        </strong>
+
+        <br>
+
+        Verifică
+        utilitatea
+        și transferabilitatea
+        achizițiilor.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          7
+        </span>
+
+        <strong>
+          Analizează eficiența internă
+        </strong>
+
+        <br>
+
+        Verifică
+        coerența
+        și realizabilitatea
+        programei.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          8
+        </span>
+
+        <strong>
+          Analizează accesibilitatea
+        </strong>
+
+        <br>
+
+        Verifică
+        adecvarea la nivelul
+        și particularitățile elevilor.
+
+      </div>
+
+
+      <div class="chain-item">
+
+        <span class="chain-number">
+          9
+        </span>
+
+        <strong>
+          Formulează concluzia
+        </strong>
+
+        <br>
+
+        Argumentează aprecierea
+        prin elemente concrete
+        din programa analizată.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>Nu este suficient:</strong>
+
+      „Programa este pertinentă,
+      relevantă,
+      eficientă
+      și accesibilă.”
+
+      <br><br>
+
+      La examen,
+      fiecare apreciere
+      trebuie
+      <strong>
+        justificată prin elemente
+        concrete ale programei
+      </strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       16. FORMULARE PENTRU EXAMEN
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="examen"
+  >
+
+    <h2>
+      16. Formulare pentru examen
+    </h2>
+
+
+    <div class="exam-answer">
+
+      <p>
+        Curriculumul național
+        este centrat
+        pe competențele-cheie
+        care fundamentează
+        profilul de formare
+        al absolventului.
+      </p>
+
+      <p>
+        Competențele generale
+        reprezintă achiziții integrate
+        de cunoștințe,
+        abilități
+        și atitudini,
+        formate pe parcursul
+        mai multor ani școlari
+        sau al unui nivel de școlarizare
+        și derivate
+        din competențele-cheie.
+      </p>
+
+      <p>
+        Competențele specifice
+        sunt derivate
+        din competențele generale
+        și exprimă
+        achizițiile urmărite
+        în cadrul unei discipline
+        pe parcursul
+        unui an școlar
+        sau al unui modul.
+      </p>
+
+      <p>
+        Pentru formarea
+        competențelor specifice,
+        programa propune
+        activități de învățare
+        și conținuturi,
+        iar evaluarea urmărește
+        nivelul la care
+        acestea au fost dezvoltate.
+      </p>
+
+      <p>
+        Conținuturile
+        nu reprezintă
+        finalitatea în sine
+        a procesului educațional,
+        ci constituie suport
+        pentru formarea
+        și dezvoltarea competențelor.
+      </p>
+
+      <p>
+        Analiza unei programe școlare
+        de Fizică
+        poate fi realizată
+        din perspectiva
+        pertinenței,
+        relevanței,
+        eficienței interne
+        și accesibilității.
+      </p>
+
+      <p>
+        Pertinența privește
+        concordanța programei
+        cu finalitățile
+        și nevoile educaționale;
+        relevanța privește
+        utilitatea
+        și transferabilitatea
+        achizițiilor;
+        eficiența internă
+        urmărește coerența
+        și realizabilitatea
+        componentelor programei;
+        iar accesibilitatea
+        privește adecvarea
+        nivelului de complexitate
+        la particularitățile elevilor.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       17. RECAPITULARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="recapitulare"
+  >
+
+    <h2>
+      17. Recapitulare rapidă
+    </h2>
+
+
+    <div class="recap-grid">
+
+
+      <div class="recap-item">
+
+        <b>
+          Competență
+        </b>
+
+        Cunoștințe,
+        abilități,
+        atitudini.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Competențe-cheie
+        </b>
+
+        Finalități transversale.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Competențe generale
+        </b>
+
+        Achiziții dezvoltate
+        pe mai mulți ani.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Competențe specifice
+        </b>
+
+        Achiziții urmărite
+        anual.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Activități
+        </b>
+
+        Contexte pentru
+        formarea competențelor.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Conținuturi
+        </b>
+
+        Suport pentru competențe.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Standarde
+        </b>
+
+        Repere pentru evaluare.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          75% + 25%
+        </b>
+
+        Programă
+        și flexibilitate didactică.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Pertinență
+        </b>
+
+        Concordanță.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Relevanță
+        </b>
+
+        Utilitate și transfer.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Eficiență internă
+        </b>
+
+        Coerență și realizabilitate.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Accesibilitate
+        </b>
+
+        Adecvare la elev.
+
+      </div>
+
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Schema fundamentală:
+      </strong>
+
+      <br><br>
+
+      profilul absolventului
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe-cheie
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe generale
+
+      <br>
+
+      ↓
+
+      <br>
+
+      competențe specifice
+
+      <br>
+
+      ↓
+
+      <br>
+
+      activități de învățare
+      + conținuturi
+
+      <br>
+
+      ↓
+
+      <br>
+
+      evaluare.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       18. AUTOEVALUARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="autoevaluare"
+  >
+
+    <h2>
+      18. Autoevaluare
+    </h2>
+
+
+    <div class="question">
+
+      <b>1.</b>
+      Ce elemente
+      integrează o competență?
+
+      <br>
+
+      <a href="#competenta">
+        Verifică secțiunea 1
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>2.</b>
+      Enumeră cele opt
+      competențe-cheie.
+
+      <br>
+
+      <a href="#competente-cheie">
+        Verifică secțiunea 2
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>3.</b>
+      Explică diferența
+      dintre competențe-cheie,
+      competențe generale
+      și competențe specifice.
+
+      <br>
+
+      <a href="#sistem">
+        Verifică secțiunea 4
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>4.</b>
+      Care sunt componentele
+      principale ale unei programe școlare?
+
+      <br>
+
+      <a href="#programa">
+        Verifică secțiunea 5
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>5.</b>
+      Care este rolul
+      standardelor de evaluare?
+
+      <br>
+
+      <a href="#standarde">
+        Verifică secțiunea 6
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>6.</b>
+      Ce semnificație are
+      raportul 75% – 25%?
+
+      <br>
+
+      <a href="#timp">
+        Verifică secțiunea 7
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>7.</b>
+      Explică de ce
+      conținuturile nu reprezintă
+      finalitatea unei programe
+      centrate pe competențe.
+
+      <br>
+
+      <a href="#proiectare">
+        Verifică secțiunea 8
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>8.</b>
+      Ce înseamnă
+      pertinența unei programe?
+
+      <br>
+
+      <a href="#pertinenta">
+        Verifică secțiunea 11
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>9.</b>
+      Care este diferența
+      dintre pertinență
+      și relevanță?
+
+      <br>
+
+      <a href="#relevanta">
+        Verifică secțiunea 12
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>10.</b>
+      Ce urmărește
+      eficiența internă?
+
+      <br>
+
+      <a href="#eficienta">
+        Verifică secțiunea 13
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>11.</b>
+      Ce urmărește
+      accesibilitatea?
+
+      <br>
+
+      <a href="#accesibilitate">
+        Verifică secțiunea 14
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>12.</b>
+      Prezintă pașii
+      unei analize
+      a programei de Fizică.
+
+      <br>
+
+      <a href="#algoritm">
+        Verifică secțiunea 15
+      </a>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Tema este consolidată
+      dacă poți explica fără ajutor:
+
+      <br><br>
+
+      <strong>
+        competențe-cheie
+        → competențe generale
+        → competențe specifice
+        → activități și conținuturi
+        → evaluare
+      </strong>
+
+      <br><br>
+
+      și poți analiza
+      o programă prin:
+
+      <br><br>
+
+      <strong>
+        pertinență
+        → relevanță
+        → eficiență internă
+        → accesibilitate.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     NAVIGARE
+     ========================================================= -->
+
+<nav
+  class="pager"
+  aria-label="Navigare între lecțiile de curriculum"
+>
+
+  <a href="2-componente.html">
+    ← 2. Componentele curriculumului național
+  </a>
+
+
+  <a href="index.html">
+    Curriculum ↑
+  </a>
+
+</nav>
+
+
+<footer class="site">
+
+  Didactica Fizicii ·
+  Curriculum ·
+  Competențe-cheie și analiza programei de Fizică
+
+</footer>
+
+
+<!-- =========================================================
+     SCENARIU AUDIO ASCUNS
+
+     REGULI PENTRU SINTEZA VOCALĂ:
+     - "curriculum" este redat "curiculum";
+     - "curricular" este redat "curicular";
+     - acronimele sunt evitate;
+     - "Ohm" este redat fonetic "Ohme";
+     - formulele sunt rostite în cuvinte.
+     ========================================================= -->
+
+<template id="audio-lesson-script">
+
+
+  <p>
+    Bun găsit.
+    În această lecție
+    studiem competențele cheie,
+    proiectarea programei școlare
+    pe baza competențelor
+    și analiza programelor
+    școlare de Fizică.
+  </p>
+
+
+  <p>
+    Pentru această temă
+    trebuie să stăpânești
+    trei aspecte.
+  </p>
+
+
+  <p>
+    Primul:
+    competențele cheie.
+  </p>
+
+
+  <p>
+    Al doilea:
+    proiectarea programei școlare
+    pe baza competențelor.
+  </p>
+
+
+  <p>
+    Al treilea:
+    analiza programei de Fizică
+    din perspectiva
+    pertinenței,
+    relevanței,
+    eficienței interne
+    și accesibilității.
+  </p>
+
+
+  <p>
+    Începem cu
+    noțiunea de competență.
+  </p>
+
+
+  <p>
+    Competența
+    reprezintă o achiziție integrată
+    care presupune mobilizarea
+    cunoștințelor,
+    abilităților
+    și atitudinilor
+    pentru rezolvarea
+    unor sarcini
+    în contexte variate.
+  </p>
+
+
+  <p>
+    Reține formula simplă:
+    competență înseamnă
+    cunoștințe,
+    abilități
+    și atitudini
+    utilizate într-un context.
+  </p>
+
+
+  <p>
+    Așadar,
+    simpla memorare
+    a unei informații
+    nu este suficientă.
+  </p>
+
+
+  <p>
+    Elevul trebuie
+    să poată utiliza
+    și transfera
+    ceea ce a învățat.
+  </p>
+
+
+  <p>
+    De exemplu,
+    la Fizică,
+    memorarea relației
+    dintre tensiune,
+    rezistență
+    și intensitatea curentului
+    reprezintă o achiziție
+    de cunoaștere.
+  </p>
+
+
+  <p>
+    Utilizarea relației
+    pentru interpretarea
+    unor date experimentale
+    sau pentru rezolvarea
+    unei situații noi
+    presupune mobilizarea
+    unei competențe.
+  </p>
+
+
+  <p>
+    Trecem la
+    competențele cheie.
+  </p>
+
+
+  <p>
+    Profilul de formare
+    al absolventului
+    este construit
+    pe opt competențe cheie.
+  </p>
+
+
+  <p>
+    Prima este
+    competența de citire,
+    scriere
+    și înțelegere a mesajului.
+  </p>
+
+
+  <p>
+    A doua este
+    competența
+    în multilingvism.
+  </p>
+
+
+  <p>
+    A treia este
+    competența matematică
+    și competența
+    în științe,
+    tehnologie
+    și inginerie.
+  </p>
+
+
+  <p>
+    A patra este
+    competența digitală,
+    inclusiv de siguranță
+    pe internet
+    și securitate cibernetică.
+  </p>
+
+
+  <p>
+    A cincea este
+    competența personală,
+    socială
+    și de a învăța să înveți.
+  </p>
+
+
+  <p>
+    A șasea este
+    competența civică,
+    juridică
+    și de protejare
+    a mediului.
+  </p>
+
+
+  <p>
+    A șaptea este
+    competența antreprenorială.
+  </p>
+
+
+  <p>
+    A opta este
+    competența de sensibilizare
+    și exprimare culturală.
+  </p>
+
+
+  <p>
+    Aceste competențe
+    au caracter transversal.
+  </p>
+
+
+  <p>
+    Ele nu aparțin
+    unei singure discipline.
+  </p>
+
+
+  <p>
+    Fizica contribuie direct
+    la competența matematică
+    și la competența
+    în științe,
+    tehnologie
+    și inginerie.
+  </p>
+
+
+  <p>
+    Dar Fizica dezvoltă
+    și comunicarea,
+    competența digitală,
+    colaborarea,
+    responsabilitatea
+    față de mediu
+    și capacitatea
+    de a lua decizii.
+  </p>
+
+
+  <p>
+    Trecem acum
+    la sistemul de competențe.
+  </p>
+
+
+  <p>
+    Competențele cheie
+    reprezintă finalități
+    transversale.
+  </p>
+
+
+  <p>
+    Competențele generale
+    reprezintă achiziții integrate
+    de cunoștințe,
+    abilități
+    și atitudini,
+    dezvoltate pe parcursul
+    mai multor ani școlari
+    sau al unui nivel
+    de școlarizare.
+  </p>
+
+
+  <p>
+    Ele sunt derivate
+    din competențele cheie.
+  </p>
+
+
+  <p>
+    Competențele specifice
+    sunt derivate
+    din competențele generale.
+  </p>
+
+
+  <p>
+    Ele exprimă
+    achizițiile urmărite
+    într-o disciplină
+    pe parcursul
+    unui an școlar
+    sau al unui modul.
+  </p>
+
+
+  <p>
+    Reține relația:
+    competențe cheie,
+    apoi competențe generale,
+    apoi competențe specifice.
+  </p>
+
+
+  <p>
+    Trecem la
+    structura programei școlare.
+  </p>
+
+
+  <p>
+    Programa este
+    documentul curicular reglator
+    pe baza căruia profesorul
+    își proiectează
+    activitatea didactică.
+  </p>
+
+
+  <p>
+    Programa cuprinde,
+    în principal,
+    nota de prezentare,
+    competențele generale,
+    competențele specifice,
+    standardele de evaluare,
+    introduse progresiv,
+    exemplele de activități
+    de învățare,
+    conținuturile,
+    sugestiile metodologice
+    și, după caz,
+    bibliografia.
+  </p>
+
+
+  <p>
+    Nota de prezentare
+    explică statutul disciplinei,
+    timpul alocat,
+    contribuția disciplinei
+    la profilul absolventului
+    și logica programei.
+  </p>
+
+
+  <p>
+    Competențele generale
+    exprimă direcțiile majore
+    ale formării.
+  </p>
+
+
+  <p>
+    Competențele specifice
+    integrează
+    cunoștințe,
+    abilități
+    și atitudini.
+  </p>
+
+
+  <p>
+    Exemplele de activități
+    de învățare
+    arată contexte
+    în care competențele
+    pot fi formate,
+    exersate
+    și consolidate.
+  </p>
+
+
+  <p>
+    Aceste exemple
+    au caracter de recomandare.
+  </p>
+
+
+  <p>
+    Profesorul le poate
+    adapta,
+    completa
+    sau înlocui,
+    cu respectarea
+    competențelor urmărite.
+  </p>
+
+
+  <p>
+    Conținuturile
+    reprezintă suport
+    pentru formarea
+    competențelor.
+  </p>
+
+
+  <p>
+    Ele nu reprezintă
+    finalitatea
+    procesului de învățare.
+  </p>
+
+
+  <p>
+    Sugestiile metodologice
+    orientează
+    procesul de predare,
+    învățare
+    și evaluare.
+  </p>
+
+
+  <p>
+    Trecem la
+    standardele de evaluare.
+  </p>
+
+
+  <p>
+    Standardele de evaluare
+    sunt formulate
+    în relație
+    cu competențele specifice.
+  </p>
+
+
+  <p>
+    Ele descriu
+    ceea ce elevul
+    trebuie să demonstreze
+    după parcurgerea
+    experiențelor de învățare.
+  </p>
+
+
+  <p>
+    Se referă
+    la ceea ce elevul știe,
+    la ceea ce poate face
+    cu ceea ce știe
+    și la modul
+    în care se raportează
+    la ceea ce știe
+    și face.
+  </p>
+
+
+  <p>
+    Standardele sunt introduse
+    progresiv
+    în programele școlare.
+  </p>
+
+
+  <p>
+    Urmează o regulă importantă
+    privind timpul disciplinei.
+  </p>
+
+
+  <p>
+    Programa școlară
+    acoperă
+    șaptezeci și cinci la sută
+    din orele de predare
+    și de evaluare.
+  </p>
+
+
+  <p>
+    Douăzeci și cinci la sută
+    din timpul alocat disciplinei
+    rămâne la dispoziția
+    cadrului didactic.
+  </p>
+
+
+  <p>
+    Reține:
+    șaptezeci și cinci la sută
+    programă,
+    douăzeci și cinci la sută
+    timp la dispoziția profesorului.
+  </p>
+
+
+  <p>
+    Trecem la proiectarea
+    pe baza competențelor.
+  </p>
+
+
+  <p>
+    Într-un curiculum
+    centrat pe competențe,
+    nu pornim
+    de la întrebarea:
+    ce capitol trebuie să predau?
+  </p>
+
+
+  <p>
+    Pornim de la întrebarea:
+    ce trebuie să poată face elevul?
+  </p>
+
+
+  <p>
+    Mai întâi
+    avem profilul absolventului
+    și competențele cheie.
+  </p>
+
+
+  <p>
+    Apoi
+    competențele generale.
+  </p>
+
+
+  <p>
+    Din acestea
+    se derivă
+    competențele specifice.
+  </p>
+
+
+  <p>
+    Pentru competențele specifice
+    sunt proiectate
+    activitățile de învățare.
+  </p>
+
+
+  <p>
+    Conținuturile
+    oferă suportul
+    necesar activităților.
+  </p>
+
+
+  <p>
+    Evaluarea verifică
+    nivelul de dezvoltare
+    al competențelor.
+  </p>
+
+
+  <p>
+    Luăm un exemplu
+    din Fizică.
+  </p>
+
+
+  <p>
+    Tema este
+    legea lui Ohme
+    pentru o porțiune
+    de circuit.
+  </p>
+
+
+  <p>
+    Nu pornim
+    de la memorarea formulei.
+  </p>
+
+
+  <p>
+    Pornim de la
+    ceea ce trebuie
+    să poată face elevul.
+  </p>
+
+
+  <p>
+    Elevul investighează
+    relația dintre
+    tensiunea electrică,
+    intensitatea curentului
+    și rezistența electrică.
+  </p>
+
+
+  <p>
+    Elevii măsoară
+    tensiunea
+    și intensitatea curentului
+    pentru mai multe situații.
+  </p>
+
+
+  <p>
+    Ei înregistrează
+    datele într-un tabel
+    și analizează
+    relația dintre mărimi.
+  </p>
+
+
+  <p>
+    Apoi reprezintă
+    datele grafic
+    și formulează
+    o concluzie.
+  </p>
+
+
+  <p>
+    La evaluare,
+    elevul primește
+    un set nou de date
+    sau o situație problemă
+    pe care trebuie
+    să o interpreteze.
+  </p>
+
+
+  <p>
+    Aceasta este
+    logica proiectării
+    centrate pe competențe.
+  </p>
+
+
+  <p>
+    Trecem acum
+    la analiza
+    unei programe de Fizică.
+  </p>
+
+
+  <p>
+    Pentru titularizare,
+    trebuie să stăpânești
+    patru criterii:
+    pertinența,
+    relevanța,
+    eficiența internă
+    și accesibilitatea.
+  </p>
+
+
+  <p>
+    Pertinența
+    privește concordanța
+    dintre programă,
+    finalitățile educaționale
+    și nevoile de formare.
+  </p>
+
+
+  <p>
+    Formula scurtă:
+    pertinență,
+    concordanță
+    cu finalitățile.
+  </p>
+
+
+  <p>
+    Relevanța
+    privește utilitatea,
+    semnificația
+    și posibilitatea de transfer
+    a achizițiilor.
+  </p>
+
+
+  <p>
+    Întrebarea este:
+    poate elevul utiliza
+    ceea ce a învățat
+    într-o situație nouă?
+  </p>
+
+
+  <p>
+    Formula scurtă:
+    relevanță,
+    utilitate
+    și transfer.
+  </p>
+
+
+  <p>
+    Eficiența internă
+    privește coerența
+    dintre componentele programei
+    și posibilitatea
+    de realizare a acesteia
+    în timpul disponibil.
+  </p>
+
+
+  <p>
+    Verificăm dacă
+    activitățile dezvoltă
+    competențele,
+    dacă acele conținuturi
+    susțin competențele
+    și dacă evaluarea
+    verifică ceea ce
+    s-a urmărit.
+  </p>
+
+
+  <p>
+    Formula scurtă:
+    eficiență internă,
+    coerență
+    și realizabilitate.
+  </p>
+
+
+  <p>
+    Accesibilitatea
+    privește adecvarea
+    nivelului de complexitate
+    la particularitățile
+    și achizițiile anterioare
+    ale elevilor.
+  </p>
+
+
+  <p>
+    Verificăm
+    dacă dificultatea
+    crește progresiv
+    și dacă limbajul
+    și activitățile
+    sunt adecvate elevilor.
+  </p>
+
+
+  <p>
+    Formula scurtă:
+    accesibilitate,
+    adecvare la elev
+    și progresie.
+  </p>
+
+
+  <p>
+    Atenție
+    la diferența dintre
+    pertinență
+    și relevanță.
+  </p>
+
+
+  <p>
+    Pertinența întreabă:
+    programa este potrivită
+    finalităților educaționale?
+  </p>
+
+
+  <p>
+    Relevanța întreabă:
+    ceea ce învață elevul
+    este util,
+    semnificativ
+    și transferabil?
+  </p>
+
+
+  <p>
+    Pentru analiza
+    unei programe de Fizică,
+    urmează o ordine clară.
+  </p>
+
+
+  <p>
+    Mai întâi,
+    identifici programa
+    aplicabilă clasei
+    și profilului.
+  </p>
+
+
+  <p>
+    Apoi citești
+    nota de prezentare.
+  </p>
+
+
+  <p>
+    Identifici
+    competențele generale
+    și competențele specifice.
+  </p>
+
+
+  <p>
+    Verifici legătura dintre
+    competențe,
+    activități de învățare,
+    conținuturi
+    și evaluare.
+  </p>
+
+
+  <p>
+    După aceea
+    analizezi
+    pertinența,
+    relevanța,
+    eficiența internă
+    și accesibilitatea.
+  </p>
+
+
+  <p>
+    La final
+    formulezi
+    o concluzie argumentată.
+  </p>
+
+
+  <p>
+    Nu este suficient
+    să afirmi
+    că programa
+    este pertinentă
+    și relevantă.
+  </p>
+
+
+  <p>
+    Trebuie să explici
+    de ce,
+    folosind elemente concrete
+    din programa analizată.
+  </p>
+
+
+  <p>
+    Recapitulăm.
+  </p>
+
+
+  <p>
+    Competență:
+    cunoștințe,
+    abilități
+    și atitudini
+    mobilizate într-un context.
+  </p>
+
+
+  <p>
+    Competențe cheie:
+    finalități transversale.
+  </p>
+
+
+  <p>
+    Competențe generale:
+    achiziții dezvoltate
+    pe parcursul
+    mai multor ani.
+  </p>
+
+
+  <p>
+    Competențe specifice:
+    achiziții urmărite
+    într-un an școlar.
+  </p>
+
+
+  <p>
+    Activități de învățare:
+    contexte
+    pentru formarea competențelor.
+  </p>
+
+
+  <p>
+    Conținuturi:
+    suport
+    pentru competențe.
+  </p>
+
+
+  <p>
+    Standarde:
+    repere
+    pentru evaluare.
+  </p>
+
+
+  <p>
+    Pertinență:
+    concordanță
+    cu finalitățile.
+  </p>
+
+
+  <p>
+    Relevanță:
+    utilitate
+    și transfer.
+  </p>
+
+
+  <p>
+    Eficiență internă:
+    coerență
+    și realizabilitate.
+  </p>
+
+
+  <p>
+    Accesibilitate:
+    adecvare la elev
+    și progresie.
+  </p>
+
+
+  <p>
+    Dacă poți explica
+    aceste relații
+    și poți analiza
+    argumentat
+    o programă de Fizică,
+    ai stăpânit
+    această temă.
+  </p>
+
+
+</template>
+
+
+<!-- =========================================================
+     JAVASCRIPT — TEMA
+     ========================================================= -->
+
+<script>
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+
+function currentTheme() {
+
+  return document.documentElement.dataset.theme === "dark"
+    ? "dark"
+    : "light";
+
+}
+
+
+function updateThemeButton() {
+
+  const dark =
+    currentTheme() === "dark";
+
+
+  themeToggle.textContent =
+    dark
+      ? "Tema: Noapte"
+      : "Tema: Zi";
+
+
+  themeToggle.setAttribute(
+    "aria-pressed",
+    dark ? "true" : "false"
+  );
+
+
+  themeToggle.setAttribute(
+    "title",
+    dark
+      ? "Comută la tema de zi"
+      : "Comută la tema de noapte"
+  );
+
+}
+
+
+function toggleTheme() {
+
+  const next =
+    currentTheme() === "dark"
+      ? "light"
+      : "dark";
+
+
+  document.documentElement.dataset.theme =
+    next;
+
+
+  localStorage.setItem(
+    "titularizare-theme",
+    next
+  );
+
+
+  updateThemeButton();
+
+}
+
+
+themeToggle.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+updateThemeButton();
+
+</script>
+
+
+<!-- =========================================================
+     COMPONENTA AUDIO COMUNĂ
+     ========================================================= -->
+
+<script
+  src="../assets/audio/audio-lesson.js"
+  defer
+></script>
+
+
+</body>
+
+</html>
