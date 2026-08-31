@@ -10,8 +10,13 @@
   content="width=device-width, initial-scale=1.0"
 >
 
+<meta
+  name="description"
+  content="Evaluarea educațională: definiție, scopuri, funcții, evaluare inițială, continuă, formativă și sumativă, evaluare internă și externă, forme și instrumente de evaluare la Fizică."
+>
+
 <title>
-  Evaluarea — definiții, funcții, tipuri și forme · Titularizare Fizică
+  Evaluarea educațională · Definiții, funcții, tipuri și forme · Didactica Fizicii
 </title>
 
 
@@ -32,7 +37,8 @@
   const theme =
     savedTheme || (prefersDark ? "dark" : "light");
 
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme =
+    theme;
 
 })();
 </script>
@@ -41,7 +47,7 @@
 <style>
 
 /* =========================================================
-   TEMA ZI
+   CULORI
    ========================================================= */
 
 :root,
@@ -73,17 +79,16 @@ html[data-theme="light"] {
   --definition-bg: #edf5ff;
   --definition-border: #3f8cff;
 
-  --warning-bg: #fff8dc;
-  --warning-border: #e7a900;
-
   --exam-bg: #edf9f1;
   --exam-border: #278447;
+
+  --warning-bg: #fff8dc;
+  --warning-border: #e7a900;
 
   --danger-bg: #fff0f0;
   --danger-border: #c2414b;
 
-  --update-bg: #f4efff;
-  --update-border: #7a4fb5;
+  --purple-border: #7a4fb5;
 
   --shadow:
     0 2px 10px rgba(22, 33, 62, .08);
@@ -93,10 +98,6 @@ html[data-theme="light"] {
 
 }
 
-
-/* =========================================================
-   TEMA NOAPTE
-   ========================================================= */
 
 html[data-theme="dark"] {
 
@@ -126,17 +127,16 @@ html[data-theme="dark"] {
   --definition-bg: #182944;
   --definition-border: #6fa8ff;
 
-  --warning-bg: #372f16;
-  --warning-border: #ffcd4a;
-
   --exam-bg: #163a24;
   --exam-border: #62c681;
+
+  --warning-bg: #372f16;
+  --warning-border: #ffcd4a;
 
   --danger-bg: #3a1c21;
   --danger-border: #ef7b84;
 
-  --update-bg: #29203e;
-  --update-border: #a98cff;
+  --purple-border: #a98cff;
 
   --shadow:
     0 2px 14px rgba(0,0,0,.4);
@@ -156,10 +156,8 @@ html[data-theme="dark"] {
 }
 
 html {
-
   scroll-behavior: smooth;
   scroll-padding-top: 18px;
-
 }
 
 body {
@@ -340,7 +338,6 @@ header.top p.subtitle {
   color: #ffffff;
 
   font: inherit;
-
   font-size: .86rem;
   font-weight: 700;
 
@@ -443,7 +440,7 @@ html[data-theme="dark"] h2 {
 
 h3 {
 
-  margin: 22px 0 8px;
+  margin: 20px 0 8px;
 
   color: var(--text);
 
@@ -503,14 +500,15 @@ li {
 
 
 /* =========================================================
-   DEFINITII
+   DEFINIȚII
    ========================================================= */
 
 .definition {
 
   margin: 15px 0;
 
-  padding: 16px 18px;
+  padding:
+    16px 18px;
 
   border-left:
     5px solid var(--definition-border);
@@ -518,7 +516,8 @@ li {
   border-radius:
     0 10px 10px 0;
 
-  background: var(--definition-bg);
+  background:
+    var(--definition-bg);
 
 }
 
@@ -540,63 +539,19 @@ li {
    CASETE
    ========================================================= */
 
+.source-note,
 .callout,
-.warning,
 .exam-box,
+.warning,
 .danger,
-.update-note,
-.source-note {
+.pedagogy-note {
 
   margin: 16px 0;
 
-  padding: 15px 17px;
+  padding:
+    15px 17px;
 
   border-radius: 10px;
-
-}
-
-.callout {
-
-  background: var(--soft-blue);
-
-  border:
-    1px solid var(--definition-border);
-
-}
-
-.warning {
-
-  background: var(--warning-bg);
-
-  border-left:
-    5px solid var(--warning-border);
-
-}
-
-.exam-box {
-
-  background: var(--exam-bg);
-
-  border-left:
-    5px solid var(--exam-border);
-
-}
-
-.danger {
-
-  background: var(--danger-bg);
-
-  border-left:
-    5px solid var(--danger-border);
-
-}
-
-.update-note {
-
-  background: var(--update-bg);
-
-  border-left:
-    5px solid var(--update-border);
 
 }
 
@@ -609,7 +564,52 @@ li {
 
   color: var(--text-muted);
 
-  font-size: .88rem;
+  font-size: .9rem;
+
+}
+
+.callout {
+
+  background: var(--soft-blue);
+
+  border:
+    1px solid var(--definition-border);
+
+}
+
+.exam-box {
+
+  background: var(--exam-bg);
+
+  border-left:
+    5px solid var(--exam-border);
+
+}
+
+.warning {
+
+  background: var(--warning-bg);
+
+  border-left:
+    5px solid var(--warning-border);
+
+}
+
+.danger {
+
+  background: var(--danger-bg);
+
+  border-left:
+    5px solid var(--danger-border);
+
+}
+
+.pedagogy-note {
+
+  background: var(--soft-purple);
+
+  border-left:
+    5px solid var(--purple-border);
 
 }
 
@@ -637,6 +637,19 @@ li {
 
   grid-template-columns:
     repeat(3, minmax(0,1fr));
+
+  gap: 12px;
+
+  margin: 15px 0;
+
+}
+
+.grid4 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
 
   gap: 12px;
 
@@ -696,7 +709,7 @@ li {
   flex-direction: column;
   justify-content: center;
 
-  min-height: 110px;
+  min-height: 108px;
 
   padding: 14px;
 
@@ -724,13 +737,77 @@ li {
 .process-arrow {
 
   display: flex;
-
   align-items: center;
 
   color: var(--accent);
 
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 900;
+
+}
+
+
+/* =========================================================
+   FUNCȚII
+   ========================================================= */
+
+.function-card {
+
+  position: relative;
+
+  padding-left: 54px;
+
+}
+
+.function-code {
+
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  display: grid;
+
+  width: 27px;
+  height: 27px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+  color: #ffffff;
+
+  font-size: .8rem;
+  font-weight: 850;
+
+}
+
+
+/* =========================================================
+   TIPURI
+   ========================================================= */
+
+.type-card {
+
+  position: relative;
+
+  padding-top: 19px;
+
+}
+
+.type-label {
+
+  display: inline-block;
+
+  margin-bottom: 7px;
+
+  color: var(--accent);
+
+  font-size: .79rem;
+  font-weight: 850;
+
+  letter-spacing: .04em;
 
 }
 
@@ -744,9 +821,9 @@ li {
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0,1fr));
+    repeat(4, minmax(0,1fr));
 
-  gap: 12px;
+  gap: 10px;
 
   margin: 18px 0;
 
@@ -754,17 +831,23 @@ li {
 
 .timeline-card {
 
-  padding: 17px 15px;
+  padding: 15px;
 
   border:
     1px solid var(--border);
 
-  border-radius: 12px;
+  border-radius: 11px;
+
+  text-align: center;
 
 }
 
 .timeline-card.initial {
   background: var(--soft-purple);
+}
+
+.timeline-card.current {
+  background: var(--soft-blue);
 }
 
 .timeline-card.formative {
@@ -779,45 +862,9 @@ li {
 
   display: block;
 
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
   color: var(--accent);
-
-  font-size: 1rem;
-
-}
-
-
-/* =========================================================
-   FUNCȚII
-   ========================================================= */
-
-.function-card {
-
-  position: relative;
-
-  padding-top: 53px;
-
-}
-
-.function-code {
-
-  position: absolute;
-
-  top: 14px;
-  left: 15px;
-
-  min-width: 33px;
-
-  padding: 4px 9px;
-
-  border-radius: 999px;
-
-  background: var(--accent);
-  color: #ffffff;
-
-  font-size: .74rem;
-  font-weight: 850;
 
 }
 
@@ -830,7 +877,7 @@ li {
 
   width: 100%;
 
-  margin: 14px 0;
+  margin: 15px 0;
 
   overflow-x: auto;
 
@@ -846,8 +893,7 @@ li {
 table {
 
   width: 100%;
-
-  min-width: 760px;
+  min-width: 820px;
 
   border-collapse: collapse;
 
@@ -877,7 +923,7 @@ th {
 }
 
 td {
-  font-size: .91rem;
+  font-size: .9rem;
 }
 
 tr:last-child td {
@@ -886,43 +932,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   BADGES
-   ========================================================= */
-
-.tag {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  margin: 2px 2px 2px 0;
-
-  padding: 3px 8px;
-
-  border-radius: 999px;
-
-  color: #ffffff;
-
-  font-size: .71rem;
-  font-weight: 800;
-
-}
-
-.tag.initial {
-  background: #7a4fb5;
-}
-
-.tag.formative {
-  background: #278447;
-}
-
-.tag.summative {
-  background: #aa6a00;
-}
-
-
-/* =========================================================
-   FIZICA
+   EXEMPLU FIZICĂ
    ========================================================= */
 
 .physics-example {
@@ -955,21 +965,60 @@ tr:last-child td {
 
 
 /* =========================================================
-   EXAMEN
+   CHECKLIST
    ========================================================= */
 
-.exam-answer {
+.checklist {
 
-  margin: 14px 0;
+  display: grid;
 
-  padding: 17px 18px;
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 10px;
+
+  margin: 15px 0;
+
+}
+
+.check {
+
+  position: relative;
+
+  padding:
+    13px 14px 13px 44px;
 
   border:
-    2px solid var(--exam-border);
+    1px solid var(--border);
 
-  border-radius: 11px;
+  border-radius: 10px;
 
-  background: var(--exam-bg);
+  background: var(--soft-green);
+
+}
+
+.check::before {
+
+  content: "✓";
+
+  position: absolute;
+
+  left: 14px;
+  top: 12px;
+
+  display: grid;
+
+  width: 22px;
+  height: 22px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--exam-border);
+  color: #ffffff;
+
+  font-weight: 900;
 
 }
 
@@ -1004,10 +1053,11 @@ tr:last-child td {
   top: 12px;
 
   display: grid;
-  place-items: center;
 
   width: 22px;
   height: 22px;
+
+  place-items: center;
 
   border-radius: 50%;
 
@@ -1030,7 +1080,7 @@ tr:last-child td {
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(180px,1fr)
+      minmax(175px,1fr)
     );
 
   gap: 11px;
@@ -1072,7 +1122,7 @@ tr:last-child td {
 
 
 /* =========================================================
-   INTREBARI
+   ÎNTREBĂRI
    ========================================================= */
 
 .question {
@@ -1094,17 +1144,24 @@ tr:last-child td {
   color: var(--accent);
 }
 
+.question a {
 
-/* =========================================================
-   SURSE
-   ========================================================= */
+  display: inline-block;
 
-.sources li {
+  margin-top: 6px;
 
-  color: var(--text-muted);
+  color: var(--accent);
 
   font-size: .88rem;
+  font-weight: 700;
 
+  text-decoration: none;
+
+}
+
+.question a:hover,
+.question a:focus-visible {
+  text-decoration: underline;
 }
 
 
@@ -1145,9 +1202,8 @@ nav.pager a {
 
   color: var(--accent);
 
+  font-weight: 700;
   text-decoration: none;
-
-  font-weight: 650;
 
 }
 
@@ -1163,44 +1219,51 @@ nav.pager a:focus-visible {
 
 footer.site {
 
+  width: min(900px,100%);
+
+  margin: 0 auto 40px;
+
   padding:
-    18px 16px 30px;
+    0
+    max(16px, env(safe-area-inset-right))
+    0
+    max(16px, env(safe-area-inset-left));
 
   color: var(--text-muted);
 
+  font-size: .82rem;
   text-align: center;
-
-  font-size: .8rem;
-  line-height: 1.55;
 
 }
 
 
 /* =========================================================
-   TABLETA
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 760px) {
 
   .grid3,
   .timeline {
-
     grid-template-columns:
       repeat(2, minmax(0,1fr));
-
   }
 
 }
 
 
-/* =========================================================
-   TELEFON
-   ========================================================= */
+@media (max-width: 620px) {
 
-@media (max-width: 600px) {
+  .toc {
+    columns: 1;
+  }
 
-  header.top {
-    padding-top: 18px;
+  .grid2,
+  .grid3,
+  .grid4,
+  .timeline,
+  .checklist {
+    grid-template-columns: 1fr;
   }
 
   .header-row {
@@ -1211,34 +1274,15 @@ footer.site {
     align-self: flex-start;
   }
 
-  .toc {
-    columns: 1;
-  }
-
-  .grid2,
-  .grid3,
-  .timeline {
-
-    grid-template-columns: 1fr;
-
-  }
-
   .process {
-
     grid-template-columns: 1fr;
-
   }
 
   .process-arrow {
 
     justify-content: center;
-
     transform: rotate(90deg);
 
-  }
-
-  main {
-    margin-top: 18px;
   }
 
   nav.pager {
@@ -1252,7 +1296,7 @@ footer.site {
 
     justify-content: center;
 
-    padding: 7px 10px;
+    padding: 8px 10px;
 
     border:
       1px solid var(--border);
@@ -1265,10 +1309,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   ECRANE MICI
-   ========================================================= */
 
 @media (max-width: 380px) {
 
@@ -1286,10 +1326,6 @@ footer.site {
 
 }
 
-
-/* =========================================================
-   REDUCERE ANIMAȚII
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -1368,10 +1404,11 @@ footer.site {
           Evaluarea educațională
         </h1>
 
+
         <p class="subtitle">
-          Definiție · obiective · funcții ·
-          evaluare inițială, formativă și sumativă ·
-          forme de realizare
+          definiție · scopuri · funcții ·
+          evaluare inițială · continuă · formativă · sumativă ·
+          forme și instrumente
         </p>
 
       </div>
@@ -1395,64 +1432,108 @@ footer.site {
 
 
 <!-- =========================================================
-     MAIN
+     CONȚINUT
      ========================================================= -->
 
 <main id="continut">
 
 
   <!-- =======================================================
-       PROGRAMA
+       INTRODUCERE
        ======================================================= -->
 
   <section class="card">
 
     <h2>
-      Ce cere programa de Titularizare?
+      Ce trebuie să înveți
     </h2>
 
 
-    <p>
-      Programa disponibilă pentru
-      <strong>Titularizare Fizică 2026</strong>
-      include explicit:
-    </p>
+    <div class="source-note">
 
+      Conținutul lecției este raportat la
+      Legea învățământului preuniversitar
+      nr. 198/2023,
+      Regulamentul-cadru de organizare și funcționare
+      a unităților de învățământ preuniversitar
+      în forma în vigoare
+      și Cadrul de Referință
+      al Curriculumului Național.
 
-    <div class="exam-answer">
-
-      <strong>
-        „Evaluarea, componentă fundamentală
-        a procesului de învățământ:
-        obiective, funcții,
-        tipuri de evaluări, caracterizare.”
-      </strong>
+      Programa pentru concursul de titularizare
+      este utilizată ca reper
+      pentru delimitarea tematicii.
 
     </div>
 
 
     <p>
-      În programă urmează separat:
-      metodele de evaluare,
-      calitățile instrumentelor
-      și tipologia itemilor.
-      De aceea,
-      această lecție construiește mai întâi
-      <strong>fundamentul conceptual al evaluării</strong>.
+      Pentru această temă
+      trebuie să poți explica:
     </p>
 
 
-    <div class="warning">
+    <ol>
 
+      <li>
+        <strong>ce este evaluarea;</strong>
+      </li>
+
+      <li>
+        <strong>care sunt scopurile și funcțiile ei;</strong>
+      </li>
+
+      <li>
+        <strong>
+          diferența dintre evaluarea
+          inițială,
+          continuă sau curentă,
+          formativă
+          și sumativă;
+        </strong>
+      </li>
+
+      <li>
+        <strong>
+          diferența dintre evaluarea internă,
+          externă
+          și internațională;
+        </strong>
+      </li>
+
+      <li>
+        <strong>
+          formele și instrumentele
+          prin care poate fi realizată evaluarea.
+        </strong>
+      </li>
+
+    </ol>
+
+
+    <div class="exam-box">
+
+      <strong>Ideea centrală:</strong>
+
+      <br><br>
+
+      evaluarea nu înseamnă
+      doar verificare
+      și nici doar acordarea unei note.
+
+      <br><br>
+
+      Ea furnizează
       <strong>
-        Pentru Titularizare Fizică 2027:
+        informații despre învățare
       </strong>
-
-      lecția este fundamentată
-      pe programa oficială disponibilă pentru 2026.
-      Formularea exactă a programei
-      pentru sesiunea 2027
-      trebuie reverificată după publicare.
+      care sunt utilizate
+      pentru
+      <strong>
+        apreciere,
+        feedback
+        și decizie educațională.
+      </strong>
 
     </div>
 
@@ -1460,8 +1541,8 @@ footer.site {
 
 
   <!--
-    PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
-    DE assets/audio/audio-lesson.js
+       PLAYERUL AUDIO ESTE INSERAT AUTOMAT AICI
+       DE assets/audio/audio-lesson.js
   -->
 
 
@@ -1487,14 +1568,20 @@ footer.site {
         </li>
 
         <li>
-          <a href="#etape">
-            Măsurare, apreciere, decizie
+          <a href="#scopuri">
+            Scopurile evaluării
           </a>
         </li>
 
         <li>
-          <a href="#obiective">
-            Obiectivele evaluării
+          <a href="#proces">
+            Informație, apreciere, decizie
+          </a>
+        </li>
+
+        <li>
+          <a href="#competente-standarde">
+            Competențe și standarde
           </a>
         </li>
 
@@ -1505,8 +1592,20 @@ footer.site {
         </li>
 
         <li>
+          <a href="#clasificare">
+            Criterii de clasificare
+          </a>
+        </li>
+
+        <li>
           <a href="#initiala">
             Evaluarea inițială
+          </a>
+        </li>
+
+        <li>
+          <a href="#continua">
+            Evaluarea continuă / curentă
           </a>
         </li>
 
@@ -1524,31 +1623,31 @@ footer.site {
 
         <li>
           <a href="#comparatie">
-            Comparația celor trei tipuri
+            Comparația tipurilor
           </a>
         </li>
 
         <li>
-          <a href="#interna-externa">
-            Evaluare internă și externă
+          <a href="#intern-extern">
+            Internă, externă, internațională
           </a>
         </li>
 
         <li>
           <a href="#forme">
-            Forme / probe de evaluare
+            Forme și instrumente
           </a>
         </li>
 
         <li>
           <a href="#fizica">
-            Particularizarea la Fizică
+            Evaluarea la Fizică
           </a>
         </li>
 
         <li>
           <a href="#feedback">
-            Feedback și reglare
+            Feedback și feedforward
           </a>
         </li>
 
@@ -1570,6 +1669,12 @@ footer.site {
           </a>
         </li>
 
+        <li>
+          <a href="#autoevaluare">
+            Autoevaluare
+          </a>
+        </li>
+
       </ol>
 
     </div>
@@ -1578,7 +1683,7 @@ footer.site {
 
 
   <!-- =======================================================
-       1. DEFINITIE
+       1. DEFINIȚIE
        ======================================================= -->
 
   <section
@@ -1597,25 +1702,37 @@ footer.site {
         Evaluarea educațională
       </span>
 
-      reprezintă procesul prin care
-      se obțin și se interpretează informații
-      despre rezultatele și progresul elevului,
-      acestea fiind raportate la repere sau criterii,
-      pentru formularea unei aprecieri
-      și fundamentarea unor decizii educaționale.
+      reprezintă procesul
+      de obținere,
+      interpretare
+      și valorificare
+      a informațiilor
+      privind rezultatele
+      și progresul învățării,
+      prin raportare
+      la competențe,
+      criterii
+      și standarde,
+      în vederea formulării
+      unei aprecieri
+      și a fundamentării
+      unor decizii educaționale.
 
     </div>
 
 
     <p>
-      Definiția trebuie înțeleasă,
-      nu doar memorată.
-      Evaluarea nu este o activitate izolată
-      și nici un simplu moment de acordare a notei.
+      Evaluarea este integrată
+      procesului didactic.
+      Ea nu apare numai
+      la sfârșitul unei lecții,
+      al unei unități
+      sau al unui an școlar.
     </p>
 
 
     <div class="process">
+
 
       <div class="process-card">
 
@@ -1624,13 +1741,16 @@ footer.site {
         </b>
 
         Profesorul proiectează
-        și organizează experiențele de învățare.
+        și facilitează
+        experiențele de învățare.
 
       </div>
+
 
       <div class="process-arrow">
-        →
+        ↔
       </div>
+
 
       <div class="process-card">
 
@@ -1638,14 +1758,18 @@ footer.site {
           Învățare
         </b>
 
-        Elevul construiește,
-        exersează și aplică achizițiile.
+        Elevul formează,
+        exersează
+        și aplică
+        achizițiile.
 
       </div>
+
 
       <div class="process-arrow">
         ↔
       </div>
+
 
       <div class="process-card">
 
@@ -1653,24 +1777,13 @@ footer.site {
           Evaluare
         </b>
 
-        Profesorul obține informații,
-        oferă feedback
-        și ia decizii.
+        Sunt obținute
+        informații
+        pentru reglarea
+        și aprecierea învățării.
 
       </div>
 
-    </div>
-
-
-    <div class="callout">
-
-      <strong>
-        Ideea centrală:
-      </strong>
-
-      evaluarea este
-      <strong>integrată procesului
-      de predare–învățare–evaluare</strong>.
 
     </div>
 
@@ -1681,14 +1794,23 @@ footer.site {
         Evaluare ≠ notare.
       </strong>
 
-      Nota poate fi unul dintre rezultatele
-      actului evaluativ,
-      dar evaluarea include
-      colectarea informațiilor,
-      interpretarea,
-      aprecierea,
-      feedbackul
-      și decizia educațională.
+      <br><br>
+
+      Nota,
+      calificativul
+      sau punctajul
+      reprezintă modalități
+      de exprimare
+      a unui rezultat.
+
+      <br><br>
+
+      Evaluarea este
+      procesul mai amplu
+      care conduce
+      la acel rezultat
+      și la deciziile
+      care îi urmează.
 
     </div>
 
@@ -1696,161 +1818,44 @@ footer.site {
 
 
   <!-- =======================================================
-       2. ETAPE
+       2. SCOPURI
        ======================================================= -->
 
   <section
     class="card"
-    id="etape"
+    id="scopuri"
   >
 
     <h2>
-      2. Măsurare → apreciere → decizie
+      2. Scopurile evaluării
     </h2>
 
 
     <p>
-      Pentru a înțelege procesul evaluativ,
-      este utilă schema clasică
-      formată din trei momente legate logic.
-    </p>
-
-
-    <div class="process">
-
-      <div class="process-card">
-
-        <b>
-          1. Măsurarea
-        </b>
-
-        Obținerea datelor
-        despre performanța elevului.
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          2. Aprecierea
-        </b>
-
-        Interpretarea datelor
-        prin raportare la criterii,
-        bareme sau niveluri așteptate.
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          3. Decizia
-        </b>
-
-        Stabilirea acțiunii educaționale
-        care urmează.
-
-      </div>
-
-    </div>
-
-
-    <h3>
-      Exemplu simplu la Fizică
-    </h3>
-
-
-    <div class="physics-example">
-
-      <p>
-        Elevul rezolvă o problemă
-        privind legea lui Ohm.
-      </p>
-
-      <p>
-        <strong>Măsurare:</strong>
-        profesorul constată
-        câte etape sunt rezolvate corect
-        și ce punctaj rezultă.
-      </p>
-
-      <p>
-        <strong>Apreciere:</strong>
-        performanța este raportată
-        la barem și la competența urmărită.
-      </p>
-
-      <p>
-        <strong>Decizie:</strong>
-        profesorul poate decide
-        consolidarea transformărilor algebrice,
-        remedierea unei confuzii conceptuale
-        sau trecerea la o aplicație mai complexă.
-      </p>
-
-    </div>
-
-
-    <div class="warning">
-
-      <strong>
-        Eroare frecventă:
-      </strong>
-
-      măsurarea nu este sinonimă
-      cu evaluarea.
-
-      Un punctaj neinterpretat
-      nu ne spune singur
-      ce intervenție didactică este necesară.
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       3. OBIECTIVE
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="obiective"
-  >
-
-    <h2>
-      3. Obiectivele evaluării
-    </h2>
-
-
-    <p>
-      Evaluarea permite profesorului
-      să obțină informații relevante
-      despre procesul de învățare
-      și să folosească aceste informații
-      pentru ameliorarea demersului didactic.
+      Cadrul legal actual
+      precizează două scopuri
+      fundamentale ale evaluării.
     </p>
 
 
     <div class="grid2">
 
+
       <div class="mini-card">
 
         <h3>
-          Stabilirea nivelului
+          Orientarea și optimizarea
+          predării–învățării
         </h3>
 
         <p>
-          Identificarea achizițiilor
-          și competențelor formate.
+          Rezultatele evaluării
+          îl ajută pe profesor
+          să adapteze
+          activitățile didactice
+          și îl ajută pe elev
+          să își îmbunătățească
+          învățarea.
         </p>
 
       </div>
@@ -1859,80 +1864,174 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Identificarea dificultăților
+          Gestionarea propriilor
+          rezultate ale învățării
         </h3>
 
         <p>
-          Localizarea lacunelor,
-          erorilor și obstacolelor
-          de învățare.
+          Elevul este sprijinit
+          să își înțeleagă
+          nivelul,
+          progresul,
+          dificultățile
+          și pașii următori.
         </p>
 
       </div>
 
 
-      <div class="mini-card">
+    </div>
 
-        <h3>
-          Evidențierea progresului
-        </h3>
 
-        <p>
-          Compararea performanței elevului
-          cu niveluri anterioare
-          și cu reperele urmărite.
-        </p>
+    <div class="callout">
+
+      <strong>
+        Evaluarea trebuie să producă
+        informație utilizabilă.
+      </strong>
+
+      <br><br>
+
+      Dacă rezultatul
+      nu este interpretat
+      și nu conduce
+      la nicio decizie,
+      funcția pedagogică
+      a evaluării rămâne incompletă.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       3. PROCES
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="proces"
+  >
+
+    <h2>
+      3. Informație → apreciere → decizie
+    </h2>
+
+
+    <p>
+      Pentru înțelegerea
+      procesului evaluativ,
+      este utilă următoarea schemă:
+    </p>
+
+
+    <div class="process">
+
+
+      <div class="process-card">
+
+        <b>
+          Obținerea informației
+        </b>
+
+        Observăm,
+        măsurăm,
+        colectăm răspunsuri
+        și produse
+        ale activității elevului.
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="process-arrow">
+        →
+      </div>
 
-        <h3>
-          Reglarea învățării
-        </h3>
 
-        <p>
-          Alegerea activităților
-          de remediere,
-          consolidare
-          sau aprofundare.
-        </p>
+      <div class="process-card">
+
+        <b>
+          Interpretare și apreciere
+        </b>
+
+        Raportăm rezultatul
+        la criterii,
+        competențe
+        și standarde.
 
       </div>
 
 
-      <div class="mini-card">
+      <div class="process-arrow">
+        →
+      </div>
 
-        <h3>
-          Informarea actorilor educaționali
-        </h3>
 
-        <p>
-          Furnizarea de informații
-          elevului,
-          profesorului,
-          familiei
-          și instituției.
-        </p>
+      <div class="process-card">
+
+        <b>
+          Decizie
+        </b>
+
+        Continuăm,
+        consolidăm,
+        remediem,
+        aprofundăm
+        sau certificăm rezultatul.
 
       </div>
 
 
-      <div class="mini-card">
+    </div>
 
-        <h3>
-          Fundamentarea deciziilor
-        </h3>
 
-        <p>
-          Promovare,
-          certificare,
-          orientare
-          sau adaptarea proiectării didactice.
-        </p>
+    <div class="physics-example">
 
-      </div>
+      <h3>
+        Exemplu la Fizică
+      </h3>
+
+      <p>
+        Elevul rezolvă o problemă
+        de mecanică.
+        Rezultatul numeric final
+        este greșit.
+      </p>
+
+      <p>
+        Analiza rezolvării arată însă că:
+      </p>
+
+      <ul>
+
+        <li>
+          a identificat corect
+          sistemul fizic;
+        </li>
+
+        <li>
+          a ales legea corectă;
+        </li>
+
+        <li>
+          a realizat corect
+          calculul simbolic;
+        </li>
+
+        <li>
+          a comis o eroare aritmetică
+          în ultima etapă.
+        </li>
+
+      </ul>
+
+      <p>
+        Evaluarea corectă
+        identifică
+        <strong>tipul erorii</strong>,
+        nu declară pur și simplu
+        întreaga rezolvare greșită.
+      </p>
 
     </div>
 
@@ -1940,14 +2039,14 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Pentru examen:
+        Schema de memorat:
       </strong>
 
-      nu transforma „obiectivele evaluării”
-      într-o simplă enumerare.
-      Arată că rezultatele evaluării
-      sunt utilizate
-      pentru <strong>decizie și reglare</strong>.
+      <br><br>
+
+      informație
+      → apreciere
+      → decizie educațională.
 
     </div>
 
@@ -1955,7 +2054,124 @@ footer.site {
 
 
   <!-- =======================================================
-       4. FUNCTII
+       4. COMPETENȚE ȘI STANDARDE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="competente-standarde"
+  >
+
+    <h2>
+      4. Evaluarea centrată pe competențe și standarde
+    </h2>
+
+
+    <p>
+      În cadrul actual,
+      evaluarea
+      este centrată
+      pe
+      <strong>competențe</strong>.
+    </p>
+
+
+    <p>
+      Aceasta înseamnă
+      că profesorul nu urmărește
+      numai reproducerea
+      unor informații,
+      ci și capacitatea elevului
+      de a utiliza
+      cunoștințe,
+      abilități
+      și atitudini
+      în situații relevante.
+    </p>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Standardele naționale de evaluare
+      </span>
+
+      oferă repere
+      privind nivelurile
+      de performanță
+      ale competențelor specifice
+      și permit raportarea
+      rezultatelor elevilor
+      la criterii comune.
+
+    </div>
+
+
+    <div class="warning">
+
+      Standardele
+      și integrarea lor
+      în documentele curriculare
+      sunt introduse progresiv.
+
+      <br><br>
+
+      Pentru o clasă concretă,
+      profesorul verifică
+      <strong>
+        programa
+        și standardele
+        oficial aprobate
+        și aplicabile.
+      </strong>
+
+    </div>
+
+
+    <p>
+      Rezultatele evaluării
+      stau și la baza
+      planurilor individualizate
+      de învățare,
+      prin care pot fi stabilite
+      măsuri de:
+    </p>
+
+
+    <div class="grid3">
+
+      <div class="mini-card">
+        <h3>Consolidare</h3>
+        <p>
+          Stabilizarea
+          achizițiilor deja formate.
+        </p>
+      </div>
+
+      <div class="mini-card">
+        <h3>Remediere</h3>
+        <p>
+          Intervenția asupra
+          dificultăților identificate.
+        </p>
+      </div>
+
+      <div class="mini-card">
+        <h3>Performanță</h3>
+        <p>
+          Stimularea elevilor
+          care pot avansa
+          la niveluri superioare.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       5. FUNCȚII
        ======================================================= -->
 
   <section
@@ -1964,19 +2180,31 @@ footer.site {
   >
 
     <h2>
-      4. Funcțiile evaluării
+      5. Funcțiile evaluării
     </h2>
 
 
-    <p>
-      În literatura pedagogică
-      există clasificări și denumiri
-      care pot varia.
-      Pentru pregătirea concursului,
-      este mai important
-      să poți explica funcția
-      decât să memorezi mecanic o listă.
-    </p>
+    <div class="pedagogy-note">
+
+      <strong>Precizare:</strong>
+
+      clasificarea funcțiilor
+      este una
+      <strong>didactică</strong>.
+      Literatura pedagogică
+      poate grupa sau denumi
+      unele funcții diferit.
+
+      <br><br>
+
+      Pentru examen,
+      importantă este
+      caracterizarea corectă
+      a rolului fiecărei funcții,
+      nu memorarea mecanică
+      a unei liste foarte lungi.
+
+    </div>
 
 
     <div class="grid2">
@@ -1993,10 +2221,11 @@ footer.site {
         </h3>
 
         <p>
-          Identifică nivelul elevului,
-          dificultățile,
-          lacunele
-          și posibilele cauze.
+          Identifică
+          nivelul achizițiilor,
+          punctele forte,
+          dificultățile
+          și eventualele lacune.
         </p>
 
       </div>
@@ -2013,8 +2242,10 @@ footer.site {
         </h3>
 
         <p>
-          Permite anticiparea evoluției
-          și orientarea activității viitoare.
+          Permite anticiparea
+          evoluției învățării
+          și fundamentarea
+          activităților următoare.
         </p>
 
       </div>
@@ -2028,12 +2259,36 @@ footer.site {
 
         <h3>
           Funcția de reglare
+          și ameliorare
         </h3>
 
         <p>
-          Oferă baza pentru
-          corectarea și ameliorarea
-          predării și învățării.
+          Permite adaptarea
+          predării și învățării
+          în funcție
+          de rezultatele constatate.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card function-card">
+
+        <span class="function-code">
+          I
+        </span>
+
+        <h3>
+          Funcția informativă
+        </h3>
+
+        <p>
+          Oferă informații
+          elevului,
+          profesorului
+          și familiei
+          despre nivel
+          și progres.
         </p>
 
       </div>
@@ -2050,9 +2305,32 @@ footer.site {
         </h3>
 
         <p>
-          Poate susține implicarea,
-          responsabilizarea
-          și conștientizarea progresului.
+          Poate susține
+          implicarea,
+          responsabilitatea
+          și conștientizarea
+          progresului propriu.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card function-card">
+
+        <span class="function-code">
+          O
+        </span>
+
+        <h3>
+          Funcția de orientare
+        </h3>
+
+        <p>
+          Furnizează informații
+          utile pentru
+          orientarea școlară,
+          educațională
+          și profesională.
         </p>
 
       </div>
@@ -2069,8 +2347,10 @@ footer.site {
         </h3>
 
         <p>
-          Confirmă atingerea
-          unui anumit nivel de performanță
+          Confirmă
+          atingerea
+          unui anumit nivel
+          de rezultate
           sau de competență.
         </p>
 
@@ -2088,92 +2368,35 @@ footer.site {
         </h3>
 
         <p>
-          Poate susține clasificarea
-          sau selecția
-          în contexte educaționale specifice.
+          Poate interveni
+          în contexte
+          în care rezultatele evaluării
+          sunt utilizate
+          pentru clasificare
+          sau selecție.
         </p>
 
       </div>
 
-
-      <div class="mini-card function-card">
-
-        <span class="function-code">
-          O
-        </span>
-
-        <h3>
-          Funcția de orientare
-        </h3>
-
-        <p>
-          Oferă informații utile
-          pentru orientarea școlară
-          și profesională.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card function-card">
-
-        <span class="function-code">
-          I
-        </span>
-
-        <h3>
-          Funcția informativă
-        </h3>
-
-        <p>
-          Furnizează informații
-          despre nivelul și progresul
-          învățării.
-        </p>
-
-      </div>
 
     </div>
 
 
     <div class="callout">
 
+      Aceeași evaluare
+      poate îndeplini
       <strong>
-        Reper util:
+        mai multe funcții simultan.
       </strong>
 
       <br><br>
 
-      diagnostică =
-      <strong>unde suntem și ce dificultăți există?</strong>
-
-      <br>
-
-      prognostică =
-      <strong>ce putem anticipa?</strong>
-
-      <br>
-
-      reglare =
-      <strong>ce modificăm?</strong>
-
-      <br>
-
-      certificare =
-      <strong>ce nivel a fost atins?</strong>
-
-    </div>
-
-
-    <div class="warning">
-
-      Aceeași situație evaluativă
-      poate îndeplini
-      <strong>mai multe funcții simultan</strong>.
-
-      Nu există întotdeauna
-      o corespondență rigidă
-      „un tip de evaluare = o singură funcție”.
+      Nu există
+      o relație rigidă
+      de tipul
+      „un tip de evaluare
+      = o singură funcție”.
 
     </div>
 
@@ -2181,7 +2404,109 @@ footer.site {
 
 
   <!-- =======================================================
-       5. INITIALA
+       6. CRITERII CLASIFICARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="clasificare"
+  >
+
+    <h2>
+      6. Nu amesteca criteriile de clasificare
+    </h2>
+
+
+    <p>
+      Termenii utilizați
+      pentru evaluare
+      răspund
+      unor criterii diferite.
+    </p>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          După integrarea
+          în procesul de învățare
+        </h3>
+
+        <p>
+          Inițială,
+          continuă sau curentă,
+          formativă,
+          sumativă.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          După cine organizează evaluarea
+        </h3>
+
+        <p>
+          Internă,
+          externă,
+          internațională.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          După forma / instrumentul utilizat
+        </h3>
+
+        <p>
+          Oral,
+          scris,
+          experimental,
+          practic,
+          proiect etc.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="danger">
+
+      <strong>
+        „Scrisă”
+        și „sumativă”
+        nu sunt categorii opuse.
+      </strong>
+
+      <br><br>
+
+      O evaluare scrisă
+      poate fi
+      inițială,
+      formativă
+      sau sumativă,
+      în funcție
+      de scopul
+      și modul de utilizare
+      a rezultatului.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       7. INIȚIALĂ
        ======================================================= -->
 
   <section
@@ -2190,7 +2515,7 @@ footer.site {
   >
 
     <h2>
-      5. Evaluarea inițială
+      7. Evaluarea inițială
     </h2>
 
 
@@ -2202,16 +2527,18 @@ footer.site {
 
       se realizează
       înaintea unei noi etape
-      de instruire
+      de învățare
       pentru identificarea
-      nivelului de pregătire,
-      a prerechizitelor
-      și a eventualelor lacune.
+      nivelului de pornire,
+      a prerechizitelor,
+      a punctelor forte
+      și a dificultăților elevilor.
 
     </div>
 
 
     <div class="grid2">
+
 
       <div class="mini-card">
 
@@ -2220,9 +2547,11 @@ footer.site {
         </h3>
 
         <p>
-          La începutul unui an,
-          al unei unități
-          sau al unei secvențe relevante.
+          La începutul
+          unei etape relevante:
+          an,
+          unitate de învățare
+          sau secvență nouă.
         </p>
 
       </div>
@@ -2231,12 +2560,13 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Ce urmărește?
+          Întrebarea centrală
         </h3>
 
         <p>
-          Cunoștințele și competențele
-          necesare noilor achiziții.
+          <strong>
+            „De unde pornim?”
+          </strong>
         </p>
 
       </div>
@@ -2245,7 +2575,7 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Funcție dominantă
+          Funcții dominante
         </h3>
 
         <p>
@@ -2259,16 +2589,18 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Ce urmează?
+          Decizie
         </h3>
 
         <p>
-          Adaptarea proiectării
+          Adaptarea
+          proiectării didactice
           la nivelul real
-          al colectivului.
+          al elevilor.
         </p>
 
       </div>
+
 
     </div>
 
@@ -2276,42 +2608,59 @@ footer.site {
     <div class="physics-example">
 
       <h3>
-        Exemplu — circuite electrice
+        Exemplu la Fizică
       </h3>
 
       <p>
         Înaintea unei unități
-        privind circuitele electrice,
-        profesorul poate verifica
-        dacă elevii recunosc
-        intensitatea curentului,
-        tensiunea,
-        rezistența electrică
-        și unitățile lor de măsură.
+        despre circuite electrice,
+        profesorul verifică
+        dacă elevii:
       </p>
 
-      <p>
-        Rezultatul nu trebuie folosit
-        doar pentru o notă.
-        El îi arată profesorului
-        dacă sunt necesare
-        activități de reactualizare.
-      </p>
+      <ul>
+
+        <li>
+          identifică tensiunea electrică,
+          intensitatea curentului
+          și rezistența;
+        </li>
+
+        <li>
+          cunosc unitățile de măsură;
+        </li>
+
+        <li>
+          recunosc simbolurile
+          elementelor de circuit;
+        </li>
+
+        <li>
+          pot interpreta
+          o schemă simplă.
+        </li>
+
+      </ul>
 
     </div>
 
 
-    <div class="danger">
+    <div class="warning">
 
+      Evaluarea inițială
       <strong>
-        Evaluarea inițială
-        nu înseamnă automat
-        „test cu notă la începutul anului”.
+        nu este sinonimă
+        cu „testul cu notă
+        din prima oră”.
       </strong>
 
+      <br><br>
+
       Esențială este
-      <strong>funcția de diagnosticare</strong>
-      a nivelului de pornire.
+      funcția diagnostică
+      și utilizarea rezultatului
+      pentru proiectarea
+      activității următoare.
 
     </div>
 
@@ -2319,7 +2668,117 @@ footer.site {
 
 
   <!-- =======================================================
-       6. FORMATIVA
+       8. CONTINUĂ
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="continua"
+  >
+
+    <h2>
+      8. Evaluarea continuă / curentă
+    </h2>
+
+
+    <div class="definition">
+
+      <span class="definition-term">
+        Evaluarea continuă sau curentă
+      </span>
+
+      însoțește regulat
+      procesul didactic
+      și permite obținerea
+      permanentă de informații
+      despre nivelul
+      și progresul elevului.
+
+    </div>
+
+
+    <p>
+      Regulamentul actual
+      stabilește că
+      evaluarea rezultatelor
+      se realizează
+      <strong>
+        permanent,
+        pe parcursul anului școlar.
+      </strong>
+    </p>
+
+
+    <div class="grid2">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Caracter
+        </h3>
+
+        <p>
+          Frecvent,
+          integrat
+          activităților obișnuite
+          de învățare.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Rol
+        </h3>
+
+        <p>
+          Urmărirea progresului
+          și identificarea rapidă
+          a dificultăților.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Continuă / curentă
+        și formativă
+        nu sunt perfect sinonime.
+      </strong>
+
+      <br><br>
+
+      „Continuă”
+      descrie în primul rând
+      integrarea permanentă
+      în procesul didactic.
+
+      <br><br>
+
+      „Formativă”
+      pune accentul
+      pe
+      <strong>
+        utilizarea informației
+        pentru îmbunătățirea
+        învățării în desfășurare.
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       9. FORMATIVĂ
        ======================================================= -->
 
   <section
@@ -2328,7 +2787,7 @@ footer.site {
   >
 
     <h2>
-      6. Evaluarea formativă
+      9. Evaluarea formativă
     </h2>
 
 
@@ -2338,43 +2797,32 @@ footer.site {
         Evaluarea formativă
       </span>
 
-      însoțește procesul de învățare
-      și oferă informații
-      care permit reglarea
-      și ameliorarea lui
-      în timp util.
-
-    </div>
-
-
-    <p>
-      Aici accentul nu cade
-      pe constatarea finală,
-      ci pe întrebarea:
-    </p>
-
-
-    <div class="exam-answer">
-
-      <strong>
-        „Ce trebuie ajustat acum
-        pentru ca învățarea să progreseze?”
-      </strong>
+      utilizează informațiile
+      obținute în timpul
+      procesului de învățare
+      pentru reglarea
+      și ameliorarea
+      imediată sau apropiată
+      a activității elevului
+      și a demersului profesorului.
 
     </div>
 
 
     <div class="grid2">
 
+
       <div class="mini-card">
 
         <h3>
-          Este continuă
+          Când?
         </h3>
 
         <p>
-          Apare pe parcursul
-          activității de învățare.
+          În timpul
+          procesului de învățare,
+          înainte ca secvența
+          să fie încheiată.
         </p>
 
       </div>
@@ -2383,13 +2831,14 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Produce feedback
+          Întrebarea centrală
         </h3>
 
         <p>
-          Elevul află
-          ce este corect
-          și ce trebuie îmbunătățit.
+          <strong>
+            „Cum progresăm
+            și ce trebuie ajustat?”
+          </strong>
         </p>
 
       </div>
@@ -2398,13 +2847,13 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Permite remedierea
+          Rezultat
         </h3>
 
         <p>
-          Profesorul poate interveni
-          înainte de încheierea
-          secvenței de instruire.
+          Feedback specific
+          și indicații
+          privind pasul următor.
         </p>
 
       </div>
@@ -2413,16 +2862,19 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Susține autoreglarea
+          Decizie
         </h3>
 
         <p>
-          Elevul poate înțelege
-          unde se află
-          și care este pasul următor.
+          Corectare,
+          remediere,
+          consolidare
+          sau schimbarea
+          strategiei.
         </p>
 
       </div>
+
 
     </div>
 
@@ -2430,48 +2882,55 @@ footer.site {
     <div class="physics-example">
 
       <h3>
-        Exemplu — laborator de Fizică
+        Exemplu — activitate experimentală
       </h3>
 
       <p>
-        Elevii determină experimental
-        relația dintre tensiune
-        și intensitatea curentului
-        pentru un rezistor.
+        Elevul realizează
+        un circuit pentru verificarea
+        Legii lui Ohm,
+        dar conectează voltmetrul
+        în serie.
       </p>
 
       <p>
-        Profesorul observă
-        că un elev conectează voltmetrul în serie.
-        Intervine imediat
-        printr-o întrebare orientativă,
-        elevul corectează montajul,
-        apoi continuă măsurătorile.
+        Profesorul nu se limitează
+        la constatarea
+        „montaj greșit”,
+        ci identifică eroarea
+        și îl ghidează
+        spre corectare.
       </p>
 
       <p>
-        Avem aici
-        <strong>evaluare formativă</strong>:
-        informația obținută
-        este folosită imediat
-        pentru reglarea învățării.
+        Informația evaluativă
+        este folosită
+        <strong>
+          în timpul învățării
+        </strong>
+        pentru îmbunătățirea performanței.
       </p>
 
     </div>
 
 
-    <div class="callout">
+    <div class="danger">
 
+      O fișă,
+      un test scurt
+      sau o întrebare orală
+      nu devin automat
+      „evaluare formativă”.
+
+      <br><br>
+
+      Caracterul formativ
+      rezultă din
       <strong>
-        Formativă nu înseamnă
-        „fără exigență”.
+        modul în care informația
+        obținută este folosită
+        pentru reglarea învățării.
       </strong>
-
-      Înseamnă că evaluarea
-      este folosită
-      pentru a sprijini progresul
-      înainte ca procesul
-      să fie încheiat.
 
     </div>
 
@@ -2479,7 +2938,7 @@ footer.site {
 
 
   <!-- =======================================================
-       7. SUMATIVA
+       10. SUMATIVĂ
        ======================================================= -->
 
   <section
@@ -2488,7 +2947,7 @@ footer.site {
   >
 
     <h2>
-      7. Evaluarea sumativă
+      10. Evaluarea sumativă
     </h2>
 
 
@@ -2500,16 +2959,17 @@ footer.site {
 
       se realizează,
       de regulă,
-      la finalul unei perioade
-      sau secvențe mai ample
-      de instruire,
+      la finalul
+      unei secvențe relevante
+      de învățare
       pentru aprecierea sintetică
-      a rezultatelor obținute.
+      a nivelului rezultatelor obținute.
 
     </div>
 
 
     <div class="grid2">
+
 
       <div class="mini-card">
 
@@ -2518,9 +2978,10 @@ footer.site {
         </h3>
 
         <p>
-          La finalul unei unități,
-          perioade
-          sau etape de instruire.
+          După o unitate,
+          o perioadă
+          sau o etapă
+          de învățare.
         </p>
 
       </div>
@@ -2529,13 +2990,14 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Ce urmărește?
+          Întrebarea centrală
         </h3>
 
         <p>
-          Nivelul rezultatelor
-          după parcurgerea
-          unei secvențe de învățare.
+          <strong>
+            „La ce nivel
+            am ajuns?”
+          </strong>
         </p>
 
       </div>
@@ -2544,33 +3006,33 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Funcții frecvente
+          Rol
+        </h3>
+
+        <p>
+          Apreciere sintetică
+          a rezultatelor
+          după o etapă.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Funcții posibile
         </h3>
 
         <p>
           Constatare,
-          apreciere,
           certificare
-          și, după context,
+          și, în anumite contexte,
           selecție.
         </p>
 
       </div>
 
-
-      <div class="mini-card">
-
-        <h3>
-          Exemplu
-        </h3>
-
-        <p>
-          Test sau probă
-          la finalul unei unități
-          de învățare.
-        </p>
-
-      </div>
 
     </div>
 
@@ -2578,20 +3040,20 @@ footer.site {
     <div class="physics-example">
 
       <h3>
-        Exemplu — mecanică
+        Exemplu
       </h3>
 
       <p>
-        După finalizarea unei unități
-        despre principiile mecanicii,
-        profesorul poate utiliza
-        o probă care verifică:
+        La finalul
+        unei unități de mecanică,
+        o probă sumativă
+        poate solicita:
       </p>
 
       <ul>
 
         <li>
-          înțelegerea conceptelor;
+          explicarea conceptelor;
         </li>
 
         <li>
@@ -2603,7 +3065,11 @@ footer.site {
         </li>
 
         <li>
-          interpretarea situațiilor fizice.
+          interpretarea graficelor;
+        </li>
+
+        <li>
+          analiza unei situații fizice.
         </li>
 
       </ul>
@@ -2613,12 +3079,19 @@ footer.site {
 
     <div class="warning">
 
-      Sumativă nu înseamnă
-      „singura evaluare importantă”.
-      Ea trebuie privită
-      în complementaritate
-      cu evaluarea inițială
-      și formativă.
+      <strong>
+        Sumativă
+        nu înseamnă obligatoriu
+        „lucrare scrisă”.
+      </strong>
+
+      <br><br>
+
+      O evaluare sumativă
+      poate utiliza
+      instrumente diferite,
+      în funcție
+      de competențele evaluate.
 
     </div>
 
@@ -2626,7 +3099,7 @@ footer.site {
 
 
   <!-- =======================================================
-       8. COMPARATIE
+       11. COMPARAȚIE
        ======================================================= -->
 
   <section
@@ -2635,11 +3108,12 @@ footer.site {
   >
 
     <h2>
-      8. Inițială, formativă, sumativă — comparație
+      11. Comparația tipurilor de evaluare
     </h2>
 
 
     <div class="timeline">
+
 
       <div class="timeline-card initial">
 
@@ -2647,11 +3121,28 @@ footer.site {
           Inițială
         </b>
 
-        Înaintea învățării.
+        Înaintea
+        unei etape.
 
         <br><br>
 
         „De unde pornim?”
+
+      </div>
+
+
+      <div class="timeline-card current">
+
+        <b>
+          Continuă / curentă
+        </b>
+
+        Pe tot parcursul
+        procesului.
+
+        <br><br>
+
+        „Ce se întâmplă acum?”
 
       </div>
 
@@ -2662,11 +3153,12 @@ footer.site {
           Formativă
         </b>
 
-        Pe parcursul învățării.
+        În timpul învățării,
+        pentru reglare.
 
         <br><br>
 
-        „Cum progresăm?”
+        „Ce ajustăm?”
 
       </div>
 
@@ -2677,13 +3169,14 @@ footer.site {
           Sumativă
         </b>
 
-        După o etapă relevantă.
+        După o etapă.
 
         <br><br>
 
         „La ce nivel am ajuns?”
 
       </div>
+
 
     </div>
 
@@ -2705,6 +3198,10 @@ footer.site {
             </th>
 
             <th>
+              Continuă / curentă
+            </th>
+
+            <th>
               Formativă
             </th>
 
@@ -2718,6 +3215,7 @@ footer.site {
 
 
         <tbody>
+
 
           <tr>
 
@@ -2730,11 +3228,18 @@ footer.site {
             </td>
 
             <td>
-              Pe parcurs
+              Permanent,
+              pe parcurs
+            </td>
+
+            <td>
+              În timpul
+              învățării
             </td>
 
             <td>
               După o etapă
+              relevantă
             </td>
 
           </tr>
@@ -2747,18 +3252,20 @@ footer.site {
             </td>
 
             <td>
-              Diagnosticarea
-              nivelului de pornire
+              Diagnoză
             </td>
 
             <td>
-              Reglarea
-              și ameliorarea învățării
+              Monitorizare
             </td>
 
             <td>
-              Aprecierea sintetică
-              a rezultatelor
+              Reglare
+              și ameliorare
+            </td>
+
+            <td>
+              Apreciere sintetică
             </td>
 
           </tr>
@@ -2767,22 +3274,26 @@ footer.site {
           <tr>
 
             <td>
-              <strong>Feedback</strong>
+              <strong>Întrebarea</strong>
             </td>
 
             <td>
-              Pentru proiectarea
-              activității viitoare
+              De unde pornim?
             </td>
 
             <td>
-              Rapid,
-              pentru intervenție
+              Cum evoluează
+              învățarea?
             </td>
 
             <td>
-              Mai ales sintetic,
-              după etapa evaluată
+              Ce trebuie
+              ajustat?
+            </td>
+
+            <td>
+              La ce nivel
+              am ajuns?
             </td>
 
           </tr>
@@ -2791,48 +3302,33 @@ footer.site {
           <tr>
 
             <td>
-              <strong>Remediere</strong>
+              <strong>Decizie</strong>
             </td>
 
             <td>
-              Permite anticiparea
-              intervenției
+              Adaptarea
+              proiectării
             </td>
 
             <td>
-              Permite intervenție
-              imediată
+              Monitorizare
+              și intervenție
             </td>
 
             <td>
-              Poate fundamenta
-              activități ulterioare
+              Feedback,
+              remediere,
+              consolidare
+            </td>
+
+            <td>
+              Apreciere,
+              certificare,
+              raportare
             </td>
 
           </tr>
 
-
-          <tr>
-
-            <td>
-              <strong>Exemplu la Fizică</strong>
-            </td>
-
-            <td>
-              Verificarea prerechizitelor
-            </td>
-
-            <td>
-              Feedback în timpul
-              unui experiment
-            </td>
-
-            <td>
-              Test la final
-              de unitate
-            </td>
-
-          </tr>
 
         </tbody>
 
@@ -2844,124 +3340,23 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Formula de memorare:
+        Nu memora doar denumirile.
       </strong>
 
       <br><br>
 
-      <span class="tag initial">
-        INIȚIALĂ
-      </span>
-      De unde pornim?
+      La caracterizarea
+      unui tip de evaluare,
+      precizează:
 
       <br><br>
-
-      <span class="tag formative">
-        FORMATIVĂ
-      </span>
-      Cum progresăm?
-
-      <br><br>
-
-      <span class="tag summative">
-        SUMATIVĂ
-      </span>
-      La ce nivel am ajuns?
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       9. INTERNA / EXTERNA
-       ======================================================= -->
-
-  <section
-    class="card"
-    id="interna-externa"
-  >
-
-    <h2>
-      9. Evaluare internă și evaluare externă
-    </h2>
-
-
-    <p>
-      Un alt criteriu de clasificare
-      privește raportul dintre evaluator
-      și instituția în care se desfășoară
-      activitatea educațională.
-    </p>
-
-
-    <div class="grid2">
-
-      <div class="mini-card">
-
-        <h3>
-          Evaluare internă
-        </h3>
-
-        <p>
-          Este realizată
-          în cadrul unității de învățământ,
-          de regulă de profesorii
-          implicați în procesul educațional.
-        </p>
-
-        <p>
-          Exemple:
-          ascultare orală,
-          test la clasă,
-          evaluarea unei activități de laborator.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Evaluare externă
-        </h3>
-
-        <p>
-          Este organizată
-          prin mecanisme sau structuri
-          exterioare activității curente
-          a profesorului clasei.
-        </p>
-
-        <p>
-          Poate urmări
-          standardizare,
-          certificare
-          sau comparație
-          la nivel mai larg.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="warning">
 
       <strong>
-        Criteriile de clasificare
-        nu trebuie amestecate.
+        momentul
+        + scopul
+        + informația obținută
+        + decizia care rezultă.
       </strong>
-
-      „Internă / externă”
-      răspunde la o altă întrebare
-      decât
-      „inițială / formativă / sumativă”.
-
-      O evaluare poate fi,
-      de exemplu,
-      simultan
-      <strong>internă și sumativă</strong>.
 
     </div>
 
@@ -2969,26 +3364,23 @@ footer.site {
 
 
   <!-- =======================================================
-       10. FORME
+       12. INTERN / EXTERN
        ======================================================= -->
 
   <section
     class="card"
-    id="forme"
+    id="intern-extern"
   >
 
     <h2>
-      10. Forme / probe de realizare a evaluării
+      12. Evaluarea internă, externă și internațională
     </h2>
 
 
     <p>
-      În practica școlară,
-      evaluarea poate fi realizată
-      prin probe și modalități diferite.
-      Alegerea lor trebuie făcută
-      în funcție de ceea ce vrem
-      să observăm la elev.
+      Acesta este
+      un alt criteriu
+      de clasificare.
     </p>
 
 
@@ -2998,20 +3390,21 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Evaluare orală
+          Evaluarea internă
         </h3>
 
         <p>
-          Utilizează răspunsul oral,
-          explicația,
-          conversația
-          sau argumentarea.
+          Este realizată
+          la nivelul școlii
+          și al clasei,
+          în cadrul
+          procesului didactic.
         </p>
 
         <p>
-          La Fizică poate verifica
-          explicarea unui fenomen
-          sau justificarea unei relații.
+          Evaluarea realizată
+          de profesorul clasei
+          este evaluare internă.
         </p>
 
       </div>
@@ -3020,20 +3413,23 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Evaluare scrisă
+          Evaluarea externă
         </h3>
 
         <p>
-          Utilizează teste,
-          exerciții,
-          probleme
-          sau sarcini redactate.
+          Este proiectată
+          și gestionată
+          de structuri
+          specializate,
+          din exteriorul
+          activității curente
+          a profesorului clasei.
         </p>
 
         <p>
-          Permite păstrarea
-          produsului elevului
-          și aplicarea unui barem.
+          Evaluările și examenele
+          naționale
+          sunt exemple relevante.
         </p>
 
       </div>
@@ -3042,64 +3438,40 @@ footer.site {
       <div class="mini-card">
 
         <h3>
-          Evaluare practică
+          Evaluarea internațională
         </h3>
 
         <p>
-          Urmărește realizarea
-          unei activități,
-          utilizarea aparaturii,
-          măsurarea
-          și respectarea procedurilor.
-        </p>
-
-        <p>
-          Este esențială
-          pentru competențele experimentale.
+          Este organizată
+          prin programe
+          internaționale
+          și permite
+          analiza comparativă
+          a rezultatelor educaționale.
         </p>
 
       </div>
+
 
     </div>
 
 
     <div class="danger">
 
+      O evaluare poate fi
       <strong>
-        Nu confunda forma cu tipul evaluării.
+        simultan internă și sumativă
       </strong>
-
-      „Orală” descrie
-      modul de realizare.
-
-      „Formativă” descrie
-      rolul și poziția evaluării
-      în procesul de învățare.
-
-    </div>
-
-
-    <div class="callout">
-
-      Aceeași probă scrisă
-      poate fi:
+      sau
+      <strong>
+        internă și formativă.
+      </strong>
 
       <br><br>
 
-      <strong>inițială</strong>,
-      dacă verifică prerechizitele;
-
-      <br>
-
-      <strong>formativă</strong>,
-      dacă rezultatele sunt folosite
-      imediat pentru reglare;
-
-      <br>
-
-      <strong>sumativă</strong>,
-      dacă sintetizează rezultatele
-      la finalul unei etape.
+      Termenii răspund
+      unor criterii
+      diferite de clasificare.
 
     </div>
 
@@ -3107,7 +3479,206 @@ footer.site {
 
 
   <!-- =======================================================
-       11. FIZICA
+       13. FORME ȘI INSTRUMENTE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="forme"
+  >
+
+    <h2>
+      13. Forme și instrumente de evaluare
+    </h2>
+
+
+    <p>
+      Regulamentul în vigoare
+      prevede că instrumentele
+      se aleg
+      în funcție de:
+    </p>
+
+
+    <ul>
+
+      <li>
+        vârsta elevilor;
+      </li>
+
+      <li>
+        particularitățile
+        psihopedagogice;
+      </li>
+
+      <li>
+        specificul disciplinei;
+      </li>
+
+      <li>
+        competențele
+        care trebuie evaluate.
+      </li>
+
+    </ul>
+
+
+    <div class="grid3">
+
+
+      <div class="mini-card">
+
+        <h3>
+          Evaluări orale
+        </h3>
+
+        <p>
+          Permit
+          explicarea,
+          argumentarea,
+          justificarea
+          și dialogul
+          profesor–elev.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Teste și lucrări scrise
+        </h3>
+
+        <p>
+          Permit utilizarea
+          unor sarcini
+          și itemi variați,
+          în condiții
+          mai ușor standardizabile.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Experimente și activități practice
+        </h3>
+
+        <p>
+          Permit evaluarea
+          competențelor
+          de investigare,
+          măsurare
+          și lucru experimental.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Referate
+        </h3>
+
+        <p>
+          Pot evidenția
+          documentarea,
+          organizarea informației
+          și comunicarea
+          unui rezultat.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Proiecte
+        </h3>
+
+        <p>
+          Permit evaluarea
+          unor achiziții complexe,
+          integrate
+          și dezvoltate
+          pe o perioadă mai lungă.
+        </p>
+
+      </div>
+
+
+      <div class="mini-card">
+
+        <h3>
+          Probe practice
+        </h3>
+
+        <p>
+          Verifică
+          realizarea efectivă
+          a unor operații,
+          proceduri
+          sau produse.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="warning">
+
+      <strong>
+        Nu confunda instrumentul
+        cu tipul evaluării.
+      </strong>
+
+      <br><br>
+
+      Un test scris
+      poate fi utilizat
+      pentru evaluare inițială,
+      continuă,
+      formativă
+      sau sumativă,
+      în funcție
+      de scopul
+      și utilizarea rezultatului.
+
+    </div>
+
+
+    <div class="pedagogy-note">
+
+      Observarea sistematică,
+      portofoliul,
+      investigația
+      și celelalte metode
+      de evaluare
+      vor fi dezvoltate
+      în lecția dedicată
+      <strong>metodelor de evaluare</strong>.
+
+      <br><br>
+
+      Tipologia itemilor
+      este tratată separat
+      în lecția dedicată
+      <strong>itemilor</strong>.
+
+    </div>
+
+  </section>
+
+
+  <!-- =======================================================
+       14. FIZICA
        ======================================================= -->
 
   <section
@@ -3116,255 +3687,218 @@ footer.site {
   >
 
     <h2>
-      11. Particularizarea evaluării la Fizică
+      14. Ce evaluăm la Fizică?
     </h2>
 
 
     <p>
-      La Fizică,
-      evaluarea nu trebuie redusă
-      la reproducerea formulelor
-      sau la rezultatul numeric
-      al unei probleme.
+      Evaluarea la Fizică
+      nu se reduce
+      la verificarea
+      unui rezultat numeric
+      sau la reproducerea
+      unei formule.
     </p>
 
 
-    <div class="grid2">
+    <div class="checklist">
 
-      <div class="mini-card">
 
-        <h3>
-          Cunoaștere conceptuală
-        </h3>
-
-        <p>
-          Mărimi,
-          legi,
-          modele,
-          fenomene
-          și condiții de aplicare.
-        </p>
-
+      <div class="check">
+        înțelegerea conceptelor
+        și fenomenelor fizice;
       </div>
 
 
-      <div class="mini-card">
-
-        <h3>
-          Rezolvare de probleme
-        </h3>
-
-        <p>
-          Alegerea legilor,
-          raționamentul,
-          calculul simbolic,
-          unitățile
-          și interpretarea rezultatului.
-        </p>
-
+      <div class="check">
+        utilizarea corectă
+        a mărimilor,
+        simbolurilor
+        și unităților;
       </div>
 
 
-      <div class="mini-card">
-
-        <h3>
-          Activitate experimentală
-        </h3>
-
-        <p>
-          Montaj,
-          utilizarea instrumentelor,
-          măsurători,
-          organizarea datelor
-          și respectarea regulilor de lucru.
-        </p>
-
+      <div class="check">
+        alegerea modelului fizic
+        și formularea ipotezelor;
       </div>
 
 
-      <div class="mini-card">
-
-        <h3>
-          Investigație
-        </h3>
-
-        <p>
-          Formularea ipotezelor,
-          analiza datelor,
-          interpretarea rezultatelor
-          și formularea concluziilor.
-        </p>
-
+      <div class="check">
+        selectarea
+        și aplicarea
+        legilor fizice;
       </div>
 
 
-      <div class="mini-card">
-
-        <h3>
-          Explicație științifică
-        </h3>
-
-        <p>
-          Utilizarea corectă
-          a conceptelor și legilor
-          pentru explicarea fenomenelor.
-        </p>
-
+      <div class="check">
+        calculul simbolic
+        și numeric;
       </div>
 
 
-      <div class="mini-card">
-
-        <h3>
-          Comunicare
-        </h3>
-
-        <p>
-          Exprimarea coerentă
-          a raționamentului,
-          utilizarea simbolurilor,
-          graficelor și tabelelor.
-        </p>
-
+      <div class="check">
+        rezolvarea
+        și argumentarea
+        problemelor;
       </div>
+
+
+      <div class="check">
+        realizarea
+        activităților experimentale;
+      </div>
+
+
+      <div class="check">
+        utilizarea corectă
+        a aparaturii
+        și instrumentelor;
+      </div>
+
+
+      <div class="check">
+        colectarea
+        și organizarea datelor;
+      </div>
+
+
+      <div class="check">
+        reprezentarea
+        și interpretarea graficelor;
+      </div>
+
+
+      <div class="check">
+        formularea concluziilor;
+      </div>
+
+
+      <div class="check">
+        comunicarea
+        și argumentarea științifică.
+      </div>
+
 
     </div>
 
 
-    <h3>
-      Exemplu integrat — Legea lui Ohm
-    </h3>
+    <div class="physics-example">
 
+      <h3>
+        Evaluarea unei probleme
+      </h3>
 
-    <div class="table-wrap">
+      <p>
+        La o problemă de Fizică,
+        analiza poate urmări:
+      </p>
 
-      <table>
+      <ol>
 
-        <thead>
+        <li>
+          identificarea datelor
+          și transformarea
+          în unități corespunzătoare;
+        </li>
 
-          <tr>
+        <li>
+          formularea cerinței;
+        </li>
 
-            <th>
-              Moment
-            </th>
+        <li>
+          alegerea sistemului
+          și a ipotezelor;
+        </li>
 
-            <th>
-              Ce urmărește profesorul?
-            </th>
+        <li>
+          alegerea legilor fizice;
+        </li>
 
-            <th>
-              Tip dominant
-            </th>
+        <li>
+          calculul simbolic;
+        </li>
 
-          </tr>
+        <li>
+          calculul numeric;
+        </li>
 
-        </thead>
+        <li>
+          utilizarea unităților;
+        </li>
 
+        <li>
+          verificarea rezultatului;
+        </li>
 
-        <tbody>
+        <li>
+          formularea răspunsului.
+        </li>
 
-          <tr>
+      </ol>
 
-            <td>
-              Înaintea experimentului
-            </td>
-
-            <td>
-              Recunoașterea ampermetrului,
-              voltmetrului,
-              simbolurilor
-              și unităților de măsură
-            </td>
-
-            <td>
-              Inițială
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              În timpul realizării montajului
-            </td>
-
-            <td>
-              Conectarea aparatelor,
-              efectuarea măsurătorilor,
-              completarea tabelului
-            </td>
-
-            <td>
-              Formativă
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              În timpul analizei datelor
-            </td>
-
-            <td>
-              Calculul raportului U/I,
-              identificarea regularității,
-              formularea concluziei
-            </td>
-
-            <td>
-              Formativă
-            </td>
-
-          </tr>
-
-
-          <tr>
-
-            <td>
-              La finalul unității
-            </td>
-
-            <td>
-              Aplicarea legii
-              în probleme și situații noi
-            </td>
-
-            <td>
-              Sumativă
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
+      <p>
+        În acest mod,
+        profesorul poate acorda
+        o apreciere
+        asupra
+        <strong>
+          metodei și raționamentului,
+          nu numai asupra rezultatului final.
+        </strong>
+      </p>
 
     </div>
 
 
-    <div class="exam-box">
+    <div class="physics-example">
 
-      <strong>
-        La Fizică verificăm metoda,
-        nu numai rezultatul.
-      </strong>
+      <h3>
+        Evaluarea activității experimentale
+      </h3>
 
-      <br><br>
+      <p>
+        Într-o lucrare experimentală
+        se pot evalua separat:
+      </p>
 
-      Într-o problemă,
-      răspunsul numeric final
-      nu este singura dovadă
-      a competenței elevului.
+      <ul>
 
-      Pot fi relevante:
-      legea aleasă,
-      relația simbolică,
-      transformările,
-      unitățile
-      și interpretarea fizică.
+        <li>
+          realizarea montajului;
+        </li>
+
+        <li>
+          utilizarea sigură
+          și corectă
+          a aparaturii;
+        </li>
+
+        <li>
+          efectuarea măsurătorilor;
+        </li>
+
+        <li>
+          înregistrarea datelor;
+        </li>
+
+        <li>
+          prelucrarea datelor;
+        </li>
+
+        <li>
+          reprezentarea grafică;
+        </li>
+
+        <li>
+          interpretarea rezultatelor;
+        </li>
+
+        <li>
+          formularea concluziei.
+        </li>
+
+      </ul>
 
     </div>
 
@@ -3372,7 +3906,7 @@ footer.site {
 
 
   <!-- =======================================================
-       12. FEEDBACK
+       15. FEEDBACK
        ======================================================= -->
 
   <section
@@ -3381,132 +3915,47 @@ footer.site {
   >
 
     <h2>
-      12. Feedbackul și reglarea învățării
+      15. Feedback și feedforward
     </h2>
 
 
     <p>
-      Evaluarea devine pedagogic valoroasă
-      atunci când informația obținută
-      este utilizată.
+      Evaluarea la clasă
+      trebuie să sprijine
+      învățarea.
     </p>
 
 
-    <div class="process">
+    <div class="definition">
 
-      <div class="process-card">
+      <span class="definition-term">
+        Feedbackul descriptiv
+      </span>
 
-        <b>
-          Evidență
-        </b>
-
-        Ce a realizat elevul?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Interpretare
-        </b>
-
-        Ce este corect
-        și unde apare dificultatea?
-
-      </div>
-
-      <div class="process-arrow">
-        →
-      </div>
-
-      <div class="process-card">
-
-        <b>
-          Acțiune
-        </b>
-
-        Ce facem în continuare?
-
-      </div>
+      oferă elevului
+      informații precise
+      despre nivelul actual
+      al performanței,
+      despre ceea ce
+      a realizat corect
+      și despre dificultățile
+      care trebuie corectate.
 
     </div>
 
 
-    <h3>
-      Feedback eficient
-    </h3>
+    <div class="definition">
 
+      <span class="definition-term">
+        Feedforwardul
+      </span>
 
-    <div class="grid2">
-
-      <div class="mini-card">
-
-        <h3>
-          Specific
-        </h3>
-
-        <p>
-          Nu doar:
-          „Greșit.”
-        </p>
-
-        <p>
-          Ci:
-          „Ai ales corect legea,
-          dar ai inversat raportul U/I.”
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Orientat spre acțiune
-        </h3>
-
-        <p>
-          Indică pasul următor:
-          verifică definiția rezistenței
-          și unitatea ohmului.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Raportat la criteriu
-        </h3>
-
-        <p>
-          Se referă la cerință,
-          competență
-          sau criteriul de reușită,
-          nu la etichetarea elevului.
-        </p>
-
-      </div>
-
-
-      <div class="mini-card">
-
-        <h3>
-          Oportun
-        </h3>
-
-        <p>
-          Este oferit suficient de repede
-          pentru a putea fi folosit
-          în învățare.
-        </p>
-
-      </div>
+      indică
+      pasul următor
+      pe care elevul
+      îl poate realiza
+      pentru ameliorarea
+      performanței.
 
     </div>
 
@@ -3514,30 +3963,59 @@ footer.site {
     <div class="physics-example">
 
       <h3>
-        Exemplu de feedback la o problemă
+        Exemplu de feedback precis
       </h3>
 
       <p>
-        Elevul ajunge la un rezultat greșit,
-        dar a scris corect
-        principiul conservării energiei
-        și a identificat termenii energetici.
+        Elevul ajunge
+        la un rezultat greșit
+        într-o problemă,
+        dar a ales
+        corect legea fizică.
       </p>
 
       <p>
-        Feedbackul util nu este
-        „problema este greșită”.
+        Feedback slab:
       </p>
 
       <p>
-        Mai precis:
         <strong>
-          „Modelul fizic este ales corect.
-          Eroarea apare la transformarea algebrică
-          din etapa a doua.
-          Reia calculul de acolo.”
+          „Problema este greșită.”
         </strong>
       </p>
+
+      <p>
+        Feedback util:
+      </p>
+
+      <p>
+        <strong>
+          „Modelul fizic
+          și legea aleasă
+          sunt corecte.
+          Eroarea apare
+          la transformarea algebrică.
+          Reia calculul
+          din această etapă.”
+        </strong>
+      </p>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      <strong>
+        Feedback:
+      </strong>
+      unde sunt acum?
+
+      <br><br>
+
+      <strong>
+        Feedforward:
+      </strong>
+      ce fac în continuare?
 
     </div>
 
@@ -3545,7 +4023,7 @@ footer.site {
 
 
   <!-- =======================================================
-       13. EXAMEN
+       16. EXAMEN
        ======================================================= -->
 
   <section
@@ -3554,106 +4032,135 @@ footer.site {
   >
 
     <h2>
-      13. Cum formulezi la examen?
+      16. Formulare pentru examen
     </h2>
 
 
-    <p>
-      Dacă cerința solicită:
-    </p>
-
-
-    <div class="callout">
-
-      <strong>
-        „Prezentați evaluarea ca o componentă
-        fundamentală a procesului de învățământ,
-        precizând obiective,
-        funcții și tipuri de evaluare.”
-      </strong>
-
-    </div>
-
-
-    <p>
-      poți organiza răspunsul astfel:
-    </p>
-
-
-    <div class="exam-answer">
+    <div class="exam-box">
 
       <p>
-        <strong>1. Definiția.</strong>
-      </p>
-
-      <p>
-        Evaluarea este un proces
+        Evaluarea educațională
+        reprezintă procesul
         de obținere,
         interpretare
-        și valorificare a informațiilor
-        privind rezultatele învățării,
-        în vederea aprecierii
-        și fundamentării unor decizii educaționale.
+        și valorificare
+        a informațiilor
+        privind rezultatele
+        și progresul învățării,
+        prin raportare
+        la competențe,
+        criterii
+        și standarde,
+        în vederea formulării
+        unei aprecieri
+        și a fundamentării
+        unor decizii educaționale.
       </p>
 
 
       <p>
-        <strong>2. Obiectivele.</strong>
-      </p>
-
-      <p>
-        Stabilirea nivelului de pregătire,
-        identificarea progresului și dificultăților,
-        reglarea învățării
-        și fundamentarea deciziilor.
-      </p>
-
-
-      <p>
-        <strong>3. Funcțiile.</strong>
-      </p>
-
-      <p>
-        Pot fi prezentate,
-        în funcție de clasificarea utilizată,
-        funcția diagnostică,
-        prognostică,
-        de reglare,
-        informativă,
-        motivațională,
-        de certificare,
-        selecție
-        și orientare.
+        Evaluarea are ca scop
+        orientarea și optimizarea
+        procesului
+        de predare–învățare,
+        precum și sprijinirea elevului
+        în gestionarea
+        propriilor rezultate
+        ale învățării.
       </p>
 
 
       <p>
-        <strong>4. Tipurile.</strong>
+        Din perspectivă didactică,
+        evaluarea poate îndeplini
+        funcții diagnostice,
+        prognostice,
+        de reglare și ameliorare,
+        informative,
+        motivaționale,
+        de orientare,
+        de certificare
+        și, în anumite contexte,
+        de selecție.
       </p>
+
+
+      <p>
+        În funcție de integrarea
+        în procesul de învățare,
+        se disting
+        evaluarea inițială,
+        continuă sau curentă,
+        formativă
+        și sumativă.
+      </p>
+
 
       <p>
         Evaluarea inițială
-        identifică nivelul de pornire;
-        evaluarea formativă
-        susține reglarea pe parcurs;
-        evaluarea sumativă
-        sintetizează rezultatele
-        după o etapă de instruire.
+        identifică
+        nivelul de pornire
+        și prerechizitele elevilor.
       </p>
 
 
       <p>
-        <strong>5. Exemplificarea la Fizică.</strong>
+        Evaluarea continuă
+        însoțește permanent
+        procesul didactic
+        și permite monitorizarea
+        progresului.
       </p>
 
+
       <p>
-        O secvență experimentală
-        permite evaluarea inițială
-        a prerechizitelor,
-        evaluarea formativă
-        a deprinderilor de lucru
-        și evaluarea sumativă
-        a aplicării conceptelor.
+        Evaluarea formativă
+        utilizează informația
+        obținută în timpul învățării
+        pentru reglarea
+        și ameliorarea acesteia,
+        prin feedback
+        și orientarea
+        către pasul următor.
+      </p>
+
+
+      <p>
+        Evaluarea sumativă
+        se realizează,
+        de regulă,
+        după o etapă relevantă
+        de învățare
+        și permite
+        aprecierea sintetică
+        a rezultatelor obținute.
+      </p>
+
+
+      <p>
+        După nivelul
+        de organizare,
+        evaluarea poate fi
+        internă,
+        externă
+        sau internațională.
+      </p>
+
+
+      <p>
+        Evaluarea se poate realiza
+        prin instrumente
+        și forme variate,
+        precum evaluări orale,
+        teste și lucrări scrise,
+        experimente,
+        activități practice,
+        referate,
+        proiecte
+        și probe practice,
+        alese în funcție
+        de competențele urmărite
+        și de specificul disciplinei.
       </p>
 
     </div>
@@ -3661,13 +4168,21 @@ footer.site {
 
     <div class="warning">
 
-      <strong>
-        Răspuns bun ≠ listă de definiții.
-      </strong>
+      Dacă cerința spune
+      <strong>„caracterizați tipurile de evaluare”</strong>,
+      simpla enumerare
+      nu este suficientă.
 
-      Pentru fiecare tip,
-      indică măcar:
-      <strong>momentul + scopul + utilizarea rezultatului</strong>.
+      <br><br>
+
+      Pentru fiecare tip
+      precizează cel puțin:
+
+      <strong>
+        momentul,
+        scopul
+        și utilizarea rezultatului.
+      </strong>
 
     </div>
 
@@ -3675,7 +4190,7 @@ footer.site {
 
 
   <!-- =======================================================
-       14. CAPCANE
+       17. CAPCANE
        ======================================================= -->
 
   <section
@@ -3684,7 +4199,7 @@ footer.site {
   >
 
     <h2>
-      14. Capcane frecvente
+      17. Capcane frecvente
     </h2>
 
 
@@ -3697,12 +4212,13 @@ footer.site {
           Evaluare = notare.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Notarea este doar
-        o posibilă concretizare
-        a aprecierii.
+        Nota este
+        o modalitate
+        de exprimare
+        a unui rezultat.
 
       </div>
 
@@ -3713,12 +4229,13 @@ footer.site {
           Măsurare = evaluare.
         </strong>
 
-        <br>
+        <br><br>
 
         Incomplet.
-        Evaluarea presupune
-        și apreciere
-        și decizie.
+        Informația trebuie
+        interpretată
+        și valorificată
+        într-o decizie.
 
       </div>
 
@@ -3727,15 +4244,32 @@ footer.site {
 
         <strong>
           Evaluarea inițială
-          trebuie obligatoriu notată.
+          este obligatoriu
+          un test cu notă.
         </strong>
 
-        <br>
+        <br><br>
 
-        Nu.
-        Rolul ei esențial
-        este diagnosticarea
-        nivelului de pornire.
+        Fals.
+        Esențial este
+        rolul diagnostic.
+
+      </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Evaluare continuă
+          = evaluare formativă.
+        </strong>
+
+        <br><br>
+
+        Nu în mod automat.
+        Evaluarea devine formativă
+        prin utilizarea rezultatului
+        pentru reglarea învățării.
 
       </div>
 
@@ -3746,11 +4280,12 @@ footer.site {
           Formativă = evaluare finală.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Ea însoțește
-        procesul de învățare.
+        Evaluarea formativă
+        intervine
+        în timpul învățării.
 
       </div>
 
@@ -3758,13 +4293,16 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Sumativă = singura evaluare importantă.
+          Sumativă = lucrare scrisă.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Tipurile sunt complementare.
+        „Sumativă”
+        descrie rolul
+        și momentul,
+        nu instrumentul.
 
       </div>
 
@@ -3775,13 +4313,13 @@ footer.site {
           Orală = formativă.
         </strong>
 
-        <br>
+        <br><br>
 
-        Nu.
-        „Orală” descrie forma,
-        iar „formativă”
-        rolul evaluării
-        în proces.
+        Fals.
+        Orală descrie
+        forma evaluării;
+        formativă descrie
+        utilizarea rezultatului.
 
       </div>
 
@@ -3789,14 +4327,15 @@ footer.site {
       <div class="trap">
 
         <strong>
-          Test = evaluare.
+          Testul este evaluarea.
         </strong>
 
-        <br>
+        <br><br>
 
-        Testul este un instrument.
-        Evaluarea presupune
-        și interpretarea rezultatului.
+        Fals.
+        Testul este
+        un instrument
+        de evaluare.
 
       </div>
 
@@ -3805,19 +4344,42 @@ footer.site {
 
         <strong>
           La Fizică evaluăm
-          doar rezultatul calculului.
+          doar rezultatul numeric.
         </strong>
 
-        <br>
+        <br><br>
 
         Fals.
-        Evaluăm și raționamentul,
-        modelul,
-        experimentul,
-        unitățile
-        și interpretarea.
+        Se evaluează
+        și metoda,
+        modelul fizic,
+        raționamentul,
+        unitățile,
+        activitatea experimentală
+        și interpretarea datelor.
 
       </div>
+
+
+      <div class="trap">
+
+        <strong>
+          Feedback = „corect”
+          sau „greșit”.
+        </strong>
+
+        <br><br>
+
+        Incomplet.
+        Feedbackul util
+        precizează
+        ce este corect,
+        unde apare eroarea
+        și ce trebuie
+        făcut în continuare.
+
+      </div>
+
 
     </div>
 
@@ -3825,7 +4387,7 @@ footer.site {
 
 
   <!-- =======================================================
-       15. RECAP
+       18. RECAPITULARE
        ======================================================= -->
 
   <section
@@ -3834,7 +4396,7 @@ footer.site {
   >
 
     <h2>
-      15. Recapitulare rapidă
+      18. Recapitulare rapidă
     </h2>
 
 
@@ -3847,20 +4409,8 @@ footer.site {
           Evaluare
         </b>
 
-        Informație → apreciere →
-        decizie educațională.
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Etape
-        </b>
-
-        Măsurare →
-        apreciere →
+        Informație,
+        apreciere,
         decizie.
 
       </div>
@@ -3869,11 +4419,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Diagnostică
+          Scop
         </b>
 
-        Unde suntem
-        și ce dificultăți există?
+        Orientare
+        și optimizare.
 
       </div>
 
@@ -3881,22 +4431,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Prognostică
+          Reper
         </b>
 
-        Ce putem anticipa?
-
-      </div>
-
-
-      <div class="recap-item">
-
-        <b>
-          Reglare
-        </b>
-
-        Ce modificăm
-        în predare și învățare?
+        Competențe
+        și standarde.
 
       </div>
 
@@ -3915,10 +4454,22 @@ footer.site {
       <div class="recap-item">
 
         <b>
+          Continuă
+        </b>
+
+        Cum evoluează
+        învățarea?
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
           Formativă
         </b>
 
-        Cum progresăm?
+        Ce ajustăm acum?
 
       </div>
 
@@ -3929,7 +4480,8 @@ footer.site {
           Sumativă
         </b>
 
-        La ce nivel am ajuns?
+        La ce nivel
+        am ajuns?
 
       </div>
 
@@ -3937,11 +4489,11 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Orală / scrisă / practică
+          Internă
         </b>
 
-        Forme de realizare,
-        nu sinonime pentru tipurile evaluării.
+        Evaluare
+        la clasă / școală.
 
       </div>
 
@@ -3949,14 +4501,50 @@ footer.site {
       <div class="recap-item">
 
         <b>
-          Fizică
+          Externă
         </b>
 
-        Concept + raționament +
-        problemă + experiment +
-        interpretare.
+        Structuri
+        specializate.
 
       </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Forme
+        </b>
+
+        Oral,
+        scris,
+        practic etc.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Feedback
+        </b>
+
+        Nivelul actual.
+
+      </div>
+
+
+      <div class="recap-item">
+
+        <b>
+          Pas următor
+        </b>
+
+        Ameliorarea
+        performanței.
+
+      </div>
+
 
     </div>
 
@@ -3964,55 +4552,86 @@ footer.site {
     <div class="exam-box">
 
       <strong>
-        Formula de 30 de secunde:
+        Schema fundamentală:
       </strong>
 
       <br><br>
 
-      EVALUAREA
+      COMPETENȚE + STANDARDE
 
       <br>
+
       ↓
-      <br>
-
-      MĂSURARE → APRECIERE → DECIZIE
 
       <br>
+
+      DOVEZI ALE ÎNVĂȚĂRII
+
+      <br>
+
       ↓
-      <br>
-
-      INIȚIALĂ:
-      de unde pornim?
 
       <br>
+
+      INTERPRETARE ȘI APRECIERE
+
+      <br>
+
       ↓
-      <br>
-
-      FORMATIVĂ:
-      cum progresăm?
 
       <br>
+
+      FEEDBACK
+
+      <br>
+
       ↓
+
       <br>
 
-      SUMATIVĂ:
-      la ce nivel am ajuns?
+      DECIZIE
+
+      <br>
+
+      ↓
+
+      <br>
+
+      REGLARE / CONSOLIDARE /
+      REMEDIERE / CERTIFICARE
 
     </div>
 
+  </section>
 
-    <h3>
-      Autoevaluare
-    </h3>
+
+  <!-- =======================================================
+       19. AUTOEVALUARE
+       ======================================================= -->
+
+  <section
+    class="card"
+    id="autoevaluare"
+  >
+
+    <h2>
+      19. Autoevaluare
+    </h2>
 
 
     <div class="question">
 
       <b>1.</b>
-
-      De ce evaluarea
+      Definește evaluarea educațională
+      și explică de ce
       nu poate fi redusă
-      la acordarea unei note?
+      la notare.
+
+      <br>
+
+      <a href="#definitie">
+        Verifică secțiunea 1
+      </a>
 
     </div>
 
@@ -4020,10 +4639,16 @@ footer.site {
     <div class="question">
 
       <b>2.</b>
+      Care sunt
+      scopurile fundamentale
+      ale evaluării
+      în cadrul actual?
 
-      Care sunt cele trei momente
-      ale schemei
-      măsurare–apreciere–decizie?
+      <br>
+
+      <a href="#scopuri">
+        Verifică secțiunea 2
+      </a>
 
     </div>
 
@@ -4031,10 +4656,16 @@ footer.site {
     <div class="question">
 
       <b>3.</b>
+      Explică relația
+      informație
+      → apreciere
+      → decizie.
 
-      Care este diferența
-      dintre funcția diagnostică
-      și cea prognostică?
+      <br>
+
+      <a href="#proces">
+        Verifică secțiunea 3
+      </a>
 
     </div>
 
@@ -4042,10 +4673,16 @@ footer.site {
     <div class="question">
 
       <b>4.</b>
+      Ce rol au
+      competențele
+      și standardele
+      în evaluare?
 
-      Ce deosebește
-      evaluarea formativă
-      de evaluarea sumativă?
+      <br>
+
+      <a href="#competente-standarde">
+        Verifică secțiunea 4
+      </a>
 
     </div>
 
@@ -4053,10 +4690,16 @@ footer.site {
     <div class="question">
 
       <b>5.</b>
+      Caracterizează
+      funcția diagnostică,
+      prognostică
+      și de reglare.
 
-      Poate o probă scrisă
-      să fie formativă?
-      Argumentează.
+      <br>
+
+      <a href="#functii">
+        Verifică secțiunea 5
+      </a>
 
     </div>
 
@@ -4064,11 +4707,15 @@ footer.site {
     <div class="question">
 
       <b>6.</b>
+      Care este diferența
+      dintre evaluarea inițială
+      și cea continuă?
 
-      Dă un exemplu
-      de evaluare formativă
-      într-o activitate experimentală
-      de Fizică.
+      <br>
+
+      <a href="#initiala">
+        Verifică secțiunile 7–8
+      </a>
 
     </div>
 
@@ -4076,89 +4723,140 @@ footer.site {
     <div class="question">
 
       <b>7.</b>
+      Care este diferența
+      dintre evaluarea continuă
+      și evaluarea formativă?
 
-      Ce elemente ale rezolvării
-      unei probleme de Fizică
-      pot fi evaluate
-      în afara rezultatului numeric?
+      <br>
+
+      <a href="#continua">
+        Verifică secțiunea 8
+      </a>
 
     </div>
 
 
-    <h3>
-      Surse și repere
-    </h3>
+    <div class="question">
+
+      <b>8.</b>
+      Caracterizează
+      evaluarea formativă
+      prin moment,
+      scop
+      și utilizarea rezultatului.
+
+      <br>
+
+      <a href="#formativa">
+        Verifică secțiunea 9
+      </a>
+
+    </div>
 
 
-    <ul class="sources">
+    <div class="question">
 
-      <li>
-        Programa pentru concursul
-        de ocupare a posturilor didactice —
-        disciplina Fizică,
-        versiunea disponibilă pentru 2026.
-      </li>
+      <b>9.</b>
+      Caracterizează
+      evaluarea sumativă.
 
-      <li>
-        M.E.C. – S.N.E.E.,
-        Ghiduri de evaluare pe discipline,
-        2000–2001,
-        lucrare indicată
-        în bibliografia programei.
-      </li>
+      <br>
 
-      <li>
-        I. T. Radu,
-        Evaluarea procesului de învățământ,
-        Editura Didactică și Pedagogică,
-        București, 2001,
-        lucrare indicată
-        în bibliografia programei.
-      </li>
+      <a href="#sumativa">
+        Verifică secțiunea 10
+      </a>
 
-      <li>
-        Programele școlare de Fizică
-        aflate în vigoare,
-        utilizate pentru raportarea
-        evaluării la competențe.
-      </li>
-
-      <li>
-        Subiectele de metodică
-        din sesiunile anterioare
-        ale concursului,
-        pentru exemple de aplicare
-        a evaluării la Fizică.
-      </li>
-
-    </ul>
+    </div>
 
 
-    <div class="source-note">
+    <div class="question">
+
+      <b>10.</b>
+      De ce
+      „scrisă”
+      și „sumativă”
+      nu reprezintă
+      același criteriu
+      de clasificare?
+
+      <br>
+
+      <a href="#clasificare">
+        Verifică secțiunea 6
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>11.</b>
+      Enumeră instrumentele
+      de evaluare
+      prevăzute de regulament.
+
+      <br>
+
+      <a href="#forme">
+        Verifică secțiunea 13
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>12.</b>
+      Ce aspecte
+      trebuie evaluate
+      într-o problemă
+      și într-o activitate experimentală
+      de Fizică?
+
+      <br>
+
+      <a href="#fizica">
+        Verifică secțiunea 14
+      </a>
+
+    </div>
+
+
+    <div class="question">
+
+      <b>13.</b>
+      Care este diferența
+      dintre feedback
+      și indicarea
+      pasului următor?
+
+      <br>
+
+      <a href="#feedback">
+        Verifică secțiunea 15
+      </a>
+
+    </div>
+
+
+    <div class="exam-box">
+
+      Tema este consolidată
+      dacă poți explica
+      fără ajutor:
+
+      <br><br>
 
       <strong>
-        Notă:
+        evaluare
+        → scopuri
+        → funcții
+        → inițială / continuă / formativă / sumativă
+        → internă / externă
+        → forme și instrumente
+        → feedback
+        → decizie.
       </strong>
-
-      programa 2026 cere explicit
-      obiectivele,
-      funcțiile,
-      tipurile
-      și caracterizarea evaluării,
-      dar nu fixează în acest punct
-      o singură listă textuală
-      de definiții sau funcții.
-
-      Organizarea detaliată din această lecție
-      este o sinteză pedagogică
-      pentru studiu,
-      construită în acord cu bibliografia
-      indicată în programa de concurs.
-
-      Pentru Titularizare Fizică 2027,
-      programa oficială publicată
-      pentru sesiunea respectivă
-      trebuie reverificată.
 
     </div>
 
@@ -4191,890 +4889,893 @@ footer.site {
 
 <footer class="site">
 
-  Tematica pentru didactica Fizicii ·
-  Evaluarea educațională ·
-  Titularizare Fizică
+  Didactica Fizicii ·
+  Evaluarea ·
+  Definiții, funcții, tipuri și forme de evaluare
 
 </footer>
 
 
 <!-- =========================================================
      SCENARIU AUDIO ASCUNS
-     Playerul este generat automat de componenta comună.
+
+     REGULI:
+     - acronimele administrative sunt evitate;
+     - "curriculum" este redat fonetic "curiculum";
+     - "Ohm" este redat fonetic "Ohme";
+     - "feedforward" este explicat prin
+       "indicații pentru pasul următor";
+     - frazele sunt scurte pentru sinteza vocală.
      ========================================================= -->
 
 <template id="audio-lesson-script">
 
+
   <p>
     Bun găsit.
-    În această lecție discutăm
-    despre evaluarea educațională:
-    ce este,
-    ce obiective are,
-    ce funcții îndeplinește
-    și cum distingem
-    evaluarea inițială,
-    formativă
-    și sumativă.
+    În această lecție
+    studiem evaluarea educațională:
+    definiția,
+    scopurile,
+    funcțiile,
+    tipurile
+    și formele de evaluare.
   </p>
 
-  <p>
-    Este una dintre temele de bază
-    ale didacticii Fizicii,
-    iar programa disponibilă
-    pentru Titularizare Fizică 2026
-    o formulează explicit
-    ca evaluarea,
-    componentă fundamentală
-    a procesului de învățământ.
-  </p>
 
   <p>
-    Programa cere
-    obiective,
-    funcții,
-    tipuri de evaluări
-    și caracterizarea lor.
+    Ideea principală
+    trebuie reținută
+    de la început.
   </p>
 
-  <p>
-    Pentru 2027,
-    formularea trebuie verificată din nou
-    după publicarea programei oficiale.
-  </p>
 
   <p>
-    Pornim de la ideea principală.
-    Evaluarea nu înseamnă
-    pur și simplu notare.
+    Evaluarea
+    nu înseamnă
+    doar notare.
   </p>
 
-  <p>
-    Este foarte important
-    să eliminăm această confuzie
-    încă de la început.
-  </p>
 
   <p>
-    Evaluarea este un proces
-    prin care obținem informații
+    Evaluarea este
+    un proces
+    prin care obținem
+    și interpretăm informații
     despre rezultatele
-    și progresul elevului,
-    interpretăm aceste informații
-    în raport cu anumite criterii
-    și le folosim
-    pentru a lua decizii educaționale.
+    și progresul învățării.
   </p>
 
-  <p>
-    Observați cele trei idei:
-    obținem informații,
-    le interpretăm
-    și luăm o decizie.
-  </p>
 
   <p>
-    Nota poate apărea
-    în acest proces,
-    dar nu este întregul proces.
+    Aceste informații
+    sunt raportate
+    la competențe,
+    criterii
+    și standarde.
   </p>
 
-  <p>
-    De exemplu,
-    un elev rezolvă o problemă
-    de mecanică
-    și primește șapte puncte din zece.
-  </p>
 
   <p>
-    Cele șapte puncte
-    reprezintă o informație.
+    Apoi formulăm
+    o apreciere
+    și luăm
+    o decizie educațională.
   </p>
 
-  <p>
-    Profesorul trebuie apoi
-    să vadă unde sunt pierdute
-    cele trei puncte.
-  </p>
 
   <p>
-    Elevul nu cunoaște legea?
-    A ales modelul fizic greșit?
-    A făcut o eroare de calcul?
-    A uitat unitățile?
-  </p>
-
-  <p>
-    Abia după această interpretare
-    putem lua o decizie:
-    remediere,
-    consolidare,
-    explicație suplimentară
-    sau trecerea la o sarcină mai dificilă.
-  </p>
-
-  <p>
-    De aici rezultă
-    o schemă clasică
-    foarte utilă pentru examen:
-    măsurare,
+    Reține formula:
+    informație,
     apreciere,
     decizie.
   </p>
 
-  <p>
-    Măsurarea înseamnă
-    obținerea datelor
-    despre performanța elevului.
-  </p>
 
   <p>
-    Putem avea un punctaj,
-    un număr de răspunsuri corecte,
-    o observație asupra comportamentului
-    într-un experiment
-    sau un nivel
-    într-o rubrică de evaluare.
+    Nota
+    poate fi
+    un rezultat
+    al evaluării.
   </p>
 
-  <p>
-    Aprecierea înseamnă
-    interpretarea acestor date.
-  </p>
 
   <p>
-    Raportăm rezultatul
-    la un barem,
-    la un criteriu,
-    la un nivel de performanță
-    sau la competența urmărită.
+    Dar nota
+    nu este
+    evaluarea însăși.
   </p>
 
-  <p>
-    Urmează decizia educațională.
-  </p>
 
   <p>
-    Ce facem cu informația?
-    Continuăm?
-    Reluăm?
-    Consolidăm?
-    Oferim o sarcină suplimentară?
+    Care sunt
+    scopurile evaluării?
   </p>
 
-  <p>
-    Prin urmare,
-    evaluarea nu se termină
-    atunci când aflăm punctajul.
-  </p>
 
   <p>
-    Următoarea întrebare:
-    ce obiective are evaluarea?
-  </p>
-
-  <p>
-    Un prim obiectiv
-    este stabilirea nivelului de pregătire.
-  </p>
-
-  <p>
-    Vrem să știm
-    ce cunoaște și ce poate face elevul.
-  </p>
-
-  <p>
-    Al doilea:
-    identificarea dificultăților
-    și a lacunelor.
-  </p>
-
-  <p>
-    Al treilea:
-    evidențierea progresului.
-  </p>
-
-  <p>
-    Nu ne interesează
-    numai unde este elevul astăzi,
-    ci și cum a evoluat.
-  </p>
-
-  <p>
-    Al patrulea:
-    reglarea activității
+    Primul scop:
+    orientarea
+    și optimizarea
+    procesului
     de predare și învățare.
   </p>
 
-  <p>
-    Și aici apare
-    adevărata valoare pedagogică
-    a evaluării.
-  </p>
 
   <p>
-    Dacă rezultatele
-    nu modifică în niciun fel
-    ceea ce fac profesorul și elevul,
-    informația evaluativă
-    este slab valorificată.
+    Al doilea scop:
+    sprijinirea elevului
+    în gestionarea
+    propriilor rezultate
+    ale învățării.
   </p>
 
-  <p>
-    Evaluarea poate avea
-    mai multe funcții.
-  </p>
 
   <p>
-    În literatura pedagogică
-    există clasificări
-    cu denumiri ușor diferite,
-    așa că la examen
-    este mai important
-    să explicați corect funcția
-    decât să reproduceți mecanic
-    o listă.
+    Așadar,
+    rezultatul evaluării
+    trebuie să fie
+    util.
   </p>
 
+
   <p>
-    Funcția diagnostică
-    răspunde la întrebarea:
-    unde se află elevul
-    și ce dificultăți are?
+    Profesorul trebuie
+    să poată decide:
+    continui,
+    consolidez,
+    remediez,
+    aprofundez
+    sau certific
+    un anumit nivel.
   </p>
+
+
+  <p>
+    La Fizică,
+    evaluarea trebuie
+    să analizeze
+    și metoda elevului,
+    nu numai
+    rezultatul numeric.
+  </p>
+
 
   <p>
     De exemplu,
-    elevul nu poate rezolva
-    o problemă de electricitate.
+    un elev poate alege
+    corect legea fizică,
+    poate realiza
+    corect calculul simbolic,
+    dar poate greși
+    o operație aritmetică.
   </p>
 
-  <p>
-    Diagnosticul nu se oprește
-    la afirmația:
-    nu știe.
-  </p>
 
   <p>
-    Încercăm să identificăm
-    natura dificultății.
+    În această situație,
+    eroarea trebuie
+    identificată exact.
   </p>
 
+
   <p>
-    Nu înțelege diferența
-    dintre tensiune și intensitate?
-    Nu recunoaște legea lui Ohm?
-    Are dificultăți
-    cu transformarea formulelor?
+    Nu declarăm
+    întreaga rezolvare
+    greșită.
   </p>
+
+
+  <p>
+    Evaluarea actuală
+    este centrată
+    pe competențe.
+  </p>
+
+
+  <p>
+    Nu verificăm numai
+    dacă elevul
+    poate reproduce
+    o definiție
+    sau o formulă.
+  </p>
+
+
+  <p>
+    Verificăm dacă
+    poate utiliza
+    ceea ce a învățat.
+  </p>
+
+
+  <p>
+    Evaluarea se raportează
+    și la standardele
+    de evaluare
+    aplicabile.
+  </p>
+
+
+  <p>
+    Acestea oferă
+    repere
+    privind nivelurile
+    de performanță
+    ale competențelor.
+  </p>
+
+
+  <p>
+    Trecem acum
+    la funcțiile evaluării.
+  </p>
+
+
+  <p>
+    Funcția diagnostică
+    identifică
+    nivelul elevului,
+    punctele forte,
+    dificultățile
+    și lacunele.
+  </p>
+
 
   <p>
     Funcția prognostică
-    privește activitatea viitoare.
+    permite anticiparea
+    evoluției
+    și proiectarea
+    activităților următoare.
   </p>
 
-  <p>
-    Pe baza nivelului actual,
-    putem anticipa
-    ce sprijin va fi necesar
-    și cum trebuie organizată
-    instruirea următoare.
-  </p>
 
   <p>
     Funcția de reglare
-    este foarte importantă.
+    și ameliorare
+    permite adaptarea
+    predării
+    și învățării.
   </p>
 
-  <p>
-    Rezultatele evaluării
-    sunt folosite
-    pentru modificarea
-    și ameliorarea demersului didactic.
-  </p>
 
   <p>
-    Putem schimba ritmul,
-    exercițiile,
-    explicațiile,
-    organizarea grupelor
-    sau nivelul sarcinilor.
+    Funcția informativă
+    oferă informații
+    elevului,
+    profesorului
+    și familiei
+    despre nivel
+    și progres.
   </p>
 
-  <p>
-    Evaluarea poate avea
-    și funcție informativă,
-    motivațională,
-    de certificare,
-    de selecție
-    și de orientare.
-  </p>
 
   <p>
-    Rețineți însă:
-    aceeași evaluare
+    Funcția motivațională
+    poate susține
+    implicarea elevului
+    și conștientizarea
+    progresului.
+  </p>
+
+
+  <p>
+    Funcția de orientare
+    sprijină
+    deciziile educaționale
+    și profesionale.
+  </p>
+
+
+  <p>
+    Funcția de certificare
+    confirmă
+    atingerea
+    unui anumit nivel
+    de rezultate.
+  </p>
+
+
+  <p>
+    Iar în anumite contexte,
+    evaluarea poate avea
+    și funcție
+    de selecție.
+  </p>
+
+
+  <p>
+    Atenție.
+    Aceeași evaluare
     poate îndeplini
-    mai multe funcții simultan.
+    mai multe funcții
+    în același timp.
   </p>
+
 
   <p>
     Ajungem acum
-    la cele trei tipuri
-    pe care este util
-    să le avem foarte clare:
-    inițială,
-    formativă
-    și sumativă.
+    la tipurile
+    de evaluare.
   </p>
+
+
+  <p>
+    În cadrul actual
+    trebuie să distingem:
+    evaluarea inițială,
+    evaluarea continuă
+    sau curentă,
+    evaluarea formativă
+    și evaluarea sumativă.
+  </p>
+
+
+  <p>
+    Începem
+    cu evaluarea inițială.
+  </p>
+
 
   <p>
     Evaluarea inițială
-    se realizează înaintea
-    unei noi etape de instruire.
+    se realizează
+    înaintea unei noi etape
+    de învățare.
   </p>
 
+
   <p>
-    Întrebarea ei este:
+    Întrebarea este:
     de unde pornim?
   </p>
 
+
   <p>
-    Profesorul verifică
+    Ea identifică
     prerechizitele,
     nivelul de pregătire
-    și eventualele lacune
-    care pot influența
-    noile achiziții.
+    și dificultățile.
   </p>
 
-  <p>
-    Să luăm un exemplu.
-  </p>
 
   <p>
-    Urmează o unitate
-    despre circuite electrice.
+    Funcțiile dominante
+    sunt diagnostică
+    și prognostică.
   </p>
 
+
   <p>
-    Înainte de a introduce
-    relații mai complexe,
+    De exemplu,
+    înaintea unei unități
+    despre circuite electrice,
     profesorul verifică
-    dacă elevii recunosc
-    tensiunea,
+    dacă elevii cunosc
+    tensiunea electrică,
     intensitatea curentului,
     rezistența
-    și unitățile lor de măsură.
+    și unitățile lor
+    de măsură.
   </p>
 
-  <p>
-    Dacă apar dificultăți,
-    proiectarea lecțiilor următoare
-    trebuie adaptată.
-  </p>
 
   <p>
-    Atenție:
-    evaluarea inițială
-    nu este sinonimă
-    cu testul cu notă
-    dat în prima oră
-    a anului școlar.
+    Evaluarea inițială
+    nu înseamnă obligatoriu
+    un test cu notă.
   </p>
 
-  <p>
-    Importantă este funcția:
-    stabilirea nivelului de pornire.
-  </p>
 
   <p>
-    Trecem la evaluarea formativă.
+    Importantă este
+    diagnoza.
   </p>
+
+
+  <p>
+    Trecem la
+    evaluarea continuă,
+    numită și
+    evaluare curentă.
+  </p>
+
 
   <p>
     Aceasta însoțește
-    procesul de învățare.
+    regulat
+    procesul didactic.
   </p>
 
+
   <p>
-    Întrebarea ei este:
-    cum progresăm
-    și ce trebuie ajustat acum?
+    Evaluarea rezultatelor
+    se realizează
+    pe tot parcursul
+    anului școlar.
   </p>
+
+
+  <p>
+    Evaluarea continuă
+    ne permite
+    să urmărim
+    permanent progresul.
+  </p>
+
+
+  <p>
+    Atenție însă.
+  </p>
+
+
+  <p>
+    Evaluarea continuă
+    și evaluarea formativă
+    nu sunt
+    perfect sinonime.
+  </p>
+
+
+  <p>
+    Continuă
+    descrie faptul
+    că evaluarea
+    însoțește permanent
+    procesul didactic.
+  </p>
+
+
+  <p>
+    Formativă
+    descrie mai ales
+    modul în care
+    folosim informația
+    pentru îmbunătățirea
+    învățării.
+  </p>
+
+
+  <p>
+    Trecem la
+    evaluarea formativă.
+  </p>
+
 
   <p>
     Evaluarea formativă
-    produce informații
-    care pot fi folosite
-    înainte ca secvența de învățare
-    să se încheie.
+    se desfășoară
+    în timpul învățării.
   </p>
 
-  <p>
-    Exemplu din laborator.
-  </p>
 
   <p>
-    Elevul verifică experimental
-    legea lui Ohm
-    și conectează voltmetrul în serie.
+    Întrebarea este:
+    cum progresăm
+    și ce trebuie
+    ajustat acum?
   </p>
 
+
   <p>
-    Profesorul observă eroarea,
-    îi adresează o întrebare,
-    iar elevul își corectează montajul.
+    Informația obținută
+    este folosită
+    pentru corectare,
+    remediere,
+    consolidare
+    sau schimbarea
+    strategiei didactice.
   </p>
+
+
+  <p>
+    Luăm un exemplu
+    din laboratorul
+    de Fizică.
+  </p>
+
+
+  <p>
+    Elevul verifică
+    experimental
+    legea lui Ohme.
+  </p>
+
+
+  <p>
+    El conectează
+    voltmetrul în serie.
+  </p>
+
+
+  <p>
+    Profesorul observă
+    eroarea
+    și îl ghidează
+    spre corectarea
+    montajului.
+  </p>
+
 
   <p>
     Informația evaluativă
-    a fost folosită imediat
-    pentru îmbunătățirea învățării.
+    a fost utilizată
+    imediat
+    pentru îmbunătățirea
+    învățării.
   </p>
+
 
   <p>
     Acesta este
     caracterul formativ.
   </p>
 
+
   <p>
-    Nu simpla existență
-    a unei fișe de lucru
-    face evaluarea formativă.
+    Un test scurt
+    nu este automat
+    formativ.
   </p>
+
 
   <p>
     Important este
-    ce facem cu rezultatul.
+    ce facem
+    cu rezultatul.
   </p>
 
-  <p>
-    Urmează evaluarea sumativă.
-  </p>
 
   <p>
-    Aceasta se realizează
-    de regulă
-    după o etapă mai amplă
-    de instruire.
+    Trecem la
+    evaluarea sumativă.
   </p>
 
+
   <p>
-    Întrebarea ei este:
-    la ce nivel am ajuns?
+    Evaluarea sumativă
+    se realizează,
+    de regulă,
+    după o etapă
+    relevantă
+    de învățare.
   </p>
+
+
+  <p>
+    Întrebarea este:
+    la ce nivel
+    am ajuns?
+  </p>
+
+
+  <p>
+    Ea permite
+    o apreciere sintetică
+    a rezultatelor obținute.
+  </p>
+
 
   <p>
     De exemplu,
-    după o unitate despre mecanică,
-    profesorul poate utiliza
-    o probă care verifică
-    concepte,
-    legi,
-    rezolvare de probleme
+    după o unitate
+    de mecanică,
+    profesorul poate verifica
+    înțelegerea conceptelor,
+    aplicarea legilor,
+    rezolvarea problemelor
     și interpretarea
     unor situații fizice.
   </p>
 
-  <p>
-    Evaluarea sumativă
-    permite o apreciere sintetică
-    a rezultatelor.
-  </p>
 
   <p>
-    Dar nu trebuie să cădem
-    în capcana
-    de a considera
-    evaluarea sumativă
-    singura evaluare importantă.
+    Reținem acum
+    cele patru formulări.
   </p>
 
-  <p>
-    Cele trei tipuri
-    sunt complementare.
-  </p>
 
   <p>
-    Inițiala ne spune
-    de unde pornim.
+    Inițială:
+    de unde pornim?
   </p>
 
-  <p>
-    Formativa ne spune
-    cum progresăm
-    și ce trebuie corectat.
-  </p>
 
   <p>
-    Sumativa ne spune
-    la ce nivel am ajuns
-    după o etapă.
+    Continuă:
+    cum evoluează
+    învățarea?
   </p>
 
-  <p>
-    Rețineți această triadă.
-    Este mult mai utilă
-    decât o definiție memorată mecanic.
-  </p>
 
   <p>
-    Mai există și alte criterii
+    Formativă:
+    ce ajustăm
+    în timpul învățării?
+  </p>
+
+
+  <p>
+    Sumativă:
+    la ce nivel
+    am ajuns?
+  </p>
+
+
+  <p>
+    Există și
+    un alt criteriu
     de clasificare.
   </p>
 
-  <p>
-    De exemplu,
-    putem vorbi
-    despre evaluare internă
-    și evaluare externă.
-  </p>
-
-  <p>
-    Aici criteriul este diferit.
-  </p>
-
-  <p>
-    Evaluarea internă
-    se realizează
-    în cadrul activității școlii,
-    de regulă de profesorii
-    implicați direct.
-  </p>
-
-  <p>
-    Evaluarea externă
-    este organizată
-    prin structuri
-    sau mecanisme exterioare
-    activității curente
-    a profesorului clasei.
-  </p>
-
-  <p>
-    Atenție să nu amestecați
-    criteriile.
-  </p>
-
-  <p>
-    O evaluare poate fi
-    simultan internă
-    și sumativă.
-  </p>
-
-  <p>
-    Ajungem la formele
-    sau probele de evaluare.
-  </p>
 
   <p>
     Putem avea
-    evaluare orală,
-    scrisă
-    și practică.
+    evaluare internă,
+    evaluare externă
+    și evaluare internațională.
   </p>
 
-  <p>
-    Evaluarea orală
-    este foarte utilă
-    pentru explicații,
-    argumentări
-    și clarificarea
-    modului de gândire.
-  </p>
 
   <p>
-    În Fizică,
-    putem cere elevului
-    să explice
-    de ce presiunea hidrostatică
-    crește cu adâncimea.
+    Evaluarea internă
+    este realizată
+    la nivelul clasei
+    și al școlii.
   </p>
 
+
   <p>
-    Evaluarea scrisă
-    poate utiliza
-    exerciții,
-    probleme,
+    Evaluarea externă
+    este proiectată
+    și gestionată
+    de structuri specializate
+    din exteriorul
+    activității curente
+    a profesorului.
+  </p>
+
+
+  <p>
+    Evaluările internaționale
+    permit
+    analize comparative
+    între sisteme educaționale.
+  </p>
+
+
+  <p>
+    Atenție să nu
+    amestecăm criteriile.
+  </p>
+
+
+  <p>
+    O evaluare
+    poate fi
+    internă și formativă.
+  </p>
+
+
+  <p>
+    Sau poate fi
+    internă și sumativă.
+  </p>
+
+
+  <p>
+    Ajungem acum
+    la formele
+    și instrumentele
+    de evaluare.
+  </p>
+
+
+  <p>
+    Putem utiliza
+    evaluări orale.
+  </p>
+
+
+  <p>
+    Putem utiliza
     teste
-    și alte sarcini redactate.
+    și lucrări scrise.
   </p>
 
-  <p>
-    Evaluarea practică
-    este deosebit de importantă
-    la Fizică,
-    pentru că permite observarea
-    competențelor experimentale.
-  </p>
 
   <p>
-    Elevul poate ști teoretic
-    că ampermetrul
-    se conectează în serie,
-    dar evaluarea practică
-    ne arată dacă poate
-    realiza efectiv
-    montajul corect.
+    Putem utiliza
+    experimente
+    și activități practice.
   </p>
 
-  <p>
-    Și aici apare
-    o capcană importantă.
-  </p>
 
   <p>
-    Orală,
-    scrisă
-    și practică
-    nu sunt sinonime
-    pentru inițială,
-    formativă
-    și sumativă.
+    Putem utiliza
+    referate.
   </p>
 
+
   <p>
-    Sunt criterii diferite.
+    Putem utiliza
+    proiecte.
   </p>
+
+
+  <p>
+    Și putem utiliza
+    probe practice.
+  </p>
+
+
+  <p>
+    Instrumentul
+    se alege
+    în funcție
+    de competența
+    pe care dorim
+    să o evaluăm.
+  </p>
+
 
   <p>
     O probă scrisă
-    poate fi inițială,
+    poate fi
+    inițială,
     formativă
-    sau sumativă,
-    în funcție de moment,
-    scop
-    și modul în care este utilizat rezultatul.
+    sau sumativă.
   </p>
 
-  <p>
-    Să particularizăm acum
-    evaluarea la Fizică.
-  </p>
 
   <p>
-    La Fizică
-    nu evaluăm numai
-    capacitatea de a reproduce
-    o formulă.
+    Forma scrisă
+    nu stabilește
+    singură
+    tipul evaluării.
   </p>
 
-  <p>
-    Putem evalua
-    înțelegerea conceptelor,
-    alegerea modelului fizic,
-    rezolvarea problemelor,
-    activitatea experimentală,
-    analiza datelor,
-    formularea concluziilor
-    și comunicarea științifică.
-  </p>
 
   <p>
-    Într-o problemă numerică,
-    trebuie să fim atenți
-    și la metoda elevului.
+    Pentru Fizică,
+    evaluarea trebuie
+    să fie variată.
   </p>
 
-  <p>
-    Un elev poate alege
-    legea corectă,
-    poate face
-    transformarea simbolică corect
-    și poate greși
-    numai un calcul aritmetic.
-  </p>
 
   <p>
-    Dacă privim exclusiv
-    rezultatul final,
-    pierdem informații importante
-    despre nivelul real
-    al competenței.
+    Nu evaluăm numai
+    memorarea formulelor.
   </p>
 
+
   <p>
-    La activitatea experimentală,
+    Evaluăm
+    înțelegerea conceptelor.
+  </p>
+
+
+  <p>
+    Evaluăm
+    alegerea modelului fizic.
+  </p>
+
+
+  <p>
+    Evaluăm
+    aplicarea legilor.
+  </p>
+
+
+  <p>
+    Evaluăm
+    calculul simbolic
+    și numeric.
+  </p>
+
+
+  <p>
+    Evaluăm
+    utilizarea corectă
+    a unităților.
+  </p>
+
+
+  <p>
+    Evaluăm
+    rezolvarea problemelor.
+  </p>
+
+
+  <p>
+    Evaluăm
+    interpretarea graficelor
+    și a datelor.
+  </p>
+
+
+  <p>
+    Și evaluăm
+    activitatea experimentală.
+  </p>
+
+
+  <p>
+    În laborator
     putem urmări
     realizarea montajului,
-    alegerea domeniului de măsurare,
-    citirea instrumentelor,
+    utilizarea aparaturii,
+    efectuarea măsurătorilor,
     organizarea datelor
     și formularea concluziei.
   </p>
 
+
   <p>
-    Ajungem astfel
-    la feedback.
+    Evaluarea unei probleme
+    trebuie să urmărească
+    metoda,
+    nu doar
+    rezultatul final.
   </p>
+
+
+  <p>
+    Ajungem la feedback.
+  </p>
+
 
   <p>
     Feedbackul bun
-    trebuie să fie specific.
+    este precis.
   </p>
+
 
   <p>
     Nu spunem doar:
     greșit.
   </p>
 
-  <p>
-    Spunem:
-    ai ales corect legea,
-    dar ai inversat raportul
-    dintre tensiune și intensitate.
-  </p>
 
   <p>
-    Această formulare
-    îi arată elevului
-    ce a făcut corect
-    și unde trebuie să intervină.
+    Spunem,
+    de exemplu:
+    modelul fizic
+    este corect,
+    dar eroarea
+    apare
+    la transformarea algebrică.
   </p>
 
-  <p>
-    Feedbackul bun
-    este și orientat
-    spre pasul următor.
-  </p>
 
   <p>
-    De exemplu:
-    verifică definiția rezistenței
-    și apoi refă
-    transformarea relației.
+    Apoi indicăm
+    pasul următor:
+    reia calculul
+    din etapa respectivă.
   </p>
 
-  <p>
-    Pentru examen,
-    putem organiza teoria evaluării
-    într-o structură simplă.
-  </p>
 
   <p>
-    Mai întâi:
-    definiția evaluării.
+    Feedbackul arată:
+    unde sunt acum?
   </p>
 
-  <p>
-    Apoi:
-    obiectivele.
-  </p>
 
   <p>
-    Urmează:
-    funcțiile.
+    Iar indicația
+    pentru pasul următor
+    arată:
+    ce trebuie să fac
+    în continuare?
   </p>
 
-  <p>
-    Apoi:
-    tipurile de evaluare,
-    fiecare caracterizat
-    prin moment,
-    scop
-    și utilizarea rezultatului.
-  </p>
 
   <p>
-    Și, dacă este cerut,
-    oferim un exemplu
-    aplicat la Fizică.
+    Recapitulăm.
   </p>
 
-  <p>
-    Să recapitulăm
-    capcanele importante.
-  </p>
-
-  <p>
-    Prima:
-    evaluare egal notare.
-    Fals.
-  </p>
-
-  <p>
-    A doua:
-    măsurare egal evaluare.
-    Incomplet.
-  </p>
-
-  <p>
-    Avem nevoie
-    de apreciere
-    și decizie.
-  </p>
-
-  <p>
-    A treia:
-    evaluarea inițială
-    este obligatoriu
-    un test cu notă.
-    Fals.
-  </p>
-
-  <p>
-    A patra:
-    evaluarea formativă
-    se realizează la final.
-    Fals.
-  </p>
-
-  <p>
-    Ea însoțește învățarea.
-  </p>
-
-  <p>
-    A cincea:
-    evaluarea sumativă
-    este singura relevantă.
-    Fals.
-  </p>
-
-  <p>
-    A șasea:
-    orală înseamnă formativă.
-    Fals.
-  </p>
-
-  <p>
-    Una descrie forma,
-    cealaltă descrie rolul
-    și poziția evaluării.
-  </p>
-
-  <p>
-    A șaptea:
-    un test este evaluarea însăși.
-    Nu.
-  </p>
-
-  <p>
-    Testul este un instrument.
-    Evaluarea include
-    și interpretarea rezultatului
-    și decizia.
-  </p>
-
-  <p>
-    Și a opta:
-    la Fizică evaluăm
-    numai calculul.
-    Fals.
-  </p>
-
-  <p>
-    Evaluăm și concepte,
-    raționamente,
-    explicații,
-    activitate experimentală
-    și interpretarea datelor.
-  </p>
-
-  <p>
-    Formula finală
-    pe care merită
-    să o rețineți este aceasta.
-  </p>
 
   <p>
     Evaluare:
@@ -5083,47 +5784,97 @@ footer.site {
     decizie.
   </p>
 
+
+  <p>
+    Scop:
+    orientarea
+    și optimizarea
+    învățării.
+  </p>
+
+
+  <p>
+    Evaluarea este
+    centrată
+    pe competențe
+    și raportată
+    la standardele aplicabile.
+  </p>
+
+
   <p>
     Inițială:
     de unde pornim?
   </p>
 
+
+  <p>
+    Continuă:
+    cum evoluează
+    învățarea?
+  </p>
+
+
   <p>
     Formativă:
-    cum progresăm?
+    ce ajustăm?
   </p>
+
 
   <p>
     Sumativă:
-    la ce nivel am ajuns?
+    la ce nivel
+    am ajuns?
   </p>
 
-  <p>
-    Iar în Fizică,
-    evaluăm nu doar
-    rezultatul final,
-    ci și modul
-    în care elevul ajunge la el.
-  </p>
 
   <p>
-    Pentru Titularizare Fizică 2027,
-    după publicarea programei oficiale,
-    trebuie verificat
-    dacă formularea temei
-    și bibliografia
-    sunt menținute
-    sau actualizate.
+    Internă,
+    externă
+    și internațională
+    reprezintă
+    un alt criteriu
+    de clasificare.
   </p>
 
+
   <p>
-    Aceasta a fost lecția
-    despre definiția,
-    obiectivele,
-    funcțiile,
-    tipurile
-    și formele evaluării educaționale.
+    Orală,
+    scrisă,
+    experimentală
+    și practică
+    descriu forme
+    sau instrumente
+    de realizare.
   </p>
+
+
+  <p>
+    Iar la Fizică,
+    evaluăm
+    nu numai răspunsul final,
+    ci și
+    raționamentul,
+    metoda,
+    experimentul
+    și capacitatea elevului
+    de a utiliza
+    cunoștințele.
+  </p>
+
+
+  <p>
+    Dacă poți explica
+    aceste diferențe
+    fără să confunzi
+    tipurile,
+    formele
+    și instrumentele
+    de evaluare,
+    ai stăpânit
+    această lecție.
+  </p>
+
 
 </template>
 
@@ -5152,15 +5903,18 @@ function updateThemeButton() {
   const dark =
     currentTheme() === "dark";
 
+
   themeToggle.textContent =
     dark
       ? "Tema: Noapte"
       : "Tema: Zi";
 
+
   themeToggle.setAttribute(
     "aria-pressed",
     dark ? "true" : "false"
   );
+
 
   themeToggle.setAttribute(
     "title",
@@ -5179,13 +5933,16 @@ function toggleTheme() {
       ? "light"
       : "dark";
 
+
   document.documentElement.dataset.theme =
     next;
+
 
   localStorage.setItem(
     "titularizare-theme",
     next
   );
+
 
   updateThemeButton();
 
@@ -5204,8 +5961,7 @@ updateThemeButton();
 
 
 <!-- =========================================================
-     COMPONENTA AUDIO COMUNA
-     CSS-ul audio este încărcat automat de acest script.
+     COMPONENTA AUDIO COMUNĂ
      ========================================================= -->
 
 <script
